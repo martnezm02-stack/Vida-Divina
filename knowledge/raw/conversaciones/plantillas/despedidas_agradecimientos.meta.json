@@ -3,7 +3,7 @@
   "tipo_entidad": "conversacion",
   "titulo": "Plantillas — Despedidas y Agradecimientos",
   "ruta_original": "docs/conversaciones/plantillas/despedidas_agradecimientos.md",
-  "fecha_compilacion": "2026-08-07T09:35:11.722Z",
+  "fecha_compilacion": "2026-08-07T10:54:26.578Z",
   "version": "0.1.0-mvp",
   "estado": "compilado",
   "palabras_clave": [],
@@ -43,21 +43,24 @@
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\cierre\\agradecimiento.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 365
     },
     {
       "targetRaw": "./index.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\plantillas\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 1250
     },
     {
       "targetRaw": "../README.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\README.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 1284
     }
   ],
   "checksum": "0a44ddd3ba440e86f19d0cdca0f12b003640523a2dd00b67ae1a69778c6ab460",

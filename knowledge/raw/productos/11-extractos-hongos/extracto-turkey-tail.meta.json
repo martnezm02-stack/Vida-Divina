@@ -3,7 +3,7 @@
   "tipo_entidad": "producto",
   "titulo": "Extracto de Turkey Tail",
   "ruta_original": "docs/productos/11-extractos-hongos/extracto-turkey-tail.md",
-  "fecha_compilacion": "2026-08-07T09:35:11.809Z",
+  "fecha_compilacion": "2026-08-07T10:54:26.663Z",
   "version": "0.1.0-mvp",
   "estado": "compilado",
   "palabras_clave": [
@@ -77,49 +77,56 @@
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\11-extractos-hongos\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 61
     },
     {
       "targetRaw": "../../productos.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 95
     },
     {
       "targetRaw": "./index.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\11-extractos-hongos\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 272
     },
     {
       "targetRaw": "../03-longevidad-bienestar/eterno-capsules.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\03-longevidad-bienestar\\eterno-capsules.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 922
     },
     {
       "targetRaw": "./extracto-reishi.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\11-extractos-hongos\\extracto-reishi.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 1028
     },
     {
       "targetRaw": "./index.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\11-extractos-hongos\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 1187
     },
     {
       "targetRaw": "../../productos.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 1221
     }
   ],
   "checksum": "dd652164d75491c1942d38ce24ae7cdd54a0871093271266d054529772d5b493",

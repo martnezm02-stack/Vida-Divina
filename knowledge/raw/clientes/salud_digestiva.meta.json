@@ -3,7 +3,7 @@
   "tipo_entidad": "perfil",
   "titulo": "Salud Digestiva",
   "ruta_original": "docs/clientes/salud_digestiva.md",
-  "fecha_compilacion": "2026-08-07T09:35:11.703Z",
+  "fecha_compilacion": "2026-08-07T10:54:26.558Z",
   "version": "0.1.0-mvp",
   "estado": "compilado",
   "palabras_clave": [
@@ -142,112 +142,128 @@
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\README.md",
       "anchor": "nota-importante",
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 93
     },
     {
       "targetRaw": "../productos/01-control-de-peso/ignite-capsules.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\01-control-de-peso\\ignite-capsules.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Productos recomendados"
+      "seccion": "Productos recomendados",
+      "posicion": 1125
     },
     {
       "targetRaw": "../productos/01-control-de-peso/tedivina.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\01-control-de-peso\\tedivina.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Productos recomendados"
+      "seccion": "Productos recomendados",
+      "posicion": 1260
     },
     {
       "targetRaw": "../productos/02-cafe-divina/black.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\black.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Productos recomendados"
+      "seccion": "Productos recomendados",
+      "posicion": 1384
     },
     {
       "targetRaw": "../productos/11-extractos-hongos/extracto-turkey-tail.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\11-extractos-hongos\\extracto-turkey-tail.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Productos recomendados"
+      "seccion": "Productos recomendados",
+      "posicion": 1506
     },
     {
       "targetRaw": "../productos/02-cafe-divina/cappuccino.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\cappuccino.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Productos complementarios"
+      "seccion": "Productos complementarios",
+      "posicion": 1866
     },
     {
       "targetRaw": "../productos/02-cafe-divina/latte.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\latte.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Productos complementarios"
+      "seccion": "Productos complementarios",
+      "posicion": 1919
     },
     {
       "targetRaw": "../productos/02-cafe-divina/divine-cereal.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\divine-cereal.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Productos complementarios"
+      "seccion": "Productos complementarios",
+      "posicion": 2012
     },
     {
       "targetRaw": "../productos/11-extractos-hongos/extracto-reishi.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\11-extractos-hongos\\extracto-reishi.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Productos complementarios"
+      "seccion": "Productos complementarios",
+      "posicion": 2127
     },
     {
       "targetRaw": "../productos/01-control-de-peso/cheat-capsules.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\01-control-de-peso\\cheat-capsules.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Productos que NO son prioridad"
+      "seccion": "Productos que NO son prioridad",
+      "posicion": 2304
     },
     {
       "targetRaw": "../productos/01-control-de-peso/cx90.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\01-control-de-peso\\cx90.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Productos que NO son prioridad"
+      "seccion": "Productos que NO son prioridad",
+      "posicion": 2364
     },
     {
       "targetRaw": "./perder_peso.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\perder_peso.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Seguimiento recomendado"
+      "seccion": "Seguimiento recomendado",
+      "posicion": 3768
     },
     {
       "targetRaw": "./perder_peso.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\perder_peso.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Posibles ventas futuras (cross-selling)"
+      "seccion": "Posibles ventas futuras (cross-selling)",
+      "posicion": 3847
     },
     {
       "targetRaw": "./sistema_inmunologico.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\sistema_inmunologico.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Posibles ventas futuras (cross-selling)"
+      "seccion": "Posibles ventas futuras (cross-selling)",
+      "posicion": 3890
     },
     {
       "targetRaw": "./bienestar_general.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\bienestar_general.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Posibles ventas futuras (cross-selling)"
+      "seccion": "Posibles ventas futuras (cross-selling)",
+      "posicion": 3971
     },
     {
       "targetRaw": "./README.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\README.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Nivel de prioridad de este perfil para el negocio"
+      "seccion": "Nivel de prioridad de este perfil para el negocio",
+      "posicion": 4375
     }
   ],
   "checksum": "e9707379f7eb7a01062f1581c7f5e303be1451c52cefe480ef559110a19ec91d",

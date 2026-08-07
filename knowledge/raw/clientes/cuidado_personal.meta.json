@@ -3,7 +3,7 @@
   "tipo_entidad": "perfil",
   "titulo": "Cuidado Personal (Higiene y Cuidado Básico)",
   "ruta_original": "docs/clientes/cuidado_personal.md",
-  "fecha_compilacion": "2026-08-07T09:35:11.689Z",
+  "fecha_compilacion": "2026-08-07T10:54:26.544Z",
   "version": "0.1.0-mvp",
   "estado": "compilado",
   "palabras_clave": [
@@ -33,21 +33,21 @@
     },
     {
       "origen_id": "clientes/cuidado_personal",
-      "destino_id": "productos/12-cuidado-personal",
+      "destino_id": "productos/12-cuidado-personal/liquid-gold",
       "tipo_relacion": "recomienda_primario",
       "archivo_origen": "docs/clientes/cuidado_personal.md",
       "verificada": true
     },
     {
       "origen_id": "clientes/cuidado_personal",
-      "destino_id": "productos/12-cuidado-personal",
+      "destino_id": "productos/12-cuidado-personal/reishi-soap",
       "tipo_relacion": "recomienda_opcional",
       "archivo_origen": "docs/clientes/cuidado_personal.md",
       "verificada": true
     },
     {
       "origen_id": "clientes/cuidado_personal",
-      "destino_id": "productos/12-cuidado-personal",
+      "destino_id": "productos/12-cuidado-personal/reishi-toothpaste",
       "tipo_relacion": "recomienda_opcional",
       "archivo_origen": "docs/clientes/cuidado_personal.md",
       "verificada": true
@@ -101,70 +101,80 @@
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\README.md",
       "anchor": "nota-importante",
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 121
     },
     {
       "targetRaw": "./belleza_anti_edad.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\belleza_anti_edad.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Descripción"
+      "seccion": "Descripción",
+      "posicion": 439
     },
     {
       "targetRaw": "../productos/12-cuidado-personal.md#liquid-gold",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\12-cuidado-personal.md",
       "anchor": "liquid-gold",
       "exists": true,
-      "seccion": "Productos recomendados"
+      "seccion": "Productos recomendados",
+      "posicion": 1345
     },
     {
       "targetRaw": "../productos/12-cuidado-personal.md#reishi-soap",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\12-cuidado-personal.md",
       "anchor": "reishi-soap",
       "exists": true,
-      "seccion": "Productos recomendados"
+      "seccion": "Productos recomendados",
+      "posicion": 1487
     },
     {
       "targetRaw": "../productos/12-cuidado-personal.md#reishi-toothpaste",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\12-cuidado-personal.md",
       "anchor": "reishi-toothpaste",
       "exists": true,
-      "seccion": "Productos recomendados"
+      "seccion": "Productos recomendados",
+      "posicion": 1623
     },
     {
       "targetRaw": "../productos/11-extractos-hongos/extracto-tremella.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\11-extractos-hongos\\extracto-tremella.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Productos complementarios"
+      "seccion": "Productos complementarios",
+      "posicion": 2012
     },
     {
       "targetRaw": "../productos/13-linea-radien/radien-collagen-elixir.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\13-linea-radien\\radien-collagen-elixir.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Productos complementarios"
+      "seccion": "Productos complementarios",
+      "posicion": 2152
     },
     {
       "targetRaw": "./belleza_anti_edad.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\belleza_anti_edad.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Productos complementarios"
+      "seccion": "Productos complementarios",
+      "posicion": 2303
     },
     {
       "targetRaw": "./belleza_anti_edad.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\belleza_anti_edad.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Posibles ventas futuras (cross-selling)"
+      "seccion": "Posibles ventas futuras (cross-selling)",
+      "posicion": 3782
     },
     {
       "targetRaw": "./README.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\README.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Nivel de prioridad de este perfil para el negocio"
+      "seccion": "Nivel de prioridad de este perfil para el negocio",
+      "posicion": 4310
     }
   ],
   "checksum": "5847271cea4b79634c03af33811a01592bb2c11acb7a956093a391563a515d83",

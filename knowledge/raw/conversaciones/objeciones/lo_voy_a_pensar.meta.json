@@ -3,7 +3,7 @@
   "tipo_entidad": "conversacion",
   "titulo": "Objeciones — \"Lo Voy a Pensar\"",
   "ruta_original": "docs/conversaciones/objeciones/lo_voy_a_pensar.md",
-  "fecha_compilacion": "2026-08-07T09:35:11.718Z",
+  "fecha_compilacion": "2026-08-07T10:54:26.573Z",
   "version": "0.1.0-mvp",
   "estado": "compilado",
   "palabras_clave": [],
@@ -85,63 +85,72 @@
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\recomendacion\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 203
     },
     {
       "targetRaw": "../cierre/index.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\cierre\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 249
     },
     {
       "targetRaw": "../../clientes/README.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\README.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 365
     },
     {
       "targetRaw": "../seguimiento/seguimiento_3dias.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\seguimiento\\seguimiento_3dias.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 1725
     },
     {
       "targetRaw": "../seguimiento/seguimiento_7dias.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\seguimiento\\seguimiento_7dias.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 1817
     },
     {
       "targetRaw": "../seguimiento/seguimiento_15dias.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\seguimiento\\seguimiento_15dias.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 1894
     },
     {
       "targetRaw": "../../objeciones/lo_voy_a_pensar.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\objeciones\\lo_voy_a_pensar.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 2581
     },
     {
       "targetRaw": "./index.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\objeciones\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 2639
     },
     {
       "targetRaw": "../README.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\README.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 2673
     }
   ],
   "checksum": "de8d94f5a77a41ea58cfd1683b33990510684ed77b89fc7f7a8a4a4d66ee0f6f",

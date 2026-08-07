@@ -3,7 +3,7 @@
   "tipo_entidad": "conversacion",
   "titulo": "Objeciones — \"Mi Médico No Me Deja\" / Tengo una Condición Médica",
   "ruta_original": "docs/conversaciones/objeciones/mi_medico_no_me_deja.md",
-  "fecha_compilacion": "2026-08-07T09:35:11.718Z",
+  "fecha_compilacion": "2026-08-07T10:54:26.574Z",
   "version": "0.1.0-mvp",
   "estado": "compilado",
   "palabras_clave": [],
@@ -71,49 +71,56 @@
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\control_glucosa.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 500
     },
     {
       "targetRaw": "../../clientes/salud_intima_libido.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\salud_intima_libido.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 561
     },
     {
       "targetRaw": "../descubrimiento/index.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\descubrimiento\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 2195
     },
     {
       "targetRaw": "../recomendacion/index.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\recomendacion\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 2241
     },
     {
       "targetRaw": "../seguimiento/seguimiento_15dias.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\seguimiento\\seguimiento_15dias.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 2403
     },
     {
       "targetRaw": "./index.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\objeciones\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 3317
     },
     {
       "targetRaw": "../README.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\README.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 3351
     }
   ],
   "checksum": "b915ea6db25f44feb150599da3a14ea7ab7b76fd11e91476dcf6e4dc8a89fa8b",

@@ -3,7 +3,7 @@
   "tipo_entidad": "estado_cliente",
   "titulo": "Estados del Cliente",
   "ruta_original": "docs/proceso_de_venta/estados_del_cliente.md",
-  "fecha_compilacion": "2026-08-07T09:35:11.752Z",
+  "fecha_compilacion": "2026-08-07T10:54:26.607Z",
   "version": "0.1.0-mvp",
   "estado": "compilado",
   "palabras_clave": [],
@@ -197,175 +197,200 @@
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\README.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 53
     },
     {
       "targetRaw": "./reglas_de_decision.md#tabla-4-estado-del-cliente-y-módulo-prioritario",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\reglas_de_decision.md",
       "anchor": "tabla-4-estado-del-cliente-y-módulo-prioritario",
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 331
     },
     {
       "targetRaw": "../conversaciones/primer_contacto/index.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\primer_contacto\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Los 10 estados"
+      "seccion": "Los 10 estados",
+      "posicion": 1562
     },
     {
       "targetRaw": "./calificacion_del_cliente.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\calificacion_del_cliente.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Los 10 estados"
+      "seccion": "Los 10 estados",
+      "posicion": 1653
     },
     {
       "targetRaw": "../conversaciones/descubrimiento/index.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\descubrimiento\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Los 10 estados"
+      "seccion": "Los 10 estados",
+      "posicion": 2030
     },
     {
       "targetRaw": "./descubrimiento.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\descubrimiento.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Los 10 estados"
+      "seccion": "Los 10 estados",
+      "posicion": 2106
     },
     {
       "targetRaw": "./reglas_de_decision.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\reglas_de_decision.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Los 10 estados"
+      "seccion": "Los 10 estados",
+      "posicion": 2290
     },
     {
       "targetRaw": "../clientes/README.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\README.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Los 10 estados"
+      "seccion": "Los 10 estados",
+      "posicion": 2431
     },
     {
       "targetRaw": "./recomendacion.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\recomendacion.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Los 10 estados"
+      "seccion": "Los 10 estados",
+      "posicion": 2888
     },
     {
       "targetRaw": "./reglas_de_decision.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\reglas_de_decision.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Los 10 estados"
+      "seccion": "Los 10 estados",
+      "posicion": 3007
     },
     {
       "targetRaw": "./reglas_de_decision.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\reglas_de_decision.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Los 10 estados"
+      "seccion": "Los 10 estados",
+      "posicion": 3388
     },
     {
       "targetRaw": "../objeciones/README.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\objeciones\\README.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Los 10 estados"
+      "seccion": "Los 10 estados",
+      "posicion": 3459
     },
     {
       "targetRaw": "./manejo_de_objeciones.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\manejo_de_objeciones.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Los 10 estados"
+      "seccion": "Los 10 estados",
+      "posicion": 3514
     },
     {
       "targetRaw": "./seguimiento.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\seguimiento.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Los 10 estados"
+      "seccion": "Los 10 estados",
+      "posicion": 4087
     },
     {
       "targetRaw": "./cierre.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\cierre.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Los 10 estados"
+      "seccion": "Los 10 estados",
+      "posicion": 4297
     },
     {
       "targetRaw": "../conversaciones/cierre/index.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\cierre\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Los 10 estados"
+      "seccion": "Los 10 estados",
+      "posicion": 4405
     },
     {
       "targetRaw": "./postventa.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\postventa.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Los 10 estados"
+      "seccion": "Los 10 estados",
+      "posicion": 4464
     },
     {
       "targetRaw": "../conversaciones/seguimiento/index.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\seguimiento\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Los 10 estados"
+      "seccion": "Los 10 estados",
+      "posicion": 4814
     },
     {
       "targetRaw": "./seguimiento.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\seguimiento.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Los 10 estados"
+      "seccion": "Los 10 estados",
+      "posicion": 4892
     },
     {
       "targetRaw": "../conversaciones/postventa/verificar_satisfaccion.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\postventa\\verificar_satisfaccion.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Los 10 estados"
+      "seccion": "Los 10 estados",
+      "posicion": 5280
     },
     {
       "targetRaw": "./postventa.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\postventa.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Los 10 estados"
+      "seccion": "Los 10 estados",
+      "posicion": 5400
     },
     {
       "targetRaw": "./emprendimiento.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\emprendimiento.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Los 10 estados"
+      "seccion": "Los 10 estados",
+      "posicion": 5859
     },
     {
       "targetRaw": "../clientes/emprendimiento.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\emprendimiento.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Los 10 estados"
+      "seccion": "Los 10 estados",
+      "posicion": 5941
     },
     {
       "targetRaw": "../conversaciones/emprendimiento/index.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\emprendimiento\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Los 10 estados"
+      "seccion": "Los 10 estados",
+      "posicion": 6014
     },
     {
       "targetRaw": "./README.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\README.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Regla general de uso de este modelo"
+      "seccion": "Regla general de uso de este modelo",
+      "posicion": 6801
     }
   ],
   "checksum": "896afe236ddf19104387a805e3e057b6b28357aaeead2c3891e22321859e94f2",

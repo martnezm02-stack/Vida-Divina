@@ -3,7 +3,7 @@
   "tipo_entidad": "indice_categoria",
   "titulo": "Postventa",
   "ruta_original": "docs/conversaciones/postventa/index.md",
-  "fecha_compilacion": "2026-08-07T09:35:11.724Z",
+  "fecha_compilacion": "2026-08-07T10:54:26.580Z",
   "version": "0.1.0-mvp",
   "estado": "compilado",
   "palabras_clave": [],
@@ -50,35 +50,40 @@
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\README.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 49
     },
     {
       "targetRaw": "./verificar_satisfaccion.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\postventa\\verificar_satisfaccion.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Construidos"
+      "seccion": "Construidos",
+      "posicion": 396
     },
     {
       "targetRaw": "./recomendar_complementarios.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\postventa\\recomendar_complementarios.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Construidos"
+      "seccion": "Construidos",
+      "posicion": 536
     },
     {
       "targetRaw": "./solicitar_testimonio.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\postventa\\solicitar_testimonio.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Construidos"
+      "seccion": "Construidos",
+      "posicion": 649
     },
     {
       "targetRaw": "../README.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\README.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Pendientes (estructura lista, no construidos aún)"
+      "seccion": "Pendientes (estructura lista, no construidos aún)",
+      "posicion": 1290
     }
   ],
   "checksum": "5cdd19a1bfc981ec9bc3f0d960e57cfcc8e813fba29b609f057dc7f323c095be",

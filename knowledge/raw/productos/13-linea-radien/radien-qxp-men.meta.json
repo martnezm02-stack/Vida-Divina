@@ -3,7 +3,7 @@
   "tipo_entidad": "producto",
   "titulo": "Radien QXP for Men",
   "ruta_original": "docs/productos/13-linea-radien/radien-qxp-men.md",
-  "fecha_compilacion": "2026-08-07T09:35:11.815Z",
+  "fecha_compilacion": "2026-08-07T10:54:26.669Z",
   "version": "0.1.0-mvp",
   "estado": "compilado",
   "palabras_clave": [
@@ -44,7 +44,7 @@
     },
     {
       "origen_id": "productos/13-linea-radien/radien-qxp-men",
-      "destino_id": "productos/08-intimidad-libido",
+      "destino_id": "productos/08-intimidad-libido/mars-capsules",
       "tipo_relacion": "referencia",
       "archivo_origen": "docs/productos/13-linea-radien/radien-qxp-men.md",
       "verificada": true
@@ -77,49 +77,56 @@
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\13-linea-radien\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 37
     },
     {
       "targetRaw": "../../productos.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 71
     },
     {
       "targetRaw": "./index.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\13-linea-radien\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 224
     },
     {
       "targetRaw": "./radien-cleanser.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\13-linea-radien\\radien-cleanser.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 1039
     },
     {
       "targetRaw": "../08-intimidad-libido.md#mars-capsules",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\08-intimidad-libido.md",
       "anchor": "mars-capsules",
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 1078
     },
     {
       "targetRaw": "./index.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\13-linea-radien\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 1235
     },
     {
       "targetRaw": "../../productos.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 1269
     }
   ],
   "checksum": "b10ba89c8904484b2107eafbd7b0fd01ecf449a636c6199f48cbff6ccaccd168",

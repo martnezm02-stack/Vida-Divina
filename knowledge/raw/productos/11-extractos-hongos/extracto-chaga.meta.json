@@ -3,7 +3,7 @@
   "tipo_entidad": "producto",
   "titulo": "Extracto de Chaga",
   "ruta_original": "docs/productos/11-extractos-hongos/extracto-chaga.md",
-  "fecha_compilacion": "2026-08-07T09:35:11.805Z",
+  "fecha_compilacion": "2026-08-07T10:54:26.659Z",
   "version": "0.1.0-mvp",
   "estado": "compilado",
   "palabras_clave": [
@@ -84,56 +84,64 @@
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\11-extractos-hongos\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 55
     },
     {
       "targetRaw": "../../productos.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 89
     },
     {
       "targetRaw": "./index.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\11-extractos-hongos\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 238
     },
     {
       "targetRaw": "../03-longevidad-bienestar/chaga-capsules.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\03-longevidad-bienestar\\chaga-capsules.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 841
     },
     {
       "targetRaw": "./extracto-reishi.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\11-extractos-hongos\\extracto-reishi.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 909
     },
     {
       "targetRaw": "../01-control-de-peso/tedivina.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\01-control-de-peso\\tedivina.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 943
     },
     {
       "targetRaw": "./index.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\11-extractos-hongos\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 1119
     },
     {
       "targetRaw": "../../productos.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 1153
     }
   ],
   "checksum": "10fb1f76f26d25a28deb743c66c4a98d51edf24e760d8c4a5cc595fae829a5df",

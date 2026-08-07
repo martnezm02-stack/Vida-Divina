@@ -3,7 +3,7 @@
   "tipo_entidad": "conversacion",
   "titulo": "Cierre — Confirmación de Pedido",
   "ruta_original": "docs/conversaciones/cierre/confirmacion_pedido.md",
-  "fecha_compilacion": "2026-08-07T09:35:11.708Z",
+  "fecha_compilacion": "2026-08-07T10:54:26.563Z",
   "version": "0.1.0-mvp",
   "estado": "compilado",
   "palabras_clave": [],
@@ -50,28 +50,32 @@
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\cierre\\cierre_venta.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 223
     },
     {
       "targetRaw": "./explicacion_pago.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\cierre\\explicacion_pago.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 1145
     },
     {
       "targetRaw": "./index.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\cierre\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 1644
     },
     {
       "targetRaw": "../README.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\README.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 1678
     }
   ],
   "checksum": "fd9ddc8ceffeab7b90ae8a16892bc81c2a6f34b49441138a9b1caf918ddd2faa",

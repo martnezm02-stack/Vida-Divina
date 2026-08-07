@@ -3,7 +3,7 @@
   "tipo_entidad": "documento_proceso",
   "titulo": "Manejo de Objeciones",
   "ruta_original": "docs/proceso_de_venta/manejo_de_objeciones.md",
-  "fecha_compilacion": "2026-08-07T09:35:11.755Z",
+  "fecha_compilacion": "2026-08-07T10:54:26.610Z",
   "version": "0.1.0-mvp",
   "estado": "compilado",
   "palabras_clave": [],
@@ -127,105 +127,120 @@
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\README.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 54
     },
     {
       "targetRaw": "./flujo_general.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\flujo_general.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 95
     },
     {
       "targetRaw": "./descubrimiento.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\descubrimiento.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Cuándo consultar docs/objeciones"
+      "seccion": "Cuándo consultar docs/objeciones",
+      "posicion": 616
     },
     {
       "targetRaw": "./descubrimiento.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\descubrimiento.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Cuándo consultar docs/objeciones"
+      "seccion": "Cuándo consultar docs/objeciones",
+      "posicion": 1144
     },
     {
       "targetRaw": "../conversaciones/emprendimiento/index.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\emprendimiento\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Cuándo consultar docs/objeciones"
+      "seccion": "Cuándo consultar docs/objeciones",
+      "posicion": 1345
     },
     {
       "targetRaw": "./reglas_de_decision.md#tabla-2-señal-de-objeción-y-archivo-a-consultar",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\reglas_de_decision.md",
       "anchor": "tabla-2-señal-de-objeción-y-archivo-a-consultar",
       "exists": true,
-      "seccion": "Cómo decidir qué objeción aplicar"
+      "seccion": "Cómo decidir qué objeción aplicar",
+      "posicion": 1556
     },
     {
       "targetRaw": "../objeciones/README.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\objeciones\\README.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Cómo decidir qué objeción aplicar"
+      "seccion": "Cómo decidir qué objeción aplicar",
+      "posicion": 1757
     },
     {
       "targetRaw": "../conversaciones/objeciones/index.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\objeciones\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Cómo decidir qué objeción aplicar"
+      "seccion": "Cómo decidir qué objeción aplicar",
+      "posicion": 1888
     },
     {
       "targetRaw": "../conversaciones/README.md#reglas-generales-aplican-a-todo-el-módulo",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\README.md",
       "anchor": "reglas-generales-aplican-a-todo-el-módulo",
       "exists": true,
-      "seccion": "Cómo decidir qué objeción aplicar"
+      "seccion": "Cómo decidir qué objeción aplicar",
+      "posicion": 2122
     },
     {
       "targetRaw": "./recomendacion.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\recomendacion.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Cómo volver al proceso de venta después de resolver una objeción"
+      "seccion": "Cómo volver al proceso de venta después de resolver una objeción",
+      "posicion": 2547
     },
     {
       "targetRaw": "./cierre.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\cierre.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Cómo volver al proceso de venta después de resolver una objeción"
+      "seccion": "Cómo volver al proceso de venta después de resolver una objeción",
+      "posicion": 2634
     },
     {
       "targetRaw": "./seguimiento.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\seguimiento.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Cómo volver al proceso de venta después de resolver una objeción"
+      "seccion": "Cómo volver al proceso de venta después de resolver una objeción",
+      "posicion": 2775
     },
     {
       "targetRaw": "../objeciones/README.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\objeciones\\README.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Cómo volver al proceso de venta después de resolver una objeción"
+      "seccion": "Cómo volver al proceso de venta después de resolver una objeción",
+      "posicion": 3313
     },
     {
       "targetRaw": "./cierre.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\cierre.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Qué NO hacer en este paso"
+      "seccion": "Qué NO hacer en este paso",
+      "posicion": 3392
     },
     {
       "targetRaw": "./README.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\README.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Qué NO hacer en este paso"
+      "seccion": "Qué NO hacer en este paso",
+      "posicion": 3791
     }
   ],
   "checksum": "aaae4eb66b310fd5396ab124f4f0c8ea23e620c982e42ddb930be0f696b3aa9b",

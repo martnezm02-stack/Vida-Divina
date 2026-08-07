@@ -3,7 +3,7 @@
   "tipo_entidad": "producto",
   "titulo": "Inflam-X Capsules",
   "ruta_original": "docs/productos/03-longevidad-bienestar/inflam-x-capsules.md",
-  "fecha_compilacion": "2026-08-07T09:35:11.793Z",
+  "fecha_compilacion": "2026-08-07T10:54:26.647Z",
   "version": "0.1.0-mvp",
   "estado": "compilado",
   "palabras_clave": [
@@ -37,7 +37,7 @@
     },
     {
       "origen_id": "productos/03-longevidad-bienestar/inflam-x-capsules",
-      "destino_id": "productos/05-dolor-articulaciones",
+      "destino_id": "productos/05-dolor-articulaciones/ouch-capsules",
       "tipo_relacion": "referencia",
       "archivo_origen": "docs/productos/03-longevidad-bienestar/inflam-x-capsules.md",
       "verificada": true
@@ -84,56 +84,64 @@
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\03-longevidad-bienestar\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 46
     },
     {
       "targetRaw": "../../productos.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 80
     },
     {
       "targetRaw": "./index.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\03-longevidad-bienestar\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 200
     },
     {
       "targetRaw": "../05-dolor-articulaciones.md#ouch-capsules",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\05-dolor-articulaciones.md",
       "anchor": "ouch-capsules",
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 891
     },
     {
       "targetRaw": "../02-cafe-divina/latte-dorado.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\latte-dorado.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 952
     },
     {
       "targetRaw": "./eterno-capsules.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\03-longevidad-bienestar\\eterno-capsules.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 1006
     },
     {
       "targetRaw": "./index.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\03-longevidad-bienestar\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 1177
     },
     {
       "targetRaw": "../../productos.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 1211
     }
   ],
   "checksum": "3647b3287e3e45d83b78e0a72af20981ce9b4d66aee0e3b2511b51f5857a7765",

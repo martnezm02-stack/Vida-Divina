@@ -3,7 +3,7 @@
   "tipo_entidad": "producto",
   "titulo": "Hot Chocolate",
   "ruta_original": "docs/productos/02-cafe-divina/hot-chocolate.md",
-  "fecha_compilacion": "2026-08-07T09:35:11.780Z",
+  "fecha_compilacion": "2026-08-07T10:54:26.636Z",
   "version": "0.1.0-mvp",
   "estado": "compilado",
   "palabras_clave": [
@@ -83,56 +83,64 @@
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 31
     },
     {
       "targetRaw": "../../productos.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 65
     },
     {
       "targetRaw": "./index.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 214
     },
     {
       "targetRaw": "./mocha.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\mocha.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 819
     },
     {
       "targetRaw": "./divine-cereal.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\divine-cereal.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 848
     },
     {
       "targetRaw": "./latte-dorado.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\latte-dorado.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 884
     },
     {
       "targetRaw": "./index.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 1021
     },
     {
       "targetRaw": "../../productos.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 1055
     }
   ],
   "checksum": "026642eaa0db1fe4a2826e2744f554522f84ec5dbf8d29ce8a8c1dde3e2dcd7e",

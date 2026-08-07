@@ -3,7 +3,7 @@
   "tipo_entidad": "conversacion",
   "titulo": "Descubrimiento — Señales por Perfil",
   "ruta_original": "docs/conversaciones/descubrimiento/senales_por_perfil.md",
-  "fecha_compilacion": "2026-08-07T09:35:11.713Z",
+  "fecha_compilacion": "2026-08-07T10:54:26.568Z",
   "version": "0.1.0-mvp",
   "estado": "compilado",
   "palabras_clave": [],
@@ -183,161 +183,184 @@
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\README.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 194
     },
     {
       "targetRaw": "../recomendacion/index.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\recomendacion\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 297
     },
     {
       "targetRaw": "./preguntas_generales.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\descubrimiento\\preguntas_generales.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 674
     },
     {
       "targetRaw": "../../clientes/perder_peso.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\perder_peso.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 954
     },
     {
       "targetRaw": "../../clientes/control_glucosa.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\control_glucosa.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 1064
     },
     {
       "targetRaw": "../../clientes/salud_digestiva.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\salud_digestiva.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 1180
     },
     {
       "targetRaw": "../../clientes/energia.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\energia.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 1307
     },
     {
       "targetRaw": "../../clientes/rendimiento_deportivo.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\rendimiento_deportivo.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 1425
     },
     {
       "targetRaw": "../../clientes/sistema_inmunologico.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\sistema_inmunologico.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 1543
     },
     {
       "targetRaw": "../../clientes/longevidad.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\longevidad.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 1672
     },
     {
       "targetRaw": "../../clientes/salud_cognitiva.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\salud_cognitiva.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 1778
     },
     {
       "targetRaw": "../../clientes/dolor_articulaciones.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\dolor_articulaciones.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 1905
     },
     {
       "targetRaw": "../../clientes/salud_visual.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\salud_visual.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 2023
     },
     {
       "targetRaw": "../../clientes/salud_intima_libido.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\salud_intima_libido.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 2146
     },
     {
       "targetRaw": "../../clientes/descanso_sueno.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\descanso_sueno.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 2259
     },
     {
       "targetRaw": "../../clientes/cuidado_personal.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\cuidado_personal.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 2389
     },
     {
       "targetRaw": "../../clientes/belleza_anti_edad.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\belleza_anti_edad.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 2513
     },
     {
       "targetRaw": "../../clientes/emprendimiento.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\emprendimiento.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 2637
     },
     {
       "targetRaw": "../../clientes/bienestar_general.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\bienestar_general.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 2753
     },
     {
       "targetRaw": "../recomendacion/index.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\recomendacion\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 3529
     },
     {
       "targetRaw": "../postventa/index.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\postventa\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 4133
     },
     {
       "targetRaw": "./index.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\descubrimiento\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 4472
     },
     {
       "targetRaw": "../README.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\README.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 4506
     }
   ],
   "checksum": "526ecbded59a8145dc33d7a9af991b9f40306afdcb8405f9431649bc74661fbb",

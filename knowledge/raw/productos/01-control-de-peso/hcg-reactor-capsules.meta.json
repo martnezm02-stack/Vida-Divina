@@ -3,7 +3,7 @@
   "tipo_entidad": "producto",
   "titulo": "HCG Reactor Capsules",
   "ruta_original": "docs/productos/01-control-de-peso/hcg-reactor-capsules.md",
-  "fecha_compilacion": "2026-08-07T09:35:11.772Z",
+  "fecha_compilacion": "2026-08-07T10:54:26.628Z",
   "version": "0.1.0-mvp",
   "estado": "compilado",
   "palabras_clave": [
@@ -58,7 +58,7 @@
     },
     {
       "origen_id": "productos/01-control-de-peso/hcg-reactor-capsules",
-      "destino_id": "productos/09-proteinas-batidos",
+      "destino_id": "productos/09-proteinas-batidos/vida-fuel",
       "tipo_relacion": "referencia",
       "archivo_origen": "docs/productos/01-control-de-peso/hcg-reactor-capsules.md",
       "verificada": true
@@ -91,63 +91,72 @@
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\01-control-de-peso\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 42
     },
     {
       "targetRaw": "../../productos.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 76
     },
     {
       "targetRaw": "./index.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\01-control-de-peso\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 190
     },
     {
       "targetRaw": "./life-capsules.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\01-control-de-peso\\life-capsules.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 1041
     },
     {
       "targetRaw": "./cheat-capsules.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\01-control-de-peso\\cheat-capsules.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 1079
     },
     {
       "targetRaw": "./sleep-n-lose-capsules.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\01-control-de-peso\\sleep-n-lose-capsules.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 1126
     },
     {
       "targetRaw": "../09-proteinas-batidos.md#vida-fuel",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\09-proteinas-batidos.md",
       "anchor": "vida-fuel",
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 1167
     },
     {
       "targetRaw": "./index.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\01-control-de-peso\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 1342
     },
     {
       "targetRaw": "../../productos.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 1376
     }
   ],
   "checksum": "81d96b5b200be54ada17a11b5f429283cada8a90c8b7e5aafe7cc410242a454a",

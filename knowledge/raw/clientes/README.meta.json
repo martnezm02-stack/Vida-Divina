@@ -3,7 +3,7 @@
   "tipo_entidad": "indice_modulo",
   "titulo": "Base de Conocimiento — Clientes Vida Divina",
   "ruta_original": "docs/clientes/README.md",
-  "fecha_compilacion": "2026-08-07T09:35:11.699Z",
+  "fecha_compilacion": "2026-08-07T10:54:26.554Z",
   "version": "0.1.0-mvp",
   "estado": "compilado",
   "palabras_clave": [
@@ -276,259 +276,296 @@
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 206
     },
     {
       "targetRaw": "../proceso_de_venta/README.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\README.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 626
     },
     {
       "targetRaw": "../productos.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Nota Importante"
+      "seccion": "Nota Importante",
+      "posicion": 1075
     },
     {
       "targetRaw": "./emprendimiento.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\emprendimiento.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Nota Importante"
+      "seccion": "Nota Importante",
+      "posicion": 2000
     },
     {
       "targetRaw": "./bienestar_general.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\bienestar_general.md",
       "anchor": null,
       "exists": true,
-      "seccion": "📑 Índice de perfiles de clientes"
+      "seccion": "📑 Índice de perfiles de clientes",
+      "posicion": 3218
     },
     {
       "targetRaw": "./perder_peso.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\perder_peso.md",
       "anchor": null,
       "exists": true,
-      "seccion": "📑 Índice de perfiles de clientes"
+      "seccion": "📑 Índice de perfiles de clientes",
+      "posicion": 3337
     },
     {
       "targetRaw": "./control_glucosa.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\control_glucosa.md",
       "anchor": null,
       "exists": true,
-      "seccion": "📑 Índice de perfiles de clientes"
+      "seccion": "📑 Índice de perfiles de clientes",
+      "posicion": 3446
     },
     {
       "targetRaw": "./salud_digestiva.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\salud_digestiva.md",
       "anchor": null,
       "exists": true,
-      "seccion": "📑 Índice de perfiles de clientes"
+      "seccion": "📑 Índice de perfiles de clientes",
+      "posicion": 3561
     },
     {
       "targetRaw": "./energia.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\energia.md",
       "anchor": null,
       "exists": true,
-      "seccion": "📑 Índice de perfiles de clientes"
+      "seccion": "📑 Índice de perfiles de clientes",
+      "posicion": 3651
     },
     {
       "targetRaw": "./rendimiento_deportivo.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\rendimiento_deportivo.md",
       "anchor": null,
       "exists": true,
-      "seccion": "📑 Índice de perfiles de clientes"
+      "seccion": "📑 Índice de perfiles de clientes",
+      "posicion": 3755
     },
     {
       "targetRaw": "./sistema_inmunologico.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\sistema_inmunologico.md",
       "anchor": null,
       "exists": true,
-      "seccion": "📑 Índice de perfiles de clientes"
+      "seccion": "📑 Índice de perfiles de clientes",
+      "posicion": 3869
     },
     {
       "targetRaw": "./longevidad.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\longevidad.md",
       "anchor": null,
       "exists": true,
-      "seccion": "📑 Índice de perfiles de clientes"
+      "seccion": "📑 Índice de perfiles de clientes",
+      "posicion": 4004
     },
     {
       "targetRaw": "./salud_cognitiva.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\salud_cognitiva.md",
       "anchor": null,
       "exists": true,
-      "seccion": "📑 Índice de perfiles de clientes"
+      "seccion": "📑 Índice de perfiles de clientes",
+      "posicion": 4108
     },
     {
       "targetRaw": "./dolor_articulaciones.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\dolor_articulaciones.md",
       "anchor": null,
       "exists": true,
-      "seccion": "📑 Índice de perfiles de clientes"
+      "seccion": "📑 Índice de perfiles de clientes",
+      "posicion": 4238
     },
     {
       "targetRaw": "./salud_visual.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\salud_visual.md",
       "anchor": null,
       "exists": true,
-      "seccion": "📑 Índice de perfiles de clientes"
+      "seccion": "📑 Índice de perfiles de clientes",
+      "posicion": 4345
     },
     {
       "targetRaw": "./salud_intima_libido.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\salud_intima_libido.md",
       "anchor": null,
       "exists": true,
-      "seccion": "📑 Índice de perfiles de clientes"
+      "seccion": "📑 Índice de perfiles de clientes",
+      "posicion": 4448
     },
     {
       "targetRaw": "./descanso_sueno.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\descanso_sueno.md",
       "anchor": null,
       "exists": true,
-      "seccion": "📑 Índice de perfiles de clientes"
+      "seccion": "📑 Índice de perfiles de clientes",
+      "posicion": 4557
     },
     {
       "targetRaw": "./cuidado_personal.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\cuidado_personal.md",
       "anchor": null,
       "exists": true,
-      "seccion": "📑 Índice de perfiles de clientes"
+      "seccion": "📑 Índice de perfiles de clientes",
+      "posicion": 4665
     },
     {
       "targetRaw": "./belleza_anti_edad.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\belleza_anti_edad.md",
       "anchor": null,
       "exists": true,
-      "seccion": "📑 Índice de perfiles de clientes"
+      "seccion": "📑 Índice de perfiles de clientes",
+      "posicion": 4793
     },
     {
       "targetRaw": "./emprendimiento.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\emprendimiento.md",
       "anchor": null,
       "exists": true,
-      "seccion": "📑 Índice de perfiles de clientes"
+      "seccion": "📑 Índice de perfiles de clientes",
+      "posicion": 4901
     },
     {
       "targetRaw": "./perder_peso.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\perder_peso.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Mapa rápido: necesidad → primer producto de entrada"
+      "seccion": "Mapa rápido: necesidad → primer producto de entrada",
+      "posicion": 5272
     },
     {
       "targetRaw": "./control_glucosa.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\control_glucosa.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Mapa rápido: necesidad → primer producto de entrada"
+      "seccion": "Mapa rápido: necesidad → primer producto de entrada",
+      "posicion": 5355
     },
     {
       "targetRaw": "./salud_digestiva.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\salud_digestiva.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Mapa rápido: necesidad → primer producto de entrada"
+      "seccion": "Mapa rápido: necesidad → primer producto de entrada",
+      "posicion": 5437
     },
     {
       "targetRaw": "./energia.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\energia.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Mapa rápido: necesidad → primer producto de entrada"
+      "seccion": "Mapa rápido: necesidad → primer producto de entrada",
+      "posicion": 5507
     },
     {
       "targetRaw": "./rendimiento_deportivo.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\rendimiento_deportivo.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Mapa rápido: necesidad → primer producto de entrada"
+      "seccion": "Mapa rápido: necesidad → primer producto de entrada",
+      "posicion": 5596
     },
     {
       "targetRaw": "./sistema_inmunologico.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\sistema_inmunologico.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Mapa rápido: necesidad → primer producto de entrada"
+      "seccion": "Mapa rápido: necesidad → primer producto de entrada",
+      "posicion": 5678
     },
     {
       "targetRaw": "./longevidad.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\longevidad.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Mapa rápido: necesidad → primer producto de entrada"
+      "seccion": "Mapa rápido: necesidad → primer producto de entrada",
+      "posicion": 5770
     },
     {
       "targetRaw": "./salud_cognitiva.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\salud_cognitiva.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Mapa rápido: necesidad → primer producto de entrada"
+      "seccion": "Mapa rápido: necesidad → primer producto de entrada",
+      "posicion": 5862
     },
     {
       "targetRaw": "./dolor_articulaciones.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\dolor_articulaciones.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Mapa rápido: necesidad → primer producto de entrada"
+      "seccion": "Mapa rápido: necesidad → primer producto de entrada",
+      "posicion": 5962
     },
     {
       "targetRaw": "./salud_visual.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\salud_visual.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Mapa rápido: necesidad → primer producto de entrada"
+      "seccion": "Mapa rápido: necesidad → primer producto de entrada",
+      "posicion": 6033
     },
     {
       "targetRaw": "./salud_intima_libido.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\salud_intima_libido.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Mapa rápido: necesidad → primer producto de entrada"
+      "seccion": "Mapa rápido: necesidad → primer producto de entrada",
+      "posicion": 6119
     },
     {
       "targetRaw": "./descanso_sueno.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\descanso_sueno.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Mapa rápido: necesidad → primer producto de entrada"
+      "seccion": "Mapa rápido: necesidad → primer producto de entrada",
+      "posicion": 6187
     },
     {
       "targetRaw": "./cuidado_personal.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\cuidado_personal.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Mapa rápido: necesidad → primer producto de entrada"
+      "seccion": "Mapa rápido: necesidad → primer producto de entrada",
+      "posicion": 6289
     },
     {
       "targetRaw": "./belleza_anti_edad.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\belleza_anti_edad.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Mapa rápido: necesidad → primer producto de entrada"
+      "seccion": "Mapa rápido: necesidad → primer producto de entrada",
+      "posicion": 6384
     },
     {
       "targetRaw": "./emprendimiento.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\emprendimiento.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Mapa rápido: necesidad → primer producto de entrada"
+      "seccion": "Mapa rápido: necesidad → primer producto de entrada",
+      "posicion": 6467
     },
     {
       "targetRaw": "./bienestar_general.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\bienestar_general.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Mapa rápido: necesidad → primer producto de entrada"
+      "seccion": "Mapa rápido: necesidad → primer producto de entrada",
+      "posicion": 6549
     },
     {
       "targetRaw": "../productos.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Notas de mantenimiento"
+      "seccion": "Notas de mantenimiento",
+      "posicion": 6751
     }
   ],
   "checksum": "13fc6128253f02906600944b58d75441b3806e0e51dee1e2d8d671873be7bbbf",

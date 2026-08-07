@@ -3,7 +3,7 @@
   "tipo_entidad": "producto",
   "titulo": "Latte Dorado",
   "ruta_original": "docs/productos/02-cafe-divina/latte-dorado.md",
-  "fecha_compilacion": "2026-08-07T09:35:11.782Z",
+  "fecha_compilacion": "2026-08-07T10:54:26.637Z",
   "version": "0.1.0-mvp",
   "estado": "compilado",
   "palabras_clave": [
@@ -43,7 +43,7 @@
     },
     {
       "origen_id": "productos/02-cafe-divina/latte-dorado",
-      "destino_id": "productos/05-dolor-articulaciones",
+      "destino_id": "productos/05-dolor-articulaciones/ouch-capsules",
       "tipo_relacion": "referencia",
       "archivo_origen": "docs/productos/02-cafe-divina/latte-dorado.md",
       "verificada": true
@@ -83,56 +83,64 @@
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 30
     },
     {
       "targetRaw": "../../productos.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 64
     },
     {
       "targetRaw": "./index.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 206
     },
     {
       "targetRaw": "../03-longevidad-bienestar/inflam-x-capsules.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\03-longevidad-bienestar\\inflam-x-capsules.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 769
     },
     {
       "targetRaw": "../05-dolor-articulaciones.md#ouch-capsules",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\05-dolor-articulaciones.md",
       "anchor": "ouch-capsules",
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 835
     },
     {
       "targetRaw": "./latte-verde.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\latte-verde.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 895
     },
     {
       "targetRaw": "./index.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 1026
     },
     {
       "targetRaw": "../../productos.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 1060
     }
   ],
   "checksum": "208d0ccfbbbdb7b9cbc880f6932ef9b32e851a54e7fdf9830cc061e1430670a8",

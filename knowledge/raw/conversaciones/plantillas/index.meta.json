@@ -3,7 +3,7 @@
   "tipo_entidad": "indice_categoria",
   "titulo": "Plantillas",
   "ruta_original": "docs/conversaciones/plantillas/index.md",
-  "fecha_compilacion": "2026-08-07T09:35:11.722Z",
+  "fecha_compilacion": "2026-08-07T10:54:26.579Z",
   "version": "0.1.0-mvp",
   "estado": "compilado",
   "palabras_clave": [],
@@ -64,49 +64,56 @@
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\README.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 50
     },
     {
       "targetRaw": "./saludos.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\plantillas\\saludos.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Construidos"
+      "seccion": "Construidos",
+      "posicion": 481
     },
     {
       "targetRaw": "./despedidas_agradecimientos.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\plantillas\\despedidas_agradecimientos.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Construidos"
+      "seccion": "Construidos",
+      "posicion": 553
     },
     {
       "targetRaw": "./confirmaciones.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\plantillas\\confirmaciones.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Construidos"
+      "seccion": "Construidos",
+      "posicion": 641
     },
     {
       "targetRaw": "./mensajes_cortos_y_largos.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\plantillas\\mensajes_cortos_y_largos.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Construidos"
+      "seccion": "Construidos",
+      "posicion": 740
     },
     {
       "targetRaw": "./audios_y_seguimientos.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\plantillas\\audios_y_seguimientos.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Construidos"
+      "seccion": "Construidos",
+      "posicion": 874
     },
     {
       "targetRaw": "../README.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\README.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Pendientes"
+      "seccion": "Pendientes",
+      "posicion": 1127
     }
   ],
   "checksum": "bf1707186db767c50ef702a812a4711ecfd67010e3198f44863423b138b04555",

@@ -3,7 +3,7 @@
   "tipo_entidad": "indice_categoria",
   "titulo": "Recomendación",
   "ruta_original": "docs/conversaciones/recomendacion/index.md",
-  "fecha_compilacion": "2026-08-07T09:35:11.735Z",
+  "fecha_compilacion": "2026-08-07T10:54:26.591Z",
   "version": "0.1.0-mvp",
   "estado": "compilado",
   "palabras_clave": [],
@@ -190,175 +190,200 @@
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\README.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 53
     },
     {
       "targetRaw": "../descubrimiento/index.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\descubrimiento\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 177
     },
     {
       "targetRaw": "../../clientes/README.md#índice-de-perfiles-de-clientes",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\README.md",
       "anchor": "índice-de-perfiles-de-clientes",
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 316
     },
     {
       "targetRaw": "../../clientes/bienestar_general.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\bienestar_general.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Construidos"
+      "seccion": "Construidos",
+      "posicion": 502
     },
     {
       "targetRaw": "./bienestar_general.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\recomendacion\\bienestar_general.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Construidos"
+      "seccion": "Construidos",
+      "posicion": 571
     },
     {
       "targetRaw": "../../clientes/perder_peso.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\perder_peso.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Construidos"
+      "seccion": "Construidos",
+      "posicion": 617
     },
     {
       "targetRaw": "./perder_peso.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\recomendacion\\perder_peso.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Construidos"
+      "seccion": "Construidos",
+      "posicion": 674
     },
     {
       "targetRaw": "../../clientes/energia.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\energia.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Construidos"
+      "seccion": "Construidos",
+      "posicion": 706
     },
     {
       "targetRaw": "./energia.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\recomendacion\\energia.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Construidos"
+      "seccion": "Construidos",
+      "posicion": 755
     },
     {
       "targetRaw": "../../clientes/belleza_anti_edad.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\belleza_anti_edad.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Construidos"
+      "seccion": "Construidos",
+      "posicion": 795
     },
     {
       "targetRaw": "./belleza_anti_edad.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\recomendacion\\belleza_anti_edad.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Construidos"
+      "seccion": "Construidos",
+      "posicion": 864
     },
     {
       "targetRaw": "../../clientes/sistema_inmunologico.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\sistema_inmunologico.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Construidos"
+      "seccion": "Construidos",
+      "posicion": 915
     },
     {
       "targetRaw": "./sistema_inmunologico.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\recomendacion\\sistema_inmunologico.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Construidos"
+      "seccion": "Construidos",
+      "posicion": 996
     },
     {
       "targetRaw": "../../clientes/longevidad.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\longevidad.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Pendientes (estructura lista, no construidos aún)"
+      "seccion": "Pendientes (estructura lista, no construidos aún)",
+      "posicion": 1501
     },
     {
       "targetRaw": "../../clientes/control_glucosa.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\control_glucosa.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Pendientes (estructura lista, no construidos aún)"
+      "seccion": "Pendientes (estructura lista, no construidos aún)",
+      "posicion": 1599
     },
     {
       "targetRaw": "../../clientes/salud_digestiva.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\salud_digestiva.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Pendientes (estructura lista, no construidos aún)"
+      "seccion": "Pendientes (estructura lista, no construidos aún)",
+      "posicion": 1699
     },
     {
       "targetRaw": "../../clientes/rendimiento_deportivo.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\rendimiento_deportivo.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Pendientes (estructura lista, no construidos aún)"
+      "seccion": "Pendientes (estructura lista, no construidos aún)",
+      "posicion": 1811
     },
     {
       "targetRaw": "../../clientes/salud_cognitiva.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\salud_cognitiva.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Pendientes (estructura lista, no construidos aún)"
+      "seccion": "Pendientes (estructura lista, no construidos aún)",
+      "posicion": 1917
     },
     {
       "targetRaw": "../../clientes/dolor_articulaciones.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\dolor_articulaciones.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Pendientes (estructura lista, no construidos aún)"
+      "seccion": "Pendientes (estructura lista, no construidos aún)",
+      "posicion": 2029
     },
     {
       "targetRaw": "../../clientes/salud_intima_libido.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\salud_intima_libido.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Pendientes (estructura lista, no construidos aún)"
+      "seccion": "Pendientes (estructura lista, no construidos aún)",
+      "posicion": 2144
     },
     {
       "targetRaw": "../../clientes/cuidado_personal.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\cuidado_personal.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Pendientes (estructura lista, no construidos aún)"
+      "seccion": "Pendientes (estructura lista, no construidos aún)",
+      "posicion": 2250
     },
     {
       "targetRaw": "../../clientes/salud_visual.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\salud_visual.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Pendientes (estructura lista, no construidos aún)"
+      "seccion": "Pendientes (estructura lista, no construidos aún)",
+      "posicion": 2350
     },
     {
       "targetRaw": "../../clientes/descanso_sueno.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\descanso_sueno.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Pendientes (estructura lista, no construidos aún)"
+      "seccion": "Pendientes (estructura lista, no construidos aún)",
+      "posicion": 2452
     },
     {
       "targetRaw": "../emprendimiento/index.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\emprendimiento\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Pendientes (estructura lista, no construidos aún)"
+      "seccion": "Pendientes (estructura lista, no construidos aún)",
+      "posicion": 2583
     },
     {
       "targetRaw": "../README.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\README.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Pendientes (estructura lista, no construidos aún)"
+      "seccion": "Pendientes (estructura lista, no construidos aún)",
+      "posicion": 2657
     }
   ],
   "checksum": "e51d0af01bc90161bcf6f1ce2df7c3b5d4b7fa9ae050546acfa244f7eb9d9871",

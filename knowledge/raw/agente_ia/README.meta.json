@@ -3,7 +3,7 @@
   "tipo_entidad": "indice_modulo",
   "titulo": "Agente IA — El Motor Cognitivo de Vida Divina",
   "ruta_original": "docs/agente_ia/README.md",
-  "fecha_compilacion": "2026-08-07T09:35:11.678Z",
+  "fecha_compilacion": "2026-08-07T10:54:26.535Z",
   "version": "0.1.0-mvp",
   "estado": "compilado",
   "palabras_clave": [],
@@ -134,126 +134,144 @@
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\flujo_de_razonamiento.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Cómo interactúa con los demás módulos"
+      "seccion": "Cómo interactúa con los demás módulos",
+      "posicion": 2665
     },
     {
       "targetRaw": "./identidad.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\identidad.md",
       "anchor": null,
       "exists": true,
-      "seccion": "📑 Índice de archivos de este módulo"
+      "seccion": "📑 Índice de archivos de este módulo",
+      "posicion": 5084
     },
     {
       "targetRaw": "./principios.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\principios.md",
       "anchor": null,
       "exists": true,
-      "seccion": "📑 Índice de archivos de este módulo"
+      "seccion": "📑 Índice de archivos de este módulo",
+      "posicion": 5173
     },
     {
       "targetRaw": "./flujo_de_razonamiento.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\flujo_de_razonamiento.md",
       "anchor": null,
       "exists": true,
-      "seccion": "📑 Índice de archivos de este módulo"
+      "seccion": "📑 Índice de archivos de este módulo",
+      "posicion": 5272
     },
     {
       "targetRaw": "./reglas_de_decision.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\reglas_de_decision.md",
       "anchor": null,
       "exists": true,
-      "seccion": "📑 Índice de archivos de este módulo"
+      "seccion": "📑 Índice de archivos de este módulo",
+      "posicion": 5390
     },
     {
       "targetRaw": "./reglas_de_seguridad.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\reglas_de_seguridad.md",
       "anchor": null,
       "exists": true,
-      "seccion": "📑 Índice de archivos de este módulo"
+      "seccion": "📑 Índice de archivos de este módulo",
+      "posicion": 5504
     },
     {
       "targetRaw": "./memoria.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\memoria.md",
       "anchor": null,
       "exists": true,
-      "seccion": "📑 Índice de archivos de este módulo"
+      "seccion": "📑 Índice de archivos de este módulo",
+      "posicion": 5608
     },
     {
       "targetRaw": "./contexto.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\contexto.md",
       "anchor": null,
       "exists": true,
-      "seccion": "📑 Índice de archivos de este módulo"
+      "seccion": "📑 Índice de archivos de este módulo",
+      "posicion": 5710
     },
     {
       "targetRaw": "./prioridades.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\prioridades.md",
       "anchor": null,
       "exists": true,
-      "seccion": "📑 Índice de archivos de este módulo"
+      "seccion": "📑 Índice de archivos de este módulo",
+      "posicion": 5804
     },
     {
       "targetRaw": "./herramientas.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\herramientas.md",
       "anchor": null,
       "exists": true,
-      "seccion": "📑 Índice de archivos de este módulo"
+      "seccion": "📑 Índice de archivos de este módulo",
+      "posicion": 5900
     },
     {
       "targetRaw": "./manejo_de_errores.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\manejo_de_errores.md",
       "anchor": null,
       "exists": true,
-      "seccion": "📑 Índice de archivos de este módulo"
+      "seccion": "📑 Índice de archivos de este módulo",
+      "posicion": 6009
     },
     {
       "targetRaw": "./comportamiento.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\comportamiento.md",
       "anchor": null,
       "exists": true,
-      "seccion": "📑 Índice de archivos de este módulo"
+      "seccion": "📑 Índice de archivos de este módulo",
+      "posicion": 6125
     },
     {
       "targetRaw": "./aprendizaje.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\aprendizaje.md",
       "anchor": null,
       "exists": true,
-      "seccion": "📑 Índice de archivos de este módulo"
+      "seccion": "📑 Índice de archivos de este módulo",
+      "posicion": 6221
     },
     {
       "targetRaw": "./metricas.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\metricas.md",
       "anchor": null,
       "exists": true,
-      "seccion": "📑 Índice de archivos de este módulo"
+      "seccion": "📑 Índice de archivos de este módulo",
+      "posicion": 6318
     },
     {
       "targetRaw": "./ejemplos.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\ejemplos.md",
       "anchor": null,
       "exists": true,
-      "seccion": "📑 Índice de archivos de este módulo"
+      "seccion": "📑 Índice de archivos de este módulo",
+      "posicion": 6403
     },
     {
       "targetRaw": "./roadmap.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\roadmap.md",
       "anchor": null,
       "exists": true,
-      "seccion": "📑 Índice de archivos de este módulo"
+      "seccion": "📑 Índice de archivos de este módulo",
+      "posicion": 6497
     },
     {
       "targetRaw": "../../CLAUDE.md#convenciones-del-proyecto",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\CLAUDE.md",
       "anchor": "convenciones-del-proyecto",
       "exists": true,
-      "seccion": "Convenciones heredadas"
+      "seccion": "Convenciones heredadas",
+      "posicion": 6660
     },
     {
       "targetRaw": "./roadmap.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\roadmap.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Notas de mantenimiento"
+      "seccion": "Notas de mantenimiento",
+      "posicion": 7211
     }
   ],
   "checksum": "a7b875d38cf24f3a3c6aa9e151311a7b888c56d5e30fb4418f28ea937eedae2b",

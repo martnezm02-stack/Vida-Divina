@@ -3,7 +3,7 @@
   "tipo_entidad": "producto",
   "titulo": "Cheat Capsules",
   "ruta_original": "docs/productos/01-control-de-peso/cheat-capsules.md",
-  "fecha_compilacion": "2026-08-07T09:35:11.771Z",
+  "fecha_compilacion": "2026-08-07T10:54:26.627Z",
   "version": "0.1.0-mvp",
   "estado": "compilado",
   "palabras_clave": [
@@ -84,56 +84,64 @@
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\01-control-de-peso\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 36
     },
     {
       "targetRaw": "../../productos.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 70
     },
     {
       "targetRaw": "./index.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\01-control-de-peso\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 172
     },
     {
       "targetRaw": "./cx90.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\01-control-de-peso\\cx90.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 800
     },
     {
       "targetRaw": "./hcg-reactor-capsules.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\01-control-de-peso\\hcg-reactor-capsules.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 835
     },
     {
       "targetRaw": "./ignite-capsules.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\01-control-de-peso\\ignite-capsules.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 881
     },
     {
       "targetRaw": "./index.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\01-control-de-peso\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 1034
     },
     {
       "targetRaw": "../../productos.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 1068
     }
   ],
   "checksum": "01b45f92efde07bb35e1068749f0564122e58829aec1fc6f4dc1d16846cc2db7",

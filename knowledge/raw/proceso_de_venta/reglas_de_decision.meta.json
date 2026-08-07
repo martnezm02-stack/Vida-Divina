@@ -3,7 +3,7 @@
   "tipo_entidad": "regla_decision",
   "titulo": "Reglas de Decisión",
   "ruta_original": "docs/proceso_de_venta/reglas_de_decision.md",
-  "fecha_compilacion": "2026-08-07T09:35:11.763Z",
+  "fecha_compilacion": "2026-08-07T10:54:26.618Z",
   "version": "0.1.0-mvp",
   "estado": "compilado",
   "palabras_clave": [],
@@ -386,364 +386,416 @@
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\README.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 52
     },
     {
       "targetRaw": "./flujo_general.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\flujo_general.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Regla de precedencia general"
+      "seccion": "Regla de precedencia general",
+      "posicion": 767
     },
     {
       "targetRaw": "../clientes/README.md#mapa-rápido-necesidad--primer-producto-de-entrada",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\README.md",
       "anchor": "mapa-rápido-necesidad--primer-producto-de-entrada",
       "exists": true,
-      "seccion": "Tabla 1 Señal de necesidad y perfil de cliente"
+      "seccion": "Tabla 1 Señal de necesidad y perfil de cliente",
+      "posicion": 974
     },
     {
       "targetRaw": "../clientes/energia.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\energia.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Tabla 1 Señal de necesidad y perfil de cliente"
+      "seccion": "Tabla 1 Señal de necesidad y perfil de cliente",
+      "posicion": 1228
     },
     {
       "targetRaw": "../clientes/perder_peso.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\perder_peso.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Tabla 1 Señal de necesidad y perfil de cliente"
+      "seccion": "Tabla 1 Señal de necesidad y perfil de cliente",
+      "posicion": 1327
     },
     {
       "targetRaw": "../clientes/belleza_anti_edad.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\belleza_anti_edad.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Tabla 1 Señal de necesidad y perfil de cliente"
+      "seccion": "Tabla 1 Señal de necesidad y perfil de cliente",
+      "posicion": 1425
     },
     {
       "targetRaw": "../clientes/emprendimiento.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\emprendimiento.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Tabla 1 Señal de necesidad y perfil de cliente"
+      "seccion": "Tabla 1 Señal de necesidad y perfil de cliente",
+      "posicion": 1529
     },
     {
       "targetRaw": "../clientes/bienestar_general.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\bienestar_general.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Tabla 1 Señal de necesidad y perfil de cliente"
+      "seccion": "Tabla 1 Señal de necesidad y perfil de cliente",
+      "posicion": 1638
     },
     {
       "targetRaw": "../objeciones/esta_caro.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\objeciones\\esta_caro.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Tabla 2 Señal de objeción y archivo a consultar"
+      "seccion": "Tabla 2 Señal de objeción y archivo a consultar",
+      "posicion": 1918
     },
     {
       "targetRaw": "../conversaciones/objeciones/esta_caro.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\objeciones\\esta_caro.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Tabla 2 Señal de objeción y archivo a consultar"
+      "seccion": "Tabla 2 Señal de objeción y archivo a consultar",
+      "posicion": 1989
     },
     {
       "targetRaw": "../objeciones/lo_voy_a_pensar.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\objeciones\\lo_voy_a_pensar.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Tabla 2 Señal de objeción y archivo a consultar"
+      "seccion": "Tabla 2 Señal de objeción y archivo a consultar",
+      "posicion": 2128
     },
     {
       "targetRaw": "../conversaciones/objeciones/lo_voy_a_pensar.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\objeciones\\lo_voy_a_pensar.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Tabla 2 Señal de objeción y archivo a consultar"
+      "seccion": "Tabla 2 Señal de objeción y archivo a consultar",
+      "posicion": 2211
     },
     {
       "targetRaw": "../objeciones/no_creo_en_suplementos.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\objeciones\\no_creo_en_suplementos.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Tabla 2 Señal de objeción y archivo a consultar"
+      "seccion": "Tabla 2 Señal de objeción y archivo a consultar",
+      "posicion": 2357
     },
     {
       "targetRaw": "../conversaciones/objeciones/no_creo_en_suplementos.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\objeciones\\no_creo_en_suplementos.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Tabla 2 Señal de objeción y archivo a consultar"
+      "seccion": "Tabla 2 Señal de objeción y archivo a consultar",
+      "posicion": 2454
     },
     {
       "targetRaw": "../objeciones/no_tengo_dinero.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\objeciones\\no_tengo_dinero.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Tabla 2 Señal de objeción y archivo a consultar"
+      "seccion": "Tabla 2 Señal de objeción y archivo a consultar",
+      "posicion": 2590
     },
     {
       "targetRaw": "../conversaciones/objeciones/no_tengo_dinero.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\objeciones\\no_tengo_dinero.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Tabla 2 Señal de objeción y archivo a consultar"
+      "seccion": "Tabla 2 Señal de objeción y archivo a consultar",
+      "posicion": 2673
     },
     {
       "targetRaw": "../conversaciones/objeciones/ya_probe_otros_productos.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\objeciones\\ya_probe_otros_productos.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Tabla 2 Señal de objeción y archivo a consultar"
+      "seccion": "Tabla 2 Señal de objeción y archivo a consultar",
+      "posicion": 2872
     },
     {
       "targetRaw": "../conversaciones/objeciones/mi_medico_no_me_deja.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\objeciones\\mi_medico_no_me_deja.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Tabla 2 Señal de objeción y archivo a consultar"
+      "seccion": "Tabla 2 Señal de objeción y archivo a consultar",
+      "posicion": 3122
     },
     {
       "targetRaw": "../conversaciones/README.md#reglas-generales-aplican-a-todo-el-módulo",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\README.md",
       "anchor": "reglas-generales-aplican-a-todo-el-módulo",
       "exists": true,
-      "seccion": "Tabla 2 Señal de objeción y archivo a consultar"
+      "seccion": "Tabla 2 Señal de objeción y archivo a consultar",
+      "posicion": 3260
     },
     {
       "targetRaw": "./emprendimiento.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\emprendimiento.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Tabla 2 Señal de objeción y archivo a consultar"
+      "seccion": "Tabla 2 Señal de objeción y archivo a consultar",
+      "posicion": 3466
     },
     {
       "targetRaw": "./emprendimiento.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\emprendimiento.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Tabla 2 Señal de objeción y archivo a consultar"
+      "seccion": "Tabla 2 Señal de objeción y archivo a consultar",
+      "posicion": 3611
     },
     {
       "targetRaw": "../conversaciones/cierre/index.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\cierre\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Tabla 3 Evento de conversación y acción siguiente"
+      "seccion": "Tabla 3 Evento de conversación y acción siguiente",
+      "posicion": 3833
     },
     {
       "targetRaw": "./cierre.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\cierre.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Tabla 3 Evento de conversación y acción siguiente"
+      "seccion": "Tabla 3 Evento de conversación y acción siguiente",
+      "posicion": 3888
     },
     {
       "targetRaw": "../conversaciones/seguimiento/index.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\seguimiento\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Tabla 3 Evento de conversación y acción siguiente"
+      "seccion": "Tabla 3 Evento de conversación y acción siguiente",
+      "posicion": 3994
     },
     {
       "targetRaw": "./seguimiento.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\seguimiento.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Tabla 3 Evento de conversación y acción siguiente"
+      "seccion": "Tabla 3 Evento de conversación y acción siguiente",
+      "posicion": 4059
     },
     {
       "targetRaw": "./manejo_de_objeciones.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\manejo_de_objeciones.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Tabla 3 Evento de conversación y acción siguiente"
+      "seccion": "Tabla 3 Evento de conversación y acción siguiente",
+      "posicion": 4192
     },
     {
       "targetRaw": "../conversaciones/cierre/confirmacion_pedido.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\cierre\\confirmacion_pedido.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Tabla 3 Evento de conversación y acción siguiente"
+      "seccion": "Tabla 3 Evento de conversación y acción siguiente",
+      "posicion": 4306
     },
     {
       "targetRaw": "../conversaciones/postventa/verificar_satisfaccion.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\postventa\\verificar_satisfaccion.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Tabla 3 Evento de conversación y acción siguiente"
+      "seccion": "Tabla 3 Evento de conversación y acción siguiente",
+      "posicion": 4452
     },
     {
       "targetRaw": "./postventa.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\postventa.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Tabla 3 Evento de conversación y acción siguiente"
+      "seccion": "Tabla 3 Evento de conversación y acción siguiente",
+      "posicion": 4530
     },
     {
       "targetRaw": "./manejo_de_objeciones.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\manejo_de_objeciones.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Tabla 3 Evento de conversación y acción siguiente"
+      "seccion": "Tabla 3 Evento de conversación y acción siguiente",
+      "posicion": 4680
     },
     {
       "targetRaw": "../clientes/emprendimiento.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\emprendimiento.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Tabla 3 Evento de conversación y acción siguiente"
+      "seccion": "Tabla 3 Evento de conversación y acción siguiente",
+      "posicion": 4834
     },
     {
       "targetRaw": "./emprendimiento.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\emprendimiento.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Tabla 3 Evento de conversación y acción siguiente"
+      "seccion": "Tabla 3 Evento de conversación y acción siguiente",
+      "posicion": 4893
     },
     {
       "targetRaw": "./descubrimiento.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\descubrimiento.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Tabla 3 Evento de conversación y acción siguiente"
+      "seccion": "Tabla 3 Evento de conversación y acción siguiente",
+      "posicion": 5027
     },
     {
       "targetRaw": "./postventa.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\postventa.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Tabla 3 Evento de conversación y acción siguiente"
+      "seccion": "Tabla 3 Evento de conversación y acción siguiente",
+      "posicion": 5090
     },
     {
       "targetRaw": "./seguimiento.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\seguimiento.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Tabla 3 Evento de conversación y acción siguiente"
+      "seccion": "Tabla 3 Evento de conversación y acción siguiente",
+      "posicion": 5320
     },
     {
       "targetRaw": "../conversaciones/seguimiento/seguimiento_24h.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\seguimiento\\seguimiento_24h.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Tabla 3 Evento de conversación y acción siguiente"
+      "seccion": "Tabla 3 Evento de conversación y acción siguiente",
+      "posicion": 5376
     },
     {
       "targetRaw": "./estados_del_cliente.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\estados_del_cliente.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Tabla 4 Estado del cliente y módulo prioritario"
+      "seccion": "Tabla 4 Estado del cliente y módulo prioritario",
+      "posicion": 5695
     },
     {
       "targetRaw": "../conversaciones/primer_contacto/index.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\primer_contacto\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Tabla 4 Estado del cliente y módulo prioritario"
+      "seccion": "Tabla 4 Estado del cliente y módulo prioritario",
+      "posicion": 5876
     },
     {
       "targetRaw": "./calificacion_del_cliente.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\calificacion_del_cliente.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Tabla 4 Estado del cliente y módulo prioritario"
+      "seccion": "Tabla 4 Estado del cliente y módulo prioritario",
+      "posicion": 5954
     },
     {
       "targetRaw": "../conversaciones/descubrimiento/index.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\descubrimiento\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Tabla 4 Estado del cliente y módulo prioritario"
+      "seccion": "Tabla 4 Estado del cliente y módulo prioritario",
+      "posicion": 6051
     },
     {
       "targetRaw": "./descubrimiento.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\descubrimiento.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Tabla 4 Estado del cliente y módulo prioritario"
+      "seccion": "Tabla 4 Estado del cliente y módulo prioritario",
+      "posicion": 6118
     },
     {
       "targetRaw": "../clientes/README.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\README.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Tabla 4 Estado del cliente y módulo prioritario"
+      "seccion": "Tabla 4 Estado del cliente y módulo prioritario",
+      "posicion": 6186
     },
     {
       "targetRaw": "../objeciones/README.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\objeciones\\README.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Tabla 4 Estado del cliente y módulo prioritario"
+      "seccion": "Tabla 4 Estado del cliente y módulo prioritario",
+      "posicion": 6373
     },
     {
       "targetRaw": "./seguimiento.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\seguimiento.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Tabla 4 Estado del cliente y módulo prioritario"
+      "seccion": "Tabla 4 Estado del cliente y módulo prioritario",
+      "posicion": 6461
     },
     {
       "targetRaw": "../conversaciones/cierre/index.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\cierre\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Tabla 4 Estado del cliente y módulo prioritario"
+      "seccion": "Tabla 4 Estado del cliente y módulo prioritario",
+      "posicion": 6533
     },
     {
       "targetRaw": "./postventa.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\postventa.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Tabla 4 Estado del cliente y módulo prioritario"
+      "seccion": "Tabla 4 Estado del cliente y módulo prioritario",
+      "posicion": 6592
     },
     {
       "targetRaw": "./seguimiento.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\seguimiento.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Tabla 4 Estado del cliente y módulo prioritario"
+      "seccion": "Tabla 4 Estado del cliente y módulo prioritario",
+      "posicion": 6650
     },
     {
       "targetRaw": "./postventa.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\postventa.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Tabla 4 Estado del cliente y módulo prioritario"
+      "seccion": "Tabla 4 Estado del cliente y módulo prioritario",
+      "posicion": 6731
     },
     {
       "targetRaw": "./descubrimiento.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\descubrimiento.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Tabla 4 Estado del cliente y módulo prioritario"
+      "seccion": "Tabla 4 Estado del cliente y módulo prioritario",
+      "posicion": 6815
     },
     {
       "targetRaw": "../clientes/emprendimiento.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\emprendimiento.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Tabla 4 Estado del cliente y módulo prioritario"
+      "seccion": "Tabla 4 Estado del cliente y módulo prioritario",
+      "posicion": 6939
     },
     {
       "targetRaw": "../conversaciones/emprendimiento/index.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\emprendimiento\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Tabla 4 Estado del cliente y módulo prioritario"
+      "seccion": "Tabla 4 Estado del cliente y módulo prioritario",
+      "posicion": 7012
     },
     {
       "targetRaw": "./README.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\README.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Tabla 4 Estado del cliente y módulo prioritario"
+      "seccion": "Tabla 4 Estado del cliente y módulo prioritario",
+      "posicion": 7094
     }
   ],
   "checksum": "d16a09df5b8651f1878f5b0a43a19e9890002e52fa2f0a897e22c8b4634d728d",

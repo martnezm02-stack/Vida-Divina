@@ -3,7 +3,7 @@
   "tipo_entidad": "perfil",
   "titulo": "Rendimiento Deportivo",
   "ruta_original": "docs/clientes/rendimiento_deportivo.md",
-  "fecha_compilacion": "2026-08-07T09:35:11.701Z",
+  "fecha_compilacion": "2026-08-07T10:54:26.556Z",
   "version": "0.1.0-mvp",
   "estado": "compilado",
   "palabras_clave": [
@@ -33,21 +33,21 @@
     },
     {
       "origen_id": "clientes/rendimiento_deportivo",
-      "destino_id": "productos/07-rendimiento-fisico",
+      "destino_id": "productos/07-rendimiento-fisico/ripped-capsules",
       "tipo_relacion": "recomienda_opcional",
       "archivo_origen": "docs/clientes/rendimiento_deportivo.md",
       "verificada": true
     },
     {
       "origen_id": "clientes/rendimiento_deportivo",
-      "destino_id": "productos/09-proteinas-batidos",
+      "destino_id": "productos/09-proteinas-batidos/vida-pure",
       "tipo_relacion": "recomienda_opcional",
       "archivo_origen": "docs/clientes/rendimiento_deportivo.md",
       "verificada": true
     },
     {
       "origen_id": "clientes/rendimiento_deportivo",
-      "destino_id": "productos/09-proteinas-batidos",
+      "destino_id": "productos/09-proteinas-batidos/vida-fuel",
       "tipo_relacion": "recomienda_opcional",
       "archivo_origen": "docs/clientes/rendimiento_deportivo.md",
       "verificada": true
@@ -61,7 +61,7 @@
     },
     {
       "origen_id": "clientes/rendimiento_deportivo",
-      "destino_id": "productos/05-dolor-articulaciones",
+      "destino_id": "productos/05-dolor-articulaciones/ouch-capsules",
       "tipo_relacion": "recomienda_complementario",
       "archivo_origen": "docs/clientes/rendimiento_deportivo.md",
       "verificada": true
@@ -82,7 +82,7 @@
     },
     {
       "origen_id": "clientes/rendimiento_deportivo",
-      "destino_id": "productos/08-intimidad-libido",
+      "destino_id": "productos/08-intimidad-libido/mars-capsules",
       "tipo_relacion": "recomienda_complementario",
       "archivo_origen": "docs/clientes/rendimiento_deportivo.md",
       "verificada": true
@@ -136,105 +136,120 @@
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\README.md",
       "anchor": "nota-importante",
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 99
     },
     {
       "targetRaw": "../productos/10-energia-antioxidantes/mundo-azul.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\10-energia-antioxidantes\\mundo-azul.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Productos recomendados"
+      "seccion": "Productos recomendados",
+      "posicion": 1239
     },
     {
       "targetRaw": "../productos/07-rendimiento-fisico.md#ripped-capsules",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\07-rendimiento-fisico.md",
       "anchor": "ripped-capsules",
       "exists": true,
-      "seccion": "Productos recomendados"
+      "seccion": "Productos recomendados",
+      "posicion": 1433
     },
     {
       "targetRaw": "../productos/09-proteinas-batidos.md#vida-pure",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\09-proteinas-batidos.md",
       "anchor": "vida-pure",
       "exists": true,
-      "seccion": "Productos recomendados"
+      "seccion": "Productos recomendados",
+      "posicion": 1557
     },
     {
       "targetRaw": "../productos/09-proteinas-batidos.md#vida-fuel",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\09-proteinas-batidos.md",
       "anchor": "vida-fuel",
       "exists": true,
-      "seccion": "Productos recomendados"
+      "seccion": "Productos recomendados",
+      "posicion": 1658
     },
     {
       "targetRaw": "../productos/02-cafe-divina/sculpt-tongkat-ali.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\sculpt-tongkat-ali.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Productos recomendados"
+      "seccion": "Productos recomendados",
+      "posicion": 1788
     },
     {
       "targetRaw": "../productos/05-dolor-articulaciones.md#ouch-capsules",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\05-dolor-articulaciones.md",
       "anchor": "ouch-capsules",
       "exists": true,
-      "seccion": "Productos complementarios"
+      "seccion": "Productos complementarios",
+      "posicion": 2134
     },
     {
       "targetRaw": "./dolor_articulaciones.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\dolor_articulaciones.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Productos complementarios"
+      "seccion": "Productos complementarios",
+      "posicion": 2228
     },
     {
       "targetRaw": "../productos/01-control-de-peso/atom-capsules.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\01-control-de-peso\\atom-capsules.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Productos complementarios"
+      "seccion": "Productos complementarios",
+      "posicion": 2322
     },
     {
       "targetRaw": "../productos/08-intimidad-libido.md#mars-capsules",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\08-intimidad-libido.md",
       "anchor": "mars-capsules",
       "exists": true,
-      "seccion": "Productos complementarios"
+      "seccion": "Productos complementarios",
+      "posicion": 2425
     },
     {
       "targetRaw": "./salud_intima_libido.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\salud_intima_libido.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Productos complementarios"
+      "seccion": "Productos complementarios",
+      "posicion": 2529
     },
     {
       "targetRaw": "./dolor_articulaciones.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\dolor_articulaciones.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Posibles ventas futuras (cross-selling)"
+      "seccion": "Posibles ventas futuras (cross-selling)",
+      "posicion": 4012
     },
     {
       "targetRaw": "./energia.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\energia.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Posibles ventas futuras (cross-selling)"
+      "seccion": "Posibles ventas futuras (cross-selling)",
+      "posicion": 4051
     },
     {
       "targetRaw": "./salud_intima_libido.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\salud_intima_libido.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Posibles ventas futuras (cross-selling)"
+      "seccion": "Posibles ventas futuras (cross-selling)",
+      "posicion": 4091
     },
     {
       "targetRaw": "./README.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\README.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Nivel de prioridad de este perfil para el negocio"
+      "seccion": "Nivel de prioridad de este perfil para el negocio",
+      "posicion": 4573
     }
   ],
   "checksum": "5ff835bc45aa3c8e63a18c85bbd1171539a8d74b29ad19c6d97977b39ee1d35b",

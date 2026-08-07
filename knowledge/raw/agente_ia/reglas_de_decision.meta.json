@@ -3,7 +3,7 @@
   "tipo_entidad": "regla_decision",
   "titulo": "Reglas de Decisión",
   "ruta_original": "docs/agente_ia/reglas_de_decision.md",
-  "fecha_compilacion": "2026-08-07T09:35:11.680Z",
+  "fecha_compilacion": "2026-08-07T10:54:26.536Z",
   "version": "0.1.0-mvp",
   "estado": "compilado",
   "palabras_clave": [],
@@ -141,119 +141,136 @@
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\README.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 45
     },
     {
       "targetRaw": "../proceso_de_venta/reglas_de_decision.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\reglas_de_decision.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 260
     },
     {
       "targetRaw": "./flujo_de_razonamiento.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\flujo_de_razonamiento.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Perfil desconocido"
+      "seccion": "Perfil desconocido",
+      "posicion": 674
     },
     {
       "targetRaw": "../clientes/bienestar_general.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\bienestar_general.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Perfil desconocido"
+      "seccion": "Perfil desconocido",
+      "posicion": 1053
     },
     {
       "targetRaw": "./principios.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\principios.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Perfil desconocido"
+      "seccion": "Perfil desconocido",
+      "posicion": 1178
     },
     {
       "targetRaw": "./flujo_de_razonamiento.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\flujo_de_razonamiento.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Perfil identificado"
+      "seccion": "Perfil identificado",
+      "posicion": 1333
     },
     {
       "targetRaw": "./principios.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\principios.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Perfil identificado"
+      "seccion": "Perfil identificado",
+      "posicion": 1569
     },
     {
       "targetRaw": "./flujo_de_razonamiento.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\flujo_de_razonamiento.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Objeciones"
+      "seccion": "Objeciones",
+      "posicion": 1819
     },
     {
       "targetRaw": "./prioridades.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\prioridades.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Solicitud médica"
+      "seccion": "Solicitud médica",
+      "posicion": 2360
     },
     {
       "targetRaw": "./reglas_de_seguridad.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\reglas_de_seguridad.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Solicitud médica"
+      "seccion": "Solicitud médica",
+      "posicion": 2606
     },
     {
       "targetRaw": "../proceso_de_venta/emprendimiento.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\emprendimiento.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Emprendimiento"
+      "seccion": "Emprendimiento",
+      "posicion": 2941
     },
     {
       "targetRaw": "./principios.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\principios.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Emprendimiento"
+      "seccion": "Emprendimiento",
+      "posicion": 3145
     },
     {
       "targetRaw": "../proceso_de_venta/seguimiento.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\seguimiento.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Seguimiento"
+      "seccion": "Seguimiento",
+      "posicion": 3442
     },
     {
       "targetRaw": "./memoria.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\memoria.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Seguimiento"
+      "seccion": "Seguimiento",
+      "posicion": 3621
     },
     {
       "targetRaw": "../proceso_de_venta/postventa.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\postventa.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Venta cruzada"
+      "seccion": "Venta cruzada",
+      "posicion": 3850
     },
     {
       "targetRaw": "./prioridades.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\prioridades.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Regla general de aplicación"
+      "seccion": "Regla general de aplicación",
+      "posicion": 4276
     },
     {
       "targetRaw": "./README.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\README.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Regla general de aplicación"
+      "seccion": "Regla general de aplicación",
+      "posicion": 4405
     }
   ],
   "checksum": "6c37ebea2b50bf084484aab9b4fbfcf39ed13b1897494a39159c36fff7f1f3df",

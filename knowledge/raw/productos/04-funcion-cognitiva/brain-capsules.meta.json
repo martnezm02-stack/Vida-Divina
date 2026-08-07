@@ -1,0 +1,76 @@
+{
+  "id": "productos/04-funcion-cognitiva/brain-capsules",
+  "tipo_entidad": "producto",
+  "titulo": "Brain Capsules",
+  "ruta_original": "docs/productos/04-funcion-cognitiva.md",
+  "fecha_compilacion": "2026-08-07T10:54:26.650Z",
+  "version": "0.1.0-mvp",
+  "estado": "compilado",
+  "palabras_clave": [
+    "ginkgo biloba",
+    "hierba de San Juan",
+    "concentración",
+    "memoria",
+    "claridad mental"
+  ],
+  "relaciones_detectadas": [
+    {
+      "origen_id": "productos/04-funcion-cognitiva/brain-capsules",
+      "destino_id": "productos/03-longevidad-bienestar/nad-plus",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/04-funcion-cognitiva.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/04-funcion-cognitiva/brain-capsules",
+      "destino_id": "productos/02-cafe-divina/black",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/04-funcion-cognitiva.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/04-funcion-cognitiva/brain-capsules",
+      "destino_id": "productos",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/04-funcion-cognitiva.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/04-funcion-cognitiva/brain-capsules",
+      "destino_id": "productos/04-funcion-cognitiva",
+      "tipo_relacion": "pertenece_a_categoria",
+      "archivo_origen": "docs/productos/04-funcion-cognitiva.md",
+      "verificada": true
+    }
+  ],
+  "referencias": [
+    {
+      "targetRaw": "./03-longevidad-bienestar/nad-plus.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\03-longevidad-bienestar\\nad-plus.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Brain Capsules",
+      "posicion": 2031
+    },
+    {
+      "targetRaw": "./02-cafe-divina/black.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\black.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Brain Capsules",
+      "posicion": 2079
+    },
+    {
+      "targetRaw": "../productos.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Brain Capsules",
+      "posicion": 2243
+    }
+  ],
+  "checksum": "38cc7fdfa6135711484720e843cf23f9d4925219b0a55b29b668d2f527110527",
+  "errores_detectados": [],
+  "advertencias": [],
+  "modulo": "productos"
+}

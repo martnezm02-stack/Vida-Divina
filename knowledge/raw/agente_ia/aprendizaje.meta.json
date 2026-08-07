@@ -3,7 +3,7 @@
   "tipo_entidad": "documento_cognitivo",
   "titulo": "Aprendizaje",
   "ruta_original": "docs/agente_ia/aprendizaje.md",
-  "fecha_compilacion": "2026-08-07T09:35:11.665Z",
+  "fecha_compilacion": "2026-08-07T10:54:26.521Z",
   "version": "0.1.0-mvp",
   "estado": "compilado",
   "palabras_clave": [],
@@ -78,77 +78,88 @@
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\README.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 38
     },
     {
       "targetRaw": "../../CLAUDE.md#convenciones-del-proyecto",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\CLAUDE.md",
       "anchor": "convenciones-del-proyecto",
       "exists": true,
-      "seccion": "Cómo se incorporan nuevos módulos"
+      "seccion": "Cómo se incorporan nuevos módulos",
+      "posicion": 565
     },
     {
       "targetRaw": "./herramientas.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\herramientas.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Cómo se incorporan nuevos módulos"
+      "seccion": "Cómo se incorporan nuevos módulos",
+      "posicion": 1031
     },
     {
       "targetRaw": "./flujo_de_razonamiento.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\flujo_de_razonamiento.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Cómo se integran nuevos productos"
+      "seccion": "Cómo se integran nuevos productos",
+      "posicion": 1364
     },
     {
       "targetRaw": "./herramientas.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\herramientas.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Cómo se integran nuevos productos"
+      "seccion": "Cómo se integran nuevos productos",
+      "posicion": 1414
     },
     {
       "targetRaw": "../../CLAUDE.md#roadmap",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\CLAUDE.md",
       "anchor": "roadmap",
       "exists": true,
-      "seccion": "Cómo se integran nuevos casos reales"
+      "seccion": "Cómo se integran nuevos casos reales",
+      "posicion": 1616
     },
     {
       "targetRaw": "./principios.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\principios.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Cómo se integran nuevos casos reales"
+      "seccion": "Cómo se integran nuevos casos reales",
+      "posicion": 2032
     },
     {
       "targetRaw": "./reglas_de_seguridad.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\reglas_de_seguridad.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Cómo se integran nuevos casos reales"
+      "seccion": "Cómo se integran nuevos casos reales",
+      "posicion": 2078
     },
     {
       "targetRaw": "../../CLAUDE.md#instrucciones-para-claude",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\CLAUDE.md",
       "anchor": "instrucciones-para-claude",
       "exists": true,
-      "seccion": "Cómo evitar degradar la arquitectura"
+      "seccion": "Cómo evitar degradar la arquitectura",
+      "posicion": 2360
     },
     {
       "targetRaw": "./principios.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\principios.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Cómo evitar degradar la arquitectura"
+      "seccion": "Cómo evitar degradar la arquitectura",
+      "posicion": 2716
     },
     {
       "targetRaw": "./README.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\README.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Cómo evitar degradar la arquitectura"
+      "seccion": "Cómo evitar degradar la arquitectura",
+      "posicion": 3117
     }
   ],
   "checksum": "59de3f1807edf8cea3a984d3c37e83d32df9970a30863dec4f527c24fca262bd",

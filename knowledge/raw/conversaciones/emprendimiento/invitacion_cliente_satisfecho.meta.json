@@ -3,7 +3,7 @@
   "tipo_entidad": "conversacion",
   "titulo": "Emprendimiento — Invitación a Cliente Satisfecho",
   "ruta_original": "docs/conversaciones/emprendimiento/invitacion_cliente_satisfecho.md",
-  "fecha_compilacion": "2026-08-07T09:35:11.714Z",
+  "fecha_compilacion": "2026-08-07T10:54:26.570Z",
   "version": "0.1.0-mvp",
   "estado": "compilado",
   "palabras_clave": [],
@@ -64,42 +64,48 @@
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\postventa\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 320
     },
     {
       "targetRaw": "../../clientes/emprendimiento.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\emprendimiento.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 394
     },
     {
       "targetRaw": "../postventa/verificar_satisfaccion.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\postventa\\verificar_satisfaccion.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 733
     },
     {
       "targetRaw": "../objeciones/index.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\objeciones\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 1556
     },
     {
       "targetRaw": "./index.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\emprendimiento\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 2648
     },
     {
       "targetRaw": "../README.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\README.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 2682
     }
   ],
   "checksum": "2d404d68409e91ab087cb5d8f44a017bbded28ad428c7bb18dca935a95210b91",

@@ -3,7 +3,7 @@
   "tipo_entidad": "conversacion",
   "titulo": "Primer Contacto — WhatsApp Directo (sin contexto previo)",
   "ruta_original": "docs/conversaciones/primer_contacto/whatsapp_directo.md",
-  "fecha_compilacion": "2026-08-07T09:35:11.729Z",
+  "fecha_compilacion": "2026-08-07T10:54:26.584Z",
   "version": "0.1.0-mvp",
   "estado": "compilado",
   "palabras_clave": [],
@@ -50,28 +50,32 @@
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\descubrimiento\\preguntas_generales.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 294
     },
     {
       "targetRaw": "../descubrimiento/preguntas_generales.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\descubrimiento\\preguntas_generales.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 1616
     },
     {
       "targetRaw": "./index.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\primer_contacto\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 2222
     },
     {
       "targetRaw": "../README.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\README.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 2256
     }
   ],
   "checksum": "3573335fb2ba80a70d2562713fbebb18cc8c1177ca8027d3fb6d48419ed790de",

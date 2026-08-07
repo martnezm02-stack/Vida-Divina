@@ -3,7 +3,7 @@
   "tipo_entidad": "perfil",
   "titulo": "Belleza y Anti-Edad (Piel Facial Premium)",
   "ruta_original": "docs/clientes/belleza_anti_edad.md",
-  "fecha_compilacion": "2026-08-07T09:35:11.684Z",
+  "fecha_compilacion": "2026-08-07T10:54:26.541Z",
   "version": "0.1.0-mvp",
   "estado": "compilado",
   "palabras_clave": [
@@ -69,7 +69,7 @@
     },
     {
       "origen_id": "clientes/belleza_anti_edad",
-      "destino_id": "productos/12-cuidado-personal",
+      "destino_id": "productos/12-cuidado-personal/liquid-gold",
       "tipo_relacion": "recomienda_complementario",
       "archivo_origen": "docs/clientes/belleza_anti_edad.md",
       "verificada": true
@@ -165,133 +165,152 @@
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\README.md",
       "anchor": "nota-importante",
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 119
     },
     {
       "targetRaw": "../productos/13-linea-radien/radien-cleanser.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\13-linea-radien\\radien-cleanser.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Productos recomendados"
+      "seccion": "Productos recomendados",
+      "posicion": 1430
     },
     {
       "targetRaw": "../productos/13-linea-radien/radien-toner.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\13-linea-radien\\radien-toner.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Productos recomendados"
+      "seccion": "Productos recomendados",
+      "posicion": 1540
     },
     {
       "targetRaw": "../productos/13-linea-radien/radien-day-creme.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\13-linea-radien\\radien-day-creme.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Productos recomendados"
+      "seccion": "Productos recomendados",
+      "posicion": 1666
     },
     {
       "targetRaw": "../productos/13-linea-radien/radien-night-creme.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\13-linea-radien\\radien-night-creme.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Productos recomendados"
+      "seccion": "Productos recomendados",
+      "posicion": 1841
     },
     {
       "targetRaw": "../productos/13-linea-radien/radien-eye-serum.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\13-linea-radien\\radien-eye-serum.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Productos recomendados"
+      "seccion": "Productos recomendados",
+      "posicion": 1977
     },
     {
       "targetRaw": "../productos/13-linea-radien/radien-collagen-elixir.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\13-linea-radien\\radien-collagen-elixir.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Productos recomendados"
+      "seccion": "Productos recomendados",
+      "posicion": 2094
     },
     {
       "targetRaw": "../productos/12-cuidado-personal.md#liquid-gold",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\12-cuidado-personal.md",
       "anchor": "liquid-gold",
       "exists": true,
-      "seccion": "Productos complementarios"
+      "seccion": "Productos complementarios",
+      "posicion": 2603
     },
     {
       "targetRaw": "./cuidado_personal.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\cuidado_personal.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Productos complementarios"
+      "seccion": "Productos complementarios",
+      "posicion": 2720
     },
     {
       "targetRaw": "../productos/11-extractos-hongos/extracto-tremella.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\11-extractos-hongos\\extracto-tremella.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Productos complementarios"
+      "seccion": "Productos complementarios",
+      "posicion": 2770
     },
     {
       "targetRaw": "../productos/03-longevidad-bienestar/nad-plus.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\03-longevidad-bienestar\\nad-plus.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Productos complementarios"
+      "seccion": "Productos complementarios",
+      "posicion": 2881
     },
     {
       "targetRaw": "./longevidad.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\longevidad.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Productos complementarios"
+      "seccion": "Productos complementarios",
+      "posicion": 2989
     },
     {
       "targetRaw": "../productos/13-linea-radien/radien-qxp-men.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\13-linea-radien\\radien-qxp-men.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Productos que NO son prioridad"
+      "seccion": "Productos que NO son prioridad",
+      "posicion": 3066
     },
     {
       "targetRaw": "../productos/13-linea-radien/radien-qxp-men.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\13-linea-radien\\radien-qxp-men.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Preguntas para identificar al cliente"
+      "seccion": "Preguntas para identificar al cliente",
+      "posicion": 4011
     },
     {
       "targetRaw": "./longevidad.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\longevidad.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Posibles ventas futuras (cross-selling)"
+      "seccion": "Posibles ventas futuras (cross-selling)",
+      "posicion": 5137
     },
     {
       "targetRaw": "./cuidado_personal.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\cuidado_personal.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Posibles ventas futuras (cross-selling)"
+      "seccion": "Posibles ventas futuras (cross-selling)",
+      "posicion": 5215
     },
     {
       "targetRaw": "./salud_intima_libido.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\salud_intima_libido.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Posibles ventas futuras (cross-selling)"
+      "seccion": "Posibles ventas futuras (cross-selling)",
+      "posicion": 5310
     },
     {
       "targetRaw": "./emprendimiento.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\emprendimiento.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Posibles ventas futuras (cross-selling)"
+      "seccion": "Posibles ventas futuras (cross-selling)",
+      "posicion": 5389
     },
     {
       "targetRaw": "./README.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\README.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Nivel de prioridad de este perfil para el negocio"
+      "seccion": "Nivel de prioridad de este perfil para el negocio",
+      "posicion": 5904
     }
   ],
   "checksum": "140104a1599766bb698539ff0114ead2a99d7412f320ee00afcbc5dfe773221d",

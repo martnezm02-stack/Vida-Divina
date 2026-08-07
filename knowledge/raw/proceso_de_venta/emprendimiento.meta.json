@@ -3,7 +3,7 @@
   "tipo_entidad": "documento_proceso",
   "titulo": "Emprendimiento",
   "ruta_original": "docs/proceso_de_venta/emprendimiento.md",
-  "fecha_compilacion": "2026-08-07T09:35:11.750Z",
+  "fecha_compilacion": "2026-08-07T10:54:26.606Z",
   "version": "0.1.0-mvp",
   "estado": "compilado",
   "palabras_clave": [],
@@ -99,77 +99,88 @@
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\README.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 48
     },
     {
       "targetRaw": "./flujo_general.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\flujo_general.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 104
     },
     {
       "targetRaw": "../conversaciones/emprendimiento/index.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\emprendimiento\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 298
     },
     {
       "targetRaw": "../clientes/emprendimiento.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\emprendimiento.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 401
     },
     {
       "targetRaw": "./postventa.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\postventa.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Señales válidas para presentar la oportunidad"
+      "seccion": "Señales válidas para presentar la oportunidad",
+      "posicion": 1028
     },
     {
       "targetRaw": "../conversaciones/primer_contacto/index.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\primer_contacto\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Cuándo NO presentar la oportunidad"
+      "seccion": "Cuándo NO presentar la oportunidad",
+      "posicion": 1298
     },
     {
       "targetRaw": "./postventa.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\postventa.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Cuándo NO presentar la oportunidad"
+      "seccion": "Cuándo NO presentar la oportunidad",
+      "posicion": 1762
     },
     {
       "targetRaw": "../conversaciones/emprendimiento/invitacion_cliente_satisfecho.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\emprendimiento\\invitacion_cliente_satisfecho.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Cómo proceder cuando sí aplica"
+      "seccion": "Cómo proceder cuando sí aplica",
+      "posicion": 2053
     },
     {
       "targetRaw": "../conversaciones/emprendimiento/respuesta_interes_directo.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\emprendimiento\\respuesta_interes_directo.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Cómo proceder cuando sí aplica"
+      "seccion": "Cómo proceder cuando sí aplica",
+      "posicion": 2155
     },
     {
       "targetRaw": "./estados_del_cliente.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\estados_del_cliente.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Cómo proceder cuando sí aplica"
+      "seccion": "Cómo proceder cuando sí aplica",
+      "posicion": 2615
     },
     {
       "targetRaw": "./README.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\README.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Cómo proceder cuando sí aplica"
+      "seccion": "Cómo proceder cuando sí aplica",
+      "posicion": 2837
     }
   ],
   "checksum": "0ba99cbc930e094d9928555e58c65fa19cc46b4c06851ae220f23e7a4df97bbc",

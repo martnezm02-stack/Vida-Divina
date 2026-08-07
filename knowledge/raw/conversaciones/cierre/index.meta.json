@@ -3,7 +3,7 @@
   "tipo_entidad": "indice_categoria",
   "titulo": "Cierre",
   "ruta_original": "docs/conversaciones/cierre/index.md",
-  "fecha_compilacion": "2026-08-07T09:35:11.709Z",
+  "fecha_compilacion": "2026-08-07T10:54:26.565Z",
   "version": "0.1.0-mvp",
   "estado": "compilado",
   "palabras_clave": [],
@@ -71,56 +71,64 @@
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\README.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 46
     },
     {
       "targetRaw": "../README.md#reglas-generales-aplican-a-todo-el-módulo",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\README.md",
       "anchor": "reglas-generales-aplican-a-todo-el-módulo",
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 358
     },
     {
       "targetRaw": "./cierre_venta.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\cierre\\cierre_venta.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Construidos"
+      "seccion": "Construidos",
+      "posicion": 667
     },
     {
       "targetRaw": "./confirmacion_pedido.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\cierre\\confirmacion_pedido.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Construidos"
+      "seccion": "Construidos",
+      "posicion": 740
     },
     {
       "targetRaw": "./explicacion_pago.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\cierre\\explicacion_pago.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Construidos"
+      "seccion": "Construidos",
+      "posicion": 814
     },
     {
       "targetRaw": "./confirmacion_envio.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\cierre\\confirmacion_envio.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Construidos"
+      "seccion": "Construidos",
+      "posicion": 889
     },
     {
       "targetRaw": "./agradecimiento.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\cierre\\agradecimiento.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Construidos"
+      "seccion": "Construidos",
+      "posicion": 955
     },
     {
       "targetRaw": "../README.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\README.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Pendientes"
+      "seccion": "Pendientes",
+      "posicion": 1084
     }
   ],
   "checksum": "b752329c60913b1d51a14634223517c48cd1d79a2dfe8894d93581dceba56db3",

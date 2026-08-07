@@ -3,7 +3,7 @@
   "tipo_entidad": "indice_categoria",
   "titulo": "Categoría: Longevidad y Bienestar General",
   "ruta_original": "docs/productos/03-longevidad-bienestar/index.md",
-  "fecha_compilacion": "2026-08-07T09:35:11.792Z",
+  "fecha_compilacion": "2026-08-07T10:54:26.646Z",
   "version": "0.1.0-mvp",
   "estado": "compilado",
   "palabras_clave": [],
@@ -85,70 +85,80 @@
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 76
     },
     {
       "targetRaw": "./nad-plus.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\03-longevidad-bienestar\\nad-plus.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Productos en esta categoría"
+      "seccion": "Productos en esta categoría",
+      "posicion": 294
     },
     {
       "targetRaw": "./eterno-capsules.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\03-longevidad-bienestar\\eterno-capsules.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Productos en esta categoría"
+      "seccion": "Productos en esta categoría",
+      "posicion": 393
     },
     {
       "targetRaw": "./inflam-x-capsules.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\03-longevidad-bienestar\\inflam-x-capsules.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Productos en esta categoría"
+      "seccion": "Productos en esta categoría",
+      "posicion": 490
     },
     {
       "targetRaw": "./reishi-capsules.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\03-longevidad-bienestar\\reishi-capsules.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Productos en esta categoría"
+      "seccion": "Productos en esta categoría",
+      "posicion": 586
     },
     {
       "targetRaw": "./chaga-capsules.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\03-longevidad-bienestar\\chaga-capsules.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Productos en esta categoría"
+      "seccion": "Productos en esta categoría",
+      "posicion": 693
     },
     {
       "targetRaw": "./cordycs-4-capsules.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\03-longevidad-bienestar\\cordycs-4-capsules.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Productos en esta categoría"
+      "seccion": "Productos en esta categoría",
+      "posicion": 804
     },
     {
       "targetRaw": "./time-capsules.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\03-longevidad-bienestar\\time-capsules.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Productos en esta categoría"
+      "seccion": "Productos en esta categoría",
+      "posicion": 905
     },
     {
       "targetRaw": "./aceite-esporas-reishi.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\03-longevidad-bienestar\\aceite-esporas-reishi.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Productos en esta categoría"
+      "seccion": "Productos en esta categoría",
+      "posicion": 1022
     },
     {
       "targetRaw": "../../productos.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Productos en esta categoría"
+      "seccion": "Productos en esta categoría",
+      "posicion": 1151
     }
   ],
   "checksum": "40b981eb18a26765fc28f45686e01630415bcf50dea299b5cedfa1696ecbdef2",

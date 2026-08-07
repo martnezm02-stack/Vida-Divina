@@ -3,7 +3,7 @@
   "tipo_entidad": "conversacion",
   "titulo": "Objeciones — \"Ya Probé Otros Productos\"",
   "ruta_original": "docs/conversaciones/objeciones/ya_probe_otros_productos.md",
-  "fecha_compilacion": "2026-08-07T09:35:11.721Z",
+  "fecha_compilacion": "2026-08-07T10:54:26.576Z",
   "version": "0.1.0-mvp",
   "estado": "compilado",
   "palabras_clave": [],
@@ -71,49 +71,56 @@
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\recomendacion\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 259
     },
     {
       "targetRaw": "../cierre/index.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\cierre\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 305
     },
     {
       "targetRaw": "../../clientes/perder_peso.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\perder_peso.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 418
     },
     {
       "targetRaw": "../../productos/01-control-de-peso/tedivina.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\01-control-de-peso\\tedivina.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 2258
     },
     {
       "targetRaw": "../cierre/cierre_venta.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\cierre\\cierre_venta.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 2464
     },
     {
       "targetRaw": "./index.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\objeciones\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 3170
     },
     {
       "targetRaw": "../README.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\README.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 3204
     }
   ],
   "checksum": "c45a0408b3302ece406869fcad7b6b3c404289c2afc8949d16f7be53560f3097",

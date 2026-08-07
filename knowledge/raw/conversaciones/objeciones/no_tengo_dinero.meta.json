@@ -3,7 +3,7 @@
   "tipo_entidad": "conversacion",
   "titulo": "Objeciones — \"No Tengo Dinero\"",
   "ruta_original": "docs/conversaciones/objeciones/no_tengo_dinero.md",
-  "fecha_compilacion": "2026-08-07T09:35:11.720Z",
+  "fecha_compilacion": "2026-08-07T10:54:26.576Z",
   "version": "0.1.0-mvp",
   "estado": "compilado",
   "palabras_clave": [],
@@ -38,7 +38,7 @@
     },
     {
       "origen_id": "conversaciones/objeciones/no_tengo_dinero",
-      "destino_id": "productos/12-cuidado-personal",
+      "destino_id": "productos/12-cuidado-personal/reishi-soap",
       "tipo_relacion": "referencia",
       "archivo_origen": "docs/conversaciones/objeciones/no_tengo_dinero.md",
       "verificada": true
@@ -92,70 +92,80 @@
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\recomendacion\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 255
     },
     {
       "targetRaw": "../cierre/index.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\cierre\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 301
     },
     {
       "targetRaw": "../../clientes/README.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\README.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 417
     },
     {
       "targetRaw": "../../productos/01-control-de-peso/tedivina.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\01-control-de-peso\\tedivina.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 575
     },
     {
       "targetRaw": "../../productos/12-cuidado-personal.md#reishi-soap",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\12-cuidado-personal.md",
       "anchor": "reishi-soap",
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 638
     },
     {
       "targetRaw": "../seguimiento/seguimiento_15dias.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\seguimiento\\seguimiento_15dias.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 1866
     },
     {
       "targetRaw": "../seguimiento/seguimiento_30dias.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\seguimiento\\seguimiento_30dias.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 1944
     },
     {
       "targetRaw": "../../objeciones/no_tengo_dinero.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\objeciones\\no_tengo_dinero.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 2662
     },
     {
       "targetRaw": "./index.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\objeciones\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 2720
     },
     {
       "targetRaw": "../README.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\README.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 2754
     }
   ],
   "checksum": "96ff9497fe60fa06eea297924a3991a239c23aabef99bb076f42e9e315ab60de",

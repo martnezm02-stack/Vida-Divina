@@ -3,7 +3,7 @@
   "tipo_entidad": "indice_categoria",
   "titulo": "Categoría: Café Divina — Bebidas Funcionales",
   "ruta_original": "docs/productos/02-cafe-divina/index.md",
-  "fecha_compilacion": "2026-08-07T09:35:11.781Z",
+  "fecha_compilacion": "2026-08-07T10:54:26.637Z",
   "version": "0.1.0-mvp",
   "estado": "compilado",
   "palabras_clave": [],
@@ -134,119 +134,136 @@
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 79
     },
     {
       "targetRaw": "./sculpt-black.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\sculpt-black.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Productos en esta categoría"
+      "seccion": "Productos en esta categoría",
+      "posicion": 294
     },
     {
       "targetRaw": "./sculpt-latte.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\sculpt-latte.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Productos en esta categoría"
+      "seccion": "Productos en esta categoría",
+      "posicion": 388
     },
     {
       "targetRaw": "./sculpt-tongkat-ali.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\sculpt-tongkat-ali.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Productos en esta categoría"
+      "seccion": "Productos en esta categoría",
+      "posicion": 478
     },
     {
       "targetRaw": "./tongkat-ali-cafe.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\tongkat-ali-cafe.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Productos en esta categoría"
+      "seccion": "Productos en esta categoría",
+      "posicion": 573
     },
     {
       "targetRaw": "./latte.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\latte.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Productos en esta categoría"
+      "seccion": "Productos en esta categoría",
+      "posicion": 647
     },
     {
       "targetRaw": "./cappuccino.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\cappuccino.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Productos en esta categoría"
+      "seccion": "Productos en esta categoría",
+      "posicion": 709
     },
     {
       "targetRaw": "./hazelnut-latte.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\hazelnut-latte.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Productos en esta categoría"
+      "seccion": "Productos en esta categoría",
+      "posicion": 792
     },
     {
       "targetRaw": "./mocha.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\mocha.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Productos en esta categoría"
+      "seccion": "Productos en esta categoría",
+      "posicion": 867
     },
     {
       "targetRaw": "./black.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\black.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Productos en esta categoría"
+      "seccion": "Productos en esta categoría",
+      "posicion": 933
     },
     {
       "targetRaw": "./hot-chocolate.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\hot-chocolate.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Productos en esta categoría"
+      "seccion": "Productos en esta categoría",
+      "posicion": 1011
     },
     {
       "targetRaw": "./divine-cereal.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\divine-cereal.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Productos en esta categoría"
+      "seccion": "Productos en esta categoría",
+      "posicion": 1100
     },
     {
       "targetRaw": "./latte-dorado.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\latte-dorado.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Productos en esta categoría"
+      "seccion": "Productos en esta categoría",
+      "posicion": 1181
     },
     {
       "targetRaw": "./latte-verde.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\latte-verde.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Productos en esta categoría"
+      "seccion": "Productos en esta categoría",
+      "posicion": 1263
     },
     {
       "targetRaw": "./te-negro.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\te-negro.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Productos en esta categoría"
+      "seccion": "Productos en esta categoría",
+      "posicion": 1347
     },
     {
       "targetRaw": "./te-verde.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\te-verde.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Productos en esta categoría"
+      "seccion": "Productos en esta categoría",
+      "posicion": 1428
     },
     {
       "targetRaw": "../../productos.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Productos en esta categoría"
+      "seccion": "Productos en esta categoría",
+      "posicion": 1532
     }
   ],
   "checksum": "c319ebbdf1df988097a180eebeb0ac73ab27aea2fc0f6086bef134c27773b367",

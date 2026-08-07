@@ -1,12 +1,12 @@
 {
   "version_compilador": "0.1.0-mvp",
   "version_knowledge_model": "docs/KNOWLEDGE_MODEL.md — Iteración 2",
-  "fecha_compilacion": "2026-08-07T09:35:11.919Z",
-  "git_commit": null,
-  "hash_proceso": "1fe9886946dc5e22c05782b5325cb31665a92be84b997e501b2ffd2e3662ec6d",
+  "fecha_compilacion": "2026-08-07T10:54:26.779Z",
+  "git_commit": "d1eb7d17d5c81ba8f081cce012c64406e9ab14ef",
+  "hash_proceso": "46950ac0459cabdbcc84b739db16a55666623eb886b9d005b4099a50644499fa",
   "archivos_procesados": 165,
-  "cantidad_entidades": 165,
-  "cantidad_relaciones": 1886,
+  "cantidad_entidades": 177,
+  "cantidad_relaciones": 1898,
   "errores": [],
   "advertencias": [
     {
@@ -75,7 +75,7 @@
       "proceso_de_venta",
       "productos"
     ],
-    "cantidad_entidades": 165,
+    "cantidad_entidades": 177,
     "entidades_por_tipo": {
       "documento_cognitivo": 9,
       "ejemplo_razonamiento": 1,
@@ -87,17 +87,17 @@
       "regla_seguridad": 1,
       "perfil": 16,
       "conversacion": 37,
-      "indice_categoria": 15,
+      "indice_categoria": 22,
       "objecion": 4,
       "documento_proceso": 8,
       "estado_cliente": 1,
       "etapa_proceso": 1,
-      "producto": 61
+      "producto": 66
     },
-    "cantidad_relaciones": 1886,
+    "cantidad_relaciones": 1898,
     "relaciones_por_tipo": {
       "referencia": 1625,
-      "pertenece_a_categoria": 137,
+      "pertenece_a_categoria": 149,
       "recomienda_primario": 16,
       "recomienda_opcional": 49,
       "recomienda_complementario": 54,
@@ -105,6 +105,6 @@
     },
     "cantidad_advertencias": 11,
     "cantidad_errores": 0,
-    "tiempo_compilacion_ms": 172
+    "tiempo_compilacion_ms": 171
   }
 }

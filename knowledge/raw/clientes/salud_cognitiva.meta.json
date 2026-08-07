@@ -3,7 +3,7 @@
   "tipo_entidad": "perfil",
   "titulo": "Salud Cognitiva",
   "ruta_original": "docs/clientes/salud_cognitiva.md",
-  "fecha_compilacion": "2026-08-07T09:35:11.702Z",
+  "fecha_compilacion": "2026-08-07T10:54:26.557Z",
   "version": "0.1.0-mvp",
   "estado": "compilado",
   "palabras_clave": [
@@ -26,7 +26,7 @@
     },
     {
       "origen_id": "clientes/salud_cognitiva",
-      "destino_id": "productos/04-funcion-cognitiva",
+      "destino_id": "productos/04-funcion-cognitiva/brain-capsules",
       "tipo_relacion": "recomienda_primario",
       "archivo_origen": "docs/clientes/salud_cognitiva.md",
       "verificada": true
@@ -47,7 +47,7 @@
     },
     {
       "origen_id": "clientes/salud_cognitiva",
-      "destino_id": "productos/04-funcion-cognitiva",
+      "destino_id": "productos/04-funcion-cognitiva/youth-capsules",
       "tipo_relacion": "recomienda_opcional",
       "archivo_origen": "docs/clientes/salud_cognitiva.md",
       "verificada": true
@@ -115,84 +115,96 @@
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\README.md",
       "anchor": "nota-importante",
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 93
     },
     {
       "targetRaw": "../productos/04-funcion-cognitiva.md#brain-capsules",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\04-funcion-cognitiva.md",
       "anchor": "brain-capsules",
       "exists": true,
-      "seccion": "Productos recomendados"
+      "seccion": "Productos recomendados",
+      "posicion": 1392
     },
     {
       "targetRaw": "../productos/11-extractos-hongos/extracto-lions-mane.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\11-extractos-hongos\\extracto-lions-mane.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Productos recomendados"
+      "seccion": "Productos recomendados",
+      "posicion": 1596
     },
     {
       "targetRaw": "../productos/03-longevidad-bienestar/nad-plus.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\03-longevidad-bienestar\\nad-plus.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Productos recomendados"
+      "seccion": "Productos recomendados",
+      "posicion": 1751
     },
     {
       "targetRaw": "../productos/04-funcion-cognitiva.md#youth-capsules",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\04-funcion-cognitiva.md",
       "anchor": "youth-capsules",
       "exists": true,
-      "seccion": "Productos recomendados"
+      "seccion": "Productos recomendados",
+      "posicion": 1889
     },
     {
       "targetRaw": "../productos/02-cafe-divina/black.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\black.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Productos complementarios"
+      "seccion": "Productos complementarios",
+      "posicion": 2360
     },
     {
       "targetRaw": "../productos/03-longevidad-bienestar/eterno-capsules.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\03-longevidad-bienestar\\eterno-capsules.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Productos complementarios"
+      "seccion": "Productos complementarios",
+      "posicion": 2436
     },
     {
       "targetRaw": "../productos/10-energia-antioxidantes/orange-genius.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\10-energia-antioxidantes\\orange-genius.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Productos complementarios"
+      "seccion": "Productos complementarios",
+      "posicion": 2561
     },
     {
       "targetRaw": "./longevidad.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\longevidad.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Posibles ventas futuras (cross-selling)"
+      "seccion": "Posibles ventas futuras (cross-selling)",
+      "posicion": 4178
     },
     {
       "targetRaw": "./energia.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\energia.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Posibles ventas futuras (cross-selling)"
+      "seccion": "Posibles ventas futuras (cross-selling)",
+      "posicion": 4207
     },
     {
       "targetRaw": "./sistema_inmunologico.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\sistema_inmunologico.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Posibles ventas futuras (cross-selling)"
+      "seccion": "Posibles ventas futuras (cross-selling)",
+      "posicion": 4246
     },
     {
       "targetRaw": "./README.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\README.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Nivel de prioridad de este perfil para el negocio"
+      "seccion": "Nivel de prioridad de este perfil para el negocio",
+      "posicion": 4718
     }
   ],
   "checksum": "46d076756bb9a2128e9c43fef01a2145b3d0199c36d9c52873d119f5eac036ad",

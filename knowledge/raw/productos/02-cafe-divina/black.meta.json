@@ -3,7 +3,7 @@
   "tipo_entidad": "producto",
   "titulo": "Black",
   "ruta_original": "docs/productos/02-cafe-divina/black.md",
-  "fecha_compilacion": "2026-08-07T09:35:11.777Z",
+  "fecha_compilacion": "2026-08-07T10:54:26.633Z",
   "version": "0.1.0-mvp",
   "estado": "compilado",
   "palabras_clave": [
@@ -50,7 +50,7 @@
     },
     {
       "origen_id": "productos/02-cafe-divina/black",
-      "destino_id": "productos/04-funcion-cognitiva",
+      "destino_id": "productos/04-funcion-cognitiva/brain-capsules",
       "tipo_relacion": "referencia",
       "archivo_origen": "docs/productos/02-cafe-divina/black.md",
       "verificada": true
@@ -83,56 +83,64 @@
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 23
     },
     {
       "targetRaw": "../../productos.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 57
     },
     {
       "targetRaw": "./index.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 194
     },
     {
       "targetRaw": "./te-negro.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\te-negro.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 703
     },
     {
       "targetRaw": "../01-control-de-peso/ignite-capsules.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\01-control-de-peso\\ignite-capsules.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 737
     },
     {
       "targetRaw": "../04-funcion-cognitiva.md#brain-capsules",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\04-funcion-cognitiva.md",
       "anchor": "brain-capsules",
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 797
     },
     {
       "targetRaw": "./index.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 946
     },
     {
       "targetRaw": "../../productos.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 980
     }
   ],
   "checksum": "e7f9572cfc05b83e143c640cea3ae33b4711e2169a4abf09cf096b3bc69fe888",

@@ -3,7 +3,7 @@
   "tipo_entidad": "conversacion",
   "titulo": "Plantillas — Saludos",
   "ruta_original": "docs/conversaciones/plantillas/saludos.md",
-  "fecha_compilacion": "2026-08-07T09:35:11.724Z",
+  "fecha_compilacion": "2026-08-07T10:54:26.579Z",
   "version": "0.1.0-mvp",
   "estado": "compilado",
   "palabras_clave": [],
@@ -50,28 +50,32 @@
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\primer_contacto\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 135
     },
     {
       "targetRaw": "../seguimiento/index.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\seguimiento\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 356
     },
     {
       "targetRaw": "./index.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\plantillas\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 1099
     },
     {
       "targetRaw": "../README.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\README.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 1133
     }
   ],
   "checksum": "513179ab834dd3a2f48308287f257df6ee78d05ddea1ef66312d1c1fccd6180e",

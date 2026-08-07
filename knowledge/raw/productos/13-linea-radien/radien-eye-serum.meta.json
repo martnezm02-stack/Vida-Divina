@@ -3,7 +3,7 @@
   "tipo_entidad": "producto",
   "titulo": "Radien Advanced Renewal Eye Serum",
   "ruta_original": "docs/productos/13-linea-radien/radien-eye-serum.md",
-  "fecha_compilacion": "2026-08-07T09:35:11.814Z",
+  "fecha_compilacion": "2026-08-07T10:54:26.668Z",
   "version": "0.1.0-mvp",
   "estado": "compilado",
   "palabras_clave": [
@@ -78,49 +78,56 @@
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\13-linea-radien\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 52
     },
     {
       "targetRaw": "../../productos.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 86
     },
     {
       "targetRaw": "./index.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\13-linea-radien\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 219
     },
     {
       "targetRaw": "./radien-night-creme.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\13-linea-radien\\radien-night-creme.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 985
     },
     {
       "targetRaw": "./radien-day-creme.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\13-linea-radien\\radien-day-creme.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 1047
     },
     {
       "targetRaw": "./index.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\13-linea-radien\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 1187
     },
     {
       "targetRaw": "../../productos.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 1221
     }
   ],
   "checksum": "a01d4a4a55400aa6f3da3b0fe9454936160b5e1798e2b5b3a6b03f234a20bd9d",

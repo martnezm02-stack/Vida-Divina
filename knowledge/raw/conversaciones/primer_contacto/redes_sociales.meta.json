@@ -3,7 +3,7 @@
   "tipo_entidad": "conversacion",
   "titulo": "Primer Contacto — Redes Sociales (Facebook / Publicación)",
   "ruta_original": "docs/conversaciones/primer_contacto/redes_sociales.md",
-  "fecha_compilacion": "2026-08-07T09:35:11.728Z",
+  "fecha_compilacion": "2026-08-07T10:54:26.583Z",
   "version": "0.1.0-mvp",
   "estado": "compilado",
   "palabras_clave": [],
@@ -64,42 +64,48 @@
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\descubrimiento\\preguntas_generales.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 335
     },
     {
       "targetRaw": "../../clientes/perder_peso.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\perder_peso.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 611
     },
     {
       "targetRaw": "../../productos.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 821
     },
     {
       "targetRaw": "../descubrimiento/preguntas_generales.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\descubrimiento\\preguntas_generales.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 2177
     },
     {
       "targetRaw": "./index.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\primer_contacto\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 2978
     },
     {
       "targetRaw": "../README.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\README.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 3012
     }
   ],
   "checksum": "fa1e91f8891a172fb37eea8f52645475075fc5fbb9693d88f38f6e071df0029a",

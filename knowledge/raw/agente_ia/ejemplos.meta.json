@@ -3,7 +3,7 @@
   "tipo_entidad": "ejemplo_razonamiento",
   "titulo": "Ejemplos",
   "ruta_original": "docs/agente_ia/ejemplos.md",
-  "fecha_compilacion": "2026-08-07T09:35:11.669Z",
+  "fecha_compilacion": "2026-08-07T10:54:26.525Z",
   "version": "0.1.0-mvp",
   "estado": "compilado",
   "palabras_clave": [],
@@ -148,126 +148,144 @@
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\README.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 35
     },
     {
       "targetRaw": "./flujo_de_razonamiento.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\flujo_de_razonamiento.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 272
     },
     {
       "targetRaw": "../clientes/energia.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\energia.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Ejemplo 1 — Necesidad clara"
+      "seccion": "Ejemplo 1 — Necesidad clara",
+      "posicion": 748
     },
     {
       "targetRaw": "../conversaciones/recomendacion/energia.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\recomendacion\\energia.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Ejemplo 1 — Necesidad clara"
+      "seccion": "Ejemplo 1 — Necesidad clara",
+      "posicion": 1134
     },
     {
       "targetRaw": "./reglas_de_decision.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\reglas_de_decision.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Ejemplo 2 — Perfil ambiguo"
+      "seccion": "Ejemplo 2 — Perfil ambiguo",
+      "posicion": 1641
     },
     {
       "targetRaw": "./principios.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\principios.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Ejemplo 2 — Perfil ambiguo"
+      "seccion": "Ejemplo 2 — Perfil ambiguo",
+      "posicion": 1850
     },
     {
       "targetRaw": "./memoria.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\memoria.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Ejemplo 3 — Objeción de precio"
+      "seccion": "Ejemplo 3 — Objeción de precio",
+      "posicion": 2312
     },
     {
       "targetRaw": "../proceso_de_venta/manejo_de_objeciones.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\manejo_de_objeciones.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Ejemplo 3 — Objeción de precio"
+      "seccion": "Ejemplo 3 — Objeción de precio",
+      "posicion": 2417
     },
     {
       "targetRaw": "../objeciones/esta_caro.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\objeciones\\esta_caro.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Ejemplo 3 — Objeción de precio"
+      "seccion": "Ejemplo 3 — Objeción de precio",
+      "posicion": 2614
     },
     {
       "targetRaw": "../conversaciones/objeciones/esta_caro.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\objeciones\\esta_caro.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Ejemplo 3 — Objeción de precio"
+      "seccion": "Ejemplo 3 — Objeción de precio",
+      "posicion": 2721
     },
     {
       "targetRaw": "./prioridades.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\prioridades.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Ejemplo 4 — Señal médica (el flujo se detiene)"
+      "seccion": "Ejemplo 4 — Señal médica (el flujo se detiene)",
+      "posicion": 3124
     },
     {
       "targetRaw": "./reglas_de_seguridad.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\reglas_de_seguridad.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Ejemplo 4 — Señal médica (el flujo se detiene)"
+      "seccion": "Ejemplo 4 — Señal médica (el flujo se detiene)",
+      "posicion": 3360
     },
     {
       "targetRaw": "../conversaciones/objeciones/mi_medico_no_me_deja.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\objeciones\\mi_medico_no_me_deja.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Ejemplo 4 — Señal médica (el flujo se detiene)"
+      "seccion": "Ejemplo 4 — Señal médica (el flujo se detiene)",
+      "posicion": 3520
     },
     {
       "targetRaw": "../proceso_de_venta/emprendimiento.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\emprendimiento.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Ejemplo 5 — Señal de emprendimiento"
+      "seccion": "Ejemplo 5 — Señal de emprendimiento",
+      "posicion": 4189
     },
     {
       "targetRaw": "../clientes/emprendimiento.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\emprendimiento.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Ejemplo 5 — Señal de emprendimiento"
+      "seccion": "Ejemplo 5 — Señal de emprendimiento",
+      "posicion": 4355
     },
     {
       "targetRaw": "../conversaciones/emprendimiento/invitacion_cliente_satisfecho.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\emprendimiento\\invitacion_cliente_satisfecho.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Ejemplo 5 — Señal de emprendimiento"
+      "seccion": "Ejemplo 5 — Señal de emprendimiento",
+      "posicion": 4556
     },
     {
       "targetRaw": "./reglas_de_seguridad.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\reglas_de_seguridad.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Ejemplo 5 — Señal de emprendimiento"
+      "seccion": "Ejemplo 5 — Señal de emprendimiento",
+      "posicion": 4736
     },
     {
       "targetRaw": "./README.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\README.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Qué mostrar y qué no mostrar en la práctica"
+      "seccion": "Qué mostrar y qué no mostrar en la práctica",
+      "posicion": 5096
     }
   ],
   "checksum": "a7538078afdd34c7d12223490cb33ae7a91d54193445ba04a2e7cd15ade077ad",

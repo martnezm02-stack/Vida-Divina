@@ -3,7 +3,7 @@
   "tipo_entidad": "indice_categoria",
   "titulo": "Primer Contacto",
   "ruta_original": "docs/conversaciones/primer_contacto/index.md",
-  "fecha_compilacion": "2026-08-07T09:35:11.727Z",
+  "fecha_compilacion": "2026-08-07T10:54:26.582Z",
   "version": "0.1.0-mvp",
   "estado": "compilado",
   "palabras_clave": [],
@@ -64,49 +64,56 @@
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\README.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 55
     },
     {
       "targetRaw": "../descubrimiento/index.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\descubrimiento\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 295
     },
     {
       "targetRaw": "./referido.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\primer_contacto\\referido.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Construidos"
+      "seccion": "Construidos",
+      "posicion": 402
     },
     {
       "targetRaw": "./whatsapp_directo.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\primer_contacto\\whatsapp_directo.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Construidos"
+      "seccion": "Construidos",
+      "posicion": 497
     },
     {
       "targetRaw": "./redes_sociales.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\primer_contacto\\redes_sociales.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Construidos"
+      "seccion": "Construidos",
+      "posicion": 606
     },
     {
       "targetRaw": "./pregunta_precio.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\primer_contacto\\pregunta_precio.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Construidos"
+      "seccion": "Construidos",
+      "posicion": 760
     },
     {
       "targetRaw": "../README.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\README.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Pendientes (estructura lista, no construidos aún)"
+      "seccion": "Pendientes (estructura lista, no construidos aún)",
+      "posicion": 1194
     }
   ],
   "checksum": "1d14ed5132455f1caa43029fb5d3a22f47bfef6a8d7d259c713c9653433301ea",

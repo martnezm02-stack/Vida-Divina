@@ -1,0 +1,16 @@
+{
+  "name": "vida-divina-decision-engine",
+  "version": "0.1.0",
+  "description": "Decision Engine / Conversation Orchestrator — conecta el Conversation Simulator y el Recommendation Engine en un solo flujo de decisión coherente, sin modificar ninguno de los dos. Resuelve el Hallazgo 1 de docs/ARCHITECTURE_v1.md (§8, §12 paso 4).",
+  "type": "module",
+  "private": true,
+  "main": "main.js",
+  "scripts": {
+    "decide": "node main.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}

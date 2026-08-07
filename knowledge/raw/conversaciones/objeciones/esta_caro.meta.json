@@ -3,7 +3,7 @@
   "tipo_entidad": "conversacion",
   "titulo": "Objeciones — \"Está Caro\"",
   "ruta_original": "docs/conversaciones/objeciones/esta_caro.md",
-  "fecha_compilacion": "2026-08-07T09:35:11.716Z",
+  "fecha_compilacion": "2026-08-07T10:54:26.571Z",
   "version": "0.1.0-mvp",
   "estado": "compilado",
   "palabras_clave": [],
@@ -106,84 +106,96 @@
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\recomendacion\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 226
     },
     {
       "targetRaw": "../cierre/index.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\cierre\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 272
     },
     {
       "targetRaw": "../../clientes/README.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\README.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 388
     },
     {
       "targetRaw": "../../clientes/belleza_anti_edad.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\belleza_anti_edad.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 474
     },
     {
       "targetRaw": "../../clientes/longevidad.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\longevidad.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 526
     },
     {
       "targetRaw": "../seguimiento/seguimiento_3dias.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\seguimiento\\seguimiento_3dias.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 2093
     },
     {
       "targetRaw": "../cierre/cierre_venta.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\cierre\\cierre_venta.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 2263
     },
     {
       "targetRaw": "../seguimiento/index.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\seguimiento\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 2342
     },
     {
       "targetRaw": "../README.md#reglas-generales-aplican-a-todo-el-módulo",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\README.md",
       "anchor": "reglas-generales-aplican-a-todo-el-módulo",
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 2869
     },
     {
       "targetRaw": "../../objeciones/esta_caro.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\objeciones\\esta_caro.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 3061
     },
     {
       "targetRaw": "./index.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\objeciones\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 3113
     },
     {
       "targetRaw": "../README.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\README.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 3147
     }
   ],
   "checksum": "802e6091ec2eef168efc69438388c8b0ce2fbd6ba86412d166e989051addeb1a",

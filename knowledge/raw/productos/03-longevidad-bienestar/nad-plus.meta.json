@@ -3,7 +3,7 @@
   "tipo_entidad": "producto",
   "titulo": "NAD+",
   "ruta_original": "docs/productos/03-longevidad-bienestar/nad-plus.md",
-  "fecha_compilacion": "2026-08-07T09:35:11.793Z",
+  "fecha_compilacion": "2026-08-07T10:54:26.648Z",
   "version": "0.1.0-mvp",
   "estado": "compilado",
   "palabras_clave": [
@@ -45,14 +45,14 @@
     },
     {
       "origen_id": "productos/03-longevidad-bienestar/nad-plus",
-      "destino_id": "productos/04-funcion-cognitiva",
+      "destino_id": "productos/04-funcion-cognitiva/brain-capsules",
       "tipo_relacion": "referencia",
       "archivo_origen": "docs/productos/03-longevidad-bienestar/nad-plus.md",
       "verificada": true
     },
     {
       "origen_id": "productos/03-longevidad-bienestar/nad-plus",
-      "destino_id": "productos/04-funcion-cognitiva",
+      "destino_id": "productos/04-funcion-cognitiva/youth-capsules",
       "tipo_relacion": "referencia",
       "archivo_origen": "docs/productos/03-longevidad-bienestar/nad-plus.md",
       "verificada": true
@@ -85,56 +85,64 @@
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\03-longevidad-bienestar\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 33
     },
     {
       "targetRaw": "../../productos.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 67
     },
     {
       "targetRaw": "./index.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\03-longevidad-bienestar\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 174
     },
     {
       "targetRaw": "./eterno-capsules.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\03-longevidad-bienestar\\eterno-capsules.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 894
     },
     {
       "targetRaw": "../04-funcion-cognitiva.md#brain-capsules",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\04-funcion-cognitiva.md",
       "anchor": "brain-capsules",
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 934
     },
     {
       "targetRaw": "../04-funcion-cognitiva.md#youth-capsules",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\04-funcion-cognitiva.md",
       "anchor": "youth-capsules",
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 995
     },
     {
       "targetRaw": "./index.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\03-longevidad-bienestar\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 1172
     },
     {
       "targetRaw": "../../productos.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 1206
     }
   ],
   "checksum": "ec4bb6b77c2314f33fdfec105d151ff519d19e6901a8b2123b2016759fc641c6",

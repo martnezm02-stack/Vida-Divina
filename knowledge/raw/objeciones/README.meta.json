@@ -3,7 +3,7 @@
   "tipo_entidad": "indice_modulo",
   "titulo": "Base de Conocimiento — Objeciones Vida Divina",
   "ruta_original": "docs/objeciones/README.md",
-  "fecha_compilacion": "2026-08-07T09:35:11.746Z",
+  "fecha_compilacion": "2026-08-07T10:54:26.601Z",
   "version": "0.1.0-mvp",
   "estado": "compilado",
   "palabras_clave": [],
@@ -141,126 +141,144 @@
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\objeciones\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 266
     },
     {
       "targetRaw": "../proceso_de_venta/manejo_de_objeciones.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\manejo_de_objeciones.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 498
     },
     {
       "targetRaw": "../proceso_de_venta/reglas_de_decision.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\reglas_de_decision.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 616
     },
     {
       "targetRaw": "../conversaciones/README.md#reglas-generales-aplican-a-todo-el-módulo",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\README.md",
       "anchor": "reglas-generales-aplican-a-todo-el-módulo",
       "exists": true,
-      "seccion": "Reglas de este módulo (heredadas de Conversaciones)"
+      "seccion": "Reglas de este módulo (heredadas de Conversaciones)",
+      "posicion": 2147
     },
     {
       "targetRaw": "./esta_caro.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\objeciones\\esta_caro.md",
       "anchor": null,
       "exists": true,
-      "seccion": "📑 Índice de objeciones"
+      "seccion": "📑 Índice de objeciones",
+      "posicion": 2812
     },
     {
       "targetRaw": "../conversaciones/objeciones/esta_caro.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\objeciones\\esta_caro.md",
       "anchor": null,
       "exists": true,
-      "seccion": "📑 Índice de objeciones"
+      "seccion": "📑 Índice de objeciones",
+      "posicion": 2871
     },
     {
       "targetRaw": "./lo_voy_a_pensar.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\objeciones\\lo_voy_a_pensar.md",
       "anchor": null,
       "exists": true,
-      "seccion": "📑 Índice de objeciones"
+      "seccion": "📑 Índice de objeciones",
+      "posicion": 2992
     },
     {
       "targetRaw": "../conversaciones/objeciones/lo_voy_a_pensar.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\objeciones\\lo_voy_a_pensar.md",
       "anchor": null,
       "exists": true,
-      "seccion": "📑 Índice de objeciones"
+      "seccion": "📑 Índice de objeciones",
+      "posicion": 3063
     },
     {
       "targetRaw": "./no_creo_en_suplementos.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\objeciones\\no_creo_en_suplementos.md",
       "anchor": null,
       "exists": true,
-      "seccion": "📑 Índice de objeciones"
+      "seccion": "📑 Índice de objeciones",
+      "posicion": 3199
     },
     {
       "targetRaw": "../conversaciones/objeciones/no_creo_en_suplementos.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\objeciones\\no_creo_en_suplementos.md",
       "anchor": null,
       "exists": true,
-      "seccion": "📑 Índice de objeciones"
+      "seccion": "📑 Índice de objeciones",
+      "posicion": 3284
     },
     {
       "targetRaw": "./no_tengo_dinero.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\objeciones\\no_tengo_dinero.md",
       "anchor": null,
       "exists": true,
-      "seccion": "📑 Índice de objeciones"
+      "seccion": "📑 Índice de objeciones",
+      "posicion": 3413
     },
     {
       "targetRaw": "../conversaciones/objeciones/no_tengo_dinero.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\objeciones\\no_tengo_dinero.md",
       "anchor": null,
       "exists": true,
-      "seccion": "📑 Índice de objeciones"
+      "seccion": "📑 Índice de objeciones",
+      "posicion": 3484
     },
     {
       "targetRaw": "../conversaciones/objeciones/ya_probe_otros_productos.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\objeciones\\ya_probe_otros_productos.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Pendientes (estructura lista, no construidas aún)"
+      "seccion": "Pendientes (estructura lista, no construidas aún)",
+      "posicion": 3711
     },
     {
       "targetRaw": "../conversaciones/objeciones/mi_medico_no_me_deja.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\objeciones\\mi_medico_no_me_deja.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Pendientes (estructura lista, no construidas aún)"
+      "seccion": "Pendientes (estructura lista, no construidas aún)",
+      "posicion": 3900
     },
     {
       "targetRaw": "../conversaciones/emprendimiento/index.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\emprendimiento\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Pendientes (estructura lista, no construidas aún)"
+      "seccion": "Pendientes (estructura lista, no construidas aún)",
+      "posicion": 4205
     },
     {
       "targetRaw": "../conversaciones/emprendimiento/index.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\emprendimiento\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Pendientes (estructura lista, no construidas aún)"
+      "seccion": "Pendientes (estructura lista, no construidas aún)",
+      "posicion": 4321
     },
     {
       "targetRaw": "../conversaciones/objeciones/index.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\objeciones\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Notas de mantenimiento"
+      "seccion": "Notas de mantenimiento",
+      "posicion": 4953
     },
     {
       "targetRaw": "../conversaciones/README.md#reglas-generales-aplican-a-todo-el-módulo",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\README.md",
       "anchor": "reglas-generales-aplican-a-todo-el-módulo",
       "exists": true,
-      "seccion": "Notas de mantenimiento"
+      "seccion": "Notas de mantenimiento",
+      "posicion": 5141
     }
   ],
   "checksum": "ed949aef1648d8d6550a25894da58400d19cbbdeda1c5784dc00a54506d16dfd",

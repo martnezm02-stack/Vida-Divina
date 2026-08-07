@@ -3,7 +3,7 @@
   "tipo_entidad": "producto",
   "titulo": "Extracto de Lion's Mane",
   "ruta_original": "docs/productos/11-extractos-hongos/extracto-lions-mane.md",
-  "fecha_compilacion": "2026-08-07T09:35:11.806Z",
+  "fecha_compilacion": "2026-08-07T10:54:26.660Z",
   "version": "0.1.0-mvp",
   "estado": "compilado",
   "palabras_clave": [
@@ -37,7 +37,7 @@
     },
     {
       "origen_id": "productos/11-extractos-hongos/extracto-lions-mane",
-      "destino_id": "productos/04-funcion-cognitiva",
+      "destino_id": "productos/04-funcion-cognitiva/brain-capsules",
       "tipo_relacion": "referencia",
       "archivo_origen": "docs/productos/11-extractos-hongos/extracto-lions-mane.md",
       "verificada": true
@@ -84,56 +84,64 @@
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\11-extractos-hongos\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 61
     },
     {
       "targetRaw": "../../productos.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 95
     },
     {
       "targetRaw": "./index.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\11-extractos-hongos\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 264
     },
     {
       "targetRaw": "../04-funcion-cognitiva.md#brain-capsules",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\04-funcion-cognitiva.md",
       "anchor": "brain-capsules",
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 1013
     },
     {
       "targetRaw": "../03-longevidad-bienestar/nad-plus.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\03-longevidad-bienestar\\nad-plus.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 1064
     },
     {
       "targetRaw": "../03-longevidad-bienestar/eterno-capsules.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\03-longevidad-bienestar\\eterno-capsules.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 1123
     },
     {
       "targetRaw": "./index.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\11-extractos-hongos\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 1311
     },
     {
       "targetRaw": "../../productos.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 1345
     }
   ],
   "checksum": "6e6820a80e6b7b5463df093830c48343f6de6667be8dddbea1de19644fe6748e",

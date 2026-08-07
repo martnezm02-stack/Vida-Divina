@@ -3,7 +3,7 @@
   "tipo_entidad": "documento_cognitivo",
   "titulo": "Roadmap",
   "ruta_original": "docs/agente_ia/roadmap.md",
-  "fecha_compilacion": "2026-08-07T09:35:11.682Z",
+  "fecha_compilacion": "2026-08-07T10:54:26.538Z",
   "version": "0.1.0-mvp",
   "estado": "compilado",
   "palabras_clave": [],
@@ -99,84 +99,96 @@
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\README.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 34
     },
     {
       "targetRaw": "../../CLAUDE.md#roadmap",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\CLAUDE.md",
       "anchor": "roadmap",
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 238
     },
     {
       "targetRaw": "./reglas_de_decision.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\reglas_de_decision.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Evolución prevista"
+      "seccion": "Evolución prevista",
+      "posicion": 492
     },
     {
       "targetRaw": "./ejemplos.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\ejemplos.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Evolución prevista"
+      "seccion": "Evolución prevista",
+      "posicion": 551
     },
     {
       "targetRaw": "./aprendizaje.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\aprendizaje.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Evolución prevista"
+      "seccion": "Evolución prevista",
+      "posicion": 726
     },
     {
       "targetRaw": "./memoria.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\memoria.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Evolución prevista"
+      "seccion": "Evolución prevista",
+      "posicion": 812
     },
     {
       "targetRaw": "./herramientas.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\herramientas.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Evolución prevista"
+      "seccion": "Evolución prevista",
+      "posicion": 1109
     },
     {
       "targetRaw": "./reglas_de_decision.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\reglas_de_decision.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Evolución prevista"
+      "seccion": "Evolución prevista",
+      "posicion": 1377
     },
     {
       "targetRaw": "./metricas.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\metricas.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Evolución prevista"
+      "seccion": "Evolución prevista",
+      "posicion": 1624
     },
     {
       "targetRaw": "./principios.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\principios.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Qué NO cambia con esta evolución"
+      "seccion": "Qué NO cambia con esta evolución",
+      "posicion": 2287
     },
     {
       "targetRaw": "./reglas_de_seguridad.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\reglas_de_seguridad.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Qué NO cambia con esta evolución"
+      "seccion": "Qué NO cambia con esta evolución",
+      "posicion": 2337
     },
     {
       "targetRaw": "./README.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\README.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Principio de esta evolución"
+      "seccion": "Principio de esta evolución",
+      "posicion": 2913
     }
   ],
   "checksum": "58ecc35316946c38cad9d50b1b6a4bdc71a1f75808a6df706cff89e5c630a33d",

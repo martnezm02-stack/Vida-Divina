@@ -3,7 +3,7 @@
   "tipo_entidad": "conversacion",
   "titulo": "Cierre — Explicación de Pago",
   "ruta_original": "docs/conversaciones/cierre/explicacion_pago.md",
-  "fecha_compilacion": "2026-08-07T09:35:11.709Z",
+  "fecha_compilacion": "2026-08-07T10:54:26.564Z",
   "version": "0.1.0-mvp",
   "estado": "compilado",
   "palabras_clave": [],
@@ -50,28 +50,32 @@
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\cierre\\confirmacion_pedido.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 180
     },
     {
       "targetRaw": "./confirmacion_envio.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\cierre\\confirmacion_envio.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 1162
     },
     {
       "targetRaw": "./index.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\cierre\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 1819
     },
     {
       "targetRaw": "../README.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\README.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 1853
     }
   ],
   "checksum": "87a78af06bedd7303800bd4b4540181c7894e64ea4b89310a807fefda7dccb0d",

@@ -3,7 +3,7 @@
   "tipo_entidad": "indice_categoria",
   "titulo": "Categoría: Energía y Antioxidantes en Polvo",
   "ruta_original": "docs/productos/10-energia-antioxidantes/index.md",
-  "fecha_compilacion": "2026-08-07T09:35:11.800Z",
+  "fecha_compilacion": "2026-08-07T10:54:26.655Z",
   "version": "0.1.0-mvp",
   "estado": "compilado",
   "palabras_clave": [],
@@ -71,56 +71,64 @@
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 78
     },
     {
       "targetRaw": "./orange-genius.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\10-energia-antioxidantes\\orange-genius.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Productos en esta categoría"
+      "seccion": "Productos en esta categoría",
+      "posicion": 303
     },
     {
       "targetRaw": "./mundo-omega.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\10-energia-antioxidantes\\mundo-omega.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Productos en esta categoría"
+      "seccion": "Productos en esta categoría",
+      "posicion": 391
     },
     {
       "targetRaw": "./mundo-verde.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\10-energia-antioxidantes\\mundo-verde.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Productos en esta categoría"
+      "seccion": "Productos en esta categoría",
+      "posicion": 469
     },
     {
       "targetRaw": "./mundo-rojo.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\10-energia-antioxidantes\\mundo-rojo.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Productos en esta categoría"
+      "seccion": "Productos en esta categoría",
+      "posicion": 545
     },
     {
       "targetRaw": "./mundo-azul.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\10-energia-antioxidantes\\mundo-azul.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Productos en esta categoría"
+      "seccion": "Productos en esta categoría",
+      "posicion": 630
     },
     {
       "targetRaw": "./factor-divina.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\10-energia-antioxidantes\\factor-divina.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Productos en esta categoría"
+      "seccion": "Productos en esta categoría",
+      "posicion": 723
     },
     {
       "targetRaw": "../../productos.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Productos en esta categoría"
+      "seccion": "Productos en esta categoría",
+      "posicion": 838
     }
   ],
   "checksum": "fc073245ca15f8ca7915cee2fdc2439de06c112795007fe2fd28779821761be3",

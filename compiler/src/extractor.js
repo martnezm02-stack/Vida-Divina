@@ -40,10 +40,14 @@ export function extractMetadata(absolutePath) {
   }
 
   const palabrasClave = extractPalabrasClave(content);
-
-  const checksum = crypto.createHash('sha256').update(content, 'utf8').digest('hex');
+  const checksum = computeChecksum(content);
 
   return { content, titulo, palabrasClave, checksum, advertencias, erroresDetectados };
+}
+
+/** @param {string} content @returns {string} */
+export function computeChecksum(content) {
+  return crypto.createHash('sha256').update(content, 'utf8').digest('hex');
 }
 
 /**
@@ -52,10 +56,16 @@ export function extractMetadata(absolutePath) {
  * separada por comas. No todos los tipos de entidad tienen este campo en su
  * plantilla (por ejemplo, los archivos de docs/objeciones/ no lo tienen) —
  * en esos casos devuelve un arreglo vacío sin que eso sea un error.
+ *
+ * Exportada porque también se usa para extraer las palabras clave propias
+ * de cada sub-producto dentro de un archivo de categoría de archivo único
+ * (ver anchorEntities.js) — antes de esa extensión, cada documento
+ * producía como máximo una entidad, así que esta función solo se llamaba
+ * una vez por archivo.
  * @param {string} content
  * @returns {string[]}
  */
-function extractPalabrasClave(content) {
+export function extractPalabrasClave(content) {
   const match = content.match(PALABRAS_CLAVE_PATTERN);
   if (!match) return [];
   return match[1]

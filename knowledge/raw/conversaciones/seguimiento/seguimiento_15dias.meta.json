@@ -3,7 +3,7 @@
   "tipo_entidad": "conversacion",
   "titulo": "Seguimiento — 15 Días",
   "ruta_original": "docs/conversaciones/seguimiento/seguimiento_15dias.md",
-  "fecha_compilacion": "2026-08-07T09:35:11.739Z",
+  "fecha_compilacion": "2026-08-07T10:54:26.594Z",
   "version": "0.1.0-mvp",
   "estado": "compilado",
   "palabras_clave": [],
@@ -64,42 +64,48 @@
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\objeciones\\no_tengo_dinero.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 202
     },
     {
       "targetRaw": "../objeciones/mi_medico_no_me_deja.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\objeciones\\mi_medico_no_me_deja.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 319
     },
     {
       "targetRaw": "../recomendacion/index.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\recomendacion\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 1521
     },
     {
       "targetRaw": "./seguimiento_30dias.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\seguimiento\\seguimiento_30dias.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 1618
     },
     {
       "targetRaw": "./index.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\seguimiento\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 2150
     },
     {
       "targetRaw": "../README.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\README.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 2184
     }
   ],
   "checksum": "060cc28d281e3cd0d4b8353ca31d520264efa97ef0b93fd20f0c4adbdfac4a42",

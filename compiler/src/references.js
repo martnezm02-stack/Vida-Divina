@@ -43,7 +43,7 @@ function encabezadoParaPosicion(encabezados, posicion) {
 /**
  * @param {string} content
  * @param {string} fromFileAbsolutePath
- * @returns {Array<{targetRaw: string, resolvedPath: string|null, anchor: string|null, exists: boolean, seccion: string|null}>}
+ * @returns {Array<{targetRaw: string, resolvedPath: string|null, anchor: string|null, exists: boolean, seccion: string|null, posicion: number}>}
  */
 export function extractReferences(content, fromFileAbsolutePath) {
   const references = [];
@@ -76,6 +76,12 @@ export function extractReferences(content, fromFileAbsolutePath) {
       anchor: anchorPart || null,
       exists,
       seccion: encabezadoParaPosicion(encabezados, match.index),
+      // Posición en el contenido — permite atribuir esta referencia a la
+      // sub-entidad correcta cuando el documento de origen es un archivo de
+      // categoría de archivo único con varios productos (ver
+      // anchorEntities.js). No se usaba hasta ahora porque ningún documento
+      // producía más de una entidad por archivo.
+      posicion: match.index,
     });
   }
 

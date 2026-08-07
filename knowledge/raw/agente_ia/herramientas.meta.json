@@ -3,7 +3,7 @@
   "tipo_entidad": "herramienta",
   "titulo": "Herramientas",
   "ruta_original": "docs/agente_ia/herramientas.md",
-  "fecha_compilacion": "2026-08-07T09:35:11.671Z",
+  "fecha_compilacion": "2026-08-07T10:54:26.527Z",
   "version": "0.1.0-mvp",
   "estado": "compilado",
   "palabras_clave": [],
@@ -120,98 +120,112 @@
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\README.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 39
     },
     {
       "targetRaw": "./flujo_de_razonamiento.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\flujo_de_razonamiento.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Las cinco capacidades"
+      "seccion": "Las cinco capacidades",
+      "posicion": 849
     },
     {
       "targetRaw": "./reglas_de_decision.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\reglas_de_decision.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Las cinco capacidades"
+      "seccion": "Las cinco capacidades",
+      "posicion": 1153
     },
     {
       "targetRaw": "./flujo_de_razonamiento.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\flujo_de_razonamiento.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Las cinco capacidades"
+      "seccion": "Las cinco capacidades",
+      "posicion": 1410
     },
     {
       "targetRaw": "./principios.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\principios.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Las cinco capacidades"
+      "seccion": "Las cinco capacidades",
+      "posicion": 1513
     },
     {
       "targetRaw": "./flujo_de_razonamiento.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\flujo_de_razonamiento.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Las cinco capacidades"
+      "seccion": "Las cinco capacidades",
+      "posicion": 1987
     },
     {
       "targetRaw": "./manejo_de_errores.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\manejo_de_errores.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Las cinco capacidades"
+      "seccion": "Las cinco capacidades",
+      "posicion": 2277
     },
     {
       "targetRaw": "./flujo_de_razonamiento.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\flujo_de_razonamiento.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Las cinco capacidades"
+      "seccion": "Las cinco capacidades",
+      "posicion": 2578
     },
     {
       "targetRaw": "./flujo_de_razonamiento.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\flujo_de_razonamiento.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Las cinco capacidades"
+      "seccion": "Las cinco capacidades",
+      "posicion": 3082
     },
     {
       "targetRaw": "../proceso_de_venta/estados_del_cliente.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\estados_del_cliente.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Las cinco capacidades"
+      "seccion": "Las cinco capacidades",
+      "posicion": 3258
     },
     {
       "targetRaw": "./flujo_de_razonamiento.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\flujo_de_razonamiento.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Principio de uso común a las cinco"
+      "seccion": "Principio de uso común a las cinco",
+      "posicion": 3546
     },
     {
       "targetRaw": "./contexto.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\contexto.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Principio de uso común a las cinco"
+      "seccion": "Principio de uso común a las cinco",
+      "posicion": 3645
     },
     {
       "targetRaw": "./manejo_de_errores.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\manejo_de_errores.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Principio de uso común a las cinco"
+      "seccion": "Principio de uso común a las cinco",
+      "posicion": 3824
     },
     {
       "targetRaw": "./README.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\README.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Principio de uso común a las cinco"
+      "seccion": "Principio de uso común a las cinco",
+      "posicion": 3918
     }
   ],
   "checksum": "37ca8466ec0ae93f72003ac8d2d46aa913c936c8fe6bc2144b77dd86af24525c",

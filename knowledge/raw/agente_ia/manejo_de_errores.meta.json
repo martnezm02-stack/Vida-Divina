@@ -3,7 +3,7 @@
   "tipo_entidad": "documento_cognitivo",
   "titulo": "Manejo de Errores",
   "ruta_original": "docs/agente_ia/manejo_de_errores.md",
-  "fecha_compilacion": "2026-08-07T09:35:11.674Z",
+  "fecha_compilacion": "2026-08-07T10:54:26.530Z",
   "version": "0.1.0-mvp",
   "estado": "compilado",
   "palabras_clave": [],
@@ -99,77 +99,88 @@
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\README.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 44
     },
     {
       "targetRaw": "./herramientas.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\herramientas.md",
       "anchor": null,
       "exists": true,
-      "seccion": "No existe información"
+      "seccion": "No existe información",
+      "posicion": 326
     },
     {
       "targetRaw": "./principios.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\principios.md",
       "anchor": null,
       "exists": true,
-      "seccion": "No existe información"
+      "seccion": "No existe información",
+      "posicion": 718
     },
     {
       "targetRaw": "./reglas_de_decision.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\reglas_de_decision.md",
       "anchor": null,
       "exists": true,
-      "seccion": "El perfil no puede identificarse"
+      "seccion": "El perfil no puede identificarse",
+      "posicion": 1578
     },
     {
       "targetRaw": "../clientes/bienestar_general.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\bienestar_general.md",
       "anchor": null,
       "exists": true,
-      "seccion": "El perfil no puede identificarse"
+      "seccion": "El perfil no puede identificarse",
+      "posicion": 1739
     },
     {
       "targetRaw": "./comportamiento.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\comportamiento.md",
       "anchor": null,
       "exists": true,
-      "seccion": "El cliente cambia de tema"
+      "seccion": "El cliente cambia de tema",
+      "posicion": 2082
     },
     {
       "targetRaw": "./flujo_de_razonamiento.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\flujo_de_razonamiento.md",
       "anchor": null,
       "exists": true,
-      "seccion": "El cliente cambia de tema"
+      "seccion": "El cliente cambia de tema",
+      "posicion": 2147
     },
     {
       "targetRaw": "./memoria.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\memoria.md",
       "anchor": null,
       "exists": true,
-      "seccion": "El cliente cambia de tema"
+      "seccion": "El cliente cambia de tema",
+      "posicion": 2261
     },
     {
       "targetRaw": "./reglas_de_seguridad.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\reglas_de_seguridad.md",
       "anchor": null,
       "exists": true,
-      "seccion": "El cliente hace preguntas médicas"
+      "seccion": "El cliente hace preguntas médicas",
+      "posicion": 2801
     },
     {
       "targetRaw": "./prioridades.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\prioridades.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Principio común a todos los casos"
+      "seccion": "Principio común a todos los casos",
+      "posicion": 3073
     },
     {
       "targetRaw": "./README.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\README.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Principio común a todos los casos"
+      "seccion": "Principio común a todos los casos",
+      "posicion": 3321
     }
   ],
   "checksum": "e7eb14a00e004b624ed9048555f627a716f4dc49e922fd4e642e2b08961191c9",

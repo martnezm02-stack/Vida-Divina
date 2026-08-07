@@ -3,7 +3,7 @@
   "tipo_entidad": "indice_modulo",
   "titulo": "Base de Conocimiento — Conversaciones Vida Divina",
   "ruta_original": "docs/conversaciones/README.md",
-  "fecha_compilacion": "2026-08-07T09:35:11.730Z",
+  "fecha_compilacion": "2026-08-07T10:54:26.586Z",
   "version": "0.1.0-mvp",
   "estado": "compilado",
   "palabras_clave": [],
@@ -155,140 +155,160 @@
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\README.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 317
     },
     {
       "targetRaw": "../productos.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 379
     },
     {
       "targetRaw": "./objeciones/index.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\objeciones\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 638
     },
     {
       "targetRaw": "../objeciones/README.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\objeciones\\README.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 709
     },
     {
       "targetRaw": "../proceso_de_venta/README.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\README.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 1065
     },
     {
       "targetRaw": "../clientes/README.md#índice-de-perfiles-de-clientes",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\README.md",
       "anchor": "índice-de-perfiles-de-clientes",
       "exists": true,
-      "seccion": "Alcance de esta primera versión (metodología 80/20)"
+      "seccion": "Alcance de esta primera versión (metodología 80/20)",
+      "posicion": 1589
     },
     {
       "targetRaw": "./recomendacion/index.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\recomendacion\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Alcance de esta primera versión (metodología 80/20)"
+      "seccion": "Alcance de esta primera versión (metodología 80/20)",
+      "posicion": 1815
     },
     {
       "targetRaw": "../clientes/README.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\README.md",
       "anchor": null,
       "exists": true,
-      "seccion": "🔁 Flujo general de una conversación"
+      "seccion": "🔁 Flujo general de una conversación",
+      "posicion": 4381
     },
     {
       "targetRaw": "../productos.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
       "anchor": null,
       "exists": true,
-      "seccion": "🔁 Flujo general de una conversación"
+      "seccion": "🔁 Flujo general de una conversación",
+      "posicion": 4573
     },
     {
       "targetRaw": "./primer_contacto/index.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\primer_contacto\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": "📑 Índice de módulos"
+      "seccion": "📑 Índice de módulos",
+      "posicion": 5328
     },
     {
       "targetRaw": "./descubrimiento/index.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\descubrimiento\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": "📑 Índice de módulos"
+      "seccion": "📑 Índice de módulos",
+      "posicion": 5462
     },
     {
       "targetRaw": "./recomendacion/index.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\recomendacion\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": "📑 Índice de módulos"
+      "seccion": "📑 Índice de módulos",
+      "posicion": 5600
     },
     {
       "targetRaw": "./objeciones/index.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\objeciones\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": "📑 Índice de módulos"
+      "seccion": "📑 Índice de módulos",
+      "posicion": 5718
     },
     {
       "targetRaw": "./seguimiento/index.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\seguimiento\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": "📑 Índice de módulos"
+      "seccion": "📑 Índice de módulos",
+      "posicion": 5842
     },
     {
       "targetRaw": "./cierre/index.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\cierre\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": "📑 Índice de módulos"
+      "seccion": "📑 Índice de módulos",
+      "posicion": 5963
     },
     {
       "targetRaw": "./postventa/index.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\postventa\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": "📑 Índice de módulos"
+      "seccion": "📑 Índice de módulos",
+      "posicion": 6082
     },
     {
       "targetRaw": "./emprendimiento/index.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\emprendimiento\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": "📑 Índice de módulos"
+      "seccion": "📑 Índice de módulos",
+      "posicion": 6202
     },
     {
       "targetRaw": "./plantillas/index.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\plantillas\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": "📑 Índice de módulos"
+      "seccion": "📑 Índice de módulos",
+      "posicion": 6330
     },
     {
       "targetRaw": "./objeciones/mi_medico_no_me_deja.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\objeciones\\mi_medico_no_me_deja.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Reglas generales (aplican a TODO el módulo)"
+      "seccion": "Reglas generales (aplican a TODO el módulo)",
+      "posicion": 6979
     },
     {
       "targetRaw": "../clientes/README.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\README.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Cómo usar este módulo (para una IA o un asesor)"
+      "seccion": "Cómo usar este módulo (para una IA o un asesor)",
+      "posicion": 8541
     }
   ],
   "checksum": "db8f3a56d15eafd2c3e675ce3503d143cf7d58009a48065c88edb90dadadfdc1",

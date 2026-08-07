@@ -3,7 +3,7 @@
   "tipo_entidad": "conversacion",
   "titulo": "Postventa — Recomendar Productos Complementarios",
   "ruta_original": "docs/conversaciones/postventa/recomendar_complementarios.md",
-  "fecha_compilacion": "2026-08-07T09:35:11.725Z",
+  "fecha_compilacion": "2026-08-07T10:54:26.581Z",
   "version": "0.1.0-mvp",
   "estado": "compilado",
   "palabras_clave": [],
@@ -31,7 +31,7 @@
     },
     {
       "origen_id": "conversaciones/postventa/recomendar_complementarios",
-      "destino_id": "productos/09-proteinas-batidos",
+      "destino_id": "productos/09-proteinas-batidos/vida-fuel",
       "tipo_relacion": "referencia",
       "archivo_origen": "docs/conversaciones/postventa/recomendar_complementarios.md",
       "verificada": true
@@ -78,56 +78,64 @@
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\postventa\\verificar_satisfaccion.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 363
     },
     {
       "targetRaw": "../../clientes/perder_peso.md#posibles-ventas-futuras-cross-selling",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\perder_peso.md",
       "anchor": "posibles-ventas-futuras-cross-selling",
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 586
     },
     {
       "targetRaw": "../../productos/01-control-de-peso/tedivina.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\01-control-de-peso\\tedivina.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 745
     },
     {
       "targetRaw": "../../productos/09-proteinas-batidos.md#vida-fuel",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\09-proteinas-batidos.md",
       "anchor": "vida-fuel",
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 835
     },
     {
       "targetRaw": "../../productos/01-control-de-peso/life-capsules.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\01-control-de-peso\\life-capsules.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 904
     },
     {
       "targetRaw": "../cierre/cierre_venta.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\cierre\\cierre_venta.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 2060
     },
     {
       "targetRaw": "./index.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\postventa\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 2767
     },
     {
       "targetRaw": "../README.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\README.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 2801
     }
   ],
   "checksum": "747ffc2ad630b8e0f5779428fae39b096701fefb56a1ceaf948e5d566af0e18c",

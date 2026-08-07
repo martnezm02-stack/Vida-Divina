@@ -3,7 +3,7 @@
   "tipo_entidad": "perfil",
   "titulo": "Control de Glucosa / Azúcar en Sangre",
   "ruta_original": "docs/clientes/control_glucosa.md",
-  "fecha_compilacion": "2026-08-07T09:35:11.687Z",
+  "fecha_compilacion": "2026-08-07T10:54:26.543Z",
   "version": "0.1.0-mvp",
   "estado": "compilado",
   "palabras_clave": [
@@ -73,7 +73,7 @@
     },
     {
       "origen_id": "clientes/control_glucosa",
-      "destino_id": "productos/09-proteinas-batidos",
+      "destino_id": "productos/09-proteinas-batidos/vida-fuel",
       "tipo_relacion": "no_recomendado",
       "archivo_origen": "docs/clientes/control_glucosa.md",
       "verificada": true
@@ -120,91 +120,104 @@
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\README.md",
       "anchor": "nota-importante",
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 115
     },
     {
       "targetRaw": "../productos/01-control-de-peso/sculpt-max.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\01-control-de-peso\\sculpt-max.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Productos recomendados"
+      "seccion": "Productos recomendados",
+      "posicion": 1557
     },
     {
       "targetRaw": "../productos/02-cafe-divina/divine-cereal.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\divine-cereal.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Productos recomendados"
+      "seccion": "Productos recomendados",
+      "posicion": 1714
     },
     {
       "targetRaw": "../productos/11-extractos-hongos/extracto-agaricus-blazei.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\11-extractos-hongos\\extracto-agaricus-blazei.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Productos recomendados"
+      "seccion": "Productos recomendados",
+      "posicion": 1858
     },
     {
       "targetRaw": "../productos/01-control-de-peso/tedivina.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\01-control-de-peso\\tedivina.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Productos complementarios"
+      "seccion": "Productos complementarios",
+      "posicion": 2240
     },
     {
       "targetRaw": "../productos/02-cafe-divina/sculpt-black.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\sculpt-black.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Productos complementarios"
+      "seccion": "Productos complementarios",
+      "posicion": 2431
     },
     {
       "targetRaw": "../productos/02-cafe-divina/sculpt-latte.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\sculpt-latte.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Productos complementarios"
+      "seccion": "Productos complementarios",
+      "posicion": 2492
     },
     {
       "targetRaw": "../productos/11-extractos-hongos/extracto-reishi.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\11-extractos-hongos\\extracto-reishi.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Productos complementarios"
+      "seccion": "Productos complementarios",
+      "posicion": 2561
     },
     {
       "targetRaw": "../productos/09-proteinas-batidos.md#vida-fuel",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\09-proteinas-batidos.md",
       "anchor": "vida-fuel",
       "exists": true,
-      "seccion": "Productos que NO son prioridad"
+      "seccion": "Productos que NO son prioridad",
+      "posicion": 2721
     },
     {
       "targetRaw": "./perder_peso.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\perder_peso.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Posibles ventas futuras (cross-selling)"
+      "seccion": "Posibles ventas futuras (cross-selling)",
+      "posicion": 4305
     },
     {
       "targetRaw": "./salud_digestiva.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\salud_digestiva.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Posibles ventas futuras (cross-selling)"
+      "seccion": "Posibles ventas futuras (cross-selling)",
+      "posicion": 4382
     },
     {
       "targetRaw": "./sistema_inmunologico.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\sistema_inmunologico.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Posibles ventas futuras (cross-selling)"
+      "seccion": "Posibles ventas futuras (cross-selling)",
+      "posicion": 4466
     },
     {
       "targetRaw": "./README.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\README.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Nivel de prioridad de este perfil para el negocio"
+      "seccion": "Nivel de prioridad de este perfil para el negocio",
+      "posicion": 4933
     }
   ],
   "checksum": "501b7a0f3d2b72749bdaf69e60010ad3eb9c42838a356a311b7870b77f474076",

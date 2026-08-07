@@ -3,7 +3,7 @@
   "tipo_entidad": "objecion",
   "titulo": "Objeción — \"No Tengo Dinero\"",
   "ruta_original": "docs/objeciones/no_tengo_dinero.md",
-  "fecha_compilacion": "2026-08-07T09:35:11.745Z",
+  "fecha_compilacion": "2026-08-07T10:54:26.600Z",
   "version": "0.1.0-mvp",
   "estado": "compilado",
   "palabras_clave": [],
@@ -31,14 +31,14 @@
     },
     {
       "origen_id": "objeciones/no_tengo_dinero",
-      "destino_id": "productos/12-cuidado-personal",
+      "destino_id": "productos/12-cuidado-personal/reishi-soap",
       "tipo_relacion": "referencia",
       "archivo_origen": "docs/objeciones/no_tengo_dinero.md",
       "verificada": true
     },
     {
       "origen_id": "objeciones/no_tengo_dinero",
-      "destino_id": "productos/12-cuidado-personal",
+      "destino_id": "productos/12-cuidado-personal/reishi-toothpaste",
       "tipo_relacion": "referencia",
       "archivo_origen": "docs/objeciones/no_tengo_dinero.md",
       "verificada": true
@@ -127,105 +127,120 @@
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\objeciones\\esta_caro.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Por qué suele surgir"
+      "seccion": "Por qué suele surgir",
+      "posicion": 288
     },
     {
       "targetRaw": "../productos/01-control-de-peso/tedivina.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\01-control-de-peso\\tedivina.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Enlaces a productos relevantes"
+      "seccion": "Enlaces a productos relevantes",
+      "posicion": 1992
     },
     {
       "targetRaw": "../clientes/perder_peso.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\perder_peso.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Enlaces a productos relevantes"
+      "seccion": "Enlaces a productos relevantes",
+      "posicion": 2084
     },
     {
       "targetRaw": "../productos/12-cuidado-personal.md#reishi-soap",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\12-cuidado-personal.md",
       "anchor": "reishi-soap",
       "exists": true,
-      "seccion": "Enlaces a productos relevantes"
+      "seccion": "Enlaces a productos relevantes",
+      "posicion": 2129
     },
     {
       "targetRaw": "../productos/12-cuidado-personal.md#reishi-toothpaste",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\12-cuidado-personal.md",
       "anchor": "reishi-toothpaste",
       "exists": true,
-      "seccion": "Enlaces a productos relevantes"
+      "seccion": "Enlaces a productos relevantes",
+      "posicion": 2200
     },
     {
       "targetRaw": "../clientes/cuidado_personal.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\cuidado_personal.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Enlaces a productos relevantes"
+      "seccion": "Enlaces a productos relevantes",
+      "posicion": 2303
     },
     {
       "targetRaw": "../productos/02-cafe-divina/black.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\black.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Enlaces a productos relevantes"
+      "seccion": "Enlaces a productos relevantes",
+      "posicion": 2359
     },
     {
       "targetRaw": "../clientes/energia.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\energia.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Enlaces a productos relevantes"
+      "seccion": "Enlaces a productos relevantes",
+      "posicion": 2436
     },
     {
       "targetRaw": "../clientes/bienestar_general.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\bienestar_general.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Enlaces a productos relevantes"
+      "seccion": "Enlaces a productos relevantes",
+      "posicion": 2482
     },
     {
       "targetRaw": "../conversaciones/objeciones/no_tengo_dinero.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\objeciones\\no_tengo_dinero.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Cómo integrarlo en las conversaciones existentes"
+      "seccion": "Cómo integrarlo en las conversaciones existentes",
+      "posicion": 2650
     },
     {
       "targetRaw": "../conversaciones/recomendacion/index.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\recomendacion\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Cómo integrarlo en las conversaciones existentes"
+      "seccion": "Cómo integrarlo en las conversaciones existentes",
+      "posicion": 2744
     },
     {
       "targetRaw": "../conversaciones/cierre/index.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\cierre\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Cómo integrarlo en las conversaciones existentes"
+      "seccion": "Cómo integrarlo en las conversaciones existentes",
+      "posicion": 2797
     },
     {
       "targetRaw": "../conversaciones/seguimiento/seguimiento_15dias.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\seguimiento\\seguimiento_15dias.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Cómo integrarlo en las conversaciones existentes"
+      "seccion": "Cómo integrarlo en las conversaciones existentes",
+      "posicion": 2886
     },
     {
       "targetRaw": "../conversaciones/seguimiento/seguimiento_30dias.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\seguimiento\\seguimiento_30dias.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Cómo integrarlo en las conversaciones existentes"
+      "seccion": "Cómo integrarlo en las conversaciones existentes",
+      "posicion": 2967
     },
     {
       "targetRaw": "./README.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\objeciones\\README.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Notas comerciales"
+      "seccion": "Notas comerciales",
+      "posicion": 3363
     }
   ],
   "checksum": "2be83d7050af7fd9a64d0882ffd35e619693ec9d6fbb6cc17c453b5cb25045ed",

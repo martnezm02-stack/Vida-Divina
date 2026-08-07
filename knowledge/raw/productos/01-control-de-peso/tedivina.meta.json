@@ -3,7 +3,7 @@
   "tipo_entidad": "producto",
   "titulo": "TéDivina",
   "ruta_original": "docs/productos/01-control-de-peso/tedivina.md",
-  "fecha_compilacion": "2026-08-07T09:35:11.777Z",
+  "fecha_compilacion": "2026-08-07T10:54:26.632Z",
   "version": "0.1.0-mvp",
   "estado": "compilado",
   "palabras_clave": [
@@ -60,7 +60,7 @@
     },
     {
       "origen_id": "productos/01-control-de-peso/tedivina",
-      "destino_id": "productos/09-proteinas-batidos",
+      "destino_id": "productos/09-proteinas-batidos/vida-fuel",
       "tipo_relacion": "referencia",
       "archivo_origen": "docs/productos/01-control-de-peso/tedivina.md",
       "verificada": true
@@ -93,63 +93,72 @@
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\01-control-de-peso\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 30
     },
     {
       "targetRaw": "../../productos.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 64
     },
     {
       "targetRaw": "./index.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\01-control-de-peso\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 193
     },
     {
       "targetRaw": "./life-capsules.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\01-control-de-peso\\life-capsules.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 1136
     },
     {
       "targetRaw": "./cheat-capsules.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\01-control-de-peso\\cheat-capsules.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 1174
     },
     {
       "targetRaw": "./sculpt-max.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\01-control-de-peso\\sculpt-max.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 1209
     },
     {
       "targetRaw": "../09-proteinas-batidos.md#vida-fuel",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\09-proteinas-batidos.md",
       "anchor": "vida-fuel",
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 1239
     },
     {
       "targetRaw": "./index.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\01-control-de-peso\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 1421
     },
     {
       "targetRaw": "../../productos.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 1455
     }
   ],
   "checksum": "58c664ba67df2f68df7f10cf5bb5cf64a56e2180dc2ab5f960975e8aff828cad",

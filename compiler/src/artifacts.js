@@ -27,12 +27,18 @@ function writeJson(targetPath, data) {
 
 /**
  * Escribe el archivo .meta.json de una entidad en knowledge/raw/, replicando
- * la misma ruta relativa que el documento fuente tiene dentro de docs/.
- * Ej. docs/productos/.../tedivina.md -> knowledge/raw/productos/.../tedivina.meta.json
+ * su id (ruta relativa a docs/, sin extensión — ver deriveEntityId en
+ * pathUtils.js). Ej. id "productos/.../tedivina" ->
+ * knowledge/raw/productos/.../tedivina.meta.json.
+ *
+ * Se deriva de entity.id y no de entity.ruta_original a propósito: un
+ * archivo de categoría de archivo único (ver anchorEntities.js) produce
+ * varias entidades que comparten la misma ruta_original (viven en el mismo
+ * .md) pero tienen id distinto — usar ruta_original aquí haría que esas
+ * entidades se sobrescribieran entre sí en knowledge/raw/.
  */
 export function writeEntityMetaJson(entity) {
-  const relativeNoExt = entity.ruta_original.replace(/^docs\//, '').replace(/\.md$/, '');
-  const targetPath = path.join(RAW_ROOT, `${relativeNoExt}.meta.json`);
+  const targetPath = path.join(RAW_ROOT, `${entity.id}.meta.json`);
   writeJson(targetPath, entity);
   return targetPath;
 }

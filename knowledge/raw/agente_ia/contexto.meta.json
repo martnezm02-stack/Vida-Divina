@@ -3,7 +3,7 @@
   "tipo_entidad": "documento_cognitivo",
   "titulo": "Contexto",
   "ruta_original": "docs/agente_ia/contexto.md",
-  "fecha_compilacion": "2026-08-07T09:35:11.667Z",
+  "fecha_compilacion": "2026-08-07T10:54:26.523Z",
   "version": "0.1.0-mvp",
   "estado": "compilado",
   "palabras_clave": [],
@@ -50,35 +50,40 @@
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\README.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 35
     },
     {
       "targetRaw": "../../CLAUDE.md#principios-de-arquitectura",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\CLAUDE.md",
       "anchor": "principios-de-arquitectura",
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 349
     },
     {
       "targetRaw": "./flujo_de_razonamiento.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\flujo_de_razonamiento.md",
       "anchor": null,
       "exists": true,
-      "seccion": "El principio central"
+      "seccion": "El principio central",
+      "posicion": 604
     },
     {
       "targetRaw": "./herramientas.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\herramientas.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Relación con las herramientas de búsqueda"
+      "seccion": "Relación con las herramientas de búsqueda",
+      "posicion": 2393
     },
     {
       "targetRaw": "./README.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\README.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Relación con las herramientas de búsqueda"
+      "seccion": "Relación con las herramientas de búsqueda",
+      "posicion": 2578
     }
   ],
   "checksum": "d390ebc452f08698381e3ffe696ca3656b2c6f127fa966afde3a1ac36949640f",

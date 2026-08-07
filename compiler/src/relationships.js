@@ -34,20 +34,53 @@ function resolverTipoRelacionProducto(seccion, yaVistoPrimario) {
 }
 
 /**
- * @param {Array<{entity: import('./models.js').EntityRecord, absolutePath: string, references: Array}>} compiledDocs
+ * @param {Array<{entity: import('./models.js').EntityRecord, absolutePath: string, references: Array, anchorSlug: string|null, parentContainerId: string|null}>} compiledDocs
  * @returns {{relationships: import('./models.js').Relationship[], softIssues: string[]}}
  */
 export function buildRelationships(compiledDocs) {
   const pathToId = new Map();
+  // Un archivo de categoría de archivo único (ver anchorEntities.js) tiene
+  // varias entidades que comparten el mismo absolutePath — pathToId solo
+  // puede apuntar a UNA de ellas (la contenedora, ver más abajo), así que
+  // los enlaces hacia un producto específico dentro de ese archivo
+  // (ej. "09-proteinas-batidos.md#vida-fuel") se resuelven aparte, por
+  // ruta+ancla, contra este segundo mapa.
+  const pathAnchorToId = new Map();
   const entityById = new Map();
-  const parentDirToIndexId = new Map();
 
-  for (const { entity, absolutePath } of compiledDocs) {
-    pathToId.set(normalize(absolutePath), entity.id);
+  // Directorio -> id(s) de índice que viven directamente en él. Antes de
+  // esta extensión, un directorio tenía como máximo un índice (el index.md
+  // de su propia subcarpeta de categoría), así que "el índice de este
+  // directorio" era siempre inequívoco. Ya no: un archivo de categoría de
+  // archivo único (ver anchorEntities.js) es también un "indice_categoria",
+  // pero varios de ellos comparten el mismo directorio (docs/productos/,
+  // junto con las carpetas de otras categorías) — ahí "el índice de la
+  // carpeta" dejó de tener una respuesta única.
+  const indexIdsByDir = new Map();
+
+  for (const { entity, absolutePath, anchorSlug } of compiledDocs) {
     entityById.set(entity.id, entity);
-    if (entity.tipo_entidad === 'indice_categoria' || entity.tipo_entidad === 'indice_modulo') {
-      parentDirToIndexId.set(normalize(path.dirname(absolutePath)), entity.id);
+    if (anchorSlug) {
+      pathAnchorToId.set(`${normalize(absolutePath)}#${anchorSlug}`, entity.id);
+      continue; // una sub-entidad nunca es "la" entidad de su archivo para un enlace sin ancla
     }
+    pathToId.set(normalize(absolutePath), entity.id);
+    if (entity.tipo_entidad === 'indice_categoria' || entity.tipo_entidad === 'indice_modulo') {
+      const dir = normalize(path.dirname(absolutePath));
+      if (!indexIdsByDir.has(dir)) indexIdsByDir.set(dir, []);
+      indexIdsByDir.get(dir).push(entity.id);
+    }
+  }
+
+  // Solo se registra un índice por directorio cuando es el único candidato
+  // — si dos o más comparten directorio, ninguno se registra: inferir uno
+  // de ellos como "el padre" de todo lo demás en esa carpeta sería
+  // arbitrario e incorrecto (ver nota arriba). Esos archivos no tienen
+  // padre por carpeta; sus propios sub-productos, si los tienen, ya reciben
+  // su relación de pertenencia explícita en el paso 3 más abajo.
+  const parentDirToIndexId = new Map();
+  for (const [dir, ids] of indexIdsByDir) {
+    if (ids.length === 1) parentDirToIndexId.set(dir, ids[0]);
   }
 
   const relationships = [];
@@ -58,7 +91,21 @@ export function buildRelationships(compiledDocs) {
     let primarioYaAsignado = false; // por entidad — reinicia en cada perfil
     for (const ref of references) {
       if (!ref.exists) continue; // las rotas se reportan en validator.js, no generan relación
-      const targetId = pathToId.get(normalize(ref.resolvedPath));
+
+      // Si el enlace lleva ancla y esa ancla coincide con un sub-producto
+      // real dentro del archivo destino, resuelve al producto específico
+      // (ej. "...#vida-fuel" -> productos/09-proteinas-batidos/vida-fuel)
+      // en vez de colapsar al archivo contenedor completo — antes de esta
+      // extensión (Hallazgo 2, docs/ARCHITECTURE_v1.md §8) todo enlace a
+      // ese archivo, sin importar el ancla, apuntaba a la misma entidad,
+      // produciendo relaciones duplicadas cuando dos productos distintos
+      // del mismo archivo se enlazaban por separado. Si la ancla no
+      // coincide con ningún sub-producto conocido (ej. un enlace a una
+      // sección cualquiera de un archivo normal), se conserva el
+      // comportamiento anterior: resolver por ruta de archivo.
+      const targetId =
+        (ref.anchor && pathAnchorToId.get(`${normalize(ref.resolvedPath)}#${ref.anchor}`)) ||
+        pathToId.get(normalize(ref.resolvedPath));
       if (!targetId) {
         softIssues.push(
           `${entity.ruta_original} referencia "${ref.targetRaw}", que existe en disco pero no es una entidad rastreada por el compilador (posiblemente fuera de docs/ o un archivo no-.md)`
@@ -102,6 +149,25 @@ export function buildRelationships(compiledDocs) {
         })
       );
     }
+  }
+
+  // 3) Relación estructural para sub-productos de un archivo de categoría de
+  //    archivo único (ver anchorEntities.js): mismo tipo de relación que ya
+  //    existe para productos organizados en carpeta con index.md (paso 2),
+  //    por coherencia — solo cambia cómo se descubre el padre (explícito,
+  //    vía parentContainerId, en vez de inferido de la carpeta contenedora,
+  //    porque aquí varias entidades comparten un mismo archivo, no una
+  //    carpeta).
+  for (const { entity, parentContainerId } of compiledDocs) {
+    if (!parentContainerId) continue;
+    relationships.push(
+      createRelationship({
+        origenId: entity.id,
+        destinoId: parentContainerId,
+        tipoRelacion: 'pertenece_a_categoria',
+        archivoOrigen: entity.ruta_original,
+      })
+    );
   }
 
   return { relationships, softIssues };

@@ -6,8 +6,9 @@
 import { createEntityRecord } from './models.js';
 import { discoverAll } from './discovery.js';
 import { classifyEntity } from './classifier.js';
-import { extractMetadata } from './extractor.js';
+import { extractMetadata, extractPalabrasClave, computeChecksum } from './extractor.js';
 import { extractReferences } from './references.js';
+import { extractAnchorBlocks } from './anchorEntities.js';
 import { buildRelationships } from './relationships.js';
 import { validate } from './validator.js';
 import { COMPILER_VERSION } from './config.js';
@@ -36,10 +37,13 @@ export function runPipeline(moduleFilter = null) {
   // Pasos 3-5 se ejecutan por documento, con aislamiento de errores: un
   // archivo problemático nunca detiene la compilación (requisito explícito
   // del encargo — "nunca detener la compilación, registrar y continuar").
+  // Un documento normalmente produce una entidad, pero un archivo de
+  // categoría de archivo único (ver anchorEntities.js) produce varias: la
+  // entidad contenedora más un producto por bloque de ancla detectado.
   const compiledDocs = [];
   for (const doc of allDocuments) {
     try {
-      compiledDocs.push(compileSingleDocument(doc));
+      compiledDocs.push(...compileSingleDocument(doc));
     } catch (err) {
       logError(`Fallo inesperado procesando ${doc.rutaOriginal}: ${err.message}`);
       compiledDocs.push(compileFailureRecord(doc, err));
@@ -49,7 +53,13 @@ export function runPipeline(moduleFilter = null) {
   // Paso 6: construir relaciones.
   logInfo('Paso 6: construyendo relaciones...');
   const { relationships, softIssues } = buildRelationships(
-    compiledDocs.map((d) => ({ entity: d.entity, absolutePath: d.absolutePath, references: d.references }))
+    compiledDocs.map((d) => ({
+      entity: d.entity,
+      absolutePath: d.absolutePath,
+      references: d.references,
+      anchorSlug: d.anchorSlug ?? null,
+      parentContainerId: d.parentContainerId ?? null,
+    }))
   );
   logInfo(`Relaciones detectadas: ${relationships.length}`);
 
@@ -93,11 +103,24 @@ export function runPipeline(moduleFilter = null) {
   };
 }
 
+/**
+ * @param {import('./models.js').DiscoveredDocument} doc
+ * @returns {Array<{entity: Object, absolutePath: string, references: Array, anchorSlug: string|null, parentContainerId: string|null}>}
+ */
 function compileSingleDocument(doc) {
   const { tipoEntidad, capa, advertencias: clasifAdvertencias } = classifyEntity(doc);
   const { content, titulo, palabrasClave, checksum, advertencias: extractAdvertencias, erroresDetectados } =
     extractMetadata(doc.absolutePath);
   const references = extractReferences(content, doc.absolutePath);
+
+  // Solo los documentos que el clasificador habría marcado como "producto"
+  // pueden ser un archivo de categoría de archivo único (ver
+  // anchorEntities.js) — el patrón de anclas es exclusivo de docs/productos/
+  // y esta condición evita aplicar la expansión fuera de ese caso conocido.
+  const anchorBlocks = tipoEntidad === 'producto' ? extractAnchorBlocks(content) : [];
+  if (anchorBlocks.length > 0) {
+    return compileMultiEntityDocument(doc, { content, titulo, references, anchorBlocks });
+  }
 
   const advertencias = [...clasifAdvertencias, ...extractAdvertencias];
   const estado = erroresDetectados.length > 0 ? 'error' : advertencias.length > 0 ? 'compilado_con_advertencias' : 'compilado';
@@ -119,7 +142,66 @@ function compileSingleDocument(doc) {
     capa,
   });
 
-  return { entity, absolutePath: doc.absolutePath, references };
+  return [{ entity, absolutePath: doc.absolutePath, references, anchorSlug: null, parentContainerId: null }];
+}
+
+/**
+ * Expande un archivo de categoría de archivo único en: la entidad
+ * contenedora (reclasificada como "indice_categoria" — ya no "producto",
+ * corrige la clasificación errónea original) más una entidad "producto" por
+ * cada bloque de ancla detectado. Ver docs/KNOWLEDGE_MODEL.md §3/§7.
+ */
+function compileMultiEntityDocument(doc, { content, titulo, references, anchorBlocks }) {
+  const containerId = deriveId(doc);
+  const fechaCompilacion = new Date().toISOString();
+  const firstBlockStart = anchorBlocks[0].startIndex;
+
+  const containerEntity = createEntityRecord({
+    id: containerId,
+    tipoEntidad: 'indice_categoria',
+    titulo,
+    rutaOriginal: doc.rutaOriginal,
+    fechaCompilacion,
+    version: COMPILER_VERSION,
+    estado: 'compilado',
+    palabrasClave: extractPalabrasClave(content.slice(0, firstBlockStart)),
+    referencias: references.filter((r) => r.posicion < firstBlockStart),
+    checksum: computeChecksum(content),
+    erroresDetectados: [],
+    advertencias: [],
+    modulo: doc.modulo,
+  });
+
+  const bundles = [
+    { entity: containerEntity, absolutePath: doc.absolutePath, references: containerEntity.referencias, anchorSlug: null, parentContainerId: null },
+  ];
+
+  for (const block of anchorBlocks) {
+    const productoEntity = createEntityRecord({
+      id: `${containerId}/${block.slug}`,
+      tipoEntidad: 'producto',
+      titulo: block.titulo,
+      rutaOriginal: doc.rutaOriginal,
+      fechaCompilacion,
+      version: COMPILER_VERSION,
+      estado: 'compilado',
+      palabrasClave: extractPalabrasClave(block.blockContent),
+      referencias: references.filter((r) => r.posicion >= block.startIndex && r.posicion < block.endIndex),
+      checksum: computeChecksum(block.blockContent),
+      erroresDetectados: [],
+      advertencias: [],
+      modulo: doc.modulo,
+    });
+    bundles.push({
+      entity: productoEntity,
+      absolutePath: doc.absolutePath,
+      references: productoEntity.referencias,
+      anchorSlug: block.slug,
+      parentContainerId: containerId,
+    });
+  }
+
+  return bundles;
 }
 
 function compileFailureRecord(doc, err) {
@@ -138,7 +220,7 @@ function compileFailureRecord(doc, err) {
     advertencias: [],
     modulo: doc.modulo,
   });
-  return { entity, absolutePath: doc.absolutePath, references: [] };
+  return { entity, absolutePath: doc.absolutePath, references: [], anchorSlug: null, parentContainerId: null };
 }
 
 function deriveId(doc) {

@@ -1,0 +1,61 @@
+{
+  "id": "productos/12-cuidado-personal/reishi-soap",
+  "tipo_entidad": "producto",
+  "titulo": "Reishi Soap",
+  "ruta_original": "docs/productos/12-cuidado-personal.md",
+  "fecha_compilacion": "2026-08-07T10:54:26.665Z",
+  "version": "0.1.0-mvp",
+  "estado": "compilado",
+  "palabras_clave": [
+    "jabón de reishi",
+    "piel radiante",
+    "libre de gluten",
+    "vegano",
+    "hidratación"
+  ],
+  "relaciones_detectadas": [
+    {
+      "origen_id": "productos/12-cuidado-personal/reishi-soap",
+      "destino_id": "productos/13-linea-radien/radien-cleanser",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/12-cuidado-personal.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/12-cuidado-personal/reishi-soap",
+      "destino_id": "productos",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/12-cuidado-personal.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/12-cuidado-personal/reishi-soap",
+      "destino_id": "productos/12-cuidado-personal",
+      "tipo_relacion": "pertenece_a_categoria",
+      "archivo_origen": "docs/productos/12-cuidado-personal.md",
+      "verificada": true
+    }
+  ],
+  "referencias": [
+    {
+      "targetRaw": "./13-linea-radien/radien-cleanser.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\13-linea-radien\\radien-cleanser.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Reishi Soap",
+      "posicion": 2895
+    },
+    {
+      "targetRaw": "../productos.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Reishi Soap",
+      "posicion": 3064
+    }
+  ],
+  "checksum": "42a8252379fe9fb3472768056fdcf70bad3422a19f7e8f24ce2eadac971f9692",
+  "errores_detectados": [],
+  "advertencias": [],
+  "modulo": "productos"
+}

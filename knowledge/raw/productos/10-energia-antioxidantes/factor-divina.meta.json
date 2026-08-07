@@ -3,7 +3,7 @@
   "tipo_entidad": "producto",
   "titulo": "Factor Divina",
   "ruta_original": "docs/productos/10-energia-antioxidantes/factor-divina.md",
-  "fecha_compilacion": "2026-08-07T09:35:11.799Z",
+  "fecha_compilacion": "2026-08-07T10:54:26.654Z",
   "version": "0.1.0-mvp",
   "estado": "compilado",
   "palabras_clave": [
@@ -84,56 +84,64 @@
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\10-energia-antioxidantes\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 52
     },
     {
       "targetRaw": "../../productos.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 86
     },
     {
       "targetRaw": "./index.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\10-energia-antioxidantes\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 214
     },
     {
       "targetRaw": "./mundo-verde.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\10-energia-antioxidantes\\mundo-verde.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 1014
     },
     {
       "targetRaw": "../11-extractos-hongos/extracto-reishi.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\11-extractos-hongos\\extracto-reishi.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 1054
     },
     {
       "targetRaw": "../11-extractos-hongos/extracto-cordyceps.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\11-extractos-hongos\\extracto-cordyceps.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 1122
     },
     {
       "targetRaw": "./index.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\10-energia-antioxidantes\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 1318
     },
     {
       "targetRaw": "../../productos.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 1352
     }
   ],
   "checksum": "847b74b7a0cbf88df1240984050b46ae4742b67f72b150bdb7c2770ba1e4df39",

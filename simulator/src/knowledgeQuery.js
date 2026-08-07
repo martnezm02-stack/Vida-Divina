@@ -19,25 +19,37 @@ export function getPerfil(kb, perfilId) {
 
 /**
  * Productos recomendados para un perfil: se leen de relationships.json,
- * filtrando las relaciones "referencia" cuyo origen es el perfil y cuyo
- * destino es una entidad tipo_entidad === "producto".
+ * tomando cualquier relación cuyo origen sea el perfil y cuyo destino sea
+ * una entidad tipo_entidad === "producto" — sin filtrar por tipo_relacion.
  *
- * Limitación conocida y declarada (no oculta): relationships.json no
- * distingue "Productos recomendados" de "Productos complementarios" ni de
- * "Productos que NO son prioridad" — las tres secciones de la ficha del
- * perfil generan el mismo tipo de relación genérica "referencia" (ver
- * docs/KNOWLEDGE_COMPILER_NOTES.md #4). Este simulador aproxima "producto
- * recomendado" tomando los primeros productos referenciados en el
- * archivo — que en la práctica corresponden a la sección "Productos
- * recomendados" porque aparece primero en la plantilla de
- * docs/clientes/*.md — pero es una heurística de orden, no una relación
- * semántica real. Se registra como hallazgo.
+ * Nota de mantenimiento (regresión funcional corregida): hasta el Sprint
+ * 3B, todo enlace Perfil→Producto se compilaba con el tipo genérico
+ * "referencia", y esta función filtraba exactamente por ese tipo. Desde el
+ * Sprint 3B el compilador tipa esos enlaces como "recomienda_primario" /
+ * "recomienda_opcional" / "recomienda_complementario" / "no_recomendado"
+ * (ver docs/KNOWLEDGE_MODEL.md §4) — el filtro por "referencia" dejó de
+ * encontrar resultado alguno para cualquier perfil, y esta función
+ * devolvía silenciosamente una lista vacía desde entonces. Este sprint de
+ * mantenimiento restaura el comportamiento original — tomar los primeros
+ * productos mencionados en el archivo, en el orden en que aparecen —
+ * contra el vocabulario de relaciones vigente, sin cambiar la naturaleza
+ * de la heurística.
+ *
+ * Limitación conocida y declarada (no oculta, y ya NO por falta de dato):
+ * relationships.json sí distingue hoy "Productos recomendados" de
+ * "Productos complementarios" y de "Productos que NO son prioridad" — esta
+ * función deliberadamente no usa esa distinción, para no cambiar el
+ * comportamiento de este componente fuera del alcance de este sprint de
+ * mantenimiento. Sigue siendo una heurística de orden de aparición, no una
+ * priorización semántica real. La priorización correcta
+ * (PRIMARY/OPTIONAL/COMPLEMENTARY/NOT_RECOMMENDED) ya existe y se aplica
+ * en decision-engine/, que reemplaza esta selección al orquestar el
+ * simulador junto al Recommendation Engine. Se registra como hallazgo.
  */
 export function getProductosRecomendados(kb, perfilId, { maxResultados = 3, conversacionEvidencia }) {
   const relaciones = kb.relationshipsByOrigin.get(perfilId) ?? [];
   const productos = [];
   for (const rel of relaciones) {
-    if (rel.tipo_relacion !== 'referencia') continue;
     const destino = kb.entityById.get(rel.destino_id);
     if (!destino || destino.tipo_entidad !== 'producto') continue;
     if (!productos.find((p) => p.id === destino.id)) productos.push(destino);
@@ -50,9 +62,9 @@ export function getProductosRecomendados(kb, perfilId, { maxResultados = 3, conv
     momento:
       'Paso 5-6 del flujo de razonamiento (consultar clientes/ y productos/), al seleccionar qué producto ofrecer primero',
     porQue:
-      'El asesor experto nunca ofrece el mismo peso a un producto "recomendado" que a uno "complementario" — la ficha de cada perfil ya distingue esto en prosa, pero relationships.json compila ambas como el mismo tipo de relación genérica ("referencia"), indistinguible sin volver a leer el Markdown',
+      'El asesor experto nunca ofrece el mismo peso a un producto "recomendado" que a uno "complementario". Desde el Sprint 3B, relationships.json sí distingue esto (recomienda_primario/opcional/complementario/no_recomendado) — pero este simulador, por alcance de este componente, sigue sin usar esa distinción; toma los primeros productos mencionados en el archivo, sin importar el tipo de relación',
     dondeIncorporar:
-      'docs/KNOWLEDGE_MODEL.md §4 (tipar la relación como recomienda / complementa_a / no_prioritario en vez de referencia genérica) + Capa 2 (.meta.json) del Knowledge Compiler para declararlo explícitamente',
+      'Ya resuelto fuera de este componente: decision-engine/ ya prioriza correctamente usando recommendation-engine/ al orquestar una conversación completa. Este simulador, ejecutado de forma aislada, conserva deliberadamente su heurística original',
     conversacionEvidencia,
   });
 

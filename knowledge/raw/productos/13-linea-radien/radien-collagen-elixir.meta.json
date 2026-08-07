@@ -3,7 +3,7 @@
   "tipo_entidad": "producto",
   "titulo": "Radien Collagen Elixir",
   "ruta_original": "docs/productos/13-linea-radien/radien-collagen-elixir.md",
-  "fecha_compilacion": "2026-08-07T09:35:11.812Z",
+  "fecha_compilacion": "2026-08-07T10:54:26.667Z",
   "version": "0.1.0-mvp",
   "estado": "compilado",
   "palabras_clave": [
@@ -44,14 +44,14 @@
     },
     {
       "origen_id": "productos/13-linea-radien/radien-collagen-elixir",
-      "destino_id": "productos/12-cuidado-personal",
+      "destino_id": "productos/12-cuidado-personal/liquid-gold",
       "tipo_relacion": "referencia",
       "archivo_origen": "docs/productos/13-linea-radien/radien-collagen-elixir.md",
       "verificada": true
     },
     {
       "origen_id": "productos/13-linea-radien/radien-collagen-elixir",
-      "destino_id": "productos/08-intimidad-libido",
+      "destino_id": "productos/08-intimidad-libido/venus-capsules",
       "tipo_relacion": "referencia",
       "archivo_origen": "docs/productos/13-linea-radien/radien-collagen-elixir.md",
       "verificada": true
@@ -84,56 +84,64 @@
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\13-linea-radien\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 41
     },
     {
       "targetRaw": "../../productos.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 75
     },
     {
       "targetRaw": "./index.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\13-linea-radien\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 211
     },
     {
       "targetRaw": "./radien-day-creme.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\13-linea-radien\\radien-day-creme.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 1035
     },
     {
       "targetRaw": "../12-cuidado-personal.md#liquid-gold",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\12-cuidado-personal.md",
       "anchor": "liquid-gold",
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 1073
     },
     {
       "targetRaw": "../08-intimidad-libido.md#venus-capsules",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\08-intimidad-libido.md",
       "anchor": "venus-capsules",
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 1130
     },
     {
       "targetRaw": "./index.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\13-linea-radien\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 1296
     },
     {
       "targetRaw": "../../productos.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 1330
     }
   ],
   "checksum": "2ad10f77b841130505d19673c43d73a882dbd21f3105b657637c2ef854b00b69",

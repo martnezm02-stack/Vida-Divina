@@ -3,7 +3,7 @@
   "tipo_entidad": "conversacion",
   "titulo": "Recomendación — Energía",
   "ruta_original": "docs/conversaciones/recomendacion/energia.md",
-  "fecha_compilacion": "2026-08-07T09:35:11.733Z",
+  "fecha_compilacion": "2026-08-07T10:54:26.589Z",
   "version": "0.1.0-mvp",
   "estado": "compilado",
   "palabras_clave": [],
@@ -120,98 +120,112 @@
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\descubrimiento\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 232
     },
     {
       "targetRaw": "../../clientes/energia.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\energia.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 304
     },
     {
       "targetRaw": "../../productos/01-control-de-peso/atom-capsules.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\01-control-de-peso\\atom-capsules.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 375
     },
     {
       "targetRaw": "../../productos/02-cafe-divina/sculpt-black.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\sculpt-black.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 445
     },
     {
       "targetRaw": "../../productos/10-energia-antioxidantes/orange-genius.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\10-energia-antioxidantes\\orange-genius.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 511
     },
     {
       "targetRaw": "../../productos/10-energia-antioxidantes/mundo-azul.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\10-energia-antioxidantes\\mundo-azul.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 1653
     },
     {
       "targetRaw": "../../clientes/rendimiento_deportivo.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\rendimiento_deportivo.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 1749
     },
     {
       "targetRaw": "../../productos/02-cafe-divina/sculpt-black.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\sculpt-black.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 1927
     },
     {
       "targetRaw": "../../productos/02-cafe-divina/latte.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\latte.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 1985
     },
     {
       "targetRaw": "../cierre/cierre_venta.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\cierre\\cierre_venta.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 2303
     },
     {
       "targetRaw": "./index.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\recomendacion\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 2387
     },
     {
       "targetRaw": "../../clientes/rendimiento_deportivo.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\rendimiento_deportivo.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 2504
     },
     {
       "targetRaw": "./index.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\recomendacion\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 3122
     },
     {
       "targetRaw": "../README.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\README.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 3156
     }
   ],
   "checksum": "45c090655f186eaf6a66d683bde820937ce29f7ed3f04960d99d3b2cd350f323",

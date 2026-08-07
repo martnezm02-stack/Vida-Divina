@@ -1,0 +1,30 @@
+{
+  "id": "productos/12-cuidado-personal/reishi-toothpaste",
+  "tipo_entidad": "producto",
+  "titulo": "Reishi Toothpaste",
+  "ruta_original": "docs/productos/12-cuidado-personal.md",
+  "fecha_compilacion": "2026-08-07T10:54:26.665Z",
+  "version": "0.1.0-mvp",
+  "estado": "compilado",
+  "palabras_clave": [
+    "pasta dental con reishi",
+    "higiene bucal",
+    "libre de gluten",
+    "vegano",
+    "sarro"
+  ],
+  "relaciones_detectadas": [
+    {
+      "origen_id": "productos/12-cuidado-personal/reishi-toothpaste",
+      "destino_id": "productos/12-cuidado-personal",
+      "tipo_relacion": "pertenece_a_categoria",
+      "archivo_origen": "docs/productos/12-cuidado-personal.md",
+      "verificada": true
+    }
+  ],
+  "referencias": [],
+  "checksum": "4d9dcc4a85677c285f68ba0ee5111708730f2e2c994c92fc854491c546474ecd",
+  "errores_detectados": [],
+  "advertencias": [],
+  "modulo": "productos"
+}

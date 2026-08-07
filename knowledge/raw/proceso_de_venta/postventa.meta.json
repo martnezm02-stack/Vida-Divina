@@ -3,7 +3,7 @@
   "tipo_entidad": "documento_proceso",
   "titulo": "Postventa",
   "ruta_original": "docs/proceso_de_venta/postventa.md",
-  "fecha_compilacion": "2026-08-07T09:35:11.756Z",
+  "fecha_compilacion": "2026-08-07T10:54:26.611Z",
   "version": "0.1.0-mvp",
   "estado": "compilado",
   "palabras_clave": [],
@@ -99,77 +99,88 @@
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\README.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 43
     },
     {
       "targetRaw": "./flujo_general.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\flujo_general.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 89
     },
     {
       "targetRaw": "../conversaciones/postventa/index.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\postventa\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 247
     },
     {
       "targetRaw": "../conversaciones/cierre/confirmacion_envio.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\cierre\\confirmacion_envio.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Cuándo verificar satisfacción"
+      "seccion": "Cuándo verificar satisfacción",
+      "posicion": 399
     },
     {
       "targetRaw": "../conversaciones/postventa/verificar_satisfaccion.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\postventa\\verificar_satisfaccion.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Cuándo verificar satisfacción"
+      "seccion": "Cuándo verificar satisfacción",
+      "posicion": 589
     },
     {
       "targetRaw": "../conversaciones/postventa/recomendar_complementarios.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\postventa\\recomendar_complementarios.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Cuándo ofrecer productos complementarios (venta cruzada)"
+      "seccion": "Cuándo ofrecer productos complementarios (venta cruzada)",
+      "posicion": 1136
     },
     {
       "targetRaw": "./manejo_de_objeciones.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\manejo_de_objeciones.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Cuándo ofrecer productos complementarios (venta cruzada)"
+      "seccion": "Cuándo ofrecer productos complementarios (venta cruzada)",
+      "posicion": 1383
     },
     {
       "targetRaw": "../conversaciones/postventa/solicitar_testimonio.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\postventa\\solicitar_testimonio.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Cuándo solicitar testimonio"
+      "seccion": "Cuándo solicitar testimonio",
+      "posicion": 1792
     },
     {
       "targetRaw": "../conversaciones/postventa/index.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\postventa\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Cuándo solicitar una recomendación (referido)"
+      "seccion": "Cuándo solicitar una recomendación (referido)",
+      "posicion": 2373
     },
     {
       "targetRaw": "../conversaciones/postventa/solicitar_testimonio.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\postventa\\solicitar_testimonio.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Cuándo solicitar una recomendación (referido)"
+      "seccion": "Cuándo solicitar una recomendación (referido)",
+      "posicion": 2495
     },
     {
       "targetRaw": "./README.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\README.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Orden recomendado dentro de postventa"
+      "seccion": "Orden recomendado dentro de postventa",
+      "posicion": 3004
     }
   ],
   "checksum": "3fa35e08a354eeb5736cde25f3688eff421d44264d6dc91823d546aa43e07fb7",

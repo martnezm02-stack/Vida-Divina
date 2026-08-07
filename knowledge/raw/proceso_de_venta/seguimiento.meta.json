@@ -3,7 +3,7 @@
   "tipo_entidad": "documento_proceso",
   "titulo": "Seguimiento",
   "ruta_original": "docs/proceso_de_venta/seguimiento.md",
-  "fecha_compilacion": "2026-08-07T09:35:11.764Z",
+  "fecha_compilacion": "2026-08-07T10:54:26.620Z",
   "version": "0.1.0-mvp",
   "estado": "compilado",
   "palabras_clave": [],
@@ -148,126 +148,144 @@
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\README.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 45
     },
     {
       "targetRaw": "./flujo_general.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\flujo_general.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 87
     },
     {
       "targetRaw": "../conversaciones/seguimiento/index.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\seguimiento\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 268
     },
     {
       "targetRaw": "./manejo_de_objeciones.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\manejo_de_objeciones.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Regla general"
+      "seccion": "Regla general",
+      "posicion": 498
     },
     {
       "targetRaw": "../conversaciones/seguimiento/seguimiento_24h.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\seguimiento\\seguimiento_24h.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Tabla de decisión: motivo de pausa → tiempo de seguimiento"
+      "seccion": "Tabla de decisión: motivo de pausa → tiempo de seguimiento",
+      "posicion": 841
     },
     {
       "targetRaw": "../conversaciones/seguimiento/seguimiento_3dias.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\seguimiento\\seguimiento_3dias.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Tabla de decisión: motivo de pausa → tiempo de seguimiento"
+      "seccion": "Tabla de decisión: motivo de pausa → tiempo de seguimiento",
+      "posicion": 981
     },
     {
       "targetRaw": "../conversaciones/seguimiento/seguimiento_3dias.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\seguimiento\\seguimiento_3dias.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Tabla de decisión: motivo de pausa → tiempo de seguimiento"
+      "seccion": "Tabla de decisión: motivo de pausa → tiempo de seguimiento",
+      "posicion": 1112
     },
     {
       "targetRaw": "../conversaciones/seguimiento/seguimiento_7dias.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\seguimiento\\seguimiento_7dias.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Tabla de decisión: motivo de pausa → tiempo de seguimiento"
+      "seccion": "Tabla de decisión: motivo de pausa → tiempo de seguimiento",
+      "posicion": 1207
     },
     {
       "targetRaw": "../conversaciones/seguimiento/seguimiento_7dias.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\seguimiento\\seguimiento_7dias.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Tabla de decisión: motivo de pausa → tiempo de seguimiento"
+      "seccion": "Tabla de decisión: motivo de pausa → tiempo de seguimiento",
+      "posicion": 1351
     },
     {
       "targetRaw": "../conversaciones/seguimiento/seguimiento_15dias.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\seguimiento\\seguimiento_15dias.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Tabla de decisión: motivo de pausa → tiempo de seguimiento"
+      "seccion": "Tabla de decisión: motivo de pausa → tiempo de seguimiento",
+      "posicion": 1480
     },
     {
       "targetRaw": "../conversaciones/seguimiento/seguimiento_30dias.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\seguimiento\\seguimiento_30dias.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Tabla de decisión: motivo de pausa → tiempo de seguimiento"
+      "seccion": "Tabla de decisión: motivo de pausa → tiempo de seguimiento",
+      "posicion": 1561
     },
     {
       "targetRaw": "../conversaciones/seguimiento/seguimiento_15dias.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\seguimiento\\seguimiento_15dias.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Tabla de decisión: motivo de pausa → tiempo de seguimiento"
+      "seccion": "Tabla de decisión: motivo de pausa → tiempo de seguimiento",
+      "posicion": 1741
     },
     {
       "targetRaw": "../conversaciones/seguimiento/seguimiento_30dias.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\seguimiento\\seguimiento_30dias.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Tabla de decisión: motivo de pausa → tiempo de seguimiento"
+      "seccion": "Tabla de decisión: motivo de pausa → tiempo de seguimiento",
+      "posicion": 1868
     },
     {
       "targetRaw": "../conversaciones/seguimiento/seguimiento_30dias.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\seguimiento\\seguimiento_30dias.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Qué hacer si no hay respuesta tras el seguimiento de 30 días"
+      "seccion": "Qué hacer si no hay respuesta tras el seguimiento de 30 días",
+      "posicion": 2296
     },
     {
       "targetRaw": "./recomendacion.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\recomendacion.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Qué hacer si el cliente responde durante el seguimiento"
+      "seccion": "Qué hacer si el cliente responde durante el seguimiento",
+      "posicion": 2535
     },
     {
       "targetRaw": "./cierre.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\cierre.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Qué hacer si el cliente responde durante el seguimiento"
+      "seccion": "Qué hacer si el cliente responde durante el seguimiento",
+      "posicion": 2581
     },
     {
       "targetRaw": "./manejo_de_objeciones.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\manejo_de_objeciones.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Qué hacer si el cliente responde durante el seguimiento"
+      "seccion": "Qué hacer si el cliente responde durante el seguimiento",
+      "posicion": 2674
     },
     {
       "targetRaw": "./README.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\README.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Qué NO hacer"
+      "seccion": "Qué NO hacer",
+      "posicion": 3253
     }
   ],
   "checksum": "3b77d3a0d695fa7f85bef7cde899086755a5e348f988642a4a33b3816a040964",

@@ -1,0 +1,76 @@
+{
+  "id": "productos/08-intimidad-libido/venus-capsules",
+  "tipo_entidad": "producto",
+  "titulo": "Venus Capsules",
+  "ruta_original": "docs/productos/08-intimidad-libido.md",
+  "fecha_compilacion": "2026-08-07T10:54:26.653Z",
+  "version": "0.1.0-mvp",
+  "estado": "compilado",
+  "palabras_clave": [
+    "libido femenina",
+    "menopausia",
+    "ciclo menstrual",
+    "deseo sexual",
+    "intimidad femenina"
+  ],
+  "relaciones_detectadas": [
+    {
+      "origen_id": "productos/08-intimidad-libido/venus-capsules",
+      "destino_id": "productos/04-funcion-cognitiva/youth-capsules",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/08-intimidad-libido.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/08-intimidad-libido/venus-capsules",
+      "destino_id": "productos/13-linea-radien/radien-collagen-elixir",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/08-intimidad-libido.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/08-intimidad-libido/venus-capsules",
+      "destino_id": "productos",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/08-intimidad-libido.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/08-intimidad-libido/venus-capsules",
+      "destino_id": "productos/08-intimidad-libido",
+      "tipo_relacion": "pertenece_a_categoria",
+      "archivo_origen": "docs/productos/08-intimidad-libido.md",
+      "verificada": true
+    }
+  ],
+  "referencias": [
+    {
+      "targetRaw": "./04-funcion-cognitiva.md#youth-capsules",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\04-funcion-cognitiva.md",
+      "anchor": "youth-capsules",
+      "exists": true,
+      "seccion": "Venus Capsules",
+      "posicion": 2020
+    },
+    {
+      "targetRaw": "./13-linea-radien/radien-collagen-elixir.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\13-linea-radien\\radien-collagen-elixir.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Venus Capsules",
+      "posicion": 2088
+    },
+    {
+      "targetRaw": "../productos.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Venus Capsules",
+      "posicion": 2274
+    }
+  ],
+  "checksum": "06c591c1d933692499438b15776474d7dbb738555593c0b230838108061b6c49",
+  "errores_detectados": [],
+  "advertencias": [],
+  "modulo": "productos"
+}

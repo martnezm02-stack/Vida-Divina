@@ -1,7 +1,7 @@
 # Vida Divina — Knowledge Model
-## Fase 2 · Sprint 1 · Documento de Arquitectura — Iteración 2 (pendiente de revisión — no implementar)
+## Fase 2 · Sprint 1 · Documento de Arquitectura — Iteración 2 (aprobado — contrato técnico vigente)
 
-**Estado:** Propuesta para revisión, iteración 2. Incorpora los ajustes de la Architecture Review — Iteración 1 (Resource, revisión de metadatos, Knowledge Package). Este documento no debe usarse como base de implementación hasta que sea aprobado explícitamente.
+**Estado:** Aprobado. Forma parte del contrato técnico congelado en la versión `v1.0.0-architecture-baseline` (ver `docs/ARCHITECTURE_v1.md`). Su implementación existe y está validada desde el Sprint 2 (Knowledge Compiler) y se extendió en los Sprints 3A/3B (Conversation Simulator, Recommendation Engine) — ver `docs/PROJECT_STATE.md` para el estado vigente de cada componente.
 **Rol de quien escribe esto:** Arquitecto Principal — este documento es diseño conceptual y lógico, no código, no un esquema ejecutable, no un catálogo nuevo.
 **Fuente de análisis:** los 165 archivos de `docs/` (productos, clientes, conversaciones, objeciones, proceso_de_venta, agente_ia), `CLAUDE.md`, `docs/FASE_1_AUDITORIA_TECNICA.md` y la retroalimentación de la Architecture Review — Iteración 1. Ningún archivo existente fuera de este documento fue modificado.
 
@@ -20,13 +20,13 @@ El Knowledge Model resuelve esto **sin tocar la prosa existente**: define qué e
 Es el **contrato** entre cuatro cosas que hoy no tienen forma de comunicarse entre sí de manera confiable:
 
 1. La documentación humana (`docs/`) — seguirá siendo la única fuente de contenido.
-2. Un futuro **Knowledge Compiler** — que transforma esa documentación en una representación consultable, siguiendo exactamente el modelo aquí definido.
+2. El **Knowledge Compiler** — que transforma esa documentación en una representación consultable, siguiendo exactamente el modelo aquí definido. Implementado y validado desde el Sprint 2 (`compiler/`, ver `docs/ARCHITECTURE_v1.md`).
 3. El **Runtime / Orquestador** — la futura implementación de `docs/proceso_de_venta/` y `docs/agente_ia/` como comportamiento ejecutable.
 4. **Cualquier modelo de IA futuro** (Claude, GPT, Gemini, o lo que venga) — que consuma el conocimiento compilado sin necesitar entender la estructura de carpetas de Markdown ni el estilo de escritura del proyecto.
 
 ### Qué componentes dependerán de él
 
-- El Knowledge Compiler (no existe todavía) — este documento es su especificación de entrada/salida.
+- El Knowledge Compiler (implementado y validado desde el Sprint 2, ver `compiler/`) — este documento es su especificación de entrada/salida.
 - Las herramientas conceptuales ya definidas en `docs/agente_ia/herramientas.md` (`buscar_cliente()`, `buscar_producto()`, `buscar_objecion()`, `buscar_conversacion()`, `buscar_proceso()`) — hoy son conceptuales; este modelo es lo que las haría implementables de forma consistente.
 - Cualquier integración futura (MCP, CRM, automatizaciones — ver roadmap de `CLAUDE.md`) — todas leerían el conocimiento a través de esta forma, no releyendo Markdown crudo cada vez.
 
@@ -37,10 +37,10 @@ Es el **contrato** entre cuatro cosas que hoy no tienen forma de comunicarse ent
 | Principio | Qué significa aquí | Por qué importa para este proyecto específico |
 |---|---|---|
 | **Fuente única de verdad** | El Markdown en `docs/` sigue siendo lo único que un humano edita. Cualquier representación compilada (índices, JSON) es un artefacto **derivado y regenerable**, nunca editado a mano. | Si existieran dos lugares donde "la verdad" pudiera vivir (el Markdown y una base de datos editada aparte), el proyecto perdería exactamente la disciplina anti-duplicación que sostuvo toda la Fase 1. Un artefacto compilado que se vuelve a generar desde cero no puede "desincronizarse" de forma permanente — a lo sumo queda desactualizado hasta la próxima compilación. |
-| **Separación entre conocimiento e implementación** | El *qué* (productos, perfiles, reglas) vive en `docs/`. El *cómo se ejecuta* (compilador, runtime, agente) es código que todavía no existe y que este documento no escribe. | Es la misma separación que ya sostiene `docs/agente_ia/` (que define comportamiento sin implementarlo) — se extiende aquí al conocimiento estructurado. |
+| **Separación entre conocimiento e implementación** | El *qué* (productos, perfiles, reglas) vive en `docs/`. El *cómo se ejecuta* (compilador, runtime, agente) es código que este documento no escribe — el compilador ya existe (`compiler/`), el runtime y el agente ejecutable todavía no. | Es la misma separación que ya sostiene `docs/agente_ia/` (que define comportamiento sin implementarlo) — se extiende aquí al conocimiento estructurado. |
 | **Independencia del modelo de IA** | El modelo no asume que el consumidor final es Claude, ni que tiene acceso a herramientas de function-calling, ni a un driver de base de datos específico. | El proyecto ya se diseñó para "Claude, ChatGPT, Gemini, LangGraph, n8n, MCP o cualquier otra plataforma" (`docs/agente_ia/README.md`). Un modelo lógico que dependa de una tecnología de consulta específica rompería esa independencia para cualquier consumidor que no la soporte. |
 | **Escalabilidad** | El modelo debe seguir funcionando igual de bien con 66 productos que con 600, sin cambiar de forma. | La escala real hoy (66 productos, 16 perfiles, ~200 archivos) es pequeña. El diseño debe ser honesto sobre eso: escalar no significa "elegir la tecnología más grande posible ahora", significa que crecer 10x no debería requerir rediseñar el modelo — solo generar más instancias de las mismas entidades. |
-| **Versionado** | Todo artefacto de este modelo (Markdown, metadatos, índices compilados) debe poder vivir dentro de Git como texto plano, diffable línea por línea. | La auditoría de Fase 1 ya identificó que el proyecto no tiene ni un commit todavía. Cualquier pieza de este modelo que no sea texto plano versionable repetiría ese mismo riesgo en una forma nueva. |
+| **Versionado** | Todo artefacto de este modelo (Markdown, metadatos, índices compilados) debe poder vivir dentro de Git como texto plano, diffable línea por línea. | La auditoría de Fase 1 identificó que el proyecto no tenía ningún commit — resuelto desde entonces (primer commit y tag `v1.0.0-architecture-baseline`). Cualquier pieza de este modelo que no sea texto plano versionable habría repetido ese mismo riesgo en una forma nueva. |
 | **Reutilización** | La misma fuente compilada debe poder alimentar consumidores distintos (un MCP tool, un prompt de sistema, un futuro dashboard) sin necesitar una versión distinta del conocimiento para cada uno. | Evita que "los datos para el agente de WhatsApp" y "los datos para un futuro CRM" diverjan silenciosamente en dos copias distintas del mismo conocimiento. |
 
 ---
@@ -179,6 +179,40 @@ Resource (nueva)
     ├── utilizado_en → Conversación                           (N:M)
 ```
 
+El diagrama de arriba es el modelo conceptual objetivo — no todo él está implementado hoy. La subsección siguiente documenta, con evidencia verificada contra `compiler/` y `knowledge/compiled/relationships.json`, exactamente qué parte ya es real.
+
+### Vocabulario de relaciones implementado (verificado — Sprint 4A)
+
+El Knowledge Compiler produce hoy exactamente **6 tipos de relación**, ni uno más — verificado tanto en el código (`compiler/src/relationships.js`, `compiler/src/config.js`) como en los datos reales de la última compilación (`knowledge/compiled/relationships.json`, 1898 relaciones).
+
+| `tipo_relacion` | Origen (`tipo_entidad`) | Destino (`tipo_entidad`) | Cuándo se genera | Relaciones verificadas |
+|---|---|---|---|---|
+| `referencia` | cualquiera | cualquiera | Cualquier enlace Markdown que resuelve a una entidad conocida y no coincide con ninguna regla más específica de abajo. Es el tipo genérico por defecto. | 1625 |
+| `pertenece_a_categoria` | cualquiera que viva dentro de una carpeta con índice de categoría/módulo, o un producto extraído de un archivo de categoría de archivo único | `indice_categoria` \| `indice_modulo` | Estructural — inferida de la carpeta contenedora, o del archivo de categoría de archivo único del que el producto fue extraído (ver §7, nota sobre `tipo_organizacion: archivo_unico`). No depende de que exista un enlace escrito. | 149 |
+| `recomienda_primario` | `perfil` | `producto` | Primer enlace dentro de la sección `## Productos recomendados` de un perfil. | 16 |
+| `recomienda_opcional` | `perfil` | `producto` | Resto de enlaces en `## Productos recomendados`, después del primero. | 49 |
+| `recomienda_complementario` | `perfil` | `producto` | Enlaces dentro de la sección `## Productos complementarios` de un perfil. | 54 |
+| `no_recomendado` | `perfil` | `producto` | Enlaces dentro de la sección `## Productos que NO son prioridad` de un perfil. | 5 |
+
+**Correspondencia con el diagrama conceptual de arriba:**
+
+- `pertenece_a_categoria` implementa **"Producto → pertenece_a → Categoría de Producto"** — y, más allá de Producto, aplica genéricamente a cualquier entidad dentro de una carpeta con índice (ej. Conversación → Categoría Conversacional, cada entidad de un módulo → su índice de módulo). El compilador no distingue estos casos con tipos separados; todos comparten el mismo `pertenece_a_categoria`.
+- `recomienda_primario` / `recomienda_opcional` / `recomienda_complementario` / `no_recomendado` implementan, con **más granularidad de la prevista originalmente**, la línea **"Perfil → recomienda → Producto (N:M, inverso)"** — este documento preveía un único `recomienda`; la implementación distingue 4 subtipos según la sección del perfil donde aparece el enlace (decisión tomada durante el Sprint 3B, documentada en `docs/RECOMMENDATION_ENGINE.md`).
+- `referencia` es el tipo genérico que hoy sostiene, sin nombre propio, evidencia real detrás de varias líneas conceptuales — confirmado contra `relationships.json`: Producto↔Producto (183 instancias — sustenta `complementa_a`, pero sin tipo propio todavía), Objeción→Producto (9 — sustenta `referenciado_en`), Conversación→Producto (43), Conversación→Perfil (35), Objeción→Conversación (12 — sustenta `tiene_diálogo`).
+
+**Relaciones del diagrama conceptual sin ninguna evidencia verificada hoy** (ni como `referencia` genérica ni como tipo propio — no se retiran del diagrama, permanecen como objetivo conceptual):
+
+- `Módulo → depende_de → Módulo` — el propio tipo de entidad "Módulo" no existe en el compilador (ver nota de consistencia más abajo).
+- Cualquier relación hacia `Resource` (`asociado_a`, `utilizado_en`, `corresponde_a`) — 0 instancias de `Resource` en todo el proyecto.
+- `Perfil → deriva_hacia → Perfil`.
+- `Perfil → objeciones comunes → Objeción` — gap ya documentado en §13 de este mismo documento.
+- `Etapa del Proceso → siguiente/usa/corresponde_a` y `Estado del Cliente → transiciona_a/sugiere_módulo` — ambas entidades tienen una sola instancia compilada (todo el flujo de 14 pasos, y todos los estados, viven cada uno en un único archivo), por lo que no pueden tener enlaces salientes de este tipo entre archivos distintos.
+- `Principio → rige_a → Regla de Decisión` — evidencia débil: 1 enlace `referencia` real, no una relación tipada.
+- `Regla de Seguridad → prioridad_máxima_sobre → Regla de Decisión` — evidencia débil: 2 enlaces `referencia` reales, no una relación tipada.
+- `Herramienta → consulta → Módulo` — misma razón que Etapa del Proceso: una sola instancia compilada.
+
+**Nota de consistencia detectada, no corregida en este sprint:** la entidad conceptual "Módulo" (§3) no tiene un `tipo_entidad` propio en el compilador — el rol lo cumple parcialmente `indice_modulo` (el `README.md`/índice de cada módulo), que representa el módulo pero no es literalmente la misma entidad. Cualquier relación conceptual dirigida a "Módulo" (`depende_de`, `usa`, `sugiere_módulo`, `consulta`) no tiene, por esta razón, un destino verificable exacto hoy.
+
 ---
 
 ## 5. Grafo de conocimiento
@@ -277,35 +311,48 @@ La versión anterior de este documento proponía frontmatter YAML dentro del pro
 2. **El historial de Git de la prosa queda protegido de ruido generado por herramientas.** Con archivo paralelo, el historial de `tedivina.md` muestra únicamente cambios de contenido real; con frontmatter mostraría también cada regeneración automática de metadato como si fuera un cambio al producto.
 3. **Reduce el riesgo para quien mantiene el contenido**, que en este proyecto tiene perfil de negocio, no técnico — mantener los archivos de contenido completamente libres de sintaxis YAML reduce la posibilidad de que una edición manual rompa un bloque de metadato por accidente.
 
-El riesgo principal de esta alternativa (archivos huérfanos por desincronización) ya tiene mitigación planeada: el paso de "validación de referencias" de la estrategia de compilación (§10) se extiende para verificar también que todo `.md` con metadato declarado tenga su `.meta.json` correspondiente, y viceversa.
+El riesgo principal de esta alternativa (archivos huérfanos por desincronización) queda mitigado por diseño una vez formalizada la Capa 1 como único contrato (ver "Decisión arquitectónica — Capa de metadato" más abajo): el compilador regenera un `.meta.json` para cada documento en cada corrida, sin dependencia de adopción parcial ni de pares declarados a mano.
 
-**Ejemplo ilustrativo (no un cambio real a ningún archivo):**
+**Ejemplo ilustrativo — forma real de la Capa 1 (no un cambio real a ningún archivo):**
 
 ```
-docs/productos/01-control-de-peso/tedivina.md         (sin cambios — contenido humano, prosa pura)
-docs/productos/01-control-de-peso/tedivina.meta.json   (nuevo — metadato estructurado, escrito y regenerado por el compilador)
+docs/productos/01-control-de-peso/tedivina.md                              (sin cambios — contenido humano, prosa pura)
+knowledge/raw/productos/01-control-de-peso/tedivina.meta.json              (generado y regenerado por el compilador en cada corrida — vive en knowledge/raw/, espejo de docs/, nunca junto al .md)
 ```
 
 ```json
 {
-  "tipo": "producto",
-  "id": "tedivina",
-  "categoria": "01-control-de-peso",
-  "perfiles_relacionados": ["perder_peso", "bienestar_general"],
-  "palabras_clave": ["té detox", "limpieza corporal", "pérdida de peso"]
+  "id": "productos/01-control-de-peso/tedivina",
+  "tipo_entidad": "producto",
+  "titulo": "TéDivina",
+  "palabras_clave": ["té detox", "limpieza corporal", "pérdida de peso"],
+  "checksum": "…"
 }
 ```
 
+Nótese que este ejemplo ya no incluye un campo como `perfiles_relacionados` — ese tipo de dato curado pertenecía a la Capa 2, formalmente descartada (ver más abajo). La relación Producto↔Perfil real se obtiene hoy del grafo compilado (`recomienda_primario`/`recomienda_opcional`/`recomienda_complementario`/`no_recomendado`, ver §4), inferida de la prosa misma — no de un campo declarado a mano en este archivo.
+
 ### Por qué esta opción, con criterios de mantenibilidad, rendimiento, simplicidad y escalabilidad
 
-- **Mantenibilidad:** un solo lugar de edición humana (Markdown, sin tocar); los `.meta.json` y el índice compilado son generados, nunca editados a mano.
+- **Mantenibilidad:** un solo lugar de edición humana (Markdown, sin tocar); los `.meta.json` y el índice compilado son generados, nunca editados a mano **ni vueltos a leer por el compilador**.
 - **Rendimiento:** a esta escala (66 productos, 16 perfiles), archivos JSON de pocos KB se cargan y consultan en memoria de forma instantánea — no hay problema de rendimiento que una base de datos resolvería mejor.
 - **Simplicidad:** cero infraestructura nueva. No hay servidor, no hay conexión que mantener, no hay credenciales.
 - **Escalabilidad:** crecer 10x no cambia la forma del modelo, solo agrega instancias.
 
 ### Cuándo sí se justificaría reconsiderar una base de grafos
 
-No es un rechazo categórico — es una decisión de **no ahora**. Si `docs/casos_reales/`, `docs/embudos/` o `docs/crm/` maduran hasta necesitar preguntas genuinamente multi-hop y analíticas, ahí una base de grafos empezaría a pagar su complejidad. El índice compilado propuesto no es un callejón sin salida: como las relaciones ya quedarían explícitas en los `.meta.json`, migrarlas a un grafo real más adelante sería una exportación, no un rediseño.
+No es un rechazo categórico — es una decisión de **no ahora**. Si `docs/casos_reales/`, `docs/embudos/` o `docs/crm/` maduran hasta necesitar preguntas genuinamente multi-hop y analíticas, ahí una base de grafos empezaría a pagar su complejidad. El índice compilado propuesto no es un callejón sin salida: como las relaciones ya quedan explícitas en `knowledge/compiled/relationships.json`, migrarlas a un grafo real más adelante sería una exportación, no un rediseño.
+
+### Decisión arquitectónica — la Capa 2 de metadato curado queda descartada *(ADR aprobada tras Sprint 4A / RC2)*
+
+Este documento distinguía, sin nombrarlas así explícitamente en toda ocasión, dos capas de metadato posibles sobre el archivo paralelo:
+
+- **Capa 1 — extracción automática:** lo que el compilador puede derivar directamente de la prosa (id, título, palabras clave, checksum, referencias). Es la única capa que existe hoy.
+- **Capa 2 — metadato curado:** campos no derivables de la prosa por un parser simple (ej. `perfiles_relacionados` declarado explícitamente), que este documento proponía adoptar de forma incremental, leídos por el compilador como entrada (§10, versión anterior de este documento).
+
+La implementación (Sprint 2) nunca construyó la Capa 2, de forma consciente y documentada en su momento (`docs/KNOWLEDGE_COMPILER_NOTES.md`, `docs/KNOWLEDGE_COMPILER_IMPLEMENTATION.md`). El caso de uso que la motivaba — relaciones semánticas tipadas más allá de `referencia` genérica — se resolvió después por una vía distinta y ya validada: inferir el tipo de relación desde la estructura de la propia prosa (encabezados `## ` en `docs/clientes/*.md`, ver §4 y `docs/RECOMMENDATION_ENGINE.md`), sin necesitar ningún campo curado a mano.
+
+**Decisión formal:** la Capa 2 de metadato curado, tal como se describía en versiones anteriores de este documento, **queda descartada** — no diferida. `knowledge/raw/*.meta.json` es y seguirá siendo exclusivamente Capa 1: una **salida derivada** del compilador, nunca parte de su entrada. El compilador permanece estrictamente unidireccional (`docs/` → `knowledge/raw/` + `knowledge/compiled/`, nunca al revés, nunca circular). La inferencia desde la estructura del Markdown reemplaza oficialmente al mecanismo de metadato curado originalmente previsto para obtener relaciones tipadas.
 
 ---
 
@@ -410,12 +457,12 @@ La ruta del enunciado original (`Cliente → Perfil → Conversación → Testim
 
 ## 10. Estrategia de compilación (conceptual — sin código)
 
-1. **Recorrido:** el compilador recorre `docs/` completo, archivo por archivo, incluyendo los `.meta.json` paralelos (§6) cuando existan.
-2. **Extracción de metadato:** para cada archivo, lee su `.meta.json` paralelo si existe. Para archivos que todavía no lo tengan (adopción incremental — ver §13), lo trata provisionalmente con metadatos vacíos, marcado como *"pendiente de metadato explícito"*, sin fallar.
-3. **Validación de referencias:** cada relación declarada se valida contra el conjunto de `id` conocidos — el mismo principio ya aplicado manualmente durante toda la Fase 1, ahora automatizable. Se añade una validación específica de esta iteración: todo `.md` con `.meta.json` declarado debe tener su par, y viceversa — para detectar archivos huérfanos (ver §6).
+1. **Recorrido:** el compilador recorre `docs/` completo, archivo por archivo — únicamente archivos `.md`. No recorre ni consulta ningún `.meta.json` existente: esos archivos son su salida, nunca su entrada (ver "Decisión arquitectónica — Capa de metadato", §6).
+2. **Extracción de metadato:** para cada archivo `.md`, se extrae directamente de su contenido lo que es auto-derivable — título, palabras clave, checksum, referencias — y se escribe como `.meta.json` en `knowledge/raw/` (§11). La extracción es siempre completa e inmediata: no existe adopción incremental ni archivos "pendientes de metadato" — todo documento recorrido produce su `.meta.json` en la misma corrida.
+3. **Validación de referencias:** cada relación declarada se valida contra el conjunto de `id` conocidos — el mismo principio ya aplicado manualmente durante toda la Fase 1, ahora automatizable.
 4. **Emisión de índices:** se generan los archivos de índice de §8, como JSON plano, escritos en `knowledge/compiled/` (ver §11).
 5. **Manifiesto de compilación:** se emite un archivo de control con fecha de compilación y referencia al commit de Git del que se generó, también dentro de `knowledge/compiled/`.
-6. **Naturaleza de un solo sentido:** el compilador **nunca escribe hacia el Markdown ni hacia `knowledge/raw/`**. Es una transformación unidireccional — fuente → índice compilado — nunca al revés.
+6. **Naturaleza de un solo sentido:** el compilador escribe hacia `knowledge/raw/` y `knowledge/compiled/`, pero **nunca escribe ni lee hacia `docs/`**, y **nunca vuelve a leer lo que él mismo escribió** en una corrida anterior. Es una transformación estrictamente unidireccional — `docs/` → `.meta.json` (`raw/`) + índices (`compiled/`) — nunca al revés, y nunca circular.
 
 ---
 
@@ -434,7 +481,7 @@ knowledge/
 │   ├── agente_ia/
 │   └── *.meta.json   (archivos paralelos de metadato, ver §6)
 │
-└── compiled/       (nuevo — no existe todavía, artefacto derivado)
+└── compiled/       (artefacto derivado, implementado desde el Sprint 2 — ver knowledge/compiled/)
     ├── indice_productos.json
     ├── indice_perfiles.json
     ├── indice_conversaciones.json
@@ -447,10 +494,16 @@ knowledge/
 
 ### `raw/`
 
-**Qué contiene:** todo el conocimiento fuente — el Markdown existente más los `.meta.json` paralelos que se introduzcan. Incluye, conceptualmente, los archivos físicos de cualquier `Resource` futuro (audio, video, PDF) — son insumo humano, no algo que el compilador genera.
-**Quién la modifica:** únicamente personas, o una IA actuando bajo instrucción humana explícita (como en cada sprint de este proyecto hasta ahora). El Knowledge Compiler **nunca escribe en `raw/`**.
-**Cuándo se regenera:** nunca — no es un artefacto derivado, es la fuente.
-**Fuente de verdad:** `raw/` es, sin ambigüedad, la única fuente de verdad de todo el sistema — coincide exactamente con el Principio de Diseño #1 (§2).
+`raw/` agrupa, bajo un mismo nombre lógico, dos cosas de naturaleza distinta — distinción formalizada por la ADR de Capa de metadato (§6):
+
+- **El Markdown en `docs/`** — la fuente de verdad. Insumo humano. El Knowledge Compiler nunca escribe ni vuelve a leer sobre `docs/`.
+- **Los `.meta.json` en `knowledge/raw/`** — metadato de extracción automática (Capa 1), **escrito por el Knowledge Compiler**, nunca por una persona, y **nunca vuelto a leer** por el propio compilador en una corrida posterior. Es un artefacto derivado, no fuente, aunque se agrupe bajo el nombre `raw/` por su correspondencia 1:1 con cada documento fuente.
+
+Incluye además, conceptualmente, los archivos físicos de cualquier `Resource` futuro (audio, video, PDF) — son insumo humano, igual que el Markdown, no algo que el compilador genera.
+
+**Quién modifica cada parte:** `docs/` — únicamente personas, o una IA actuando bajo instrucción humana explícita (como en cada sprint de este proyecto hasta ahora). `knowledge/raw/*.meta.json` — únicamente el Knowledge Compiler.
+**Cuándo se regenera:** `docs/` nunca — es la fuente. `knowledge/raw/*.meta.json`, en cada compilación — es 100% reconstruible desde `docs/`, igual que `compiled/`.
+**Fuente de verdad:** únicamente `docs/` — coincide exactamente con el Principio de Diseño #1 (§2). Los `.meta.json` de `raw/`, pese al nombre de la carpeta, tienen la misma naturaleza derivada que `compiled/`: nunca compiten con `docs/` como fuente.
 
 ### `compiled/`
 
@@ -481,7 +534,7 @@ Si `compiled/` debería versionarse en Git o tratarse como artefacto de build no
 
 | Riesgo | Detalle | Mitigación propuesta |
 |---|---|---|
-| **Costo de adopción de archivos `.meta.json`** | Crear metadato paralelo para 165 archivos existentes es trabajo real. | Adopción incremental por entidad de mayor valor relacional primero (Producto, Perfil); el compilador tolera archivos sin `.meta.json` (§10, paso 2). |
+| **Costo de adopción de archivos `.meta.json` (Capa 2 — descartada por ADR posterior a Sprint 4A/RC2)** | Este riesgo asumía una Capa 2 de metadato curado, adoptada incrementalmente a mano. Esa capa quedó formalmente descartada (§6) — ya no aplica. | No aplica. La Capa 1 vigente es 100% automática: el compilador genera `.meta.json` para toda entidad en cada corrida, sin intervención humana ni adopción parcial. |
 | **Archivos huérfanos** *(riesgo propio de la Alternativa B, no existía en la propuesta de frontmatter)* | Un `.md` renombrado/movido sin su `.meta.json`, o viceversa, produce un par roto y silencioso. | Validación de integridad de pares como parte del compilador (§10, paso 3) — el mismo mecanismo que ya valida referencias cruzadas se extiende a esto. |
 | **Desincronización si no se recompila** | Un índice en `compiled/` puede quedar desactualizado si no se regenera tras un cambio en `raw/`. | Mitigado por diseño: el índice siempre es descartable y regenerable; el riesgo real es solo *cuándo* se recompila, no que pueda corromperse de forma permanente. |
 | **Relaciones hoy informales (prosa) se formalizan mal** | Por ejemplo, "objeciones comunes" en cada Perfil es hoy texto libre, no una lista de `id` de Objeción. | El esquema trata esos campos como opcionales/nulos hasta que se normalicen explícitamente — un campo vacío es preferible a una relación inventada. |
@@ -494,7 +547,7 @@ Si `compiled/` debería versionarse en Git o tratarse como artefacto de build no
 ## 14. Recomendaciones
 
 **Qué cambiaría:**
-- Adoptar archivos `.meta.json` paralelos de forma incremental, empezando por `Producto` y `Perfil`.
+- ~~Adoptar archivos `.meta.json` paralelos de forma incremental, empezando por `Producto` y `Perfil`~~ — descartado por ADR posterior a Sprint 4A/RC2 (§6): la Capa 2 de metadato curado no se adopta; el patrón de inferencia desde encabezados de sección (Sprint 3B) cubre el caso de uso que la motivaba.
 - Formalizar la relación `Perfil → Objeción` (hoy solo texto libre) como una lista real de `id` de `docs/objeciones/`.
 - Hacer el atributo `capa` obligatorio y explícito en toda entidad `Regla de Decisión`.
 
@@ -540,10 +593,26 @@ Si `compiled/` debería versionarse en Git o tratarse como artefacto de build no
 - La conclusión de más alto nivel de §6: Markdown como fuente + metadato + índice compilado, y el rechazo justificado a una base de datos de grafos como implementación — revisada a fondo en esta iteración y sostenida, no solo mantenida por inercia.
 - El roadmap del proyecto (`CLAUDE.md`) — no fue tocado, tal como se restringió explícitamente para este sprint.
 
+### Sincronización posterior — Sprint 4A (vocabulario de relaciones, sin cambiar el número de iteración)
+
+Tras la implementación validada del Knowledge Compiler, el Recommendation Engine y el Conversation Simulator (ver `docs/ARCHITECTURE_v1.md`, `docs/PROJECT_STATE.md`), se detectó una diferencia entre el diagrama conceptual de §4 y el vocabulario de relaciones que el compilador produce realmente. El Sprint 4A añadió, dentro de §4, la subsección "Vocabulario de relaciones implementado (verificado — Sprint 4A)", que documenta con evidencia (código + `relationships.json`) cuáles de las relaciones conceptuales ya existen en la implementación, con qué nombre real y qué alcance exacto, y cuáles siguen siendo únicamente conceptuales.
+
+No se agregó, quitó ni renombró ninguna entidad o relación conceptual del diagrama de §4 — la actualización es aditiva: documenta el estado real de implementación sin reducir el modelo conceptual objetivo. Este sprint detectó, pero no corrigió (queda pendiente de una revisión explícita posterior), que el encabezado de este documento y la sección "Cierre" siguen describiendo el Knowledge Compiler como "no implementado" y este documento como "no enlazado desde CLAUDE.md" — ambas afirmaciones ya no son ciertas.
+
+### RC2 — Sincronización documental (encabezado y cierre)
+
+Resolvió lo que el Sprint 4A había dejado pendiente: el encabezado y el "Cierre" de este documento describían el Knowledge Model como "pendiente de revisión — no implementar" y "sin enlazar desde CLAUDE.md", pese a que ambas cosas ya no eran ciertas desde RC1. Se actualizó únicamente ese lenguaje de estado/temporalidad — ningún contenido conceptual (entidades, relaciones, decisiones) cambió. Se detectó, y se dejó igualmente sin corregir en espera de revisión, una segunda inconsistencia distinta: §10 ("Estrategia de compilación") describe que el compilador lee un `.meta.json` paralelo como entrada de metadato — verificado contra el código real (`compiler/src/`), esto no es lo que el compilador implementado hace; los `.meta.json` de `knowledge/raw/` son salida del compilador, no una entrada que se consulte. Se dejó explícitamente fuera del alcance de RC2 (por ser una diferencia de contenido conceptual, no de temporalidad) — resuelta en la entrada siguiente.
+
+### Formalización de ADR — Capa de metadato (`.meta.json`), posterior a RC2
+
+Se resolvió, mediante una Architectural Decision Review explícita, la discrepancia entre este documento y la implementación respecto al papel de `.meta.json` (detectada en RC2, §10, entrada anterior). Se formalizó que `knowledge/raw/*.meta.json` es exclusivamente **Capa 1** — salida de extracción automática, nunca entrada del compilador — y que la **Capa 2** de metadato curado (leída por el compilador, adoptada incrementalmente a mano), descrita en versiones anteriores de §6/§10/§11/§13/§14, queda **formalmente descartada**, no diferida: el patrón de inferencia desde encabezados de sección de la prosa (validado en el Sprint 3B) reemplaza oficialmente el caso de uso que la motivaba. Se actualizaron, en consecuencia: el ejemplo ilustrativo de §6 (ya no muestra campos curados), la mecánica de compilación de §10 (ya no describe lectura de `.meta.json`), la definición de `raw/` en §11 (distingue explícitamente `docs/` como fuente de `knowledge/raw/*.meta.json` como salida derivada), la fila de riesgo correspondiente en §13, y la recomendación de adopción incremental en §14.
+
+No se modificó ninguna entidad, relación o decisión arquitectónica ajena a esta ADR — en particular, la decisión "Archivo Paralelo sobre Frontmatter" (§6) permanece intacta y sin relación con este cambio: esa decisión es sobre *dónde* vive el metadato físicamente; esta ADR es sobre si el compilador lo *lee de vuelta* o no.
+
 ---
 
 ## Cierre
 
-Este documento sigue sin estar enlazado desde `CLAUDE.md` ni desde ningún otro módulo, de forma deliberada — permanece pendiente de revisión y aprobación antes de integrarse formalmente a la arquitectura documentada.
+Este documento forma parte de la documentación oficial del proyecto: está enlazado desde `CLAUDE.md`, y su implementación (Knowledge Compiler) está validada y descrita en `docs/ARCHITECTURE_v1.md` y `docs/PROJECT_STATE.md`. Junto con esos dos documentos, constituye el contrato técnico congelado en la versión `v1.0.0-architecture-baseline`.
 
-**No se continúa con implementación. Se espera una nueva revisión de arquitectura antes de comenzar la implementación del Knowledge Compiler.**
+**El Knowledge Compiler ya está implementado. Cualquier extensión futura de este modelo (nuevas entidades, nuevas relaciones, nuevos componentes) requiere una revisión de arquitectura explícita antes de implementarse — ver criterios en `docs/ARCHITECTURE_v1.md` §13.**

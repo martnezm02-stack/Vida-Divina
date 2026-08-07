@@ -3,7 +3,7 @@
   "tipo_entidad": "regla_seguridad",
   "titulo": "Reglas de Seguridad",
   "ruta_original": "docs/agente_ia/reglas_de_seguridad.md",
-  "fecha_compilacion": "2026-08-07T09:35:11.681Z",
+  "fecha_compilacion": "2026-08-07T10:54:26.537Z",
   "version": "0.1.0-mvp",
   "estado": "compilado",
   "palabras_clave": [],
@@ -99,77 +99,88 @@
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\README.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 46
     },
     {
       "targetRaw": "./principios.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\principios.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 124
     },
     {
       "targetRaw": "./reglas_de_decision.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\reglas_de_decision.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 205
     },
     {
       "targetRaw": "../conversaciones/README.md#reglas-generales-aplican-a-todo-el-módulo",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\README.md",
       "anchor": "reglas-generales-aplican-a-todo-el-módulo",
       "exists": true,
-      "seccion": "Qué nunca puede hacer"
+      "seccion": "Qué nunca puede hacer",
+      "posicion": 633
     },
     {
       "targetRaw": "../clientes/emprendimiento.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\emprendimiento.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Qué nunca puede hacer"
+      "seccion": "Qué nunca puede hacer",
+      "posicion": 847
     },
     {
       "targetRaw": "./memoria.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\memoria.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Qué nunca puede hacer"
+      "seccion": "Qué nunca puede hacer",
+      "posicion": 1308
     },
     {
       "targetRaw": "./reglas_de_decision.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\reglas_de_decision.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Cuándo debe detenerse"
+      "seccion": "Cuándo debe detenerse",
+      "posicion": 2298
     },
     {
       "targetRaw": "./manejo_de_errores.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\manejo_de_errores.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Cuándo debe detenerse"
+      "seccion": "Cuándo debe detenerse",
+      "posicion": 2543
     },
     {
       "targetRaw": "./manejo_de_errores.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\manejo_de_errores.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Cómo manejar información incierta"
+      "seccion": "Cómo manejar información incierta",
+      "posicion": 3755
     },
     {
       "targetRaw": "./flujo_de_razonamiento.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\flujo_de_razonamiento.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Relación con el paso 10 del flujo de razonamiento"
+      "seccion": "Relación con el paso 10 del flujo de razonamiento",
+      "posicion": 3995
     },
     {
       "targetRaw": "./README.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\README.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Relación con el paso 10 del flujo de razonamiento"
+      "seccion": "Relación con el paso 10 del flujo de razonamiento",
+      "posicion": 4214
     }
   ],
   "checksum": "668b189d9f2b28bd258682cea8707eedaaa2fa916314de8d8310ddada2a09892",

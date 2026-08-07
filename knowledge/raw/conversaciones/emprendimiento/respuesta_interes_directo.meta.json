@@ -3,7 +3,7 @@
   "tipo_entidad": "conversacion",
   "titulo": "Emprendimiento — Respuesta a Interés Directo en el Negocio",
   "ruta_original": "docs/conversaciones/emprendimiento/respuesta_interes_directo.md",
-  "fecha_compilacion": "2026-08-07T09:35:11.715Z",
+  "fecha_compilacion": "2026-08-07T10:54:26.570Z",
   "version": "0.1.0-mvp",
   "estado": "compilado",
   "palabras_clave": [],
@@ -71,49 +71,56 @@
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\emprendimiento.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 401
     },
     {
       "targetRaw": "../../clientes/emprendimiento.md#productos-recomendados",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\emprendimiento.md",
       "anchor": "productos-recomendados",
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 586
     },
     {
       "targetRaw": "../../productos/01-control-de-peso/tedivina.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\01-control-de-peso\\tedivina.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 656
     },
     {
       "targetRaw": "../../productos/02-cafe-divina/black.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\black.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 725
     },
     {
       "targetRaw": "../../productos/03-longevidad-bienestar/reishi-capsules.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\03-longevidad-bienestar\\reishi-capsules.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 785
     },
     {
       "targetRaw": "./index.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\emprendimiento\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 3013
     },
     {
       "targetRaw": "../README.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\README.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 3047
     }
   ],
   "checksum": "61ac761d9ec100542c17875240e37fbab6ce818c4829763c3e5651d83d1285ba",

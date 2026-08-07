@@ -3,7 +3,7 @@
   "tipo_entidad": "documento_cognitivo",
   "titulo": "Comportamiento",
   "ruta_original": "docs/agente_ia/comportamiento.md",
-  "fecha_compilacion": "2026-08-07T09:35:11.666Z",
+  "fecha_compilacion": "2026-08-07T10:54:26.523Z",
   "version": "0.1.0-mvp",
   "estado": "compilado",
   "palabras_clave": [],
@@ -113,91 +113,104 @@
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\README.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 41
     },
     {
       "targetRaw": "./identidad.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\identidad.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 86
     },
     {
       "targetRaw": "../conversaciones/README.md#reglas-generales-aplican-a-todo-el-módulo",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\README.md",
       "anchor": "reglas-generales-aplican-a-todo-el-módulo",
       "exists": true,
-      "seccion": "Cómo hablar"
+      "seccion": "Cómo hablar",
+      "posicion": 564
     },
     {
       "targetRaw": "../conversaciones/plantillas/mensajes_cortos_y_largos.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\plantillas\\mensajes_cortos_y_largos.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Cómo hablar"
+      "seccion": "Cómo hablar",
+      "posicion": 713
     },
     {
       "targetRaw": "../proceso_de_venta/descubrimiento.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\descubrimiento.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Cómo hacer preguntas"
+      "seccion": "Cómo hacer preguntas",
+      "posicion": 1067
     },
     {
       "targetRaw": "../conversaciones/cierre/confirmacion_pedido.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\cierre\\confirmacion_pedido.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Cómo confirmar información"
+      "seccion": "Cómo confirmar información",
+      "posicion": 1475
     },
     {
       "targetRaw": "./memoria.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\memoria.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Cómo resumir"
+      "seccion": "Cómo resumir",
+      "posicion": 1654
     },
     {
       "targetRaw": "../proceso_de_venta/estados_del_cliente.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\estados_del_cliente.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Cómo resumir"
+      "seccion": "Cómo resumir",
+      "posicion": 1749
     },
     {
       "targetRaw": "./manejo_de_errores.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\manejo_de_errores.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Cómo cambiar de tema"
+      "seccion": "Cómo cambiar de tema",
+      "posicion": 2210
     },
     {
       "targetRaw": "../conversaciones/cierre/agradecimiento.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\cierre\\agradecimiento.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Cómo cerrar conversaciones"
+      "seccion": "Cómo cerrar conversaciones",
+      "posicion": 2459
     },
     {
       "targetRaw": "../conversaciones/plantillas/despedidas_agradecimientos.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\plantillas\\despedidas_agradecimientos.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Cómo cerrar conversaciones"
+      "seccion": "Cómo cerrar conversaciones",
+      "posicion": 2570
     },
     {
       "targetRaw": "./identidad.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\identidad.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Principio unificador"
+      "seccion": "Principio unificador",
+      "posicion": 2888
     },
     {
       "targetRaw": "./README.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\README.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Principio unificador"
+      "seccion": "Principio unificador",
+      "posicion": 3080
     }
   ],
   "checksum": "51e074f712d09289d5e72f10dd9bec3faa495bc530100cee38322caf6a791861",

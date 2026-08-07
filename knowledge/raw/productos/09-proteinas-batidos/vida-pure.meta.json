@@ -1,0 +1,61 @@
+{
+  "id": "productos/09-proteinas-batidos/vida-pure",
+  "tipo_entidad": "producto",
+  "titulo": "Vida Pure",
+  "ruta_original": "docs/productos/09-proteinas-batidos.md",
+  "fecha_compilacion": "2026-08-07T10:54:26.653Z",
+  "version": "0.1.0-mvp",
+  "estado": "compilado",
+  "palabras_clave": [
+    "proteína vegana",
+    "proteína en polvo",
+    "sin azúcar",
+    "batido de proteína",
+    "plant-based"
+  ],
+  "relaciones_detectadas": [
+    {
+      "origen_id": "productos/09-proteinas-batidos/vida-pure",
+      "destino_id": "productos/10-energia-antioxidantes/mundo-azul",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/09-proteinas-batidos.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/09-proteinas-batidos/vida-pure",
+      "destino_id": "productos/01-control-de-peso/life-capsules",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/09-proteinas-batidos.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/09-proteinas-batidos/vida-pure",
+      "destino_id": "productos/09-proteinas-batidos",
+      "tipo_relacion": "pertenece_a_categoria",
+      "archivo_origen": "docs/productos/09-proteinas-batidos.md",
+      "verificada": true
+    }
+  ],
+  "referencias": [
+    {
+      "targetRaw": "./10-energia-antioxidantes/mundo-azul.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\10-energia-antioxidantes\\mundo-azul.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Vida Pure",
+      "posicion": 1044
+    },
+    {
+      "targetRaw": "./01-control-de-peso/life-capsules.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\01-control-de-peso\\life-capsules.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Vida Pure",
+      "posicion": 1103
+    }
+  ],
+  "checksum": "989b67c9c3fd8e6bbe69cd26aca7f32356bcff7ed049dc32fd46f9b40b922b7a",
+  "errores_detectados": [],
+  "advertencias": [],
+  "modulo": "productos"
+}

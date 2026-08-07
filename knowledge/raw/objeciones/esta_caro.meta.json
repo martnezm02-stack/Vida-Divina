@@ -3,7 +3,7 @@
   "tipo_entidad": "objecion",
   "titulo": "Objeción — \"Está Caro\"",
   "ruta_original": "docs/objeciones/esta_caro.md",
-  "fecha_compilacion": "2026-08-07T09:35:11.742Z",
+  "fecha_compilacion": "2026-08-07T10:54:26.597Z",
   "version": "0.1.0-mvp",
   "estado": "compilado",
   "palabras_clave": [],
@@ -38,14 +38,14 @@
     },
     {
       "origen_id": "objeciones/esta_caro",
-      "destino_id": "productos/12-cuidado-personal",
+      "destino_id": "productos/12-cuidado-personal/reishi-soap",
       "tipo_relacion": "referencia",
       "archivo_origen": "docs/objeciones/esta_caro.md",
       "verificada": true
     },
     {
       "origen_id": "objeciones/esta_caro",
-      "destino_id": "productos/12-cuidado-personal",
+      "destino_id": "productos/12-cuidado-personal/reishi-toothpaste",
       "tipo_relacion": "referencia",
       "archivo_origen": "docs/objeciones/esta_caro.md",
       "verificada": true
@@ -134,112 +134,128 @@
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\objeciones\\no_tengo_dinero.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Por qué suele surgir"
+      "seccion": "Por qué suele surgir",
+      "posicion": 599
     },
     {
       "targetRaw": "../productos/01-control-de-peso/tedivina.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\01-control-de-peso\\tedivina.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Enlaces a productos relevantes"
+      "seccion": "Enlaces a productos relevantes",
+      "posicion": 2304
     },
     {
       "targetRaw": "../clientes/perder_peso.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\perder_peso.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Enlaces a productos relevantes"
+      "seccion": "Enlaces a productos relevantes",
+      "posicion": 2405
     },
     {
       "targetRaw": "../clientes/bienestar_general.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\bienestar_general.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Enlaces a productos relevantes"
+      "seccion": "Enlaces a productos relevantes",
+      "posicion": 2455
     },
     {
       "targetRaw": "../productos/12-cuidado-personal.md#reishi-soap",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\12-cuidado-personal.md",
       "anchor": "reishi-soap",
       "exists": true,
-      "seccion": "Enlaces a productos relevantes"
+      "seccion": "Enlaces a productos relevantes",
+      "posicion": 2506
     },
     {
       "targetRaw": "../productos/12-cuidado-personal.md#reishi-toothpaste",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\12-cuidado-personal.md",
       "anchor": "reishi-toothpaste",
       "exists": true,
-      "seccion": "Enlaces a productos relevantes"
+      "seccion": "Enlaces a productos relevantes",
+      "posicion": 2577
     },
     {
       "targetRaw": "../clientes/cuidado_personal.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\cuidado_personal.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Enlaces a productos relevantes"
+      "seccion": "Enlaces a productos relevantes",
+      "posicion": 2690
     },
     {
       "targetRaw": "../clientes/belleza_anti_edad.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\belleza_anti_edad.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Enlaces a productos relevantes"
+      "seccion": "Enlaces a productos relevantes",
+      "posicion": 2855
     },
     {
       "targetRaw": "../clientes/longevidad.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\longevidad.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Enlaces a productos relevantes"
+      "seccion": "Enlaces a productos relevantes",
+      "posicion": 2904
     },
     {
       "targetRaw": "../conversaciones/objeciones/esta_caro.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\objeciones\\esta_caro.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Cómo integrarlo en las conversaciones existentes"
+      "seccion": "Cómo integrarlo en las conversaciones existentes",
+      "posicion": 3123
     },
     {
       "targetRaw": "../conversaciones/recomendacion/index.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\recomendacion\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Cómo integrarlo en las conversaciones existentes"
+      "seccion": "Cómo integrarlo en las conversaciones existentes",
+      "posicion": 3211
     },
     {
       "targetRaw": "../conversaciones/cierre/index.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\cierre\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Cómo integrarlo en las conversaciones existentes"
+      "seccion": "Cómo integrarlo en las conversaciones existentes",
+      "posicion": 3264
     },
     {
       "targetRaw": "../conversaciones/README.md#-flujo-general-de-una-conversación",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\README.md",
       "anchor": "-flujo-general-de-una-conversación",
       "exists": true,
-      "seccion": "Cómo integrarlo en las conversaciones existentes"
+      "seccion": "Cómo integrarlo en las conversaciones existentes",
+      "posicion": 3325
     },
     {
       "targetRaw": "../conversaciones/seguimiento/seguimiento_3dias.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\seguimiento\\seguimiento_3dias.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Cómo integrarlo en las conversaciones existentes"
+      "seccion": "Cómo integrarlo en las conversaciones existentes",
+      "posicion": 3501
     },
     {
       "targetRaw": "../conversaciones/README.md#reglas-generales-aplican-a-todo-el-módulo",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\README.md",
       "anchor": "reglas-generales-aplican-a-todo-el-módulo",
       "exists": true,
-      "seccion": "Notas comerciales"
+      "seccion": "Notas comerciales",
+      "posicion": 3821
     },
     {
       "targetRaw": "./README.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\objeciones\\README.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Notas comerciales"
+      "seccion": "Notas comerciales",
+      "posicion": 3924
     }
   ],
   "checksum": "ba9c6f95dce5a513592bb419a015c314a88cc9caab712b307f24ede2f554b84e",

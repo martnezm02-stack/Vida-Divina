@@ -3,7 +3,7 @@
   "tipo_entidad": "producto",
   "titulo": "Mundo Omega",
   "ruta_original": "docs/productos/10-energia-antioxidantes/mundo-omega.md",
-  "fecha_compilacion": "2026-08-07T09:35:11.801Z",
+  "fecha_compilacion": "2026-08-07T10:54:26.656Z",
   "version": "0.1.0-mvp",
   "estado": "compilado",
   "palabras_clave": [
@@ -51,7 +51,7 @@
     },
     {
       "origen_id": "productos/10-energia-antioxidantes/mundo-omega",
-      "destino_id": "productos/09-proteinas-batidos",
+      "destino_id": "productos/09-proteinas-batidos/vida-pure",
       "tipo_relacion": "referencia",
       "archivo_origen": "docs/productos/10-energia-antioxidantes/mundo-omega.md",
       "verificada": true
@@ -84,56 +84,64 @@
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\10-energia-antioxidantes\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 50
     },
     {
       "targetRaw": "../../productos.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 84
     },
     {
       "targetRaw": "./index.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\10-energia-antioxidantes\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 205
     },
     {
       "targetRaw": "./mundo-verde.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\10-energia-antioxidantes\\mundo-verde.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 888
     },
     {
       "targetRaw": "./mundo-rojo.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\10-energia-antioxidantes\\mundo-rojo.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 920
     },
     {
       "targetRaw": "../09-proteinas-batidos.md#vida-pure",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\09-proteinas-batidos.md",
       "anchor": "vida-pure",
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 950
     },
     {
       "targetRaw": "./index.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\10-energia-antioxidantes\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 1123
     },
     {
       "targetRaw": "../../productos.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 1157
     }
   ],
   "checksum": "8b7dc8ef11be6078e15a64bf248d98e790478faa5e2b1ce45e01bd1a79245f3b",

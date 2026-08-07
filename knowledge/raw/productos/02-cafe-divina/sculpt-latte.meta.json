@@ -3,7 +3,7 @@
   "tipo_entidad": "producto",
   "titulo": "Sculpt Latte",
   "ruta_original": "docs/productos/02-cafe-divina/sculpt-latte.md",
-  "fecha_compilacion": "2026-08-07T09:35:11.786Z",
+  "fecha_compilacion": "2026-08-07T10:54:26.641Z",
   "version": "0.1.0-mvp",
   "estado": "compilado",
   "palabras_clave": [
@@ -51,7 +51,7 @@
     },
     {
       "origen_id": "productos/02-cafe-divina/sculpt-latte",
-      "destino_id": "productos/09-proteinas-batidos",
+      "destino_id": "productos/09-proteinas-batidos/vida-pure",
       "tipo_relacion": "referencia",
       "archivo_origen": "docs/productos/02-cafe-divina/sculpt-latte.md",
       "verificada": true
@@ -84,56 +84,64 @@
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 30
     },
     {
       "targetRaw": "../../productos.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 64
     },
     {
       "targetRaw": "./index.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 187
     },
     {
       "targetRaw": "./sculpt-black.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\sculpt-black.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 788
     },
     {
       "targetRaw": "./latte.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\latte.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 816
     },
     {
       "targetRaw": "../09-proteinas-batidos.md#vida-pure",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\09-proteinas-batidos.md",
       "anchor": "vida-pure",
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 841
     },
     {
       "targetRaw": "./index.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 1008
     },
     {
       "targetRaw": "../../productos.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 1042
     }
   ],
   "checksum": "9fa45cf903ed81b5e00769e31b38dc9faebee29a5f155452f7b13f726a0f93e8",

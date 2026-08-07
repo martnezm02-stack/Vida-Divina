@@ -3,7 +3,7 @@
   "tipo_entidad": "producto",
   "titulo": "Mundo Azul",
   "ruta_original": "docs/productos/10-energia-antioxidantes/mundo-azul.md",
-  "fecha_compilacion": "2026-08-07T09:35:11.801Z",
+  "fecha_compilacion": "2026-08-07T10:54:26.655Z",
   "version": "0.1.0-mvp",
   "estado": "compilado",
   "palabras_clave": [
@@ -37,21 +37,21 @@
     },
     {
       "origen_id": "productos/10-energia-antioxidantes/mundo-azul",
-      "destino_id": "productos/09-proteinas-batidos",
+      "destino_id": "productos/09-proteinas-batidos/vida-fuel",
       "tipo_relacion": "referencia",
       "archivo_origen": "docs/productos/10-energia-antioxidantes/mundo-azul.md",
       "verificada": true
     },
     {
       "origen_id": "productos/10-energia-antioxidantes/mundo-azul",
-      "destino_id": "productos/07-rendimiento-fisico",
+      "destino_id": "productos/07-rendimiento-fisico/ripped-capsules",
       "tipo_relacion": "referencia",
       "archivo_origen": "docs/productos/10-energia-antioxidantes/mundo-azul.md",
       "verificada": true
     },
     {
       "origen_id": "productos/10-energia-antioxidantes/mundo-azul",
-      "destino_id": "productos/09-proteinas-batidos",
+      "destino_id": "productos/09-proteinas-batidos/vida-pure",
       "tipo_relacion": "referencia",
       "archivo_origen": "docs/productos/10-energia-antioxidantes/mundo-azul.md",
       "verificada": true
@@ -84,56 +84,64 @@
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\10-energia-antioxidantes\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 49
     },
     {
       "targetRaw": "../../productos.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 83
     },
     {
       "targetRaw": "./index.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\10-energia-antioxidantes\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 231
     },
     {
       "targetRaw": "../09-proteinas-batidos.md#vida-fuel",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\09-proteinas-batidos.md",
       "anchor": "vida-fuel",
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 958
     },
     {
       "targetRaw": "../07-rendimiento-fisico.md#ripped-capsules",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\07-rendimiento-fisico.md",
       "anchor": "ripped-capsules",
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 1015
     },
     {
       "targetRaw": "../09-proteinas-batidos.md#vida-pure",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\09-proteinas-batidos.md",
       "anchor": "vida-pure",
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 1073
     },
     {
       "targetRaw": "./index.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\10-energia-antioxidantes\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 1260
     },
     {
       "targetRaw": "../../productos.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 1294
     }
   ],
   "checksum": "f5758148882781013ed6b832dca87811f481e2eec5dae4a46e6f929b143adc9c",

@@ -1,47 +1,13 @@
 {
   "id": "productos/12-cuidado-personal",
-  "tipo_entidad": "producto",
+  "tipo_entidad": "indice_categoria",
   "titulo": "Categoría: Cuidado Personal",
   "ruta_original": "docs/productos/12-cuidado-personal.md",
-  "fecha_compilacion": "2026-08-07T09:35:11.810Z",
+  "fecha_compilacion": "2026-08-07T10:54:26.665Z",
   "version": "0.1.0-mvp",
   "estado": "compilado",
-  "palabras_clave": [
-    "oro 23k",
-    "aceite de emú",
-    "aceite de argán",
-    "cuidado capilar",
-    "hidratación de piel"
-  ],
+  "palabras_clave": [],
   "relaciones_detectadas": [
-    {
-      "origen_id": "productos/12-cuidado-personal",
-      "destino_id": "productos",
-      "tipo_relacion": "referencia",
-      "archivo_origen": "docs/productos/12-cuidado-personal.md",
-      "verificada": true
-    },
-    {
-      "origen_id": "productos/12-cuidado-personal",
-      "destino_id": "productos/13-linea-radien/radien-collagen-elixir",
-      "tipo_relacion": "referencia",
-      "archivo_origen": "docs/productos/12-cuidado-personal.md",
-      "verificada": true
-    },
-    {
-      "origen_id": "productos/12-cuidado-personal",
-      "destino_id": "productos/11-extractos-hongos/extracto-tremella",
-      "tipo_relacion": "referencia",
-      "archivo_origen": "docs/productos/12-cuidado-personal.md",
-      "verificada": true
-    },
-    {
-      "origen_id": "productos/12-cuidado-personal",
-      "destino_id": "productos/13-linea-radien/radien-cleanser",
-      "tipo_relacion": "referencia",
-      "archivo_origen": "docs/productos/12-cuidado-personal.md",
-      "verificada": true
-    },
     {
       "origen_id": "productos/12-cuidado-personal",
       "destino_id": "productos",
@@ -56,35 +22,8 @@
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
-    },
-    {
-      "targetRaw": "./13-linea-radien/radien-collagen-elixir.md",
-      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\13-linea-radien\\radien-collagen-elixir.md",
-      "anchor": null,
-      "exists": true,
-      "seccion": "Liquid Gold"
-    },
-    {
-      "targetRaw": "./11-extractos-hongos/extracto-tremella.md",
-      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\11-extractos-hongos\\extracto-tremella.md",
-      "anchor": null,
-      "exists": true,
-      "seccion": "Liquid Gold"
-    },
-    {
-      "targetRaw": "./13-linea-radien/radien-cleanser.md",
-      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\13-linea-radien\\radien-cleanser.md",
-      "anchor": null,
-      "exists": true,
-      "seccion": "Reishi Soap"
-    },
-    {
-      "targetRaw": "../productos.md",
-      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
-      "anchor": null,
-      "exists": true,
-      "seccion": "Reishi Soap"
+      "seccion": null,
+      "posicion": 62
     }
   ],
   "checksum": "e66246a24572c60351cb6844131622dac215648a6a5ef05f7d46143e14728ace",

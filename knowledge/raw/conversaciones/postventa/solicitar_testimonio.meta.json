@@ -3,7 +3,7 @@
   "tipo_entidad": "conversacion",
   "titulo": "Postventa — Solicitar Testimonio",
   "ruta_original": "docs/conversaciones/postventa/solicitar_testimonio.md",
-  "fecha_compilacion": "2026-08-07T09:35:11.725Z",
+  "fecha_compilacion": "2026-08-07T10:54:26.581Z",
   "version": "0.1.0-mvp",
   "estado": "compilado",
   "palabras_clave": [],
@@ -50,28 +50,32 @@
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\postventa\\verificar_satisfaccion.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 318
     },
     {
       "targetRaw": "./recomendar_complementarios.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\postventa\\recomendar_complementarios.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 1645
     },
     {
       "targetRaw": "./index.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\postventa\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 2271
     },
     {
       "targetRaw": "../README.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\README.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 2305
     }
   ],
   "checksum": "249250856dd35df20fd25939e83be76e0d982387221b6bcf34fbcd1ed4f1fa83",

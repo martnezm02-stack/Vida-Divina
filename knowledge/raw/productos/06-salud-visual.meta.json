@@ -1,41 +1,13 @@
 {
   "id": "productos/06-salud-visual",
-  "tipo_entidad": "producto",
+  "tipo_entidad": "indice_categoria",
   "titulo": "Categoría: Salud Visual",
   "ruta_original": "docs/productos/06-salud-visual.md",
-  "fecha_compilacion": "2026-08-07T09:35:11.796Z",
+  "fecha_compilacion": "2026-08-07T10:54:26.651Z",
   "version": "0.1.0-mvp",
   "estado": "compilado",
-  "palabras_clave": [
-    "luteína",
-    "arándano (bilberry)",
-    "vitamina A",
-    "salud ocular",
-    "visión",
-    "carotenoides"
-  ],
+  "palabras_clave": [],
   "relaciones_detectadas": [
-    {
-      "origen_id": "productos/06-salud-visual",
-      "destino_id": "productos",
-      "tipo_relacion": "referencia",
-      "archivo_origen": "docs/productos/06-salud-visual.md",
-      "verificada": true
-    },
-    {
-      "origen_id": "productos/06-salud-visual",
-      "destino_id": "productos/03-longevidad-bienestar/inflam-x-capsules",
-      "tipo_relacion": "referencia",
-      "archivo_origen": "docs/productos/06-salud-visual.md",
-      "verificada": true
-    },
-    {
-      "origen_id": "productos/06-salud-visual",
-      "destino_id": "productos/03-longevidad-bienestar/eterno-capsules",
-      "tipo_relacion": "referencia",
-      "archivo_origen": "docs/productos/06-salud-visual.md",
-      "verificada": true
-    },
     {
       "origen_id": "productos/06-salud-visual",
       "destino_id": "productos",
@@ -50,28 +22,8 @@
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
-    },
-    {
-      "targetRaw": "./03-longevidad-bienestar/inflam-x-capsules.md",
-      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\03-longevidad-bienestar\\inflam-x-capsules.md",
-      "anchor": null,
-      "exists": true,
-      "seccion": "Sight Capsules"
-    },
-    {
-      "targetRaw": "./03-longevidad-bienestar/eterno-capsules.md",
-      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\03-longevidad-bienestar\\eterno-capsules.md",
-      "anchor": null,
-      "exists": true,
-      "seccion": "Sight Capsules"
-    },
-    {
-      "targetRaw": "../productos.md",
-      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
-      "anchor": null,
-      "exists": true,
-      "seccion": "Sight Capsules"
+      "seccion": null,
+      "posicion": 58
     }
   ],
   "checksum": "e8d68aaf44a017cc13f52d1c129fbb740720bea6a5efb241c01b301ddc0f3af0",

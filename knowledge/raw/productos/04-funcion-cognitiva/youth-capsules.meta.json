@@ -1,0 +1,61 @@
+{
+  "id": "productos/04-funcion-cognitiva/youth-capsules",
+  "tipo_entidad": "producto",
+  "titulo": "Youth Capsules",
+  "ruta_original": "docs/productos/04-funcion-cognitiva.md",
+  "fecha_compilacion": "2026-08-07T10:54:26.650Z",
+  "version": "0.1.0-mvp",
+  "estado": "compilado",
+  "palabras_clave": [
+    "L-Arginina",
+    "L-Glutamina",
+    "hormona de crecimiento",
+    "antienvejecimiento",
+    "presión arterial"
+  ],
+  "relaciones_detectadas": [
+    {
+      "origen_id": "productos/04-funcion-cognitiva/youth-capsules",
+      "destino_id": "productos/03-longevidad-bienestar/nad-plus",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/04-funcion-cognitiva.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/04-funcion-cognitiva/youth-capsules",
+      "destino_id": "productos/03-longevidad-bienestar/eterno-capsules",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/04-funcion-cognitiva.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/04-funcion-cognitiva/youth-capsules",
+      "destino_id": "productos/04-funcion-cognitiva",
+      "tipo_relacion": "pertenece_a_categoria",
+      "archivo_origen": "docs/productos/04-funcion-cognitiva.md",
+      "verificada": true
+    }
+  ],
+  "referencias": [
+    {
+      "targetRaw": "./03-longevidad-bienestar/nad-plus.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\03-longevidad-bienestar\\nad-plus.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Youth Capsules",
+      "posicion": 1008
+    },
+    {
+      "targetRaw": "./03-longevidad-bienestar/eterno-capsules.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\03-longevidad-bienestar\\eterno-capsules.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Youth Capsules",
+      "posicion": 1066
+    }
+  ],
+  "checksum": "4e577d4c199a3a9f8606728adb4e9fc866c3ef7c14773be7edf5d1ac9581a93d",
+  "errores_detectados": [],
+  "advertencias": [],
+  "modulo": "productos"
+}

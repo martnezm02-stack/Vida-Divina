@@ -3,7 +3,7 @@
   "tipo_entidad": "metrica",
   "titulo": "Métricas",
   "ruta_original": "docs/agente_ia/metricas.md",
-  "fecha_compilacion": "2026-08-07T09:35:11.675Z",
+  "fecha_compilacion": "2026-08-07T10:54:26.532Z",
   "version": "0.1.0-mvp",
   "estado": "compilado",
   "palabras_clave": [],
@@ -78,63 +78,72 @@
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\README.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 35
     },
     {
       "targetRaw": "../../CLAUDE.md#roadmap",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\CLAUDE.md",
       "anchor": "roadmap",
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 298
     },
     {
       "targetRaw": "./flujo_de_razonamiento.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\flujo_de_razonamiento.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Métricas de razonamiento"
+      "seccion": "Métricas de razonamiento",
+      "posicion": 494
     },
     {
       "targetRaw": "../objeciones/README.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\objeciones\\README.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Métricas de razonamiento"
+      "seccion": "Métricas de razonamiento",
+      "posicion": 992
     },
     {
       "targetRaw": "../proceso_de_venta/estados_del_cliente.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\estados_del_cliente.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Métricas de razonamiento"
+      "seccion": "Métricas de razonamiento",
+      "posicion": 1278
     },
     {
       "targetRaw": "../conversaciones/postventa/verificar_satisfaccion.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\postventa\\verificar_satisfaccion.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Métricas de razonamiento"
+      "seccion": "Métricas de razonamiento",
+      "posicion": 1440
     },
     {
       "targetRaw": "./principios.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\principios.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Métricas de disciplina del sistema (cumplimiento de reglas)"
+      "seccion": "Métricas de disciplina del sistema (cumplimiento de reglas)",
+      "posicion": 2126
     },
     {
       "targetRaw": "./reglas_de_seguridad.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\reglas_de_seguridad.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Métricas de disciplina del sistema (cumplimiento de reglas)"
+      "seccion": "Métricas de disciplina del sistema (cumplimiento de reglas)",
+      "posicion": 2264
     },
     {
       "targetRaw": "./README.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\README.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Cómo se usan estas métricas"
+      "seccion": "Cómo se usan estas métricas",
+      "posicion": 2990
     }
   ],
   "checksum": "aabab1449505282a2ae53522b07b3aa099f7040f529725f3cb3b8b66f00546a4",

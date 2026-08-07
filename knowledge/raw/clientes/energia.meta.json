@@ -3,7 +3,7 @@
   "tipo_entidad": "perfil",
   "titulo": "Energía",
   "ruta_original": "docs/clientes/energia.md",
-  "fecha_compilacion": "2026-08-07T09:35:11.694Z",
+  "fecha_compilacion": "2026-08-07T10:54:26.548Z",
   "version": "0.1.0-mvp",
   "estado": "compilado",
   "palabras_clave": [
@@ -150,119 +150,136 @@
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\README.md",
       "anchor": "nota-importante",
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 85
     },
     {
       "targetRaw": "../productos/01-control-de-peso/atom-capsules.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\01-control-de-peso\\atom-capsules.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Productos recomendados"
+      "seccion": "Productos recomendados",
+      "posicion": 1179
     },
     {
       "targetRaw": "../productos/02-cafe-divina/sculpt-black.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\sculpt-black.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Productos recomendados"
+      "seccion": "Productos recomendados",
+      "posicion": 1314
     },
     {
       "targetRaw": "../productos/10-energia-antioxidantes/orange-genius.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\10-energia-antioxidantes\\orange-genius.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Productos recomendados"
+      "seccion": "Productos recomendados",
+      "posicion": 1440
     },
     {
       "targetRaw": "../productos/03-longevidad-bienestar/nad-plus.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\03-longevidad-bienestar\\nad-plus.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Productos recomendados"
+      "seccion": "Productos recomendados",
+      "posicion": 1560
     },
     {
       "targetRaw": "../productos/02-cafe-divina/te-verde.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\te-verde.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Productos recomendados"
+      "seccion": "Productos recomendados",
+      "posicion": 1680
     },
     {
       "targetRaw": "../productos/02-cafe-divina/te-negro.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\te-negro.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Productos recomendados"
+      "seccion": "Productos recomendados",
+      "posicion": 1734
     },
     {
       "targetRaw": "../productos/10-energia-antioxidantes/mundo-azul.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\10-energia-antioxidantes\\mundo-azul.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Productos complementarios"
+      "seccion": "Productos complementarios",
+      "posicion": 2082
     },
     {
       "targetRaw": "../productos/10-energia-antioxidantes/factor-divina.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\10-energia-antioxidantes\\factor-divina.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Productos complementarios"
+      "seccion": "Productos complementarios",
+      "posicion": 2201
     },
     {
       "targetRaw": "../productos/11-extractos-hongos/extracto-cordyceps.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\11-extractos-hongos\\extracto-cordyceps.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Productos complementarios"
+      "seccion": "Productos complementarios",
+      "posicion": 2315
     },
     {
       "targetRaw": "../productos/01-control-de-peso/sleep-n-lose-capsules.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\01-control-de-peso\\sleep-n-lose-capsules.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Productos que NO son prioridad"
+      "seccion": "Productos que NO son prioridad",
+      "posicion": 2486
     },
     {
       "targetRaw": "./descanso_sueno.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\descanso_sueno.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Preguntas para identificar al cliente"
+      "seccion": "Preguntas para identificar al cliente",
+      "posicion": 3264
     },
     {
       "targetRaw": "./rendimiento_deportivo.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\rendimiento_deportivo.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Seguimiento recomendado"
+      "seccion": "Seguimiento recomendado",
+      "posicion": 4031
     },
     {
       "targetRaw": "./rendimiento_deportivo.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\rendimiento_deportivo.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Posibles ventas futuras (cross-selling)"
+      "seccion": "Posibles ventas futuras (cross-selling)",
+      "posicion": 4130
     },
     {
       "targetRaw": "./perder_peso.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\perder_peso.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Posibles ventas futuras (cross-selling)"
+      "seccion": "Posibles ventas futuras (cross-selling)",
+      "posicion": 4174
     },
     {
       "targetRaw": "./salud_cognitiva.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\salud_cognitiva.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Posibles ventas futuras (cross-selling)"
+      "seccion": "Posibles ventas futuras (cross-selling)",
+      "posicion": 4274
     },
     {
       "targetRaw": "./README.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\README.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Nivel de prioridad de este perfil para el negocio"
+      "seccion": "Nivel de prioridad de este perfil para el negocio",
+      "posicion": 4757
     }
   ],
   "checksum": "f2fb811fdec3632a46a2ad4d5bba14c4546137189a8ba930f81c61ad7052f487",

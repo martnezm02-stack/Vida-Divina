@@ -3,7 +3,7 @@
   "tipo_entidad": "conversacion",
   "titulo": "Plantillas — Confirmaciones",
   "ruta_original": "docs/conversaciones/plantillas/confirmaciones.md",
-  "fecha_compilacion": "2026-08-07T09:35:11.722Z",
+  "fecha_compilacion": "2026-08-07T10:54:26.578Z",
   "version": "0.1.0-mvp",
   "estado": "compilado",
   "palabras_clave": [],
@@ -43,21 +43,24 @@
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\cierre\\confirmacion_pedido.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 412
     },
     {
       "targetRaw": "./index.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\plantillas\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 1114
     },
     {
       "targetRaw": "../README.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\README.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 1148
     }
   ],
   "checksum": "6689958ec6daae26eb615d43ddec8f18a14d14cb66214ca21ace0f496fed21e8",

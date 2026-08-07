@@ -3,7 +3,7 @@
   "tipo_entidad": "documento_proceso",
   "titulo": "Descubrimiento",
   "ruta_original": "docs/proceso_de_venta/descubrimiento.md",
-  "fecha_compilacion": "2026-08-07T09:35:11.749Z",
+  "fecha_compilacion": "2026-08-07T10:54:26.605Z",
   "version": "0.1.0-mvp",
   "estado": "compilado",
   "palabras_clave": [],
@@ -120,98 +120,112 @@
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\README.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 48
     },
     {
       "targetRaw": "./flujo_general.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\flujo_general.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 89
     },
     {
       "targetRaw": "./recomendacion.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\recomendacion.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Qué información debe obtener la IA antes de recomendar"
+      "seccion": "Qué información debe obtener la IA antes de recomendar",
+      "posicion": 388
     },
     {
       "targetRaw": "../clientes/README.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\README.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Qué información debe obtener la IA antes de recomendar"
+      "seccion": "Qué información debe obtener la IA antes de recomendar",
+      "posicion": 594
     },
     {
       "targetRaw": "./calificacion_del_cliente.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\calificacion_del_cliente.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Qué información debe obtener la IA antes de recomendar"
+      "seccion": "Qué información debe obtener la IA antes de recomendar",
+      "posicion": 978
     },
     {
       "targetRaw": "../conversaciones/descubrimiento/preguntas_generales.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\descubrimiento\\preguntas_generales.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Qué información debe obtener la IA antes de recomendar"
+      "seccion": "Qué información debe obtener la IA antes de recomendar",
+      "posicion": 1109
     },
     {
       "targetRaw": "./recomendacion.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\recomendacion.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Cuándo detener la conversación para obtener más información"
+      "seccion": "Cuándo detener la conversación para obtener más información",
+      "posicion": 2518
     },
     {
       "targetRaw": "../clientes/bienestar_general.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\bienestar_general.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Cuándo detener la conversación para obtener más información"
+      "seccion": "Cuándo detener la conversación para obtener más información",
+      "posicion": 2739
     },
     {
       "targetRaw": "./postventa.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\postventa.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Cuándo detener la conversación para obtener más información"
+      "seccion": "Cuándo detener la conversación para obtener más información",
+      "posicion": 3033
     },
     {
       "targetRaw": "../objeciones/README.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\objeciones\\README.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Cuándo detener la conversación para obtener más información"
+      "seccion": "Cuándo detener la conversación para obtener más información",
+      "posicion": 3267
     },
     {
       "targetRaw": "./reglas_de_decision.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\reglas_de_decision.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Cuándo detener la conversación para obtener más información"
+      "seccion": "Cuándo detener la conversación para obtener más información",
+      "posicion": 3374
     },
     {
       "targetRaw": "./flujo_general.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\flujo_general.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Qué hacer al completar este paso"
+      "seccion": "Qué hacer al completar este paso",
+      "posicion": 3566
     },
     {
       "targetRaw": "../clientes/README.md#mapa-rápido-necesidad--primer-producto-de-entrada",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\README.md",
       "anchor": "mapa-rápido-necesidad--primer-producto-de-entrada",
       "exists": true,
-      "seccion": "Qué hacer al completar este paso"
+      "seccion": "Qué hacer al completar este paso",
+      "posicion": 3653
     },
     {
       "targetRaw": "./README.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\README.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Qué hacer al completar este paso"
+      "seccion": "Qué hacer al completar este paso",
+      "posicion": 3825
     }
   ],
   "checksum": "3614d5a6856adff370a5a9cc1852bbb0f08906a544f78a7c1b8bc12b757618ef",

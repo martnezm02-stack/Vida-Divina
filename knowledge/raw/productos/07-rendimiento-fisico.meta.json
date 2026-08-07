@@ -1,54 +1,13 @@
 {
   "id": "productos/07-rendimiento-fisico",
-  "tipo_entidad": "producto",
+  "tipo_entidad": "indice_categoria",
   "titulo": "Categoría: Rendimiento Físico y Fuerza",
   "ruta_original": "docs/productos/07-rendimiento-fisico.md",
-  "fecha_compilacion": "2026-08-07T09:35:11.796Z",
+  "fecha_compilacion": "2026-08-07T10:54:26.652Z",
   "version": "0.1.0-mvp",
   "estado": "compilado",
-  "palabras_clave": [
-    "tongkat ali",
-    "aumento muscular",
-    "ganoderma",
-    "fuerza",
-    "envejecimiento prematuro"
-  ],
+  "palabras_clave": [],
   "relaciones_detectadas": [
-    {
-      "origen_id": "productos/07-rendimiento-fisico",
-      "destino_id": "productos",
-      "tipo_relacion": "referencia",
-      "archivo_origen": "docs/productos/07-rendimiento-fisico.md",
-      "verificada": true
-    },
-    {
-      "origen_id": "productos/07-rendimiento-fisico",
-      "destino_id": "productos/08-intimidad-libido",
-      "tipo_relacion": "referencia",
-      "archivo_origen": "docs/productos/07-rendimiento-fisico.md",
-      "verificada": true
-    },
-    {
-      "origen_id": "productos/07-rendimiento-fisico",
-      "destino_id": "productos/02-cafe-divina/sculpt-tongkat-ali",
-      "tipo_relacion": "referencia",
-      "archivo_origen": "docs/productos/07-rendimiento-fisico.md",
-      "verificada": true
-    },
-    {
-      "origen_id": "productos/07-rendimiento-fisico",
-      "destino_id": "productos/10-energia-antioxidantes/mundo-azul",
-      "tipo_relacion": "referencia",
-      "archivo_origen": "docs/productos/07-rendimiento-fisico.md",
-      "verificada": true
-    },
-    {
-      "origen_id": "productos/07-rendimiento-fisico",
-      "destino_id": "productos/09-proteinas-batidos",
-      "tipo_relacion": "referencia",
-      "archivo_origen": "docs/productos/07-rendimiento-fisico.md",
-      "verificada": true
-    },
     {
       "origen_id": "productos/07-rendimiento-fisico",
       "destino_id": "productos",
@@ -63,42 +22,8 @@
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
-    },
-    {
-      "targetRaw": "./08-intimidad-libido.md#mars-capsules",
-      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\08-intimidad-libido.md",
-      "anchor": "mars-capsules",
-      "exists": true,
-      "seccion": "Ripped Capsules"
-    },
-    {
-      "targetRaw": "./02-cafe-divina/sculpt-tongkat-ali.md",
-      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\sculpt-tongkat-ali.md",
-      "anchor": null,
-      "exists": true,
-      "seccion": "Ripped Capsules"
-    },
-    {
-      "targetRaw": "./10-energia-antioxidantes/mundo-azul.md",
-      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\10-energia-antioxidantes\\mundo-azul.md",
-      "anchor": null,
-      "exists": true,
-      "seccion": "Ripped Capsules"
-    },
-    {
-      "targetRaw": "./09-proteinas-batidos.md#vida-fuel",
-      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\09-proteinas-batidos.md",
-      "anchor": "vida-fuel",
-      "exists": true,
-      "seccion": "Ripped Capsules"
-    },
-    {
-      "targetRaw": "../productos.md",
-      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
-      "anchor": null,
-      "exists": true,
-      "seccion": "Ripped Capsules"
+      "seccion": null,
+      "posicion": 73
     }
   ],
   "checksum": "cce9da615dd66ba48e4ba58aff704e5463cdab586aa31c47c5e9fcc8a5b5a09a",

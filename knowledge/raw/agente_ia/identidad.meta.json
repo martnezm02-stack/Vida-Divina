@@ -3,7 +3,7 @@
   "tipo_entidad": "documento_cognitivo",
   "titulo": "Identidad",
   "ruta_original": "docs/agente_ia/identidad.md",
-  "fecha_compilacion": "2026-08-07T09:35:11.673Z",
+  "fecha_compilacion": "2026-08-07T10:54:26.529Z",
   "version": "0.1.0-mvp",
   "estado": "compilado",
   "palabras_clave": [],
@@ -113,112 +113,128 @@
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\README.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 36
     },
     {
       "targetRaw": "../../CLAUDE.md#rol-de-claude",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\CLAUDE.md",
       "anchor": "rol-de-claude",
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 239
     },
     {
       "targetRaw": "../../CLAUDE.md#estilo",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\CLAUDE.md",
       "anchor": "estilo",
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 293
     },
     {
       "targetRaw": "./comportamiento.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\comportamiento.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Rasgos de personalidad"
+      "seccion": "Rasgos de personalidad",
+      "posicion": 706
     },
     {
       "targetRaw": "./manejo_de_errores.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\manejo_de_errores.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Rasgos de personalidad"
+      "seccion": "Rasgos de personalidad",
+      "posicion": 956
     },
     {
       "targetRaw": "./principios.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\principios.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Lo que el agente nunca es"
+      "seccion": "Lo que el agente nunca es",
+      "posicion": 1581
     },
     {
       "targetRaw": "../conversaciones/README.md#reglas-generales-aplican-a-todo-el-módulo",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\README.md",
       "anchor": "reglas-generales-aplican-a-todo-el-módulo",
       "exists": true,
-      "seccion": "Lo que el agente nunca es"
+      "seccion": "Lo que el agente nunca es",
+      "posicion": 1720
     },
     {
       "targetRaw": "../../CLAUDE.md#principios",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\CLAUDE.md",
       "anchor": "principios",
       "exists": true,
-      "seccion": "Relación con la identidad de marca"
+      "seccion": "Relación con la identidad de marca",
+      "posicion": 2100
     },
     {
       "targetRaw": "./principios.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\principios.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Relación con la identidad de marca"
+      "seccion": "Relación con la identidad de marca",
+      "posicion": 2367
     },
     {
       "targetRaw": "./herramientas.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\herramientas.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Cómo se nota esta identidad en la práctica"
+      "seccion": "Cómo se nota esta identidad en la práctica",
+      "posicion": 2547
     },
     {
       "targetRaw": "./comportamiento.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\comportamiento.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Cómo se nota esta identidad en la práctica"
+      "seccion": "Cómo se nota esta identidad en la práctica",
+      "posicion": 2638
     },
     {
       "targetRaw": "./flujo_de_razonamiento.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\flujo_de_razonamiento.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Cómo se nota esta identidad en la práctica"
+      "seccion": "Cómo se nota esta identidad en la práctica",
+      "posicion": 2740
     },
     {
       "targetRaw": "./manejo_de_errores.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\manejo_de_errores.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Cómo se nota esta identidad en la práctica"
+      "seccion": "Cómo se nota esta identidad en la práctica",
+      "posicion": 2866
     },
     {
       "targetRaw": "./reglas_de_seguridad.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\reglas_de_seguridad.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Cómo se nota esta identidad en la práctica"
+      "seccion": "Cómo se nota esta identidad en la práctica",
+      "posicion": 2967
     },
     {
       "targetRaw": "./prioridades.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\prioridades.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Cómo se nota esta identidad en la práctica"
+      "seccion": "Cómo se nota esta identidad en la práctica",
+      "posicion": 3160
     },
     {
       "targetRaw": "./README.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\README.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Cómo se nota esta identidad en la práctica"
+      "seccion": "Cómo se nota esta identidad en la práctica",
+      "posicion": 3210
     }
   ],
   "checksum": "c59f49f712a658e6deacbd6533fc2f48d24f9ef486dc3fa08aab8f20635da283",

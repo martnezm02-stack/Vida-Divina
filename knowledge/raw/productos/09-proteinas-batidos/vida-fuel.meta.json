@@ -1,0 +1,76 @@
+{
+  "id": "productos/09-proteinas-batidos/vida-fuel",
+  "tipo_entidad": "producto",
+  "titulo": "Vida Fuel",
+  "ruta_original": "docs/productos/09-proteinas-batidos.md",
+  "fecha_compilacion": "2026-08-07T10:54:26.653Z",
+  "version": "0.1.0-mvp",
+  "estado": "compilado",
+  "palabras_clave": [
+    "batido sustitutivo",
+    "meal replacement",
+    "whey",
+    "control de peso",
+    "músculo magro"
+  ],
+  "relaciones_detectadas": [
+    {
+      "origen_id": "productos/09-proteinas-batidos/vida-fuel",
+      "destino_id": "productos/01-control-de-peso/hcg-reactor-capsules",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/09-proteinas-batidos.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/09-proteinas-batidos/vida-fuel",
+      "destino_id": "productos/01-control-de-peso/tedivina",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/09-proteinas-batidos.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/09-proteinas-batidos/vida-fuel",
+      "destino_id": "productos",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/09-proteinas-batidos.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/09-proteinas-batidos/vida-fuel",
+      "destino_id": "productos/09-proteinas-batidos",
+      "tipo_relacion": "pertenece_a_categoria",
+      "archivo_origen": "docs/productos/09-proteinas-batidos.md",
+      "verificada": true
+    }
+  ],
+  "referencias": [
+    {
+      "targetRaw": "./01-control-de-peso/hcg-reactor-capsules.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\01-control-de-peso\\hcg-reactor-capsules.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Vida Fuel",
+      "posicion": 2158
+    },
+    {
+      "targetRaw": "./01-control-de-peso/tedivina.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\01-control-de-peso\\tedivina.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Vida Fuel",
+      "posicion": 2216
+    },
+    {
+      "targetRaw": "../productos.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Vida Fuel",
+      "posicion": 2387
+    }
+  ],
+  "checksum": "e9149b9fd8950d697b48ef10bf897ab7791a31a6332a868f03de1b5f55e24fd0",
+  "errores_detectados": [],
+  "advertencias": [],
+  "modulo": "productos"
+}

@@ -3,7 +3,7 @@
   "tipo_entidad": "indice_categoria",
   "titulo": "Categoría: Control de Peso",
   "ruta_original": "docs/productos/01-control-de-peso/index.md",
-  "fecha_compilacion": "2026-08-07T09:35:11.774Z",
+  "fecha_compilacion": "2026-08-07T10:54:26.630Z",
   "version": "0.1.0-mvp",
   "estado": "compilado",
   "palabras_clave": [],
@@ -92,77 +92,88 @@
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 61
     },
     {
       "targetRaw": "./tedivina.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\01-control-de-peso\\tedivina.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Productos en esta categoría"
+      "seccion": "Productos en esta categoría",
+      "posicion": 285
     },
     {
       "targetRaw": "./ignite-capsules.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\01-control-de-peso\\ignite-capsules.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Productos en esta categoría"
+      "seccion": "Productos en esta categoría",
+      "posicion": 398
     },
     {
       "targetRaw": "./hcg-reactor-capsules.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\01-control-de-peso\\hcg-reactor-capsules.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Productos en esta categoría"
+      "seccion": "Productos en esta categoría",
+      "posicion": 502
     },
     {
       "targetRaw": "./life-capsules.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\01-control-de-peso\\life-capsules.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Productos en esta categoría"
+      "seccion": "Productos en esta categoría",
+      "posicion": 614
     },
     {
       "targetRaw": "./atom-capsules.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\01-control-de-peso\\atom-capsules.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Productos en esta categoría"
+      "seccion": "Productos en esta categoría",
+      "posicion": 703
     },
     {
       "targetRaw": "./cheat-capsules.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\01-control-de-peso\\cheat-capsules.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Productos en esta categoría"
+      "seccion": "Productos en esta categoría",
+      "posicion": 800
     },
     {
       "targetRaw": "./cx90.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\01-control-de-peso\\cx90.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Productos en esta categoría"
+      "seccion": "Productos en esta categoría",
+      "posicion": 889
     },
     {
       "targetRaw": "./sleep-n-lose-capsules.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\01-control-de-peso\\sleep-n-lose-capsules.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Productos en esta categoría"
+      "seccion": "Productos en esta categoría",
+      "posicion": 1002
     },
     {
       "targetRaw": "./sculpt-max.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\01-control-de-peso\\sculpt-max.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Productos en esta categoría"
+      "seccion": "Productos en esta categoría",
+      "posicion": 1095
     },
     {
       "targetRaw": "../../productos.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Productos en esta categoría"
+      "seccion": "Productos en esta categoría",
+      "posicion": 1209
     }
   ],
   "checksum": "b52c3959f116fd9cbca8ac70bad1f9a8dad33ffeb0d90424745c3995ecfe613c",

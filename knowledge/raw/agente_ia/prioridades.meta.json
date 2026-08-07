@@ -3,7 +3,7 @@
   "tipo_entidad": "documento_cognitivo",
   "titulo": "Prioridades",
   "ruta_original": "docs/agente_ia/prioridades.md",
-  "fecha_compilacion": "2026-08-07T09:35:11.677Z",
+  "fecha_compilacion": "2026-08-07T10:54:26.533Z",
   "version": "0.1.0-mvp",
   "estado": "compilado",
   "palabras_clave": [],
@@ -71,49 +71,56 @@
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\README.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 38
     },
     {
       "targetRaw": "./flujo_de_razonamiento.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\flujo_de_razonamiento.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 251
     },
     {
       "targetRaw": "./reglas_de_seguridad.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\reglas_de_seguridad.md",
       "anchor": null,
       "exists": true,
-      "seccion": "El orden"
+      "seccion": "El orden",
+      "posicion": 537
     },
     {
       "targetRaw": "./principios.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\principios.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Cómo se usa esta jerarquía en la práctica"
+      "seccion": "Cómo se usa esta jerarquía en la práctica",
+      "posicion": 2178
     },
     {
       "targetRaw": "./manejo_de_errores.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\manejo_de_errores.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Relación con otros archivos"
+      "seccion": "Relación con otros archivos",
+      "posicion": 2325
     },
     {
       "targetRaw": "./reglas_de_decision.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\reglas_de_decision.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Relación con otros archivos"
+      "seccion": "Relación con otros archivos",
+      "posicion": 2427
     },
     {
       "targetRaw": "./README.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\README.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Relación con otros archivos"
+      "seccion": "Relación con otros archivos",
+      "posicion": 2559
     }
   ],
   "checksum": "fe7e0dfcaf325d3872b1158ec13aa99c9d6b64444b4d21d994dfbefd20aaae77",

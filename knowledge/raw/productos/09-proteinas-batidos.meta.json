@@ -1,54 +1,13 @@
 {
   "id": "productos/09-proteinas-batidos",
-  "tipo_entidad": "producto",
+  "tipo_entidad": "indice_categoria",
   "titulo": "Categoría: Proteínas y Batidos",
   "ruta_original": "docs/productos/09-proteinas-batidos.md",
-  "fecha_compilacion": "2026-08-07T09:35:11.798Z",
+  "fecha_compilacion": "2026-08-07T10:54:26.653Z",
   "version": "0.1.0-mvp",
   "estado": "compilado",
-  "palabras_clave": [
-    "proteína vegana",
-    "proteína en polvo",
-    "sin azúcar",
-    "batido de proteína",
-    "plant-based"
-  ],
+  "palabras_clave": [],
   "relaciones_detectadas": [
-    {
-      "origen_id": "productos/09-proteinas-batidos",
-      "destino_id": "productos",
-      "tipo_relacion": "referencia",
-      "archivo_origen": "docs/productos/09-proteinas-batidos.md",
-      "verificada": true
-    },
-    {
-      "origen_id": "productos/09-proteinas-batidos",
-      "destino_id": "productos/10-energia-antioxidantes/mundo-azul",
-      "tipo_relacion": "referencia",
-      "archivo_origen": "docs/productos/09-proteinas-batidos.md",
-      "verificada": true
-    },
-    {
-      "origen_id": "productos/09-proteinas-batidos",
-      "destino_id": "productos/01-control-de-peso/life-capsules",
-      "tipo_relacion": "referencia",
-      "archivo_origen": "docs/productos/09-proteinas-batidos.md",
-      "verificada": true
-    },
-    {
-      "origen_id": "productos/09-proteinas-batidos",
-      "destino_id": "productos/01-control-de-peso/hcg-reactor-capsules",
-      "tipo_relacion": "referencia",
-      "archivo_origen": "docs/productos/09-proteinas-batidos.md",
-      "verificada": true
-    },
-    {
-      "origen_id": "productos/09-proteinas-batidos",
-      "destino_id": "productos/01-control-de-peso/tedivina",
-      "tipo_relacion": "referencia",
-      "archivo_origen": "docs/productos/09-proteinas-batidos.md",
-      "verificada": true
-    },
     {
       "origen_id": "productos/09-proteinas-batidos",
       "destino_id": "productos",
@@ -63,42 +22,8 @@
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
-    },
-    {
-      "targetRaw": "./10-energia-antioxidantes/mundo-azul.md",
-      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\10-energia-antioxidantes\\mundo-azul.md",
-      "anchor": null,
-      "exists": true,
-      "seccion": "Vida Pure"
-    },
-    {
-      "targetRaw": "./01-control-de-peso/life-capsules.md",
-      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\01-control-de-peso\\life-capsules.md",
-      "anchor": null,
-      "exists": true,
-      "seccion": "Vida Pure"
-    },
-    {
-      "targetRaw": "./01-control-de-peso/hcg-reactor-capsules.md",
-      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\01-control-de-peso\\hcg-reactor-capsules.md",
-      "anchor": null,
-      "exists": true,
-      "seccion": "Vida Fuel"
-    },
-    {
-      "targetRaw": "./01-control-de-peso/tedivina.md",
-      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\01-control-de-peso\\tedivina.md",
-      "anchor": null,
-      "exists": true,
-      "seccion": "Vida Fuel"
-    },
-    {
-      "targetRaw": "../productos.md",
-      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
-      "anchor": null,
-      "exists": true,
-      "seccion": "Vida Fuel"
+      "seccion": null,
+      "posicion": 65
     }
   ],
   "checksum": "eb3cefc3b767443730afbc571d7f9627d7eb0ff8187768d90af6e9eba0270952",

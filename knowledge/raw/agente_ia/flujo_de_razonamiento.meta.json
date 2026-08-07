@@ -3,7 +3,7 @@
   "tipo_entidad": "documento_cognitivo",
   "titulo": "Flujo de Razonamiento",
   "ruta_original": "docs/agente_ia/flujo_de_razonamiento.md",
-  "fecha_compilacion": "2026-08-07T09:35:11.670Z",
+  "fecha_compilacion": "2026-08-07T10:54:26.526Z",
   "version": "0.1.0-mvp",
   "estado": "compilado",
   "palabras_clave": [],
@@ -113,91 +113,104 @@
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\README.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 48
     },
     {
       "targetRaw": "../proceso_de_venta/flujo_general.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\flujo_general.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 325
     },
     {
       "targetRaw": "./manejo_de_errores.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\manejo_de_errores.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Los 11 pasos"
+      "seccion": "Los 11 pasos",
+      "posicion": 1378
     },
     {
       "targetRaw": "../clientes/README.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\README.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Los 11 pasos"
+      "seccion": "Los 11 pasos",
+      "posicion": 1677
     },
     {
       "targetRaw": "./reglas_de_decision.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\reglas_de_decision.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Los 11 pasos"
+      "seccion": "Los 11 pasos",
+      "posicion": 1874
     },
     {
       "targetRaw": "../proceso_de_venta/reglas_de_decision.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\reglas_de_decision.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Los 11 pasos"
+      "seccion": "Los 11 pasos",
+      "posicion": 2047
     },
     {
       "targetRaw": "../proceso_de_venta/reglas_de_decision.md#tabla-2-señal-de-objeción-y-archivo-a-consultar",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\reglas_de_decision.md",
       "anchor": "tabla-2-señal-de-objeción-y-archivo-a-consultar",
       "exists": true,
-      "seccion": "Los 11 pasos"
+      "seccion": "Los 11 pasos",
+      "posicion": 2702
     },
     {
       "targetRaw": "./comportamiento.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\comportamiento.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Los 11 pasos"
+      "seccion": "Los 11 pasos",
+      "posicion": 3172
     },
     {
       "targetRaw": "./reglas_de_seguridad.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\reglas_de_seguridad.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Los 11 pasos"
+      "seccion": "Los 11 pasos",
+      "posicion": 3386
     },
     {
       "targetRaw": "./memoria.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\memoria.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Los 11 pasos"
+      "seccion": "Los 11 pasos",
+      "posicion": 3725
     },
     {
       "targetRaw": "./reglas_de_seguridad.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\reglas_de_seguridad.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Qué hacer si el flujo se interrumpe a medio camino"
+      "seccion": "Qué hacer si el flujo se interrumpe a medio camino",
+      "posicion": 3948
     },
     {
       "targetRaw": "./prioridades.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\prioridades.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Qué hacer si el flujo se interrumpe a medio camino"
+      "seccion": "Qué hacer si el flujo se interrumpe a medio camino",
+      "posicion": 4225
     },
     {
       "targetRaw": "./README.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\README.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Qué hacer si el flujo se interrumpe a medio camino"
+      "seccion": "Qué hacer si el flujo se interrumpe a medio camino",
+      "posicion": 4274
     }
   ],
   "checksum": "e2a624abbc796c00eeeba2aa045c0da342e5974b6e01520863837ae0b00d8d46",

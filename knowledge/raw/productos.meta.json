@@ -3,7 +3,7 @@
   "tipo_entidad": "indice_modulo",
   "titulo": "Base de Conocimiento — Catálogo de Productos Vida Divina",
   "ruta_original": "docs/productos.md",
-  "fecha_compilacion": "2026-08-07T09:35:11.770Z",
+  "fecha_compilacion": "2026-08-07T10:54:26.625Z",
   "version": "0.1.0-mvp",
   "estado": "compilado",
   "palabras_clave": [],
@@ -129,7 +129,7 @@
     },
     {
       "origen_id": "productos",
-      "destino_id": "productos/04-funcion-cognitiva",
+      "destino_id": "productos/04-funcion-cognitiva/brain-capsules",
       "tipo_relacion": "referencia",
       "archivo_origen": "docs/productos.md",
       "verificada": true
@@ -318,14 +318,14 @@
     },
     {
       "origen_id": "productos",
-      "destino_id": "productos/12-cuidado-personal",
+      "destino_id": "productos/12-cuidado-personal/liquid-gold",
       "tipo_relacion": "referencia",
       "archivo_origen": "docs/productos.md",
       "verificada": true
     },
     {
       "origen_id": "productos",
-      "destino_id": "productos/08-intimidad-libido",
+      "destino_id": "productos/08-intimidad-libido/mars-capsules",
       "tipo_relacion": "referencia",
       "archivo_origen": "docs/productos.md",
       "verificada": true
@@ -381,7 +381,7 @@
     },
     {
       "origen_id": "productos",
-      "destino_id": "productos/05-dolor-articulaciones",
+      "destino_id": "productos/05-dolor-articulaciones/ouch-capsules",
       "tipo_relacion": "referencia",
       "archivo_origen": "docs/productos.md",
       "verificada": true
@@ -444,21 +444,21 @@
     },
     {
       "origen_id": "productos",
-      "destino_id": "productos/12-cuidado-personal",
+      "destino_id": "productos/12-cuidado-personal/reishi-soap",
       "tipo_relacion": "referencia",
       "archivo_origen": "docs/productos.md",
       "verificada": true
     },
     {
       "origen_id": "productos",
-      "destino_id": "productos/12-cuidado-personal",
+      "destino_id": "productos/12-cuidado-personal/reishi-toothpaste",
       "tipo_relacion": "referencia",
       "archivo_origen": "docs/productos.md",
       "verificada": true
     },
     {
       "origen_id": "productos",
-      "destino_id": "productos/07-rendimiento-fisico",
+      "destino_id": "productos/07-rendimiento-fisico/ripped-capsules",
       "tipo_relacion": "referencia",
       "archivo_origen": "docs/productos.md",
       "verificada": true
@@ -493,7 +493,7 @@
     },
     {
       "origen_id": "productos",
-      "destino_id": "productos/06-salud-visual",
+      "destino_id": "productos/06-salud-visual/sight-capsules",
       "tipo_relacion": "referencia",
       "archivo_origen": "docs/productos.md",
       "verificada": true
@@ -542,28 +542,28 @@
     },
     {
       "origen_id": "productos",
-      "destino_id": "productos/08-intimidad-libido",
+      "destino_id": "productos/08-intimidad-libido/venus-capsules",
       "tipo_relacion": "referencia",
       "archivo_origen": "docs/productos.md",
       "verificada": true
     },
     {
       "origen_id": "productos",
-      "destino_id": "productos/09-proteinas-batidos",
+      "destino_id": "productos/09-proteinas-batidos/vida-fuel",
       "tipo_relacion": "referencia",
       "archivo_origen": "docs/productos.md",
       "verificada": true
     },
     {
       "origen_id": "productos",
-      "destino_id": "productos/09-proteinas-batidos",
+      "destino_id": "productos/09-proteinas-batidos/vida-pure",
       "tipo_relacion": "referencia",
       "archivo_origen": "docs/productos.md",
       "verificada": true
     },
     {
       "origen_id": "productos",
-      "destino_id": "productos/04-funcion-cognitiva",
+      "destino_id": "productos/04-funcion-cognitiva/youth-capsules",
       "tipo_relacion": "referencia",
       "archivo_origen": "docs/productos.md",
       "verificada": true
@@ -575,560 +575,640 @@
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\README.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 942
     },
     {
       "targetRaw": "./productos/01-control-de-peso/index.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\01-control-de-peso\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": "📑 Categorías"
+      "seccion": "📑 Categorías",
+      "posicion": 1171
     },
     {
       "targetRaw": "./productos/02-cafe-divina/index.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": "📑 Categorías"
+      "seccion": "📑 Categorías",
+      "posicion": 1295
     },
     {
       "targetRaw": "./productos/03-longevidad-bienestar/index.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\03-longevidad-bienestar\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": "📑 Categorías"
+      "seccion": "📑 Categorías",
+      "posicion": 1413
     },
     {
       "targetRaw": "./productos/04-funcion-cognitiva.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\04-funcion-cognitiva.md",
       "anchor": null,
       "exists": true,
-      "seccion": "📑 Categorías"
+      "seccion": "📑 Categorías",
+      "posicion": 1526
     },
     {
       "targetRaw": "./productos/05-dolor-articulaciones.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\05-dolor-articulaciones.md",
       "anchor": null,
       "exists": true,
-      "seccion": "📑 Categorías"
+      "seccion": "📑 Categorías",
+      "posicion": 1629
     },
     {
       "targetRaw": "./productos/06-salud-visual.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\06-salud-visual.md",
       "anchor": null,
       "exists": true,
-      "seccion": "📑 Categorías"
+      "seccion": "📑 Categorías",
+      "posicion": 1725
     },
     {
       "targetRaw": "./productos/07-rendimiento-fisico.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\07-rendimiento-fisico.md",
       "anchor": null,
       "exists": true,
-      "seccion": "📑 Categorías"
+      "seccion": "📑 Categorías",
+      "posicion": 1828
     },
     {
       "targetRaw": "./productos/08-intimidad-libido.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\08-intimidad-libido.md",
       "anchor": null,
       "exists": true,
-      "seccion": "📑 Categorías"
+      "seccion": "📑 Categorías",
+      "posicion": 1928
     },
     {
       "targetRaw": "./productos/09-proteinas-batidos.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\09-proteinas-batidos.md",
       "anchor": null,
       "exists": true,
-      "seccion": "📑 Categorías"
+      "seccion": "📑 Categorías",
+      "posicion": 2027
     },
     {
       "targetRaw": "./productos/10-energia-antioxidantes/index.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\10-energia-antioxidantes\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": "📑 Categorías"
+      "seccion": "📑 Categorías",
+      "posicion": 2141
     },
     {
       "targetRaw": "./productos/11-extractos-hongos/index.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\11-extractos-hongos\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": "📑 Categorías"
+      "seccion": "📑 Categorías",
+      "posicion": 2276
     },
     {
       "targetRaw": "./productos/12-cuidado-personal.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\12-cuidado-personal.md",
       "anchor": null,
       "exists": true,
-      "seccion": "📑 Categorías"
+      "seccion": "📑 Categorías",
+      "posicion": 2385
     },
     {
       "targetRaw": "./productos/13-linea-radien/index.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\13-linea-radien\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": "📑 Categorías"
+      "seccion": "📑 Categorías",
+      "posicion": 2499
     },
     {
       "targetRaw": "./productos/03-longevidad-bienestar/aceite-esporas-reishi.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\03-longevidad-bienestar\\aceite-esporas-reishi.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Índice completo de productos (orden alfabético)"
+      "seccion": "Índice completo de productos (orden alfabético)",
+      "posicion": 2742
     },
     {
       "targetRaw": "./productos/01-control-de-peso/atom-capsules.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\01-control-de-peso\\atom-capsules.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Índice completo de productos (orden alfabético)"
+      "seccion": "Índice completo de productos (orden alfabético)",
+      "posicion": 2849
     },
     {
       "targetRaw": "./productos/02-cafe-divina/black.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\black.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Índice completo de productos (orden alfabético)"
+      "seccion": "Índice completo de productos (orden alfabético)",
+      "posicion": 2928
     },
     {
       "targetRaw": "./productos/04-funcion-cognitiva.md#brain-capsules",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\04-funcion-cognitiva.md",
       "anchor": "brain-capsules",
       "exists": true,
-      "seccion": "Índice completo de productos (orden alfabético)"
+      "seccion": "Índice completo de productos (orden alfabético)",
+      "posicion": 3000
     },
     {
       "targetRaw": "./productos/02-cafe-divina/cappuccino.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\cappuccino.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Índice completo de productos (orden alfabético)"
+      "seccion": "Índice completo de productos (orden alfabético)",
+      "posicion": 3089
     },
     {
       "targetRaw": "./productos/03-longevidad-bienestar/chaga-capsules.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\03-longevidad-bienestar\\chaga-capsules.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Índice completo de productos (orden alfabético)"
+      "seccion": "Índice completo de productos (orden alfabético)",
+      "posicion": 3166
     },
     {
       "targetRaw": "./productos/01-control-de-peso/cheat-capsules.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\01-control-de-peso\\cheat-capsules.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Índice completo de productos (orden alfabético)"
+      "seccion": "Índice completo de productos (orden alfabético)",
+      "posicion": 3267
     },
     {
       "targetRaw": "./productos/03-longevidad-bienestar/cordycs-4-capsules.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\03-longevidad-bienestar\\cordycs-4-capsules.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Índice completo de productos (orden alfabético)"
+      "seccion": "Índice completo de productos (orden alfabético)",
+      "posicion": 3360
     },
     {
       "targetRaw": "./productos/01-control-de-peso/cx90.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\01-control-de-peso\\cx90.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Índice completo de productos (orden alfabético)"
+      "seccion": "Índice completo de productos (orden alfabético)",
+      "posicion": 3456
     },
     {
       "targetRaw": "./productos/02-cafe-divina/divine-cereal.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\divine-cereal.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Índice completo de productos (orden alfabético)"
+      "seccion": "Índice completo de productos (orden alfabético)",
+      "posicion": 3534
     },
     {
       "targetRaw": "./productos/03-longevidad-bienestar/eterno-capsules.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\03-longevidad-bienestar\\eterno-capsules.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Índice completo de productos (orden alfabético)"
+      "seccion": "Índice completo de productos (orden alfabético)",
+      "posicion": 3615
     },
     {
       "targetRaw": "./productos/11-extractos-hongos/extracto-agaricus-blazei.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\11-extractos-hongos\\extracto-agaricus-blazei.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Índice completo de productos (orden alfabético)"
+      "seccion": "Índice completo de productos (orden alfabético)",
+      "posicion": 3730
     },
     {
       "targetRaw": "./productos/11-extractos-hongos/extracto-chaga.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\11-extractos-hongos\\extracto-chaga.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Índice completo de productos (orden alfabético)"
+      "seccion": "Índice completo de productos (orden alfabético)",
+      "posicion": 3837
     },
     {
       "targetRaw": "./productos/11-extractos-hongos/extracto-cordyceps.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\11-extractos-hongos\\extracto-cordyceps.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Índice completo de productos (orden alfabético)"
+      "seccion": "Índice completo de productos (orden alfabético)",
+      "posicion": 3938
     },
     {
       "targetRaw": "./productos/11-extractos-hongos/extracto-lions-mane.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\11-extractos-hongos\\extracto-lions-mane.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Índice completo de productos (orden alfabético)"
+      "seccion": "Índice completo de productos (orden alfabético)",
+      "posicion": 4045
     },
     {
       "targetRaw": "./productos/11-extractos-hongos/extracto-maitake.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\11-extractos-hongos\\extracto-maitake.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Índice completo de productos (orden alfabético)"
+      "seccion": "Índice completo de productos (orden alfabético)",
+      "posicion": 4149
     },
     {
       "targetRaw": "./productos/11-extractos-hongos/extracto-reishi.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\11-extractos-hongos\\extracto-reishi.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Índice completo de productos (orden alfabético)"
+      "seccion": "Índice completo de productos (orden alfabético)",
+      "posicion": 4249
     },
     {
       "targetRaw": "./productos/11-extractos-hongos/extracto-shiitake.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\11-extractos-hongos\\extracto-shiitake.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Índice completo de productos (orden alfabético)"
+      "seccion": "Índice completo de productos (orden alfabético)",
+      "posicion": 4350
     },
     {
       "targetRaw": "./productos/11-extractos-hongos/extracto-tremella.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\11-extractos-hongos\\extracto-tremella.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Índice completo de productos (orden alfabético)"
+      "seccion": "Índice completo de productos (orden alfabético)",
+      "posicion": 4453
     },
     {
       "targetRaw": "./productos/11-extractos-hongos/extracto-turkey-tail.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\11-extractos-hongos\\extracto-turkey-tail.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Índice completo de productos (orden alfabético)"
+      "seccion": "Índice completo de productos (orden alfabético)",
+      "posicion": 4559
     },
     {
       "targetRaw": "./productos/10-energia-antioxidantes/factor-divina.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\10-energia-antioxidantes\\factor-divina.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Índice completo de productos (orden alfabético)"
+      "seccion": "Índice completo de productos (orden alfabético)",
+      "posicion": 4658
     },
     {
       "targetRaw": "./productos/01-control-de-peso/hcg-reactor-capsules.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\01-control-de-peso\\hcg-reactor-capsules.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Índice completo de productos (orden alfabético)"
+      "seccion": "Índice completo de productos (orden alfabético)",
+      "posicion": 4766
     },
     {
       "targetRaw": "./productos/02-cafe-divina/hazelnut-latte.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\hazelnut-latte.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Índice completo de productos (orden alfabético)"
+      "seccion": "Índice completo de productos (orden alfabético)",
+      "posicion": 4861
     },
     {
       "targetRaw": "./productos/02-cafe-divina/hot-chocolate.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\hot-chocolate.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Índice completo de productos (orden alfabético)"
+      "seccion": "Índice completo de productos (orden alfabético)",
+      "posicion": 4941
     },
     {
       "targetRaw": "./productos/01-control-de-peso/ignite-capsules.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\01-control-de-peso\\ignite-capsules.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Índice completo de productos (orden alfabético)"
+      "seccion": "Índice completo de productos (orden alfabético)",
+      "posicion": 5022
     },
     {
       "targetRaw": "./productos/03-longevidad-bienestar/inflam-x-capsules.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\03-longevidad-bienestar\\inflam-x-capsules.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Índice completo de productos (orden alfabético)"
+      "seccion": "Índice completo de productos (orden alfabético)",
+      "posicion": 5115
     },
     {
       "targetRaw": "./productos/02-cafe-divina/latte.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\latte.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Índice completo de productos (orden alfabético)"
+      "seccion": "Índice completo de productos (orden alfabético)",
+      "posicion": 5210
     },
     {
       "targetRaw": "./productos/02-cafe-divina/latte-dorado.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\latte-dorado.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Índice completo de productos (orden alfabético)"
+      "seccion": "Índice completo de productos (orden alfabético)",
+      "posicion": 5280
     },
     {
       "targetRaw": "./productos/02-cafe-divina/latte-verde.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\latte-verde.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Índice completo de productos (orden alfabético)"
+      "seccion": "Índice completo de productos (orden alfabético)",
+      "posicion": 5356
     },
     {
       "targetRaw": "./productos/01-control-de-peso/life-capsules.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\01-control-de-peso\\life-capsules.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Índice completo de productos (orden alfabético)"
+      "seccion": "Índice completo de productos (orden alfabético)",
+      "posicion": 5433
     },
     {
       "targetRaw": "./productos/12-cuidado-personal.md#liquid-gold",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\12-cuidado-personal.md",
       "anchor": "liquid-gold",
       "exists": true,
-      "seccion": "Índice completo de productos (orden alfabético)"
+      "seccion": "Índice completo de productos (orden alfabético)",
+      "posicion": 5518
     },
     {
       "targetRaw": "./productos/08-intimidad-libido.md#mars-capsules",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\08-intimidad-libido.md",
       "anchor": "mars-capsules",
       "exists": true,
-      "seccion": "Índice completo de productos (orden alfabético)"
+      "seccion": "Índice completo de productos (orden alfabético)",
+      "posicion": 5605
     },
     {
       "targetRaw": "./productos/02-cafe-divina/mocha.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\mocha.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Índice completo de productos (orden alfabético)"
+      "seccion": "Índice completo de productos (orden alfabético)",
+      "posicion": 5688
     },
     {
       "targetRaw": "./productos/10-energia-antioxidantes/mundo-azul.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\10-energia-antioxidantes\\mundo-azul.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Índice completo de productos (orden alfabético)"
+      "seccion": "Índice completo de productos (orden alfabético)",
+      "posicion": 5756
     },
     {
       "targetRaw": "./productos/10-energia-antioxidantes/mundo-omega.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\10-energia-antioxidantes\\mundo-omega.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Índice completo de productos (orden alfabético)"
+      "seccion": "Índice completo de productos (orden alfabético)",
+      "posicion": 5852
     },
     {
       "targetRaw": "./productos/10-energia-antioxidantes/mundo-rojo.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\10-energia-antioxidantes\\mundo-rojo.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Índice completo de productos (orden alfabético)"
+      "seccion": "Índice completo de productos (orden alfabético)",
+      "posicion": 5948
     },
     {
       "targetRaw": "./productos/10-energia-antioxidantes/mundo-verde.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\10-energia-antioxidantes\\mundo-verde.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Índice completo de productos (orden alfabético)"
+      "seccion": "Índice completo de productos (orden alfabético)",
+      "posicion": 6044
     },
     {
       "targetRaw": "./productos/03-longevidad-bienestar/nad-plus.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\03-longevidad-bienestar\\nad-plus.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Índice completo de productos (orden alfabético)"
+      "seccion": "Índice completo de productos (orden alfabético)",
+      "posicion": 6134
     },
     {
       "targetRaw": "./productos/10-energia-antioxidantes/orange-genius.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\10-energia-antioxidantes\\orange-genius.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Índice completo de productos (orden alfabético)"
+      "seccion": "Índice completo de productos (orden alfabético)",
+      "posicion": 6228
     },
     {
       "targetRaw": "./productos/05-dolor-articulaciones.md#ouch-capsules",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\05-dolor-articulaciones.md",
       "anchor": "ouch-capsules",
       "exists": true,
-      "seccion": "Índice completo de productos (orden alfabético)"
+      "seccion": "Índice completo de productos (orden alfabético)",
+      "posicion": 6329
     },
     {
       "targetRaw": "./productos/13-linea-radien/radien-cleanser.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\13-linea-radien\\radien-cleanser.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Índice completo de productos (orden alfabético)"
+      "seccion": "Índice completo de productos (orden alfabético)",
+      "posicion": 6447
     },
     {
       "targetRaw": "./productos/13-linea-radien/radien-day-creme.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\13-linea-radien\\radien-day-creme.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Índice completo de productos (orden alfabético)"
+      "seccion": "Índice completo de productos (orden alfabético)",
+      "posicion": 6550
     },
     {
       "targetRaw": "./productos/13-linea-radien/radien-eye-serum.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\13-linea-radien\\radien-eye-serum.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Índice completo de productos (orden alfabético)"
+      "seccion": "Índice completo de productos (orden alfabético)",
+      "posicion": 6654
     },
     {
       "targetRaw": "./productos/13-linea-radien/radien-night-creme.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\13-linea-radien\\radien-night-creme.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Índice completo de productos (orden alfabético)"
+      "seccion": "Índice completo de productos (orden alfabético)",
+      "posicion": 6760
     },
     {
       "targetRaw": "./productos/13-linea-radien/radien-toner.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\13-linea-radien\\radien-toner.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Índice completo de productos (orden alfabético)"
+      "seccion": "Índice completo de productos (orden alfabético)",
+      "posicion": 6862
     },
     {
       "targetRaw": "./productos/13-linea-radien/radien-collagen-elixir.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\13-linea-radien\\radien-collagen-elixir.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Índice completo de productos (orden alfabético)"
+      "seccion": "Índice completo de productos (orden alfabético)",
+      "posicion": 6951
     },
     {
       "targetRaw": "./productos/13-linea-radien/radien-qxp-men.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\13-linea-radien\\radien-qxp-men.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Índice completo de productos (orden alfabético)"
+      "seccion": "Índice completo de productos (orden alfabético)",
+      "posicion": 7046
     },
     {
       "targetRaw": "./productos/03-longevidad-bienestar/reishi-capsules.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\03-longevidad-bienestar\\reishi-capsules.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Índice completo de productos (orden alfabético)"
+      "seccion": "Índice completo de productos (orden alfabético)",
+      "posicion": 7130
     },
     {
       "targetRaw": "./productos/12-cuidado-personal.md#reishi-soap",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\12-cuidado-personal.md",
       "anchor": "reishi-soap",
       "exists": true,
-      "seccion": "Índice completo de productos (orden alfabético)"
+      "seccion": "Índice completo de productos (orden alfabético)",
+      "posicion": 7229
     },
     {
       "targetRaw": "./productos/12-cuidado-personal.md#reishi-toothpaste",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\12-cuidado-personal.md",
       "anchor": "reishi-toothpaste",
       "exists": true,
-      "seccion": "Índice completo de productos (orden alfabético)"
+      "seccion": "Índice completo de productos (orden alfabético)",
+      "posicion": 7320
     },
     {
       "targetRaw": "./productos/07-rendimiento-fisico.md#ripped-capsules",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\07-rendimiento-fisico.md",
       "anchor": "ripped-capsules",
       "exists": true,
-      "seccion": "Índice completo de productos (orden alfabético)"
+      "seccion": "Índice completo de productos (orden alfabético)",
+      "posicion": 7415
     },
     {
       "targetRaw": "./productos/02-cafe-divina/sculpt-black.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\sculpt-black.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Índice completo de productos (orden alfabético)"
+      "seccion": "Índice completo de productos (orden alfabético)",
+      "posicion": 7509
     },
     {
       "targetRaw": "./productos/02-cafe-divina/sculpt-latte.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\sculpt-latte.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Índice completo de productos (orden alfabético)"
+      "seccion": "Índice completo de productos (orden alfabético)",
+      "posicion": 7586
     },
     {
       "targetRaw": "./productos/01-control-de-peso/sculpt-max.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\01-control-de-peso\\sculpt-max.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Índice completo de productos (orden alfabético)"
+      "seccion": "Índice completo de productos (orden alfabético)",
+      "posicion": 7661
     },
     {
       "targetRaw": "./productos/02-cafe-divina/sculpt-tongkat-ali.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\sculpt-tongkat-ali.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Índice completo de productos (orden alfabético)"
+      "seccion": "Índice completo de productos (orden alfabético)",
+      "posicion": 7750
     },
     {
       "targetRaw": "./productos/06-salud-visual.md#sight-capsules",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\06-salud-visual.md",
       "anchor": "sight-capsules",
       "exists": true,
-      "seccion": "Índice completo de productos (orden alfabético)"
+      "seccion": "Índice completo de productos (orden alfabético)",
+      "posicion": 7835
     },
     {
       "targetRaw": "./productos/01-control-de-peso/sleep-n-lose-capsules.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\01-control-de-peso\\sleep-n-lose-capsules.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Índice completo de productos (orden alfabético)"
+      "seccion": "Índice completo de productos (orden alfabético)",
+      "posicion": 7926
     },
     {
       "targetRaw": "./productos/01-control-de-peso/tedivina.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\01-control-de-peso\\tedivina.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Índice completo de productos (orden alfabético)"
+      "seccion": "Índice completo de productos (orden alfabético)",
+      "posicion": 8016
     },
     {
       "targetRaw": "./productos/02-cafe-divina/te-negro.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\te-negro.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Índice completo de productos (orden alfabético)"
+      "seccion": "Índice completo de productos (orden alfabético)",
+      "posicion": 8093
     },
     {
       "targetRaw": "./productos/02-cafe-divina/te-verde.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\te-verde.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Índice completo de productos (orden alfabético)"
+      "seccion": "Índice completo de productos (orden alfabético)",
+      "posicion": 8162
     },
     {
       "targetRaw": "./productos/03-longevidad-bienestar/time-capsules.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\03-longevidad-bienestar\\time-capsules.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Índice completo de productos (orden alfabético)"
+      "seccion": "Índice completo de productos (orden alfabético)",
+      "posicion": 8236
     },
     {
       "targetRaw": "./productos/02-cafe-divina/tongkat-ali-cafe.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\tongkat-ali-cafe.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Índice completo de productos (orden alfabético)"
+      "seccion": "Índice completo de productos (orden alfabético)",
+      "posicion": 8340
     },
     {
       "targetRaw": "./productos/08-intimidad-libido.md#venus-capsules",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\08-intimidad-libido.md",
       "anchor": "venus-capsules",
       "exists": true,
-      "seccion": "Índice completo de productos (orden alfabético)"
+      "seccion": "Índice completo de productos (orden alfabético)",
+      "posicion": 8423
     },
     {
       "targetRaw": "./productos/09-proteinas-batidos.md#vida-fuel",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\09-proteinas-batidos.md",
       "anchor": "vida-fuel",
       "exists": true,
-      "seccion": "Índice completo de productos (orden alfabético)"
+      "seccion": "Índice completo de productos (orden alfabético)",
+      "posicion": 8511
     },
     {
       "targetRaw": "./productos/09-proteinas-batidos.md#vida-pure",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\09-proteinas-batidos.md",
       "anchor": "vida-pure",
       "exists": true,
-      "seccion": "Índice completo de productos (orden alfabético)"
+      "seccion": "Índice completo de productos (orden alfabético)",
+      "posicion": 8596
     },
     {
       "targetRaw": "./productos/04-funcion-cognitiva.md#youth-capsules",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\04-funcion-cognitiva.md",
       "anchor": "youth-capsules",
       "exists": true,
-      "seccion": "Índice completo de productos (orden alfabético)"
+      "seccion": "Índice completo de productos (orden alfabético)",
+      "posicion": 8686
     }
   ],
   "checksum": "3b109cd6c9abc862704a7076ae9e53f0bc6fef638e615c2ef4e0199cbb96cd55",

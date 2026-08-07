@@ -3,7 +3,7 @@
   "tipo_entidad": "perfil",
   "titulo": "Salud Íntima y Libido",
   "ruta_original": "docs/clientes/salud_intima_libido.md",
-  "fecha_compilacion": "2026-08-07T09:35:11.704Z",
+  "fecha_compilacion": "2026-08-07T10:54:26.559Z",
   "version": "0.1.0-mvp",
   "estado": "compilado",
   "palabras_clave": [
@@ -26,14 +26,14 @@
     },
     {
       "origen_id": "clientes/salud_intima_libido",
-      "destino_id": "productos/08-intimidad-libido",
+      "destino_id": "productos/08-intimidad-libido/mars-capsules",
       "tipo_relacion": "recomienda_primario",
       "archivo_origen": "docs/clientes/salud_intima_libido.md",
       "verificada": true
     },
     {
       "origen_id": "clientes/salud_intima_libido",
-      "destino_id": "productos/08-intimidad-libido",
+      "destino_id": "productos/08-intimidad-libido/venus-capsules",
       "tipo_relacion": "recomienda_opcional",
       "archivo_origen": "docs/clientes/salud_intima_libido.md",
       "verificada": true
@@ -54,7 +54,7 @@
     },
     {
       "origen_id": "clientes/salud_intima_libido",
-      "destino_id": "productos/07-rendimiento-fisico",
+      "destino_id": "productos/07-rendimiento-fisico/ripped-capsules",
       "tipo_relacion": "recomienda_complementario",
       "archivo_origen": "docs/clientes/salud_intima_libido.md",
       "verificada": true
@@ -68,7 +68,7 @@
     },
     {
       "origen_id": "clientes/salud_intima_libido",
-      "destino_id": "productos/04-funcion-cognitiva",
+      "destino_id": "productos/04-funcion-cognitiva/youth-capsules",
       "tipo_relacion": "recomienda_complementario",
       "archivo_origen": "docs/clientes/salud_intima_libido.md",
       "verificada": true
@@ -115,84 +115,96 @@
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\README.md",
       "anchor": "nota-importante",
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 99
     },
     {
       "targetRaw": "../productos/08-intimidad-libido.md#mars-capsules",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\08-intimidad-libido.md",
       "anchor": "mars-capsules",
       "exists": true,
-      "seccion": "Productos recomendados"
+      "seccion": "Productos recomendados",
+      "posicion": 1387
     },
     {
       "targetRaw": "../productos/08-intimidad-libido.md#venus-capsules",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\08-intimidad-libido.md",
       "anchor": "venus-capsules",
       "exists": true,
-      "seccion": "Productos recomendados"
+      "seccion": "Productos recomendados",
+      "posicion": 1544
     },
     {
       "targetRaw": "../productos/02-cafe-divina/sculpt-tongkat-ali.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\sculpt-tongkat-ali.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Productos recomendados"
+      "seccion": "Productos recomendados",
+      "posicion": 1730
     },
     {
       "targetRaw": "../productos/02-cafe-divina/tongkat-ali-cafe.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\tongkat-ali-cafe.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Productos recomendados"
+      "seccion": "Productos recomendados",
+      "posicion": 1804
     },
     {
       "targetRaw": "../productos/07-rendimiento-fisico.md#ripped-capsules",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\07-rendimiento-fisico.md",
       "anchor": "ripped-capsules",
       "exists": true,
-      "seccion": "Productos complementarios"
+      "seccion": "Productos complementarios",
+      "posicion": 2185
     },
     {
       "targetRaw": "../productos/13-linea-radien/radien-collagen-elixir.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\13-linea-radien\\radien-collagen-elixir.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Productos complementarios"
+      "seccion": "Productos complementarios",
+      "posicion": 2329
     },
     {
       "targetRaw": "../productos/04-funcion-cognitiva.md#youth-capsules",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\04-funcion-cognitiva.md",
       "anchor": "youth-capsules",
       "exists": true,
-      "seccion": "Productos complementarios"
+      "seccion": "Productos complementarios",
+      "posicion": 2480
     },
     {
       "targetRaw": "./rendimiento_deportivo.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\rendimiento_deportivo.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Posibles ventas futuras (cross-selling)"
+      "seccion": "Posibles ventas futuras (cross-selling)",
+      "posicion": 4233
     },
     {
       "targetRaw": "./belleza_anti_edad.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\belleza_anti_edad.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Posibles ventas futuras (cross-selling)"
+      "seccion": "Posibles ventas futuras (cross-selling)",
+      "posicion": 4296
     },
     {
       "targetRaw": "./longevidad.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\longevidad.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Posibles ventas futuras (cross-selling)"
+      "seccion": "Posibles ventas futuras (cross-selling)",
+      "posicion": 4369
     },
     {
       "targetRaw": "./README.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\README.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Nivel de prioridad de este perfil para el negocio"
+      "seccion": "Nivel de prioridad de este perfil para el negocio",
+      "posicion": 4808
     }
   ],
   "checksum": "3fee3393c5b68121c567a83468dbbe058e71048b8d126d1ecfbcea39bb6a23f2",

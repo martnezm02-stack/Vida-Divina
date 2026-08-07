@@ -3,7 +3,7 @@
   "tipo_entidad": "conversacion",
   "titulo": "Seguimiento — 7 Días",
   "ruta_original": "docs/conversaciones/seguimiento/seguimiento_7dias.md",
-  "fecha_compilacion": "2026-08-07T09:35:11.741Z",
+  "fecha_compilacion": "2026-08-07T10:54:26.596Z",
   "version": "0.1.0-mvp",
   "estado": "compilado",
   "palabras_clave": [],
@@ -50,28 +50,32 @@
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\cierre\\cierre_venta.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 1306
     },
     {
       "targetRaw": "./seguimiento_15dias.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\seguimiento\\seguimiento_15dias.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 1376
     },
     {
       "targetRaw": "./index.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\seguimiento\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 1880
     },
     {
       "targetRaw": "../README.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\README.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 1914
     }
   ],
   "checksum": "3563b0bf0b859248e289418c09f6d818db7a500de80e53a772e500bf4d62fca3",

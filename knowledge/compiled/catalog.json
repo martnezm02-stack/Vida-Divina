@@ -546,7 +546,7 @@
   },
   {
     "modulo": "productos",
-    "cantidad_documentos": 68,
+    "cantidad_documentos": 80,
     "tipos_entidad": [
       "indice_categoria",
       "indice_modulo",
@@ -736,31 +736,76 @@
       {
         "id": "productos/04-funcion-cognitiva",
         "titulo": "Categoría: Función Cognitiva",
+        "tipo_entidad": "indice_categoria"
+      },
+      {
+        "id": "productos/04-funcion-cognitiva/brain-capsules",
+        "titulo": "Brain Capsules",
+        "tipo_entidad": "producto"
+      },
+      {
+        "id": "productos/04-funcion-cognitiva/youth-capsules",
+        "titulo": "Youth Capsules",
         "tipo_entidad": "producto"
       },
       {
         "id": "productos/05-dolor-articulaciones",
         "titulo": "Categoría: Dolor y Articulaciones",
+        "tipo_entidad": "indice_categoria"
+      },
+      {
+        "id": "productos/05-dolor-articulaciones/ouch-capsules",
+        "titulo": "Ouch Capsules",
         "tipo_entidad": "producto"
       },
       {
         "id": "productos/06-salud-visual",
         "titulo": "Categoría: Salud Visual",
+        "tipo_entidad": "indice_categoria"
+      },
+      {
+        "id": "productos/06-salud-visual/sight-capsules",
+        "titulo": "Sight Capsules",
         "tipo_entidad": "producto"
       },
       {
         "id": "productos/07-rendimiento-fisico",
         "titulo": "Categoría: Rendimiento Físico y Fuerza",
+        "tipo_entidad": "indice_categoria"
+      },
+      {
+        "id": "productos/07-rendimiento-fisico/ripped-capsules",
+        "titulo": "Ripped Capsules",
         "tipo_entidad": "producto"
       },
       {
         "id": "productos/08-intimidad-libido",
         "titulo": "Categoría: Intimidad y Libido",
+        "tipo_entidad": "indice_categoria"
+      },
+      {
+        "id": "productos/08-intimidad-libido/mars-capsules",
+        "titulo": "Mars Capsules",
+        "tipo_entidad": "producto"
+      },
+      {
+        "id": "productos/08-intimidad-libido/venus-capsules",
+        "titulo": "Venus Capsules",
         "tipo_entidad": "producto"
       },
       {
         "id": "productos/09-proteinas-batidos",
         "titulo": "Categoría: Proteínas y Batidos",
+        "tipo_entidad": "indice_categoria"
+      },
+      {
+        "id": "productos/09-proteinas-batidos/vida-fuel",
+        "titulo": "Vida Fuel",
+        "tipo_entidad": "producto"
+      },
+      {
+        "id": "productos/09-proteinas-batidos/vida-pure",
+        "titulo": "Vida Pure",
         "tipo_entidad": "producto"
       },
       {
@@ -851,6 +896,21 @@
       {
         "id": "productos/12-cuidado-personal",
         "titulo": "Categoría: Cuidado Personal",
+        "tipo_entidad": "indice_categoria"
+      },
+      {
+        "id": "productos/12-cuidado-personal/liquid-gold",
+        "titulo": "Liquid Gold",
+        "tipo_entidad": "producto"
+      },
+      {
+        "id": "productos/12-cuidado-personal/reishi-soap",
+        "titulo": "Reishi Soap",
+        "tipo_entidad": "producto"
+      },
+      {
+        "id": "productos/12-cuidado-personal/reishi-toothpaste",
+        "titulo": "Reishi Toothpaste",
         "tipo_entidad": "producto"
       },
       {

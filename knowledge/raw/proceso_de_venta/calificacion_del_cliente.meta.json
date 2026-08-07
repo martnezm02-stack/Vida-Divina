@@ -3,7 +3,7 @@
   "tipo_entidad": "documento_proceso",
   "titulo": "Calificación del Cliente",
   "ruta_original": "docs/proceso_de_venta/calificacion_del_cliente.md",
-  "fecha_compilacion": "2026-08-07T09:35:11.747Z",
+  "fecha_compilacion": "2026-08-07T10:54:26.602Z",
   "version": "0.1.0-mvp",
   "estado": "compilado",
   "palabras_clave": [],
@@ -127,105 +127,120 @@
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\README.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 58
     },
     {
       "targetRaw": "./flujo_general.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\flujo_general.md",
       "anchor": null,
       "exists": true,
-      "seccion": null
+      "seccion": null,
+      "posicion": 99
     },
     {
       "targetRaw": "../conversaciones/primer_contacto/whatsapp_directo.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\primer_contacto\\whatsapp_directo.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Los tres niveles"
+      "seccion": "Los tres niveles",
+      "posicion": 831
     },
     {
       "targetRaw": "./recomendacion.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\recomendacion.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Los tres niveles"
+      "seccion": "Los tres niveles",
+      "posicion": 938
     },
     {
       "targetRaw": "./descubrimiento.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\descubrimiento.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Los tres niveles"
+      "seccion": "Los tres niveles",
+      "posicion": 998
     },
     {
       "targetRaw": "./descubrimiento.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\descubrimiento.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Los tres niveles"
+      "seccion": "Los tres niveles",
+      "posicion": 1440
     },
     {
       "targetRaw": "./recomendacion.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\recomendacion.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Los tres niveles"
+      "seccion": "Los tres niveles",
+      "posicion": 1479
     },
     {
       "targetRaw": "../conversaciones/primer_contacto/index.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\primer_contacto\\index.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Los tres niveles"
+      "seccion": "Los tres niveles",
+      "posicion": 1598
     },
     {
       "targetRaw": "../conversaciones/primer_contacto/pregunta_precio.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\primer_contacto\\pregunta_precio.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Los tres niveles"
+      "seccion": "Los tres niveles",
+      "posicion": 1885
     },
     {
       "targetRaw": "./estados_del_cliente.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\estados_del_cliente.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Los tres niveles"
+      "seccion": "Los tres niveles",
+      "posicion": 2118
     },
     {
       "targetRaw": "./recomendacion.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\recomendacion.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Los tres niveles"
+      "seccion": "Los tres niveles",
+      "posicion": 2287
     },
     {
       "targetRaw": "./cierre.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\cierre.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Los tres niveles"
+      "seccion": "Los tres niveles",
+      "posicion": 2328
     },
     {
       "targetRaw": "../conversaciones/descubrimiento/preguntas_generales.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\descubrimiento\\preguntas_generales.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Regla de decisión rápida"
+      "seccion": "Regla de decisión rápida",
+      "posicion": 2764
     },
     {
       "targetRaw": "../conversaciones/primer_contacto/pregunta_precio.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\primer_contacto\\pregunta_precio.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Qué NO hacer al calificar"
+      "seccion": "Qué NO hacer al calificar",
+      "posicion": 3279
     },
     {
       "targetRaw": "./README.md",
       "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\README.md",
       "anchor": null,
       "exists": true,
-      "seccion": "Qué NO hacer al calificar"
+      "seccion": "Qué NO hacer al calificar",
+      "posicion": 3693
     }
   ],
   "checksum": "f04f9d5be8df33f9e7667a2ac24d0b897fde51709bec5f1c360e45d2a1a018f3",

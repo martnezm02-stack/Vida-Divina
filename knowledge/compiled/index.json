@@ -932,43 +932,106 @@
   },
   {
     "id": "productos/04-funcion-cognitiva",
-    "tipo_entidad": "producto",
+    "tipo_entidad": "indice_categoria",
     "titulo": "Categoría: Función Cognitiva",
     "modulo": "productos",
     "ruta_original": "docs/productos/04-funcion-cognitiva.md"
   },
   {
-    "id": "productos/05-dolor-articulaciones",
+    "id": "productos/04-funcion-cognitiva/youth-capsules",
     "tipo_entidad": "producto",
+    "titulo": "Youth Capsules",
+    "modulo": "productos",
+    "ruta_original": "docs/productos/04-funcion-cognitiva.md"
+  },
+  {
+    "id": "productos/04-funcion-cognitiva/brain-capsules",
+    "tipo_entidad": "producto",
+    "titulo": "Brain Capsules",
+    "modulo": "productos",
+    "ruta_original": "docs/productos/04-funcion-cognitiva.md"
+  },
+  {
+    "id": "productos/05-dolor-articulaciones",
+    "tipo_entidad": "indice_categoria",
     "titulo": "Categoría: Dolor y Articulaciones",
     "modulo": "productos",
     "ruta_original": "docs/productos/05-dolor-articulaciones.md"
   },
   {
-    "id": "productos/06-salud-visual",
+    "id": "productos/05-dolor-articulaciones/ouch-capsules",
     "tipo_entidad": "producto",
+    "titulo": "Ouch Capsules",
+    "modulo": "productos",
+    "ruta_original": "docs/productos/05-dolor-articulaciones.md"
+  },
+  {
+    "id": "productos/06-salud-visual",
+    "tipo_entidad": "indice_categoria",
     "titulo": "Categoría: Salud Visual",
     "modulo": "productos",
     "ruta_original": "docs/productos/06-salud-visual.md"
   },
   {
-    "id": "productos/07-rendimiento-fisico",
+    "id": "productos/06-salud-visual/sight-capsules",
     "tipo_entidad": "producto",
+    "titulo": "Sight Capsules",
+    "modulo": "productos",
+    "ruta_original": "docs/productos/06-salud-visual.md"
+  },
+  {
+    "id": "productos/07-rendimiento-fisico",
+    "tipo_entidad": "indice_categoria",
     "titulo": "Categoría: Rendimiento Físico y Fuerza",
     "modulo": "productos",
     "ruta_original": "docs/productos/07-rendimiento-fisico.md"
   },
   {
-    "id": "productos/08-intimidad-libido",
+    "id": "productos/07-rendimiento-fisico/ripped-capsules",
     "tipo_entidad": "producto",
+    "titulo": "Ripped Capsules",
+    "modulo": "productos",
+    "ruta_original": "docs/productos/07-rendimiento-fisico.md"
+  },
+  {
+    "id": "productos/08-intimidad-libido",
+    "tipo_entidad": "indice_categoria",
     "titulo": "Categoría: Intimidad y Libido",
     "modulo": "productos",
     "ruta_original": "docs/productos/08-intimidad-libido.md"
   },
   {
-    "id": "productos/09-proteinas-batidos",
+    "id": "productos/08-intimidad-libido/mars-capsules",
     "tipo_entidad": "producto",
+    "titulo": "Mars Capsules",
+    "modulo": "productos",
+    "ruta_original": "docs/productos/08-intimidad-libido.md"
+  },
+  {
+    "id": "productos/08-intimidad-libido/venus-capsules",
+    "tipo_entidad": "producto",
+    "titulo": "Venus Capsules",
+    "modulo": "productos",
+    "ruta_original": "docs/productos/08-intimidad-libido.md"
+  },
+  {
+    "id": "productos/09-proteinas-batidos",
+    "tipo_entidad": "indice_categoria",
     "titulo": "Categoría: Proteínas y Batidos",
+    "modulo": "productos",
+    "ruta_original": "docs/productos/09-proteinas-batidos.md"
+  },
+  {
+    "id": "productos/09-proteinas-batidos/vida-pure",
+    "tipo_entidad": "producto",
+    "titulo": "Vida Pure",
+    "modulo": "productos",
+    "ruta_original": "docs/productos/09-proteinas-batidos.md"
+  },
+  {
+    "id": "productos/09-proteinas-batidos/vida-fuel",
+    "tipo_entidad": "producto",
+    "titulo": "Vida Fuel",
     "modulo": "productos",
     "ruta_original": "docs/productos/09-proteinas-batidos.md"
   },
@@ -1093,8 +1156,29 @@
   },
   {
     "id": "productos/12-cuidado-personal",
-    "tipo_entidad": "producto",
+    "tipo_entidad": "indice_categoria",
     "titulo": "Categoría: Cuidado Personal",
+    "modulo": "productos",
+    "ruta_original": "docs/productos/12-cuidado-personal.md"
+  },
+  {
+    "id": "productos/12-cuidado-personal/liquid-gold",
+    "tipo_entidad": "producto",
+    "titulo": "Liquid Gold",
+    "modulo": "productos",
+    "ruta_original": "docs/productos/12-cuidado-personal.md"
+  },
+  {
+    "id": "productos/12-cuidado-personal/reishi-toothpaste",
+    "tipo_entidad": "producto",
+    "titulo": "Reishi Toothpaste",
+    "modulo": "productos",
+    "ruta_original": "docs/productos/12-cuidado-personal.md"
+  },
+  {
+    "id": "productos/12-cuidado-personal/reishi-soap",
+    "tipo_entidad": "producto",
+    "titulo": "Reishi Soap",
     "modulo": "productos",
     "ruta_original": "docs/productos/12-cuidado-personal.md"
   },
