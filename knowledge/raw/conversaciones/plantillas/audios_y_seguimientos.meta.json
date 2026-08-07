@@ -1,0 +1,95 @@
+{
+  "id": "conversaciones/plantillas/audios_y_seguimientos",
+  "tipo_entidad": "conversacion",
+  "titulo": "Plantillas — Audios y Aperturas de Seguimiento",
+  "ruta_original": "docs/conversaciones/plantillas/audios_y_seguimientos.md",
+  "fecha_compilacion": "2026-08-07T09:35:11.721Z",
+  "version": "0.1.0-mvp",
+  "estado": "compilado",
+  "palabras_clave": [],
+  "relaciones_detectadas": [
+    {
+      "origen_id": "conversaciones/plantillas/audios_y_seguimientos",
+      "destino_id": "conversaciones/seguimiento/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/plantillas/audios_y_seguimientos.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/plantillas/audios_y_seguimientos",
+      "destino_id": "conversaciones/objeciones/mi_medico_no_me_deja",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/plantillas/audios_y_seguimientos.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/plantillas/audios_y_seguimientos",
+      "destino_id": "conversaciones/seguimiento/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/plantillas/audios_y_seguimientos.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/plantillas/audios_y_seguimientos",
+      "destino_id": "conversaciones/plantillas/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/plantillas/audios_y_seguimientos.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/plantillas/audios_y_seguimientos",
+      "destino_id": "conversaciones/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/plantillas/audios_y_seguimientos.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/plantillas/audios_y_seguimientos",
+      "destino_id": "conversaciones/plantillas/index",
+      "tipo_relacion": "pertenece_a_categoria",
+      "archivo_origen": "docs/conversaciones/plantillas/audios_y_seguimientos.md",
+      "verificada": true
+    }
+  ],
+  "referencias": [
+    {
+      "targetRaw": "../seguimiento/index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\seguimiento\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../objeciones/mi_medico_no_me_deja.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\objeciones\\mi_medico_no_me_deja.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../seguimiento/index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\seguimiento\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Cuándo NO usar audio"
+    },
+    {
+      "targetRaw": "./index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\plantillas\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Cuándo NO usar audio"
+    },
+    {
+      "targetRaw": "../README.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\README.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Cuándo NO usar audio"
+    }
+  ],
+  "checksum": "87ace98f9b8357209a84331a78ed4feb7de01c8d7a0e94150c240ff9a2d26e7e",
+  "errores_detectados": [],
+  "advertencias": [],
+  "modulo": "conversaciones"
+}

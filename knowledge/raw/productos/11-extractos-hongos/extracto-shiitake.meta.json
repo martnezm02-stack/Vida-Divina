@@ -1,0 +1,128 @@
+{
+  "id": "productos/11-extractos-hongos/extracto-shiitake",
+  "tipo_entidad": "producto",
+  "titulo": "Extracto de Shiitake",
+  "ruta_original": "docs/productos/11-extractos-hongos/extracto-shiitake.md",
+  "fecha_compilacion": "2026-08-07T09:35:11.808Z",
+  "version": "0.1.0-mvp",
+  "estado": "compilado",
+  "palabras_clave": [
+    "shiitake",
+    "salud del corazón",
+    "hongo popular",
+    "sistema inmunológico"
+  ],
+  "relaciones_detectadas": [
+    {
+      "origen_id": "productos/11-extractos-hongos/extracto-shiitake",
+      "destino_id": "productos/11-extractos-hongos/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/11-extractos-hongos/extracto-shiitake.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/11-extractos-hongos/extracto-shiitake",
+      "destino_id": "productos",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/11-extractos-hongos/extracto-shiitake.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/11-extractos-hongos/extracto-shiitake",
+      "destino_id": "productos/11-extractos-hongos/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/11-extractos-hongos/extracto-shiitake.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/11-extractos-hongos/extracto-shiitake",
+      "destino_id": "productos/11-extractos-hongos/extracto-maitake",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/11-extractos-hongos/extracto-shiitake.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/11-extractos-hongos/extracto-shiitake",
+      "destino_id": "productos/03-longevidad-bienestar/inflam-x-capsules",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/11-extractos-hongos/extracto-shiitake.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/11-extractos-hongos/extracto-shiitake",
+      "destino_id": "productos/11-extractos-hongos/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/11-extractos-hongos/extracto-shiitake.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/11-extractos-hongos/extracto-shiitake",
+      "destino_id": "productos",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/11-extractos-hongos/extracto-shiitake.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/11-extractos-hongos/extracto-shiitake",
+      "destino_id": "productos/11-extractos-hongos/index",
+      "tipo_relacion": "pertenece_a_categoria",
+      "archivo_origen": "docs/productos/11-extractos-hongos/extracto-shiitake.md",
+      "verificada": true
+    }
+  ],
+  "referencias": [
+    {
+      "targetRaw": "./index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\11-extractos-hongos\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../productos.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\11-extractos-hongos\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./extracto-maitake.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\11-extractos-hongos\\extracto-maitake.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../03-longevidad-bienestar/inflam-x-capsules.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\03-longevidad-bienestar\\inflam-x-capsules.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\11-extractos-hongos\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../productos.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    }
+  ],
+  "checksum": "a3a8831f32595c0e9006fc09d8f4080fc3696d3ed3a5180c182d14d7c812f23e",
+  "errores_detectados": [],
+  "advertencias": [],
+  "modulo": "productos"
+}

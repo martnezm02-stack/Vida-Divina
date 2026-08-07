@@ -1,0 +1,375 @@
+{
+  "id": "proceso_de_venta/estados_del_cliente",
+  "tipo_entidad": "estado_cliente",
+  "titulo": "Estados del Cliente",
+  "ruta_original": "docs/proceso_de_venta/estados_del_cliente.md",
+  "fecha_compilacion": "2026-08-07T09:35:11.752Z",
+  "version": "0.1.0-mvp",
+  "estado": "compilado",
+  "palabras_clave": [],
+  "relaciones_detectadas": [
+    {
+      "origen_id": "proceso_de_venta/estados_del_cliente",
+      "destino_id": "proceso_de_venta/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/estados_del_cliente.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/estados_del_cliente",
+      "destino_id": "proceso_de_venta/reglas_de_decision",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/estados_del_cliente.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/estados_del_cliente",
+      "destino_id": "conversaciones/primer_contacto/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/estados_del_cliente.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/estados_del_cliente",
+      "destino_id": "proceso_de_venta/calificacion_del_cliente",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/estados_del_cliente.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/estados_del_cliente",
+      "destino_id": "conversaciones/descubrimiento/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/estados_del_cliente.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/estados_del_cliente",
+      "destino_id": "proceso_de_venta/descubrimiento",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/estados_del_cliente.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/estados_del_cliente",
+      "destino_id": "proceso_de_venta/reglas_de_decision",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/estados_del_cliente.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/estados_del_cliente",
+      "destino_id": "clientes/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/estados_del_cliente.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/estados_del_cliente",
+      "destino_id": "proceso_de_venta/recomendacion",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/estados_del_cliente.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/estados_del_cliente",
+      "destino_id": "proceso_de_venta/reglas_de_decision",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/estados_del_cliente.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/estados_del_cliente",
+      "destino_id": "proceso_de_venta/reglas_de_decision",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/estados_del_cliente.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/estados_del_cliente",
+      "destino_id": "objeciones/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/estados_del_cliente.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/estados_del_cliente",
+      "destino_id": "proceso_de_venta/manejo_de_objeciones",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/estados_del_cliente.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/estados_del_cliente",
+      "destino_id": "proceso_de_venta/seguimiento",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/estados_del_cliente.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/estados_del_cliente",
+      "destino_id": "proceso_de_venta/cierre",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/estados_del_cliente.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/estados_del_cliente",
+      "destino_id": "conversaciones/cierre/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/estados_del_cliente.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/estados_del_cliente",
+      "destino_id": "proceso_de_venta/postventa",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/estados_del_cliente.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/estados_del_cliente",
+      "destino_id": "conversaciones/seguimiento/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/estados_del_cliente.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/estados_del_cliente",
+      "destino_id": "proceso_de_venta/seguimiento",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/estados_del_cliente.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/estados_del_cliente",
+      "destino_id": "conversaciones/postventa/verificar_satisfaccion",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/estados_del_cliente.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/estados_del_cliente",
+      "destino_id": "proceso_de_venta/postventa",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/estados_del_cliente.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/estados_del_cliente",
+      "destino_id": "proceso_de_venta/emprendimiento",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/estados_del_cliente.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/estados_del_cliente",
+      "destino_id": "clientes/emprendimiento",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/estados_del_cliente.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/estados_del_cliente",
+      "destino_id": "conversaciones/emprendimiento/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/estados_del_cliente.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/estados_del_cliente",
+      "destino_id": "proceso_de_venta/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/estados_del_cliente.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/estados_del_cliente",
+      "destino_id": "proceso_de_venta/README",
+      "tipo_relacion": "pertenece_a_categoria",
+      "archivo_origen": "docs/proceso_de_venta/estados_del_cliente.md",
+      "verificada": true
+    }
+  ],
+  "referencias": [
+    {
+      "targetRaw": "./README.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\README.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./reglas_de_decision.md#tabla-4-estado-del-cliente-y-módulo-prioritario",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\reglas_de_decision.md",
+      "anchor": "tabla-4-estado-del-cliente-y-módulo-prioritario",
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../conversaciones/primer_contacto/index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\primer_contacto\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Los 10 estados"
+    },
+    {
+      "targetRaw": "./calificacion_del_cliente.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\calificacion_del_cliente.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Los 10 estados"
+    },
+    {
+      "targetRaw": "../conversaciones/descubrimiento/index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\descubrimiento\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Los 10 estados"
+    },
+    {
+      "targetRaw": "./descubrimiento.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\descubrimiento.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Los 10 estados"
+    },
+    {
+      "targetRaw": "./reglas_de_decision.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\reglas_de_decision.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Los 10 estados"
+    },
+    {
+      "targetRaw": "../clientes/README.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\README.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Los 10 estados"
+    },
+    {
+      "targetRaw": "./recomendacion.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\recomendacion.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Los 10 estados"
+    },
+    {
+      "targetRaw": "./reglas_de_decision.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\reglas_de_decision.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Los 10 estados"
+    },
+    {
+      "targetRaw": "./reglas_de_decision.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\reglas_de_decision.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Los 10 estados"
+    },
+    {
+      "targetRaw": "../objeciones/README.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\objeciones\\README.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Los 10 estados"
+    },
+    {
+      "targetRaw": "./manejo_de_objeciones.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\manejo_de_objeciones.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Los 10 estados"
+    },
+    {
+      "targetRaw": "./seguimiento.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\seguimiento.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Los 10 estados"
+    },
+    {
+      "targetRaw": "./cierre.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\cierre.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Los 10 estados"
+    },
+    {
+      "targetRaw": "../conversaciones/cierre/index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\cierre\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Los 10 estados"
+    },
+    {
+      "targetRaw": "./postventa.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\postventa.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Los 10 estados"
+    },
+    {
+      "targetRaw": "../conversaciones/seguimiento/index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\seguimiento\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Los 10 estados"
+    },
+    {
+      "targetRaw": "./seguimiento.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\seguimiento.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Los 10 estados"
+    },
+    {
+      "targetRaw": "../conversaciones/postventa/verificar_satisfaccion.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\postventa\\verificar_satisfaccion.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Los 10 estados"
+    },
+    {
+      "targetRaw": "./postventa.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\postventa.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Los 10 estados"
+    },
+    {
+      "targetRaw": "./emprendimiento.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\emprendimiento.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Los 10 estados"
+    },
+    {
+      "targetRaw": "../clientes/emprendimiento.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\emprendimiento.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Los 10 estados"
+    },
+    {
+      "targetRaw": "../conversaciones/emprendimiento/index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\emprendimiento\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Los 10 estados"
+    },
+    {
+      "targetRaw": "./README.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\README.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Regla general de uso de este modelo"
+    }
+  ],
+  "checksum": "896afe236ddf19104387a805e3e057b6b28357aaeead2c3891e22321859e94f2",
+  "errores_detectados": [],
+  "advertencias": [],
+  "modulo": "proceso_de_venta"
+}

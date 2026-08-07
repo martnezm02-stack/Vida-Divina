@@ -1,0 +1,174 @@
+{
+  "id": "clientes/cuidado_personal",
+  "tipo_entidad": "perfil",
+  "titulo": "Cuidado Personal (Higiene y Cuidado Básico)",
+  "ruta_original": "docs/clientes/cuidado_personal.md",
+  "fecha_compilacion": "2026-08-07T09:35:11.689Z",
+  "version": "0.1.0-mvp",
+  "estado": "compilado",
+  "palabras_clave": [
+    "cuidado personal",
+    "piel",
+    "cabello",
+    "higiene bucal",
+    "jabón natural",
+    "libre de gluten",
+    "vegano",
+    "producto de regalo"
+  ],
+  "relaciones_detectadas": [
+    {
+      "origen_id": "clientes/cuidado_personal",
+      "destino_id": "clientes/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/clientes/cuidado_personal.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/cuidado_personal",
+      "destino_id": "clientes/belleza_anti_edad",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/clientes/cuidado_personal.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/cuidado_personal",
+      "destino_id": "productos/12-cuidado-personal",
+      "tipo_relacion": "recomienda_primario",
+      "archivo_origen": "docs/clientes/cuidado_personal.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/cuidado_personal",
+      "destino_id": "productos/12-cuidado-personal",
+      "tipo_relacion": "recomienda_opcional",
+      "archivo_origen": "docs/clientes/cuidado_personal.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/cuidado_personal",
+      "destino_id": "productos/12-cuidado-personal",
+      "tipo_relacion": "recomienda_opcional",
+      "archivo_origen": "docs/clientes/cuidado_personal.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/cuidado_personal",
+      "destino_id": "productos/11-extractos-hongos/extracto-tremella",
+      "tipo_relacion": "recomienda_complementario",
+      "archivo_origen": "docs/clientes/cuidado_personal.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/cuidado_personal",
+      "destino_id": "productos/13-linea-radien/radien-collagen-elixir",
+      "tipo_relacion": "recomienda_complementario",
+      "archivo_origen": "docs/clientes/cuidado_personal.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/cuidado_personal",
+      "destino_id": "clientes/belleza_anti_edad",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/clientes/cuidado_personal.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/cuidado_personal",
+      "destino_id": "clientes/belleza_anti_edad",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/clientes/cuidado_personal.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/cuidado_personal",
+      "destino_id": "clientes/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/clientes/cuidado_personal.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/cuidado_personal",
+      "destino_id": "clientes/README",
+      "tipo_relacion": "pertenece_a_categoria",
+      "archivo_origen": "docs/clientes/cuidado_personal.md",
+      "verificada": true
+    }
+  ],
+  "referencias": [
+    {
+      "targetRaw": "./README.md#nota-importante",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\README.md",
+      "anchor": "nota-importante",
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./belleza_anti_edad.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\belleza_anti_edad.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Descripción"
+    },
+    {
+      "targetRaw": "../productos/12-cuidado-personal.md#liquid-gold",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\12-cuidado-personal.md",
+      "anchor": "liquid-gold",
+      "exists": true,
+      "seccion": "Productos recomendados"
+    },
+    {
+      "targetRaw": "../productos/12-cuidado-personal.md#reishi-soap",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\12-cuidado-personal.md",
+      "anchor": "reishi-soap",
+      "exists": true,
+      "seccion": "Productos recomendados"
+    },
+    {
+      "targetRaw": "../productos/12-cuidado-personal.md#reishi-toothpaste",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\12-cuidado-personal.md",
+      "anchor": "reishi-toothpaste",
+      "exists": true,
+      "seccion": "Productos recomendados"
+    },
+    {
+      "targetRaw": "../productos/11-extractos-hongos/extracto-tremella.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\11-extractos-hongos\\extracto-tremella.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Productos complementarios"
+    },
+    {
+      "targetRaw": "../productos/13-linea-radien/radien-collagen-elixir.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\13-linea-radien\\radien-collagen-elixir.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Productos complementarios"
+    },
+    {
+      "targetRaw": "./belleza_anti_edad.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\belleza_anti_edad.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Productos complementarios"
+    },
+    {
+      "targetRaw": "./belleza_anti_edad.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\belleza_anti_edad.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Posibles ventas futuras (cross-selling)"
+    },
+    {
+      "targetRaw": "./README.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\README.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Nivel de prioridad de este perfil para el negocio"
+    }
+  ],
+  "checksum": "5847271cea4b79634c03af33811a01592bb2c11acb7a956093a391563a515d83",
+  "errores_detectados": [],
+  "advertencias": [],
+  "modulo": "clientes"
+}

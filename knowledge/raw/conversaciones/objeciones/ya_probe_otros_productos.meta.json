@@ -1,0 +1,123 @@
+{
+  "id": "conversaciones/objeciones/ya_probe_otros_productos",
+  "tipo_entidad": "conversacion",
+  "titulo": "Objeciones — \"Ya Probé Otros Productos\"",
+  "ruta_original": "docs/conversaciones/objeciones/ya_probe_otros_productos.md",
+  "fecha_compilacion": "2026-08-07T09:35:11.721Z",
+  "version": "0.1.0-mvp",
+  "estado": "compilado",
+  "palabras_clave": [],
+  "relaciones_detectadas": [
+    {
+      "origen_id": "conversaciones/objeciones/ya_probe_otros_productos",
+      "destino_id": "conversaciones/recomendacion/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/objeciones/ya_probe_otros_productos.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/objeciones/ya_probe_otros_productos",
+      "destino_id": "conversaciones/cierre/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/objeciones/ya_probe_otros_productos.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/objeciones/ya_probe_otros_productos",
+      "destino_id": "clientes/perder_peso",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/objeciones/ya_probe_otros_productos.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/objeciones/ya_probe_otros_productos",
+      "destino_id": "productos/01-control-de-peso/tedivina",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/objeciones/ya_probe_otros_productos.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/objeciones/ya_probe_otros_productos",
+      "destino_id": "conversaciones/cierre/cierre_venta",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/objeciones/ya_probe_otros_productos.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/objeciones/ya_probe_otros_productos",
+      "destino_id": "conversaciones/objeciones/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/objeciones/ya_probe_otros_productos.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/objeciones/ya_probe_otros_productos",
+      "destino_id": "conversaciones/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/objeciones/ya_probe_otros_productos.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/objeciones/ya_probe_otros_productos",
+      "destino_id": "conversaciones/objeciones/index",
+      "tipo_relacion": "pertenece_a_categoria",
+      "archivo_origen": "docs/conversaciones/objeciones/ya_probe_otros_productos.md",
+      "verificada": true
+    }
+  ],
+  "referencias": [
+    {
+      "targetRaw": "../recomendacion/index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\recomendacion\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../cierre/index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\cierre\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../clientes/perder_peso.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\perder_peso.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../productos/01-control-de-peso/tedivina.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\01-control-de-peso\\tedivina.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../cierre/cierre_venta.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\cierre\\cierre_venta.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\objeciones\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../README.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\README.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    }
+  ],
+  "checksum": "c45a0408b3302ece406869fcad7b6b3c404289c2afc8949d16f7be53560f3097",
+  "errores_detectados": [],
+  "advertencias": [],
+  "modulo": "conversaciones"
+}

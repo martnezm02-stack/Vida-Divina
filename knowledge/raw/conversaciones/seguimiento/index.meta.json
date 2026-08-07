@@ -1,0 +1,116 @@
+{
+  "id": "conversaciones/seguimiento/index",
+  "tipo_entidad": "indice_categoria",
+  "titulo": "Seguimiento",
+  "ruta_original": "docs/conversaciones/seguimiento/index.md",
+  "fecha_compilacion": "2026-08-07T09:35:11.738Z",
+  "version": "0.1.0-mvp",
+  "estado": "compilado",
+  "palabras_clave": [],
+  "relaciones_detectadas": [
+    {
+      "origen_id": "conversaciones/seguimiento/index",
+      "destino_id": "conversaciones/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/seguimiento/index.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/seguimiento/index",
+      "destino_id": "conversaciones/seguimiento/seguimiento_24h",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/seguimiento/index.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/seguimiento/index",
+      "destino_id": "conversaciones/seguimiento/seguimiento_3dias",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/seguimiento/index.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/seguimiento/index",
+      "destino_id": "conversaciones/seguimiento/seguimiento_7dias",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/seguimiento/index.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/seguimiento/index",
+      "destino_id": "conversaciones/seguimiento/seguimiento_15dias",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/seguimiento/index.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/seguimiento/index",
+      "destino_id": "conversaciones/seguimiento/seguimiento_30dias",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/seguimiento/index.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/seguimiento/index",
+      "destino_id": "conversaciones/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/seguimiento/index.md",
+      "verificada": true
+    }
+  ],
+  "referencias": [
+    {
+      "targetRaw": "../README.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\README.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./seguimiento_24h.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\seguimiento\\seguimiento_24h.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Construidos"
+    },
+    {
+      "targetRaw": "./seguimiento_3dias.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\seguimiento\\seguimiento_3dias.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Construidos"
+    },
+    {
+      "targetRaw": "./seguimiento_7dias.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\seguimiento\\seguimiento_7dias.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Construidos"
+    },
+    {
+      "targetRaw": "./seguimiento_15dias.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\seguimiento\\seguimiento_15dias.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Construidos"
+    },
+    {
+      "targetRaw": "./seguimiento_30dias.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\seguimiento\\seguimiento_30dias.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Construidos"
+    },
+    {
+      "targetRaw": "../README.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\README.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Pendientes"
+    }
+  ],
+  "checksum": "32b3403e6557be2c07b8fa7d6e6138146e3b2b7ae347563acb16454d90e7ca37",
+  "errores_detectados": [],
+  "advertencias": [],
+  "modulo": "conversaciones"
+}

@@ -1,0 +1,165 @@
+{
+  "id": "conversaciones/objeciones/no_tengo_dinero",
+  "tipo_entidad": "conversacion",
+  "titulo": "Objeciones — \"No Tengo Dinero\"",
+  "ruta_original": "docs/conversaciones/objeciones/no_tengo_dinero.md",
+  "fecha_compilacion": "2026-08-07T09:35:11.720Z",
+  "version": "0.1.0-mvp",
+  "estado": "compilado",
+  "palabras_clave": [],
+  "relaciones_detectadas": [
+    {
+      "origen_id": "conversaciones/objeciones/no_tengo_dinero",
+      "destino_id": "conversaciones/recomendacion/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/objeciones/no_tengo_dinero.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/objeciones/no_tengo_dinero",
+      "destino_id": "conversaciones/cierre/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/objeciones/no_tengo_dinero.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/objeciones/no_tengo_dinero",
+      "destino_id": "clientes/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/objeciones/no_tengo_dinero.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/objeciones/no_tengo_dinero",
+      "destino_id": "productos/01-control-de-peso/tedivina",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/objeciones/no_tengo_dinero.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/objeciones/no_tengo_dinero",
+      "destino_id": "productos/12-cuidado-personal",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/objeciones/no_tengo_dinero.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/objeciones/no_tengo_dinero",
+      "destino_id": "conversaciones/seguimiento/seguimiento_15dias",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/objeciones/no_tengo_dinero.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/objeciones/no_tengo_dinero",
+      "destino_id": "conversaciones/seguimiento/seguimiento_30dias",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/objeciones/no_tengo_dinero.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/objeciones/no_tengo_dinero",
+      "destino_id": "objeciones/no_tengo_dinero",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/objeciones/no_tengo_dinero.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/objeciones/no_tengo_dinero",
+      "destino_id": "conversaciones/objeciones/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/objeciones/no_tengo_dinero.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/objeciones/no_tengo_dinero",
+      "destino_id": "conversaciones/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/objeciones/no_tengo_dinero.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/objeciones/no_tengo_dinero",
+      "destino_id": "conversaciones/objeciones/index",
+      "tipo_relacion": "pertenece_a_categoria",
+      "archivo_origen": "docs/conversaciones/objeciones/no_tengo_dinero.md",
+      "verificada": true
+    }
+  ],
+  "referencias": [
+    {
+      "targetRaw": "../recomendacion/index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\recomendacion\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../cierre/index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\cierre\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../clientes/README.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\README.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../productos/01-control-de-peso/tedivina.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\01-control-de-peso\\tedivina.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../productos/12-cuidado-personal.md#reishi-soap",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\12-cuidado-personal.md",
+      "anchor": "reishi-soap",
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../seguimiento/seguimiento_15dias.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\seguimiento\\seguimiento_15dias.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../seguimiento/seguimiento_30dias.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\seguimiento\\seguimiento_30dias.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../objeciones/no_tengo_dinero.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\objeciones\\no_tengo_dinero.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\objeciones\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../README.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\README.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    }
+  ],
+  "checksum": "96ff9497fe60fa06eea297924a3991a239c23aabef99bb076f42e9e315ab60de",
+  "errores_detectados": [],
+  "advertencias": [],
+  "modulo": "conversaciones"
+}

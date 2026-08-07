@@ -1,0 +1,26 @@
+[2026-08-07T09:35:11.653Z] [INFO] === Knowledge Compiler MVP — inicio de compilación ===
+[2026-08-07T09:35:11.656Z] [INFO] Sin filtro de módulos — se compilarán todos los módulos descubiertos en docs/
+[2026-08-07T09:35:11.656Z] [INFO] Paso 1-2: descubriendo módulos y documentos...
+[2026-08-07T09:35:11.662Z] [INFO] Módulos descubiertos: agente_ia, clientes, conversaciones, objeciones, proceso_de_venta, productos
+[2026-08-07T09:35:11.662Z] [INFO] Documentos sueltos en docs/ excluidos del pipeline (documentos de arquitectura, no de módulo): FASE_1_AUDITORIA_TECNICA.md, KNOWLEDGE_COMPILER_IMPLEMENTATION.md, KNOWLEDGE_COMPILER_NOTES.md, KNOWLEDGE_MODEL.md
+[2026-08-07T09:35:11.662Z] [INFO] Documentos totales a procesar: 165
+[2026-08-07T09:35:11.816Z] [INFO] Paso 6: construyendo relaciones...
+[2026-08-07T09:35:11.821Z] [INFO] Relaciones detectadas: 1886
+[2026-08-07T09:35:11.822Z] [INFO] Paso 7: validando consistencia...
+[2026-08-07T09:35:11.823Z] [WARN] relacion_no_verificable: docs/agente_ia/aprendizaje.md referencia "../../CLAUDE.md#convenciones-del-proyecto", que existe en disco pero no es una entidad rastreada por el compilador (posiblemente fuera de docs/ o un archivo no-.md)
+[2026-08-07T09:35:11.824Z] [WARN] relacion_no_verificable: docs/agente_ia/aprendizaje.md referencia "../../CLAUDE.md#roadmap", que existe en disco pero no es una entidad rastreada por el compilador (posiblemente fuera de docs/ o un archivo no-.md)
+[2026-08-07T09:35:11.824Z] [WARN] relacion_no_verificable: docs/agente_ia/aprendizaje.md referencia "../../CLAUDE.md#instrucciones-para-claude", que existe en disco pero no es una entidad rastreada por el compilador (posiblemente fuera de docs/ o un archivo no-.md)
+[2026-08-07T09:35:11.824Z] [WARN] relacion_no_verificable: docs/agente_ia/contexto.md referencia "../../CLAUDE.md#principios-de-arquitectura", que existe en disco pero no es una entidad rastreada por el compilador (posiblemente fuera de docs/ o un archivo no-.md)
+[2026-08-07T09:35:11.825Z] [WARN] relacion_no_verificable: docs/agente_ia/identidad.md referencia "../../CLAUDE.md#rol-de-claude", que existe en disco pero no es una entidad rastreada por el compilador (posiblemente fuera de docs/ o un archivo no-.md)
+[2026-08-07T09:35:11.825Z] [WARN] relacion_no_verificable: docs/agente_ia/identidad.md referencia "../../CLAUDE.md#estilo", que existe en disco pero no es una entidad rastreada por el compilador (posiblemente fuera de docs/ o un archivo no-.md)
+[2026-08-07T09:35:11.826Z] [WARN] relacion_no_verificable: docs/agente_ia/identidad.md referencia "../../CLAUDE.md#principios", que existe en disco pero no es una entidad rastreada por el compilador (posiblemente fuera de docs/ o un archivo no-.md)
+[2026-08-07T09:35:11.826Z] [WARN] relacion_no_verificable: docs/agente_ia/memoria.md referencia "../../CLAUDE.md#roadmap", que existe en disco pero no es una entidad rastreada por el compilador (posiblemente fuera de docs/ o un archivo no-.md)
+[2026-08-07T09:35:11.826Z] [WARN] relacion_no_verificable: docs/agente_ia/metricas.md referencia "../../CLAUDE.md#roadmap", que existe en disco pero no es una entidad rastreada por el compilador (posiblemente fuera de docs/ o un archivo no-.md)
+[2026-08-07T09:35:11.827Z] [WARN] relacion_no_verificable: docs/agente_ia/README.md referencia "../../CLAUDE.md#convenciones-del-proyecto", que existe en disco pero no es una entidad rastreada por el compilador (posiblemente fuera de docs/ o un archivo no-.md)
+[2026-08-07T09:35:11.827Z] [WARN] relacion_no_verificable: docs/agente_ia/roadmap.md referencia "../../CLAUDE.md#roadmap", que existe en disco pero no es una entidad rastreada por el compilador (posiblemente fuera de docs/ o un archivo no-.md)
+[2026-08-07T09:35:11.828Z] [INFO] Paso 8: generando artefactos en knowledge/raw/ y knowledge/compiled/...
+[2026-08-07T09:35:11.917Z] [INFO] Artefactos escritos: 165 archivos .meta.json + 4 índices compilados
+[2026-08-07T09:35:11.918Z] [INFO] Paso 9: generando estadísticas...
+[2026-08-07T09:35:11.919Z] [INFO] Paso 10: generando manifiesto...
+[2026-08-07T09:35:11.964Z] [INFO] === Compilación finalizada ===
+[2026-08-07T09:35:11.965Z] [INFO] Módulos: 6 · Entidades: 165 · Relaciones: 1886 · Advertencias: 11 · Errores: 0 · Tiempo: 172ms

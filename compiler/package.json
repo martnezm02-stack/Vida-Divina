@@ -1,0 +1,17 @@
+{
+  "name": "vida-divina-knowledge-compiler",
+  "version": "0.1.0",
+  "description": "Knowledge Compiler MVP — transforma docs/ en knowledge/ siguiendo docs/KNOWLEDGE_MODEL.md. Cero dependencias externas.",
+  "type": "module",
+  "private": true,
+  "main": "main.js",
+  "scripts": {
+    "compile": "node main.js",
+    "compile:productos": "node main.js --modules=productos"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}

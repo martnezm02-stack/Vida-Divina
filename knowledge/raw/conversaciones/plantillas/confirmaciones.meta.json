@@ -1,0 +1,67 @@
+{
+  "id": "conversaciones/plantillas/confirmaciones",
+  "tipo_entidad": "conversacion",
+  "titulo": "Plantillas — Confirmaciones",
+  "ruta_original": "docs/conversaciones/plantillas/confirmaciones.md",
+  "fecha_compilacion": "2026-08-07T09:35:11.722Z",
+  "version": "0.1.0-mvp",
+  "estado": "compilado",
+  "palabras_clave": [],
+  "relaciones_detectadas": [
+    {
+      "origen_id": "conversaciones/plantillas/confirmaciones",
+      "destino_id": "conversaciones/cierre/confirmacion_pedido",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/plantillas/confirmaciones.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/plantillas/confirmaciones",
+      "destino_id": "conversaciones/plantillas/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/plantillas/confirmaciones.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/plantillas/confirmaciones",
+      "destino_id": "conversaciones/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/plantillas/confirmaciones.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/plantillas/confirmaciones",
+      "destino_id": "conversaciones/plantillas/index",
+      "tipo_relacion": "pertenece_a_categoria",
+      "archivo_origen": "docs/conversaciones/plantillas/confirmaciones.md",
+      "verificada": true
+    }
+  ],
+  "referencias": [
+    {
+      "targetRaw": "../cierre/confirmacion_pedido.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\cierre\\confirmacion_pedido.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\plantillas\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../README.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\README.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    }
+  ],
+  "checksum": "6689958ec6daae26eb615d43ddec8f18a14d14cb66214ca21ace0f496fed21e8",
+  "errores_detectados": [],
+  "advertencias": [],
+  "modulo": "conversaciones"
+}

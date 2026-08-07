@@ -1,0 +1,144 @@
+{
+  "id": "agente_ia/metricas",
+  "tipo_entidad": "metrica",
+  "titulo": "Métricas",
+  "ruta_original": "docs/agente_ia/metricas.md",
+  "fecha_compilacion": "2026-08-07T09:35:11.675Z",
+  "version": "0.1.0-mvp",
+  "estado": "compilado",
+  "palabras_clave": [],
+  "relaciones_detectadas": [
+    {
+      "origen_id": "agente_ia/metricas",
+      "destino_id": "agente_ia/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/metricas.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/metricas",
+      "destino_id": "agente_ia/flujo_de_razonamiento",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/metricas.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/metricas",
+      "destino_id": "objeciones/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/metricas.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/metricas",
+      "destino_id": "proceso_de_venta/estados_del_cliente",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/metricas.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/metricas",
+      "destino_id": "conversaciones/postventa/verificar_satisfaccion",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/metricas.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/metricas",
+      "destino_id": "agente_ia/principios",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/metricas.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/metricas",
+      "destino_id": "agente_ia/reglas_de_seguridad",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/metricas.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/metricas",
+      "destino_id": "agente_ia/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/metricas.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/metricas",
+      "destino_id": "agente_ia/README",
+      "tipo_relacion": "pertenece_a_categoria",
+      "archivo_origen": "docs/agente_ia/metricas.md",
+      "verificada": true
+    }
+  ],
+  "referencias": [
+    {
+      "targetRaw": "./README.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\README.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../CLAUDE.md#roadmap",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\CLAUDE.md",
+      "anchor": "roadmap",
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./flujo_de_razonamiento.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\flujo_de_razonamiento.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Métricas de razonamiento"
+    },
+    {
+      "targetRaw": "../objeciones/README.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\objeciones\\README.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Métricas de razonamiento"
+    },
+    {
+      "targetRaw": "../proceso_de_venta/estados_del_cliente.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\estados_del_cliente.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Métricas de razonamiento"
+    },
+    {
+      "targetRaw": "../conversaciones/postventa/verificar_satisfaccion.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\postventa\\verificar_satisfaccion.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Métricas de razonamiento"
+    },
+    {
+      "targetRaw": "./principios.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\principios.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Métricas de disciplina del sistema (cumplimiento de reglas)"
+    },
+    {
+      "targetRaw": "./reglas_de_seguridad.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\reglas_de_seguridad.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Métricas de disciplina del sistema (cumplimiento de reglas)"
+    },
+    {
+      "targetRaw": "./README.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\README.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Cómo se usan estas métricas"
+    }
+  ],
+  "checksum": "aabab1449505282a2ae53522b07b3aa099f7040f529725f3cb3b8b66f00546a4",
+  "errores_detectados": [],
+  "advertencias": [],
+  "modulo": "agente_ia"
+}

@@ -1,0 +1,347 @@
+{
+  "id": "conversaciones/descubrimiento/senales_por_perfil",
+  "tipo_entidad": "conversacion",
+  "titulo": "Descubrimiento — Señales por Perfil",
+  "ruta_original": "docs/conversaciones/descubrimiento/senales_por_perfil.md",
+  "fecha_compilacion": "2026-08-07T09:35:11.713Z",
+  "version": "0.1.0-mvp",
+  "estado": "compilado",
+  "palabras_clave": [],
+  "relaciones_detectadas": [
+    {
+      "origen_id": "conversaciones/descubrimiento/senales_por_perfil",
+      "destino_id": "clientes/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/descubrimiento/senales_por_perfil.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/descubrimiento/senales_por_perfil",
+      "destino_id": "conversaciones/recomendacion/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/descubrimiento/senales_por_perfil.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/descubrimiento/senales_por_perfil",
+      "destino_id": "conversaciones/descubrimiento/preguntas_generales",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/descubrimiento/senales_por_perfil.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/descubrimiento/senales_por_perfil",
+      "destino_id": "clientes/perder_peso",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/descubrimiento/senales_por_perfil.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/descubrimiento/senales_por_perfil",
+      "destino_id": "clientes/control_glucosa",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/descubrimiento/senales_por_perfil.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/descubrimiento/senales_por_perfil",
+      "destino_id": "clientes/salud_digestiva",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/descubrimiento/senales_por_perfil.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/descubrimiento/senales_por_perfil",
+      "destino_id": "clientes/energia",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/descubrimiento/senales_por_perfil.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/descubrimiento/senales_por_perfil",
+      "destino_id": "clientes/rendimiento_deportivo",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/descubrimiento/senales_por_perfil.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/descubrimiento/senales_por_perfil",
+      "destino_id": "clientes/sistema_inmunologico",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/descubrimiento/senales_por_perfil.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/descubrimiento/senales_por_perfil",
+      "destino_id": "clientes/longevidad",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/descubrimiento/senales_por_perfil.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/descubrimiento/senales_por_perfil",
+      "destino_id": "clientes/salud_cognitiva",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/descubrimiento/senales_por_perfil.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/descubrimiento/senales_por_perfil",
+      "destino_id": "clientes/dolor_articulaciones",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/descubrimiento/senales_por_perfil.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/descubrimiento/senales_por_perfil",
+      "destino_id": "clientes/salud_visual",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/descubrimiento/senales_por_perfil.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/descubrimiento/senales_por_perfil",
+      "destino_id": "clientes/salud_intima_libido",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/descubrimiento/senales_por_perfil.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/descubrimiento/senales_por_perfil",
+      "destino_id": "clientes/descanso_sueno",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/descubrimiento/senales_por_perfil.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/descubrimiento/senales_por_perfil",
+      "destino_id": "clientes/cuidado_personal",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/descubrimiento/senales_por_perfil.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/descubrimiento/senales_por_perfil",
+      "destino_id": "clientes/belleza_anti_edad",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/descubrimiento/senales_por_perfil.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/descubrimiento/senales_por_perfil",
+      "destino_id": "clientes/emprendimiento",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/descubrimiento/senales_por_perfil.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/descubrimiento/senales_por_perfil",
+      "destino_id": "clientes/bienestar_general",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/descubrimiento/senales_por_perfil.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/descubrimiento/senales_por_perfil",
+      "destino_id": "conversaciones/recomendacion/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/descubrimiento/senales_por_perfil.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/descubrimiento/senales_por_perfil",
+      "destino_id": "conversaciones/postventa/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/descubrimiento/senales_por_perfil.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/descubrimiento/senales_por_perfil",
+      "destino_id": "conversaciones/descubrimiento/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/descubrimiento/senales_por_perfil.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/descubrimiento/senales_por_perfil",
+      "destino_id": "conversaciones/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/descubrimiento/senales_por_perfil.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/descubrimiento/senales_por_perfil",
+      "destino_id": "conversaciones/descubrimiento/index",
+      "tipo_relacion": "pertenece_a_categoria",
+      "archivo_origen": "docs/conversaciones/descubrimiento/senales_por_perfil.md",
+      "verificada": true
+    }
+  ],
+  "referencias": [
+    {
+      "targetRaw": "../../clientes/README.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\README.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../recomendacion/index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\recomendacion\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./preguntas_generales.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\descubrimiento\\preguntas_generales.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../clientes/perder_peso.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\perder_peso.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../clientes/control_glucosa.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\control_glucosa.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../clientes/salud_digestiva.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\salud_digestiva.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../clientes/energia.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\energia.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../clientes/rendimiento_deportivo.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\rendimiento_deportivo.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../clientes/sistema_inmunologico.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\sistema_inmunologico.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../clientes/longevidad.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\longevidad.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../clientes/salud_cognitiva.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\salud_cognitiva.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../clientes/dolor_articulaciones.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\dolor_articulaciones.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../clientes/salud_visual.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\salud_visual.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../clientes/salud_intima_libido.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\salud_intima_libido.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../clientes/descanso_sueno.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\descanso_sueno.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../clientes/cuidado_personal.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\cuidado_personal.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../clientes/belleza_anti_edad.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\belleza_anti_edad.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../clientes/emprendimiento.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\emprendimiento.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../clientes/bienestar_general.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\bienestar_general.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../recomendacion/index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\recomendacion\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../postventa/index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\postventa\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\descubrimiento\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../README.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\README.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    }
+  ],
+  "checksum": "526ecbded59a8145dc33d7a9af991b9f40306afdcb8405f9431649bc74661fbb",
+  "errores_detectados": [],
+  "advertencias": [],
+  "modulo": "conversaciones"
+}

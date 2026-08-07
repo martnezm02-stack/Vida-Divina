@@ -1,0 +1,143 @@
+{
+  "id": "productos/11-extractos-hongos/extracto-chaga",
+  "tipo_entidad": "producto",
+  "titulo": "Extracto de Chaga",
+  "ruta_original": "docs/productos/11-extractos-hongos/extracto-chaga.md",
+  "fecha_compilacion": "2026-08-07T09:35:11.805Z",
+  "version": "0.1.0-mvp",
+  "estado": "compilado",
+  "palabras_clave": [
+    "chaga en polvo",
+    "siberia",
+    "extracto puro",
+    "sistema inmunológico",
+    "antioxidantes"
+  ],
+  "relaciones_detectadas": [
+    {
+      "origen_id": "productos/11-extractos-hongos/extracto-chaga",
+      "destino_id": "productos/11-extractos-hongos/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/11-extractos-hongos/extracto-chaga.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/11-extractos-hongos/extracto-chaga",
+      "destino_id": "productos",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/11-extractos-hongos/extracto-chaga.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/11-extractos-hongos/extracto-chaga",
+      "destino_id": "productos/11-extractos-hongos/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/11-extractos-hongos/extracto-chaga.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/11-extractos-hongos/extracto-chaga",
+      "destino_id": "productos/03-longevidad-bienestar/chaga-capsules",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/11-extractos-hongos/extracto-chaga.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/11-extractos-hongos/extracto-chaga",
+      "destino_id": "productos/11-extractos-hongos/extracto-reishi",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/11-extractos-hongos/extracto-chaga.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/11-extractos-hongos/extracto-chaga",
+      "destino_id": "productos/01-control-de-peso/tedivina",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/11-extractos-hongos/extracto-chaga.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/11-extractos-hongos/extracto-chaga",
+      "destino_id": "productos/11-extractos-hongos/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/11-extractos-hongos/extracto-chaga.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/11-extractos-hongos/extracto-chaga",
+      "destino_id": "productos",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/11-extractos-hongos/extracto-chaga.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/11-extractos-hongos/extracto-chaga",
+      "destino_id": "productos/11-extractos-hongos/index",
+      "tipo_relacion": "pertenece_a_categoria",
+      "archivo_origen": "docs/productos/11-extractos-hongos/extracto-chaga.md",
+      "verificada": true
+    }
+  ],
+  "referencias": [
+    {
+      "targetRaw": "./index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\11-extractos-hongos\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../productos.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\11-extractos-hongos\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../03-longevidad-bienestar/chaga-capsules.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\03-longevidad-bienestar\\chaga-capsules.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./extracto-reishi.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\11-extractos-hongos\\extracto-reishi.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../01-control-de-peso/tedivina.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\01-control-de-peso\\tedivina.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\11-extractos-hongos\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../productos.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    }
+  ],
+  "checksum": "10fb1f76f26d25a28deb743c66c4a98d51edf24e760d8c4a5cc595fae829a5df",
+  "errores_detectados": [],
+  "advertencias": [],
+  "modulo": "productos"
+}

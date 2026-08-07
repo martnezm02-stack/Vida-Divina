@@ -1,0 +1,144 @@
+{
+  "id": "productos/03-longevidad-bienestar/nad-plus",
+  "tipo_entidad": "producto",
+  "titulo": "NAD+",
+  "ruta_original": "docs/productos/03-longevidad-bienestar/nad-plus.md",
+  "fecha_compilacion": "2026-08-07T09:35:11.793Z",
+  "version": "0.1.0-mvp",
+  "estado": "compilado",
+  "palabras_clave": [
+    "NAD+",
+    "nicotinamida ribósido",
+    "longevidad",
+    "anti-aging",
+    "energía celular",
+    "taurina"
+  ],
+  "relaciones_detectadas": [
+    {
+      "origen_id": "productos/03-longevidad-bienestar/nad-plus",
+      "destino_id": "productos/03-longevidad-bienestar/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/03-longevidad-bienestar/nad-plus.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/03-longevidad-bienestar/nad-plus",
+      "destino_id": "productos",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/03-longevidad-bienestar/nad-plus.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/03-longevidad-bienestar/nad-plus",
+      "destino_id": "productos/03-longevidad-bienestar/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/03-longevidad-bienestar/nad-plus.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/03-longevidad-bienestar/nad-plus",
+      "destino_id": "productos/03-longevidad-bienestar/eterno-capsules",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/03-longevidad-bienestar/nad-plus.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/03-longevidad-bienestar/nad-plus",
+      "destino_id": "productos/04-funcion-cognitiva",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/03-longevidad-bienestar/nad-plus.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/03-longevidad-bienestar/nad-plus",
+      "destino_id": "productos/04-funcion-cognitiva",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/03-longevidad-bienestar/nad-plus.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/03-longevidad-bienestar/nad-plus",
+      "destino_id": "productos/03-longevidad-bienestar/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/03-longevidad-bienestar/nad-plus.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/03-longevidad-bienestar/nad-plus",
+      "destino_id": "productos",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/03-longevidad-bienestar/nad-plus.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/03-longevidad-bienestar/nad-plus",
+      "destino_id": "productos/03-longevidad-bienestar/index",
+      "tipo_relacion": "pertenece_a_categoria",
+      "archivo_origen": "docs/productos/03-longevidad-bienestar/nad-plus.md",
+      "verificada": true
+    }
+  ],
+  "referencias": [
+    {
+      "targetRaw": "./index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\03-longevidad-bienestar\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../productos.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\03-longevidad-bienestar\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./eterno-capsules.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\03-longevidad-bienestar\\eterno-capsules.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../04-funcion-cognitiva.md#brain-capsules",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\04-funcion-cognitiva.md",
+      "anchor": "brain-capsules",
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../04-funcion-cognitiva.md#youth-capsules",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\04-funcion-cognitiva.md",
+      "anchor": "youth-capsules",
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\03-longevidad-bienestar\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../productos.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    }
+  ],
+  "checksum": "ec4bb6b77c2314f33fdfec105d151ff519d19e6901a8b2123b2016759fc641c6",
+  "errores_detectados": [],
+  "advertencias": [],
+  "modulo": "productos"
+}

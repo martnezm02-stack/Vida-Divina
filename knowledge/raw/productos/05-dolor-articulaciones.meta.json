@@ -1,0 +1,94 @@
+{
+  "id": "productos/05-dolor-articulaciones",
+  "tipo_entidad": "producto",
+  "titulo": "Categoría: Dolor y Articulaciones",
+  "ruta_original": "docs/productos/05-dolor-articulaciones.md",
+  "fecha_compilacion": "2026-08-07T09:35:11.796Z",
+  "version": "0.1.0-mvp",
+  "estado": "compilado",
+  "palabras_clave": [
+    "dolor muscular",
+    "cúrcuma",
+    "albahaca sagrada",
+    "función articular",
+    "alivio natural"
+  ],
+  "relaciones_detectadas": [
+    {
+      "origen_id": "productos/05-dolor-articulaciones",
+      "destino_id": "productos",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/05-dolor-articulaciones.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/05-dolor-articulaciones",
+      "destino_id": "productos/03-longevidad-bienestar/inflam-x-capsules",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/05-dolor-articulaciones.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/05-dolor-articulaciones",
+      "destino_id": "productos/07-rendimiento-fisico",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/05-dolor-articulaciones.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/05-dolor-articulaciones",
+      "destino_id": "productos/02-cafe-divina/latte-dorado",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/05-dolor-articulaciones.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/05-dolor-articulaciones",
+      "destino_id": "productos",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/05-dolor-articulaciones.md",
+      "verificada": true
+    }
+  ],
+  "referencias": [
+    {
+      "targetRaw": "../productos.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./03-longevidad-bienestar/inflam-x-capsules.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\03-longevidad-bienestar\\inflam-x-capsules.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Ouch Capsules"
+    },
+    {
+      "targetRaw": "./07-rendimiento-fisico.md#ripped-capsules",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\07-rendimiento-fisico.md",
+      "anchor": "ripped-capsules",
+      "exists": true,
+      "seccion": "Ouch Capsules"
+    },
+    {
+      "targetRaw": "./02-cafe-divina/latte-dorado.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\latte-dorado.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Ouch Capsules"
+    },
+    {
+      "targetRaw": "../productos.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Ouch Capsules"
+    }
+  ],
+  "checksum": "95e8642d801318d821e3e5066e05e2c226e59f46b00127c98b55af455d4a6f7a",
+  "errores_detectados": [],
+  "advertencias": [],
+  "modulo": "productos"
+}

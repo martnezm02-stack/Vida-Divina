@@ -1,0 +1,207 @@
+{
+  "id": "agente_ia/comportamiento",
+  "tipo_entidad": "documento_cognitivo",
+  "titulo": "Comportamiento",
+  "ruta_original": "docs/agente_ia/comportamiento.md",
+  "fecha_compilacion": "2026-08-07T09:35:11.666Z",
+  "version": "0.1.0-mvp",
+  "estado": "compilado",
+  "palabras_clave": [],
+  "relaciones_detectadas": [
+    {
+      "origen_id": "agente_ia/comportamiento",
+      "destino_id": "agente_ia/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/comportamiento.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/comportamiento",
+      "destino_id": "agente_ia/identidad",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/comportamiento.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/comportamiento",
+      "destino_id": "conversaciones/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/comportamiento.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/comportamiento",
+      "destino_id": "conversaciones/plantillas/mensajes_cortos_y_largos",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/comportamiento.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/comportamiento",
+      "destino_id": "proceso_de_venta/descubrimiento",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/comportamiento.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/comportamiento",
+      "destino_id": "conversaciones/cierre/confirmacion_pedido",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/comportamiento.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/comportamiento",
+      "destino_id": "agente_ia/memoria",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/comportamiento.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/comportamiento",
+      "destino_id": "proceso_de_venta/estados_del_cliente",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/comportamiento.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/comportamiento",
+      "destino_id": "agente_ia/manejo_de_errores",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/comportamiento.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/comportamiento",
+      "destino_id": "conversaciones/cierre/agradecimiento",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/comportamiento.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/comportamiento",
+      "destino_id": "conversaciones/plantillas/despedidas_agradecimientos",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/comportamiento.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/comportamiento",
+      "destino_id": "agente_ia/identidad",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/comportamiento.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/comportamiento",
+      "destino_id": "agente_ia/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/comportamiento.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/comportamiento",
+      "destino_id": "agente_ia/README",
+      "tipo_relacion": "pertenece_a_categoria",
+      "archivo_origen": "docs/agente_ia/comportamiento.md",
+      "verificada": true
+    }
+  ],
+  "referencias": [
+    {
+      "targetRaw": "./README.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\README.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./identidad.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\identidad.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../conversaciones/README.md#reglas-generales-aplican-a-todo-el-módulo",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\README.md",
+      "anchor": "reglas-generales-aplican-a-todo-el-módulo",
+      "exists": true,
+      "seccion": "Cómo hablar"
+    },
+    {
+      "targetRaw": "../conversaciones/plantillas/mensajes_cortos_y_largos.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\plantillas\\mensajes_cortos_y_largos.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Cómo hablar"
+    },
+    {
+      "targetRaw": "../proceso_de_venta/descubrimiento.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\descubrimiento.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Cómo hacer preguntas"
+    },
+    {
+      "targetRaw": "../conversaciones/cierre/confirmacion_pedido.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\cierre\\confirmacion_pedido.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Cómo confirmar información"
+    },
+    {
+      "targetRaw": "./memoria.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\memoria.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Cómo resumir"
+    },
+    {
+      "targetRaw": "../proceso_de_venta/estados_del_cliente.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\estados_del_cliente.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Cómo resumir"
+    },
+    {
+      "targetRaw": "./manejo_de_errores.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\manejo_de_errores.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Cómo cambiar de tema"
+    },
+    {
+      "targetRaw": "../conversaciones/cierre/agradecimiento.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\cierre\\agradecimiento.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Cómo cerrar conversaciones"
+    },
+    {
+      "targetRaw": "../conversaciones/plantillas/despedidas_agradecimientos.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\plantillas\\despedidas_agradecimientos.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Cómo cerrar conversaciones"
+    },
+    {
+      "targetRaw": "./identidad.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\identidad.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Principio unificador"
+    },
+    {
+      "targetRaw": "./README.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\README.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Principio unificador"
+    }
+  ],
+  "checksum": "51e074f712d09289d5e72f10dd9bec3faa495bc530100cee38322caf6a791861",
+  "errores_detectados": [],
+  "advertencias": [],
+  "modulo": "agente_ia"
+}

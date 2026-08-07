@@ -1,0 +1,207 @@
+{
+  "id": "conversaciones/recomendacion/sistema_inmunologico",
+  "tipo_entidad": "conversacion",
+  "titulo": "Recomendación — Sistema Inmunológico",
+  "ruta_original": "docs/conversaciones/recomendacion/sistema_inmunologico.md",
+  "fecha_compilacion": "2026-08-07T09:35:11.737Z",
+  "version": "0.1.0-mvp",
+  "estado": "compilado",
+  "palabras_clave": [],
+  "relaciones_detectadas": [
+    {
+      "origen_id": "conversaciones/recomendacion/sistema_inmunologico",
+      "destino_id": "conversaciones/descubrimiento/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/recomendacion/sistema_inmunologico.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/recomendacion/sistema_inmunologico",
+      "destino_id": "clientes/sistema_inmunologico",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/recomendacion/sistema_inmunologico.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/recomendacion/sistema_inmunologico",
+      "destino_id": "productos/03-longevidad-bienestar/chaga-capsules",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/recomendacion/sistema_inmunologico.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/recomendacion/sistema_inmunologico",
+      "destino_id": "productos/03-longevidad-bienestar/reishi-capsules",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/recomendacion/sistema_inmunologico.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/recomendacion/sistema_inmunologico",
+      "destino_id": "productos/03-longevidad-bienestar/time-capsules",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/recomendacion/sistema_inmunologico.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/recomendacion/sistema_inmunologico",
+      "destino_id": "productos/03-longevidad-bienestar/time-capsules",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/recomendacion/sistema_inmunologico.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/recomendacion/sistema_inmunologico",
+      "destino_id": "productos/11-extractos-hongos/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/recomendacion/sistema_inmunologico.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/recomendacion/sistema_inmunologico",
+      "destino_id": "productos/03-longevidad-bienestar/cordycs-4-capsules",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/recomendacion/sistema_inmunologico.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/recomendacion/sistema_inmunologico",
+      "destino_id": "conversaciones/cierre/cierre_venta",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/recomendacion/sistema_inmunologico.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/recomendacion/sistema_inmunologico",
+      "destino_id": "conversaciones/seguimiento/seguimiento_30dias",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/recomendacion/sistema_inmunologico.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/recomendacion/sistema_inmunologico",
+      "destino_id": "conversaciones/postventa/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/recomendacion/sistema_inmunologico.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/recomendacion/sistema_inmunologico",
+      "destino_id": "conversaciones/recomendacion/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/recomendacion/sistema_inmunologico.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/recomendacion/sistema_inmunologico",
+      "destino_id": "conversaciones/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/recomendacion/sistema_inmunologico.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/recomendacion/sistema_inmunologico",
+      "destino_id": "conversaciones/recomendacion/index",
+      "tipo_relacion": "pertenece_a_categoria",
+      "archivo_origen": "docs/conversaciones/recomendacion/sistema_inmunologico.md",
+      "verificada": true
+    }
+  ],
+  "referencias": [
+    {
+      "targetRaw": "../descubrimiento/index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\descubrimiento\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../clientes/sistema_inmunologico.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\sistema_inmunologico.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../productos/03-longevidad-bienestar/chaga-capsules.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\03-longevidad-bienestar\\chaga-capsules.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../productos/03-longevidad-bienestar/reishi-capsules.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\03-longevidad-bienestar\\reishi-capsules.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../productos/03-longevidad-bienestar/time-capsules.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\03-longevidad-bienestar\\time-capsules.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../productos/03-longevidad-bienestar/time-capsules.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\03-longevidad-bienestar\\time-capsules.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../productos/11-extractos-hongos/index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\11-extractos-hongos\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../productos/03-longevidad-bienestar/cordycs-4-capsules.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\03-longevidad-bienestar\\cordycs-4-capsules.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../cierre/cierre_venta.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\cierre\\cierre_venta.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../seguimiento/seguimiento_30dias.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\seguimiento\\seguimiento_30dias.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../postventa/index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\postventa\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\recomendacion\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../README.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\README.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    }
+  ],
+  "checksum": "be8594718099053990c684f826eab2821f962fd4a6d9d250618e8e85ce0da787",
+  "errores_detectados": [],
+  "advertencias": [],
+  "modulo": "conversaciones"
+}

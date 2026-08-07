@@ -1,0 +1,123 @@
+{
+  "id": "agente_ia/prioridades",
+  "tipo_entidad": "documento_cognitivo",
+  "titulo": "Prioridades",
+  "ruta_original": "docs/agente_ia/prioridades.md",
+  "fecha_compilacion": "2026-08-07T09:35:11.677Z",
+  "version": "0.1.0-mvp",
+  "estado": "compilado",
+  "palabras_clave": [],
+  "relaciones_detectadas": [
+    {
+      "origen_id": "agente_ia/prioridades",
+      "destino_id": "agente_ia/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/prioridades.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/prioridades",
+      "destino_id": "agente_ia/flujo_de_razonamiento",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/prioridades.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/prioridades",
+      "destino_id": "agente_ia/reglas_de_seguridad",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/prioridades.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/prioridades",
+      "destino_id": "agente_ia/principios",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/prioridades.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/prioridades",
+      "destino_id": "agente_ia/manejo_de_errores",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/prioridades.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/prioridades",
+      "destino_id": "agente_ia/reglas_de_decision",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/prioridades.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/prioridades",
+      "destino_id": "agente_ia/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/prioridades.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/prioridades",
+      "destino_id": "agente_ia/README",
+      "tipo_relacion": "pertenece_a_categoria",
+      "archivo_origen": "docs/agente_ia/prioridades.md",
+      "verificada": true
+    }
+  ],
+  "referencias": [
+    {
+      "targetRaw": "./README.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\README.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./flujo_de_razonamiento.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\flujo_de_razonamiento.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./reglas_de_seguridad.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\reglas_de_seguridad.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "El orden"
+    },
+    {
+      "targetRaw": "./principios.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\principios.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Cómo se usa esta jerarquía en la práctica"
+    },
+    {
+      "targetRaw": "./manejo_de_errores.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\manejo_de_errores.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Relación con otros archivos"
+    },
+    {
+      "targetRaw": "./reglas_de_decision.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\reglas_de_decision.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Relación con otros archivos"
+    },
+    {
+      "targetRaw": "./README.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\README.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Relación con otros archivos"
+    }
+  ],
+  "checksum": "fe7e0dfcaf325d3872b1158ec13aa99c9d6b64444b4d21d994dfbefd20aaae77",
+  "errores_detectados": [],
+  "advertencias": [],
+  "modulo": "agente_ia"
+}

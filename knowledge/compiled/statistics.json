@@ -1,0 +1,42 @@
+{
+  "cantidad_modulos": 6,
+  "modulos": [
+    "agente_ia",
+    "clientes",
+    "conversaciones",
+    "objeciones",
+    "proceso_de_venta",
+    "productos"
+  ],
+  "cantidad_entidades": 165,
+  "entidades_por_tipo": {
+    "documento_cognitivo": 9,
+    "ejemplo_razonamiento": 1,
+    "herramienta": 1,
+    "metrica": 1,
+    "principio": 1,
+    "indice_modulo": 6,
+    "regla_decision": 2,
+    "regla_seguridad": 1,
+    "perfil": 16,
+    "conversacion": 37,
+    "indice_categoria": 15,
+    "objecion": 4,
+    "documento_proceso": 8,
+    "estado_cliente": 1,
+    "etapa_proceso": 1,
+    "producto": 61
+  },
+  "cantidad_relaciones": 1886,
+  "relaciones_por_tipo": {
+    "referencia": 1625,
+    "pertenece_a_categoria": 137,
+    "recomienda_primario": 16,
+    "recomienda_opcional": 49,
+    "recomienda_complementario": 54,
+    "no_recomendado": 5
+  },
+  "cantidad_advertencias": 11,
+  "cantidad_errores": 0,
+  "tiempo_compilacion_ms": 172
+}

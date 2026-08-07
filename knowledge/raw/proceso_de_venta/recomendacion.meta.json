@@ -1,0 +1,207 @@
+{
+  "id": "proceso_de_venta/recomendacion",
+  "tipo_entidad": "documento_proceso",
+  "titulo": "Recomendación",
+  "ruta_original": "docs/proceso_de_venta/recomendacion.md",
+  "fecha_compilacion": "2026-08-07T09:35:11.759Z",
+  "version": "0.1.0-mvp",
+  "estado": "compilado",
+  "palabras_clave": [],
+  "relaciones_detectadas": [
+    {
+      "origen_id": "proceso_de_venta/recomendacion",
+      "destino_id": "proceso_de_venta/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/recomendacion.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/recomendacion",
+      "destino_id": "proceso_de_venta/flujo_general",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/recomendacion.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/recomendacion",
+      "destino_id": "conversaciones/recomendacion/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/recomendacion.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/recomendacion",
+      "destino_id": "conversaciones/recomendacion/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/recomendacion.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/recomendacion",
+      "destino_id": "conversaciones/recomendacion/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/recomendacion.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/recomendacion",
+      "destino_id": "proceso_de_venta/postventa",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/recomendacion.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/recomendacion",
+      "destino_id": "proceso_de_venta/descubrimiento",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/recomendacion.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/recomendacion",
+      "destino_id": "proceso_de_venta/postventa",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/recomendacion.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/recomendacion",
+      "destino_id": "proceso_de_venta/cierre",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/recomendacion.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/recomendacion",
+      "destino_id": "proceso_de_venta/manejo_de_objeciones",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/recomendacion.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/recomendacion",
+      "destino_id": "proceso_de_venta/seguimiento",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/recomendacion.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/recomendacion",
+      "destino_id": "proceso_de_venta/reglas_de_decision",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/recomendacion.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/recomendacion",
+      "destino_id": "proceso_de_venta/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/recomendacion.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/recomendacion",
+      "destino_id": "proceso_de_venta/README",
+      "tipo_relacion": "pertenece_a_categoria",
+      "archivo_origen": "docs/proceso_de_venta/recomendacion.md",
+      "verificada": true
+    }
+  ],
+  "referencias": [
+    {
+      "targetRaw": "./README.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\README.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./flujo_general.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\flujo_general.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../conversaciones/recomendacion/index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\recomendacion\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../conversaciones/recomendacion/index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\recomendacion\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Cómo seleccionar el producto específico"
+    },
+    {
+      "targetRaw": "../conversaciones/recomendacion/index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\recomendacion\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Cómo seleccionar el producto específico"
+    },
+    {
+      "targetRaw": "./postventa.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\postventa.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Cómo seleccionar el producto específico"
+    },
+    {
+      "targetRaw": "./descubrimiento.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\descubrimiento.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Qué hacer si el cliente tiene más de una necesidad"
+    },
+    {
+      "targetRaw": "./postventa.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\postventa.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Qué hacer si el cliente tiene más de una necesidad"
+    },
+    {
+      "targetRaw": "./cierre.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\cierre.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Después de recomendar"
+    },
+    {
+      "targetRaw": "./manejo_de_objeciones.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\manejo_de_objeciones.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Después de recomendar"
+    },
+    {
+      "targetRaw": "./seguimiento.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\seguimiento.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Después de recomendar"
+    },
+    {
+      "targetRaw": "./reglas_de_decision.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\reglas_de_decision.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Después de recomendar"
+    },
+    {
+      "targetRaw": "./README.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\README.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Después de recomendar"
+    }
+  ],
+  "checksum": "f11c34480919368fbadd9378c1d03c9434b7c0624c707f8feecea4e9c3922dc7",
+  "errores_detectados": [],
+  "advertencias": [],
+  "modulo": "proceso_de_venta"
+}

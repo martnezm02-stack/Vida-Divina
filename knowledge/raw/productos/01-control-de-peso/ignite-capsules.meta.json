@@ -1,0 +1,157 @@
+{
+  "id": "productos/01-control-de-peso/ignite-capsules",
+  "tipo_entidad": "producto",
+  "titulo": "Ignite Capsules",
+  "ruta_original": "docs/productos/01-control-de-peso/ignite-capsules.md",
+  "fecha_compilacion": "2026-08-07T09:35:11.773Z",
+  "version": "0.1.0-mvp",
+  "estado": "compilado",
+  "palabras_clave": [
+    "enzimas digestivas",
+    "digestión",
+    "absorción de nutrientes",
+    "sistema digestivo",
+    "gluten-free"
+  ],
+  "relaciones_detectadas": [
+    {
+      "origen_id": "productos/01-control-de-peso/ignite-capsules",
+      "destino_id": "productos/01-control-de-peso/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/01-control-de-peso/ignite-capsules.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/01-control-de-peso/ignite-capsules",
+      "destino_id": "productos",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/01-control-de-peso/ignite-capsules.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/01-control-de-peso/ignite-capsules",
+      "destino_id": "productos/01-control-de-peso/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/01-control-de-peso/ignite-capsules.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/01-control-de-peso/ignite-capsules",
+      "destino_id": "productos/01-control-de-peso/hcg-reactor-capsules",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/01-control-de-peso/ignite-capsules.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/01-control-de-peso/ignite-capsules",
+      "destino_id": "productos/01-control-de-peso/cheat-capsules",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/01-control-de-peso/ignite-capsules.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/01-control-de-peso/ignite-capsules",
+      "destino_id": "productos/01-control-de-peso/cx90",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/01-control-de-peso/ignite-capsules.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/01-control-de-peso/ignite-capsules",
+      "destino_id": "productos/01-control-de-peso/tedivina",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/01-control-de-peso/ignite-capsules.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/01-control-de-peso/ignite-capsules",
+      "destino_id": "productos/01-control-de-peso/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/01-control-de-peso/ignite-capsules.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/01-control-de-peso/ignite-capsules",
+      "destino_id": "productos",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/01-control-de-peso/ignite-capsules.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/01-control-de-peso/ignite-capsules",
+      "destino_id": "productos/01-control-de-peso/index",
+      "tipo_relacion": "pertenece_a_categoria",
+      "archivo_origen": "docs/productos/01-control-de-peso/ignite-capsules.md",
+      "verificada": true
+    }
+  ],
+  "referencias": [
+    {
+      "targetRaw": "./index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\01-control-de-peso\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../productos.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\01-control-de-peso\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./hcg-reactor-capsules.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\01-control-de-peso\\hcg-reactor-capsules.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./cheat-capsules.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\01-control-de-peso\\cheat-capsules.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./cx90.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\01-control-de-peso\\cx90.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./tedivina.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\01-control-de-peso\\tedivina.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\01-control-de-peso\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../productos.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    }
+  ],
+  "checksum": "00135e88c9b7522eddbda25dcd69cb73d2c1d68b89b70bd3c2797d2f0a5bf096",
+  "errores_detectados": [],
+  "advertencias": [],
+  "modulo": "productos"
+}

@@ -1,0 +1,109 @@
+{
+  "id": "conversaciones/seguimiento/seguimiento_15dias",
+  "tipo_entidad": "conversacion",
+  "titulo": "Seguimiento — 15 Días",
+  "ruta_original": "docs/conversaciones/seguimiento/seguimiento_15dias.md",
+  "fecha_compilacion": "2026-08-07T09:35:11.739Z",
+  "version": "0.1.0-mvp",
+  "estado": "compilado",
+  "palabras_clave": [],
+  "relaciones_detectadas": [
+    {
+      "origen_id": "conversaciones/seguimiento/seguimiento_15dias",
+      "destino_id": "conversaciones/objeciones/no_tengo_dinero",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/seguimiento/seguimiento_15dias.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/seguimiento/seguimiento_15dias",
+      "destino_id": "conversaciones/objeciones/mi_medico_no_me_deja",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/seguimiento/seguimiento_15dias.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/seguimiento/seguimiento_15dias",
+      "destino_id": "conversaciones/recomendacion/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/seguimiento/seguimiento_15dias.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/seguimiento/seguimiento_15dias",
+      "destino_id": "conversaciones/seguimiento/seguimiento_30dias",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/seguimiento/seguimiento_15dias.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/seguimiento/seguimiento_15dias",
+      "destino_id": "conversaciones/seguimiento/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/seguimiento/seguimiento_15dias.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/seguimiento/seguimiento_15dias",
+      "destino_id": "conversaciones/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/seguimiento/seguimiento_15dias.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/seguimiento/seguimiento_15dias",
+      "destino_id": "conversaciones/seguimiento/index",
+      "tipo_relacion": "pertenece_a_categoria",
+      "archivo_origen": "docs/conversaciones/seguimiento/seguimiento_15dias.md",
+      "verificada": true
+    }
+  ],
+  "referencias": [
+    {
+      "targetRaw": "../objeciones/no_tengo_dinero.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\objeciones\\no_tengo_dinero.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../objeciones/mi_medico_no_me_deja.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\objeciones\\mi_medico_no_me_deja.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../recomendacion/index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\recomendacion\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./seguimiento_30dias.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\seguimiento\\seguimiento_30dias.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\seguimiento\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../README.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\README.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    }
+  ],
+  "checksum": "060cc28d281e3cd0d4b8353ca31d520264efa97ef0b93fd20f0c4adbdfac4a42",
+  "errores_detectados": [],
+  "advertencias": [],
+  "modulo": "conversaciones"
+}

@@ -1,0 +1,257 @@
+{
+  "id": "clientes/salud_digestiva",
+  "tipo_entidad": "perfil",
+  "titulo": "Salud Digestiva",
+  "ruta_original": "docs/clientes/salud_digestiva.md",
+  "fecha_compilacion": "2026-08-07T09:35:11.703Z",
+  "version": "0.1.0-mvp",
+  "estado": "compilado",
+  "palabras_clave": [
+    "digestión",
+    "enzimas digestivas",
+    "tránsito intestinal",
+    "hinchazón",
+    "fibra",
+    "prebióticos",
+    "microbiota"
+  ],
+  "relaciones_detectadas": [
+    {
+      "origen_id": "clientes/salud_digestiva",
+      "destino_id": "clientes/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/clientes/salud_digestiva.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/salud_digestiva",
+      "destino_id": "productos/01-control-de-peso/ignite-capsules",
+      "tipo_relacion": "recomienda_primario",
+      "archivo_origen": "docs/clientes/salud_digestiva.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/salud_digestiva",
+      "destino_id": "productos/01-control-de-peso/tedivina",
+      "tipo_relacion": "recomienda_opcional",
+      "archivo_origen": "docs/clientes/salud_digestiva.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/salud_digestiva",
+      "destino_id": "productos/02-cafe-divina/black",
+      "tipo_relacion": "recomienda_opcional",
+      "archivo_origen": "docs/clientes/salud_digestiva.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/salud_digestiva",
+      "destino_id": "productos/11-extractos-hongos/extracto-turkey-tail",
+      "tipo_relacion": "recomienda_opcional",
+      "archivo_origen": "docs/clientes/salud_digestiva.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/salud_digestiva",
+      "destino_id": "productos/02-cafe-divina/cappuccino",
+      "tipo_relacion": "recomienda_complementario",
+      "archivo_origen": "docs/clientes/salud_digestiva.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/salud_digestiva",
+      "destino_id": "productos/02-cafe-divina/latte",
+      "tipo_relacion": "recomienda_complementario",
+      "archivo_origen": "docs/clientes/salud_digestiva.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/salud_digestiva",
+      "destino_id": "productos/02-cafe-divina/divine-cereal",
+      "tipo_relacion": "recomienda_complementario",
+      "archivo_origen": "docs/clientes/salud_digestiva.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/salud_digestiva",
+      "destino_id": "productos/11-extractos-hongos/extracto-reishi",
+      "tipo_relacion": "recomienda_complementario",
+      "archivo_origen": "docs/clientes/salud_digestiva.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/salud_digestiva",
+      "destino_id": "productos/01-control-de-peso/cheat-capsules",
+      "tipo_relacion": "no_recomendado",
+      "archivo_origen": "docs/clientes/salud_digestiva.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/salud_digestiva",
+      "destino_id": "productos/01-control-de-peso/cx90",
+      "tipo_relacion": "no_recomendado",
+      "archivo_origen": "docs/clientes/salud_digestiva.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/salud_digestiva",
+      "destino_id": "clientes/perder_peso",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/clientes/salud_digestiva.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/salud_digestiva",
+      "destino_id": "clientes/perder_peso",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/clientes/salud_digestiva.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/salud_digestiva",
+      "destino_id": "clientes/sistema_inmunologico",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/clientes/salud_digestiva.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/salud_digestiva",
+      "destino_id": "clientes/bienestar_general",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/clientes/salud_digestiva.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/salud_digestiva",
+      "destino_id": "clientes/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/clientes/salud_digestiva.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/salud_digestiva",
+      "destino_id": "clientes/README",
+      "tipo_relacion": "pertenece_a_categoria",
+      "archivo_origen": "docs/clientes/salud_digestiva.md",
+      "verificada": true
+    }
+  ],
+  "referencias": [
+    {
+      "targetRaw": "./README.md#nota-importante",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\README.md",
+      "anchor": "nota-importante",
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../productos/01-control-de-peso/ignite-capsules.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\01-control-de-peso\\ignite-capsules.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Productos recomendados"
+    },
+    {
+      "targetRaw": "../productos/01-control-de-peso/tedivina.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\01-control-de-peso\\tedivina.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Productos recomendados"
+    },
+    {
+      "targetRaw": "../productos/02-cafe-divina/black.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\black.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Productos recomendados"
+    },
+    {
+      "targetRaw": "../productos/11-extractos-hongos/extracto-turkey-tail.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\11-extractos-hongos\\extracto-turkey-tail.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Productos recomendados"
+    },
+    {
+      "targetRaw": "../productos/02-cafe-divina/cappuccino.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\cappuccino.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Productos complementarios"
+    },
+    {
+      "targetRaw": "../productos/02-cafe-divina/latte.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\latte.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Productos complementarios"
+    },
+    {
+      "targetRaw": "../productos/02-cafe-divina/divine-cereal.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\divine-cereal.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Productos complementarios"
+    },
+    {
+      "targetRaw": "../productos/11-extractos-hongos/extracto-reishi.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\11-extractos-hongos\\extracto-reishi.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Productos complementarios"
+    },
+    {
+      "targetRaw": "../productos/01-control-de-peso/cheat-capsules.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\01-control-de-peso\\cheat-capsules.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Productos que NO son prioridad"
+    },
+    {
+      "targetRaw": "../productos/01-control-de-peso/cx90.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\01-control-de-peso\\cx90.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Productos que NO son prioridad"
+    },
+    {
+      "targetRaw": "./perder_peso.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\perder_peso.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Seguimiento recomendado"
+    },
+    {
+      "targetRaw": "./perder_peso.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\perder_peso.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Posibles ventas futuras (cross-selling)"
+    },
+    {
+      "targetRaw": "./sistema_inmunologico.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\sistema_inmunologico.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Posibles ventas futuras (cross-selling)"
+    },
+    {
+      "targetRaw": "./bienestar_general.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\bienestar_general.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Posibles ventas futuras (cross-selling)"
+    },
+    {
+      "targetRaw": "./README.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\README.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Nivel de prioridad de este perfil para el negocio"
+    }
+  ],
+  "checksum": "e9707379f7eb7a01062f1581c7f5e303be1451c52cefe480ef559110a19ec91d",
+  "errores_detectados": [],
+  "advertencias": [],
+  "modulo": "clientes"
+}

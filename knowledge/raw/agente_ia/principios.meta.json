@@ -1,0 +1,151 @@
+{
+  "id": "agente_ia/principios",
+  "tipo_entidad": "principio",
+  "titulo": "Principios",
+  "ruta_original": "docs/agente_ia/principios.md",
+  "fecha_compilacion": "2026-08-07T09:35:11.676Z",
+  "version": "0.1.0-mvp",
+  "estado": "compilado",
+  "palabras_clave": [],
+  "relaciones_detectadas": [
+    {
+      "origen_id": "agente_ia/principios",
+      "destino_id": "agente_ia/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/principios.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/principios",
+      "destino_id": "agente_ia/reglas_de_decision",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/principios.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/principios",
+      "destino_id": "agente_ia/manejo_de_errores",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/principios.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/principios",
+      "destino_id": "agente_ia/herramientas",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/principios.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/principios",
+      "destino_id": "agente_ia/contexto",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/principios.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/principios",
+      "destino_id": "agente_ia/reglas_de_seguridad",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/principios.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/principios",
+      "destino_id": "proceso_de_venta/recomendacion",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/principios.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/principios",
+      "destino_id": "agente_ia/prioridades",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/principios.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/principios",
+      "destino_id": "agente_ia/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/principios.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/principios",
+      "destino_id": "agente_ia/README",
+      "tipo_relacion": "pertenece_a_categoria",
+      "archivo_origen": "docs/agente_ia/principios.md",
+      "verificada": true
+    }
+  ],
+  "referencias": [
+    {
+      "targetRaw": "./README.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\README.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./reglas_de_decision.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\reglas_de_decision.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./manejo_de_errores.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\manejo_de_errores.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Los principios"
+    },
+    {
+      "targetRaw": "./herramientas.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\herramientas.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Los principios"
+    },
+    {
+      "targetRaw": "./contexto.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\contexto.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Los principios"
+    },
+    {
+      "targetRaw": "./reglas_de_seguridad.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\reglas_de_seguridad.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Los principios"
+    },
+    {
+      "targetRaw": "../proceso_de_venta/recomendacion.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\recomendacion.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Los principios"
+    },
+    {
+      "targetRaw": "./prioridades.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\prioridades.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Cómo se resuelve un conflicto entre principios"
+    },
+    {
+      "targetRaw": "./README.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\README.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Relación con el resto del sistema"
+    }
+  ],
+  "checksum": "006550b7a512d4d493a2713ecf67bb1cc704dcd3c1c94c5ffba629e40ad9fd84",
+  "errores_detectados": [],
+  "advertencias": [],
+  "modulo": "agente_ia"
+}

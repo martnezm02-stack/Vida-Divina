@@ -1,0 +1,116 @@
+{
+  "id": "conversaciones/plantillas/index",
+  "tipo_entidad": "indice_categoria",
+  "titulo": "Plantillas",
+  "ruta_original": "docs/conversaciones/plantillas/index.md",
+  "fecha_compilacion": "2026-08-07T09:35:11.722Z",
+  "version": "0.1.0-mvp",
+  "estado": "compilado",
+  "palabras_clave": [],
+  "relaciones_detectadas": [
+    {
+      "origen_id": "conversaciones/plantillas/index",
+      "destino_id": "conversaciones/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/plantillas/index.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/plantillas/index",
+      "destino_id": "conversaciones/plantillas/saludos",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/plantillas/index.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/plantillas/index",
+      "destino_id": "conversaciones/plantillas/despedidas_agradecimientos",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/plantillas/index.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/plantillas/index",
+      "destino_id": "conversaciones/plantillas/confirmaciones",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/plantillas/index.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/plantillas/index",
+      "destino_id": "conversaciones/plantillas/mensajes_cortos_y_largos",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/plantillas/index.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/plantillas/index",
+      "destino_id": "conversaciones/plantillas/audios_y_seguimientos",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/plantillas/index.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/plantillas/index",
+      "destino_id": "conversaciones/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/plantillas/index.md",
+      "verificada": true
+    }
+  ],
+  "referencias": [
+    {
+      "targetRaw": "../README.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\README.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./saludos.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\plantillas\\saludos.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Construidos"
+    },
+    {
+      "targetRaw": "./despedidas_agradecimientos.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\plantillas\\despedidas_agradecimientos.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Construidos"
+    },
+    {
+      "targetRaw": "./confirmaciones.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\plantillas\\confirmaciones.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Construidos"
+    },
+    {
+      "targetRaw": "./mensajes_cortos_y_largos.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\plantillas\\mensajes_cortos_y_largos.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Construidos"
+    },
+    {
+      "targetRaw": "./audios_y_seguimientos.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\plantillas\\audios_y_seguimientos.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Construidos"
+    },
+    {
+      "targetRaw": "../README.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\README.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Pendientes"
+    }
+  ],
+  "checksum": "bf1707186db767c50ef702a812a4711ecfd67010e3198f44863423b138b04555",
+  "errores_detectados": [],
+  "advertencias": [],
+  "modulo": "conversaciones"
+}

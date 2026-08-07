@@ -1,0 +1,417 @@
+{
+  "id": "proceso_de_venta/flujo_general",
+  "tipo_entidad": "etapa_proceso",
+  "titulo": "Flujo General del Proceso de Venta",
+  "ruta_original": "docs/proceso_de_venta/flujo_general.md",
+  "fecha_compilacion": "2026-08-07T09:35:11.754Z",
+  "version": "0.1.0-mvp",
+  "estado": "compilado",
+  "palabras_clave": [],
+  "relaciones_detectadas": [
+    {
+      "origen_id": "proceso_de_venta/flujo_general",
+      "destino_id": "proceso_de_venta/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/flujo_general.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/flujo_general",
+      "destino_id": "proceso_de_venta/estados_del_cliente",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/flujo_general.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/flujo_general",
+      "destino_id": "conversaciones/primer_contacto/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/flujo_general.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/flujo_general",
+      "destino_id": "proceso_de_venta/estados_del_cliente",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/flujo_general.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/flujo_general",
+      "destino_id": "proceso_de_venta/calificacion_del_cliente",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/flujo_general.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/flujo_general",
+      "destino_id": "conversaciones/descubrimiento/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/flujo_general.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/flujo_general",
+      "destino_id": "proceso_de_venta/descubrimiento",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/flujo_general.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/flujo_general",
+      "destino_id": "clientes/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/flujo_general.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/flujo_general",
+      "destino_id": "conversaciones/descubrimiento/senales_por_perfil",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/flujo_general.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/flujo_general",
+      "destino_id": "clientes/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/flujo_general.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/flujo_general",
+      "destino_id": "productos",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/flujo_general.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/flujo_general",
+      "destino_id": "conversaciones/recomendacion/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/flujo_general.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/flujo_general",
+      "destino_id": "proceso_de_venta/recomendacion",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/flujo_general.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/flujo_general",
+      "destino_id": "objeciones/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/flujo_general.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/flujo_general",
+      "destino_id": "conversaciones/objeciones/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/flujo_general.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/flujo_general",
+      "destino_id": "proceso_de_venta/manejo_de_objeciones",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/flujo_general.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/flujo_general",
+      "destino_id": "conversaciones/cierre/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/flujo_general.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/flujo_general",
+      "destino_id": "proceso_de_venta/cierre",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/flujo_general.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/flujo_general",
+      "destino_id": "conversaciones/seguimiento/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/flujo_general.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/flujo_general",
+      "destino_id": "proceso_de_venta/seguimiento",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/flujo_general.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/flujo_general",
+      "destino_id": "conversaciones/postventa/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/flujo_general.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/flujo_general",
+      "destino_id": "proceso_de_venta/postventa",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/flujo_general.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/flujo_general",
+      "destino_id": "conversaciones/postventa/recomendar_complementarios",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/flujo_general.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/flujo_general",
+      "destino_id": "conversaciones/postventa/solicitar_testimonio",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/flujo_general.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/flujo_general",
+      "destino_id": "clientes/emprendimiento",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/flujo_general.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/flujo_general",
+      "destino_id": "conversaciones/emprendimiento/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/flujo_general.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/flujo_general",
+      "destino_id": "proceso_de_venta/emprendimiento",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/flujo_general.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/flujo_general",
+      "destino_id": "proceso_de_venta/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/flujo_general.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/flujo_general",
+      "destino_id": "proceso_de_venta/README",
+      "tipo_relacion": "pertenece_a_categoria",
+      "archivo_origen": "docs/proceso_de_venta/flujo_general.md",
+      "verificada": true
+    }
+  ],
+  "referencias": [
+    {
+      "targetRaw": "./README.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\README.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./estados_del_cliente.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\estados_del_cliente.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../conversaciones/primer_contacto/index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\primer_contacto\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Los 14 pasos"
+    },
+    {
+      "targetRaw": "./estados_del_cliente.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\estados_del_cliente.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Los 14 pasos"
+    },
+    {
+      "targetRaw": "./calificacion_del_cliente.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\calificacion_del_cliente.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Los 14 pasos"
+    },
+    {
+      "targetRaw": "../conversaciones/descubrimiento/index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\descubrimiento\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Los 14 pasos"
+    },
+    {
+      "targetRaw": "./descubrimiento.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\descubrimiento.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Los 14 pasos"
+    },
+    {
+      "targetRaw": "../clientes/README.md#mapa-rápido-necesidad--primer-producto-de-entrada",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\README.md",
+      "anchor": "mapa-rápido-necesidad--primer-producto-de-entrada",
+      "exists": true,
+      "seccion": "Los 14 pasos"
+    },
+    {
+      "targetRaw": "../conversaciones/descubrimiento/senales_por_perfil.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\descubrimiento\\senales_por_perfil.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Los 14 pasos"
+    },
+    {
+      "targetRaw": "../clientes/README.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\README.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Los 14 pasos"
+    },
+    {
+      "targetRaw": "../productos.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Los 14 pasos"
+    },
+    {
+      "targetRaw": "../conversaciones/recomendacion/index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\recomendacion\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Los 14 pasos"
+    },
+    {
+      "targetRaw": "./recomendacion.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\recomendacion.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Los 14 pasos"
+    },
+    {
+      "targetRaw": "../objeciones/README.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\objeciones\\README.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Los 14 pasos"
+    },
+    {
+      "targetRaw": "../conversaciones/objeciones/index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\objeciones\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Los 14 pasos"
+    },
+    {
+      "targetRaw": "./manejo_de_objeciones.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\manejo_de_objeciones.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Los 14 pasos"
+    },
+    {
+      "targetRaw": "../conversaciones/cierre/index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\cierre\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Los 14 pasos"
+    },
+    {
+      "targetRaw": "./cierre.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\cierre.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Los 14 pasos"
+    },
+    {
+      "targetRaw": "../conversaciones/seguimiento/index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\seguimiento\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Los 14 pasos"
+    },
+    {
+      "targetRaw": "./seguimiento.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\seguimiento.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Los 14 pasos"
+    },
+    {
+      "targetRaw": "../conversaciones/postventa/index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\postventa\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Los 14 pasos"
+    },
+    {
+      "targetRaw": "./postventa.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\postventa.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Los 14 pasos"
+    },
+    {
+      "targetRaw": "../conversaciones/postventa/recomendar_complementarios.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\postventa\\recomendar_complementarios.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Los 14 pasos"
+    },
+    {
+      "targetRaw": "../conversaciones/postventa/solicitar_testimonio.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\postventa\\solicitar_testimonio.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Los 14 pasos"
+    },
+    {
+      "targetRaw": "../clientes/emprendimiento.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\emprendimiento.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Los 14 pasos"
+    },
+    {
+      "targetRaw": "../conversaciones/emprendimiento/index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\emprendimiento\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Los 14 pasos"
+    },
+    {
+      "targetRaw": "./emprendimiento.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\emprendimiento.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Los 14 pasos"
+    },
+    {
+      "targetRaw": "./README.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\README.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Los 14 pasos"
+    }
+  ],
+  "checksum": "e2115b9181ce9030832da4f5294329b70e0d94b13cadfc90af451903f818e2b9",
+  "errores_detectados": [],
+  "advertencias": [],
+  "modulo": "proceso_de_venta"
+}

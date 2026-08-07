@@ -1,0 +1,145 @@
+{
+  "id": "clientes/salud_visual",
+  "tipo_entidad": "perfil",
+  "titulo": "Salud Visual",
+  "ruta_original": "docs/clientes/salud_visual.md",
+  "fecha_compilacion": "2026-08-07T09:35:11.705Z",
+  "version": "0.1.0-mvp",
+  "estado": "compilado",
+  "palabras_clave": [
+    "salud visual",
+    "fatiga visual",
+    "luteína",
+    "arándano",
+    "vitamina A",
+    "cuidado de los ojos",
+    "pantallas"
+  ],
+  "relaciones_detectadas": [
+    {
+      "origen_id": "clientes/salud_visual",
+      "destino_id": "clientes/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/clientes/salud_visual.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/salud_visual",
+      "destino_id": "productos/06-salud-visual",
+      "tipo_relacion": "recomienda_primario",
+      "archivo_origen": "docs/clientes/salud_visual.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/salud_visual",
+      "destino_id": "productos/03-longevidad-bienestar/inflam-x-capsules",
+      "tipo_relacion": "recomienda_complementario",
+      "archivo_origen": "docs/clientes/salud_visual.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/salud_visual",
+      "destino_id": "productos/03-longevidad-bienestar/eterno-capsules",
+      "tipo_relacion": "recomienda_complementario",
+      "archivo_origen": "docs/clientes/salud_visual.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/salud_visual",
+      "destino_id": "clientes/longevidad",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/clientes/salud_visual.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/salud_visual",
+      "destino_id": "clientes/dolor_articulaciones",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/clientes/salud_visual.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/salud_visual",
+      "destino_id": "clientes/bienestar_general",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/clientes/salud_visual.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/salud_visual",
+      "destino_id": "clientes/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/clientes/salud_visual.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/salud_visual",
+      "destino_id": "clientes/README",
+      "tipo_relacion": "pertenece_a_categoria",
+      "archivo_origen": "docs/clientes/salud_visual.md",
+      "verificada": true
+    }
+  ],
+  "referencias": [
+    {
+      "targetRaw": "./README.md#nota-importante",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\README.md",
+      "anchor": "nota-importante",
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../productos/06-salud-visual.md#sight-capsules",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\06-salud-visual.md",
+      "anchor": "sight-capsules",
+      "exists": true,
+      "seccion": "Productos recomendados"
+    },
+    {
+      "targetRaw": "../productos/03-longevidad-bienestar/inflam-x-capsules.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\03-longevidad-bienestar\\inflam-x-capsules.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Productos complementarios"
+    },
+    {
+      "targetRaw": "../productos/03-longevidad-bienestar/eterno-capsules.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\03-longevidad-bienestar\\eterno-capsules.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Productos complementarios"
+    },
+    {
+      "targetRaw": "./longevidad.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\longevidad.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Posibles ventas futuras (cross-selling)"
+    },
+    {
+      "targetRaw": "./dolor_articulaciones.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\dolor_articulaciones.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Posibles ventas futuras (cross-selling)"
+    },
+    {
+      "targetRaw": "./bienestar_general.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\bienestar_general.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Posibles ventas futuras (cross-selling)"
+    },
+    {
+      "targetRaw": "./README.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\README.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Nivel de prioridad de este perfil para el negocio"
+    }
+  ],
+  "checksum": "3c3776ad066cba9b434a06c3330dda3a012c372a0db183294675d64a9b392eab",
+  "errores_detectados": [],
+  "advertencias": [],
+  "modulo": "clientes"
+}

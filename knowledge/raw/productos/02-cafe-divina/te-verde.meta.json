@@ -1,0 +1,143 @@
+{
+  "id": "productos/02-cafe-divina/te-verde",
+  "tipo_entidad": "producto",
+  "titulo": "Té Verde",
+  "ruta_original": "docs/productos/02-cafe-divina/te-verde.md",
+  "fecha_compilacion": "2026-08-07T09:35:11.788Z",
+  "version": "0.1.0-mvp",
+  "estado": "compilado",
+  "palabras_clave": [
+    "té verde",
+    "agilidad mental",
+    "antioxidante",
+    "té con reishi",
+    "revitalizante"
+  ],
+  "relaciones_detectadas": [
+    {
+      "origen_id": "productos/02-cafe-divina/te-verde",
+      "destino_id": "productos/02-cafe-divina/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/02-cafe-divina/te-verde.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/02-cafe-divina/te-verde",
+      "destino_id": "productos",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/02-cafe-divina/te-verde.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/02-cafe-divina/te-verde",
+      "destino_id": "productos/02-cafe-divina/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/02-cafe-divina/te-verde.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/02-cafe-divina/te-verde",
+      "destino_id": "productos/02-cafe-divina/te-negro",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/02-cafe-divina/te-verde.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/02-cafe-divina/te-verde",
+      "destino_id": "productos/02-cafe-divina/latte-verde",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/02-cafe-divina/te-verde.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/02-cafe-divina/te-verde",
+      "destino_id": "productos/01-control-de-peso/atom-capsules",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/02-cafe-divina/te-verde.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/02-cafe-divina/te-verde",
+      "destino_id": "productos/02-cafe-divina/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/02-cafe-divina/te-verde.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/02-cafe-divina/te-verde",
+      "destino_id": "productos",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/02-cafe-divina/te-verde.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/02-cafe-divina/te-verde",
+      "destino_id": "productos/02-cafe-divina/index",
+      "tipo_relacion": "pertenece_a_categoria",
+      "archivo_origen": "docs/productos/02-cafe-divina/te-verde.md",
+      "verificada": true
+    }
+  ],
+  "referencias": [
+    {
+      "targetRaw": "./index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../productos.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./te-negro.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\te-negro.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./latte-verde.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\latte-verde.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../01-control-de-peso/atom-capsules.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\01-control-de-peso\\atom-capsules.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../productos.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    }
+  ],
+  "checksum": "5e5aa4cc27f267df59c8407ee1152704bb08c0c2ea9406cec326e412c588e349",
+  "errores_detectados": [],
+  "advertencias": [],
+  "modulo": "productos"
+}

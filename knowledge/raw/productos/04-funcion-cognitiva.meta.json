@@ -1,0 +1,108 @@
+{
+  "id": "productos/04-funcion-cognitiva",
+  "tipo_entidad": "producto",
+  "titulo": "Categoría: Función Cognitiva",
+  "ruta_original": "docs/productos/04-funcion-cognitiva.md",
+  "fecha_compilacion": "2026-08-07T09:35:11.795Z",
+  "version": "0.1.0-mvp",
+  "estado": "compilado",
+  "palabras_clave": [
+    "L-Arginina",
+    "L-Glutamina",
+    "hormona de crecimiento",
+    "antienvejecimiento",
+    "presión arterial"
+  ],
+  "relaciones_detectadas": [
+    {
+      "origen_id": "productos/04-funcion-cognitiva",
+      "destino_id": "productos",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/04-funcion-cognitiva.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/04-funcion-cognitiva",
+      "destino_id": "productos/03-longevidad-bienestar/nad-plus",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/04-funcion-cognitiva.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/04-funcion-cognitiva",
+      "destino_id": "productos/03-longevidad-bienestar/eterno-capsules",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/04-funcion-cognitiva.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/04-funcion-cognitiva",
+      "destino_id": "productos/03-longevidad-bienestar/nad-plus",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/04-funcion-cognitiva.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/04-funcion-cognitiva",
+      "destino_id": "productos/02-cafe-divina/black",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/04-funcion-cognitiva.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/04-funcion-cognitiva",
+      "destino_id": "productos",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/04-funcion-cognitiva.md",
+      "verificada": true
+    }
+  ],
+  "referencias": [
+    {
+      "targetRaw": "../productos.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./03-longevidad-bienestar/nad-plus.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\03-longevidad-bienestar\\nad-plus.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Youth Capsules"
+    },
+    {
+      "targetRaw": "./03-longevidad-bienestar/eterno-capsules.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\03-longevidad-bienestar\\eterno-capsules.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Youth Capsules"
+    },
+    {
+      "targetRaw": "./03-longevidad-bienestar/nad-plus.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\03-longevidad-bienestar\\nad-plus.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Brain Capsules"
+    },
+    {
+      "targetRaw": "./02-cafe-divina/black.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\black.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Brain Capsules"
+    },
+    {
+      "targetRaw": "../productos.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Brain Capsules"
+    }
+  ],
+  "checksum": "ee04116970b93334d583d5f8726c2948396a83e4d05f03d02c1228dacdcf00de",
+  "errores_detectados": [],
+  "advertencias": [],
+  "modulo": "productos"
+}

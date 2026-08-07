@@ -1,0 +1,158 @@
+{
+  "id": "agente_ia/aprendizaje",
+  "tipo_entidad": "documento_cognitivo",
+  "titulo": "Aprendizaje",
+  "ruta_original": "docs/agente_ia/aprendizaje.md",
+  "fecha_compilacion": "2026-08-07T09:35:11.665Z",
+  "version": "0.1.0-mvp",
+  "estado": "compilado",
+  "palabras_clave": [],
+  "relaciones_detectadas": [
+    {
+      "origen_id": "agente_ia/aprendizaje",
+      "destino_id": "agente_ia/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/aprendizaje.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/aprendizaje",
+      "destino_id": "agente_ia/herramientas",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/aprendizaje.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/aprendizaje",
+      "destino_id": "agente_ia/flujo_de_razonamiento",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/aprendizaje.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/aprendizaje",
+      "destino_id": "agente_ia/herramientas",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/aprendizaje.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/aprendizaje",
+      "destino_id": "agente_ia/principios",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/aprendizaje.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/aprendizaje",
+      "destino_id": "agente_ia/reglas_de_seguridad",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/aprendizaje.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/aprendizaje",
+      "destino_id": "agente_ia/principios",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/aprendizaje.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/aprendizaje",
+      "destino_id": "agente_ia/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/aprendizaje.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/aprendizaje",
+      "destino_id": "agente_ia/README",
+      "tipo_relacion": "pertenece_a_categoria",
+      "archivo_origen": "docs/agente_ia/aprendizaje.md",
+      "verificada": true
+    }
+  ],
+  "referencias": [
+    {
+      "targetRaw": "./README.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\README.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../CLAUDE.md#convenciones-del-proyecto",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\CLAUDE.md",
+      "anchor": "convenciones-del-proyecto",
+      "exists": true,
+      "seccion": "Cómo se incorporan nuevos módulos"
+    },
+    {
+      "targetRaw": "./herramientas.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\herramientas.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Cómo se incorporan nuevos módulos"
+    },
+    {
+      "targetRaw": "./flujo_de_razonamiento.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\flujo_de_razonamiento.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Cómo se integran nuevos productos"
+    },
+    {
+      "targetRaw": "./herramientas.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\herramientas.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Cómo se integran nuevos productos"
+    },
+    {
+      "targetRaw": "../../CLAUDE.md#roadmap",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\CLAUDE.md",
+      "anchor": "roadmap",
+      "exists": true,
+      "seccion": "Cómo se integran nuevos casos reales"
+    },
+    {
+      "targetRaw": "./principios.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\principios.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Cómo se integran nuevos casos reales"
+    },
+    {
+      "targetRaw": "./reglas_de_seguridad.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\reglas_de_seguridad.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Cómo se integran nuevos casos reales"
+    },
+    {
+      "targetRaw": "../../CLAUDE.md#instrucciones-para-claude",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\CLAUDE.md",
+      "anchor": "instrucciones-para-claude",
+      "exists": true,
+      "seccion": "Cómo evitar degradar la arquitectura"
+    },
+    {
+      "targetRaw": "./principios.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\principios.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Cómo evitar degradar la arquitectura"
+    },
+    {
+      "targetRaw": "./README.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\README.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Cómo evitar degradar la arquitectura"
+    }
+  ],
+  "checksum": "59de3f1807edf8cea3a984d3c37e83d32df9970a30863dec4f527c24fca262bd",
+  "errores_detectados": [],
+  "advertencias": [],
+  "modulo": "agente_ia"
+}

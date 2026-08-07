@@ -1,0 +1,81 @@
+{
+  "id": "conversaciones/seguimiento/seguimiento_7dias",
+  "tipo_entidad": "conversacion",
+  "titulo": "Seguimiento — 7 Días",
+  "ruta_original": "docs/conversaciones/seguimiento/seguimiento_7dias.md",
+  "fecha_compilacion": "2026-08-07T09:35:11.741Z",
+  "version": "0.1.0-mvp",
+  "estado": "compilado",
+  "palabras_clave": [],
+  "relaciones_detectadas": [
+    {
+      "origen_id": "conversaciones/seguimiento/seguimiento_7dias",
+      "destino_id": "conversaciones/cierre/cierre_venta",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/seguimiento/seguimiento_7dias.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/seguimiento/seguimiento_7dias",
+      "destino_id": "conversaciones/seguimiento/seguimiento_15dias",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/seguimiento/seguimiento_7dias.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/seguimiento/seguimiento_7dias",
+      "destino_id": "conversaciones/seguimiento/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/seguimiento/seguimiento_7dias.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/seguimiento/seguimiento_7dias",
+      "destino_id": "conversaciones/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/seguimiento/seguimiento_7dias.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/seguimiento/seguimiento_7dias",
+      "destino_id": "conversaciones/seguimiento/index",
+      "tipo_relacion": "pertenece_a_categoria",
+      "archivo_origen": "docs/conversaciones/seguimiento/seguimiento_7dias.md",
+      "verificada": true
+    }
+  ],
+  "referencias": [
+    {
+      "targetRaw": "../cierre/cierre_venta.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\cierre\\cierre_venta.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./seguimiento_15dias.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\seguimiento\\seguimiento_15dias.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\seguimiento\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../README.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\README.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    }
+  ],
+  "checksum": "3563b0bf0b859248e289418c09f6d818db7a500de80e53a772e500bf4d62fca3",
+  "errores_detectados": [],
+  "advertencias": [],
+  "modulo": "conversaciones"
+}

@@ -1,0 +1,109 @@
+{
+  "id": "conversaciones/cierre/cierre_venta",
+  "tipo_entidad": "conversacion",
+  "titulo": "Cierre — Cierre de Venta",
+  "ruta_original": "docs/conversaciones/cierre/cierre_venta.md",
+  "fecha_compilacion": "2026-08-07T09:35:11.708Z",
+  "version": "0.1.0-mvp",
+  "estado": "compilado",
+  "palabras_clave": [],
+  "relaciones_detectadas": [
+    {
+      "origen_id": "conversaciones/cierre/cierre_venta",
+      "destino_id": "conversaciones/recomendacion/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/cierre/cierre_venta.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/cierre/cierre_venta",
+      "destino_id": "conversaciones/objeciones/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/cierre/cierre_venta.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/cierre/cierre_venta",
+      "destino_id": "clientes/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/cierre/cierre_venta.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/cierre/cierre_venta",
+      "destino_id": "conversaciones/cierre/confirmacion_pedido",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/cierre/cierre_venta.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/cierre/cierre_venta",
+      "destino_id": "conversaciones/cierre/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/cierre/cierre_venta.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/cierre/cierre_venta",
+      "destino_id": "conversaciones/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/cierre/cierre_venta.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/cierre/cierre_venta",
+      "destino_id": "conversaciones/cierre/index",
+      "tipo_relacion": "pertenece_a_categoria",
+      "archivo_origen": "docs/conversaciones/cierre/cierre_venta.md",
+      "verificada": true
+    }
+  ],
+  "referencias": [
+    {
+      "targetRaw": "../recomendacion/index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\recomendacion\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../objeciones/index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\objeciones\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../clientes/README.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\README.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./confirmacion_pedido.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\cierre\\confirmacion_pedido.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\cierre\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../README.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\README.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    }
+  ],
+  "checksum": "de41f339f1ad0d45141a149985ffb6ab99c2e574be2fb1e94ef50ab96c6a06d2",
+  "errores_detectados": [],
+  "advertencias": [],
+  "modulo": "conversaciones"
+}

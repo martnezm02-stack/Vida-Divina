@@ -1,0 +1,277 @@
+{
+  "id": "proceso_de_venta/cierre",
+  "tipo_entidad": "documento_proceso",
+  "titulo": "Cierre",
+  "ruta_original": "docs/proceso_de_venta/cierre.md",
+  "fecha_compilacion": "2026-08-07T09:35:11.748Z",
+  "version": "0.1.0-mvp",
+  "estado": "compilado",
+  "palabras_clave": [],
+  "relaciones_detectadas": [
+    {
+      "origen_id": "proceso_de_venta/cierre",
+      "destino_id": "proceso_de_venta/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/cierre.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/cierre",
+      "destino_id": "proceso_de_venta/flujo_general",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/cierre.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/cierre",
+      "destino_id": "conversaciones/cierre/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/cierre.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/cierre",
+      "destino_id": "proceso_de_venta/descubrimiento",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/cierre.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/cierre",
+      "destino_id": "proceso_de_venta/manejo_de_objeciones",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/cierre.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/cierre",
+      "destino_id": "proceso_de_venta/recomendacion",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/cierre.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/cierre",
+      "destino_id": "proceso_de_venta/manejo_de_objeciones",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/cierre.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/cierre",
+      "destino_id": "proceso_de_venta/seguimiento",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/cierre.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/cierre",
+      "destino_id": "proceso_de_venta/recomendacion",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/cierre.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/cierre",
+      "destino_id": "proceso_de_venta/seguimiento",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/cierre.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/cierre",
+      "destino_id": "proceso_de_venta/manejo_de_objeciones",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/cierre.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/cierre",
+      "destino_id": "proceso_de_venta/manejo_de_objeciones",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/cierre.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/cierre",
+      "destino_id": "proceso_de_venta/seguimiento",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/cierre.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/cierre",
+      "destino_id": "conversaciones/cierre/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/cierre.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/cierre",
+      "destino_id": "proceso_de_venta/estados_del_cliente",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/cierre.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/cierre",
+      "destino_id": "proceso_de_venta/flujo_general",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/cierre.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/cierre",
+      "destino_id": "proceso_de_venta/postventa",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/cierre.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/cierre",
+      "destino_id": "proceso_de_venta/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/cierre.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/cierre",
+      "destino_id": "proceso_de_venta/README",
+      "tipo_relacion": "pertenece_a_categoria",
+      "archivo_origen": "docs/proceso_de_venta/cierre.md",
+      "verificada": true
+    }
+  ],
+  "referencias": [
+    {
+      "targetRaw": "./README.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\README.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./flujo_general.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\flujo_general.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../conversaciones/cierre/index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\cierre\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./descubrimiento.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\descubrimiento.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Cuándo SÍ intentar el cierre"
+    },
+    {
+      "targetRaw": "./manejo_de_objeciones.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\manejo_de_objeciones.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Cuándo SÍ intentar el cierre"
+    },
+    {
+      "targetRaw": "./recomendacion.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\recomendacion.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Cuándo NO intentar el cierre"
+    },
+    {
+      "targetRaw": "./manejo_de_objeciones.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\manejo_de_objeciones.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Cuándo NO intentar el cierre"
+    },
+    {
+      "targetRaw": "./seguimiento.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\seguimiento.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Cuándo NO intentar el cierre"
+    },
+    {
+      "targetRaw": "./recomendacion.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\recomendacion.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Señales que indican que el cliente aún no está listo"
+    },
+    {
+      "targetRaw": "./seguimiento.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\seguimiento.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Señales que indican que el cliente aún no está listo"
+    },
+    {
+      "targetRaw": "./manejo_de_objeciones.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\manejo_de_objeciones.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Señales que indican que el cliente aún no está listo"
+    },
+    {
+      "targetRaw": "./manejo_de_objeciones.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\manejo_de_objeciones.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Señales que indican que el cliente aún no está listo"
+    },
+    {
+      "targetRaw": "./seguimiento.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\seguimiento.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Señales que indican que el cliente aún no está listo"
+    },
+    {
+      "targetRaw": "../conversaciones/cierre/index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\cierre\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Al completar el cierre"
+    },
+    {
+      "targetRaw": "./estados_del_cliente.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\estados_del_cliente.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Al completar el cierre"
+    },
+    {
+      "targetRaw": "./flujo_general.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\flujo_general.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Al completar el cierre"
+    },
+    {
+      "targetRaw": "./postventa.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\postventa.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Al completar el cierre"
+    },
+    {
+      "targetRaw": "./README.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\README.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Al completar el cierre"
+    }
+  ],
+  "checksum": "7be413b1dc7926904dca3ab7647bbf8da459b0aab2410ecbba43d77f3c1f87a7",
+  "errores_detectados": [],
+  "advertencias": [],
+  "modulo": "proceso_de_venta"
+}

@@ -1,0 +1,16 @@
+{
+  "name": "vida-divina-recommendation-engine",
+  "version": "0.1.0",
+  "description": "Recommendation Engine — Sprint 3B. Establece el orden de recomendación (PRIMARY/COMPLEMENTARY/OPTIONAL/NOT_RECOMMENDED) entre productos para un perfil, usando exclusivamente knowledge/compiled/. No selecciona recursos, no genera respuestas, no conversa.",
+  "type": "module",
+  "private": true,
+  "main": "main.js",
+  "scripts": {
+    "recommend": "node main.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}

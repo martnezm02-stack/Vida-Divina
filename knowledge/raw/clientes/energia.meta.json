@@ -1,0 +1,272 @@
+{
+  "id": "clientes/energia",
+  "tipo_entidad": "perfil",
+  "titulo": "Energía",
+  "ruta_original": "docs/clientes/energia.md",
+  "fecha_compilacion": "2026-08-07T09:35:11.694Z",
+  "version": "0.1.0-mvp",
+  "estado": "compilado",
+  "palabras_clave": [
+    "energía natural",
+    "cansancio",
+    "fatiga",
+    "café funcional",
+    "sin azúcar",
+    "rendimiento diario",
+    "enfoque mental",
+    "bajón de tarde"
+  ],
+  "relaciones_detectadas": [
+    {
+      "origen_id": "clientes/energia",
+      "destino_id": "clientes/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/clientes/energia.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/energia",
+      "destino_id": "productos/01-control-de-peso/atom-capsules",
+      "tipo_relacion": "recomienda_primario",
+      "archivo_origen": "docs/clientes/energia.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/energia",
+      "destino_id": "productos/02-cafe-divina/sculpt-black",
+      "tipo_relacion": "recomienda_opcional",
+      "archivo_origen": "docs/clientes/energia.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/energia",
+      "destino_id": "productos/10-energia-antioxidantes/orange-genius",
+      "tipo_relacion": "recomienda_opcional",
+      "archivo_origen": "docs/clientes/energia.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/energia",
+      "destino_id": "productos/03-longevidad-bienestar/nad-plus",
+      "tipo_relacion": "recomienda_opcional",
+      "archivo_origen": "docs/clientes/energia.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/energia",
+      "destino_id": "productos/02-cafe-divina/te-verde",
+      "tipo_relacion": "recomienda_opcional",
+      "archivo_origen": "docs/clientes/energia.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/energia",
+      "destino_id": "productos/02-cafe-divina/te-negro",
+      "tipo_relacion": "recomienda_opcional",
+      "archivo_origen": "docs/clientes/energia.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/energia",
+      "destino_id": "productos/10-energia-antioxidantes/mundo-azul",
+      "tipo_relacion": "recomienda_complementario",
+      "archivo_origen": "docs/clientes/energia.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/energia",
+      "destino_id": "productos/10-energia-antioxidantes/factor-divina",
+      "tipo_relacion": "recomienda_complementario",
+      "archivo_origen": "docs/clientes/energia.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/energia",
+      "destino_id": "productos/11-extractos-hongos/extracto-cordyceps",
+      "tipo_relacion": "recomienda_complementario",
+      "archivo_origen": "docs/clientes/energia.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/energia",
+      "destino_id": "productos/01-control-de-peso/sleep-n-lose-capsules",
+      "tipo_relacion": "no_recomendado",
+      "archivo_origen": "docs/clientes/energia.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/energia",
+      "destino_id": "clientes/descanso_sueno",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/clientes/energia.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/energia",
+      "destino_id": "clientes/rendimiento_deportivo",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/clientes/energia.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/energia",
+      "destino_id": "clientes/rendimiento_deportivo",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/clientes/energia.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/energia",
+      "destino_id": "clientes/perder_peso",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/clientes/energia.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/energia",
+      "destino_id": "clientes/salud_cognitiva",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/clientes/energia.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/energia",
+      "destino_id": "clientes/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/clientes/energia.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/energia",
+      "destino_id": "clientes/README",
+      "tipo_relacion": "pertenece_a_categoria",
+      "archivo_origen": "docs/clientes/energia.md",
+      "verificada": true
+    }
+  ],
+  "referencias": [
+    {
+      "targetRaw": "./README.md#nota-importante",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\README.md",
+      "anchor": "nota-importante",
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../productos/01-control-de-peso/atom-capsules.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\01-control-de-peso\\atom-capsules.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Productos recomendados"
+    },
+    {
+      "targetRaw": "../productos/02-cafe-divina/sculpt-black.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\sculpt-black.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Productos recomendados"
+    },
+    {
+      "targetRaw": "../productos/10-energia-antioxidantes/orange-genius.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\10-energia-antioxidantes\\orange-genius.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Productos recomendados"
+    },
+    {
+      "targetRaw": "../productos/03-longevidad-bienestar/nad-plus.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\03-longevidad-bienestar\\nad-plus.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Productos recomendados"
+    },
+    {
+      "targetRaw": "../productos/02-cafe-divina/te-verde.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\te-verde.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Productos recomendados"
+    },
+    {
+      "targetRaw": "../productos/02-cafe-divina/te-negro.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\te-negro.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Productos recomendados"
+    },
+    {
+      "targetRaw": "../productos/10-energia-antioxidantes/mundo-azul.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\10-energia-antioxidantes\\mundo-azul.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Productos complementarios"
+    },
+    {
+      "targetRaw": "../productos/10-energia-antioxidantes/factor-divina.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\10-energia-antioxidantes\\factor-divina.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Productos complementarios"
+    },
+    {
+      "targetRaw": "../productos/11-extractos-hongos/extracto-cordyceps.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\11-extractos-hongos\\extracto-cordyceps.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Productos complementarios"
+    },
+    {
+      "targetRaw": "../productos/01-control-de-peso/sleep-n-lose-capsules.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\01-control-de-peso\\sleep-n-lose-capsules.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Productos que NO son prioridad"
+    },
+    {
+      "targetRaw": "./descanso_sueno.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\descanso_sueno.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Preguntas para identificar al cliente"
+    },
+    {
+      "targetRaw": "./rendimiento_deportivo.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\rendimiento_deportivo.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Seguimiento recomendado"
+    },
+    {
+      "targetRaw": "./rendimiento_deportivo.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\rendimiento_deportivo.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Posibles ventas futuras (cross-selling)"
+    },
+    {
+      "targetRaw": "./perder_peso.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\perder_peso.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Posibles ventas futuras (cross-selling)"
+    },
+    {
+      "targetRaw": "./salud_cognitiva.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\salud_cognitiva.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Posibles ventas futuras (cross-selling)"
+    },
+    {
+      "targetRaw": "./README.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\README.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Nivel de prioridad de este perfil para el negocio"
+    }
+  ],
+  "checksum": "f2fb811fdec3632a46a2ad4d5bba14c4546137189a8ba930f81c61ad7052f487",
+  "errores_detectados": [],
+  "advertencias": [],
+  "modulo": "clientes"
+}

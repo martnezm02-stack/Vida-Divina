@@ -1,0 +1,172 @@
+{
+  "id": "productos/01-control-de-peso/index",
+  "tipo_entidad": "indice_categoria",
+  "titulo": "Categoría: Control de Peso",
+  "ruta_original": "docs/productos/01-control-de-peso/index.md",
+  "fecha_compilacion": "2026-08-07T09:35:11.774Z",
+  "version": "0.1.0-mvp",
+  "estado": "compilado",
+  "palabras_clave": [],
+  "relaciones_detectadas": [
+    {
+      "origen_id": "productos/01-control-de-peso/index",
+      "destino_id": "productos",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/01-control-de-peso/index.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/01-control-de-peso/index",
+      "destino_id": "productos/01-control-de-peso/tedivina",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/01-control-de-peso/index.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/01-control-de-peso/index",
+      "destino_id": "productos/01-control-de-peso/ignite-capsules",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/01-control-de-peso/index.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/01-control-de-peso/index",
+      "destino_id": "productos/01-control-de-peso/hcg-reactor-capsules",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/01-control-de-peso/index.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/01-control-de-peso/index",
+      "destino_id": "productos/01-control-de-peso/life-capsules",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/01-control-de-peso/index.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/01-control-de-peso/index",
+      "destino_id": "productos/01-control-de-peso/atom-capsules",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/01-control-de-peso/index.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/01-control-de-peso/index",
+      "destino_id": "productos/01-control-de-peso/cheat-capsules",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/01-control-de-peso/index.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/01-control-de-peso/index",
+      "destino_id": "productos/01-control-de-peso/cx90",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/01-control-de-peso/index.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/01-control-de-peso/index",
+      "destino_id": "productos/01-control-de-peso/sleep-n-lose-capsules",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/01-control-de-peso/index.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/01-control-de-peso/index",
+      "destino_id": "productos/01-control-de-peso/sculpt-max",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/01-control-de-peso/index.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/01-control-de-peso/index",
+      "destino_id": "productos",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/01-control-de-peso/index.md",
+      "verificada": true
+    }
+  ],
+  "referencias": [
+    {
+      "targetRaw": "../../productos.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./tedivina.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\01-control-de-peso\\tedivina.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Productos en esta categoría"
+    },
+    {
+      "targetRaw": "./ignite-capsules.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\01-control-de-peso\\ignite-capsules.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Productos en esta categoría"
+    },
+    {
+      "targetRaw": "./hcg-reactor-capsules.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\01-control-de-peso\\hcg-reactor-capsules.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Productos en esta categoría"
+    },
+    {
+      "targetRaw": "./life-capsules.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\01-control-de-peso\\life-capsules.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Productos en esta categoría"
+    },
+    {
+      "targetRaw": "./atom-capsules.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\01-control-de-peso\\atom-capsules.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Productos en esta categoría"
+    },
+    {
+      "targetRaw": "./cheat-capsules.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\01-control-de-peso\\cheat-capsules.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Productos en esta categoría"
+    },
+    {
+      "targetRaw": "./cx90.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\01-control-de-peso\\cx90.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Productos en esta categoría"
+    },
+    {
+      "targetRaw": "./sleep-n-lose-capsules.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\01-control-de-peso\\sleep-n-lose-capsules.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Productos en esta categoría"
+    },
+    {
+      "targetRaw": "./sculpt-max.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\01-control-de-peso\\sculpt-max.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Productos en esta categoría"
+    },
+    {
+      "targetRaw": "../../productos.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Productos en esta categoría"
+    }
+  ],
+  "checksum": "b52c3959f116fd9cbca8ac70bad1f9a8dad33ffeb0d90424745c3995ecfe613c",
+  "errores_detectados": [],
+  "advertencias": [],
+  "modulo": "productos"
+}

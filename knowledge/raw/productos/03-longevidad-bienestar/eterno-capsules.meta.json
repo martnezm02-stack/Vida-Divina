@@ -1,0 +1,144 @@
+{
+  "id": "productos/03-longevidad-bienestar/eterno-capsules",
+  "tipo_entidad": "producto",
+  "titulo": "Eterno Capsules",
+  "ruta_original": "docs/productos/03-longevidad-bienestar/eterno-capsules.md",
+  "fecha_compilacion": "2026-08-07T09:35:11.791Z",
+  "version": "0.1.0-mvp",
+  "estado": "compilado",
+  "palabras_clave": [
+    "shilajit",
+    "DHEA",
+    "hongos medicinales",
+    "longevidad",
+    "energía",
+    "alivio del estrés"
+  ],
+  "relaciones_detectadas": [
+    {
+      "origen_id": "productos/03-longevidad-bienestar/eterno-capsules",
+      "destino_id": "productos/03-longevidad-bienestar/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/03-longevidad-bienestar/eterno-capsules.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/03-longevidad-bienestar/eterno-capsules",
+      "destino_id": "productos",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/03-longevidad-bienestar/eterno-capsules.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/03-longevidad-bienestar/eterno-capsules",
+      "destino_id": "productos/03-longevidad-bienestar/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/03-longevidad-bienestar/eterno-capsules.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/03-longevidad-bienestar/eterno-capsules",
+      "destino_id": "productos/03-longevidad-bienestar/nad-plus",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/03-longevidad-bienestar/eterno-capsules.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/03-longevidad-bienestar/eterno-capsules",
+      "destino_id": "productos/03-longevidad-bienestar/time-capsules",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/03-longevidad-bienestar/eterno-capsules.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/03-longevidad-bienestar/eterno-capsules",
+      "destino_id": "productos/04-funcion-cognitiva",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/03-longevidad-bienestar/eterno-capsules.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/03-longevidad-bienestar/eterno-capsules",
+      "destino_id": "productos/03-longevidad-bienestar/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/03-longevidad-bienestar/eterno-capsules.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/03-longevidad-bienestar/eterno-capsules",
+      "destino_id": "productos",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/03-longevidad-bienestar/eterno-capsules.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/03-longevidad-bienestar/eterno-capsules",
+      "destino_id": "productos/03-longevidad-bienestar/index",
+      "tipo_relacion": "pertenece_a_categoria",
+      "archivo_origen": "docs/productos/03-longevidad-bienestar/eterno-capsules.md",
+      "verificada": true
+    }
+  ],
+  "referencias": [
+    {
+      "targetRaw": "./index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\03-longevidad-bienestar\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../productos.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\03-longevidad-bienestar\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./nad-plus.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\03-longevidad-bienestar\\nad-plus.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./time-capsules.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\03-longevidad-bienestar\\time-capsules.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../04-funcion-cognitiva.md#brain-capsules",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\04-funcion-cognitiva.md",
+      "anchor": "brain-capsules",
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\03-longevidad-bienestar\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../productos.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    }
+  ],
+  "checksum": "0838d828d707d4f3e2f7d10e9012eecea63a7063a9e62a2c684d69afd56526d5",
+  "errores_detectados": [],
+  "advertencias": [],
+  "modulo": "productos"
+}

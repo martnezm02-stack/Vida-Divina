@@ -1,0 +1,298 @@
+{
+  "id": "conversaciones/README",
+  "tipo_entidad": "indice_modulo",
+  "titulo": "Base de Conocimiento — Conversaciones Vida Divina",
+  "ruta_original": "docs/conversaciones/README.md",
+  "fecha_compilacion": "2026-08-07T09:35:11.730Z",
+  "version": "0.1.0-mvp",
+  "estado": "compilado",
+  "palabras_clave": [],
+  "relaciones_detectadas": [
+    {
+      "origen_id": "conversaciones/README",
+      "destino_id": "clientes/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/README.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/README",
+      "destino_id": "productos",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/README.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/README",
+      "destino_id": "conversaciones/objeciones/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/README.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/README",
+      "destino_id": "objeciones/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/README.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/README",
+      "destino_id": "proceso_de_venta/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/README.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/README",
+      "destino_id": "clientes/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/README.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/README",
+      "destino_id": "conversaciones/recomendacion/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/README.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/README",
+      "destino_id": "clientes/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/README.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/README",
+      "destino_id": "productos",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/README.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/README",
+      "destino_id": "conversaciones/primer_contacto/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/README.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/README",
+      "destino_id": "conversaciones/descubrimiento/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/README.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/README",
+      "destino_id": "conversaciones/recomendacion/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/README.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/README",
+      "destino_id": "conversaciones/objeciones/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/README.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/README",
+      "destino_id": "conversaciones/seguimiento/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/README.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/README",
+      "destino_id": "conversaciones/cierre/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/README.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/README",
+      "destino_id": "conversaciones/postventa/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/README.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/README",
+      "destino_id": "conversaciones/emprendimiento/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/README.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/README",
+      "destino_id": "conversaciones/plantillas/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/README.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/README",
+      "destino_id": "conversaciones/objeciones/mi_medico_no_me_deja",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/README.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/README",
+      "destino_id": "clientes/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/README.md",
+      "verificada": true
+    }
+  ],
+  "referencias": [
+    {
+      "targetRaw": "../clientes/README.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\README.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../productos.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./objeciones/index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\objeciones\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../objeciones/README.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\objeciones\\README.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../proceso_de_venta/README.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\README.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../clientes/README.md#índice-de-perfiles-de-clientes",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\README.md",
+      "anchor": "índice-de-perfiles-de-clientes",
+      "exists": true,
+      "seccion": "Alcance de esta primera versión (metodología 80/20)"
+    },
+    {
+      "targetRaw": "./recomendacion/index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\recomendacion\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Alcance de esta primera versión (metodología 80/20)"
+    },
+    {
+      "targetRaw": "../clientes/README.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\README.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "🔁 Flujo general de una conversación"
+    },
+    {
+      "targetRaw": "../productos.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "🔁 Flujo general de una conversación"
+    },
+    {
+      "targetRaw": "./primer_contacto/index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\primer_contacto\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "📑 Índice de módulos"
+    },
+    {
+      "targetRaw": "./descubrimiento/index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\descubrimiento\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "📑 Índice de módulos"
+    },
+    {
+      "targetRaw": "./recomendacion/index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\recomendacion\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "📑 Índice de módulos"
+    },
+    {
+      "targetRaw": "./objeciones/index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\objeciones\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "📑 Índice de módulos"
+    },
+    {
+      "targetRaw": "./seguimiento/index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\seguimiento\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "📑 Índice de módulos"
+    },
+    {
+      "targetRaw": "./cierre/index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\cierre\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "📑 Índice de módulos"
+    },
+    {
+      "targetRaw": "./postventa/index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\postventa\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "📑 Índice de módulos"
+    },
+    {
+      "targetRaw": "./emprendimiento/index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\emprendimiento\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "📑 Índice de módulos"
+    },
+    {
+      "targetRaw": "./plantillas/index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\plantillas\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "📑 Índice de módulos"
+    },
+    {
+      "targetRaw": "./objeciones/mi_medico_no_me_deja.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\objeciones\\mi_medico_no_me_deja.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Reglas generales (aplican a TODO el módulo)"
+    },
+    {
+      "targetRaw": "../clientes/README.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\README.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Cómo usar este módulo (para una IA o un asesor)"
+    }
+  ],
+  "checksum": "db8f3a56d15eafd2c3e675ce3503d143cf7d58009a48065c88edb90dadadfdc1",
+  "errores_detectados": [],
+  "advertencias": [],
+  "modulo": "conversaciones"
+}

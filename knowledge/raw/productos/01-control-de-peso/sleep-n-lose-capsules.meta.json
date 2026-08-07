@@ -1,0 +1,143 @@
+{
+  "id": "productos/01-control-de-peso/sleep-n-lose-capsules",
+  "tipo_entidad": "producto",
+  "titulo": "Sleep N' Lose Capsules",
+  "ruta_original": "docs/productos/01-control-de-peso/sleep-n-lose-capsules.md",
+  "fecha_compilacion": "2026-08-07T09:35:11.776Z",
+  "version": "0.1.0-mvp",
+  "estado": "compilado",
+  "palabras_clave": [
+    "sueño saludable",
+    "no crea hábito",
+    "descanso nocturno",
+    "control de peso",
+    "insomnio"
+  ],
+  "relaciones_detectadas": [
+    {
+      "origen_id": "productos/01-control-de-peso/sleep-n-lose-capsules",
+      "destino_id": "productos/01-control-de-peso/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/01-control-de-peso/sleep-n-lose-capsules.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/01-control-de-peso/sleep-n-lose-capsules",
+      "destino_id": "productos",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/01-control-de-peso/sleep-n-lose-capsules.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/01-control-de-peso/sleep-n-lose-capsules",
+      "destino_id": "productos/01-control-de-peso/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/01-control-de-peso/sleep-n-lose-capsules.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/01-control-de-peso/sleep-n-lose-capsules",
+      "destino_id": "productos/01-control-de-peso/hcg-reactor-capsules",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/01-control-de-peso/sleep-n-lose-capsules.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/01-control-de-peso/sleep-n-lose-capsules",
+      "destino_id": "productos/03-longevidad-bienestar/eterno-capsules",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/01-control-de-peso/sleep-n-lose-capsules.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/01-control-de-peso/sleep-n-lose-capsules",
+      "destino_id": "productos/04-funcion-cognitiva",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/01-control-de-peso/sleep-n-lose-capsules.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/01-control-de-peso/sleep-n-lose-capsules",
+      "destino_id": "productos/01-control-de-peso/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/01-control-de-peso/sleep-n-lose-capsules.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/01-control-de-peso/sleep-n-lose-capsules",
+      "destino_id": "productos",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/01-control-de-peso/sleep-n-lose-capsules.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/01-control-de-peso/sleep-n-lose-capsules",
+      "destino_id": "productos/01-control-de-peso/index",
+      "tipo_relacion": "pertenece_a_categoria",
+      "archivo_origen": "docs/productos/01-control-de-peso/sleep-n-lose-capsules.md",
+      "verificada": true
+    }
+  ],
+  "referencias": [
+    {
+      "targetRaw": "./index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\01-control-de-peso\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../productos.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\01-control-de-peso\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./hcg-reactor-capsules.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\01-control-de-peso\\hcg-reactor-capsules.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../03-longevidad-bienestar/eterno-capsules.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\03-longevidad-bienestar\\eterno-capsules.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../04-funcion-cognitiva.md#brain-capsules",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\04-funcion-cognitiva.md",
+      "anchor": "brain-capsules",
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\01-control-de-peso\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../productos.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    }
+  ],
+  "checksum": "ee9b286f91b55b98e29c78a6e19508075d6618fb4abc4bb2ab695d584b7b00c7",
+  "errores_detectados": [],
+  "advertencias": [],
+  "modulo": "productos"
+}

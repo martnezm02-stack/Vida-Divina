@@ -1,0 +1,286 @@
+{
+  "id": "clientes/sistema_inmunologico",
+  "tipo_entidad": "perfil",
+  "titulo": "Sistema Inmunológico",
+  "ruta_original": "docs/clientes/sistema_inmunologico.md",
+  "fecha_compilacion": "2026-08-07T09:35:11.707Z",
+  "version": "0.1.0-mvp",
+  "estado": "compilado",
+  "palabras_clave": [
+    "sistema inmunológico",
+    "defensas",
+    "hongos medicinales",
+    "Reishi",
+    "Chaga",
+    "adaptógenos",
+    "prevención",
+    "resfríos frecuentes"
+  ],
+  "relaciones_detectadas": [
+    {
+      "origen_id": "clientes/sistema_inmunologico",
+      "destino_id": "clientes/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/clientes/sistema_inmunologico.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/sistema_inmunologico",
+      "destino_id": "productos/03-longevidad-bienestar/chaga-capsules",
+      "tipo_relacion": "recomienda_primario",
+      "archivo_origen": "docs/clientes/sistema_inmunologico.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/sistema_inmunologico",
+      "destino_id": "productos/03-longevidad-bienestar/reishi-capsules",
+      "tipo_relacion": "recomienda_opcional",
+      "archivo_origen": "docs/clientes/sistema_inmunologico.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/sistema_inmunologico",
+      "destino_id": "productos/03-longevidad-bienestar/time-capsules",
+      "tipo_relacion": "recomienda_opcional",
+      "archivo_origen": "docs/clientes/sistema_inmunologico.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/sistema_inmunologico",
+      "destino_id": "productos/10-energia-antioxidantes/factor-divina",
+      "tipo_relacion": "recomienda_opcional",
+      "archivo_origen": "docs/clientes/sistema_inmunologico.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/sistema_inmunologico",
+      "destino_id": "productos/03-longevidad-bienestar/cordycs-4-capsules",
+      "tipo_relacion": "recomienda_opcional",
+      "archivo_origen": "docs/clientes/sistema_inmunologico.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/sistema_inmunologico",
+      "destino_id": "productos/11-extractos-hongos/extracto-maitake",
+      "tipo_relacion": "recomienda_complementario",
+      "archivo_origen": "docs/clientes/sistema_inmunologico.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/sistema_inmunologico",
+      "destino_id": "productos/11-extractos-hongos/extracto-shiitake",
+      "tipo_relacion": "recomienda_complementario",
+      "archivo_origen": "docs/clientes/sistema_inmunologico.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/sistema_inmunologico",
+      "destino_id": "productos/11-extractos-hongos/extracto-turkey-tail",
+      "tipo_relacion": "recomienda_complementario",
+      "archivo_origen": "docs/clientes/sistema_inmunologico.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/sistema_inmunologico",
+      "destino_id": "productos/11-extractos-hongos/extracto-agaricus-blazei",
+      "tipo_relacion": "recomienda_complementario",
+      "archivo_origen": "docs/clientes/sistema_inmunologico.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/sistema_inmunologico",
+      "destino_id": "productos/10-energia-antioxidantes/mundo-rojo",
+      "tipo_relacion": "recomienda_complementario",
+      "archivo_origen": "docs/clientes/sistema_inmunologico.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/sistema_inmunologico",
+      "destino_id": "productos/10-energia-antioxidantes/mundo-verde",
+      "tipo_relacion": "recomienda_complementario",
+      "archivo_origen": "docs/clientes/sistema_inmunologico.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/sistema_inmunologico",
+      "destino_id": "productos/10-energia-antioxidantes/mundo-omega",
+      "tipo_relacion": "recomienda_complementario",
+      "archivo_origen": "docs/clientes/sistema_inmunologico.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/sistema_inmunologico",
+      "destino_id": "productos/03-longevidad-bienestar/aceite-esporas-reishi",
+      "tipo_relacion": "recomienda_complementario",
+      "archivo_origen": "docs/clientes/sistema_inmunologico.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/sistema_inmunologico",
+      "destino_id": "clientes/longevidad",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/clientes/sistema_inmunologico.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/sistema_inmunologico",
+      "destino_id": "clientes/bienestar_general",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/clientes/sistema_inmunologico.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/sistema_inmunologico",
+      "destino_id": "clientes/salud_digestiva",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/clientes/sistema_inmunologico.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/sistema_inmunologico",
+      "destino_id": "clientes/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/clientes/sistema_inmunologico.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/sistema_inmunologico",
+      "destino_id": "clientes/README",
+      "tipo_relacion": "pertenece_a_categoria",
+      "archivo_origen": "docs/clientes/sistema_inmunologico.md",
+      "verificada": true
+    }
+  ],
+  "referencias": [
+    {
+      "targetRaw": "./README.md#nota-importante",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\README.md",
+      "anchor": "nota-importante",
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../productos/03-longevidad-bienestar/chaga-capsules.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\03-longevidad-bienestar\\chaga-capsules.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Productos recomendados"
+    },
+    {
+      "targetRaw": "../productos/03-longevidad-bienestar/reishi-capsules.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\03-longevidad-bienestar\\reishi-capsules.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Productos recomendados"
+    },
+    {
+      "targetRaw": "../productos/03-longevidad-bienestar/time-capsules.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\03-longevidad-bienestar\\time-capsules.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Productos recomendados"
+    },
+    {
+      "targetRaw": "../productos/10-energia-antioxidantes/factor-divina.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\10-energia-antioxidantes\\factor-divina.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Productos recomendados"
+    },
+    {
+      "targetRaw": "../productos/03-longevidad-bienestar/cordycs-4-capsules.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\03-longevidad-bienestar\\cordycs-4-capsules.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Productos recomendados"
+    },
+    {
+      "targetRaw": "../productos/11-extractos-hongos/extracto-maitake.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\11-extractos-hongos\\extracto-maitake.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Productos complementarios"
+    },
+    {
+      "targetRaw": "../productos/11-extractos-hongos/extracto-shiitake.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\11-extractos-hongos\\extracto-shiitake.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Productos complementarios"
+    },
+    {
+      "targetRaw": "../productos/11-extractos-hongos/extracto-turkey-tail.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\11-extractos-hongos\\extracto-turkey-tail.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Productos complementarios"
+    },
+    {
+      "targetRaw": "../productos/11-extractos-hongos/extracto-agaricus-blazei.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\11-extractos-hongos\\extracto-agaricus-blazei.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Productos complementarios"
+    },
+    {
+      "targetRaw": "../productos/10-energia-antioxidantes/mundo-rojo.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\10-energia-antioxidantes\\mundo-rojo.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Productos complementarios"
+    },
+    {
+      "targetRaw": "../productos/10-energia-antioxidantes/mundo-verde.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\10-energia-antioxidantes\\mundo-verde.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Productos complementarios"
+    },
+    {
+      "targetRaw": "../productos/10-energia-antioxidantes/mundo-omega.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\10-energia-antioxidantes\\mundo-omega.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Productos complementarios"
+    },
+    {
+      "targetRaw": "../productos/03-longevidad-bienestar/aceite-esporas-reishi.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\03-longevidad-bienestar\\aceite-esporas-reishi.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Productos complementarios"
+    },
+    {
+      "targetRaw": "./longevidad.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\longevidad.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Posibles ventas futuras (cross-selling)"
+    },
+    {
+      "targetRaw": "./bienestar_general.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\bienestar_general.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Posibles ventas futuras (cross-selling)"
+    },
+    {
+      "targetRaw": "./salud_digestiva.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\salud_digestiva.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Posibles ventas futuras (cross-selling)"
+    },
+    {
+      "targetRaw": "./README.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\README.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Nivel de prioridad de este perfil para el negocio"
+    }
+  ],
+  "checksum": "83938fce245a400178578729a1572084f056b17457c70b7f94453d19d5aa66f9",
+  "errores_detectados": [],
+  "advertencias": [],
+  "modulo": "clientes"
+}

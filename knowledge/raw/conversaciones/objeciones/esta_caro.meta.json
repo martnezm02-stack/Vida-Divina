@@ -1,0 +1,193 @@
+{
+  "id": "conversaciones/objeciones/esta_caro",
+  "tipo_entidad": "conversacion",
+  "titulo": "Objeciones — \"Está Caro\"",
+  "ruta_original": "docs/conversaciones/objeciones/esta_caro.md",
+  "fecha_compilacion": "2026-08-07T09:35:11.716Z",
+  "version": "0.1.0-mvp",
+  "estado": "compilado",
+  "palabras_clave": [],
+  "relaciones_detectadas": [
+    {
+      "origen_id": "conversaciones/objeciones/esta_caro",
+      "destino_id": "conversaciones/recomendacion/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/objeciones/esta_caro.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/objeciones/esta_caro",
+      "destino_id": "conversaciones/cierre/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/objeciones/esta_caro.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/objeciones/esta_caro",
+      "destino_id": "clientes/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/objeciones/esta_caro.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/objeciones/esta_caro",
+      "destino_id": "clientes/belleza_anti_edad",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/objeciones/esta_caro.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/objeciones/esta_caro",
+      "destino_id": "clientes/longevidad",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/objeciones/esta_caro.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/objeciones/esta_caro",
+      "destino_id": "conversaciones/seguimiento/seguimiento_3dias",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/objeciones/esta_caro.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/objeciones/esta_caro",
+      "destino_id": "conversaciones/cierre/cierre_venta",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/objeciones/esta_caro.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/objeciones/esta_caro",
+      "destino_id": "conversaciones/seguimiento/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/objeciones/esta_caro.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/objeciones/esta_caro",
+      "destino_id": "conversaciones/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/objeciones/esta_caro.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/objeciones/esta_caro",
+      "destino_id": "objeciones/esta_caro",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/objeciones/esta_caro.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/objeciones/esta_caro",
+      "destino_id": "conversaciones/objeciones/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/objeciones/esta_caro.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/objeciones/esta_caro",
+      "destino_id": "conversaciones/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/objeciones/esta_caro.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/objeciones/esta_caro",
+      "destino_id": "conversaciones/objeciones/index",
+      "tipo_relacion": "pertenece_a_categoria",
+      "archivo_origen": "docs/conversaciones/objeciones/esta_caro.md",
+      "verificada": true
+    }
+  ],
+  "referencias": [
+    {
+      "targetRaw": "../recomendacion/index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\recomendacion\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../cierre/index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\cierre\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../clientes/README.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\README.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../clientes/belleza_anti_edad.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\belleza_anti_edad.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../clientes/longevidad.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\longevidad.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../seguimiento/seguimiento_3dias.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\seguimiento\\seguimiento_3dias.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../cierre/cierre_venta.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\cierre\\cierre_venta.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../seguimiento/index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\seguimiento\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../README.md#reglas-generales-aplican-a-todo-el-módulo",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\README.md",
+      "anchor": "reglas-generales-aplican-a-todo-el-módulo",
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../objeciones/esta_caro.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\objeciones\\esta_caro.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\objeciones\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../README.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\README.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    }
+  ],
+  "checksum": "802e6091ec2eef168efc69438388c8b0ce2fbd6ba86412d166e989051addeb1a",
+  "errores_detectados": [],
+  "advertencias": [],
+  "modulo": "conversaciones"
+}

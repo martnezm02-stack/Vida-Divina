@@ -1,0 +1,538 @@
+{
+  "id": "clientes/README",
+  "tipo_entidad": "indice_modulo",
+  "titulo": "Base de Conocimiento — Clientes Vida Divina",
+  "ruta_original": "docs/clientes/README.md",
+  "fecha_compilacion": "2026-08-07T09:35:11.699Z",
+  "version": "0.1.0-mvp",
+  "estado": "compilado",
+  "palabras_clave": [
+    "· Nivel de prioridad de este perfil para el negocio"
+  ],
+  "relaciones_detectadas": [
+    {
+      "origen_id": "clientes/README",
+      "destino_id": "productos",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/clientes/README.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/README",
+      "destino_id": "proceso_de_venta/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/clientes/README.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/README",
+      "destino_id": "productos",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/clientes/README.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/README",
+      "destino_id": "clientes/emprendimiento",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/clientes/README.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/README",
+      "destino_id": "clientes/bienestar_general",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/clientes/README.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/README",
+      "destino_id": "clientes/perder_peso",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/clientes/README.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/README",
+      "destino_id": "clientes/control_glucosa",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/clientes/README.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/README",
+      "destino_id": "clientes/salud_digestiva",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/clientes/README.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/README",
+      "destino_id": "clientes/energia",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/clientes/README.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/README",
+      "destino_id": "clientes/rendimiento_deportivo",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/clientes/README.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/README",
+      "destino_id": "clientes/sistema_inmunologico",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/clientes/README.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/README",
+      "destino_id": "clientes/longevidad",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/clientes/README.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/README",
+      "destino_id": "clientes/salud_cognitiva",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/clientes/README.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/README",
+      "destino_id": "clientes/dolor_articulaciones",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/clientes/README.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/README",
+      "destino_id": "clientes/salud_visual",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/clientes/README.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/README",
+      "destino_id": "clientes/salud_intima_libido",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/clientes/README.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/README",
+      "destino_id": "clientes/descanso_sueno",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/clientes/README.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/README",
+      "destino_id": "clientes/cuidado_personal",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/clientes/README.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/README",
+      "destino_id": "clientes/belleza_anti_edad",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/clientes/README.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/README",
+      "destino_id": "clientes/emprendimiento",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/clientes/README.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/README",
+      "destino_id": "clientes/perder_peso",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/clientes/README.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/README",
+      "destino_id": "clientes/control_glucosa",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/clientes/README.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/README",
+      "destino_id": "clientes/salud_digestiva",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/clientes/README.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/README",
+      "destino_id": "clientes/energia",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/clientes/README.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/README",
+      "destino_id": "clientes/rendimiento_deportivo",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/clientes/README.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/README",
+      "destino_id": "clientes/sistema_inmunologico",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/clientes/README.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/README",
+      "destino_id": "clientes/longevidad",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/clientes/README.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/README",
+      "destino_id": "clientes/salud_cognitiva",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/clientes/README.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/README",
+      "destino_id": "clientes/dolor_articulaciones",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/clientes/README.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/README",
+      "destino_id": "clientes/salud_visual",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/clientes/README.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/README",
+      "destino_id": "clientes/salud_intima_libido",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/clientes/README.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/README",
+      "destino_id": "clientes/descanso_sueno",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/clientes/README.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/README",
+      "destino_id": "clientes/cuidado_personal",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/clientes/README.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/README",
+      "destino_id": "clientes/belleza_anti_edad",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/clientes/README.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/README",
+      "destino_id": "clientes/emprendimiento",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/clientes/README.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/README",
+      "destino_id": "clientes/bienestar_general",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/clientes/README.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/README",
+      "destino_id": "productos",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/clientes/README.md",
+      "verificada": true
+    }
+  ],
+  "referencias": [
+    {
+      "targetRaw": "../productos.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../proceso_de_venta/README.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\README.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../productos.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Nota Importante"
+    },
+    {
+      "targetRaw": "./emprendimiento.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\emprendimiento.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Nota Importante"
+    },
+    {
+      "targetRaw": "./bienestar_general.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\bienestar_general.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "📑 Índice de perfiles de clientes"
+    },
+    {
+      "targetRaw": "./perder_peso.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\perder_peso.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "📑 Índice de perfiles de clientes"
+    },
+    {
+      "targetRaw": "./control_glucosa.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\control_glucosa.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "📑 Índice de perfiles de clientes"
+    },
+    {
+      "targetRaw": "./salud_digestiva.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\salud_digestiva.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "📑 Índice de perfiles de clientes"
+    },
+    {
+      "targetRaw": "./energia.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\energia.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "📑 Índice de perfiles de clientes"
+    },
+    {
+      "targetRaw": "./rendimiento_deportivo.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\rendimiento_deportivo.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "📑 Índice de perfiles de clientes"
+    },
+    {
+      "targetRaw": "./sistema_inmunologico.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\sistema_inmunologico.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "📑 Índice de perfiles de clientes"
+    },
+    {
+      "targetRaw": "./longevidad.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\longevidad.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "📑 Índice de perfiles de clientes"
+    },
+    {
+      "targetRaw": "./salud_cognitiva.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\salud_cognitiva.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "📑 Índice de perfiles de clientes"
+    },
+    {
+      "targetRaw": "./dolor_articulaciones.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\dolor_articulaciones.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "📑 Índice de perfiles de clientes"
+    },
+    {
+      "targetRaw": "./salud_visual.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\salud_visual.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "📑 Índice de perfiles de clientes"
+    },
+    {
+      "targetRaw": "./salud_intima_libido.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\salud_intima_libido.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "📑 Índice de perfiles de clientes"
+    },
+    {
+      "targetRaw": "./descanso_sueno.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\descanso_sueno.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "📑 Índice de perfiles de clientes"
+    },
+    {
+      "targetRaw": "./cuidado_personal.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\cuidado_personal.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "📑 Índice de perfiles de clientes"
+    },
+    {
+      "targetRaw": "./belleza_anti_edad.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\belleza_anti_edad.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "📑 Índice de perfiles de clientes"
+    },
+    {
+      "targetRaw": "./emprendimiento.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\emprendimiento.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "📑 Índice de perfiles de clientes"
+    },
+    {
+      "targetRaw": "./perder_peso.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\perder_peso.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Mapa rápido: necesidad → primer producto de entrada"
+    },
+    {
+      "targetRaw": "./control_glucosa.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\control_glucosa.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Mapa rápido: necesidad → primer producto de entrada"
+    },
+    {
+      "targetRaw": "./salud_digestiva.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\salud_digestiva.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Mapa rápido: necesidad → primer producto de entrada"
+    },
+    {
+      "targetRaw": "./energia.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\energia.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Mapa rápido: necesidad → primer producto de entrada"
+    },
+    {
+      "targetRaw": "./rendimiento_deportivo.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\rendimiento_deportivo.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Mapa rápido: necesidad → primer producto de entrada"
+    },
+    {
+      "targetRaw": "./sistema_inmunologico.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\sistema_inmunologico.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Mapa rápido: necesidad → primer producto de entrada"
+    },
+    {
+      "targetRaw": "./longevidad.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\longevidad.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Mapa rápido: necesidad → primer producto de entrada"
+    },
+    {
+      "targetRaw": "./salud_cognitiva.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\salud_cognitiva.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Mapa rápido: necesidad → primer producto de entrada"
+    },
+    {
+      "targetRaw": "./dolor_articulaciones.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\dolor_articulaciones.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Mapa rápido: necesidad → primer producto de entrada"
+    },
+    {
+      "targetRaw": "./salud_visual.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\salud_visual.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Mapa rápido: necesidad → primer producto de entrada"
+    },
+    {
+      "targetRaw": "./salud_intima_libido.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\salud_intima_libido.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Mapa rápido: necesidad → primer producto de entrada"
+    },
+    {
+      "targetRaw": "./descanso_sueno.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\descanso_sueno.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Mapa rápido: necesidad → primer producto de entrada"
+    },
+    {
+      "targetRaw": "./cuidado_personal.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\cuidado_personal.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Mapa rápido: necesidad → primer producto de entrada"
+    },
+    {
+      "targetRaw": "./belleza_anti_edad.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\belleza_anti_edad.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Mapa rápido: necesidad → primer producto de entrada"
+    },
+    {
+      "targetRaw": "./emprendimiento.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\emprendimiento.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Mapa rápido: necesidad → primer producto de entrada"
+    },
+    {
+      "targetRaw": "./bienestar_general.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\bienestar_general.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Mapa rápido: necesidad → primer producto de entrada"
+    },
+    {
+      "targetRaw": "../productos.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Notas de mantenimiento"
+    }
+  ],
+  "checksum": "13fc6128253f02906600944b58d75441b3806e0e51dee1e2d8d671873be7bbbf",
+  "errores_detectados": [],
+  "advertencias": [],
+  "modulo": "clientes"
+}

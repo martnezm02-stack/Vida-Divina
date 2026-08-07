@@ -1,0 +1,81 @@
+{
+  "id": "conversaciones/cierre/confirmacion_envio",
+  "tipo_entidad": "conversacion",
+  "titulo": "Cierre — Confirmación de Envío",
+  "ruta_original": "docs/conversaciones/cierre/confirmacion_envio.md",
+  "fecha_compilacion": "2026-08-07T09:35:11.708Z",
+  "version": "0.1.0-mvp",
+  "estado": "compilado",
+  "palabras_clave": [],
+  "relaciones_detectadas": [
+    {
+      "origen_id": "conversaciones/cierre/confirmacion_envio",
+      "destino_id": "conversaciones/cierre/explicacion_pago",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/cierre/confirmacion_envio.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/cierre/confirmacion_envio",
+      "destino_id": "conversaciones/postventa/verificar_satisfaccion",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/cierre/confirmacion_envio.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/cierre/confirmacion_envio",
+      "destino_id": "conversaciones/cierre/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/cierre/confirmacion_envio.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/cierre/confirmacion_envio",
+      "destino_id": "conversaciones/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/cierre/confirmacion_envio.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/cierre/confirmacion_envio",
+      "destino_id": "conversaciones/cierre/index",
+      "tipo_relacion": "pertenece_a_categoria",
+      "archivo_origen": "docs/conversaciones/cierre/confirmacion_envio.md",
+      "verificada": true
+    }
+  ],
+  "referencias": [
+    {
+      "targetRaw": "./explicacion_pago.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\cierre\\explicacion_pago.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../postventa/verificar_satisfaccion.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\postventa\\verificar_satisfaccion.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\cierre\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../README.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\README.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    }
+  ],
+  "checksum": "589085c615f480322db3b85c67f1c23b9391ed42873efcdb346970aef9512ffa",
+  "errores_detectados": [],
+  "advertencias": [],
+  "modulo": "conversaciones"
+}

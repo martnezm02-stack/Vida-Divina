@@ -1,0 +1,88 @@
+{
+  "id": "conversaciones/descubrimiento/index",
+  "tipo_entidad": "indice_categoria",
+  "titulo": "Descubrimiento",
+  "ruta_original": "docs/conversaciones/descubrimiento/index.md",
+  "fecha_compilacion": "2026-08-07T09:35:11.710Z",
+  "version": "0.1.0-mvp",
+  "estado": "compilado",
+  "palabras_clave": [],
+  "relaciones_detectadas": [
+    {
+      "origen_id": "conversaciones/descubrimiento/index",
+      "destino_id": "conversaciones/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/descubrimiento/index.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/descubrimiento/index",
+      "destino_id": "clientes/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/descubrimiento/index.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/descubrimiento/index",
+      "destino_id": "conversaciones/descubrimiento/preguntas_generales",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/descubrimiento/index.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/descubrimiento/index",
+      "destino_id": "conversaciones/descubrimiento/senales_por_perfil",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/descubrimiento/index.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/descubrimiento/index",
+      "destino_id": "conversaciones/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/descubrimiento/index.md",
+      "verificada": true
+    }
+  ],
+  "referencias": [
+    {
+      "targetRaw": "../README.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\README.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../clientes/README.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\README.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./preguntas_generales.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\descubrimiento\\preguntas_generales.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Construidos"
+    },
+    {
+      "targetRaw": "./senales_por_perfil.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\descubrimiento\\senales_por_perfil.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Construidos"
+    },
+    {
+      "targetRaw": "../README.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\README.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Pendientes (estructura lista, no construidos aún)"
+    }
+  ],
+  "checksum": "6a91eb2b815e419a7b1f342a3822f737e4aec5cd961b4f6b19de5d15c4a70758",
+  "errores_detectados": [],
+  "advertencias": [],
+  "modulo": "conversaciones"
+}

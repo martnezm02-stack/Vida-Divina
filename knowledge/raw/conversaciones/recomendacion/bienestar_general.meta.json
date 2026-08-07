@@ -1,0 +1,193 @@
+{
+  "id": "conversaciones/recomendacion/bienestar_general",
+  "tipo_entidad": "conversacion",
+  "titulo": "Recomendación — Bienestar General",
+  "ruta_original": "docs/conversaciones/recomendacion/bienestar_general.md",
+  "fecha_compilacion": "2026-08-07T09:35:11.732Z",
+  "version": "0.1.0-mvp",
+  "estado": "compilado",
+  "palabras_clave": [],
+  "relaciones_detectadas": [
+    {
+      "origen_id": "conversaciones/recomendacion/bienestar_general",
+      "destino_id": "conversaciones/descubrimiento/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/recomendacion/bienestar_general.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/recomendacion/bienestar_general",
+      "destino_id": "clientes/bienestar_general",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/recomendacion/bienestar_general.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/recomendacion/bienestar_general",
+      "destino_id": "productos/01-control-de-peso/tedivina",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/recomendacion/bienestar_general.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/recomendacion/bienestar_general",
+      "destino_id": "productos/03-longevidad-bienestar/reishi-capsules",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/recomendacion/bienestar_general.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/recomendacion/bienestar_general",
+      "destino_id": "productos/02-cafe-divina/black",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/recomendacion/bienestar_general.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/recomendacion/bienestar_general",
+      "destino_id": "productos/02-cafe-divina/black",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/recomendacion/bienestar_general.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/recomendacion/bienestar_general",
+      "destino_id": "productos/02-cafe-divina/latte",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/recomendacion/bienestar_general.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/recomendacion/bienestar_general",
+      "destino_id": "productos/03-longevidad-bienestar/reishi-capsules",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/recomendacion/bienestar_general.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/recomendacion/bienestar_general",
+      "destino_id": "conversaciones/cierre/cierre_venta",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/recomendacion/bienestar_general.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/recomendacion/bienestar_general",
+      "destino_id": "conversaciones/seguimiento/seguimiento_24h",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/recomendacion/bienestar_general.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/recomendacion/bienestar_general",
+      "destino_id": "conversaciones/recomendacion/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/recomendacion/bienestar_general.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/recomendacion/bienestar_general",
+      "destino_id": "conversaciones/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/recomendacion/bienestar_general.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/recomendacion/bienestar_general",
+      "destino_id": "conversaciones/recomendacion/index",
+      "tipo_relacion": "pertenece_a_categoria",
+      "archivo_origen": "docs/conversaciones/recomendacion/bienestar_general.md",
+      "verificada": true
+    }
+  ],
+  "referencias": [
+    {
+      "targetRaw": "../descubrimiento/index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\descubrimiento\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../clientes/bienestar_general.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\bienestar_general.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../productos/01-control-de-peso/tedivina.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\01-control-de-peso\\tedivina.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../productos/03-longevidad-bienestar/reishi-capsules.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\03-longevidad-bienestar\\reishi-capsules.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../productos/02-cafe-divina/black.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\black.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../productos/02-cafe-divina/black.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\black.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../productos/02-cafe-divina/latte.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\latte.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../productos/03-longevidad-bienestar/reishi-capsules.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\03-longevidad-bienestar\\reishi-capsules.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../cierre/cierre_venta.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\cierre\\cierre_venta.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../seguimiento/seguimiento_24h.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\seguimiento\\seguimiento_24h.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\recomendacion\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../README.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\README.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    }
+  ],
+  "checksum": "f671fbddea6f1e796aa38a0e967c8e100970dbac0218cd8edfc05ff4507d9f26",
+  "errores_detectados": [],
+  "advertencias": [],
+  "modulo": "conversaciones"
+}

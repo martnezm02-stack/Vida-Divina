@@ -1,0 +1,16 @@
+{
+  "name": "vida-divina-conversation-simulator",
+  "version": "0.1.0",
+  "description": "Conversation Simulator MVP — Sprint 3A. Ejecuta el flujo comercial completo sin IA, usando exclusivamente knowledge/compiled/ (Sprint 2) y transcripciones citadas de las reglas de docs/. No modifica docs/ ni knowledge/.",
+  "type": "module",
+  "private": true,
+  "main": "main.js",
+  "scripts": {
+    "simulate": "node main.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}

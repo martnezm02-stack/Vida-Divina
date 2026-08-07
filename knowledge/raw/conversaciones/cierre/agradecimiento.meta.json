@@ -1,0 +1,95 @@
+{
+  "id": "conversaciones/cierre/agradecimiento",
+  "tipo_entidad": "conversacion",
+  "titulo": "Cierre — Agradecimiento",
+  "ruta_original": "docs/conversaciones/cierre/agradecimiento.md",
+  "fecha_compilacion": "2026-08-07T09:35:11.707Z",
+  "version": "0.1.0-mvp",
+  "estado": "compilado",
+  "palabras_clave": [],
+  "relaciones_detectadas": [
+    {
+      "origen_id": "conversaciones/cierre/agradecimiento",
+      "destino_id": "conversaciones/postventa/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/cierre/agradecimiento.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/cierre/agradecimiento",
+      "destino_id": "conversaciones/cierre/confirmacion_envio",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/cierre/agradecimiento.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/cierre/agradecimiento",
+      "destino_id": "conversaciones/postventa/verificar_satisfaccion",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/cierre/agradecimiento.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/cierre/agradecimiento",
+      "destino_id": "conversaciones/cierre/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/cierre/agradecimiento.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/cierre/agradecimiento",
+      "destino_id": "conversaciones/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/cierre/agradecimiento.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/cierre/agradecimiento",
+      "destino_id": "conversaciones/cierre/index",
+      "tipo_relacion": "pertenece_a_categoria",
+      "archivo_origen": "docs/conversaciones/cierre/agradecimiento.md",
+      "verificada": true
+    }
+  ],
+  "referencias": [
+    {
+      "targetRaw": "../postventa/index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\postventa\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./confirmacion_envio.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\cierre\\confirmacion_envio.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../postventa/verificar_satisfaccion.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\postventa\\verificar_satisfaccion.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\cierre\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../README.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\README.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    }
+  ],
+  "checksum": "ecf851809b66dae4e29ce0abef4b65fd8db36323361f9c77e73541b0b84f17d6",
+  "errores_detectados": [],
+  "advertencias": [],
+  "modulo": "conversaciones"
+}

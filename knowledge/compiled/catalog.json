@@ -1,0 +1,898 @@
+[
+  {
+    "modulo": "agente_ia",
+    "cantidad_documentos": 16,
+    "tipos_entidad": [
+      "documento_cognitivo",
+      "ejemplo_razonamiento",
+      "herramienta",
+      "indice_modulo",
+      "metrica",
+      "principio",
+      "regla_decision",
+      "regla_seguridad"
+    ],
+    "documentos": [
+      {
+        "id": "agente_ia/aprendizaje",
+        "titulo": "Aprendizaje",
+        "tipo_entidad": "documento_cognitivo"
+      },
+      {
+        "id": "agente_ia/comportamiento",
+        "titulo": "Comportamiento",
+        "tipo_entidad": "documento_cognitivo"
+      },
+      {
+        "id": "agente_ia/contexto",
+        "titulo": "Contexto",
+        "tipo_entidad": "documento_cognitivo"
+      },
+      {
+        "id": "agente_ia/ejemplos",
+        "titulo": "Ejemplos",
+        "tipo_entidad": "ejemplo_razonamiento"
+      },
+      {
+        "id": "agente_ia/flujo_de_razonamiento",
+        "titulo": "Flujo de Razonamiento",
+        "tipo_entidad": "documento_cognitivo"
+      },
+      {
+        "id": "agente_ia/herramientas",
+        "titulo": "Herramientas",
+        "tipo_entidad": "herramienta"
+      },
+      {
+        "id": "agente_ia/identidad",
+        "titulo": "Identidad",
+        "tipo_entidad": "documento_cognitivo"
+      },
+      {
+        "id": "agente_ia/manejo_de_errores",
+        "titulo": "Manejo de Errores",
+        "tipo_entidad": "documento_cognitivo"
+      },
+      {
+        "id": "agente_ia/memoria",
+        "titulo": "Memoria",
+        "tipo_entidad": "documento_cognitivo"
+      },
+      {
+        "id": "agente_ia/metricas",
+        "titulo": "Métricas",
+        "tipo_entidad": "metrica"
+      },
+      {
+        "id": "agente_ia/principios",
+        "titulo": "Principios",
+        "tipo_entidad": "principio"
+      },
+      {
+        "id": "agente_ia/prioridades",
+        "titulo": "Prioridades",
+        "tipo_entidad": "documento_cognitivo"
+      },
+      {
+        "id": "agente_ia/README",
+        "titulo": "Agente IA — El Motor Cognitivo de Vida Divina",
+        "tipo_entidad": "indice_modulo"
+      },
+      {
+        "id": "agente_ia/reglas_de_decision",
+        "titulo": "Reglas de Decisión",
+        "tipo_entidad": "regla_decision"
+      },
+      {
+        "id": "agente_ia/reglas_de_seguridad",
+        "titulo": "Reglas de Seguridad",
+        "tipo_entidad": "regla_seguridad"
+      },
+      {
+        "id": "agente_ia/roadmap",
+        "titulo": "Roadmap",
+        "tipo_entidad": "documento_cognitivo"
+      }
+    ]
+  },
+  {
+    "modulo": "clientes",
+    "cantidad_documentos": 17,
+    "tipos_entidad": [
+      "indice_modulo",
+      "perfil"
+    ],
+    "documentos": [
+      {
+        "id": "clientes/belleza_anti_edad",
+        "titulo": "Belleza y Anti-Edad (Piel Facial Premium)",
+        "tipo_entidad": "perfil"
+      },
+      {
+        "id": "clientes/bienestar_general",
+        "titulo": "Bienestar General",
+        "tipo_entidad": "perfil"
+      },
+      {
+        "id": "clientes/control_glucosa",
+        "titulo": "Control de Glucosa / Azúcar en Sangre",
+        "tipo_entidad": "perfil"
+      },
+      {
+        "id": "clientes/cuidado_personal",
+        "titulo": "Cuidado Personal (Higiene y Cuidado Básico)",
+        "tipo_entidad": "perfil"
+      },
+      {
+        "id": "clientes/descanso_sueno",
+        "titulo": "Descanso y Sueño",
+        "tipo_entidad": "perfil"
+      },
+      {
+        "id": "clientes/dolor_articulaciones",
+        "titulo": "Dolor y Articulaciones",
+        "tipo_entidad": "perfil"
+      },
+      {
+        "id": "clientes/emprendimiento",
+        "titulo": "Emprendimiento (Oportunidad de Negocio)",
+        "tipo_entidad": "perfil"
+      },
+      {
+        "id": "clientes/energia",
+        "titulo": "Energía",
+        "tipo_entidad": "perfil"
+      },
+      {
+        "id": "clientes/longevidad",
+        "titulo": "Longevidad y Anti-Edad Interno",
+        "tipo_entidad": "perfil"
+      },
+      {
+        "id": "clientes/perder_peso",
+        "titulo": "Pérdida de Peso",
+        "tipo_entidad": "perfil"
+      },
+      {
+        "id": "clientes/README",
+        "titulo": "Base de Conocimiento — Clientes Vida Divina",
+        "tipo_entidad": "indice_modulo"
+      },
+      {
+        "id": "clientes/rendimiento_deportivo",
+        "titulo": "Rendimiento Deportivo",
+        "tipo_entidad": "perfil"
+      },
+      {
+        "id": "clientes/salud_cognitiva",
+        "titulo": "Salud Cognitiva",
+        "tipo_entidad": "perfil"
+      },
+      {
+        "id": "clientes/salud_digestiva",
+        "titulo": "Salud Digestiva",
+        "tipo_entidad": "perfil"
+      },
+      {
+        "id": "clientes/salud_intima_libido",
+        "titulo": "Salud Íntima y Libido",
+        "tipo_entidad": "perfil"
+      },
+      {
+        "id": "clientes/salud_visual",
+        "titulo": "Salud Visual",
+        "tipo_entidad": "perfil"
+      },
+      {
+        "id": "clientes/sistema_inmunologico",
+        "titulo": "Sistema Inmunológico",
+        "tipo_entidad": "perfil"
+      }
+    ]
+  },
+  {
+    "modulo": "conversaciones",
+    "cantidad_documentos": 47,
+    "tipos_entidad": [
+      "conversacion",
+      "indice_categoria",
+      "indice_modulo"
+    ],
+    "documentos": [
+      {
+        "id": "conversaciones/cierre/agradecimiento",
+        "titulo": "Cierre — Agradecimiento",
+        "tipo_entidad": "conversacion"
+      },
+      {
+        "id": "conversaciones/cierre/cierre_venta",
+        "titulo": "Cierre — Cierre de Venta",
+        "tipo_entidad": "conversacion"
+      },
+      {
+        "id": "conversaciones/cierre/confirmacion_envio",
+        "titulo": "Cierre — Confirmación de Envío",
+        "tipo_entidad": "conversacion"
+      },
+      {
+        "id": "conversaciones/cierre/confirmacion_pedido",
+        "titulo": "Cierre — Confirmación de Pedido",
+        "tipo_entidad": "conversacion"
+      },
+      {
+        "id": "conversaciones/cierre/explicacion_pago",
+        "titulo": "Cierre — Explicación de Pago",
+        "tipo_entidad": "conversacion"
+      },
+      {
+        "id": "conversaciones/cierre/index",
+        "titulo": "Cierre",
+        "tipo_entidad": "indice_categoria"
+      },
+      {
+        "id": "conversaciones/descubrimiento/index",
+        "titulo": "Descubrimiento",
+        "tipo_entidad": "indice_categoria"
+      },
+      {
+        "id": "conversaciones/descubrimiento/preguntas_generales",
+        "titulo": "Descubrimiento — Preguntas Generales",
+        "tipo_entidad": "conversacion"
+      },
+      {
+        "id": "conversaciones/descubrimiento/senales_por_perfil",
+        "titulo": "Descubrimiento — Señales por Perfil",
+        "tipo_entidad": "conversacion"
+      },
+      {
+        "id": "conversaciones/emprendimiento/index",
+        "titulo": "Emprendimiento",
+        "tipo_entidad": "indice_categoria"
+      },
+      {
+        "id": "conversaciones/emprendimiento/invitacion_cliente_satisfecho",
+        "titulo": "Emprendimiento — Invitación a Cliente Satisfecho",
+        "tipo_entidad": "conversacion"
+      },
+      {
+        "id": "conversaciones/emprendimiento/respuesta_interes_directo",
+        "titulo": "Emprendimiento — Respuesta a Interés Directo en el Negocio",
+        "tipo_entidad": "conversacion"
+      },
+      {
+        "id": "conversaciones/objeciones/esta_caro",
+        "titulo": "Objeciones — \"Está Caro\"",
+        "tipo_entidad": "conversacion"
+      },
+      {
+        "id": "conversaciones/objeciones/index",
+        "titulo": "Objeciones",
+        "tipo_entidad": "indice_categoria"
+      },
+      {
+        "id": "conversaciones/objeciones/lo_voy_a_pensar",
+        "titulo": "Objeciones — \"Lo Voy a Pensar\"",
+        "tipo_entidad": "conversacion"
+      },
+      {
+        "id": "conversaciones/objeciones/mi_medico_no_me_deja",
+        "titulo": "Objeciones — \"Mi Médico No Me Deja\" / Tengo una Condición Médica",
+        "tipo_entidad": "conversacion"
+      },
+      {
+        "id": "conversaciones/objeciones/no_creo_en_suplementos",
+        "titulo": "Objeciones — \"No Creo en Suplementos\"",
+        "tipo_entidad": "conversacion"
+      },
+      {
+        "id": "conversaciones/objeciones/no_tengo_dinero",
+        "titulo": "Objeciones — \"No Tengo Dinero\"",
+        "tipo_entidad": "conversacion"
+      },
+      {
+        "id": "conversaciones/objeciones/ya_probe_otros_productos",
+        "titulo": "Objeciones — \"Ya Probé Otros Productos\"",
+        "tipo_entidad": "conversacion"
+      },
+      {
+        "id": "conversaciones/plantillas/audios_y_seguimientos",
+        "titulo": "Plantillas — Audios y Aperturas de Seguimiento",
+        "tipo_entidad": "conversacion"
+      },
+      {
+        "id": "conversaciones/plantillas/confirmaciones",
+        "titulo": "Plantillas — Confirmaciones",
+        "tipo_entidad": "conversacion"
+      },
+      {
+        "id": "conversaciones/plantillas/despedidas_agradecimientos",
+        "titulo": "Plantillas — Despedidas y Agradecimientos",
+        "tipo_entidad": "conversacion"
+      },
+      {
+        "id": "conversaciones/plantillas/index",
+        "titulo": "Plantillas",
+        "tipo_entidad": "indice_categoria"
+      },
+      {
+        "id": "conversaciones/plantillas/mensajes_cortos_y_largos",
+        "titulo": "Plantillas — Mensajes Cortos vs. Largos",
+        "tipo_entidad": "conversacion"
+      },
+      {
+        "id": "conversaciones/plantillas/saludos",
+        "titulo": "Plantillas — Saludos",
+        "tipo_entidad": "conversacion"
+      },
+      {
+        "id": "conversaciones/postventa/index",
+        "titulo": "Postventa",
+        "tipo_entidad": "indice_categoria"
+      },
+      {
+        "id": "conversaciones/postventa/recomendar_complementarios",
+        "titulo": "Postventa — Recomendar Productos Complementarios",
+        "tipo_entidad": "conversacion"
+      },
+      {
+        "id": "conversaciones/postventa/solicitar_testimonio",
+        "titulo": "Postventa — Solicitar Testimonio",
+        "tipo_entidad": "conversacion"
+      },
+      {
+        "id": "conversaciones/postventa/verificar_satisfaccion",
+        "titulo": "Postventa — Verificar Satisfacción",
+        "tipo_entidad": "conversacion"
+      },
+      {
+        "id": "conversaciones/primer_contacto/index",
+        "titulo": "Primer Contacto",
+        "tipo_entidad": "indice_categoria"
+      },
+      {
+        "id": "conversaciones/primer_contacto/pregunta_precio",
+        "titulo": "Primer Contacto — Pregunta Únicamente por Precio",
+        "tipo_entidad": "conversacion"
+      },
+      {
+        "id": "conversaciones/primer_contacto/redes_sociales",
+        "titulo": "Primer Contacto — Redes Sociales (Facebook / Publicación)",
+        "tipo_entidad": "conversacion"
+      },
+      {
+        "id": "conversaciones/primer_contacto/referido",
+        "titulo": "Primer Contacto — Cliente Referido",
+        "tipo_entidad": "conversacion"
+      },
+      {
+        "id": "conversaciones/primer_contacto/whatsapp_directo",
+        "titulo": "Primer Contacto — WhatsApp Directo (sin contexto previo)",
+        "tipo_entidad": "conversacion"
+      },
+      {
+        "id": "conversaciones/README",
+        "titulo": "Base de Conocimiento — Conversaciones Vida Divina",
+        "tipo_entidad": "indice_modulo"
+      },
+      {
+        "id": "conversaciones/recomendacion/belleza_anti_edad",
+        "titulo": "Recomendación — Belleza y Anti-Edad",
+        "tipo_entidad": "conversacion"
+      },
+      {
+        "id": "conversaciones/recomendacion/bienestar_general",
+        "titulo": "Recomendación — Bienestar General",
+        "tipo_entidad": "conversacion"
+      },
+      {
+        "id": "conversaciones/recomendacion/energia",
+        "titulo": "Recomendación — Energía",
+        "tipo_entidad": "conversacion"
+      },
+      {
+        "id": "conversaciones/recomendacion/index",
+        "titulo": "Recomendación",
+        "tipo_entidad": "indice_categoria"
+      },
+      {
+        "id": "conversaciones/recomendacion/perder_peso",
+        "titulo": "Recomendación — Pérdida de Peso",
+        "tipo_entidad": "conversacion"
+      },
+      {
+        "id": "conversaciones/recomendacion/sistema_inmunologico",
+        "titulo": "Recomendación — Sistema Inmunológico",
+        "tipo_entidad": "conversacion"
+      },
+      {
+        "id": "conversaciones/seguimiento/index",
+        "titulo": "Seguimiento",
+        "tipo_entidad": "indice_categoria"
+      },
+      {
+        "id": "conversaciones/seguimiento/seguimiento_15dias",
+        "titulo": "Seguimiento — 15 Días",
+        "tipo_entidad": "conversacion"
+      },
+      {
+        "id": "conversaciones/seguimiento/seguimiento_24h",
+        "titulo": "Seguimiento — 24 Horas",
+        "tipo_entidad": "conversacion"
+      },
+      {
+        "id": "conversaciones/seguimiento/seguimiento_30dias",
+        "titulo": "Seguimiento — 30 Días",
+        "tipo_entidad": "conversacion"
+      },
+      {
+        "id": "conversaciones/seguimiento/seguimiento_3dias",
+        "titulo": "Seguimiento — 3 Días",
+        "tipo_entidad": "conversacion"
+      },
+      {
+        "id": "conversaciones/seguimiento/seguimiento_7dias",
+        "titulo": "Seguimiento — 7 Días",
+        "tipo_entidad": "conversacion"
+      }
+    ]
+  },
+  {
+    "modulo": "objeciones",
+    "cantidad_documentos": 5,
+    "tipos_entidad": [
+      "indice_modulo",
+      "objecion"
+    ],
+    "documentos": [
+      {
+        "id": "objeciones/esta_caro",
+        "titulo": "Objeción — \"Está Caro\"",
+        "tipo_entidad": "objecion"
+      },
+      {
+        "id": "objeciones/lo_voy_a_pensar",
+        "titulo": "Objeción — \"Lo Voy a Pensar\"",
+        "tipo_entidad": "objecion"
+      },
+      {
+        "id": "objeciones/no_creo_en_suplementos",
+        "titulo": "Objeción — \"No Creo en Suplementos\"",
+        "tipo_entidad": "objecion"
+      },
+      {
+        "id": "objeciones/no_tengo_dinero",
+        "titulo": "Objeción — \"No Tengo Dinero\"",
+        "tipo_entidad": "objecion"
+      },
+      {
+        "id": "objeciones/README",
+        "titulo": "Base de Conocimiento — Objeciones Vida Divina",
+        "tipo_entidad": "indice_modulo"
+      }
+    ]
+  },
+  {
+    "modulo": "proceso_de_venta",
+    "cantidad_documentos": 12,
+    "tipos_entidad": [
+      "documento_proceso",
+      "estado_cliente",
+      "etapa_proceso",
+      "indice_modulo",
+      "regla_decision"
+    ],
+    "documentos": [
+      {
+        "id": "proceso_de_venta/calificacion_del_cliente",
+        "titulo": "Calificación del Cliente",
+        "tipo_entidad": "documento_proceso"
+      },
+      {
+        "id": "proceso_de_venta/cierre",
+        "titulo": "Cierre",
+        "tipo_entidad": "documento_proceso"
+      },
+      {
+        "id": "proceso_de_venta/descubrimiento",
+        "titulo": "Descubrimiento",
+        "tipo_entidad": "documento_proceso"
+      },
+      {
+        "id": "proceso_de_venta/emprendimiento",
+        "titulo": "Emprendimiento",
+        "tipo_entidad": "documento_proceso"
+      },
+      {
+        "id": "proceso_de_venta/estados_del_cliente",
+        "titulo": "Estados del Cliente",
+        "tipo_entidad": "estado_cliente"
+      },
+      {
+        "id": "proceso_de_venta/flujo_general",
+        "titulo": "Flujo General del Proceso de Venta",
+        "tipo_entidad": "etapa_proceso"
+      },
+      {
+        "id": "proceso_de_venta/manejo_de_objeciones",
+        "titulo": "Manejo de Objeciones",
+        "tipo_entidad": "documento_proceso"
+      },
+      {
+        "id": "proceso_de_venta/postventa",
+        "titulo": "Postventa",
+        "tipo_entidad": "documento_proceso"
+      },
+      {
+        "id": "proceso_de_venta/README",
+        "titulo": "Proceso de Venta — El Orquestador de Vida Divina",
+        "tipo_entidad": "indice_modulo"
+      },
+      {
+        "id": "proceso_de_venta/recomendacion",
+        "titulo": "Recomendación",
+        "tipo_entidad": "documento_proceso"
+      },
+      {
+        "id": "proceso_de_venta/reglas_de_decision",
+        "titulo": "Reglas de Decisión",
+        "tipo_entidad": "regla_decision"
+      },
+      {
+        "id": "proceso_de_venta/seguimiento",
+        "titulo": "Seguimiento",
+        "tipo_entidad": "documento_proceso"
+      }
+    ]
+  },
+  {
+    "modulo": "productos",
+    "cantidad_documentos": 68,
+    "tipos_entidad": [
+      "indice_categoria",
+      "indice_modulo",
+      "producto"
+    ],
+    "documentos": [
+      {
+        "id": "productos",
+        "titulo": "Base de Conocimiento — Catálogo de Productos Vida Divina",
+        "tipo_entidad": "indice_modulo"
+      },
+      {
+        "id": "productos/01-control-de-peso/atom-capsules",
+        "titulo": "Atom Capsules",
+        "tipo_entidad": "producto"
+      },
+      {
+        "id": "productos/01-control-de-peso/cheat-capsules",
+        "titulo": "Cheat Capsules",
+        "tipo_entidad": "producto"
+      },
+      {
+        "id": "productos/01-control-de-peso/cx90",
+        "titulo": "CX/90",
+        "tipo_entidad": "producto"
+      },
+      {
+        "id": "productos/01-control-de-peso/hcg-reactor-capsules",
+        "titulo": "HCG Reactor Capsules",
+        "tipo_entidad": "producto"
+      },
+      {
+        "id": "productos/01-control-de-peso/ignite-capsules",
+        "titulo": "Ignite Capsules",
+        "tipo_entidad": "producto"
+      },
+      {
+        "id": "productos/01-control-de-peso/index",
+        "titulo": "Categoría: Control de Peso",
+        "tipo_entidad": "indice_categoria"
+      },
+      {
+        "id": "productos/01-control-de-peso/life-capsules",
+        "titulo": "Life Capsules",
+        "tipo_entidad": "producto"
+      },
+      {
+        "id": "productos/01-control-de-peso/sculpt-max",
+        "titulo": "Sculpt Max",
+        "tipo_entidad": "producto"
+      },
+      {
+        "id": "productos/01-control-de-peso/sleep-n-lose-capsules",
+        "titulo": "Sleep N' Lose Capsules",
+        "tipo_entidad": "producto"
+      },
+      {
+        "id": "productos/01-control-de-peso/tedivina",
+        "titulo": "TéDivina",
+        "tipo_entidad": "producto"
+      },
+      {
+        "id": "productos/02-cafe-divina/black",
+        "titulo": "Black",
+        "tipo_entidad": "producto"
+      },
+      {
+        "id": "productos/02-cafe-divina/cappuccino",
+        "titulo": "Cappuccino",
+        "tipo_entidad": "producto"
+      },
+      {
+        "id": "productos/02-cafe-divina/divine-cereal",
+        "titulo": "Divine Cereal",
+        "tipo_entidad": "producto"
+      },
+      {
+        "id": "productos/02-cafe-divina/hazelnut-latte",
+        "titulo": "Hazelnut Latte",
+        "tipo_entidad": "producto"
+      },
+      {
+        "id": "productos/02-cafe-divina/hot-chocolate",
+        "titulo": "Hot Chocolate",
+        "tipo_entidad": "producto"
+      },
+      {
+        "id": "productos/02-cafe-divina/index",
+        "titulo": "Categoría: Café Divina — Bebidas Funcionales",
+        "tipo_entidad": "indice_categoria"
+      },
+      {
+        "id": "productos/02-cafe-divina/latte",
+        "titulo": "Latte",
+        "tipo_entidad": "producto"
+      },
+      {
+        "id": "productos/02-cafe-divina/latte-dorado",
+        "titulo": "Latte Dorado",
+        "tipo_entidad": "producto"
+      },
+      {
+        "id": "productos/02-cafe-divina/latte-verde",
+        "titulo": "Latte Verde",
+        "tipo_entidad": "producto"
+      },
+      {
+        "id": "productos/02-cafe-divina/mocha",
+        "titulo": "Mocha",
+        "tipo_entidad": "producto"
+      },
+      {
+        "id": "productos/02-cafe-divina/sculpt-black",
+        "titulo": "Sculpt Black",
+        "tipo_entidad": "producto"
+      },
+      {
+        "id": "productos/02-cafe-divina/sculpt-latte",
+        "titulo": "Sculpt Latte",
+        "tipo_entidad": "producto"
+      },
+      {
+        "id": "productos/02-cafe-divina/sculpt-tongkat-ali",
+        "titulo": "Sculpt Tongkat Ali",
+        "tipo_entidad": "producto"
+      },
+      {
+        "id": "productos/02-cafe-divina/te-negro",
+        "titulo": "Té Negro",
+        "tipo_entidad": "producto"
+      },
+      {
+        "id": "productos/02-cafe-divina/te-verde",
+        "titulo": "Té Verde",
+        "tipo_entidad": "producto"
+      },
+      {
+        "id": "productos/02-cafe-divina/tongkat-ali-cafe",
+        "titulo": "Tongkat Ali (Café)",
+        "tipo_entidad": "producto"
+      },
+      {
+        "id": "productos/03-longevidad-bienestar/aceite-esporas-reishi",
+        "titulo": "Aceite de Esporas de Reishi (Spore Oil)",
+        "tipo_entidad": "producto"
+      },
+      {
+        "id": "productos/03-longevidad-bienestar/chaga-capsules",
+        "titulo": "Chaga Capsules",
+        "tipo_entidad": "producto"
+      },
+      {
+        "id": "productos/03-longevidad-bienestar/cordycs-4-capsules",
+        "titulo": "CordyCS-4 Capsules",
+        "tipo_entidad": "producto"
+      },
+      {
+        "id": "productos/03-longevidad-bienestar/eterno-capsules",
+        "titulo": "Eterno Capsules",
+        "tipo_entidad": "producto"
+      },
+      {
+        "id": "productos/03-longevidad-bienestar/index",
+        "titulo": "Categoría: Longevidad y Bienestar General",
+        "tipo_entidad": "indice_categoria"
+      },
+      {
+        "id": "productos/03-longevidad-bienestar/inflam-x-capsules",
+        "titulo": "Inflam-X Capsules",
+        "tipo_entidad": "producto"
+      },
+      {
+        "id": "productos/03-longevidad-bienestar/nad-plus",
+        "titulo": "NAD+",
+        "tipo_entidad": "producto"
+      },
+      {
+        "id": "productos/03-longevidad-bienestar/reishi-capsules",
+        "titulo": "Reishi Capsules",
+        "tipo_entidad": "producto"
+      },
+      {
+        "id": "productos/03-longevidad-bienestar/time-capsules",
+        "titulo": "Time Capsules",
+        "tipo_entidad": "producto"
+      },
+      {
+        "id": "productos/04-funcion-cognitiva",
+        "titulo": "Categoría: Función Cognitiva",
+        "tipo_entidad": "producto"
+      },
+      {
+        "id": "productos/05-dolor-articulaciones",
+        "titulo": "Categoría: Dolor y Articulaciones",
+        "tipo_entidad": "producto"
+      },
+      {
+        "id": "productos/06-salud-visual",
+        "titulo": "Categoría: Salud Visual",
+        "tipo_entidad": "producto"
+      },
+      {
+        "id": "productos/07-rendimiento-fisico",
+        "titulo": "Categoría: Rendimiento Físico y Fuerza",
+        "tipo_entidad": "producto"
+      },
+      {
+        "id": "productos/08-intimidad-libido",
+        "titulo": "Categoría: Intimidad y Libido",
+        "tipo_entidad": "producto"
+      },
+      {
+        "id": "productos/09-proteinas-batidos",
+        "titulo": "Categoría: Proteínas y Batidos",
+        "tipo_entidad": "producto"
+      },
+      {
+        "id": "productos/10-energia-antioxidantes/factor-divina",
+        "titulo": "Factor Divina",
+        "tipo_entidad": "producto"
+      },
+      {
+        "id": "productos/10-energia-antioxidantes/index",
+        "titulo": "Categoría: Energía y Antioxidantes en Polvo",
+        "tipo_entidad": "indice_categoria"
+      },
+      {
+        "id": "productos/10-energia-antioxidantes/mundo-azul",
+        "titulo": "Mundo Azul",
+        "tipo_entidad": "producto"
+      },
+      {
+        "id": "productos/10-energia-antioxidantes/mundo-omega",
+        "titulo": "Mundo Omega",
+        "tipo_entidad": "producto"
+      },
+      {
+        "id": "productos/10-energia-antioxidantes/mundo-rojo",
+        "titulo": "Mundo Rojo",
+        "tipo_entidad": "producto"
+      },
+      {
+        "id": "productos/10-energia-antioxidantes/mundo-verde",
+        "titulo": "Mundo Verde",
+        "tipo_entidad": "producto"
+      },
+      {
+        "id": "productos/10-energia-antioxidantes/orange-genius",
+        "titulo": "Orange Genius",
+        "tipo_entidad": "producto"
+      },
+      {
+        "id": "productos/11-extractos-hongos/extracto-agaricus-blazei",
+        "titulo": "Extracto de Agaricus Blazei",
+        "tipo_entidad": "producto"
+      },
+      {
+        "id": "productos/11-extractos-hongos/extracto-chaga",
+        "titulo": "Extracto de Chaga",
+        "tipo_entidad": "producto"
+      },
+      {
+        "id": "productos/11-extractos-hongos/extracto-cordyceps",
+        "titulo": "Extracto de Cordyceps",
+        "tipo_entidad": "producto"
+      },
+      {
+        "id": "productos/11-extractos-hongos/extracto-lions-mane",
+        "titulo": "Extracto de Lion's Mane",
+        "tipo_entidad": "producto"
+      },
+      {
+        "id": "productos/11-extractos-hongos/extracto-maitake",
+        "titulo": "Extracto de Maitake",
+        "tipo_entidad": "producto"
+      },
+      {
+        "id": "productos/11-extractos-hongos/extracto-reishi",
+        "titulo": "Extracto de Reishi",
+        "tipo_entidad": "producto"
+      },
+      {
+        "id": "productos/11-extractos-hongos/extracto-shiitake",
+        "titulo": "Extracto de Shiitake",
+        "tipo_entidad": "producto"
+      },
+      {
+        "id": "productos/11-extractos-hongos/extracto-tremella",
+        "titulo": "Extracto de Tremella",
+        "tipo_entidad": "producto"
+      },
+      {
+        "id": "productos/11-extractos-hongos/extracto-turkey-tail",
+        "titulo": "Extracto de Turkey Tail",
+        "tipo_entidad": "producto"
+      },
+      {
+        "id": "productos/11-extractos-hongos/index",
+        "titulo": "Categoría: Extractos Puros de Hongos Medicinales",
+        "tipo_entidad": "indice_categoria"
+      },
+      {
+        "id": "productos/12-cuidado-personal",
+        "titulo": "Categoría: Cuidado Personal",
+        "tipo_entidad": "producto"
+      },
+      {
+        "id": "productos/13-linea-radien/index",
+        "titulo": "Categoría: Línea Radien — Skincare Anti-Edad",
+        "tipo_entidad": "indice_categoria"
+      },
+      {
+        "id": "productos/13-linea-radien/radien-cleanser",
+        "titulo": "Radien Advanced Renewal Cleanser",
+        "tipo_entidad": "producto"
+      },
+      {
+        "id": "productos/13-linea-radien/radien-collagen-elixir",
+        "titulo": "Radien Collagen Elixir",
+        "tipo_entidad": "producto"
+      },
+      {
+        "id": "productos/13-linea-radien/radien-day-creme",
+        "titulo": "Radien Advanced Renewal Day Crème",
+        "tipo_entidad": "producto"
+      },
+      {
+        "id": "productos/13-linea-radien/radien-eye-serum",
+        "titulo": "Radien Advanced Renewal Eye Serum",
+        "tipo_entidad": "producto"
+      },
+      {
+        "id": "productos/13-linea-radien/radien-night-creme",
+        "titulo": "Radien Advanced Renewal Night Crème",
+        "tipo_entidad": "producto"
+      },
+      {
+        "id": "productos/13-linea-radien/radien-qxp-men",
+        "titulo": "Radien QXP for Men",
+        "tipo_entidad": "producto"
+      },
+      {
+        "id": "productos/13-linea-radien/radien-toner",
+        "titulo": "Radien Advanced Renewal Toner",
+        "tipo_entidad": "producto"
+      }
+    ]
+  }
+]

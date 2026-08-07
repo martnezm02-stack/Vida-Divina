@@ -1,0 +1,298 @@
+{
+  "id": "proceso_de_venta/README",
+  "tipo_entidad": "indice_modulo",
+  "titulo": "Proceso de Venta — El Orquestador de Vida Divina",
+  "ruta_original": "docs/proceso_de_venta/README.md",
+  "fecha_compilacion": "2026-08-07T09:35:11.758Z",
+  "version": "0.1.0-mvp",
+  "estado": "compilado",
+  "palabras_clave": [],
+  "relaciones_detectadas": [
+    {
+      "origen_id": "proceso_de_venta/README",
+      "destino_id": "conversaciones/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/README.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/README",
+      "destino_id": "productos",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/README.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/README",
+      "destino_id": "proceso_de_venta/reglas_de_decision",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/README.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/README",
+      "destino_id": "clientes/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/README.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/README",
+      "destino_id": "proceso_de_venta/recomendacion",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/README.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/README",
+      "destino_id": "proceso_de_venta/reglas_de_decision",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/README.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/README",
+      "destino_id": "proceso_de_venta/manejo_de_objeciones",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/README.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/README",
+      "destino_id": "proceso_de_venta/flujo_general",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/README.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/README",
+      "destino_id": "proceso_de_venta/flujo_general",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/README.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/README",
+      "destino_id": "proceso_de_venta/calificacion_del_cliente",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/README.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/README",
+      "destino_id": "proceso_de_venta/descubrimiento",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/README.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/README",
+      "destino_id": "proceso_de_venta/recomendacion",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/README.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/README",
+      "destino_id": "proceso_de_venta/manejo_de_objeciones",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/README.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/README",
+      "destino_id": "proceso_de_venta/cierre",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/README.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/README",
+      "destino_id": "proceso_de_venta/seguimiento",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/README.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/README",
+      "destino_id": "proceso_de_venta/postventa",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/README.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/README",
+      "destino_id": "proceso_de_venta/emprendimiento",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/README.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/README",
+      "destino_id": "proceso_de_venta/reglas_de_decision",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/README.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/README",
+      "destino_id": "proceso_de_venta/estados_del_cliente",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/README.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/README",
+      "destino_id": "conversaciones/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/README.md",
+      "verificada": true
+    }
+  ],
+  "referencias": [
+    {
+      "targetRaw": "../conversaciones/README.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\README.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../productos.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./reglas_de_decision.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\reglas_de_decision.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Arquitectura general: los 5 módulos"
+    },
+    {
+      "targetRaw": "../clientes/README.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\README.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Relación con cada módulo"
+    },
+    {
+      "targetRaw": "./recomendacion.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\recomendacion.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Relación con cada módulo"
+    },
+    {
+      "targetRaw": "./reglas_de_decision.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\reglas_de_decision.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Relación con cada módulo"
+    },
+    {
+      "targetRaw": "./manejo_de_objeciones.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\manejo_de_objeciones.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Relación con cada módulo"
+    },
+    {
+      "targetRaw": "./flujo_general.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\flujo_general.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "🔁 Diagrama del flujo comercial (resumen)"
+    },
+    {
+      "targetRaw": "./flujo_general.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\flujo_general.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "📑 Índice de archivos de este módulo"
+    },
+    {
+      "targetRaw": "./calificacion_del_cliente.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\calificacion_del_cliente.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "📑 Índice de archivos de este módulo"
+    },
+    {
+      "targetRaw": "./descubrimiento.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\descubrimiento.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "📑 Índice de archivos de este módulo"
+    },
+    {
+      "targetRaw": "./recomendacion.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\recomendacion.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "📑 Índice de archivos de este módulo"
+    },
+    {
+      "targetRaw": "./manejo_de_objeciones.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\manejo_de_objeciones.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "📑 Índice de archivos de este módulo"
+    },
+    {
+      "targetRaw": "./cierre.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\cierre.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "📑 Índice de archivos de este módulo"
+    },
+    {
+      "targetRaw": "./seguimiento.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\seguimiento.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "📑 Índice de archivos de este módulo"
+    },
+    {
+      "targetRaw": "./postventa.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\postventa.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "📑 Índice de archivos de este módulo"
+    },
+    {
+      "targetRaw": "./emprendimiento.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\emprendimiento.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "📑 Índice de archivos de este módulo"
+    },
+    {
+      "targetRaw": "./reglas_de_decision.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\reglas_de_decision.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "📑 Índice de archivos de este módulo"
+    },
+    {
+      "targetRaw": "./estados_del_cliente.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\estados_del_cliente.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "📑 Índice de archivos de este módulo"
+    },
+    {
+      "targetRaw": "../conversaciones/README.md#reglas-generales-aplican-a-todo-el-módulo",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\README.md",
+      "anchor": "reglas-generales-aplican-a-todo-el-módulo",
+      "exists": true,
+      "seccion": "Convenciones de este módulo"
+    }
+  ],
+  "checksum": "ff5099300b2fff34d6392d70d98b1d23ea913172e6d34628b2e0c5bdc4f64060",
+  "errores_detectados": [],
+  "advertencias": [],
+  "modulo": "proceso_de_venta"
+}

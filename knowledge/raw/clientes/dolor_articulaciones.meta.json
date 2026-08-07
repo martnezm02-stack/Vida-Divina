@@ -1,0 +1,172 @@
+{
+  "id": "clientes/dolor_articulaciones",
+  "tipo_entidad": "perfil",
+  "titulo": "Dolor y Articulaciones",
+  "ruta_original": "docs/clientes/dolor_articulaciones.md",
+  "fecha_compilacion": "2026-08-07T09:35:11.692Z",
+  "version": "0.1.0-mvp",
+  "estado": "compilado",
+  "palabras_clave": [
+    "dolor muscular",
+    "dolor articular",
+    "inflamación",
+    "antiinflamatorio natural",
+    "cúrcuma",
+    "función articular"
+  ],
+  "relaciones_detectadas": [
+    {
+      "origen_id": "clientes/dolor_articulaciones",
+      "destino_id": "clientes/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/clientes/dolor_articulaciones.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/dolor_articulaciones",
+      "destino_id": "productos/05-dolor-articulaciones",
+      "tipo_relacion": "recomienda_primario",
+      "archivo_origen": "docs/clientes/dolor_articulaciones.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/dolor_articulaciones",
+      "destino_id": "productos/03-longevidad-bienestar/inflam-x-capsules",
+      "tipo_relacion": "recomienda_opcional",
+      "archivo_origen": "docs/clientes/dolor_articulaciones.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/dolor_articulaciones",
+      "destino_id": "productos/02-cafe-divina/latte-dorado",
+      "tipo_relacion": "recomienda_complementario",
+      "archivo_origen": "docs/clientes/dolor_articulaciones.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/dolor_articulaciones",
+      "destino_id": "productos/11-extractos-hongos/extracto-reishi",
+      "tipo_relacion": "recomienda_complementario",
+      "archivo_origen": "docs/clientes/dolor_articulaciones.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/dolor_articulaciones",
+      "destino_id": "productos/10-energia-antioxidantes/mundo-azul",
+      "tipo_relacion": "recomienda_complementario",
+      "archivo_origen": "docs/clientes/dolor_articulaciones.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/dolor_articulaciones",
+      "destino_id": "clientes/rendimiento_deportivo",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/clientes/dolor_articulaciones.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/dolor_articulaciones",
+      "destino_id": "clientes/longevidad",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/clientes/dolor_articulaciones.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/dolor_articulaciones",
+      "destino_id": "clientes/salud_visual",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/clientes/dolor_articulaciones.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/dolor_articulaciones",
+      "destino_id": "clientes/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/clientes/dolor_articulaciones.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/dolor_articulaciones",
+      "destino_id": "clientes/README",
+      "tipo_relacion": "pertenece_a_categoria",
+      "archivo_origen": "docs/clientes/dolor_articulaciones.md",
+      "verificada": true
+    }
+  ],
+  "referencias": [
+    {
+      "targetRaw": "./README.md#nota-importante",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\README.md",
+      "anchor": "nota-importante",
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../productos/05-dolor-articulaciones.md#ouch-capsules",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\05-dolor-articulaciones.md",
+      "anchor": "ouch-capsules",
+      "exists": true,
+      "seccion": "Productos recomendados"
+    },
+    {
+      "targetRaw": "../productos/03-longevidad-bienestar/inflam-x-capsules.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\03-longevidad-bienestar\\inflam-x-capsules.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Productos recomendados"
+    },
+    {
+      "targetRaw": "../productos/02-cafe-divina/latte-dorado.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\latte-dorado.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Productos complementarios"
+    },
+    {
+      "targetRaw": "../productos/11-extractos-hongos/extracto-reishi.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\11-extractos-hongos\\extracto-reishi.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Productos complementarios"
+    },
+    {
+      "targetRaw": "../productos/10-energia-antioxidantes/mundo-azul.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\10-energia-antioxidantes\\mundo-azul.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Productos complementarios"
+    },
+    {
+      "targetRaw": "./rendimiento_deportivo.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\rendimiento_deportivo.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Posibles ventas futuras (cross-selling)"
+    },
+    {
+      "targetRaw": "./longevidad.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\longevidad.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Posibles ventas futuras (cross-selling)"
+    },
+    {
+      "targetRaw": "./salud_visual.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\salud_visual.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Posibles ventas futuras (cross-selling)"
+    },
+    {
+      "targetRaw": "./README.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\README.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Nivel de prioridad de este perfil para el negocio"
+    }
+  ],
+  "checksum": "9feaea9ee38d51466859df2596255736220339bde94913305b198a95c580b88c",
+  "errores_detectados": [],
+  "advertencias": [],
+  "modulo": "clientes"
+}

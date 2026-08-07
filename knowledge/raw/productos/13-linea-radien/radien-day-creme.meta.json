@@ -1,0 +1,144 @@
+{
+  "id": "productos/13-linea-radien/radien-day-creme",
+  "tipo_entidad": "producto",
+  "titulo": "Radien Advanced Renewal Day Crème",
+  "ruta_original": "docs/productos/13-linea-radien/radien-day-creme.md",
+  "fecha_compilacion": "2026-08-07T09:35:11.813Z",
+  "version": "0.1.0-mvp",
+  "estado": "compilado",
+  "palabras_clave": [
+    "crema de día",
+    "QXP",
+    "péptidos",
+    "arrugas",
+    "extracto de miel",
+    "corteza de roble"
+  ],
+  "relaciones_detectadas": [
+    {
+      "origen_id": "productos/13-linea-radien/radien-day-creme",
+      "destino_id": "productos/13-linea-radien/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/13-linea-radien/radien-day-creme.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/13-linea-radien/radien-day-creme",
+      "destino_id": "productos",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/13-linea-radien/radien-day-creme.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/13-linea-radien/radien-day-creme",
+      "destino_id": "productos/13-linea-radien/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/13-linea-radien/radien-day-creme.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/13-linea-radien/radien-day-creme",
+      "destino_id": "productos/13-linea-radien/radien-cleanser",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/13-linea-radien/radien-day-creme.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/13-linea-radien/radien-day-creme",
+      "destino_id": "productos/13-linea-radien/radien-toner",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/13-linea-radien/radien-day-creme.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/13-linea-radien/radien-day-creme",
+      "destino_id": "productos/13-linea-radien/radien-night-creme",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/13-linea-radien/radien-day-creme.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/13-linea-radien/radien-day-creme",
+      "destino_id": "productos/13-linea-radien/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/13-linea-radien/radien-day-creme.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/13-linea-radien/radien-day-creme",
+      "destino_id": "productos",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/13-linea-radien/radien-day-creme.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/13-linea-radien/radien-day-creme",
+      "destino_id": "productos/13-linea-radien/index",
+      "tipo_relacion": "pertenece_a_categoria",
+      "archivo_origen": "docs/productos/13-linea-radien/radien-day-creme.md",
+      "verificada": true
+    }
+  ],
+  "referencias": [
+    {
+      "targetRaw": "./index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\13-linea-radien\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../productos.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\13-linea-radien\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./radien-cleanser.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\13-linea-radien\\radien-cleanser.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./radien-toner.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\13-linea-radien\\radien-toner.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./radien-night-creme.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\13-linea-radien\\radien-night-creme.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\13-linea-radien\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../productos.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    }
+  ],
+  "checksum": "c9fe96ec0618896e057e953e6b74aad238de4a332e5fa27b83f565d0db76bfae",
+  "errores_detectados": [],
+  "advertencias": [],
+  "modulo": "productos"
+}

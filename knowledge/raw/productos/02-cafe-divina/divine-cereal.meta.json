@@ -1,0 +1,143 @@
+{
+  "id": "productos/02-cafe-divina/divine-cereal",
+  "tipo_entidad": "producto",
+  "titulo": "Divine Cereal",
+  "ruta_original": "docs/productos/02-cafe-divina/divine-cereal.md",
+  "fecha_compilacion": "2026-08-07T09:35:11.779Z",
+  "version": "0.1.0-mvp",
+  "estado": "compilado",
+  "palabras_clave": [
+    "cereal integral",
+    "espirulina",
+    "desayuno saludable",
+    "cereal con reishi",
+    "control de azúcar"
+  ],
+  "relaciones_detectadas": [
+    {
+      "origen_id": "productos/02-cafe-divina/divine-cereal",
+      "destino_id": "productos/02-cafe-divina/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/02-cafe-divina/divine-cereal.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/02-cafe-divina/divine-cereal",
+      "destino_id": "productos",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/02-cafe-divina/divine-cereal.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/02-cafe-divina/divine-cereal",
+      "destino_id": "productos/02-cafe-divina/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/02-cafe-divina/divine-cereal.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/02-cafe-divina/divine-cereal",
+      "destino_id": "productos/09-proteinas-batidos",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/02-cafe-divina/divine-cereal.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/02-cafe-divina/divine-cereal",
+      "destino_id": "productos/09-proteinas-batidos",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/02-cafe-divina/divine-cereal.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/02-cafe-divina/divine-cereal",
+      "destino_id": "productos/02-cafe-divina/cappuccino",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/02-cafe-divina/divine-cereal.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/02-cafe-divina/divine-cereal",
+      "destino_id": "productos/02-cafe-divina/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/02-cafe-divina/divine-cereal.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/02-cafe-divina/divine-cereal",
+      "destino_id": "productos",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/02-cafe-divina/divine-cereal.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/02-cafe-divina/divine-cereal",
+      "destino_id": "productos/02-cafe-divina/index",
+      "tipo_relacion": "pertenece_a_categoria",
+      "archivo_origen": "docs/productos/02-cafe-divina/divine-cereal.md",
+      "verificada": true
+    }
+  ],
+  "referencias": [
+    {
+      "targetRaw": "./index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../productos.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../09-proteinas-batidos.md#vida-pure",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\09-proteinas-batidos.md",
+      "anchor": "vida-pure",
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../09-proteinas-batidos.md#vida-fuel",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\09-proteinas-batidos.md",
+      "anchor": "vida-fuel",
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./cappuccino.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\cappuccino.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../productos.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    }
+  ],
+  "checksum": "3f3cca865d3b01b385a5c4e0d6791157397b1962a7b867d442ec05f5491ed9a0",
+  "errores_detectados": [],
+  "advertencias": [],
+  "modulo": "productos"
+}

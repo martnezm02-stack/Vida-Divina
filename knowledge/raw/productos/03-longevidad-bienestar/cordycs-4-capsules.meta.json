@@ -1,0 +1,142 @@
+{
+  "id": "productos/03-longevidad-bienestar/cordycs-4-capsules",
+  "tipo_entidad": "producto",
+  "titulo": "CordyCS-4 Capsules",
+  "ruta_original": "docs/productos/03-longevidad-bienestar/cordycs-4-capsules.md",
+  "fecha_compilacion": "2026-08-07T09:35:11.791Z",
+  "version": "0.1.0-mvp",
+  "estado": "compilado",
+  "palabras_clave": [
+    "cordyceps sinensis",
+    "sistema respiratorio",
+    "hongos medicinales",
+    "energía y resistencia"
+  ],
+  "relaciones_detectadas": [
+    {
+      "origen_id": "productos/03-longevidad-bienestar/cordycs-4-capsules",
+      "destino_id": "productos/03-longevidad-bienestar/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/03-longevidad-bienestar/cordycs-4-capsules.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/03-longevidad-bienestar/cordycs-4-capsules",
+      "destino_id": "productos",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/03-longevidad-bienestar/cordycs-4-capsules.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/03-longevidad-bienestar/cordycs-4-capsules",
+      "destino_id": "productos/03-longevidad-bienestar/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/03-longevidad-bienestar/cordycs-4-capsules.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/03-longevidad-bienestar/cordycs-4-capsules",
+      "destino_id": "productos/11-extractos-hongos/extracto-cordyceps",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/03-longevidad-bienestar/cordycs-4-capsules.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/03-longevidad-bienestar/cordycs-4-capsules",
+      "destino_id": "productos/03-longevidad-bienestar/time-capsules",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/03-longevidad-bienestar/cordycs-4-capsules.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/03-longevidad-bienestar/cordycs-4-capsules",
+      "destino_id": "productos/03-longevidad-bienestar/eterno-capsules",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/03-longevidad-bienestar/cordycs-4-capsules.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/03-longevidad-bienestar/cordycs-4-capsules",
+      "destino_id": "productos/03-longevidad-bienestar/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/03-longevidad-bienestar/cordycs-4-capsules.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/03-longevidad-bienestar/cordycs-4-capsules",
+      "destino_id": "productos",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/03-longevidad-bienestar/cordycs-4-capsules.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/03-longevidad-bienestar/cordycs-4-capsules",
+      "destino_id": "productos/03-longevidad-bienestar/index",
+      "tipo_relacion": "pertenece_a_categoria",
+      "archivo_origen": "docs/productos/03-longevidad-bienestar/cordycs-4-capsules.md",
+      "verificada": true
+    }
+  ],
+  "referencias": [
+    {
+      "targetRaw": "./index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\03-longevidad-bienestar\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../productos.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\03-longevidad-bienestar\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../11-extractos-hongos/extracto-cordyceps.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\11-extractos-hongos\\extracto-cordyceps.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./time-capsules.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\03-longevidad-bienestar\\time-capsules.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./eterno-capsules.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\03-longevidad-bienestar\\eterno-capsules.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\03-longevidad-bienestar\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../productos.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    }
+  ],
+  "checksum": "b199fd16d619912f81cbf3c3ab88d5b03ca7af5e2c1f31792169cc78f16b1bc1",
+  "errores_detectados": [],
+  "advertencias": [],
+  "modulo": "productos"
+}

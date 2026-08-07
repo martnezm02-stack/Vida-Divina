@@ -1,0 +1,186 @@
+{
+  "id": "agente_ia/roadmap",
+  "tipo_entidad": "documento_cognitivo",
+  "titulo": "Roadmap",
+  "ruta_original": "docs/agente_ia/roadmap.md",
+  "fecha_compilacion": "2026-08-07T09:35:11.682Z",
+  "version": "0.1.0-mvp",
+  "estado": "compilado",
+  "palabras_clave": [],
+  "relaciones_detectadas": [
+    {
+      "origen_id": "agente_ia/roadmap",
+      "destino_id": "agente_ia/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/roadmap.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/roadmap",
+      "destino_id": "agente_ia/reglas_de_decision",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/roadmap.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/roadmap",
+      "destino_id": "agente_ia/ejemplos",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/roadmap.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/roadmap",
+      "destino_id": "agente_ia/aprendizaje",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/roadmap.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/roadmap",
+      "destino_id": "agente_ia/memoria",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/roadmap.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/roadmap",
+      "destino_id": "agente_ia/herramientas",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/roadmap.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/roadmap",
+      "destino_id": "agente_ia/reglas_de_decision",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/roadmap.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/roadmap",
+      "destino_id": "agente_ia/metricas",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/roadmap.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/roadmap",
+      "destino_id": "agente_ia/principios",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/roadmap.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/roadmap",
+      "destino_id": "agente_ia/reglas_de_seguridad",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/roadmap.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/roadmap",
+      "destino_id": "agente_ia/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/roadmap.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/roadmap",
+      "destino_id": "agente_ia/README",
+      "tipo_relacion": "pertenece_a_categoria",
+      "archivo_origen": "docs/agente_ia/roadmap.md",
+      "verificada": true
+    }
+  ],
+  "referencias": [
+    {
+      "targetRaw": "./README.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\README.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../CLAUDE.md#roadmap",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\CLAUDE.md",
+      "anchor": "roadmap",
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./reglas_de_decision.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\reglas_de_decision.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Evolución prevista"
+    },
+    {
+      "targetRaw": "./ejemplos.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\ejemplos.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Evolución prevista"
+    },
+    {
+      "targetRaw": "./aprendizaje.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\aprendizaje.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Evolución prevista"
+    },
+    {
+      "targetRaw": "./memoria.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\memoria.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Evolución prevista"
+    },
+    {
+      "targetRaw": "./herramientas.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\herramientas.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Evolución prevista"
+    },
+    {
+      "targetRaw": "./reglas_de_decision.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\reglas_de_decision.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Evolución prevista"
+    },
+    {
+      "targetRaw": "./metricas.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\metricas.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Evolución prevista"
+    },
+    {
+      "targetRaw": "./principios.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\principios.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Qué NO cambia con esta evolución"
+    },
+    {
+      "targetRaw": "./reglas_de_seguridad.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\reglas_de_seguridad.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Qué NO cambia con esta evolución"
+    },
+    {
+      "targetRaw": "./README.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\README.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Principio de esta evolución"
+    }
+  ],
+  "checksum": "58ecc35316946c38cad9d50b1b6a4bdc71a1f75808a6df706cff89e5c630a33d",
+  "errores_detectados": [],
+  "advertencias": [],
+  "modulo": "agente_ia"
+}

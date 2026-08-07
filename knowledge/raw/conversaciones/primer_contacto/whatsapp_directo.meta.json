@@ -1,0 +1,81 @@
+{
+  "id": "conversaciones/primer_contacto/whatsapp_directo",
+  "tipo_entidad": "conversacion",
+  "titulo": "Primer Contacto — WhatsApp Directo (sin contexto previo)",
+  "ruta_original": "docs/conversaciones/primer_contacto/whatsapp_directo.md",
+  "fecha_compilacion": "2026-08-07T09:35:11.729Z",
+  "version": "0.1.0-mvp",
+  "estado": "compilado",
+  "palabras_clave": [],
+  "relaciones_detectadas": [
+    {
+      "origen_id": "conversaciones/primer_contacto/whatsapp_directo",
+      "destino_id": "conversaciones/descubrimiento/preguntas_generales",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/primer_contacto/whatsapp_directo.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/primer_contacto/whatsapp_directo",
+      "destino_id": "conversaciones/descubrimiento/preguntas_generales",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/primer_contacto/whatsapp_directo.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/primer_contacto/whatsapp_directo",
+      "destino_id": "conversaciones/primer_contacto/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/primer_contacto/whatsapp_directo.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/primer_contacto/whatsapp_directo",
+      "destino_id": "conversaciones/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/primer_contacto/whatsapp_directo.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/primer_contacto/whatsapp_directo",
+      "destino_id": "conversaciones/primer_contacto/index",
+      "tipo_relacion": "pertenece_a_categoria",
+      "archivo_origen": "docs/conversaciones/primer_contacto/whatsapp_directo.md",
+      "verificada": true
+    }
+  ],
+  "referencias": [
+    {
+      "targetRaw": "../descubrimiento/preguntas_generales.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\descubrimiento\\preguntas_generales.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../descubrimiento/preguntas_generales.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\descubrimiento\\preguntas_generales.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\primer_contacto\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../README.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\README.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    }
+  ],
+  "checksum": "3573335fb2ba80a70d2562713fbebb18cc8c1177ca8027d3fb6d48419ed790de",
+  "errores_detectados": [],
+  "advertencias": [],
+  "modulo": "conversaciones"
+}

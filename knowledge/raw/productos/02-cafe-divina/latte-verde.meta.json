@@ -1,0 +1,142 @@
+{
+  "id": "productos/02-cafe-divina/latte-verde",
+  "tipo_entidad": "producto",
+  "titulo": "Latte Verde",
+  "ruta_original": "docs/productos/02-cafe-divina/latte-verde.md",
+  "fecha_compilacion": "2026-08-07T09:35:11.783Z",
+  "version": "0.1.0-mvp",
+  "estado": "compilado",
+  "palabras_clave": [
+    "matcha",
+    "latte verde",
+    "café con matcha",
+    "antioxidante natural"
+  ],
+  "relaciones_detectadas": [
+    {
+      "origen_id": "productos/02-cafe-divina/latte-verde",
+      "destino_id": "productos/02-cafe-divina/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/02-cafe-divina/latte-verde.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/02-cafe-divina/latte-verde",
+      "destino_id": "productos",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/02-cafe-divina/latte-verde.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/02-cafe-divina/latte-verde",
+      "destino_id": "productos/02-cafe-divina/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/02-cafe-divina/latte-verde.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/02-cafe-divina/latte-verde",
+      "destino_id": "productos/02-cafe-divina/te-verde",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/02-cafe-divina/latte-verde.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/02-cafe-divina/latte-verde",
+      "destino_id": "productos/02-cafe-divina/latte-dorado",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/02-cafe-divina/latte-verde.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/02-cafe-divina/latte-verde",
+      "destino_id": "productos/10-energia-antioxidantes/orange-genius",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/02-cafe-divina/latte-verde.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/02-cafe-divina/latte-verde",
+      "destino_id": "productos/02-cafe-divina/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/02-cafe-divina/latte-verde.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/02-cafe-divina/latte-verde",
+      "destino_id": "productos",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/02-cafe-divina/latte-verde.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/02-cafe-divina/latte-verde",
+      "destino_id": "productos/02-cafe-divina/index",
+      "tipo_relacion": "pertenece_a_categoria",
+      "archivo_origen": "docs/productos/02-cafe-divina/latte-verde.md",
+      "verificada": true
+    }
+  ],
+  "referencias": [
+    {
+      "targetRaw": "./index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../productos.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./te-verde.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\te-verde.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./latte-dorado.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\latte-dorado.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../10-energia-antioxidantes/orange-genius.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\10-energia-antioxidantes\\orange-genius.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../productos.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    }
+  ],
+  "checksum": "9740bbcf3dd0c59f97a9a75be91a9afca334313b76aa7465629e8dc356b310d5",
+  "errores_detectados": [],
+  "advertencias": [],
+  "modulo": "productos"
+}

@@ -1,0 +1,157 @@
+{
+  "id": "productos/01-control-de-peso/hcg-reactor-capsules",
+  "tipo_entidad": "producto",
+  "titulo": "HCG Reactor Capsules",
+  "ruta_original": "docs/productos/01-control-de-peso/hcg-reactor-capsules.md",
+  "fecha_compilacion": "2026-08-07T09:35:11.772Z",
+  "version": "0.1.0-mvp",
+  "estado": "compilado",
+  "palabras_clave": [
+    "HCG",
+    "quema de grasa",
+    "pérdida de peso rápida",
+    "dieta baja en calorías",
+    "energía metabólica"
+  ],
+  "relaciones_detectadas": [
+    {
+      "origen_id": "productos/01-control-de-peso/hcg-reactor-capsules",
+      "destino_id": "productos/01-control-de-peso/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/01-control-de-peso/hcg-reactor-capsules.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/01-control-de-peso/hcg-reactor-capsules",
+      "destino_id": "productos",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/01-control-de-peso/hcg-reactor-capsules.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/01-control-de-peso/hcg-reactor-capsules",
+      "destino_id": "productos/01-control-de-peso/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/01-control-de-peso/hcg-reactor-capsules.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/01-control-de-peso/hcg-reactor-capsules",
+      "destino_id": "productos/01-control-de-peso/life-capsules",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/01-control-de-peso/hcg-reactor-capsules.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/01-control-de-peso/hcg-reactor-capsules",
+      "destino_id": "productos/01-control-de-peso/cheat-capsules",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/01-control-de-peso/hcg-reactor-capsules.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/01-control-de-peso/hcg-reactor-capsules",
+      "destino_id": "productos/01-control-de-peso/sleep-n-lose-capsules",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/01-control-de-peso/hcg-reactor-capsules.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/01-control-de-peso/hcg-reactor-capsules",
+      "destino_id": "productos/09-proteinas-batidos",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/01-control-de-peso/hcg-reactor-capsules.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/01-control-de-peso/hcg-reactor-capsules",
+      "destino_id": "productos/01-control-de-peso/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/01-control-de-peso/hcg-reactor-capsules.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/01-control-de-peso/hcg-reactor-capsules",
+      "destino_id": "productos",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/01-control-de-peso/hcg-reactor-capsules.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/01-control-de-peso/hcg-reactor-capsules",
+      "destino_id": "productos/01-control-de-peso/index",
+      "tipo_relacion": "pertenece_a_categoria",
+      "archivo_origen": "docs/productos/01-control-de-peso/hcg-reactor-capsules.md",
+      "verificada": true
+    }
+  ],
+  "referencias": [
+    {
+      "targetRaw": "./index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\01-control-de-peso\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../productos.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\01-control-de-peso\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./life-capsules.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\01-control-de-peso\\life-capsules.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./cheat-capsules.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\01-control-de-peso\\cheat-capsules.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./sleep-n-lose-capsules.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\01-control-de-peso\\sleep-n-lose-capsules.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../09-proteinas-batidos.md#vida-fuel",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\09-proteinas-batidos.md",
+      "anchor": "vida-fuel",
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\01-control-de-peso\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../productos.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    }
+  ],
+  "checksum": "81d96b5b200be54ada17a11b5f429283cada8a90c8b7e5aafe7cc410242a454a",
+  "errores_detectados": [],
+  "advertencias": [],
+  "modulo": "productos"
+}

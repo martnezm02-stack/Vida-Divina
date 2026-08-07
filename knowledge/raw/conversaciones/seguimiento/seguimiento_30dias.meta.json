@@ -1,0 +1,95 @@
+{
+  "id": "conversaciones/seguimiento/seguimiento_30dias",
+  "tipo_entidad": "conversacion",
+  "titulo": "Seguimiento — 30 Días",
+  "ruta_original": "docs/conversaciones/seguimiento/seguimiento_30dias.md",
+  "fecha_compilacion": "2026-08-07T09:35:11.740Z",
+  "version": "0.1.0-mvp",
+  "estado": "compilado",
+  "palabras_clave": [],
+  "relaciones_detectadas": [
+    {
+      "origen_id": "conversaciones/seguimiento/seguimiento_30dias",
+      "destino_id": "conversaciones/descubrimiento/senales_por_perfil",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/seguimiento/seguimiento_30dias.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/seguimiento/seguimiento_30dias",
+      "destino_id": "conversaciones/recomendacion/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/seguimiento/seguimiento_30dias.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/seguimiento/seguimiento_30dias",
+      "destino_id": "conversaciones/cierre/cierre_venta",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/seguimiento/seguimiento_30dias.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/seguimiento/seguimiento_30dias",
+      "destino_id": "conversaciones/seguimiento/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/seguimiento/seguimiento_30dias.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/seguimiento/seguimiento_30dias",
+      "destino_id": "conversaciones/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/seguimiento/seguimiento_30dias.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/seguimiento/seguimiento_30dias",
+      "destino_id": "conversaciones/seguimiento/index",
+      "tipo_relacion": "pertenece_a_categoria",
+      "archivo_origen": "docs/conversaciones/seguimiento/seguimiento_30dias.md",
+      "verificada": true
+    }
+  ],
+  "referencias": [
+    {
+      "targetRaw": "../descubrimiento/senales_por_perfil.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\descubrimiento\\senales_por_perfil.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../recomendacion/index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\recomendacion\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../cierre/cierre_venta.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\cierre\\cierre_venta.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\seguimiento\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../README.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\README.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    }
+  ],
+  "checksum": "9c5ba77d812e02ce476f2f0268357494479763fa233ce5c20887e032f0461eb8",
+  "errores_detectados": [],
+  "advertencias": [],
+  "modulo": "conversaciones"
+}

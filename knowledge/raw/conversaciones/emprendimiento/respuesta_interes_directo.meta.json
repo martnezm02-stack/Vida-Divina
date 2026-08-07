@@ -1,0 +1,123 @@
+{
+  "id": "conversaciones/emprendimiento/respuesta_interes_directo",
+  "tipo_entidad": "conversacion",
+  "titulo": "Emprendimiento — Respuesta a Interés Directo en el Negocio",
+  "ruta_original": "docs/conversaciones/emprendimiento/respuesta_interes_directo.md",
+  "fecha_compilacion": "2026-08-07T09:35:11.715Z",
+  "version": "0.1.0-mvp",
+  "estado": "compilado",
+  "palabras_clave": [],
+  "relaciones_detectadas": [
+    {
+      "origen_id": "conversaciones/emprendimiento/respuesta_interes_directo",
+      "destino_id": "clientes/emprendimiento",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/emprendimiento/respuesta_interes_directo.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/emprendimiento/respuesta_interes_directo",
+      "destino_id": "clientes/emprendimiento",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/emprendimiento/respuesta_interes_directo.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/emprendimiento/respuesta_interes_directo",
+      "destino_id": "productos/01-control-de-peso/tedivina",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/emprendimiento/respuesta_interes_directo.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/emprendimiento/respuesta_interes_directo",
+      "destino_id": "productos/02-cafe-divina/black",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/emprendimiento/respuesta_interes_directo.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/emprendimiento/respuesta_interes_directo",
+      "destino_id": "productos/03-longevidad-bienestar/reishi-capsules",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/emprendimiento/respuesta_interes_directo.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/emprendimiento/respuesta_interes_directo",
+      "destino_id": "conversaciones/emprendimiento/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/emprendimiento/respuesta_interes_directo.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/emprendimiento/respuesta_interes_directo",
+      "destino_id": "conversaciones/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/emprendimiento/respuesta_interes_directo.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/emprendimiento/respuesta_interes_directo",
+      "destino_id": "conversaciones/emprendimiento/index",
+      "tipo_relacion": "pertenece_a_categoria",
+      "archivo_origen": "docs/conversaciones/emprendimiento/respuesta_interes_directo.md",
+      "verificada": true
+    }
+  ],
+  "referencias": [
+    {
+      "targetRaw": "../../clientes/emprendimiento.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\emprendimiento.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../clientes/emprendimiento.md#productos-recomendados",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\emprendimiento.md",
+      "anchor": "productos-recomendados",
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../productos/01-control-de-peso/tedivina.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\01-control-de-peso\\tedivina.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../productos/02-cafe-divina/black.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\black.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../productos/03-longevidad-bienestar/reishi-capsules.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\03-longevidad-bienestar\\reishi-capsules.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\emprendimiento\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../README.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\README.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    }
+  ],
+  "checksum": "61ac761d9ec100542c17875240e37fbab6ce818c4829763c3e5651d83d1285ba",
+  "errores_detectados": [],
+  "advertencias": [],
+  "modulo": "conversaciones"
+}

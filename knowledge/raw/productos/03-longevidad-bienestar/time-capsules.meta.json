@@ -1,0 +1,156 @@
+{
+  "id": "productos/03-longevidad-bienestar/time-capsules",
+  "tipo_entidad": "producto",
+  "titulo": "Time Capsules",
+  "ruta_original": "docs/productos/03-longevidad-bienestar/time-capsules.md",
+  "fecha_compilacion": "2026-08-07T09:35:11.795Z",
+  "version": "0.1.0-mvp",
+  "estado": "compilado",
+  "palabras_clave": [
+    "complejo de longevidad",
+    "10 hierbas medicinales",
+    "Dra Ramos",
+    "hongos medicinales"
+  ],
+  "relaciones_detectadas": [
+    {
+      "origen_id": "productos/03-longevidad-bienestar/time-capsules",
+      "destino_id": "productos/03-longevidad-bienestar/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/03-longevidad-bienestar/time-capsules.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/03-longevidad-bienestar/time-capsules",
+      "destino_id": "productos",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/03-longevidad-bienestar/time-capsules.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/03-longevidad-bienestar/time-capsules",
+      "destino_id": "productos/03-longevidad-bienestar/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/03-longevidad-bienestar/time-capsules.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/03-longevidad-bienestar/time-capsules",
+      "destino_id": "productos/03-longevidad-bienestar/eterno-capsules",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/03-longevidad-bienestar/time-capsules.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/03-longevidad-bienestar/time-capsules",
+      "destino_id": "productos/03-longevidad-bienestar/reishi-capsules",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/03-longevidad-bienestar/time-capsules.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/03-longevidad-bienestar/time-capsules",
+      "destino_id": "productos/03-longevidad-bienestar/chaga-capsules",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/03-longevidad-bienestar/time-capsules.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/03-longevidad-bienestar/time-capsules",
+      "destino_id": "productos/03-longevidad-bienestar/cordycs-4-capsules",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/03-longevidad-bienestar/time-capsules.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/03-longevidad-bienestar/time-capsules",
+      "destino_id": "productos/03-longevidad-bienestar/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/03-longevidad-bienestar/time-capsules.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/03-longevidad-bienestar/time-capsules",
+      "destino_id": "productos",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/03-longevidad-bienestar/time-capsules.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/03-longevidad-bienestar/time-capsules",
+      "destino_id": "productos/03-longevidad-bienestar/index",
+      "tipo_relacion": "pertenece_a_categoria",
+      "archivo_origen": "docs/productos/03-longevidad-bienestar/time-capsules.md",
+      "verificada": true
+    }
+  ],
+  "referencias": [
+    {
+      "targetRaw": "./index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\03-longevidad-bienestar\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../productos.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\03-longevidad-bienestar\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./eterno-capsules.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\03-longevidad-bienestar\\eterno-capsules.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./reishi-capsules.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\03-longevidad-bienestar\\reishi-capsules.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./chaga-capsules.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\03-longevidad-bienestar\\chaga-capsules.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./cordycs-4-capsules.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\03-longevidad-bienestar\\cordycs-4-capsules.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\03-longevidad-bienestar\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../productos.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    }
+  ],
+  "checksum": "65b53c512ca07ec855570043b872edf37032d83d49f834b27469ab24b3500ab8",
+  "errores_detectados": [],
+  "advertencias": [],
+  "modulo": "productos"
+}

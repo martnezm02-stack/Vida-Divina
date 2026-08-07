@@ -1,0 +1,143 @@
+{
+  "id": "productos/10-energia-antioxidantes/mundo-rojo",
+  "tipo_entidad": "producto",
+  "titulo": "Mundo Rojo",
+  "ruta_original": "docs/productos/10-energia-antioxidantes/mundo-rojo.md",
+  "fecha_compilacion": "2026-08-07T09:35:11.802Z",
+  "version": "0.1.0-mvp",
+  "estado": "compilado",
+  "palabras_clave": [
+    "bayas antioxidantes",
+    "superfood",
+    "nanoabsorción",
+    "sistema inmunológico",
+    "sin GMO"
+  ],
+  "relaciones_detectadas": [
+    {
+      "origen_id": "productos/10-energia-antioxidantes/mundo-rojo",
+      "destino_id": "productos/10-energia-antioxidantes/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/10-energia-antioxidantes/mundo-rojo.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/10-energia-antioxidantes/mundo-rojo",
+      "destino_id": "productos",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/10-energia-antioxidantes/mundo-rojo.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/10-energia-antioxidantes/mundo-rojo",
+      "destino_id": "productos/10-energia-antioxidantes/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/10-energia-antioxidantes/mundo-rojo.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/10-energia-antioxidantes/mundo-rojo",
+      "destino_id": "productos/10-energia-antioxidantes/mundo-omega",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/10-energia-antioxidantes/mundo-rojo.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/10-energia-antioxidantes/mundo-rojo",
+      "destino_id": "productos/10-energia-antioxidantes/mundo-verde",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/10-energia-antioxidantes/mundo-rojo.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/10-energia-antioxidantes/mundo-rojo",
+      "destino_id": "productos/10-energia-antioxidantes/orange-genius",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/10-energia-antioxidantes/mundo-rojo.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/10-energia-antioxidantes/mundo-rojo",
+      "destino_id": "productos/10-energia-antioxidantes/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/10-energia-antioxidantes/mundo-rojo.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/10-energia-antioxidantes/mundo-rojo",
+      "destino_id": "productos",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/10-energia-antioxidantes/mundo-rojo.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/10-energia-antioxidantes/mundo-rojo",
+      "destino_id": "productos/10-energia-antioxidantes/index",
+      "tipo_relacion": "pertenece_a_categoria",
+      "archivo_origen": "docs/productos/10-energia-antioxidantes/mundo-rojo.md",
+      "verificada": true
+    }
+  ],
+  "referencias": [
+    {
+      "targetRaw": "./index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\10-energia-antioxidantes\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../productos.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\10-energia-antioxidantes\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./mundo-omega.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\10-energia-antioxidantes\\mundo-omega.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./mundo-verde.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\10-energia-antioxidantes\\mundo-verde.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./orange-genius.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\10-energia-antioxidantes\\orange-genius.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\10-energia-antioxidantes\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../productos.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    }
+  ],
+  "checksum": "921bb73fd976e894dd0ab30f4c70874ba5250f67e3a8d097c65b243535f061aa",
+  "errores_detectados": [],
+  "advertencias": [],
+  "modulo": "productos"
+}

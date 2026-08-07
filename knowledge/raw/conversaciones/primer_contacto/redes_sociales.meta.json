@@ -1,0 +1,109 @@
+{
+  "id": "conversaciones/primer_contacto/redes_sociales",
+  "tipo_entidad": "conversacion",
+  "titulo": "Primer Contacto — Redes Sociales (Facebook / Publicación)",
+  "ruta_original": "docs/conversaciones/primer_contacto/redes_sociales.md",
+  "fecha_compilacion": "2026-08-07T09:35:11.728Z",
+  "version": "0.1.0-mvp",
+  "estado": "compilado",
+  "palabras_clave": [],
+  "relaciones_detectadas": [
+    {
+      "origen_id": "conversaciones/primer_contacto/redes_sociales",
+      "destino_id": "conversaciones/descubrimiento/preguntas_generales",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/primer_contacto/redes_sociales.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/primer_contacto/redes_sociales",
+      "destino_id": "clientes/perder_peso",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/primer_contacto/redes_sociales.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/primer_contacto/redes_sociales",
+      "destino_id": "productos",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/primer_contacto/redes_sociales.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/primer_contacto/redes_sociales",
+      "destino_id": "conversaciones/descubrimiento/preguntas_generales",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/primer_contacto/redes_sociales.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/primer_contacto/redes_sociales",
+      "destino_id": "conversaciones/primer_contacto/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/primer_contacto/redes_sociales.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/primer_contacto/redes_sociales",
+      "destino_id": "conversaciones/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/primer_contacto/redes_sociales.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/primer_contacto/redes_sociales",
+      "destino_id": "conversaciones/primer_contacto/index",
+      "tipo_relacion": "pertenece_a_categoria",
+      "archivo_origen": "docs/conversaciones/primer_contacto/redes_sociales.md",
+      "verificada": true
+    }
+  ],
+  "referencias": [
+    {
+      "targetRaw": "../descubrimiento/preguntas_generales.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\descubrimiento\\preguntas_generales.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../clientes/perder_peso.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\perder_peso.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../productos.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../descubrimiento/preguntas_generales.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\descubrimiento\\preguntas_generales.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\primer_contacto\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../README.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\README.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    }
+  ],
+  "checksum": "fa1e91f8891a172fb37eea8f52645475075fc5fbb9693d88f38f6e071df0029a",
+  "errores_detectados": [],
+  "advertencias": [],
+  "modulo": "conversaciones"
+}

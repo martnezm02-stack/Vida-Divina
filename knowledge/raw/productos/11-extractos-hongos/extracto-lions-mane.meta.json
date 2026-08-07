@@ -1,0 +1,143 @@
+{
+  "id": "productos/11-extractos-hongos/extracto-lions-mane",
+  "tipo_entidad": "producto",
+  "titulo": "Extracto de Lion's Mane",
+  "ruta_original": "docs/productos/11-extractos-hongos/extracto-lions-mane.md",
+  "fecha_compilacion": "2026-08-07T09:35:11.806Z",
+  "version": "0.1.0-mvp",
+  "estado": "compilado",
+  "palabras_clave": [
+    "melena de león",
+    "lion's mane",
+    "memoria",
+    "hericium erinaceus",
+    "función cognitiva"
+  ],
+  "relaciones_detectadas": [
+    {
+      "origen_id": "productos/11-extractos-hongos/extracto-lions-mane",
+      "destino_id": "productos/11-extractos-hongos/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/11-extractos-hongos/extracto-lions-mane.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/11-extractos-hongos/extracto-lions-mane",
+      "destino_id": "productos",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/11-extractos-hongos/extracto-lions-mane.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/11-extractos-hongos/extracto-lions-mane",
+      "destino_id": "productos/11-extractos-hongos/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/11-extractos-hongos/extracto-lions-mane.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/11-extractos-hongos/extracto-lions-mane",
+      "destino_id": "productos/04-funcion-cognitiva",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/11-extractos-hongos/extracto-lions-mane.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/11-extractos-hongos/extracto-lions-mane",
+      "destino_id": "productos/03-longevidad-bienestar/nad-plus",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/11-extractos-hongos/extracto-lions-mane.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/11-extractos-hongos/extracto-lions-mane",
+      "destino_id": "productos/03-longevidad-bienestar/eterno-capsules",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/11-extractos-hongos/extracto-lions-mane.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/11-extractos-hongos/extracto-lions-mane",
+      "destino_id": "productos/11-extractos-hongos/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/11-extractos-hongos/extracto-lions-mane.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/11-extractos-hongos/extracto-lions-mane",
+      "destino_id": "productos",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/11-extractos-hongos/extracto-lions-mane.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/11-extractos-hongos/extracto-lions-mane",
+      "destino_id": "productos/11-extractos-hongos/index",
+      "tipo_relacion": "pertenece_a_categoria",
+      "archivo_origen": "docs/productos/11-extractos-hongos/extracto-lions-mane.md",
+      "verificada": true
+    }
+  ],
+  "referencias": [
+    {
+      "targetRaw": "./index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\11-extractos-hongos\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../productos.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\11-extractos-hongos\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../04-funcion-cognitiva.md#brain-capsules",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\04-funcion-cognitiva.md",
+      "anchor": "brain-capsules",
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../03-longevidad-bienestar/nad-plus.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\03-longevidad-bienestar\\nad-plus.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../03-longevidad-bienestar/eterno-capsules.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\03-longevidad-bienestar\\eterno-capsules.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\11-extractos-hongos\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../productos.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    }
+  ],
+  "checksum": "6e6820a80e6b7b5463df093830c48343f6de6667be8dddbea1de19644fe6748e",
+  "errores_detectados": [],
+  "advertencias": [],
+  "modulo": "productos"
+}

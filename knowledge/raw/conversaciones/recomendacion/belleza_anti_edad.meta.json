@@ -1,0 +1,207 @@
+{
+  "id": "conversaciones/recomendacion/belleza_anti_edad",
+  "tipo_entidad": "conversacion",
+  "titulo": "Recomendación — Belleza y Anti-Edad",
+  "ruta_original": "docs/conversaciones/recomendacion/belleza_anti_edad.md",
+  "fecha_compilacion": "2026-08-07T09:35:11.731Z",
+  "version": "0.1.0-mvp",
+  "estado": "compilado",
+  "palabras_clave": [],
+  "relaciones_detectadas": [
+    {
+      "origen_id": "conversaciones/recomendacion/belleza_anti_edad",
+      "destino_id": "conversaciones/descubrimiento/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/recomendacion/belleza_anti_edad.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/recomendacion/belleza_anti_edad",
+      "destino_id": "clientes/belleza_anti_edad",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/recomendacion/belleza_anti_edad.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/recomendacion/belleza_anti_edad",
+      "destino_id": "productos/13-linea-radien/radien-cleanser",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/recomendacion/belleza_anti_edad.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/recomendacion/belleza_anti_edad",
+      "destino_id": "productos/13-linea-radien/radien-toner",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/recomendacion/belleza_anti_edad.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/recomendacion/belleza_anti_edad",
+      "destino_id": "productos/13-linea-radien/radien-day-creme",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/recomendacion/belleza_anti_edad.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/recomendacion/belleza_anti_edad",
+      "destino_id": "productos/13-linea-radien/radien-eye-serum",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/recomendacion/belleza_anti_edad.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/recomendacion/belleza_anti_edad",
+      "destino_id": "productos/13-linea-radien/radien-eye-serum",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/recomendacion/belleza_anti_edad.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/recomendacion/belleza_anti_edad",
+      "destino_id": "productos/13-linea-radien/radien-qxp-men",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/recomendacion/belleza_anti_edad.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/recomendacion/belleza_anti_edad",
+      "destino_id": "productos/13-linea-radien/radien-collagen-elixir",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/recomendacion/belleza_anti_edad.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/recomendacion/belleza_anti_edad",
+      "destino_id": "conversaciones/cierre/cierre_venta",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/recomendacion/belleza_anti_edad.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/recomendacion/belleza_anti_edad",
+      "destino_id": "conversaciones/objeciones/esta_caro",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/recomendacion/belleza_anti_edad.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/recomendacion/belleza_anti_edad",
+      "destino_id": "conversaciones/recomendacion/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/recomendacion/belleza_anti_edad.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/recomendacion/belleza_anti_edad",
+      "destino_id": "conversaciones/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/recomendacion/belleza_anti_edad.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/recomendacion/belleza_anti_edad",
+      "destino_id": "conversaciones/recomendacion/index",
+      "tipo_relacion": "pertenece_a_categoria",
+      "archivo_origen": "docs/conversaciones/recomendacion/belleza_anti_edad.md",
+      "verificada": true
+    }
+  ],
+  "referencias": [
+    {
+      "targetRaw": "../descubrimiento/index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\descubrimiento\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../clientes/belleza_anti_edad.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\belleza_anti_edad.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../productos/13-linea-radien/radien-cleanser.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\13-linea-radien\\radien-cleanser.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../productos/13-linea-radien/radien-toner.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\13-linea-radien\\radien-toner.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../productos/13-linea-radien/radien-day-creme.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\13-linea-radien\\radien-day-creme.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../productos/13-linea-radien/radien-eye-serum.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\13-linea-radien\\radien-eye-serum.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../productos/13-linea-radien/radien-eye-serum.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\13-linea-radien\\radien-eye-serum.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../productos/13-linea-radien/radien-qxp-men.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\13-linea-radien\\radien-qxp-men.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../productos/13-linea-radien/radien-collagen-elixir.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\13-linea-radien\\radien-collagen-elixir.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../cierre/cierre_venta.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\cierre\\cierre_venta.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../objeciones/esta_caro.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\objeciones\\esta_caro.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\recomendacion\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../README.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\README.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    }
+  ],
+  "checksum": "f4137c623f9d2237aa8f471d783e145bb93a12da9d4fcb4eabfd211fd32e7b82",
+  "errores_detectados": [],
+  "advertencias": [],
+  "modulo": "conversaciones"
+}

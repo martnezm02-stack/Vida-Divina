@@ -1,0 +1,67 @@
+{
+  "id": "conversaciones/plantillas/despedidas_agradecimientos",
+  "tipo_entidad": "conversacion",
+  "titulo": "Plantillas — Despedidas y Agradecimientos",
+  "ruta_original": "docs/conversaciones/plantillas/despedidas_agradecimientos.md",
+  "fecha_compilacion": "2026-08-07T09:35:11.722Z",
+  "version": "0.1.0-mvp",
+  "estado": "compilado",
+  "palabras_clave": [],
+  "relaciones_detectadas": [
+    {
+      "origen_id": "conversaciones/plantillas/despedidas_agradecimientos",
+      "destino_id": "conversaciones/cierre/agradecimiento",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/plantillas/despedidas_agradecimientos.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/plantillas/despedidas_agradecimientos",
+      "destino_id": "conversaciones/plantillas/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/plantillas/despedidas_agradecimientos.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/plantillas/despedidas_agradecimientos",
+      "destino_id": "conversaciones/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/plantillas/despedidas_agradecimientos.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/plantillas/despedidas_agradecimientos",
+      "destino_id": "conversaciones/plantillas/index",
+      "tipo_relacion": "pertenece_a_categoria",
+      "archivo_origen": "docs/conversaciones/plantillas/despedidas_agradecimientos.md",
+      "verificada": true
+    }
+  ],
+  "referencias": [
+    {
+      "targetRaw": "../cierre/agradecimiento.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\cierre\\agradecimiento.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\plantillas\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../README.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\README.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    }
+  ],
+  "checksum": "0a44ddd3ba440e86f19d0cdca0f12b003640523a2dd00b67ae1a69778c6ab460",
+  "errores_detectados": [],
+  "advertencias": [],
+  "modulo": "conversaciones"
+}

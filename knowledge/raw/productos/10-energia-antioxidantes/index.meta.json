@@ -1,0 +1,130 @@
+{
+  "id": "productos/10-energia-antioxidantes/index",
+  "tipo_entidad": "indice_categoria",
+  "titulo": "Categoría: Energía y Antioxidantes en Polvo",
+  "ruta_original": "docs/productos/10-energia-antioxidantes/index.md",
+  "fecha_compilacion": "2026-08-07T09:35:11.800Z",
+  "version": "0.1.0-mvp",
+  "estado": "compilado",
+  "palabras_clave": [],
+  "relaciones_detectadas": [
+    {
+      "origen_id": "productos/10-energia-antioxidantes/index",
+      "destino_id": "productos",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/10-energia-antioxidantes/index.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/10-energia-antioxidantes/index",
+      "destino_id": "productos/10-energia-antioxidantes/orange-genius",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/10-energia-antioxidantes/index.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/10-energia-antioxidantes/index",
+      "destino_id": "productos/10-energia-antioxidantes/mundo-omega",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/10-energia-antioxidantes/index.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/10-energia-antioxidantes/index",
+      "destino_id": "productos/10-energia-antioxidantes/mundo-verde",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/10-energia-antioxidantes/index.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/10-energia-antioxidantes/index",
+      "destino_id": "productos/10-energia-antioxidantes/mundo-rojo",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/10-energia-antioxidantes/index.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/10-energia-antioxidantes/index",
+      "destino_id": "productos/10-energia-antioxidantes/mundo-azul",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/10-energia-antioxidantes/index.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/10-energia-antioxidantes/index",
+      "destino_id": "productos/10-energia-antioxidantes/factor-divina",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/10-energia-antioxidantes/index.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/10-energia-antioxidantes/index",
+      "destino_id": "productos",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/10-energia-antioxidantes/index.md",
+      "verificada": true
+    }
+  ],
+  "referencias": [
+    {
+      "targetRaw": "../../productos.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./orange-genius.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\10-energia-antioxidantes\\orange-genius.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Productos en esta categoría"
+    },
+    {
+      "targetRaw": "./mundo-omega.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\10-energia-antioxidantes\\mundo-omega.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Productos en esta categoría"
+    },
+    {
+      "targetRaw": "./mundo-verde.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\10-energia-antioxidantes\\mundo-verde.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Productos en esta categoría"
+    },
+    {
+      "targetRaw": "./mundo-rojo.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\10-energia-antioxidantes\\mundo-rojo.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Productos en esta categoría"
+    },
+    {
+      "targetRaw": "./mundo-azul.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\10-energia-antioxidantes\\mundo-azul.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Productos en esta categoría"
+    },
+    {
+      "targetRaw": "./factor-divina.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\10-energia-antioxidantes\\factor-divina.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Productos en esta categoría"
+    },
+    {
+      "targetRaw": "../../productos.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Productos en esta categoría"
+    }
+  ],
+  "checksum": "fc073245ca15f8ca7915cee2fdc2439de06c112795007fe2fd28779821761be3",
+  "errores_detectados": [],
+  "advertencias": [],
+  "modulo": "productos"
+}

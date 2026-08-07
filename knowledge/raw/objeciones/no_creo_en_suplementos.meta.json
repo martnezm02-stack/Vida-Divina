@@ -1,0 +1,151 @@
+{
+  "id": "objeciones/no_creo_en_suplementos",
+  "tipo_entidad": "objecion",
+  "titulo": "Objeción — \"No Creo en Suplementos\"",
+  "ruta_original": "docs/objeciones/no_creo_en_suplementos.md",
+  "fecha_compilacion": "2026-08-07T09:35:11.743Z",
+  "version": "0.1.0-mvp",
+  "estado": "compilado",
+  "palabras_clave": [],
+  "relaciones_detectadas": [
+    {
+      "origen_id": "objeciones/no_creo_en_suplementos",
+      "destino_id": "productos/01-control-de-peso/tedivina",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/objeciones/no_creo_en_suplementos.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "objeciones/no_creo_en_suplementos",
+      "destino_id": "productos/03-longevidad-bienestar/reishi-capsules",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/objeciones/no_creo_en_suplementos.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "objeciones/no_creo_en_suplementos",
+      "destino_id": "clientes/bienestar_general",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/objeciones/no_creo_en_suplementos.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "objeciones/no_creo_en_suplementos",
+      "destino_id": "conversaciones/objeciones/no_creo_en_suplementos",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/objeciones/no_creo_en_suplementos.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "objeciones/no_creo_en_suplementos",
+      "destino_id": "conversaciones/descubrimiento/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/objeciones/no_creo_en_suplementos.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "objeciones/no_creo_en_suplementos",
+      "destino_id": "conversaciones/recomendacion/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/objeciones/no_creo_en_suplementos.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "objeciones/no_creo_en_suplementos",
+      "destino_id": "conversaciones/cierre/cierre_venta",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/objeciones/no_creo_en_suplementos.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "objeciones/no_creo_en_suplementos",
+      "destino_id": "conversaciones/seguimiento/seguimiento_30dias",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/objeciones/no_creo_en_suplementos.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "objeciones/no_creo_en_suplementos",
+      "destino_id": "objeciones/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/objeciones/no_creo_en_suplementos.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "objeciones/no_creo_en_suplementos",
+      "destino_id": "objeciones/README",
+      "tipo_relacion": "pertenece_a_categoria",
+      "archivo_origen": "docs/objeciones/no_creo_en_suplementos.md",
+      "verificada": true
+    }
+  ],
+  "referencias": [
+    {
+      "targetRaw": "../productos/01-control-de-peso/tedivina.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\01-control-de-peso\\tedivina.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Enlaces a productos relevantes"
+    },
+    {
+      "targetRaw": "../productos/03-longevidad-bienestar/reishi-capsules.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\03-longevidad-bienestar\\reishi-capsules.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Enlaces a productos relevantes"
+    },
+    {
+      "targetRaw": "../clientes/bienestar_general.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\bienestar_general.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Enlaces a productos relevantes"
+    },
+    {
+      "targetRaw": "../conversaciones/objeciones/no_creo_en_suplementos.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\objeciones\\no_creo_en_suplementos.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Cómo integrarlo en las conversaciones existentes"
+    },
+    {
+      "targetRaw": "../conversaciones/descubrimiento/index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\descubrimiento\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Cómo integrarlo en las conversaciones existentes"
+    },
+    {
+      "targetRaw": "../conversaciones/recomendacion/index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\recomendacion\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Cómo integrarlo en las conversaciones existentes"
+    },
+    {
+      "targetRaw": "../conversaciones/cierre/cierre_venta.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\cierre\\cierre_venta.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Cómo integrarlo en las conversaciones existentes"
+    },
+    {
+      "targetRaw": "../conversaciones/seguimiento/seguimiento_30dias.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\seguimiento\\seguimiento_30dias.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Cómo integrarlo en las conversaciones existentes"
+    },
+    {
+      "targetRaw": "./README.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\objeciones\\README.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Notas comerciales"
+    }
+  ],
+  "checksum": "24c4da4f98118ab7fb1f623b5cfcdb46230850af325e7bd2907b884ca0e960fd",
+  "errores_detectados": [],
+  "advertencias": [],
+  "modulo": "objeciones"
+}

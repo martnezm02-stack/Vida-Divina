@@ -1,0 +1,144 @@
+{
+  "id": "productos/10-energia-antioxidantes/orange-genius",
+  "tipo_entidad": "producto",
+  "titulo": "Orange Genius",
+  "ruta_original": "docs/productos/10-energia-antioxidantes/orange-genius.md",
+  "fecha_compilacion": "2026-08-07T09:35:11.804Z",
+  "version": "0.1.0-mvp",
+  "estado": "compilado",
+  "palabras_clave": [
+    "L-Teanina",
+    "resveratrol",
+    "energía natural",
+    "agudeza mental",
+    "antioxidantes",
+    "sin azúcar"
+  ],
+  "relaciones_detectadas": [
+    {
+      "origen_id": "productos/10-energia-antioxidantes/orange-genius",
+      "destino_id": "productos/10-energia-antioxidantes/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/10-energia-antioxidantes/orange-genius.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/10-energia-antioxidantes/orange-genius",
+      "destino_id": "productos",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/10-energia-antioxidantes/orange-genius.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/10-energia-antioxidantes/orange-genius",
+      "destino_id": "productos/10-energia-antioxidantes/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/10-energia-antioxidantes/orange-genius.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/10-energia-antioxidantes/orange-genius",
+      "destino_id": "productos/04-funcion-cognitiva",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/10-energia-antioxidantes/orange-genius.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/10-energia-antioxidantes/orange-genius",
+      "destino_id": "productos/10-energia-antioxidantes/mundo-rojo",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/10-energia-antioxidantes/orange-genius.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/10-energia-antioxidantes/orange-genius",
+      "destino_id": "productos/02-cafe-divina/latte-verde",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/10-energia-antioxidantes/orange-genius.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/10-energia-antioxidantes/orange-genius",
+      "destino_id": "productos/10-energia-antioxidantes/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/10-energia-antioxidantes/orange-genius.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/10-energia-antioxidantes/orange-genius",
+      "destino_id": "productos",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/10-energia-antioxidantes/orange-genius.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/10-energia-antioxidantes/orange-genius",
+      "destino_id": "productos/10-energia-antioxidantes/index",
+      "tipo_relacion": "pertenece_a_categoria",
+      "archivo_origen": "docs/productos/10-energia-antioxidantes/orange-genius.md",
+      "verificada": true
+    }
+  ],
+  "referencias": [
+    {
+      "targetRaw": "./index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\10-energia-antioxidantes\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../productos.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\10-energia-antioxidantes\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../04-funcion-cognitiva.md#brain-capsules",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\04-funcion-cognitiva.md",
+      "anchor": "brain-capsules",
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./mundo-rojo.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\10-energia-antioxidantes\\mundo-rojo.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../02-cafe-divina/latte-verde.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\latte-verde.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\10-energia-antioxidantes\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../productos.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    }
+  ],
+  "checksum": "2c181bdf22e25713eeb4c7c1e7ab8a3d4910d3e5c5ea91ce800fae6e72bdb7c8",
+  "errores_detectados": [],
+  "advertencias": [],
+  "modulo": "productos"
+}

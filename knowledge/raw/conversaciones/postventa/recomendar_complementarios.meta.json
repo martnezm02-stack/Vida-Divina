@@ -1,0 +1,137 @@
+{
+  "id": "conversaciones/postventa/recomendar_complementarios",
+  "tipo_entidad": "conversacion",
+  "titulo": "Postventa — Recomendar Productos Complementarios",
+  "ruta_original": "docs/conversaciones/postventa/recomendar_complementarios.md",
+  "fecha_compilacion": "2026-08-07T09:35:11.725Z",
+  "version": "0.1.0-mvp",
+  "estado": "compilado",
+  "palabras_clave": [],
+  "relaciones_detectadas": [
+    {
+      "origen_id": "conversaciones/postventa/recomendar_complementarios",
+      "destino_id": "conversaciones/postventa/verificar_satisfaccion",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/postventa/recomendar_complementarios.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/postventa/recomendar_complementarios",
+      "destino_id": "clientes/perder_peso",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/postventa/recomendar_complementarios.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/postventa/recomendar_complementarios",
+      "destino_id": "productos/01-control-de-peso/tedivina",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/postventa/recomendar_complementarios.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/postventa/recomendar_complementarios",
+      "destino_id": "productos/09-proteinas-batidos",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/postventa/recomendar_complementarios.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/postventa/recomendar_complementarios",
+      "destino_id": "productos/01-control-de-peso/life-capsules",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/postventa/recomendar_complementarios.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/postventa/recomendar_complementarios",
+      "destino_id": "conversaciones/cierre/cierre_venta",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/postventa/recomendar_complementarios.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/postventa/recomendar_complementarios",
+      "destino_id": "conversaciones/postventa/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/postventa/recomendar_complementarios.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/postventa/recomendar_complementarios",
+      "destino_id": "conversaciones/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/postventa/recomendar_complementarios.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/postventa/recomendar_complementarios",
+      "destino_id": "conversaciones/postventa/index",
+      "tipo_relacion": "pertenece_a_categoria",
+      "archivo_origen": "docs/conversaciones/postventa/recomendar_complementarios.md",
+      "verificada": true
+    }
+  ],
+  "referencias": [
+    {
+      "targetRaw": "./verificar_satisfaccion.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\postventa\\verificar_satisfaccion.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../clientes/perder_peso.md#posibles-ventas-futuras-cross-selling",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\perder_peso.md",
+      "anchor": "posibles-ventas-futuras-cross-selling",
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../productos/01-control-de-peso/tedivina.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\01-control-de-peso\\tedivina.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../productos/09-proteinas-batidos.md#vida-fuel",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\09-proteinas-batidos.md",
+      "anchor": "vida-fuel",
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../productos/01-control-de-peso/life-capsules.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\01-control-de-peso\\life-capsules.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../cierre/cierre_venta.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\cierre\\cierre_venta.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\postventa\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../README.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\README.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    }
+  ],
+  "checksum": "747ffc2ad630b8e0f5779428fae39b096701fefb56a1ceaf948e5d566af0e18c",
+  "errores_detectados": [],
+  "advertencias": [],
+  "modulo": "conversaciones"
+}

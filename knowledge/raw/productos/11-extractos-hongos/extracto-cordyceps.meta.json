@@ -1,0 +1,142 @@
+{
+  "id": "productos/11-extractos-hongos/extracto-cordyceps",
+  "tipo_entidad": "producto",
+  "titulo": "Extracto de Cordyceps",
+  "ruta_original": "docs/productos/11-extractos-hongos/extracto-cordyceps.md",
+  "fecha_compilacion": "2026-08-07T09:35:11.805Z",
+  "version": "0.1.0-mvp",
+  "estado": "compilado",
+  "palabras_clave": [
+    "cordyceps en polvo",
+    "sistema respiratorio",
+    "extracto puro",
+    "medicina herbal"
+  ],
+  "relaciones_detectadas": [
+    {
+      "origen_id": "productos/11-extractos-hongos/extracto-cordyceps",
+      "destino_id": "productos/11-extractos-hongos/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/11-extractos-hongos/extracto-cordyceps.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/11-extractos-hongos/extracto-cordyceps",
+      "destino_id": "productos",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/11-extractos-hongos/extracto-cordyceps.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/11-extractos-hongos/extracto-cordyceps",
+      "destino_id": "productos/11-extractos-hongos/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/11-extractos-hongos/extracto-cordyceps.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/11-extractos-hongos/extracto-cordyceps",
+      "destino_id": "productos/03-longevidad-bienestar/cordycs-4-capsules",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/11-extractos-hongos/extracto-cordyceps.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/11-extractos-hongos/extracto-cordyceps",
+      "destino_id": "productos/10-energia-antioxidantes/factor-divina",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/11-extractos-hongos/extracto-cordyceps.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/11-extractos-hongos/extracto-cordyceps",
+      "destino_id": "productos/11-extractos-hongos/extracto-reishi",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/11-extractos-hongos/extracto-cordyceps.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/11-extractos-hongos/extracto-cordyceps",
+      "destino_id": "productos/11-extractos-hongos/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/11-extractos-hongos/extracto-cordyceps.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/11-extractos-hongos/extracto-cordyceps",
+      "destino_id": "productos",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/11-extractos-hongos/extracto-cordyceps.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/11-extractos-hongos/extracto-cordyceps",
+      "destino_id": "productos/11-extractos-hongos/index",
+      "tipo_relacion": "pertenece_a_categoria",
+      "archivo_origen": "docs/productos/11-extractos-hongos/extracto-cordyceps.md",
+      "verificada": true
+    }
+  ],
+  "referencias": [
+    {
+      "targetRaw": "./index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\11-extractos-hongos\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../productos.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\11-extractos-hongos\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../03-longevidad-bienestar/cordycs-4-capsules.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\03-longevidad-bienestar\\cordycs-4-capsules.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../10-energia-antioxidantes/factor-divina.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\10-energia-antioxidantes\\factor-divina.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./extracto-reishi.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\11-extractos-hongos\\extracto-reishi.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\11-extractos-hongos\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../productos.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    }
+  ],
+  "checksum": "6dd2867ec5e66ef22edc3195e35be45deb9e8a9eb2cdc5736790a622d1c6241d",
+  "errores_detectados": [],
+  "advertencias": [],
+  "modulo": "productos"
+}

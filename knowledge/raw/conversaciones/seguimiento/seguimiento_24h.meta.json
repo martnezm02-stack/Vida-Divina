@@ -1,0 +1,151 @@
+{
+  "id": "conversaciones/seguimiento/seguimiento_24h",
+  "tipo_entidad": "conversacion",
+  "titulo": "Seguimiento — 24 Horas",
+  "ruta_original": "docs/conversaciones/seguimiento/seguimiento_24h.md",
+  "fecha_compilacion": "2026-08-07T09:35:11.739Z",
+  "version": "0.1.0-mvp",
+  "estado": "compilado",
+  "palabras_clave": [],
+  "relaciones_detectadas": [
+    {
+      "origen_id": "conversaciones/seguimiento/seguimiento_24h",
+      "destino_id": "conversaciones/objeciones/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/seguimiento/seguimiento_24h.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/seguimiento/seguimiento_24h",
+      "destino_id": "conversaciones/recomendacion/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/seguimiento/seguimiento_24h.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/seguimiento/seguimiento_24h",
+      "destino_id": "clientes/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/seguimiento/seguimiento_24h.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/seguimiento/seguimiento_24h",
+      "destino_id": "conversaciones/seguimiento/seguimiento_3dias",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/seguimiento/seguimiento_24h.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/seguimiento/seguimiento_24h",
+      "destino_id": "conversaciones/objeciones/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/seguimiento/seguimiento_24h.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/seguimiento/seguimiento_24h",
+      "destino_id": "conversaciones/cierre/cierre_venta",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/seguimiento/seguimiento_24h.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/seguimiento/seguimiento_24h",
+      "destino_id": "conversaciones/seguimiento/seguimiento_3dias",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/seguimiento/seguimiento_24h.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/seguimiento/seguimiento_24h",
+      "destino_id": "conversaciones/seguimiento/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/seguimiento/seguimiento_24h.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/seguimiento/seguimiento_24h",
+      "destino_id": "conversaciones/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/seguimiento/seguimiento_24h.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/seguimiento/seguimiento_24h",
+      "destino_id": "conversaciones/seguimiento/index",
+      "tipo_relacion": "pertenece_a_categoria",
+      "archivo_origen": "docs/conversaciones/seguimiento/seguimiento_24h.md",
+      "verificada": true
+    }
+  ],
+  "referencias": [
+    {
+      "targetRaw": "../objeciones/index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\objeciones\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../recomendacion/index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\recomendacion\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../clientes/README.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\README.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./seguimiento_3dias.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\seguimiento\\seguimiento_3dias.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../objeciones/index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\objeciones\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../cierre/cierre_venta.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\cierre\\cierre_venta.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./seguimiento_3dias.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\seguimiento\\seguimiento_3dias.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\seguimiento\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../README.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\README.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    }
+  ],
+  "checksum": "49de75709a2269ae6e505261cb8d4d9a9e8c56da01d51959c037469b9f83c4f7",
+  "errores_detectados": [],
+  "advertencias": [],
+  "modulo": "conversaciones"
+}

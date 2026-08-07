@@ -1,0 +1,151 @@
+{
+  "id": "conversaciones/objeciones/lo_voy_a_pensar",
+  "tipo_entidad": "conversacion",
+  "titulo": "Objeciones — \"Lo Voy a Pensar\"",
+  "ruta_original": "docs/conversaciones/objeciones/lo_voy_a_pensar.md",
+  "fecha_compilacion": "2026-08-07T09:35:11.718Z",
+  "version": "0.1.0-mvp",
+  "estado": "compilado",
+  "palabras_clave": [],
+  "relaciones_detectadas": [
+    {
+      "origen_id": "conversaciones/objeciones/lo_voy_a_pensar",
+      "destino_id": "conversaciones/recomendacion/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/objeciones/lo_voy_a_pensar.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/objeciones/lo_voy_a_pensar",
+      "destino_id": "conversaciones/cierre/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/objeciones/lo_voy_a_pensar.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/objeciones/lo_voy_a_pensar",
+      "destino_id": "clientes/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/objeciones/lo_voy_a_pensar.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/objeciones/lo_voy_a_pensar",
+      "destino_id": "conversaciones/seguimiento/seguimiento_3dias",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/objeciones/lo_voy_a_pensar.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/objeciones/lo_voy_a_pensar",
+      "destino_id": "conversaciones/seguimiento/seguimiento_7dias",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/objeciones/lo_voy_a_pensar.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/objeciones/lo_voy_a_pensar",
+      "destino_id": "conversaciones/seguimiento/seguimiento_15dias",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/objeciones/lo_voy_a_pensar.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/objeciones/lo_voy_a_pensar",
+      "destino_id": "objeciones/lo_voy_a_pensar",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/objeciones/lo_voy_a_pensar.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/objeciones/lo_voy_a_pensar",
+      "destino_id": "conversaciones/objeciones/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/objeciones/lo_voy_a_pensar.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/objeciones/lo_voy_a_pensar",
+      "destino_id": "conversaciones/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/objeciones/lo_voy_a_pensar.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/objeciones/lo_voy_a_pensar",
+      "destino_id": "conversaciones/objeciones/index",
+      "tipo_relacion": "pertenece_a_categoria",
+      "archivo_origen": "docs/conversaciones/objeciones/lo_voy_a_pensar.md",
+      "verificada": true
+    }
+  ],
+  "referencias": [
+    {
+      "targetRaw": "../recomendacion/index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\recomendacion\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../cierre/index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\cierre\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../clientes/README.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\README.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../seguimiento/seguimiento_3dias.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\seguimiento\\seguimiento_3dias.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../seguimiento/seguimiento_7dias.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\seguimiento\\seguimiento_7dias.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../seguimiento/seguimiento_15dias.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\seguimiento\\seguimiento_15dias.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../objeciones/lo_voy_a_pensar.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\objeciones\\lo_voy_a_pensar.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\objeciones\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../README.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\README.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    }
+  ],
+  "checksum": "de8d94f5a77a41ea58cfd1683b33990510684ed77b89fc7f7a8a4a4d66ee0f6f",
+  "errores_detectados": [],
+  "advertencias": [],
+  "modulo": "conversaciones"
+}

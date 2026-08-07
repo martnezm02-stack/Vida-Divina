@@ -1,0 +1,144 @@
+{
+  "id": "productos/13-linea-radien/index",
+  "tipo_entidad": "indice_categoria",
+  "titulo": "Categoría: Línea Radien — Skincare Anti-Edad",
+  "ruta_original": "docs/productos/13-linea-radien/index.md",
+  "fecha_compilacion": "2026-08-07T09:35:11.811Z",
+  "version": "0.1.0-mvp",
+  "estado": "compilado",
+  "palabras_clave": [],
+  "relaciones_detectadas": [
+    {
+      "origen_id": "productos/13-linea-radien/index",
+      "destino_id": "productos",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/13-linea-radien/index.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/13-linea-radien/index",
+      "destino_id": "productos/13-linea-radien/radien-collagen-elixir",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/13-linea-radien/index.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/13-linea-radien/index",
+      "destino_id": "productos/13-linea-radien/radien-toner",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/13-linea-radien/index.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/13-linea-radien/index",
+      "destino_id": "productos/13-linea-radien/radien-cleanser",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/13-linea-radien/index.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/13-linea-radien/index",
+      "destino_id": "productos/13-linea-radien/radien-day-creme",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/13-linea-radien/index.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/13-linea-radien/index",
+      "destino_id": "productos/13-linea-radien/radien-night-creme",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/13-linea-radien/index.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/13-linea-radien/index",
+      "destino_id": "productos/13-linea-radien/radien-eye-serum",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/13-linea-radien/index.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/13-linea-radien/index",
+      "destino_id": "productos/13-linea-radien/radien-qxp-men",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/13-linea-radien/index.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/13-linea-radien/index",
+      "destino_id": "productos",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/13-linea-radien/index.md",
+      "verificada": true
+    }
+  ],
+  "referencias": [
+    {
+      "targetRaw": "../../productos.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./radien-collagen-elixir.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\13-linea-radien\\radien-collagen-elixir.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Productos en esta categoría"
+    },
+    {
+      "targetRaw": "./radien-toner.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\13-linea-radien\\radien-toner.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Productos en esta categoría"
+    },
+    {
+      "targetRaw": "./radien-cleanser.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\13-linea-radien\\radien-cleanser.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Productos en esta categoría"
+    },
+    {
+      "targetRaw": "./radien-day-creme.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\13-linea-radien\\radien-day-creme.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Productos en esta categoría"
+    },
+    {
+      "targetRaw": "./radien-night-creme.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\13-linea-radien\\radien-night-creme.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Productos en esta categoría"
+    },
+    {
+      "targetRaw": "./radien-eye-serum.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\13-linea-radien\\radien-eye-serum.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Productos en esta categoría"
+    },
+    {
+      "targetRaw": "./radien-qxp-men.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\13-linea-radien\\radien-qxp-men.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Productos en esta categoría"
+    },
+    {
+      "targetRaw": "../../productos.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Productos en esta categoría"
+    }
+  ],
+  "checksum": "da5e37e11dd6802ce606c224e1e5de6a96ada283cebafe0d68a9e975d191271e",
+  "errores_detectados": [],
+  "advertencias": [],
+  "modulo": "productos"
+}

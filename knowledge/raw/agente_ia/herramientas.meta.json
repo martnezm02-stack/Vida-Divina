@@ -1,0 +1,221 @@
+{
+  "id": "agente_ia/herramientas",
+  "tipo_entidad": "herramienta",
+  "titulo": "Herramientas",
+  "ruta_original": "docs/agente_ia/herramientas.md",
+  "fecha_compilacion": "2026-08-07T09:35:11.671Z",
+  "version": "0.1.0-mvp",
+  "estado": "compilado",
+  "palabras_clave": [],
+  "relaciones_detectadas": [
+    {
+      "origen_id": "agente_ia/herramientas",
+      "destino_id": "agente_ia/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/herramientas.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/herramientas",
+      "destino_id": "agente_ia/flujo_de_razonamiento",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/herramientas.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/herramientas",
+      "destino_id": "agente_ia/reglas_de_decision",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/herramientas.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/herramientas",
+      "destino_id": "agente_ia/flujo_de_razonamiento",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/herramientas.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/herramientas",
+      "destino_id": "agente_ia/principios",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/herramientas.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/herramientas",
+      "destino_id": "agente_ia/flujo_de_razonamiento",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/herramientas.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/herramientas",
+      "destino_id": "agente_ia/manejo_de_errores",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/herramientas.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/herramientas",
+      "destino_id": "agente_ia/flujo_de_razonamiento",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/herramientas.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/herramientas",
+      "destino_id": "agente_ia/flujo_de_razonamiento",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/herramientas.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/herramientas",
+      "destino_id": "proceso_de_venta/estados_del_cliente",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/herramientas.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/herramientas",
+      "destino_id": "agente_ia/flujo_de_razonamiento",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/herramientas.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/herramientas",
+      "destino_id": "agente_ia/contexto",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/herramientas.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/herramientas",
+      "destino_id": "agente_ia/manejo_de_errores",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/herramientas.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/herramientas",
+      "destino_id": "agente_ia/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/herramientas.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/herramientas",
+      "destino_id": "agente_ia/README",
+      "tipo_relacion": "pertenece_a_categoria",
+      "archivo_origen": "docs/agente_ia/herramientas.md",
+      "verificada": true
+    }
+  ],
+  "referencias": [
+    {
+      "targetRaw": "./README.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\README.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./flujo_de_razonamiento.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\flujo_de_razonamiento.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Las cinco capacidades"
+    },
+    {
+      "targetRaw": "./reglas_de_decision.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\reglas_de_decision.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Las cinco capacidades"
+    },
+    {
+      "targetRaw": "./flujo_de_razonamiento.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\flujo_de_razonamiento.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Las cinco capacidades"
+    },
+    {
+      "targetRaw": "./principios.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\principios.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Las cinco capacidades"
+    },
+    {
+      "targetRaw": "./flujo_de_razonamiento.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\flujo_de_razonamiento.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Las cinco capacidades"
+    },
+    {
+      "targetRaw": "./manejo_de_errores.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\manejo_de_errores.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Las cinco capacidades"
+    },
+    {
+      "targetRaw": "./flujo_de_razonamiento.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\flujo_de_razonamiento.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Las cinco capacidades"
+    },
+    {
+      "targetRaw": "./flujo_de_razonamiento.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\flujo_de_razonamiento.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Las cinco capacidades"
+    },
+    {
+      "targetRaw": "../proceso_de_venta/estados_del_cliente.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\estados_del_cliente.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Las cinco capacidades"
+    },
+    {
+      "targetRaw": "./flujo_de_razonamiento.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\flujo_de_razonamiento.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Principio de uso común a las cinco"
+    },
+    {
+      "targetRaw": "./contexto.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\contexto.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Principio de uso común a las cinco"
+    },
+    {
+      "targetRaw": "./manejo_de_errores.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\manejo_de_errores.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Principio de uso común a las cinco"
+    },
+    {
+      "targetRaw": "./README.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\README.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Principio de uso común a las cinco"
+    }
+  ],
+  "checksum": "37ca8466ec0ae93f72003ac8d2d46aa913c936c8fe6bc2144b77dd86af24525c",
+  "errores_detectados": [],
+  "advertencias": [],
+  "modulo": "agente_ia"
+}

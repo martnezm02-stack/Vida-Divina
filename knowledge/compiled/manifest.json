@@ -1,0 +1,110 @@
+{
+  "version_compilador": "0.1.0-mvp",
+  "version_knowledge_model": "docs/KNOWLEDGE_MODEL.md — Iteración 2",
+  "fecha_compilacion": "2026-08-07T09:35:11.919Z",
+  "git_commit": null,
+  "hash_proceso": "1fe9886946dc5e22c05782b5325cb31665a92be84b997e501b2ffd2e3662ec6d",
+  "archivos_procesados": 165,
+  "cantidad_entidades": 165,
+  "cantidad_relaciones": 1886,
+  "errores": [],
+  "advertencias": [
+    {
+      "tipo": "relacion_no_verificable",
+      "detalle": "docs/agente_ia/aprendizaje.md referencia \"../../CLAUDE.md#convenciones-del-proyecto\", que existe en disco pero no es una entidad rastreada por el compilador (posiblemente fuera de docs/ o un archivo no-.md)",
+      "archivo": null
+    },
+    {
+      "tipo": "relacion_no_verificable",
+      "detalle": "docs/agente_ia/aprendizaje.md referencia \"../../CLAUDE.md#roadmap\", que existe en disco pero no es una entidad rastreada por el compilador (posiblemente fuera de docs/ o un archivo no-.md)",
+      "archivo": null
+    },
+    {
+      "tipo": "relacion_no_verificable",
+      "detalle": "docs/agente_ia/aprendizaje.md referencia \"../../CLAUDE.md#instrucciones-para-claude\", que existe en disco pero no es una entidad rastreada por el compilador (posiblemente fuera de docs/ o un archivo no-.md)",
+      "archivo": null
+    },
+    {
+      "tipo": "relacion_no_verificable",
+      "detalle": "docs/agente_ia/contexto.md referencia \"../../CLAUDE.md#principios-de-arquitectura\", que existe en disco pero no es una entidad rastreada por el compilador (posiblemente fuera de docs/ o un archivo no-.md)",
+      "archivo": null
+    },
+    {
+      "tipo": "relacion_no_verificable",
+      "detalle": "docs/agente_ia/identidad.md referencia \"../../CLAUDE.md#rol-de-claude\", que existe en disco pero no es una entidad rastreada por el compilador (posiblemente fuera de docs/ o un archivo no-.md)",
+      "archivo": null
+    },
+    {
+      "tipo": "relacion_no_verificable",
+      "detalle": "docs/agente_ia/identidad.md referencia \"../../CLAUDE.md#estilo\", que existe en disco pero no es una entidad rastreada por el compilador (posiblemente fuera de docs/ o un archivo no-.md)",
+      "archivo": null
+    },
+    {
+      "tipo": "relacion_no_verificable",
+      "detalle": "docs/agente_ia/identidad.md referencia \"../../CLAUDE.md#principios\", que existe en disco pero no es una entidad rastreada por el compilador (posiblemente fuera de docs/ o un archivo no-.md)",
+      "archivo": null
+    },
+    {
+      "tipo": "relacion_no_verificable",
+      "detalle": "docs/agente_ia/memoria.md referencia \"../../CLAUDE.md#roadmap\", que existe en disco pero no es una entidad rastreada por el compilador (posiblemente fuera de docs/ o un archivo no-.md)",
+      "archivo": null
+    },
+    {
+      "tipo": "relacion_no_verificable",
+      "detalle": "docs/agente_ia/metricas.md referencia \"../../CLAUDE.md#roadmap\", que existe en disco pero no es una entidad rastreada por el compilador (posiblemente fuera de docs/ o un archivo no-.md)",
+      "archivo": null
+    },
+    {
+      "tipo": "relacion_no_verificable",
+      "detalle": "docs/agente_ia/README.md referencia \"../../CLAUDE.md#convenciones-del-proyecto\", que existe en disco pero no es una entidad rastreada por el compilador (posiblemente fuera de docs/ o un archivo no-.md)",
+      "archivo": null
+    },
+    {
+      "tipo": "relacion_no_verificable",
+      "detalle": "docs/agente_ia/roadmap.md referencia \"../../CLAUDE.md#roadmap\", que existe en disco pero no es una entidad rastreada por el compilador (posiblemente fuera de docs/ o un archivo no-.md)",
+      "archivo": null
+    }
+  ],
+  "estadisticas": {
+    "cantidad_modulos": 6,
+    "modulos": [
+      "agente_ia",
+      "clientes",
+      "conversaciones",
+      "objeciones",
+      "proceso_de_venta",
+      "productos"
+    ],
+    "cantidad_entidades": 165,
+    "entidades_por_tipo": {
+      "documento_cognitivo": 9,
+      "ejemplo_razonamiento": 1,
+      "herramienta": 1,
+      "metrica": 1,
+      "principio": 1,
+      "indice_modulo": 6,
+      "regla_decision": 2,
+      "regla_seguridad": 1,
+      "perfil": 16,
+      "conversacion": 37,
+      "indice_categoria": 15,
+      "objecion": 4,
+      "documento_proceso": 8,
+      "estado_cliente": 1,
+      "etapa_proceso": 1,
+      "producto": 61
+    },
+    "cantidad_relaciones": 1886,
+    "relaciones_por_tipo": {
+      "referencia": 1625,
+      "pertenece_a_categoria": 137,
+      "recomienda_primario": 16,
+      "recomienda_opcional": 49,
+      "recomienda_complementario": 54,
+      "no_recomendado": 5
+    },
+    "cantidad_advertencias": 11,
+    "cantidad_errores": 0,
+    "tiempo_compilacion_ms": 172
+  }
+}

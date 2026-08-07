@@ -1,0 +1,123 @@
+{
+  "id": "conversaciones/primer_contacto/pregunta_precio",
+  "tipo_entidad": "conversacion",
+  "titulo": "Primer Contacto — Pregunta Únicamente por Precio",
+  "ruta_original": "docs/conversaciones/primer_contacto/pregunta_precio.md",
+  "fecha_compilacion": "2026-08-07T09:35:11.727Z",
+  "version": "0.1.0-mvp",
+  "estado": "compilado",
+  "palabras_clave": [],
+  "relaciones_detectadas": [
+    {
+      "origen_id": "conversaciones/primer_contacto/pregunta_precio",
+      "destino_id": "conversaciones/descubrimiento/preguntas_generales",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/primer_contacto/pregunta_precio.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/primer_contacto/pregunta_precio",
+      "destino_id": "productos",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/primer_contacto/pregunta_precio.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/primer_contacto/pregunta_precio",
+      "destino_id": "conversaciones/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/primer_contacto/pregunta_precio.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/primer_contacto/pregunta_precio",
+      "destino_id": "conversaciones/seguimiento/seguimiento_24h",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/primer_contacto/pregunta_precio.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/primer_contacto/pregunta_precio",
+      "destino_id": "conversaciones/descubrimiento/preguntas_generales",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/primer_contacto/pregunta_precio.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/primer_contacto/pregunta_precio",
+      "destino_id": "conversaciones/primer_contacto/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/primer_contacto/pregunta_precio.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/primer_contacto/pregunta_precio",
+      "destino_id": "conversaciones/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/primer_contacto/pregunta_precio.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/primer_contacto/pregunta_precio",
+      "destino_id": "conversaciones/primer_contacto/index",
+      "tipo_relacion": "pertenece_a_categoria",
+      "archivo_origen": "docs/conversaciones/primer_contacto/pregunta_precio.md",
+      "verificada": true
+    }
+  ],
+  "referencias": [
+    {
+      "targetRaw": "../descubrimiento/preguntas_generales.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\descubrimiento\\preguntas_generales.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../productos.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../README.md#reglas-generales-aplican-a-todo-el-módulo",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\README.md",
+      "anchor": "reglas-generales-aplican-a-todo-el-módulo",
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../seguimiento/seguimiento_24h.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\seguimiento\\seguimiento_24h.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../descubrimiento/preguntas_generales.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\descubrimiento\\preguntas_generales.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\primer_contacto\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../README.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\README.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    }
+  ],
+  "checksum": "da34474df0041e573ae4353b2292a73200640304f9ac08ccd152a681b57f7d08",
+  "errores_detectados": [],
+  "advertencias": [],
+  "modulo": "conversaciones"
+}

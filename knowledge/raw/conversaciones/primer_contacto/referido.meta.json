@@ -1,0 +1,137 @@
+{
+  "id": "conversaciones/primer_contacto/referido",
+  "tipo_entidad": "conversacion",
+  "titulo": "Primer Contacto — Cliente Referido",
+  "ruta_original": "docs/conversaciones/primer_contacto/referido.md",
+  "fecha_compilacion": "2026-08-07T09:35:11.728Z",
+  "version": "0.1.0-mvp",
+  "estado": "compilado",
+  "palabras_clave": [],
+  "relaciones_detectadas": [
+    {
+      "origen_id": "conversaciones/primer_contacto/referido",
+      "destino_id": "conversaciones/descubrimiento/preguntas_generales",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/primer_contacto/referido.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/primer_contacto/referido",
+      "destino_id": "clientes/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/primer_contacto/referido.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/primer_contacto/referido",
+      "destino_id": "clientes/bienestar_general",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/primer_contacto/referido.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/primer_contacto/referido",
+      "destino_id": "conversaciones/descubrimiento/preguntas_generales",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/primer_contacto/referido.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/primer_contacto/referido",
+      "destino_id": "conversaciones/descubrimiento/preguntas_generales",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/primer_contacto/referido.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/primer_contacto/referido",
+      "destino_id": "conversaciones/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/primer_contacto/referido.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/primer_contacto/referido",
+      "destino_id": "conversaciones/primer_contacto/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/primer_contacto/referido.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/primer_contacto/referido",
+      "destino_id": "conversaciones/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/primer_contacto/referido.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/primer_contacto/referido",
+      "destino_id": "conversaciones/primer_contacto/index",
+      "tipo_relacion": "pertenece_a_categoria",
+      "archivo_origen": "docs/conversaciones/primer_contacto/referido.md",
+      "verificada": true
+    }
+  ],
+  "referencias": [
+    {
+      "targetRaw": "../descubrimiento/preguntas_generales.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\descubrimiento\\preguntas_generales.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../clientes/README.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\README.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../clientes/bienestar_general.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\bienestar_general.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../descubrimiento/preguntas_generales.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\descubrimiento\\preguntas_generales.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../descubrimiento/preguntas_generales.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\descubrimiento\\preguntas_generales.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../README.md#reglas-generales-aplican-a-todo-el-módulo",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\README.md",
+      "anchor": "reglas-generales-aplican-a-todo-el-módulo",
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\primer_contacto\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../README.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\README.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    }
+  ],
+  "checksum": "41fd8736ff987862c1ec2bb325b8ff659958c06168cbff3bcd34763d93d2f5fe",
+  "errores_detectados": [],
+  "advertencias": [],
+  "modulo": "conversaciones"
+}

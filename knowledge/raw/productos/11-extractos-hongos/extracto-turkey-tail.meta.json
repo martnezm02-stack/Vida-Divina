@@ -1,0 +1,129 @@
+{
+  "id": "productos/11-extractos-hongos/extracto-turkey-tail",
+  "tipo_entidad": "producto",
+  "titulo": "Extracto de Turkey Tail",
+  "ruta_original": "docs/productos/11-extractos-hongos/extracto-turkey-tail.md",
+  "fecha_compilacion": "2026-08-07T09:35:11.809Z",
+  "version": "0.1.0-mvp",
+  "estado": "compilado",
+  "palabras_clave": [
+    "cola de pavo",
+    "turkey tail",
+    "coriolus versicolor",
+    "prebióticos",
+    "microbiota"
+  ],
+  "relaciones_detectadas": [
+    {
+      "origen_id": "productos/11-extractos-hongos/extracto-turkey-tail",
+      "destino_id": "productos/11-extractos-hongos/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/11-extractos-hongos/extracto-turkey-tail.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/11-extractos-hongos/extracto-turkey-tail",
+      "destino_id": "productos",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/11-extractos-hongos/extracto-turkey-tail.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/11-extractos-hongos/extracto-turkey-tail",
+      "destino_id": "productos/11-extractos-hongos/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/11-extractos-hongos/extracto-turkey-tail.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/11-extractos-hongos/extracto-turkey-tail",
+      "destino_id": "productos/03-longevidad-bienestar/eterno-capsules",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/11-extractos-hongos/extracto-turkey-tail.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/11-extractos-hongos/extracto-turkey-tail",
+      "destino_id": "productos/11-extractos-hongos/extracto-reishi",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/11-extractos-hongos/extracto-turkey-tail.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/11-extractos-hongos/extracto-turkey-tail",
+      "destino_id": "productos/11-extractos-hongos/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/11-extractos-hongos/extracto-turkey-tail.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/11-extractos-hongos/extracto-turkey-tail",
+      "destino_id": "productos",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/11-extractos-hongos/extracto-turkey-tail.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/11-extractos-hongos/extracto-turkey-tail",
+      "destino_id": "productos/11-extractos-hongos/index",
+      "tipo_relacion": "pertenece_a_categoria",
+      "archivo_origen": "docs/productos/11-extractos-hongos/extracto-turkey-tail.md",
+      "verificada": true
+    }
+  ],
+  "referencias": [
+    {
+      "targetRaw": "./index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\11-extractos-hongos\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../productos.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\11-extractos-hongos\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../03-longevidad-bienestar/eterno-capsules.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\03-longevidad-bienestar\\eterno-capsules.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./extracto-reishi.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\11-extractos-hongos\\extracto-reishi.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\11-extractos-hongos\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../productos.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    }
+  ],
+  "checksum": "dd652164d75491c1942d38ce24ae7cdd54a0871093271266d054529772d5b493",
+  "errores_detectados": [],
+  "advertencias": [],
+  "modulo": "productos"
+}

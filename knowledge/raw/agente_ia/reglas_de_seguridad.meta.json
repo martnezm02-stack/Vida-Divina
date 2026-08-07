@@ -1,0 +1,179 @@
+{
+  "id": "agente_ia/reglas_de_seguridad",
+  "tipo_entidad": "regla_seguridad",
+  "titulo": "Reglas de Seguridad",
+  "ruta_original": "docs/agente_ia/reglas_de_seguridad.md",
+  "fecha_compilacion": "2026-08-07T09:35:11.681Z",
+  "version": "0.1.0-mvp",
+  "estado": "compilado",
+  "palabras_clave": [],
+  "relaciones_detectadas": [
+    {
+      "origen_id": "agente_ia/reglas_de_seguridad",
+      "destino_id": "agente_ia/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/reglas_de_seguridad.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/reglas_de_seguridad",
+      "destino_id": "agente_ia/principios",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/reglas_de_seguridad.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/reglas_de_seguridad",
+      "destino_id": "agente_ia/reglas_de_decision",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/reglas_de_seguridad.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/reglas_de_seguridad",
+      "destino_id": "conversaciones/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/reglas_de_seguridad.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/reglas_de_seguridad",
+      "destino_id": "clientes/emprendimiento",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/reglas_de_seguridad.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/reglas_de_seguridad",
+      "destino_id": "agente_ia/memoria",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/reglas_de_seguridad.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/reglas_de_seguridad",
+      "destino_id": "agente_ia/reglas_de_decision",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/reglas_de_seguridad.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/reglas_de_seguridad",
+      "destino_id": "agente_ia/manejo_de_errores",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/reglas_de_seguridad.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/reglas_de_seguridad",
+      "destino_id": "agente_ia/manejo_de_errores",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/reglas_de_seguridad.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/reglas_de_seguridad",
+      "destino_id": "agente_ia/flujo_de_razonamiento",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/reglas_de_seguridad.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/reglas_de_seguridad",
+      "destino_id": "agente_ia/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/reglas_de_seguridad.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/reglas_de_seguridad",
+      "destino_id": "agente_ia/README",
+      "tipo_relacion": "pertenece_a_categoria",
+      "archivo_origen": "docs/agente_ia/reglas_de_seguridad.md",
+      "verificada": true
+    }
+  ],
+  "referencias": [
+    {
+      "targetRaw": "./README.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\README.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./principios.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\principios.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./reglas_de_decision.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\reglas_de_decision.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../conversaciones/README.md#reglas-generales-aplican-a-todo-el-módulo",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\README.md",
+      "anchor": "reglas-generales-aplican-a-todo-el-módulo",
+      "exists": true,
+      "seccion": "Qué nunca puede hacer"
+    },
+    {
+      "targetRaw": "../clientes/emprendimiento.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\emprendimiento.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Qué nunca puede hacer"
+    },
+    {
+      "targetRaw": "./memoria.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\memoria.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Qué nunca puede hacer"
+    },
+    {
+      "targetRaw": "./reglas_de_decision.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\reglas_de_decision.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Cuándo debe detenerse"
+    },
+    {
+      "targetRaw": "./manejo_de_errores.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\manejo_de_errores.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Cuándo debe detenerse"
+    },
+    {
+      "targetRaw": "./manejo_de_errores.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\manejo_de_errores.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Cómo manejar información incierta"
+    },
+    {
+      "targetRaw": "./flujo_de_razonamiento.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\flujo_de_razonamiento.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Relación con el paso 10 del flujo de razonamiento"
+    },
+    {
+      "targetRaw": "./README.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\README.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Relación con el paso 10 del flujo de razonamiento"
+    }
+  ],
+  "checksum": "668b189d9f2b28bd258682cea8707eedaaa2fa916314de8d8310ddada2a09892",
+  "errores_detectados": [],
+  "advertencias": [],
+  "modulo": "agente_ia"
+}

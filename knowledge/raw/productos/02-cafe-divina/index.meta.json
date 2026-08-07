@@ -1,0 +1,256 @@
+{
+  "id": "productos/02-cafe-divina/index",
+  "tipo_entidad": "indice_categoria",
+  "titulo": "Categoría: Café Divina — Bebidas Funcionales",
+  "ruta_original": "docs/productos/02-cafe-divina/index.md",
+  "fecha_compilacion": "2026-08-07T09:35:11.781Z",
+  "version": "0.1.0-mvp",
+  "estado": "compilado",
+  "palabras_clave": [],
+  "relaciones_detectadas": [
+    {
+      "origen_id": "productos/02-cafe-divina/index",
+      "destino_id": "productos",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/02-cafe-divina/index.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/02-cafe-divina/index",
+      "destino_id": "productos/02-cafe-divina/sculpt-black",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/02-cafe-divina/index.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/02-cafe-divina/index",
+      "destino_id": "productos/02-cafe-divina/sculpt-latte",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/02-cafe-divina/index.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/02-cafe-divina/index",
+      "destino_id": "productos/02-cafe-divina/sculpt-tongkat-ali",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/02-cafe-divina/index.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/02-cafe-divina/index",
+      "destino_id": "productos/02-cafe-divina/tongkat-ali-cafe",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/02-cafe-divina/index.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/02-cafe-divina/index",
+      "destino_id": "productos/02-cafe-divina/latte",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/02-cafe-divina/index.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/02-cafe-divina/index",
+      "destino_id": "productos/02-cafe-divina/cappuccino",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/02-cafe-divina/index.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/02-cafe-divina/index",
+      "destino_id": "productos/02-cafe-divina/hazelnut-latte",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/02-cafe-divina/index.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/02-cafe-divina/index",
+      "destino_id": "productos/02-cafe-divina/mocha",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/02-cafe-divina/index.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/02-cafe-divina/index",
+      "destino_id": "productos/02-cafe-divina/black",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/02-cafe-divina/index.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/02-cafe-divina/index",
+      "destino_id": "productos/02-cafe-divina/hot-chocolate",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/02-cafe-divina/index.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/02-cafe-divina/index",
+      "destino_id": "productos/02-cafe-divina/divine-cereal",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/02-cafe-divina/index.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/02-cafe-divina/index",
+      "destino_id": "productos/02-cafe-divina/latte-dorado",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/02-cafe-divina/index.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/02-cafe-divina/index",
+      "destino_id": "productos/02-cafe-divina/latte-verde",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/02-cafe-divina/index.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/02-cafe-divina/index",
+      "destino_id": "productos/02-cafe-divina/te-negro",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/02-cafe-divina/index.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/02-cafe-divina/index",
+      "destino_id": "productos/02-cafe-divina/te-verde",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/02-cafe-divina/index.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/02-cafe-divina/index",
+      "destino_id": "productos",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/02-cafe-divina/index.md",
+      "verificada": true
+    }
+  ],
+  "referencias": [
+    {
+      "targetRaw": "../../productos.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./sculpt-black.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\sculpt-black.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Productos en esta categoría"
+    },
+    {
+      "targetRaw": "./sculpt-latte.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\sculpt-latte.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Productos en esta categoría"
+    },
+    {
+      "targetRaw": "./sculpt-tongkat-ali.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\sculpt-tongkat-ali.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Productos en esta categoría"
+    },
+    {
+      "targetRaw": "./tongkat-ali-cafe.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\tongkat-ali-cafe.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Productos en esta categoría"
+    },
+    {
+      "targetRaw": "./latte.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\latte.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Productos en esta categoría"
+    },
+    {
+      "targetRaw": "./cappuccino.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\cappuccino.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Productos en esta categoría"
+    },
+    {
+      "targetRaw": "./hazelnut-latte.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\hazelnut-latte.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Productos en esta categoría"
+    },
+    {
+      "targetRaw": "./mocha.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\mocha.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Productos en esta categoría"
+    },
+    {
+      "targetRaw": "./black.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\black.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Productos en esta categoría"
+    },
+    {
+      "targetRaw": "./hot-chocolate.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\hot-chocolate.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Productos en esta categoría"
+    },
+    {
+      "targetRaw": "./divine-cereal.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\divine-cereal.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Productos en esta categoría"
+    },
+    {
+      "targetRaw": "./latte-dorado.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\latte-dorado.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Productos en esta categoría"
+    },
+    {
+      "targetRaw": "./latte-verde.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\latte-verde.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Productos en esta categoría"
+    },
+    {
+      "targetRaw": "./te-negro.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\te-negro.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Productos en esta categoría"
+    },
+    {
+      "targetRaw": "./te-verde.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\te-verde.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Productos en esta categoría"
+    },
+    {
+      "targetRaw": "../../productos.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Productos en esta categoría"
+    }
+  ],
+  "checksum": "c319ebbdf1df988097a180eebeb0ac73ab27aea2fc0f6086bef134c27773b367",
+  "errores_detectados": [],
+  "advertencias": [],
+  "modulo": "productos"
+}

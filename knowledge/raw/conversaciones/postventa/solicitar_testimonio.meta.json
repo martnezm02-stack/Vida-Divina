@@ -1,0 +1,81 @@
+{
+  "id": "conversaciones/postventa/solicitar_testimonio",
+  "tipo_entidad": "conversacion",
+  "titulo": "Postventa — Solicitar Testimonio",
+  "ruta_original": "docs/conversaciones/postventa/solicitar_testimonio.md",
+  "fecha_compilacion": "2026-08-07T09:35:11.725Z",
+  "version": "0.1.0-mvp",
+  "estado": "compilado",
+  "palabras_clave": [],
+  "relaciones_detectadas": [
+    {
+      "origen_id": "conversaciones/postventa/solicitar_testimonio",
+      "destino_id": "conversaciones/postventa/verificar_satisfaccion",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/postventa/solicitar_testimonio.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/postventa/solicitar_testimonio",
+      "destino_id": "conversaciones/postventa/recomendar_complementarios",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/postventa/solicitar_testimonio.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/postventa/solicitar_testimonio",
+      "destino_id": "conversaciones/postventa/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/postventa/solicitar_testimonio.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/postventa/solicitar_testimonio",
+      "destino_id": "conversaciones/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/postventa/solicitar_testimonio.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/postventa/solicitar_testimonio",
+      "destino_id": "conversaciones/postventa/index",
+      "tipo_relacion": "pertenece_a_categoria",
+      "archivo_origen": "docs/conversaciones/postventa/solicitar_testimonio.md",
+      "verificada": true
+    }
+  ],
+  "referencias": [
+    {
+      "targetRaw": "./verificar_satisfaccion.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\postventa\\verificar_satisfaccion.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./recomendar_complementarios.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\postventa\\recomendar_complementarios.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\postventa\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../README.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\README.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    }
+  ],
+  "checksum": "249250856dd35df20fd25939e83be76e0d982387221b6bcf34fbcd1ed4f1fa83",
+  "errores_detectados": [],
+  "advertencias": [],
+  "modulo": "conversaciones"
+}

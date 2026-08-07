@@ -1,0 +1,179 @@
+{
+  "id": "proceso_de_venta/emprendimiento",
+  "tipo_entidad": "documento_proceso",
+  "titulo": "Emprendimiento",
+  "ruta_original": "docs/proceso_de_venta/emprendimiento.md",
+  "fecha_compilacion": "2026-08-07T09:35:11.750Z",
+  "version": "0.1.0-mvp",
+  "estado": "compilado",
+  "palabras_clave": [],
+  "relaciones_detectadas": [
+    {
+      "origen_id": "proceso_de_venta/emprendimiento",
+      "destino_id": "proceso_de_venta/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/emprendimiento.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/emprendimiento",
+      "destino_id": "proceso_de_venta/flujo_general",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/emprendimiento.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/emprendimiento",
+      "destino_id": "conversaciones/emprendimiento/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/emprendimiento.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/emprendimiento",
+      "destino_id": "clientes/emprendimiento",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/emprendimiento.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/emprendimiento",
+      "destino_id": "proceso_de_venta/postventa",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/emprendimiento.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/emprendimiento",
+      "destino_id": "conversaciones/primer_contacto/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/emprendimiento.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/emprendimiento",
+      "destino_id": "proceso_de_venta/postventa",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/emprendimiento.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/emprendimiento",
+      "destino_id": "conversaciones/emprendimiento/invitacion_cliente_satisfecho",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/emprendimiento.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/emprendimiento",
+      "destino_id": "conversaciones/emprendimiento/respuesta_interes_directo",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/emprendimiento.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/emprendimiento",
+      "destino_id": "proceso_de_venta/estados_del_cliente",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/emprendimiento.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/emprendimiento",
+      "destino_id": "proceso_de_venta/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/emprendimiento.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/emprendimiento",
+      "destino_id": "proceso_de_venta/README",
+      "tipo_relacion": "pertenece_a_categoria",
+      "archivo_origen": "docs/proceso_de_venta/emprendimiento.md",
+      "verificada": true
+    }
+  ],
+  "referencias": [
+    {
+      "targetRaw": "./README.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\README.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./flujo_general.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\flujo_general.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../conversaciones/emprendimiento/index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\emprendimiento\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../clientes/emprendimiento.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\emprendimiento.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./postventa.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\postventa.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Señales válidas para presentar la oportunidad"
+    },
+    {
+      "targetRaw": "../conversaciones/primer_contacto/index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\primer_contacto\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Cuándo NO presentar la oportunidad"
+    },
+    {
+      "targetRaw": "./postventa.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\postventa.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Cuándo NO presentar la oportunidad"
+    },
+    {
+      "targetRaw": "../conversaciones/emprendimiento/invitacion_cliente_satisfecho.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\emprendimiento\\invitacion_cliente_satisfecho.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Cómo proceder cuando sí aplica"
+    },
+    {
+      "targetRaw": "../conversaciones/emprendimiento/respuesta_interes_directo.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\emprendimiento\\respuesta_interes_directo.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Cómo proceder cuando sí aplica"
+    },
+    {
+      "targetRaw": "./estados_del_cliente.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\estados_del_cliente.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Cómo proceder cuando sí aplica"
+    },
+    {
+      "targetRaw": "./README.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\README.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Cómo proceder cuando sí aplica"
+    }
+  ],
+  "checksum": "0ba99cbc930e094d9928555e58c65fa19cc46b4c06851ae220f23e7a4df97bbc",
+  "errores_detectados": [],
+  "advertencias": [],
+  "modulo": "proceso_de_venta"
+}

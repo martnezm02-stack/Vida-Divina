@@ -1,0 +1,264 @@
+{
+  "id": "agente_ia/reglas_de_decision",
+  "tipo_entidad": "regla_decision",
+  "titulo": "Reglas de Decisión",
+  "ruta_original": "docs/agente_ia/reglas_de_decision.md",
+  "fecha_compilacion": "2026-08-07T09:35:11.680Z",
+  "version": "0.1.0-mvp",
+  "estado": "compilado",
+  "palabras_clave": [],
+  "relaciones_detectadas": [
+    {
+      "origen_id": "agente_ia/reglas_de_decision",
+      "destino_id": "agente_ia/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/reglas_de_decision.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/reglas_de_decision",
+      "destino_id": "proceso_de_venta/reglas_de_decision",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/reglas_de_decision.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/reglas_de_decision",
+      "destino_id": "agente_ia/flujo_de_razonamiento",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/reglas_de_decision.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/reglas_de_decision",
+      "destino_id": "clientes/bienestar_general",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/reglas_de_decision.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/reglas_de_decision",
+      "destino_id": "agente_ia/principios",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/reglas_de_decision.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/reglas_de_decision",
+      "destino_id": "agente_ia/flujo_de_razonamiento",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/reglas_de_decision.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/reglas_de_decision",
+      "destino_id": "agente_ia/principios",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/reglas_de_decision.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/reglas_de_decision",
+      "destino_id": "agente_ia/flujo_de_razonamiento",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/reglas_de_decision.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/reglas_de_decision",
+      "destino_id": "agente_ia/prioridades",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/reglas_de_decision.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/reglas_de_decision",
+      "destino_id": "agente_ia/reglas_de_seguridad",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/reglas_de_decision.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/reglas_de_decision",
+      "destino_id": "proceso_de_venta/emprendimiento",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/reglas_de_decision.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/reglas_de_decision",
+      "destino_id": "agente_ia/principios",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/reglas_de_decision.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/reglas_de_decision",
+      "destino_id": "proceso_de_venta/seguimiento",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/reglas_de_decision.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/reglas_de_decision",
+      "destino_id": "agente_ia/memoria",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/reglas_de_decision.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/reglas_de_decision",
+      "destino_id": "proceso_de_venta/postventa",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/reglas_de_decision.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/reglas_de_decision",
+      "destino_id": "agente_ia/prioridades",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/reglas_de_decision.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/reglas_de_decision",
+      "destino_id": "agente_ia/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/reglas_de_decision.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/reglas_de_decision",
+      "destino_id": "agente_ia/README",
+      "tipo_relacion": "pertenece_a_categoria",
+      "archivo_origen": "docs/agente_ia/reglas_de_decision.md",
+      "verificada": true
+    }
+  ],
+  "referencias": [
+    {
+      "targetRaw": "./README.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\README.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../proceso_de_venta/reglas_de_decision.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\reglas_de_decision.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./flujo_de_razonamiento.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\flujo_de_razonamiento.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Perfil desconocido"
+    },
+    {
+      "targetRaw": "../clientes/bienestar_general.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\bienestar_general.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Perfil desconocido"
+    },
+    {
+      "targetRaw": "./principios.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\principios.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Perfil desconocido"
+    },
+    {
+      "targetRaw": "./flujo_de_razonamiento.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\flujo_de_razonamiento.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Perfil identificado"
+    },
+    {
+      "targetRaw": "./principios.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\principios.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Perfil identificado"
+    },
+    {
+      "targetRaw": "./flujo_de_razonamiento.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\flujo_de_razonamiento.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Objeciones"
+    },
+    {
+      "targetRaw": "./prioridades.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\prioridades.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Solicitud médica"
+    },
+    {
+      "targetRaw": "./reglas_de_seguridad.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\reglas_de_seguridad.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Solicitud médica"
+    },
+    {
+      "targetRaw": "../proceso_de_venta/emprendimiento.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\emprendimiento.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Emprendimiento"
+    },
+    {
+      "targetRaw": "./principios.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\principios.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Emprendimiento"
+    },
+    {
+      "targetRaw": "../proceso_de_venta/seguimiento.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\seguimiento.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Seguimiento"
+    },
+    {
+      "targetRaw": "./memoria.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\memoria.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Seguimiento"
+    },
+    {
+      "targetRaw": "../proceso_de_venta/postventa.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\postventa.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Venta cruzada"
+    },
+    {
+      "targetRaw": "./prioridades.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\prioridades.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Regla general de aplicación"
+    },
+    {
+      "targetRaw": "./README.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\README.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Regla general de aplicación"
+    }
+  ],
+  "checksum": "6c37ebea2b50bf084484aab9b4fbfcf39ed13b1897494a39159c36fff7f1f3df",
+  "errores_detectados": [],
+  "advertencias": [],
+  "modulo": "agente_ia",
+  "capa": "cognitiva"
+}

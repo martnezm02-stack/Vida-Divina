@@ -1,0 +1,129 @@
+{
+  "id": "productos/13-linea-radien/radien-qxp-men",
+  "tipo_entidad": "producto",
+  "titulo": "Radien QXP for Men",
+  "ruta_original": "docs/productos/13-linea-radien/radien-qxp-men.md",
+  "fecha_compilacion": "2026-08-07T09:35:11.815Z",
+  "version": "0.1.0-mvp",
+  "estado": "compilado",
+  "palabras_clave": [
+    "skincare para hombres",
+    "anti-edad masculino",
+    "QXP",
+    "colágeno",
+    "daño solar"
+  ],
+  "relaciones_detectadas": [
+    {
+      "origen_id": "productos/13-linea-radien/radien-qxp-men",
+      "destino_id": "productos/13-linea-radien/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/13-linea-radien/radien-qxp-men.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/13-linea-radien/radien-qxp-men",
+      "destino_id": "productos",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/13-linea-radien/radien-qxp-men.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/13-linea-radien/radien-qxp-men",
+      "destino_id": "productos/13-linea-radien/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/13-linea-radien/radien-qxp-men.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/13-linea-radien/radien-qxp-men",
+      "destino_id": "productos/13-linea-radien/radien-cleanser",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/13-linea-radien/radien-qxp-men.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/13-linea-radien/radien-qxp-men",
+      "destino_id": "productos/08-intimidad-libido",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/13-linea-radien/radien-qxp-men.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/13-linea-radien/radien-qxp-men",
+      "destino_id": "productos/13-linea-radien/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/13-linea-radien/radien-qxp-men.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/13-linea-radien/radien-qxp-men",
+      "destino_id": "productos",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/13-linea-radien/radien-qxp-men.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/13-linea-radien/radien-qxp-men",
+      "destino_id": "productos/13-linea-radien/index",
+      "tipo_relacion": "pertenece_a_categoria",
+      "archivo_origen": "docs/productos/13-linea-radien/radien-qxp-men.md",
+      "verificada": true
+    }
+  ],
+  "referencias": [
+    {
+      "targetRaw": "./index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\13-linea-radien\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../productos.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\13-linea-radien\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./radien-cleanser.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\13-linea-radien\\radien-cleanser.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../08-intimidad-libido.md#mars-capsules",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\08-intimidad-libido.md",
+      "anchor": "mars-capsules",
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\13-linea-radien\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../productos.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    }
+  ],
+  "checksum": "b10ba89c8904484b2107eafbd7b0fd01ecf449a636c6199f48cbff6ccaccd168",
+  "errores_detectados": [],
+  "advertencias": [],
+  "modulo": "productos"
+}

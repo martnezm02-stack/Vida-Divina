@@ -1,0 +1,235 @@
+{
+  "id": "proceso_de_venta/manejo_de_objeciones",
+  "tipo_entidad": "documento_proceso",
+  "titulo": "Manejo de Objeciones",
+  "ruta_original": "docs/proceso_de_venta/manejo_de_objeciones.md",
+  "fecha_compilacion": "2026-08-07T09:35:11.755Z",
+  "version": "0.1.0-mvp",
+  "estado": "compilado",
+  "palabras_clave": [],
+  "relaciones_detectadas": [
+    {
+      "origen_id": "proceso_de_venta/manejo_de_objeciones",
+      "destino_id": "proceso_de_venta/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/manejo_de_objeciones.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/manejo_de_objeciones",
+      "destino_id": "proceso_de_venta/flujo_general",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/manejo_de_objeciones.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/manejo_de_objeciones",
+      "destino_id": "proceso_de_venta/descubrimiento",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/manejo_de_objeciones.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/manejo_de_objeciones",
+      "destino_id": "proceso_de_venta/descubrimiento",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/manejo_de_objeciones.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/manejo_de_objeciones",
+      "destino_id": "conversaciones/emprendimiento/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/manejo_de_objeciones.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/manejo_de_objeciones",
+      "destino_id": "proceso_de_venta/reglas_de_decision",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/manejo_de_objeciones.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/manejo_de_objeciones",
+      "destino_id": "objeciones/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/manejo_de_objeciones.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/manejo_de_objeciones",
+      "destino_id": "conversaciones/objeciones/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/manejo_de_objeciones.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/manejo_de_objeciones",
+      "destino_id": "conversaciones/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/manejo_de_objeciones.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/manejo_de_objeciones",
+      "destino_id": "proceso_de_venta/recomendacion",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/manejo_de_objeciones.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/manejo_de_objeciones",
+      "destino_id": "proceso_de_venta/cierre",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/manejo_de_objeciones.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/manejo_de_objeciones",
+      "destino_id": "proceso_de_venta/seguimiento",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/manejo_de_objeciones.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/manejo_de_objeciones",
+      "destino_id": "objeciones/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/manejo_de_objeciones.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/manejo_de_objeciones",
+      "destino_id": "proceso_de_venta/cierre",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/manejo_de_objeciones.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/manejo_de_objeciones",
+      "destino_id": "proceso_de_venta/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/manejo_de_objeciones.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/manejo_de_objeciones",
+      "destino_id": "proceso_de_venta/README",
+      "tipo_relacion": "pertenece_a_categoria",
+      "archivo_origen": "docs/proceso_de_venta/manejo_de_objeciones.md",
+      "verificada": true
+    }
+  ],
+  "referencias": [
+    {
+      "targetRaw": "./README.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\README.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./flujo_general.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\flujo_general.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./descubrimiento.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\descubrimiento.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Cuándo consultar docs/objeciones"
+    },
+    {
+      "targetRaw": "./descubrimiento.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\descubrimiento.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Cuándo consultar docs/objeciones"
+    },
+    {
+      "targetRaw": "../conversaciones/emprendimiento/index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\emprendimiento\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Cuándo consultar docs/objeciones"
+    },
+    {
+      "targetRaw": "./reglas_de_decision.md#tabla-2-señal-de-objeción-y-archivo-a-consultar",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\reglas_de_decision.md",
+      "anchor": "tabla-2-señal-de-objeción-y-archivo-a-consultar",
+      "exists": true,
+      "seccion": "Cómo decidir qué objeción aplicar"
+    },
+    {
+      "targetRaw": "../objeciones/README.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\objeciones\\README.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Cómo decidir qué objeción aplicar"
+    },
+    {
+      "targetRaw": "../conversaciones/objeciones/index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\objeciones\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Cómo decidir qué objeción aplicar"
+    },
+    {
+      "targetRaw": "../conversaciones/README.md#reglas-generales-aplican-a-todo-el-módulo",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\README.md",
+      "anchor": "reglas-generales-aplican-a-todo-el-módulo",
+      "exists": true,
+      "seccion": "Cómo decidir qué objeción aplicar"
+    },
+    {
+      "targetRaw": "./recomendacion.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\recomendacion.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Cómo volver al proceso de venta después de resolver una objeción"
+    },
+    {
+      "targetRaw": "./cierre.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\cierre.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Cómo volver al proceso de venta después de resolver una objeción"
+    },
+    {
+      "targetRaw": "./seguimiento.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\seguimiento.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Cómo volver al proceso de venta después de resolver una objeción"
+    },
+    {
+      "targetRaw": "../objeciones/README.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\objeciones\\README.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Cómo volver al proceso de venta después de resolver una objeción"
+    },
+    {
+      "targetRaw": "./cierre.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\cierre.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Qué NO hacer en este paso"
+    },
+    {
+      "targetRaw": "./README.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\README.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Qué NO hacer en este paso"
+    }
+  ],
+  "checksum": "aaae4eb66b310fd5396ab124f4f0c8ea23e620c982e42ddb930be0f696b3aa9b",
+  "errores_detectados": [],
+  "advertencias": [],
+  "modulo": "proceso_de_venta"
+}

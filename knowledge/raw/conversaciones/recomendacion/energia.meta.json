@@ -1,0 +1,221 @@
+{
+  "id": "conversaciones/recomendacion/energia",
+  "tipo_entidad": "conversacion",
+  "titulo": "Recomendación — Energía",
+  "ruta_original": "docs/conversaciones/recomendacion/energia.md",
+  "fecha_compilacion": "2026-08-07T09:35:11.733Z",
+  "version": "0.1.0-mvp",
+  "estado": "compilado",
+  "palabras_clave": [],
+  "relaciones_detectadas": [
+    {
+      "origen_id": "conversaciones/recomendacion/energia",
+      "destino_id": "conversaciones/descubrimiento/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/recomendacion/energia.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/recomendacion/energia",
+      "destino_id": "clientes/energia",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/recomendacion/energia.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/recomendacion/energia",
+      "destino_id": "productos/01-control-de-peso/atom-capsules",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/recomendacion/energia.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/recomendacion/energia",
+      "destino_id": "productos/02-cafe-divina/sculpt-black",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/recomendacion/energia.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/recomendacion/energia",
+      "destino_id": "productos/10-energia-antioxidantes/orange-genius",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/recomendacion/energia.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/recomendacion/energia",
+      "destino_id": "productos/10-energia-antioxidantes/mundo-azul",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/recomendacion/energia.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/recomendacion/energia",
+      "destino_id": "clientes/rendimiento_deportivo",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/recomendacion/energia.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/recomendacion/energia",
+      "destino_id": "productos/02-cafe-divina/sculpt-black",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/recomendacion/energia.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/recomendacion/energia",
+      "destino_id": "productos/02-cafe-divina/latte",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/recomendacion/energia.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/recomendacion/energia",
+      "destino_id": "conversaciones/cierre/cierre_venta",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/recomendacion/energia.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/recomendacion/energia",
+      "destino_id": "conversaciones/recomendacion/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/recomendacion/energia.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/recomendacion/energia",
+      "destino_id": "clientes/rendimiento_deportivo",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/recomendacion/energia.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/recomendacion/energia",
+      "destino_id": "conversaciones/recomendacion/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/recomendacion/energia.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/recomendacion/energia",
+      "destino_id": "conversaciones/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/recomendacion/energia.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/recomendacion/energia",
+      "destino_id": "conversaciones/recomendacion/index",
+      "tipo_relacion": "pertenece_a_categoria",
+      "archivo_origen": "docs/conversaciones/recomendacion/energia.md",
+      "verificada": true
+    }
+  ],
+  "referencias": [
+    {
+      "targetRaw": "../descubrimiento/index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\descubrimiento\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../clientes/energia.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\energia.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../productos/01-control-de-peso/atom-capsules.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\01-control-de-peso\\atom-capsules.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../productos/02-cafe-divina/sculpt-black.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\sculpt-black.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../productos/10-energia-antioxidantes/orange-genius.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\10-energia-antioxidantes\\orange-genius.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../productos/10-energia-antioxidantes/mundo-azul.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\10-energia-antioxidantes\\mundo-azul.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../clientes/rendimiento_deportivo.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\rendimiento_deportivo.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../productos/02-cafe-divina/sculpt-black.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\sculpt-black.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../productos/02-cafe-divina/latte.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\latte.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../cierre/cierre_venta.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\cierre\\cierre_venta.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\recomendacion\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../clientes/rendimiento_deportivo.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\rendimiento_deportivo.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\recomendacion\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../README.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\README.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    }
+  ],
+  "checksum": "45c090655f186eaf6a66d683bde820937ce29f7ed3f04960d99d3b2cd350f323",
+  "errores_detectados": [],
+  "advertencias": [],
+  "modulo": "conversaciones"
+}

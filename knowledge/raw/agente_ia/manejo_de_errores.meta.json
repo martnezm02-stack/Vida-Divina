@@ -1,0 +1,179 @@
+{
+  "id": "agente_ia/manejo_de_errores",
+  "tipo_entidad": "documento_cognitivo",
+  "titulo": "Manejo de Errores",
+  "ruta_original": "docs/agente_ia/manejo_de_errores.md",
+  "fecha_compilacion": "2026-08-07T09:35:11.674Z",
+  "version": "0.1.0-mvp",
+  "estado": "compilado",
+  "palabras_clave": [],
+  "relaciones_detectadas": [
+    {
+      "origen_id": "agente_ia/manejo_de_errores",
+      "destino_id": "agente_ia/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/manejo_de_errores.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/manejo_de_errores",
+      "destino_id": "agente_ia/herramientas",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/manejo_de_errores.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/manejo_de_errores",
+      "destino_id": "agente_ia/principios",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/manejo_de_errores.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/manejo_de_errores",
+      "destino_id": "agente_ia/reglas_de_decision",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/manejo_de_errores.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/manejo_de_errores",
+      "destino_id": "clientes/bienestar_general",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/manejo_de_errores.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/manejo_de_errores",
+      "destino_id": "agente_ia/comportamiento",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/manejo_de_errores.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/manejo_de_errores",
+      "destino_id": "agente_ia/flujo_de_razonamiento",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/manejo_de_errores.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/manejo_de_errores",
+      "destino_id": "agente_ia/memoria",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/manejo_de_errores.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/manejo_de_errores",
+      "destino_id": "agente_ia/reglas_de_seguridad",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/manejo_de_errores.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/manejo_de_errores",
+      "destino_id": "agente_ia/prioridades",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/manejo_de_errores.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/manejo_de_errores",
+      "destino_id": "agente_ia/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/manejo_de_errores.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/manejo_de_errores",
+      "destino_id": "agente_ia/README",
+      "tipo_relacion": "pertenece_a_categoria",
+      "archivo_origen": "docs/agente_ia/manejo_de_errores.md",
+      "verificada": true
+    }
+  ],
+  "referencias": [
+    {
+      "targetRaw": "./README.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\README.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./herramientas.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\herramientas.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "No existe información"
+    },
+    {
+      "targetRaw": "./principios.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\principios.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "No existe información"
+    },
+    {
+      "targetRaw": "./reglas_de_decision.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\reglas_de_decision.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "El perfil no puede identificarse"
+    },
+    {
+      "targetRaw": "../clientes/bienestar_general.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\bienestar_general.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "El perfil no puede identificarse"
+    },
+    {
+      "targetRaw": "./comportamiento.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\comportamiento.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "El cliente cambia de tema"
+    },
+    {
+      "targetRaw": "./flujo_de_razonamiento.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\flujo_de_razonamiento.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "El cliente cambia de tema"
+    },
+    {
+      "targetRaw": "./memoria.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\memoria.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "El cliente cambia de tema"
+    },
+    {
+      "targetRaw": "./reglas_de_seguridad.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\reglas_de_seguridad.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "El cliente hace preguntas médicas"
+    },
+    {
+      "targetRaw": "./prioridades.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\prioridades.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Principio común a todos los casos"
+    },
+    {
+      "targetRaw": "./README.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\README.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Principio común a todos los casos"
+    }
+  ],
+  "checksum": "e7eb14a00e004b624ed9048555f627a716f4dc49e922fd4e642e2b08961191c9",
+  "errores_detectados": [],
+  "advertencias": [],
+  "modulo": "agente_ia"
+}

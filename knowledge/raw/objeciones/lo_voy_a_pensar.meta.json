@@ -1,0 +1,151 @@
+{
+  "id": "objeciones/lo_voy_a_pensar",
+  "tipo_entidad": "objecion",
+  "titulo": "Objeción — \"Lo Voy a Pensar\"",
+  "ruta_original": "docs/objeciones/lo_voy_a_pensar.md",
+  "fecha_compilacion": "2026-08-07T09:35:11.743Z",
+  "version": "0.1.0-mvp",
+  "estado": "compilado",
+  "palabras_clave": [],
+  "relaciones_detectadas": [
+    {
+      "origen_id": "objeciones/lo_voy_a_pensar",
+      "destino_id": "clientes/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/objeciones/lo_voy_a_pensar.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "objeciones/lo_voy_a_pensar",
+      "destino_id": "productos",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/objeciones/lo_voy_a_pensar.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "objeciones/lo_voy_a_pensar",
+      "destino_id": "conversaciones/objeciones/lo_voy_a_pensar",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/objeciones/lo_voy_a_pensar.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "objeciones/lo_voy_a_pensar",
+      "destino_id": "conversaciones/recomendacion/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/objeciones/lo_voy_a_pensar.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "objeciones/lo_voy_a_pensar",
+      "destino_id": "conversaciones/cierre/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/objeciones/lo_voy_a_pensar.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "objeciones/lo_voy_a_pensar",
+      "destino_id": "conversaciones/seguimiento/seguimiento_3dias",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/objeciones/lo_voy_a_pensar.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "objeciones/lo_voy_a_pensar",
+      "destino_id": "conversaciones/seguimiento/seguimiento_7dias",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/objeciones/lo_voy_a_pensar.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "objeciones/lo_voy_a_pensar",
+      "destino_id": "conversaciones/seguimiento/seguimiento_15dias",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/objeciones/lo_voy_a_pensar.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "objeciones/lo_voy_a_pensar",
+      "destino_id": "objeciones/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/objeciones/lo_voy_a_pensar.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "objeciones/lo_voy_a_pensar",
+      "destino_id": "objeciones/README",
+      "tipo_relacion": "pertenece_a_categoria",
+      "archivo_origen": "docs/objeciones/lo_voy_a_pensar.md",
+      "verificada": true
+    }
+  ],
+  "referencias": [
+    {
+      "targetRaw": "../clientes/README.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\README.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Enlaces a productos relevantes"
+    },
+    {
+      "targetRaw": "../productos.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Enlaces a productos relevantes"
+    },
+    {
+      "targetRaw": "../conversaciones/objeciones/lo_voy_a_pensar.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\objeciones\\lo_voy_a_pensar.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Cómo integrarlo en las conversaciones existentes"
+    },
+    {
+      "targetRaw": "../conversaciones/recomendacion/index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\recomendacion\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Cómo integrarlo en las conversaciones existentes"
+    },
+    {
+      "targetRaw": "../conversaciones/cierre/index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\cierre\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Cómo integrarlo en las conversaciones existentes"
+    },
+    {
+      "targetRaw": "../conversaciones/seguimiento/seguimiento_3dias.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\seguimiento\\seguimiento_3dias.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Cómo integrarlo en las conversaciones existentes"
+    },
+    {
+      "targetRaw": "../conversaciones/seguimiento/seguimiento_7dias.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\seguimiento\\seguimiento_7dias.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Cómo integrarlo en las conversaciones existentes"
+    },
+    {
+      "targetRaw": "../conversaciones/seguimiento/seguimiento_15dias.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\seguimiento\\seguimiento_15dias.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Cómo integrarlo en las conversaciones existentes"
+    },
+    {
+      "targetRaw": "./README.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\objeciones\\README.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Notas comerciales"
+    }
+  ],
+  "checksum": "7a026af0ed3d08eb91182e1e1adc71c4e1d45038ceba6f57b460cf40ad1edb73",
+  "errores_detectados": [],
+  "advertencias": [],
+  "modulo": "objeciones"
+}

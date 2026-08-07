@@ -1,0 +1,277 @@
+{
+  "id": "proceso_de_venta/seguimiento",
+  "tipo_entidad": "documento_proceso",
+  "titulo": "Seguimiento",
+  "ruta_original": "docs/proceso_de_venta/seguimiento.md",
+  "fecha_compilacion": "2026-08-07T09:35:11.764Z",
+  "version": "0.1.0-mvp",
+  "estado": "compilado",
+  "palabras_clave": [],
+  "relaciones_detectadas": [
+    {
+      "origen_id": "proceso_de_venta/seguimiento",
+      "destino_id": "proceso_de_venta/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/seguimiento.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/seguimiento",
+      "destino_id": "proceso_de_venta/flujo_general",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/seguimiento.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/seguimiento",
+      "destino_id": "conversaciones/seguimiento/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/seguimiento.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/seguimiento",
+      "destino_id": "proceso_de_venta/manejo_de_objeciones",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/seguimiento.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/seguimiento",
+      "destino_id": "conversaciones/seguimiento/seguimiento_24h",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/seguimiento.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/seguimiento",
+      "destino_id": "conversaciones/seguimiento/seguimiento_3dias",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/seguimiento.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/seguimiento",
+      "destino_id": "conversaciones/seguimiento/seguimiento_3dias",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/seguimiento.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/seguimiento",
+      "destino_id": "conversaciones/seguimiento/seguimiento_7dias",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/seguimiento.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/seguimiento",
+      "destino_id": "conversaciones/seguimiento/seguimiento_7dias",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/seguimiento.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/seguimiento",
+      "destino_id": "conversaciones/seguimiento/seguimiento_15dias",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/seguimiento.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/seguimiento",
+      "destino_id": "conversaciones/seguimiento/seguimiento_30dias",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/seguimiento.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/seguimiento",
+      "destino_id": "conversaciones/seguimiento/seguimiento_15dias",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/seguimiento.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/seguimiento",
+      "destino_id": "conversaciones/seguimiento/seguimiento_30dias",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/seguimiento.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/seguimiento",
+      "destino_id": "conversaciones/seguimiento/seguimiento_30dias",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/seguimiento.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/seguimiento",
+      "destino_id": "proceso_de_venta/recomendacion",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/seguimiento.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/seguimiento",
+      "destino_id": "proceso_de_venta/cierre",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/seguimiento.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/seguimiento",
+      "destino_id": "proceso_de_venta/manejo_de_objeciones",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/seguimiento.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/seguimiento",
+      "destino_id": "proceso_de_venta/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/seguimiento.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/seguimiento",
+      "destino_id": "proceso_de_venta/README",
+      "tipo_relacion": "pertenece_a_categoria",
+      "archivo_origen": "docs/proceso_de_venta/seguimiento.md",
+      "verificada": true
+    }
+  ],
+  "referencias": [
+    {
+      "targetRaw": "./README.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\README.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./flujo_general.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\flujo_general.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../conversaciones/seguimiento/index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\seguimiento\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./manejo_de_objeciones.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\manejo_de_objeciones.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Regla general"
+    },
+    {
+      "targetRaw": "../conversaciones/seguimiento/seguimiento_24h.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\seguimiento\\seguimiento_24h.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Tabla de decisión: motivo de pausa → tiempo de seguimiento"
+    },
+    {
+      "targetRaw": "../conversaciones/seguimiento/seguimiento_3dias.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\seguimiento\\seguimiento_3dias.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Tabla de decisión: motivo de pausa → tiempo de seguimiento"
+    },
+    {
+      "targetRaw": "../conversaciones/seguimiento/seguimiento_3dias.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\seguimiento\\seguimiento_3dias.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Tabla de decisión: motivo de pausa → tiempo de seguimiento"
+    },
+    {
+      "targetRaw": "../conversaciones/seguimiento/seguimiento_7dias.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\seguimiento\\seguimiento_7dias.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Tabla de decisión: motivo de pausa → tiempo de seguimiento"
+    },
+    {
+      "targetRaw": "../conversaciones/seguimiento/seguimiento_7dias.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\seguimiento\\seguimiento_7dias.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Tabla de decisión: motivo de pausa → tiempo de seguimiento"
+    },
+    {
+      "targetRaw": "../conversaciones/seguimiento/seguimiento_15dias.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\seguimiento\\seguimiento_15dias.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Tabla de decisión: motivo de pausa → tiempo de seguimiento"
+    },
+    {
+      "targetRaw": "../conversaciones/seguimiento/seguimiento_30dias.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\seguimiento\\seguimiento_30dias.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Tabla de decisión: motivo de pausa → tiempo de seguimiento"
+    },
+    {
+      "targetRaw": "../conversaciones/seguimiento/seguimiento_15dias.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\seguimiento\\seguimiento_15dias.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Tabla de decisión: motivo de pausa → tiempo de seguimiento"
+    },
+    {
+      "targetRaw": "../conversaciones/seguimiento/seguimiento_30dias.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\seguimiento\\seguimiento_30dias.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Tabla de decisión: motivo de pausa → tiempo de seguimiento"
+    },
+    {
+      "targetRaw": "../conversaciones/seguimiento/seguimiento_30dias.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\seguimiento\\seguimiento_30dias.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Qué hacer si no hay respuesta tras el seguimiento de 30 días"
+    },
+    {
+      "targetRaw": "./recomendacion.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\recomendacion.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Qué hacer si el cliente responde durante el seguimiento"
+    },
+    {
+      "targetRaw": "./cierre.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\cierre.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Qué hacer si el cliente responde durante el seguimiento"
+    },
+    {
+      "targetRaw": "./manejo_de_objeciones.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\manejo_de_objeciones.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Qué hacer si el cliente responde durante el seguimiento"
+    },
+    {
+      "targetRaw": "./README.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\README.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Qué NO hacer"
+    }
+  ],
+  "checksum": "3b77d3a0d695fa7f85bef7cde899086755a5e348f988642a4a33b3816a040964",
+  "errores_detectados": [],
+  "advertencias": [],
+  "modulo": "proceso_de_venta"
+}

@@ -1,0 +1,368 @@
+{
+  "id": "conversaciones/recomendacion/index",
+  "tipo_entidad": "indice_categoria",
+  "titulo": "Recomendación",
+  "ruta_original": "docs/conversaciones/recomendacion/index.md",
+  "fecha_compilacion": "2026-08-07T09:35:11.735Z",
+  "version": "0.1.0-mvp",
+  "estado": "compilado",
+  "palabras_clave": [],
+  "relaciones_detectadas": [
+    {
+      "origen_id": "conversaciones/recomendacion/index",
+      "destino_id": "conversaciones/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/recomendacion/index.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/recomendacion/index",
+      "destino_id": "conversaciones/descubrimiento/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/recomendacion/index.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/recomendacion/index",
+      "destino_id": "clientes/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/recomendacion/index.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/recomendacion/index",
+      "destino_id": "clientes/bienestar_general",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/recomendacion/index.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/recomendacion/index",
+      "destino_id": "conversaciones/recomendacion/bienestar_general",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/recomendacion/index.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/recomendacion/index",
+      "destino_id": "clientes/perder_peso",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/recomendacion/index.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/recomendacion/index",
+      "destino_id": "conversaciones/recomendacion/perder_peso",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/recomendacion/index.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/recomendacion/index",
+      "destino_id": "clientes/energia",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/recomendacion/index.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/recomendacion/index",
+      "destino_id": "conversaciones/recomendacion/energia",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/recomendacion/index.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/recomendacion/index",
+      "destino_id": "clientes/belleza_anti_edad",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/recomendacion/index.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/recomendacion/index",
+      "destino_id": "conversaciones/recomendacion/belleza_anti_edad",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/recomendacion/index.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/recomendacion/index",
+      "destino_id": "clientes/sistema_inmunologico",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/recomendacion/index.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/recomendacion/index",
+      "destino_id": "conversaciones/recomendacion/sistema_inmunologico",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/recomendacion/index.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/recomendacion/index",
+      "destino_id": "clientes/longevidad",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/recomendacion/index.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/recomendacion/index",
+      "destino_id": "clientes/control_glucosa",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/recomendacion/index.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/recomendacion/index",
+      "destino_id": "clientes/salud_digestiva",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/recomendacion/index.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/recomendacion/index",
+      "destino_id": "clientes/rendimiento_deportivo",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/recomendacion/index.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/recomendacion/index",
+      "destino_id": "clientes/salud_cognitiva",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/recomendacion/index.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/recomendacion/index",
+      "destino_id": "clientes/dolor_articulaciones",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/recomendacion/index.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/recomendacion/index",
+      "destino_id": "clientes/salud_intima_libido",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/recomendacion/index.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/recomendacion/index",
+      "destino_id": "clientes/cuidado_personal",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/recomendacion/index.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/recomendacion/index",
+      "destino_id": "clientes/salud_visual",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/recomendacion/index.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/recomendacion/index",
+      "destino_id": "clientes/descanso_sueno",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/recomendacion/index.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/recomendacion/index",
+      "destino_id": "conversaciones/emprendimiento/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/recomendacion/index.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/recomendacion/index",
+      "destino_id": "conversaciones/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/recomendacion/index.md",
+      "verificada": true
+    }
+  ],
+  "referencias": [
+    {
+      "targetRaw": "../README.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\README.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../descubrimiento/index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\descubrimiento\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../clientes/README.md#índice-de-perfiles-de-clientes",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\README.md",
+      "anchor": "índice-de-perfiles-de-clientes",
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../clientes/bienestar_general.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\bienestar_general.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Construidos"
+    },
+    {
+      "targetRaw": "./bienestar_general.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\recomendacion\\bienestar_general.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Construidos"
+    },
+    {
+      "targetRaw": "../../clientes/perder_peso.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\perder_peso.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Construidos"
+    },
+    {
+      "targetRaw": "./perder_peso.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\recomendacion\\perder_peso.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Construidos"
+    },
+    {
+      "targetRaw": "../../clientes/energia.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\energia.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Construidos"
+    },
+    {
+      "targetRaw": "./energia.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\recomendacion\\energia.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Construidos"
+    },
+    {
+      "targetRaw": "../../clientes/belleza_anti_edad.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\belleza_anti_edad.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Construidos"
+    },
+    {
+      "targetRaw": "./belleza_anti_edad.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\recomendacion\\belleza_anti_edad.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Construidos"
+    },
+    {
+      "targetRaw": "../../clientes/sistema_inmunologico.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\sistema_inmunologico.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Construidos"
+    },
+    {
+      "targetRaw": "./sistema_inmunologico.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\recomendacion\\sistema_inmunologico.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Construidos"
+    },
+    {
+      "targetRaw": "../../clientes/longevidad.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\longevidad.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Pendientes (estructura lista, no construidos aún)"
+    },
+    {
+      "targetRaw": "../../clientes/control_glucosa.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\control_glucosa.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Pendientes (estructura lista, no construidos aún)"
+    },
+    {
+      "targetRaw": "../../clientes/salud_digestiva.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\salud_digestiva.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Pendientes (estructura lista, no construidos aún)"
+    },
+    {
+      "targetRaw": "../../clientes/rendimiento_deportivo.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\rendimiento_deportivo.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Pendientes (estructura lista, no construidos aún)"
+    },
+    {
+      "targetRaw": "../../clientes/salud_cognitiva.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\salud_cognitiva.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Pendientes (estructura lista, no construidos aún)"
+    },
+    {
+      "targetRaw": "../../clientes/dolor_articulaciones.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\dolor_articulaciones.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Pendientes (estructura lista, no construidos aún)"
+    },
+    {
+      "targetRaw": "../../clientes/salud_intima_libido.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\salud_intima_libido.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Pendientes (estructura lista, no construidos aún)"
+    },
+    {
+      "targetRaw": "../../clientes/cuidado_personal.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\cuidado_personal.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Pendientes (estructura lista, no construidos aún)"
+    },
+    {
+      "targetRaw": "../../clientes/salud_visual.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\salud_visual.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Pendientes (estructura lista, no construidos aún)"
+    },
+    {
+      "targetRaw": "../../clientes/descanso_sueno.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\descanso_sueno.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Pendientes (estructura lista, no construidos aún)"
+    },
+    {
+      "targetRaw": "../emprendimiento/index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\emprendimiento\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Pendientes (estructura lista, no construidos aún)"
+    },
+    {
+      "targetRaw": "../README.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\README.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Pendientes (estructura lista, no construidos aún)"
+    }
+  ],
+  "checksum": "e51d0af01bc90161bcf6f1ce2df7c3b5d4b7fa9ae050546acfa244f7eb9d9871",
+  "errores_detectados": [],
+  "advertencias": [],
+  "modulo": "conversaciones"
+}

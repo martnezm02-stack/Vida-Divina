@@ -1,0 +1,122 @@
+{
+  "id": "productos/08-intimidad-libido",
+  "tipo_entidad": "producto",
+  "titulo": "Categoría: Intimidad y Libido",
+  "ruta_original": "docs/productos/08-intimidad-libido.md",
+  "fecha_compilacion": "2026-08-07T09:35:11.797Z",
+  "version": "0.1.0-mvp",
+  "estado": "compilado",
+  "palabras_clave": [
+    "libido masculina",
+    "tongkat ali",
+    "horny goat weed",
+    "disfunción eréctil",
+    "energía masculina"
+  ],
+  "relaciones_detectadas": [
+    {
+      "origen_id": "productos/08-intimidad-libido",
+      "destino_id": "productos",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/08-intimidad-libido.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/08-intimidad-libido",
+      "destino_id": "productos/07-rendimiento-fisico",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/08-intimidad-libido.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/08-intimidad-libido",
+      "destino_id": "productos/02-cafe-divina/sculpt-tongkat-ali",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/08-intimidad-libido.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/08-intimidad-libido",
+      "destino_id": "productos/02-cafe-divina/tongkat-ali-cafe",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/08-intimidad-libido.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/08-intimidad-libido",
+      "destino_id": "productos/04-funcion-cognitiva",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/08-intimidad-libido.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/08-intimidad-libido",
+      "destino_id": "productos/13-linea-radien/radien-collagen-elixir",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/08-intimidad-libido.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/08-intimidad-libido",
+      "destino_id": "productos",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/08-intimidad-libido.md",
+      "verificada": true
+    }
+  ],
+  "referencias": [
+    {
+      "targetRaw": "../productos.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./07-rendimiento-fisico.md#ripped-capsules",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\07-rendimiento-fisico.md",
+      "anchor": "ripped-capsules",
+      "exists": true,
+      "seccion": "Mars Capsules"
+    },
+    {
+      "targetRaw": "./02-cafe-divina/sculpt-tongkat-ali.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\sculpt-tongkat-ali.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Mars Capsules"
+    },
+    {
+      "targetRaw": "./02-cafe-divina/tongkat-ali-cafe.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\tongkat-ali-cafe.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Mars Capsules"
+    },
+    {
+      "targetRaw": "./04-funcion-cognitiva.md#youth-capsules",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\04-funcion-cognitiva.md",
+      "anchor": "youth-capsules",
+      "exists": true,
+      "seccion": "Venus Capsules"
+    },
+    {
+      "targetRaw": "./13-linea-radien/radien-collagen-elixir.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\13-linea-radien\\radien-collagen-elixir.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Venus Capsules"
+    },
+    {
+      "targetRaw": "../productos.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Venus Capsules"
+    }
+  ],
+  "checksum": "7e43be3b03ab270a1f011de0f7214e609974f87e81727d71472dc4e775a2ddfc",
+  "errores_detectados": [],
+  "advertencias": [],
+  "modulo": "productos"
+}

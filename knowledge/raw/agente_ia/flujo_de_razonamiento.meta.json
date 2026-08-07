@@ -1,0 +1,207 @@
+{
+  "id": "agente_ia/flujo_de_razonamiento",
+  "tipo_entidad": "documento_cognitivo",
+  "titulo": "Flujo de Razonamiento",
+  "ruta_original": "docs/agente_ia/flujo_de_razonamiento.md",
+  "fecha_compilacion": "2026-08-07T09:35:11.670Z",
+  "version": "0.1.0-mvp",
+  "estado": "compilado",
+  "palabras_clave": [],
+  "relaciones_detectadas": [
+    {
+      "origen_id": "agente_ia/flujo_de_razonamiento",
+      "destino_id": "agente_ia/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/flujo_de_razonamiento.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/flujo_de_razonamiento",
+      "destino_id": "proceso_de_venta/flujo_general",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/flujo_de_razonamiento.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/flujo_de_razonamiento",
+      "destino_id": "agente_ia/manejo_de_errores",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/flujo_de_razonamiento.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/flujo_de_razonamiento",
+      "destino_id": "clientes/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/flujo_de_razonamiento.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/flujo_de_razonamiento",
+      "destino_id": "agente_ia/reglas_de_decision",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/flujo_de_razonamiento.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/flujo_de_razonamiento",
+      "destino_id": "proceso_de_venta/reglas_de_decision",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/flujo_de_razonamiento.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/flujo_de_razonamiento",
+      "destino_id": "proceso_de_venta/reglas_de_decision",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/flujo_de_razonamiento.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/flujo_de_razonamiento",
+      "destino_id": "agente_ia/comportamiento",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/flujo_de_razonamiento.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/flujo_de_razonamiento",
+      "destino_id": "agente_ia/reglas_de_seguridad",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/flujo_de_razonamiento.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/flujo_de_razonamiento",
+      "destino_id": "agente_ia/memoria",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/flujo_de_razonamiento.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/flujo_de_razonamiento",
+      "destino_id": "agente_ia/reglas_de_seguridad",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/flujo_de_razonamiento.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/flujo_de_razonamiento",
+      "destino_id": "agente_ia/prioridades",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/flujo_de_razonamiento.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/flujo_de_razonamiento",
+      "destino_id": "agente_ia/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/flujo_de_razonamiento.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/flujo_de_razonamiento",
+      "destino_id": "agente_ia/README",
+      "tipo_relacion": "pertenece_a_categoria",
+      "archivo_origen": "docs/agente_ia/flujo_de_razonamiento.md",
+      "verificada": true
+    }
+  ],
+  "referencias": [
+    {
+      "targetRaw": "./README.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\README.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../proceso_de_venta/flujo_general.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\flujo_general.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./manejo_de_errores.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\manejo_de_errores.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Los 11 pasos"
+    },
+    {
+      "targetRaw": "../clientes/README.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\README.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Los 11 pasos"
+    },
+    {
+      "targetRaw": "./reglas_de_decision.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\reglas_de_decision.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Los 11 pasos"
+    },
+    {
+      "targetRaw": "../proceso_de_venta/reglas_de_decision.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\reglas_de_decision.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Los 11 pasos"
+    },
+    {
+      "targetRaw": "../proceso_de_venta/reglas_de_decision.md#tabla-2-señal-de-objeción-y-archivo-a-consultar",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\reglas_de_decision.md",
+      "anchor": "tabla-2-señal-de-objeción-y-archivo-a-consultar",
+      "exists": true,
+      "seccion": "Los 11 pasos"
+    },
+    {
+      "targetRaw": "./comportamiento.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\comportamiento.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Los 11 pasos"
+    },
+    {
+      "targetRaw": "./reglas_de_seguridad.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\reglas_de_seguridad.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Los 11 pasos"
+    },
+    {
+      "targetRaw": "./memoria.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\memoria.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Los 11 pasos"
+    },
+    {
+      "targetRaw": "./reglas_de_seguridad.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\reglas_de_seguridad.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Qué hacer si el flujo se interrumpe a medio camino"
+    },
+    {
+      "targetRaw": "./prioridades.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\prioridades.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Qué hacer si el flujo se interrumpe a medio camino"
+    },
+    {
+      "targetRaw": "./README.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\README.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Qué hacer si el flujo se interrumpe a medio camino"
+    }
+  ],
+  "checksum": "e2a624abbc796c00eeeba2aa045c0da342e5974b6e01520863837ae0b00d8d46",
+  "errores_detectados": [],
+  "advertencias": [],
+  "modulo": "agente_ia"
+}

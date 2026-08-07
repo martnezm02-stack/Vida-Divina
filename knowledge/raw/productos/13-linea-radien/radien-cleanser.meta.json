@@ -1,0 +1,129 @@
+{
+  "id": "productos/13-linea-radien/radien-cleanser",
+  "tipo_entidad": "producto",
+  "titulo": "Radien Advanced Renewal Cleanser",
+  "ruta_original": "docs/productos/13-linea-radien/radien-cleanser.md",
+  "fecha_compilacion": "2026-08-07T09:35:11.812Z",
+  "version": "0.1.0-mvp",
+  "estado": "compilado",
+  "palabras_clave": [
+    "limpiador facial",
+    "QXP",
+    "exfoliación suave",
+    "rutina facial",
+    "paso 1"
+  ],
+  "relaciones_detectadas": [
+    {
+      "origen_id": "productos/13-linea-radien/radien-cleanser",
+      "destino_id": "productos/13-linea-radien/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/13-linea-radien/radien-cleanser.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/13-linea-radien/radien-cleanser",
+      "destino_id": "productos",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/13-linea-radien/radien-cleanser.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/13-linea-radien/radien-cleanser",
+      "destino_id": "productos/13-linea-radien/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/13-linea-radien/radien-cleanser.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/13-linea-radien/radien-cleanser",
+      "destino_id": "productos/13-linea-radien/radien-toner",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/13-linea-radien/radien-cleanser.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/13-linea-radien/radien-cleanser",
+      "destino_id": "productos/13-linea-radien/radien-day-creme",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/13-linea-radien/radien-cleanser.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/13-linea-radien/radien-cleanser",
+      "destino_id": "productos/13-linea-radien/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/13-linea-radien/radien-cleanser.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/13-linea-radien/radien-cleanser",
+      "destino_id": "productos",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/13-linea-radien/radien-cleanser.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/13-linea-radien/radien-cleanser",
+      "destino_id": "productos/13-linea-radien/index",
+      "tipo_relacion": "pertenece_a_categoria",
+      "archivo_origen": "docs/productos/13-linea-radien/radien-cleanser.md",
+      "verificada": true
+    }
+  ],
+  "referencias": [
+    {
+      "targetRaw": "./index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\13-linea-radien\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../productos.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\13-linea-radien\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./radien-toner.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\13-linea-radien\\radien-toner.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./radien-day-creme.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\13-linea-radien\\radien-day-creme.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\13-linea-radien\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../productos.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    }
+  ],
+  "checksum": "fddafd697bc0920c3f9d5fdbe5a7e2669b66143beb2719d9931de41ec6fa4efe",
+  "errores_detectados": [],
+  "advertencias": [],
+  "modulo": "productos"
+}

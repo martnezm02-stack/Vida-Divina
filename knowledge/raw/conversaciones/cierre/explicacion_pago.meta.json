@@ -1,0 +1,81 @@
+{
+  "id": "conversaciones/cierre/explicacion_pago",
+  "tipo_entidad": "conversacion",
+  "titulo": "Cierre — Explicación de Pago",
+  "ruta_original": "docs/conversaciones/cierre/explicacion_pago.md",
+  "fecha_compilacion": "2026-08-07T09:35:11.709Z",
+  "version": "0.1.0-mvp",
+  "estado": "compilado",
+  "palabras_clave": [],
+  "relaciones_detectadas": [
+    {
+      "origen_id": "conversaciones/cierre/explicacion_pago",
+      "destino_id": "conversaciones/cierre/confirmacion_pedido",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/cierre/explicacion_pago.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/cierre/explicacion_pago",
+      "destino_id": "conversaciones/cierre/confirmacion_envio",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/cierre/explicacion_pago.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/cierre/explicacion_pago",
+      "destino_id": "conversaciones/cierre/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/cierre/explicacion_pago.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/cierre/explicacion_pago",
+      "destino_id": "conversaciones/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/cierre/explicacion_pago.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/cierre/explicacion_pago",
+      "destino_id": "conversaciones/cierre/index",
+      "tipo_relacion": "pertenece_a_categoria",
+      "archivo_origen": "docs/conversaciones/cierre/explicacion_pago.md",
+      "verificada": true
+    }
+  ],
+  "referencias": [
+    {
+      "targetRaw": "./confirmacion_pedido.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\cierre\\confirmacion_pedido.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./confirmacion_envio.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\cierre\\confirmacion_envio.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\cierre\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../README.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\README.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    }
+  ],
+  "checksum": "87a78af06bedd7303800bd4b4540181c7894e64ea4b89310a807fefda7dccb0d",
+  "errores_detectados": [],
+  "advertencias": [],
+  "modulo": "conversaciones"
+}

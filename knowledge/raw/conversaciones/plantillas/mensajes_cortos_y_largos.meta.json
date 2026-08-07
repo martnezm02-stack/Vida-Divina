@@ -1,0 +1,95 @@
+{
+  "id": "conversaciones/plantillas/mensajes_cortos_y_largos",
+  "tipo_entidad": "conversacion",
+  "titulo": "Plantillas — Mensajes Cortos vs. Largos",
+  "ruta_original": "docs/conversaciones/plantillas/mensajes_cortos_y_largos.md",
+  "fecha_compilacion": "2026-08-07T09:35:11.723Z",
+  "version": "0.1.0-mvp",
+  "estado": "compilado",
+  "palabras_clave": [],
+  "relaciones_detectadas": [
+    {
+      "origen_id": "conversaciones/plantillas/mensajes_cortos_y_largos",
+      "destino_id": "conversaciones/descubrimiento/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/plantillas/mensajes_cortos_y_largos.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/plantillas/mensajes_cortos_y_largos",
+      "destino_id": "conversaciones/recomendacion/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/plantillas/mensajes_cortos_y_largos.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/plantillas/mensajes_cortos_y_largos",
+      "destino_id": "conversaciones/objeciones/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/plantillas/mensajes_cortos_y_largos.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/plantillas/mensajes_cortos_y_largos",
+      "destino_id": "conversaciones/plantillas/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/plantillas/mensajes_cortos_y_largos.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/plantillas/mensajes_cortos_y_largos",
+      "destino_id": "conversaciones/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/conversaciones/plantillas/mensajes_cortos_y_largos.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "conversaciones/plantillas/mensajes_cortos_y_largos",
+      "destino_id": "conversaciones/plantillas/index",
+      "tipo_relacion": "pertenece_a_categoria",
+      "archivo_origen": "docs/conversaciones/plantillas/mensajes_cortos_y_largos.md",
+      "verificada": true
+    }
+  ],
+  "referencias": [
+    {
+      "targetRaw": "../descubrimiento/index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\descubrimiento\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../recomendacion/index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\recomendacion\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Cuándo usar mensaje largo"
+    },
+    {
+      "targetRaw": "../objeciones/index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\objeciones\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Cuándo usar mensaje largo"
+    },
+    {
+      "targetRaw": "./index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\plantillas\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Cuándo usar mensaje largo"
+    },
+    {
+      "targetRaw": "../README.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\README.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Cuándo usar mensaje largo"
+    }
+  ],
+  "checksum": "edf445d6dc73a753da26ffef523554ee93b6bd965e97fec4fa693c5162932fe5",
+  "errores_detectados": [],
+  "advertencias": [],
+  "modulo": "conversaciones"
+}

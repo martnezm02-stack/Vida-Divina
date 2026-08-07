@@ -1,0 +1,179 @@
+{
+  "id": "proceso_de_venta/postventa",
+  "tipo_entidad": "documento_proceso",
+  "titulo": "Postventa",
+  "ruta_original": "docs/proceso_de_venta/postventa.md",
+  "fecha_compilacion": "2026-08-07T09:35:11.756Z",
+  "version": "0.1.0-mvp",
+  "estado": "compilado",
+  "palabras_clave": [],
+  "relaciones_detectadas": [
+    {
+      "origen_id": "proceso_de_venta/postventa",
+      "destino_id": "proceso_de_venta/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/postventa.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/postventa",
+      "destino_id": "proceso_de_venta/flujo_general",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/postventa.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/postventa",
+      "destino_id": "conversaciones/postventa/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/postventa.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/postventa",
+      "destino_id": "conversaciones/cierre/confirmacion_envio",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/postventa.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/postventa",
+      "destino_id": "conversaciones/postventa/verificar_satisfaccion",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/postventa.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/postventa",
+      "destino_id": "conversaciones/postventa/recomendar_complementarios",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/postventa.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/postventa",
+      "destino_id": "proceso_de_venta/manejo_de_objeciones",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/postventa.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/postventa",
+      "destino_id": "conversaciones/postventa/solicitar_testimonio",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/postventa.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/postventa",
+      "destino_id": "conversaciones/postventa/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/postventa.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/postventa",
+      "destino_id": "conversaciones/postventa/solicitar_testimonio",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/postventa.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/postventa",
+      "destino_id": "proceso_de_venta/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/postventa.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/postventa",
+      "destino_id": "proceso_de_venta/README",
+      "tipo_relacion": "pertenece_a_categoria",
+      "archivo_origen": "docs/proceso_de_venta/postventa.md",
+      "verificada": true
+    }
+  ],
+  "referencias": [
+    {
+      "targetRaw": "./README.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\README.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./flujo_general.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\flujo_general.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../conversaciones/postventa/index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\postventa\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../conversaciones/cierre/confirmacion_envio.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\cierre\\confirmacion_envio.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Cuándo verificar satisfacción"
+    },
+    {
+      "targetRaw": "../conversaciones/postventa/verificar_satisfaccion.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\postventa\\verificar_satisfaccion.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Cuándo verificar satisfacción"
+    },
+    {
+      "targetRaw": "../conversaciones/postventa/recomendar_complementarios.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\postventa\\recomendar_complementarios.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Cuándo ofrecer productos complementarios (venta cruzada)"
+    },
+    {
+      "targetRaw": "./manejo_de_objeciones.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\manejo_de_objeciones.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Cuándo ofrecer productos complementarios (venta cruzada)"
+    },
+    {
+      "targetRaw": "../conversaciones/postventa/solicitar_testimonio.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\postventa\\solicitar_testimonio.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Cuándo solicitar testimonio"
+    },
+    {
+      "targetRaw": "../conversaciones/postventa/index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\postventa\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Cuándo solicitar una recomendación (referido)"
+    },
+    {
+      "targetRaw": "../conversaciones/postventa/solicitar_testimonio.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\postventa\\solicitar_testimonio.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Cuándo solicitar una recomendación (referido)"
+    },
+    {
+      "targetRaw": "./README.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\README.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Orden recomendado dentro de postventa"
+    }
+  ],
+  "checksum": "3fa35e08a354eeb5736cde25f3688eff421d44264d6dc91823d546aa43e07fb7",
+  "errores_detectados": [],
+  "advertencias": [],
+  "modulo": "proceso_de_venta"
+}

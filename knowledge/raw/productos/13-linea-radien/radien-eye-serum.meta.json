@@ -1,0 +1,130 @@
+{
+  "id": "productos/13-linea-radien/radien-eye-serum",
+  "tipo_entidad": "producto",
+  "titulo": "Radien Advanced Renewal Eye Serum",
+  "ruta_original": "docs/productos/13-linea-radien/radien-eye-serum.md",
+  "fecha_compilacion": "2026-08-07T09:35:11.814Z",
+  "version": "0.1.0-mvp",
+  "estado": "compilado",
+  "palabras_clave": [
+    "serum de ojos",
+    "ojeras",
+    "hinchazón",
+    "QXP",
+    "contorno de ojos",
+    "antioxidantes"
+  ],
+  "relaciones_detectadas": [
+    {
+      "origen_id": "productos/13-linea-radien/radien-eye-serum",
+      "destino_id": "productos/13-linea-radien/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/13-linea-radien/radien-eye-serum.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/13-linea-radien/radien-eye-serum",
+      "destino_id": "productos",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/13-linea-radien/radien-eye-serum.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/13-linea-radien/radien-eye-serum",
+      "destino_id": "productos/13-linea-radien/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/13-linea-radien/radien-eye-serum.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/13-linea-radien/radien-eye-serum",
+      "destino_id": "productos/13-linea-radien/radien-night-creme",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/13-linea-radien/radien-eye-serum.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/13-linea-radien/radien-eye-serum",
+      "destino_id": "productos/13-linea-radien/radien-day-creme",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/13-linea-radien/radien-eye-serum.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/13-linea-radien/radien-eye-serum",
+      "destino_id": "productos/13-linea-radien/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/13-linea-radien/radien-eye-serum.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/13-linea-radien/radien-eye-serum",
+      "destino_id": "productos",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/13-linea-radien/radien-eye-serum.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/13-linea-radien/radien-eye-serum",
+      "destino_id": "productos/13-linea-radien/index",
+      "tipo_relacion": "pertenece_a_categoria",
+      "archivo_origen": "docs/productos/13-linea-radien/radien-eye-serum.md",
+      "verificada": true
+    }
+  ],
+  "referencias": [
+    {
+      "targetRaw": "./index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\13-linea-radien\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../productos.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\13-linea-radien\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./radien-night-creme.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\13-linea-radien\\radien-night-creme.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./radien-day-creme.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\13-linea-radien\\radien-day-creme.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\13-linea-radien\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../productos.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    }
+  ],
+  "checksum": "a01d4a4a55400aa6f3da3b0fe9454936160b5e1798e2b5b3a6b03f234a20bd9d",
+  "errores_detectados": [],
+  "advertencias": [],
+  "modulo": "productos"
+}

@@ -1,0 +1,142 @@
+{
+  "id": "productos/02-cafe-divina/hot-chocolate",
+  "tipo_entidad": "producto",
+  "titulo": "Hot Chocolate",
+  "ruta_original": "docs/productos/02-cafe-divina/hot-chocolate.md",
+  "fecha_compilacion": "2026-08-07T09:35:11.780Z",
+  "version": "0.1.0-mvp",
+  "estado": "compilado",
+  "palabras_clave": [
+    "chocolate caliente",
+    "cacao con reishi",
+    "bebida familiar",
+    "chocolate premium"
+  ],
+  "relaciones_detectadas": [
+    {
+      "origen_id": "productos/02-cafe-divina/hot-chocolate",
+      "destino_id": "productos/02-cafe-divina/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/02-cafe-divina/hot-chocolate.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/02-cafe-divina/hot-chocolate",
+      "destino_id": "productos",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/02-cafe-divina/hot-chocolate.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/02-cafe-divina/hot-chocolate",
+      "destino_id": "productos/02-cafe-divina/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/02-cafe-divina/hot-chocolate.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/02-cafe-divina/hot-chocolate",
+      "destino_id": "productos/02-cafe-divina/mocha",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/02-cafe-divina/hot-chocolate.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/02-cafe-divina/hot-chocolate",
+      "destino_id": "productos/02-cafe-divina/divine-cereal",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/02-cafe-divina/hot-chocolate.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/02-cafe-divina/hot-chocolate",
+      "destino_id": "productos/02-cafe-divina/latte-dorado",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/02-cafe-divina/hot-chocolate.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/02-cafe-divina/hot-chocolate",
+      "destino_id": "productos/02-cafe-divina/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/02-cafe-divina/hot-chocolate.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/02-cafe-divina/hot-chocolate",
+      "destino_id": "productos",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/02-cafe-divina/hot-chocolate.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/02-cafe-divina/hot-chocolate",
+      "destino_id": "productos/02-cafe-divina/index",
+      "tipo_relacion": "pertenece_a_categoria",
+      "archivo_origen": "docs/productos/02-cafe-divina/hot-chocolate.md",
+      "verificada": true
+    }
+  ],
+  "referencias": [
+    {
+      "targetRaw": "./index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../productos.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./mocha.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\mocha.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./divine-cereal.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\divine-cereal.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./latte-dorado.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\latte-dorado.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../productos.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    }
+  ],
+  "checksum": "026642eaa0db1fe4a2826e2744f554522f84ec5dbf8d29ce8a8c1dde3e2dcd7e",
+  "errores_detectados": [],
+  "advertencias": [],
+  "modulo": "productos"
+}

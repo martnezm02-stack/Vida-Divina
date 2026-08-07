@@ -1,0 +1,235 @@
+{
+  "id": "proceso_de_venta/calificacion_del_cliente",
+  "tipo_entidad": "documento_proceso",
+  "titulo": "Calificación del Cliente",
+  "ruta_original": "docs/proceso_de_venta/calificacion_del_cliente.md",
+  "fecha_compilacion": "2026-08-07T09:35:11.747Z",
+  "version": "0.1.0-mvp",
+  "estado": "compilado",
+  "palabras_clave": [],
+  "relaciones_detectadas": [
+    {
+      "origen_id": "proceso_de_venta/calificacion_del_cliente",
+      "destino_id": "proceso_de_venta/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/calificacion_del_cliente.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/calificacion_del_cliente",
+      "destino_id": "proceso_de_venta/flujo_general",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/calificacion_del_cliente.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/calificacion_del_cliente",
+      "destino_id": "conversaciones/primer_contacto/whatsapp_directo",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/calificacion_del_cliente.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/calificacion_del_cliente",
+      "destino_id": "proceso_de_venta/recomendacion",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/calificacion_del_cliente.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/calificacion_del_cliente",
+      "destino_id": "proceso_de_venta/descubrimiento",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/calificacion_del_cliente.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/calificacion_del_cliente",
+      "destino_id": "proceso_de_venta/descubrimiento",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/calificacion_del_cliente.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/calificacion_del_cliente",
+      "destino_id": "proceso_de_venta/recomendacion",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/calificacion_del_cliente.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/calificacion_del_cliente",
+      "destino_id": "conversaciones/primer_contacto/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/calificacion_del_cliente.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/calificacion_del_cliente",
+      "destino_id": "conversaciones/primer_contacto/pregunta_precio",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/calificacion_del_cliente.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/calificacion_del_cliente",
+      "destino_id": "proceso_de_venta/estados_del_cliente",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/calificacion_del_cliente.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/calificacion_del_cliente",
+      "destino_id": "proceso_de_venta/recomendacion",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/calificacion_del_cliente.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/calificacion_del_cliente",
+      "destino_id": "proceso_de_venta/cierre",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/calificacion_del_cliente.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/calificacion_del_cliente",
+      "destino_id": "conversaciones/descubrimiento/preguntas_generales",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/calificacion_del_cliente.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/calificacion_del_cliente",
+      "destino_id": "conversaciones/primer_contacto/pregunta_precio",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/calificacion_del_cliente.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/calificacion_del_cliente",
+      "destino_id": "proceso_de_venta/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/proceso_de_venta/calificacion_del_cliente.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "proceso_de_venta/calificacion_del_cliente",
+      "destino_id": "proceso_de_venta/README",
+      "tipo_relacion": "pertenece_a_categoria",
+      "archivo_origen": "docs/proceso_de_venta/calificacion_del_cliente.md",
+      "verificada": true
+    }
+  ],
+  "referencias": [
+    {
+      "targetRaw": "./README.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\README.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./flujo_general.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\flujo_general.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../conversaciones/primer_contacto/whatsapp_directo.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\primer_contacto\\whatsapp_directo.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Los tres niveles"
+    },
+    {
+      "targetRaw": "./recomendacion.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\recomendacion.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Los tres niveles"
+    },
+    {
+      "targetRaw": "./descubrimiento.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\descubrimiento.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Los tres niveles"
+    },
+    {
+      "targetRaw": "./descubrimiento.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\descubrimiento.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Los tres niveles"
+    },
+    {
+      "targetRaw": "./recomendacion.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\recomendacion.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Los tres niveles"
+    },
+    {
+      "targetRaw": "../conversaciones/primer_contacto/index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\primer_contacto\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Los tres niveles"
+    },
+    {
+      "targetRaw": "../conversaciones/primer_contacto/pregunta_precio.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\primer_contacto\\pregunta_precio.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Los tres niveles"
+    },
+    {
+      "targetRaw": "./estados_del_cliente.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\estados_del_cliente.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Los tres niveles"
+    },
+    {
+      "targetRaw": "./recomendacion.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\recomendacion.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Los tres niveles"
+    },
+    {
+      "targetRaw": "./cierre.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\cierre.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Los tres niveles"
+    },
+    {
+      "targetRaw": "../conversaciones/descubrimiento/preguntas_generales.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\descubrimiento\\preguntas_generales.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Regla de decisión rápida"
+    },
+    {
+      "targetRaw": "../conversaciones/primer_contacto/pregunta_precio.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\primer_contacto\\pregunta_precio.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Qué NO hacer al calificar"
+    },
+    {
+      "targetRaw": "./README.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\README.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Qué NO hacer al calificar"
+    }
+  ],
+  "checksum": "f04f9d5be8df33f9e7667a2ac24d0b897fde51709bec5f1c360e45d2a1a018f3",
+  "errores_detectados": [],
+  "advertencias": [],
+  "modulo": "proceso_de_venta"
+}

@@ -1,0 +1,202 @@
+{
+  "id": "clientes/salud_intima_libido",
+  "tipo_entidad": "perfil",
+  "titulo": "Salud Íntima y Libido",
+  "ruta_original": "docs/clientes/salud_intima_libido.md",
+  "fecha_compilacion": "2026-08-07T09:35:11.704Z",
+  "version": "0.1.0-mvp",
+  "estado": "compilado",
+  "palabras_clave": [
+    "libido",
+    "vida íntima",
+    "Tongkat Ali",
+    "menopausia",
+    "energía sexual",
+    "vitalidad",
+    "pareja",
+    "discreción"
+  ],
+  "relaciones_detectadas": [
+    {
+      "origen_id": "clientes/salud_intima_libido",
+      "destino_id": "clientes/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/clientes/salud_intima_libido.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/salud_intima_libido",
+      "destino_id": "productos/08-intimidad-libido",
+      "tipo_relacion": "recomienda_primario",
+      "archivo_origen": "docs/clientes/salud_intima_libido.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/salud_intima_libido",
+      "destino_id": "productos/08-intimidad-libido",
+      "tipo_relacion": "recomienda_opcional",
+      "archivo_origen": "docs/clientes/salud_intima_libido.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/salud_intima_libido",
+      "destino_id": "productos/02-cafe-divina/sculpt-tongkat-ali",
+      "tipo_relacion": "recomienda_opcional",
+      "archivo_origen": "docs/clientes/salud_intima_libido.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/salud_intima_libido",
+      "destino_id": "productos/02-cafe-divina/tongkat-ali-cafe",
+      "tipo_relacion": "recomienda_opcional",
+      "archivo_origen": "docs/clientes/salud_intima_libido.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/salud_intima_libido",
+      "destino_id": "productos/07-rendimiento-fisico",
+      "tipo_relacion": "recomienda_complementario",
+      "archivo_origen": "docs/clientes/salud_intima_libido.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/salud_intima_libido",
+      "destino_id": "productos/13-linea-radien/radien-collagen-elixir",
+      "tipo_relacion": "recomienda_complementario",
+      "archivo_origen": "docs/clientes/salud_intima_libido.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/salud_intima_libido",
+      "destino_id": "productos/04-funcion-cognitiva",
+      "tipo_relacion": "recomienda_complementario",
+      "archivo_origen": "docs/clientes/salud_intima_libido.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/salud_intima_libido",
+      "destino_id": "clientes/rendimiento_deportivo",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/clientes/salud_intima_libido.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/salud_intima_libido",
+      "destino_id": "clientes/belleza_anti_edad",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/clientes/salud_intima_libido.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/salud_intima_libido",
+      "destino_id": "clientes/longevidad",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/clientes/salud_intima_libido.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/salud_intima_libido",
+      "destino_id": "clientes/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/clientes/salud_intima_libido.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/salud_intima_libido",
+      "destino_id": "clientes/README",
+      "tipo_relacion": "pertenece_a_categoria",
+      "archivo_origen": "docs/clientes/salud_intima_libido.md",
+      "verificada": true
+    }
+  ],
+  "referencias": [
+    {
+      "targetRaw": "./README.md#nota-importante",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\README.md",
+      "anchor": "nota-importante",
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../productos/08-intimidad-libido.md#mars-capsules",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\08-intimidad-libido.md",
+      "anchor": "mars-capsules",
+      "exists": true,
+      "seccion": "Productos recomendados"
+    },
+    {
+      "targetRaw": "../productos/08-intimidad-libido.md#venus-capsules",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\08-intimidad-libido.md",
+      "anchor": "venus-capsules",
+      "exists": true,
+      "seccion": "Productos recomendados"
+    },
+    {
+      "targetRaw": "../productos/02-cafe-divina/sculpt-tongkat-ali.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\sculpt-tongkat-ali.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Productos recomendados"
+    },
+    {
+      "targetRaw": "../productos/02-cafe-divina/tongkat-ali-cafe.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\tongkat-ali-cafe.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Productos recomendados"
+    },
+    {
+      "targetRaw": "../productos/07-rendimiento-fisico.md#ripped-capsules",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\07-rendimiento-fisico.md",
+      "anchor": "ripped-capsules",
+      "exists": true,
+      "seccion": "Productos complementarios"
+    },
+    {
+      "targetRaw": "../productos/13-linea-radien/radien-collagen-elixir.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\13-linea-radien\\radien-collagen-elixir.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Productos complementarios"
+    },
+    {
+      "targetRaw": "../productos/04-funcion-cognitiva.md#youth-capsules",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\04-funcion-cognitiva.md",
+      "anchor": "youth-capsules",
+      "exists": true,
+      "seccion": "Productos complementarios"
+    },
+    {
+      "targetRaw": "./rendimiento_deportivo.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\rendimiento_deportivo.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Posibles ventas futuras (cross-selling)"
+    },
+    {
+      "targetRaw": "./belleza_anti_edad.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\belleza_anti_edad.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Posibles ventas futuras (cross-selling)"
+    },
+    {
+      "targetRaw": "./longevidad.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\longevidad.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Posibles ventas futuras (cross-selling)"
+    },
+    {
+      "targetRaw": "./README.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\README.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Nivel de prioridad de este perfil para el negocio"
+    }
+  ],
+  "checksum": "3fee3393c5b68121c567a83468dbbe058e71048b8d126d1ecfbcea39bb6a23f2",
+  "errores_detectados": [],
+  "advertencias": [],
+  "modulo": "clientes"
+}

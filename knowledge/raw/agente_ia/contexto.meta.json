@@ -1,0 +1,88 @@
+{
+  "id": "agente_ia/contexto",
+  "tipo_entidad": "documento_cognitivo",
+  "titulo": "Contexto",
+  "ruta_original": "docs/agente_ia/contexto.md",
+  "fecha_compilacion": "2026-08-07T09:35:11.667Z",
+  "version": "0.1.0-mvp",
+  "estado": "compilado",
+  "palabras_clave": [],
+  "relaciones_detectadas": [
+    {
+      "origen_id": "agente_ia/contexto",
+      "destino_id": "agente_ia/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/contexto.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/contexto",
+      "destino_id": "agente_ia/flujo_de_razonamiento",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/contexto.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/contexto",
+      "destino_id": "agente_ia/herramientas",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/contexto.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/contexto",
+      "destino_id": "agente_ia/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/contexto.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/contexto",
+      "destino_id": "agente_ia/README",
+      "tipo_relacion": "pertenece_a_categoria",
+      "archivo_origen": "docs/agente_ia/contexto.md",
+      "verificada": true
+    }
+  ],
+  "referencias": [
+    {
+      "targetRaw": "./README.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\README.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../CLAUDE.md#principios-de-arquitectura",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\CLAUDE.md",
+      "anchor": "principios-de-arquitectura",
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./flujo_de_razonamiento.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\flujo_de_razonamiento.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "El principio central"
+    },
+    {
+      "targetRaw": "./herramientas.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\herramientas.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Relación con las herramientas de búsqueda"
+    },
+    {
+      "targetRaw": "./README.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\README.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Relación con las herramientas de búsqueda"
+    }
+  ],
+  "checksum": "d390ebc452f08698381e3ffe696ca3656b2c6f127fa966afde3a1ac36949640f",
+  "errores_detectados": [],
+  "advertencias": [],
+  "modulo": "agente_ia"
+}

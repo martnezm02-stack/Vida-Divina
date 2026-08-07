@@ -1,0 +1,131 @@
+{
+  "id": "clientes/emprendimiento",
+  "tipo_entidad": "perfil",
+  "titulo": "Emprendimiento (Oportunidad de Negocio)",
+  "ruta_original": "docs/clientes/emprendimiento.md",
+  "fecha_compilacion": "2026-08-07T09:35:11.692Z",
+  "version": "0.1.0-mvp",
+  "estado": "compilado",
+  "palabras_clave": [
+    "oportunidad de negocio",
+    "afiliado independiente",
+    "ingreso adicional",
+    "venta directa",
+    "emprendimiento",
+    "equipo",
+    "flexibilidad de horario"
+  ],
+  "relaciones_detectadas": [
+    {
+      "origen_id": "clientes/emprendimiento",
+      "destino_id": "clientes/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/clientes/emprendimiento.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/emprendimiento",
+      "destino_id": "productos/01-control-de-peso/tedivina",
+      "tipo_relacion": "recomienda_primario",
+      "archivo_origen": "docs/clientes/emprendimiento.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/emprendimiento",
+      "destino_id": "productos/02-cafe-divina/black",
+      "tipo_relacion": "recomienda_opcional",
+      "archivo_origen": "docs/clientes/emprendimiento.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/emprendimiento",
+      "destino_id": "productos/02-cafe-divina/latte",
+      "tipo_relacion": "recomienda_opcional",
+      "archivo_origen": "docs/clientes/emprendimiento.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/emprendimiento",
+      "destino_id": "productos/03-longevidad-bienestar/reishi-capsules",
+      "tipo_relacion": "recomienda_opcional",
+      "archivo_origen": "docs/clientes/emprendimiento.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/emprendimiento",
+      "destino_id": "clientes/bienestar_general",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/clientes/emprendimiento.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/emprendimiento",
+      "destino_id": "clientes/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/clientes/emprendimiento.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/emprendimiento",
+      "destino_id": "clientes/README",
+      "tipo_relacion": "pertenece_a_categoria",
+      "archivo_origen": "docs/clientes/emprendimiento.md",
+      "verificada": true
+    }
+  ],
+  "referencias": [
+    {
+      "targetRaw": "./README.md#nota-importante",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\README.md",
+      "anchor": "nota-importante",
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../productos/01-control-de-peso/tedivina.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\01-control-de-peso\\tedivina.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Productos recomendados"
+    },
+    {
+      "targetRaw": "../productos/02-cafe-divina/black.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\black.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Productos recomendados"
+    },
+    {
+      "targetRaw": "../productos/02-cafe-divina/latte.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\latte.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Productos recomendados"
+    },
+    {
+      "targetRaw": "../productos/03-longevidad-bienestar/reishi-capsules.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\03-longevidad-bienestar\\reishi-capsules.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Productos recomendados"
+    },
+    {
+      "targetRaw": "./bienestar_general.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\bienestar_general.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Posibles ventas futuras (cross-selling)"
+    },
+    {
+      "targetRaw": "./README.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\README.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Nivel de prioridad de este perfil para el negocio"
+    }
+  ],
+  "checksum": "c8e41f363617dc80e91f63f2cd1071d67621b3b0ee33bf1d7f4dcebf1b30d477",
+  "errores_detectados": [],
+  "advertencias": [],
+  "modulo": "clientes"
+}

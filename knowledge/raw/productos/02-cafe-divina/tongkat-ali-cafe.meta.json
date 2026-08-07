@@ -1,0 +1,143 @@
+{
+  "id": "productos/02-cafe-divina/tongkat-ali-cafe",
+  "tipo_entidad": "producto",
+  "titulo": "Tongkat Ali (Café)",
+  "ruta_original": "docs/productos/02-cafe-divina/tongkat-ali-cafe.md",
+  "fecha_compilacion": "2026-08-07T09:35:11.789Z",
+  "version": "0.1.0-mvp",
+  "estado": "compilado",
+  "palabras_clave": [
+    "café tongkat ali",
+    "libido",
+    "fibra",
+    "café funcional",
+    "fuerza muscular"
+  ],
+  "relaciones_detectadas": [
+    {
+      "origen_id": "productos/02-cafe-divina/tongkat-ali-cafe",
+      "destino_id": "productos/02-cafe-divina/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/02-cafe-divina/tongkat-ali-cafe.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/02-cafe-divina/tongkat-ali-cafe",
+      "destino_id": "productos",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/02-cafe-divina/tongkat-ali-cafe.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/02-cafe-divina/tongkat-ali-cafe",
+      "destino_id": "productos/02-cafe-divina/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/02-cafe-divina/tongkat-ali-cafe.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/02-cafe-divina/tongkat-ali-cafe",
+      "destino_id": "productos/02-cafe-divina/sculpt-tongkat-ali",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/02-cafe-divina/tongkat-ali-cafe.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/02-cafe-divina/tongkat-ali-cafe",
+      "destino_id": "productos/08-intimidad-libido",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/02-cafe-divina/tongkat-ali-cafe.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/02-cafe-divina/tongkat-ali-cafe",
+      "destino_id": "productos/07-rendimiento-fisico",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/02-cafe-divina/tongkat-ali-cafe.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/02-cafe-divina/tongkat-ali-cafe",
+      "destino_id": "productos/02-cafe-divina/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/02-cafe-divina/tongkat-ali-cafe.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/02-cafe-divina/tongkat-ali-cafe",
+      "destino_id": "productos",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/02-cafe-divina/tongkat-ali-cafe.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/02-cafe-divina/tongkat-ali-cafe",
+      "destino_id": "productos/02-cafe-divina/index",
+      "tipo_relacion": "pertenece_a_categoria",
+      "archivo_origen": "docs/productos/02-cafe-divina/tongkat-ali-cafe.md",
+      "verificada": true
+    }
+  ],
+  "referencias": [
+    {
+      "targetRaw": "./index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../productos.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./sculpt-tongkat-ali.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\sculpt-tongkat-ali.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../08-intimidad-libido.md#mars-capsules",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\08-intimidad-libido.md",
+      "anchor": "mars-capsules",
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../07-rendimiento-fisico.md#ripped-capsules",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\07-rendimiento-fisico.md",
+      "anchor": "ripped-capsules",
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../productos.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    }
+  ],
+  "checksum": "226d835560a237f346944c44352b63cad1a858c9cf184efddabe334767458f90",
+  "errores_detectados": [],
+  "advertencias": [],
+  "modulo": "productos"
+}

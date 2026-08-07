@@ -1,0 +1,277 @@
+{
+  "id": "agente_ia/ejemplos",
+  "tipo_entidad": "ejemplo_razonamiento",
+  "titulo": "Ejemplos",
+  "ruta_original": "docs/agente_ia/ejemplos.md",
+  "fecha_compilacion": "2026-08-07T09:35:11.669Z",
+  "version": "0.1.0-mvp",
+  "estado": "compilado",
+  "palabras_clave": [],
+  "relaciones_detectadas": [
+    {
+      "origen_id": "agente_ia/ejemplos",
+      "destino_id": "agente_ia/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/ejemplos.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/ejemplos",
+      "destino_id": "agente_ia/flujo_de_razonamiento",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/ejemplos.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/ejemplos",
+      "destino_id": "clientes/energia",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/ejemplos.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/ejemplos",
+      "destino_id": "conversaciones/recomendacion/energia",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/ejemplos.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/ejemplos",
+      "destino_id": "agente_ia/reglas_de_decision",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/ejemplos.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/ejemplos",
+      "destino_id": "agente_ia/principios",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/ejemplos.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/ejemplos",
+      "destino_id": "agente_ia/memoria",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/ejemplos.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/ejemplos",
+      "destino_id": "proceso_de_venta/manejo_de_objeciones",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/ejemplos.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/ejemplos",
+      "destino_id": "objeciones/esta_caro",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/ejemplos.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/ejemplos",
+      "destino_id": "conversaciones/objeciones/esta_caro",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/ejemplos.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/ejemplos",
+      "destino_id": "agente_ia/prioridades",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/ejemplos.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/ejemplos",
+      "destino_id": "agente_ia/reglas_de_seguridad",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/ejemplos.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/ejemplos",
+      "destino_id": "conversaciones/objeciones/mi_medico_no_me_deja",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/ejemplos.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/ejemplos",
+      "destino_id": "proceso_de_venta/emprendimiento",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/ejemplos.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/ejemplos",
+      "destino_id": "clientes/emprendimiento",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/ejemplos.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/ejemplos",
+      "destino_id": "conversaciones/emprendimiento/invitacion_cliente_satisfecho",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/ejemplos.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/ejemplos",
+      "destino_id": "agente_ia/reglas_de_seguridad",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/ejemplos.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/ejemplos",
+      "destino_id": "agente_ia/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/agente_ia/ejemplos.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "agente_ia/ejemplos",
+      "destino_id": "agente_ia/README",
+      "tipo_relacion": "pertenece_a_categoria",
+      "archivo_origen": "docs/agente_ia/ejemplos.md",
+      "verificada": true
+    }
+  ],
+  "referencias": [
+    {
+      "targetRaw": "./README.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\README.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./flujo_de_razonamiento.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\flujo_de_razonamiento.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../clientes/energia.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\energia.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Ejemplo 1 — Necesidad clara"
+    },
+    {
+      "targetRaw": "../conversaciones/recomendacion/energia.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\recomendacion\\energia.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Ejemplo 1 — Necesidad clara"
+    },
+    {
+      "targetRaw": "./reglas_de_decision.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\reglas_de_decision.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Ejemplo 2 — Perfil ambiguo"
+    },
+    {
+      "targetRaw": "./principios.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\principios.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Ejemplo 2 — Perfil ambiguo"
+    },
+    {
+      "targetRaw": "./memoria.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\memoria.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Ejemplo 3 — Objeción de precio"
+    },
+    {
+      "targetRaw": "../proceso_de_venta/manejo_de_objeciones.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\manejo_de_objeciones.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Ejemplo 3 — Objeción de precio"
+    },
+    {
+      "targetRaw": "../objeciones/esta_caro.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\objeciones\\esta_caro.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Ejemplo 3 — Objeción de precio"
+    },
+    {
+      "targetRaw": "../conversaciones/objeciones/esta_caro.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\objeciones\\esta_caro.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Ejemplo 3 — Objeción de precio"
+    },
+    {
+      "targetRaw": "./prioridades.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\prioridades.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Ejemplo 4 — Señal médica (el flujo se detiene)"
+    },
+    {
+      "targetRaw": "./reglas_de_seguridad.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\reglas_de_seguridad.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Ejemplo 4 — Señal médica (el flujo se detiene)"
+    },
+    {
+      "targetRaw": "../conversaciones/objeciones/mi_medico_no_me_deja.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\objeciones\\mi_medico_no_me_deja.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Ejemplo 4 — Señal médica (el flujo se detiene)"
+    },
+    {
+      "targetRaw": "../proceso_de_venta/emprendimiento.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\proceso_de_venta\\emprendimiento.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Ejemplo 5 — Señal de emprendimiento"
+    },
+    {
+      "targetRaw": "../clientes/emprendimiento.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\emprendimiento.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Ejemplo 5 — Señal de emprendimiento"
+    },
+    {
+      "targetRaw": "../conversaciones/emprendimiento/invitacion_cliente_satisfecho.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\conversaciones\\emprendimiento\\invitacion_cliente_satisfecho.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Ejemplo 5 — Señal de emprendimiento"
+    },
+    {
+      "targetRaw": "./reglas_de_seguridad.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\reglas_de_seguridad.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Ejemplo 5 — Señal de emprendimiento"
+    },
+    {
+      "targetRaw": "./README.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\agente_ia\\README.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Qué mostrar y qué no mostrar en la práctica"
+    }
+  ],
+  "checksum": "a7538078afdd34c7d12223490cb33ae7a91d54193445ba04a2e7cd15ade077ad",
+  "errores_detectados": [],
+  "advertencias": [],
+  "modulo": "agente_ia"
+}

@@ -1,0 +1,143 @@
+{
+  "id": "productos/10-energia-antioxidantes/factor-divina",
+  "tipo_entidad": "producto",
+  "titulo": "Factor Divina",
+  "ruta_original": "docs/productos/10-energia-antioxidantes/factor-divina.md",
+  "fecha_compilacion": "2026-08-07T09:35:11.799Z",
+  "version": "0.1.0-mvp",
+  "estado": "compilado",
+  "palabras_clave": [
+    "superfood shot",
+    "concentrado de frutas y verduras",
+    "moringa",
+    "cordyceps",
+    "antioxidantes"
+  ],
+  "relaciones_detectadas": [
+    {
+      "origen_id": "productos/10-energia-antioxidantes/factor-divina",
+      "destino_id": "productos/10-energia-antioxidantes/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/10-energia-antioxidantes/factor-divina.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/10-energia-antioxidantes/factor-divina",
+      "destino_id": "productos",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/10-energia-antioxidantes/factor-divina.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/10-energia-antioxidantes/factor-divina",
+      "destino_id": "productos/10-energia-antioxidantes/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/10-energia-antioxidantes/factor-divina.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/10-energia-antioxidantes/factor-divina",
+      "destino_id": "productos/10-energia-antioxidantes/mundo-verde",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/10-energia-antioxidantes/factor-divina.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/10-energia-antioxidantes/factor-divina",
+      "destino_id": "productos/11-extractos-hongos/extracto-reishi",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/10-energia-antioxidantes/factor-divina.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/10-energia-antioxidantes/factor-divina",
+      "destino_id": "productos/11-extractos-hongos/extracto-cordyceps",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/10-energia-antioxidantes/factor-divina.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/10-energia-antioxidantes/factor-divina",
+      "destino_id": "productos/10-energia-antioxidantes/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/10-energia-antioxidantes/factor-divina.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/10-energia-antioxidantes/factor-divina",
+      "destino_id": "productos",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/10-energia-antioxidantes/factor-divina.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/10-energia-antioxidantes/factor-divina",
+      "destino_id": "productos/10-energia-antioxidantes/index",
+      "tipo_relacion": "pertenece_a_categoria",
+      "archivo_origen": "docs/productos/10-energia-antioxidantes/factor-divina.md",
+      "verificada": true
+    }
+  ],
+  "referencias": [
+    {
+      "targetRaw": "./index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\10-energia-antioxidantes\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../productos.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\10-energia-antioxidantes\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./mundo-verde.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\10-energia-antioxidantes\\mundo-verde.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../11-extractos-hongos/extracto-reishi.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\11-extractos-hongos\\extracto-reishi.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../11-extractos-hongos/extracto-cordyceps.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\11-extractos-hongos\\extracto-cordyceps.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\10-energia-antioxidantes\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../productos.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    }
+  ],
+  "checksum": "847b74b7a0cbf88df1240984050b46ae4742b67f72b150bdb7c2770ba1e4df39",
+  "errores_detectados": [],
+  "advertencias": [],
+  "modulo": "productos"
+}

@@ -1,0 +1,257 @@
+{
+  "id": "clientes/bienestar_general",
+  "tipo_entidad": "perfil",
+  "titulo": "Bienestar General",
+  "ruta_original": "docs/clientes/bienestar_general.md",
+  "fecha_compilacion": "2026-08-07T09:35:11.686Z",
+  "version": "0.1.0-mvp",
+  "estado": "compilado",
+  "palabras_clave": [
+    "bienestar general",
+    "empezar a cuidarse",
+    "primera compra",
+    "cliente nuevo",
+    "prevención",
+    "hábito saludable",
+    "producto de entrada"
+  ],
+  "relaciones_detectadas": [
+    {
+      "origen_id": "clientes/bienestar_general",
+      "destino_id": "clientes/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/clientes/bienestar_general.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/bienestar_general",
+      "destino_id": "productos/01-control-de-peso/tedivina",
+      "tipo_relacion": "recomienda_primario",
+      "archivo_origen": "docs/clientes/bienestar_general.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/bienestar_general",
+      "destino_id": "productos/03-longevidad-bienestar/reishi-capsules",
+      "tipo_relacion": "recomienda_opcional",
+      "archivo_origen": "docs/clientes/bienestar_general.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/bienestar_general",
+      "destino_id": "productos/02-cafe-divina/black",
+      "tipo_relacion": "recomienda_opcional",
+      "archivo_origen": "docs/clientes/bienestar_general.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/bienestar_general",
+      "destino_id": "productos/02-cafe-divina/latte",
+      "tipo_relacion": "recomienda_opcional",
+      "archivo_origen": "docs/clientes/bienestar_general.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/bienestar_general",
+      "destino_id": "productos/10-energia-antioxidantes/factor-divina",
+      "tipo_relacion": "recomienda_opcional",
+      "archivo_origen": "docs/clientes/bienestar_general.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/bienestar_general",
+      "destino_id": "productos/11-extractos-hongos/extracto-reishi",
+      "tipo_relacion": "recomienda_complementario",
+      "archivo_origen": "docs/clientes/bienestar_general.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/bienestar_general",
+      "destino_id": "productos/03-longevidad-bienestar/aceite-esporas-reishi",
+      "tipo_relacion": "recomienda_complementario",
+      "archivo_origen": "docs/clientes/bienestar_general.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/bienestar_general",
+      "destino_id": "productos/02-cafe-divina/cappuccino",
+      "tipo_relacion": "recomienda_complementario",
+      "archivo_origen": "docs/clientes/bienestar_general.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/bienestar_general",
+      "destino_id": "clientes/belleza_anti_edad",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/clientes/bienestar_general.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/bienestar_general",
+      "destino_id": "clientes/salud_intima_libido",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/clientes/bienestar_general.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/bienestar_general",
+      "destino_id": "clientes/energia",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/clientes/bienestar_general.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/bienestar_general",
+      "destino_id": "clientes/perder_peso",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/clientes/bienestar_general.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/bienestar_general",
+      "destino_id": "clientes/salud_digestiva",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/clientes/bienestar_general.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/bienestar_general",
+      "destino_id": "clientes/sistema_inmunologico",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/clientes/bienestar_general.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/bienestar_general",
+      "destino_id": "clientes/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/clientes/bienestar_general.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/bienestar_general",
+      "destino_id": "clientes/README",
+      "tipo_relacion": "pertenece_a_categoria",
+      "archivo_origen": "docs/clientes/bienestar_general.md",
+      "verificada": true
+    }
+  ],
+  "referencias": [
+    {
+      "targetRaw": "./README.md#nota-importante",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\README.md",
+      "anchor": "nota-importante",
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../productos/01-control-de-peso/tedivina.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\01-control-de-peso\\tedivina.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Productos recomendados"
+    },
+    {
+      "targetRaw": "../productos/03-longevidad-bienestar/reishi-capsules.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\03-longevidad-bienestar\\reishi-capsules.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Productos recomendados"
+    },
+    {
+      "targetRaw": "../productos/02-cafe-divina/black.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\black.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Productos recomendados"
+    },
+    {
+      "targetRaw": "../productos/02-cafe-divina/latte.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\latte.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Productos recomendados"
+    },
+    {
+      "targetRaw": "../productos/10-energia-antioxidantes/factor-divina.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\10-energia-antioxidantes\\factor-divina.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Productos recomendados"
+    },
+    {
+      "targetRaw": "../productos/11-extractos-hongos/extracto-reishi.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\11-extractos-hongos\\extracto-reishi.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Productos complementarios"
+    },
+    {
+      "targetRaw": "../productos/03-longevidad-bienestar/aceite-esporas-reishi.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\03-longevidad-bienestar\\aceite-esporas-reishi.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Productos complementarios"
+    },
+    {
+      "targetRaw": "../productos/02-cafe-divina/cappuccino.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\cappuccino.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Productos complementarios"
+    },
+    {
+      "targetRaw": "./belleza_anti_edad.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\belleza_anti_edad.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Productos que NO son prioridad"
+    },
+    {
+      "targetRaw": "./salud_intima_libido.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\salud_intima_libido.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Productos que NO son prioridad"
+    },
+    {
+      "targetRaw": "./energia.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\energia.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Posibles ventas futuras (cross-selling)"
+    },
+    {
+      "targetRaw": "./perder_peso.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\perder_peso.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Posibles ventas futuras (cross-selling)"
+    },
+    {
+      "targetRaw": "./salud_digestiva.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\salud_digestiva.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Posibles ventas futuras (cross-selling)"
+    },
+    {
+      "targetRaw": "./sistema_inmunologico.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\sistema_inmunologico.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Posibles ventas futuras (cross-selling)"
+    },
+    {
+      "targetRaw": "./README.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\README.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Nivel de prioridad de este perfil para el negocio"
+    }
+  ],
+  "checksum": "dc90a75f0b7a0a332880a0e7688304fab324e43f1ef1228c4dde13175390f78b",
+  "errores_detectados": [],
+  "advertencias": [],
+  "modulo": "clientes"
+}

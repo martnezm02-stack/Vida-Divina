@@ -1,0 +1,143 @@
+{
+  "id": "productos/02-cafe-divina/te-negro",
+  "tipo_entidad": "producto",
+  "titulo": "Té Negro",
+  "ruta_original": "docs/productos/02-cafe-divina/te-negro.md",
+  "fecha_compilacion": "2026-08-07T09:35:11.787Z",
+  "version": "0.1.0-mvp",
+  "estado": "compilado",
+  "palabras_clave": [
+    "té negro",
+    "cafeína",
+    "antioxidante",
+    "té con reishi",
+    "energía natural"
+  ],
+  "relaciones_detectadas": [
+    {
+      "origen_id": "productos/02-cafe-divina/te-negro",
+      "destino_id": "productos/02-cafe-divina/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/02-cafe-divina/te-negro.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/02-cafe-divina/te-negro",
+      "destino_id": "productos",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/02-cafe-divina/te-negro.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/02-cafe-divina/te-negro",
+      "destino_id": "productos/02-cafe-divina/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/02-cafe-divina/te-negro.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/02-cafe-divina/te-negro",
+      "destino_id": "productos/02-cafe-divina/te-verde",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/02-cafe-divina/te-negro.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/02-cafe-divina/te-negro",
+      "destino_id": "productos/02-cafe-divina/black",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/02-cafe-divina/te-negro.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/02-cafe-divina/te-negro",
+      "destino_id": "productos/11-extractos-hongos/extracto-reishi",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/02-cafe-divina/te-negro.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/02-cafe-divina/te-negro",
+      "destino_id": "productos/02-cafe-divina/index",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/02-cafe-divina/te-negro.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/02-cafe-divina/te-negro",
+      "destino_id": "productos",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/productos/02-cafe-divina/te-negro.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "productos/02-cafe-divina/te-negro",
+      "destino_id": "productos/02-cafe-divina/index",
+      "tipo_relacion": "pertenece_a_categoria",
+      "archivo_origen": "docs/productos/02-cafe-divina/te-negro.md",
+      "verificada": true
+    }
+  ],
+  "referencias": [
+    {
+      "targetRaw": "./index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../productos.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./te-verde.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\te-verde.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./black.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\black.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../11-extractos-hongos/extracto-reishi.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\11-extractos-hongos\\extracto-reishi.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "./index.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\index.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../../productos.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": null
+    }
+  ],
+  "checksum": "d28fdb7bce61c19cd8e2566a3d539314691ec5ebca67af0869f059e95e40e5f0",
+  "errores_detectados": [],
+  "advertencias": [],
+  "modulo": "productos"
+}

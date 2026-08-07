@@ -1,0 +1,202 @@
+{
+  "id": "clientes/salud_cognitiva",
+  "tipo_entidad": "perfil",
+  "titulo": "Salud Cognitiva",
+  "ruta_original": "docs/clientes/salud_cognitiva.md",
+  "fecha_compilacion": "2026-08-07T09:35:11.702Z",
+  "version": "0.1.0-mvp",
+  "estado": "compilado",
+  "palabras_clave": [
+    "concentración",
+    "enfoque",
+    "claridad mental",
+    "memoria",
+    "Ginkgo Biloba",
+    "Lion's Mane",
+    "niebla mental",
+    "función cerebral"
+  ],
+  "relaciones_detectadas": [
+    {
+      "origen_id": "clientes/salud_cognitiva",
+      "destino_id": "clientes/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/clientes/salud_cognitiva.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/salud_cognitiva",
+      "destino_id": "productos/04-funcion-cognitiva",
+      "tipo_relacion": "recomienda_primario",
+      "archivo_origen": "docs/clientes/salud_cognitiva.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/salud_cognitiva",
+      "destino_id": "productos/11-extractos-hongos/extracto-lions-mane",
+      "tipo_relacion": "recomienda_opcional",
+      "archivo_origen": "docs/clientes/salud_cognitiva.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/salud_cognitiva",
+      "destino_id": "productos/03-longevidad-bienestar/nad-plus",
+      "tipo_relacion": "recomienda_opcional",
+      "archivo_origen": "docs/clientes/salud_cognitiva.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/salud_cognitiva",
+      "destino_id": "productos/04-funcion-cognitiva",
+      "tipo_relacion": "recomienda_opcional",
+      "archivo_origen": "docs/clientes/salud_cognitiva.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/salud_cognitiva",
+      "destino_id": "productos/02-cafe-divina/black",
+      "tipo_relacion": "recomienda_complementario",
+      "archivo_origen": "docs/clientes/salud_cognitiva.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/salud_cognitiva",
+      "destino_id": "productos/03-longevidad-bienestar/eterno-capsules",
+      "tipo_relacion": "recomienda_complementario",
+      "archivo_origen": "docs/clientes/salud_cognitiva.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/salud_cognitiva",
+      "destino_id": "productos/10-energia-antioxidantes/orange-genius",
+      "tipo_relacion": "recomienda_complementario",
+      "archivo_origen": "docs/clientes/salud_cognitiva.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/salud_cognitiva",
+      "destino_id": "clientes/longevidad",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/clientes/salud_cognitiva.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/salud_cognitiva",
+      "destino_id": "clientes/energia",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/clientes/salud_cognitiva.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/salud_cognitiva",
+      "destino_id": "clientes/sistema_inmunologico",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/clientes/salud_cognitiva.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/salud_cognitiva",
+      "destino_id": "clientes/README",
+      "tipo_relacion": "referencia",
+      "archivo_origen": "docs/clientes/salud_cognitiva.md",
+      "verificada": true
+    },
+    {
+      "origen_id": "clientes/salud_cognitiva",
+      "destino_id": "clientes/README",
+      "tipo_relacion": "pertenece_a_categoria",
+      "archivo_origen": "docs/clientes/salud_cognitiva.md",
+      "verificada": true
+    }
+  ],
+  "referencias": [
+    {
+      "targetRaw": "./README.md#nota-importante",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\README.md",
+      "anchor": "nota-importante",
+      "exists": true,
+      "seccion": null
+    },
+    {
+      "targetRaw": "../productos/04-funcion-cognitiva.md#brain-capsules",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\04-funcion-cognitiva.md",
+      "anchor": "brain-capsules",
+      "exists": true,
+      "seccion": "Productos recomendados"
+    },
+    {
+      "targetRaw": "../productos/11-extractos-hongos/extracto-lions-mane.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\11-extractos-hongos\\extracto-lions-mane.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Productos recomendados"
+    },
+    {
+      "targetRaw": "../productos/03-longevidad-bienestar/nad-plus.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\03-longevidad-bienestar\\nad-plus.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Productos recomendados"
+    },
+    {
+      "targetRaw": "../productos/04-funcion-cognitiva.md#youth-capsules",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\04-funcion-cognitiva.md",
+      "anchor": "youth-capsules",
+      "exists": true,
+      "seccion": "Productos recomendados"
+    },
+    {
+      "targetRaw": "../productos/02-cafe-divina/black.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\02-cafe-divina\\black.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Productos complementarios"
+    },
+    {
+      "targetRaw": "../productos/03-longevidad-bienestar/eterno-capsules.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\03-longevidad-bienestar\\eterno-capsules.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Productos complementarios"
+    },
+    {
+      "targetRaw": "../productos/10-energia-antioxidantes/orange-genius.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\productos\\10-energia-antioxidantes\\orange-genius.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Productos complementarios"
+    },
+    {
+      "targetRaw": "./longevidad.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\longevidad.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Posibles ventas futuras (cross-selling)"
+    },
+    {
+      "targetRaw": "./energia.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\energia.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Posibles ventas futuras (cross-selling)"
+    },
+    {
+      "targetRaw": "./sistema_inmunologico.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\sistema_inmunologico.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Posibles ventas futuras (cross-selling)"
+    },
+    {
+      "targetRaw": "./README.md",
+      "resolvedPath": "C:\\Users\\manue\\Vida Divina\\docs\\clientes\\README.md",
+      "anchor": null,
+      "exists": true,
+      "seccion": "Nivel de prioridad de este perfil para el negocio"
+    }
+  ],
+  "checksum": "46d076756bb9a2128e9c43fef01a2145b3d0199c36d9c52873d119f5eac036ad",
+  "errores_detectados": [],
+  "advertencias": [],
+  "modulo": "clientes"
+}
