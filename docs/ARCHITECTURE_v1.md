@@ -355,3 +355,30 @@ Esta sección no diseña v2. Enumera qué evidencia, si se observa, justificarí
 Este documento describe la arquitectura de Vida Divina exactamente como fue verificada el 2026-08-07: una base de conocimiento en Markdown, un compilador que la transforma en datos estructurados sin nunca escribir de vuelta, y dos motores de decisión — Recomendación y Simulación de Conversación — que funcionan correctamente cada uno por separado pero que **no están conectados entre sí**, pese a que el segundo fue la razón original para construir el primero. Esa desconexión (Hallazgo 1) es, junto con la fragmentación del catálogo de productos (Hallazgo 2) y la ausencia de historial de Git (Riesgo, sección 10), la prioridad más clara para cualquier trabajo futuro.
 
 No se ha modificado ningún componente existente para producir este documento. No se inicia ningún desarrollo nuevo. Se espera revisión arquitectónica antes de abrir la siguiente fase del proyecto.
+
+---
+
+## Adendum — cierre posterior a v1.0 (commit `7391271`, 2026-08-07)
+
+> Este baseline permanece **congelado tal como está descrito arriba** — nada de lo anterior se reescribió ni se corrigió en silencio (Decisión congelada §11.11: "todo hallazgo se documenta antes de corregirse"). Este adendum registra qué cambió *después* del cierre de v1.0, en el mismo commit que resolvió los pasos 1–4 del Roadmap (§12): primer commit de Git, granularidad del catálogo, formalización del vocabulario de relaciones, y Decision Engine. El detalle narrativo completo vive en el mensaje del commit `7391271`; aquí solo se deja el registro arquitectónico.
+
+**Hallazgo 1 — cerrado.** `decision-engine/` (nuevo componente, `decision-engine/src/decisionEngine.js` + `decision-engine/main.js`) conecta Recommendation Engine y Conversation Simulator sin modificar ninguno de los dos — respeta la restricción original del Sprint 3B. Su función `decidir(nombreCaso, mensajeCliente)` corre el simulador, y si la intención resuelta es `perfil_identificado` (y el perfil no es `clientes/emprendimiento`, rama que el propio simulador ya excluye de recomendación de producto), invoca al Recommendation Engine, compara el primer producto que cada uno habría ofrecido, y usa la clasificación del Recommendation Engine (PRIMARY primero) como fuente final — declarando explícitamente `fuenteDeDecision` y, si hubo discrepancia, el detalle de qué habría dicho cada uno. Verificado: 6/6 casos de `decision-engine/main.js` ejecutados sin excepciones (`node decision-engine/main.js`).
+>
+> Matiz honesto: esto resuelve la desconexión, no la elimina de la base de código. `simulator/src/knowledgeQuery.js` conserva su heurística propia de "primeros N productos" y sigue siendo invocable de forma aislada (el propio Decision Engine la usa como primer paso, vía `simularConversacion`); lo que cambió es que ahora existe un componente que las concilia en vez de dejarlas sin resolver. La doble fuente de verdad sigue siendo un riesgo válido si algo invoca al simulador *sin* pasar por el Decision Engine — ver §10.
+
+**Hallazgo 2 — cerrado.** El Knowledge Compiler ahora separa los 7 archivos de categoría de producto único en su contenedor (`indice_categoria`) más un producto real por bloque de ancla — el catálogo compilado pasa de 61 a **66 entidades de tipo `producto`**, coincidiendo con el catálogo real. Última corrida verificada: **177 entidades, 1898 relaciones, 0 errores, 11 advertencias** (`knowledge/compiled/manifest.json`, `2026-08-07T10:54:26.779Z`) — reemplaza la cifra "165 entidades, 1886 relaciones" citada en el resto de este documento (§0, §3.2, §6), que queda como registro histórico de la corrida anterior al fix.
+
+**Deuda aceptada §9 — actualizada:**
+- "Agrupación de productos por archivo, no por entidad real" → resuelta, ver Hallazgo 2 arriba.
+- "Vocabulario de relaciones incompleto respecto al Knowledge Model" → resuelta: `docs/KNOWLEDGE_MODEL.md` fue sincronizado con el vocabulario que el compilador ya emitía (`recomienda_primario`, `recomienda_opcional`, `recomienda_complementario`, `no_recomendado`), incluyendo una ADR sobre el rol de `.meta.json` como Capa 1 de solo salida.
+- "`git_commit` siempre `null`" → resuelta: el repositorio tiene historial (`d1eb7d1`, `7391271`); el manifiesto registra el commit vigente en el momento de compilar.
+- "Recommendation Engine y Conversation Simulator sin integrar" → resuelta, ver Hallazgo 1 arriba.
+- **Deuda nueva, introducida por este mismo cierre:** `decision-engine/` no tiene pruebas automatizadas ni un documento de cierre de sprint dedicado (a diferencia de `KNOWLEDGE_COMPILER_IMPLEMENTATION.md`, `CONVERSATION_SIMULATOR.md`, `RECOMMENDATION_ENGINE.md`) — su única evidencia hoy es la ejecución manual de 6 casos.
+
+**Riesgos §10 — actualizados:**
+- "Ausencia total de historial de versiones" → resuelto.
+- El resto de los riesgos listados en §10 (desincronización silenciosa `docs/`↔`knowledge/`, reglas transcritas a mano sin detección de divergencia) **siguen vigentes sin cambios** — este cierre no los tocó.
+
+**Roadmap §12 — pasos 1 a 4 completados.** Ver `docs/PROJECT_STATE.md` §11 para el detalle actualizado y la recomendación de próxima fase (cerrar la deuda nueva de `decision-engine/`, luego construir Conversation Runtime — paso 6, ya desbloqueado).
+
+**Criterios para Architecture v2 (§13) — primer criterio cumplido parcialmente.** El primer criterio listado ("evidencia de que la desconexión... genera respuestas contradictorias... recolectada al construir el Decision Engine") ya tiene evidencia: la conciliación (`compararSeleccion` en `decisionEngine.js`) confirma que el simulador y el Recommendation Engine *pueden* divergir para el mismo perfil (campo `discrepancia.hayDiferencia`), aunque en los 6 casos de prueba actuales no lo hicieron. Esto no dispara todavía una revisión formal de Architecture v2 — la integración se logró como conciliación en tiempo de ejecución, sin exigir un cambio de contrato entre componentes, que era la condición que el criterio original anticipaba.

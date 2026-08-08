@@ -176,7 +176,7 @@ El motor cognitivo: especificación de cómo razona, decide y se comporta el age
 
 ## Capa de herramientas
 
-Sobre esta base de conocimiento existe una capa de código que la compila y la valida — no contiene conocimiento de negocio, solo lo transforma y lo consulta: el **Knowledge Model** (contrato conceptual de qué entidades y relaciones existen), el **Knowledge Compiler** (`compiler/`, transforma `docs/` en datos estructurados), el **Knowledge Package** (`knowledge/`, el resultado de esa compilación), el **Recommendation Engine** (`recommendation-engine/`, clasifica productos por prioridad para un perfil) y el **Conversation Simulator** (`simulator/`, ejecuta el flujo comercial completo para un mensaje de cliente dado). El detalle completo de estos componentes — contratos, dependencias, qué conoce y qué no conoce cada uno — vive en [`docs/ARCHITECTURE_v1.md`](docs/ARCHITECTURE_v1.md); el estado vigente de cada uno y el roadmap de evolución viven en [`docs/PROJECT_STATE.md`](docs/PROJECT_STATE.md). Esta sección no repite ese contenido.
+Sobre esta base de conocimiento existe una capa de código que la compila y la valida — no contiene conocimiento de negocio, solo lo transforma y lo consulta: el **Knowledge Model** (contrato conceptual de qué entidades y relaciones existen), el **Knowledge Compiler** (`compiler/`, transforma `docs/` en datos estructurados), el **Knowledge Package** (`knowledge/`, el resultado de esa compilación), el **Recommendation Engine** (`recommendation-engine/`, clasifica productos por prioridad para un perfil), el **Conversation Simulator** (`simulator/`, ejecuta el flujo comercial completo para un mensaje de cliente dado) y el **Decision Engine** (`decision-engine/`, conecta los dos anteriores en un solo flujo de decisión coherente, sin modificar ninguno de los dos). El detalle completo de estos componentes — contratos, dependencias, qué conoce y qué no conoce cada uno — vive en [`docs/ARCHITECTURE_v1.md`](docs/ARCHITECTURE_v1.md) (baseline v1.0 + Adendum de cierre posterior); el estado vigente de cada uno y el roadmap de evolución viven en [`docs/PROJECT_STATE.md`](docs/PROJECT_STATE.md). Esta sección no repite ese contenido.
 
 ---
 
@@ -244,6 +244,7 @@ Esta sección describe el flujo **a nivel conceptual**, como parte de la arquite
 | `knowledge/` (Knowledge Package) | ✅ Implementado — 100% regenerable | Datos compilados: entidades, relaciones, estadísticas, manifiesto | `compiler/` |
 | `recommendation-engine/` (Recommendation Engine) | ✅ Validado, aislado | Clasifica productos por prioridad (PRIMARY/COMPLEMENTARY/OPTIONAL/NOT_RECOMMENDED) para un perfil | `knowledge/` |
 | `simulator/` (Conversation Simulator) | ✅ Validado, aislado | Ejecuta el flujo comercial completo de 7 pasos para un mensaje de cliente | `knowledge/` |
+| `decision-engine/` (Decision Engine / Orchestrator) | ✅ Implementado, verificado, con pruebas automatizadas y documento de cierre (6/6 casos manuales + 15/15 pruebas `node:test`) | Conecta Recommendation Engine y Conversation Simulator en un solo flujo de decisión, sin modificar ninguno de los dos | `recommendation-engine/`, `simulator/` |
 
 ---
 
@@ -251,7 +252,7 @@ Esta sección describe el flujo **a nivel conceptual**, como parte de la arquite
 
 `agente_ia/` ya forma parte de la arquitectura implementada — ver su fila en "Estado Actual del Proyecto" y su contenido en [`docs/agente_ia/`](docs/agente_ia/README.md).
 
-Más allá de los módulos de `docs/`, el proyecto completó también una Fase 2 (Knowledge Model + Knowledge Compiler) y una Fase 3 (Recommendation Engine + Conversation Simulator + cierre de arquitectura en `ARCHITECTURE_v1.md` y `PROJECT_STATE.md`) — ver la fila "Capa de herramientas" en "Estado Actual del Proyecto". El roadmap de evolución de esa capa — qué falta, en qué orden y por qué — vive en [`docs/PROJECT_STATE.md`](docs/PROJECT_STATE.md) (secciones 4, 11 y 12) y no se repite aquí, para no mantener dos roadmaps que puedan desalinearse entre sí.
+Más allá de los módulos de `docs/`, el proyecto completó también una Fase 2 (Knowledge Model + Knowledge Compiler), una Fase 3 (Recommendation Engine + Conversation Simulator + cierre de arquitectura en `ARCHITECTURE_v1.md` y `PROJECT_STATE.md`) y una fase de Estabilización de la Arquitectura (commit `7391271`: higiene de Git, granularidad del catálogo, sincronización del Knowledge Model, y Decision Engine) — ver la fila "Capa de herramientas" en "Estado Actual del Proyecto". El roadmap de evolución de esa capa — qué falta, en qué orden y por qué — vive en [`docs/PROJECT_STATE.md`](docs/PROJECT_STATE.md) (secciones 4, 11 y 12) y no se repite aquí, para no mantener dos roadmaps que puedan desalinearse entre sí.
 
 Módulos futuros identificados para la base de conocimiento, **aún no creados** — se incorporan a esta lista solo como referencia de hacia dónde puede escalar la arquitectura de `docs/`:
 
