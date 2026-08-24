@@ -1,0 +1,16 @@
+{
+  "name": "vida-divina-publishing-scheduler",
+  "version": "0.1.0",
+  "description": "PublishingScheduler — scheduler nativo de Vida Divina (backend, sin Metricool, sin sesión interactiva) que conecta el ciclo FINAL -> APROBACIÓN -> MEDIA HOSTING -> PROGRAMACIÓN -> META -> RESULTADO, reutilizando sin modificar media-hosting/ (MediaHostingService) y content-orchestrator/src/publishing/publishingService.js#publish (MetaAdapter/FacebookAdapter reales). No reimplementa ninguno de los dos.",
+  "type": "module",
+  "private": true,
+  "main": "src/publishingScheduler.js",
+  "scripts": {
+    "test": "node --test \"test/**/*.test.js\""
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}

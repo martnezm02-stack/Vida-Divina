@@ -1,0 +1,15 @@
+{
+  "name": "vida-divina-creative-intelligence",
+  "version": "0.1.0",
+  "description": "Capa de inteligencia estratégica creativa — implementa los 5 Pilares del framework AI Agentic Creative Ops 2026 (Persona, Pain, Angle, Format, Synthesis/CreativeCell/ProductionBrief) más la taxonomía de evidencia (Data→Observation→Pattern→Learning→Recommendation) y la abstracción anti-copia de investigación competitiva. NO conecta Meta Ad Library, Instagram, Facebook, WhatsApp ni PostgreSQL — expone únicamente contratos/interfaces para esas fuentes futuras. Aislado de content-strategy/ (que ya tiene su propio vocabulario distinto de 'angle'/'hook'/'format'/'pillar' para generación de contenido — ver README, sección de colisión de nombres).",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "test": "node --test \"test/**/*.test.js\""
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}

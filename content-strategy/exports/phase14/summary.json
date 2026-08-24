@@ -1,0 +1,20 @@
+{
+  "items_count": 5,
+  "unique_hook_variants": 5,
+  "unique_angles": 4,
+  "unique_formats": 3,
+  "unique_pillars": 4,
+  "batch_diversity_valid": true,
+  "final_statuses": [
+    "READY_TO_PUBLISH",
+    "REVIEW_REQUIRED",
+    "REVIEW_REQUIRED",
+    "REVIEW_REQUIRED",
+    "REVIEW_REQUIRED"
+  ],
+  "approved_by": "humano_revisor_demo_fase14",
+  "generation_method": "rule_based_template",
+  "llm_real_used": false,
+  "published": false,
+  "generated_at": "2026-08-12T03:53:12.665Z"
+}

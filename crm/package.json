@@ -1,0 +1,20 @@
+{
+  "name": "vida-divina-crm",
+  "version": "0.1.0",
+  "description": "CRM / Customer 360 — Fase B: Core Data Store sobre PostgreSQL. Única puerta de acceso a PostgreSQL en todo el proyecto (Decisión Arquitectónica #6 — ver docs/ARCHITECTURE_v1.md §11 y docs/PROJECT_STATE.md §6). Implementa exclusivamente las entidades aprobadas en docs/CRM_FASE_A_DATA_MODEL.md: customers, customer_channels, conversations, messages, state_transitions, opportunities, offers_log, follow_ups, handoffs, product_pricing. orders/payments permanecen bloqueadas por decisión de negocio pendiente. No conectado todavía a simulator/src/contextoStorage.js ni a ningún módulo de negocio — ver docs/CRM_FASE_B_POSTGRESQL.md.",
+  "type": "module",
+  "private": true,
+  "main": "index.js",
+  "scripts": {
+    "migrate": "node --env-file-if-exists=.env db/migrate.js up",
+    "migrate:status": "node --env-file-if-exists=.env db/migrate.js status",
+    "test": "node --env-file-if-exists=.env --test --test-concurrency=1 \"test/**/*.test.js\""
+  },
+  "engines": {
+    "node": ">=20.6.0"
+  },
+  "dependencies": {
+    "pg": "^8.13.1"
+  },
+  "devDependencies": {}
+}

@@ -1,0 +1,17 @@
+{
+  "name": "vida-divina-dashboard",
+  "version": "0.1.0",
+  "description": "Operation Dashboard — capa de presentación y operación local sobre el Content Generation Engine real (content-orchestrator/, creative-intelligence/, video-production/). No es un segundo cerebro ni un segundo renderer: cada endpoint del servidor importa y llama directamente a los módulos reales ya existentes. Servidor HTTP y frontend sin dependencias externas (node:http + HTML/CSS/JS vanilla), mismo criterio zero-dependency del resto del proyecto (ver whatsapp-adapter/src/httpServer.js).",
+  "type": "module",
+  "private": true,
+  "main": "server/index.js",
+  "scripts": {
+    "start": "node server/index.js",
+    "test": "node --env-file-if-exists=../crm/.env --env-file-if-exists=../whatsapp-adapter/.env --test \"test/**/*.test.js\""
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}

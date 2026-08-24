@@ -4,6 +4,12 @@
 
 Aperturas de conversación según el canal por el que llega el cliente. Objetivo de este momento del embudo: generar una respuesta cálida y natural, **sin vender ni recomendar todavía** — eso ocurre después de [Descubrimiento](../descubrimiento/index.md).
 
+## Guion comercial vigente (Sprint 5)
+
+| Escenario | Cuándo usarlo |
+|---|---|
+| [Mensaje inicial oficial](./mensaje_inicial.md) | **Guion comercial vigente** — se usa siempre, sin importar el canal de origen. Los 4 escenarios de "Construidos" abajo se conservan como contexto histórico/complementario, no como guion de apertura vigente. |
+
 ## Construidos
 
 | Escenario | Cuándo usarlo |

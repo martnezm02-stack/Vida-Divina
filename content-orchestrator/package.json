@@ -1,0 +1,15 @@
+{
+  "name": "vida-divina-content-orchestrator",
+  "version": "0.1.0",
+  "description": "Content Request + Content Orchestrator + PostProduction — convierte una intención de contenido (Campaign Mode o Direct Instruction Mode) en un Final Asset Package real, coordinando creative-intelligence/, video-production/ y voice-engine/ ya existentes sin duplicarlos. No es un segundo cerebro: no reimplementa Persona/Pain/Angle/Format/CreativeCell/ProductionArtifact/VisualProductionPackage/HyperFrames — los consume tal cual.",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "test": "node --test \"test/**/*.test.js\""
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}

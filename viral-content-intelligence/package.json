@@ -1,0 +1,17 @@
+{
+  "name": "vida-divina-viral-content-intelligence",
+  "version": "0.1.0",
+  "description": "Viral Content Intelligence — Fase 11 (piloto MVP): convierte contenido público de YouTube + señales observables de rendimiento (views) en inteligencia estructurada (observaciones/patrones/hipótesis/oportunidades de contenido) que alimenta ContentBrief. Reutiliza taxonomy/RawStore/IntelligenceStore/CostGuard/AnalysisCache/LLMProvider de marketing-intelligence y ContentBrief de website-intelligence — no los duplica. Aprende patrones, no copia contenido.",
+  "type": "module",
+  "private": true,
+  "main": "phase11Mvp.js",
+  "scripts": {
+    "demo": "node phase11Mvp.js",
+    "test": "node --test \"test/**/*.test.js\""
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}

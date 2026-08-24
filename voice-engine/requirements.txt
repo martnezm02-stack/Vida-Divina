@@ -1,0 +1,15 @@
+# IMPORTANTE: setuptools debe quedar por debajo de la version 82 en este
+# entorno. setuptools>=82 elimino pkg_resources, del que depende
+# resemble-perth (dependencia de chatterbox-tts) para cargar su watermarker
+# real. Ver voice-engine/README.md, seccion "Problemas conocidos".
+setuptools<82
+
+chatterbox-tts
+fastapi
+uvicorn[standard]
+python-multipart
+python-dotenv
+
+# Solo para tests (voice-engine/tests/)
+pytest
+httpx

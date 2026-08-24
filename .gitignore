@@ -1,0 +1,54 @@
+# Datos de runtime de conversaciones reales (contexto persistido por
+# simulator/src/contextoStorage.js) — nunca deben entrar al repositorio,
+# a diferencia de knowledge/ (que es conocimiento de negocio regenerable).
+# Ver docs/agente_ia/memoria.md.
+data/conversaciones/
+
+# Variables de entorno con secretos (tokens de acceso de Meta, App Secret,
+# verify token, credenciales de PostgreSQL) — nunca al repositorio. Cubre
+# .env, whatsapp-adapter.env, crm/.env, y cualquier otro *.env que se cree
+# ad hoc. Ver whatsapp-adapter/.env.example y crm/.env.example (esos SÍ se
+# versionan — son las plantillas sin secretos).
+**/*.env
+
+# Dependencias instaladas — primer módulo con dependencias reales es crm/
+# (Fase B, driver PostgreSQL "pg", ver docs/CRM_FASE_B_POSTGRESQL.md). Todos
+# los demás módulos siguen con "dependencies": {} y no generan node_modules/.
+node_modules/
+
+# graft's local graph cache — regenerable, not committed (run `graft build`).
+graft/
+
+# Almacenes de estado en tiempo de ejecución (lineage de assets, cycles,
+# evidence, production artifacts, observaciones de performance...)
+# generados por el propio código al usarse — mismo criterio que
+# data/conversaciones/ arriba: no es conocimiento de negocio versionable
+# (a diferencia de knowledge/), es un dump local que crece con cada sesión
+# real. Auditoría de commit seguro, 2026-08-23.
+content-orchestrator/data/
+content-planning/data/
+content-strategy/data/
+creative-intelligence/data/
+marketing-intelligence/data/
+performance-learning-intelligence/data/
+publishing-scheduler/data/
+viral-content-intelligence/data/
+
+# Outputs reales de render/generación (video, audio, frames) producidos al
+# correr la app o los scripts de validación manual "real-*"/"smoke-*" — no
+# son fixtures que los tests automatizados requieran (esos generan los
+# suyos en directorios temporales), son artefactos de sesión, grandes y
+# 100% regenerables. video-production/_audio-cache/ NO se incluye aquí a
+# propósito: es una selección curada y real de WAV que
+# voiceEngineClient.js#listExistingAudioAssets() lista en producción.
+# Auditoría de commit seguro, 2026-08-23.
+video-production/dashboard-outputs/
+video-production/audit-frames/
+video-production/frames-check/
+video-production/content-generation-engine-real-*/
+video-production/real-e2e-content-orchestrator/
+video-production/te-divina-*/
+video-production/te-divina-*.mp4
+video-production/output-cc-a1-a.mp4
+content-orchestrator/test/_smoke-outputs/
+content-orchestrator/test/_smoke-*-output.mp4

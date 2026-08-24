@@ -1,0 +1,149 @@
+[
+  {
+    "content_brief_id": "72359d6e-f2ec-4810-9629-458b5f0663a9",
+    "page_type": "pagina_producto",
+    "objective": "Brief de INVESTIGACIÓN #1 — qué probar para TéDivina a partir de un patrón observado en YouTube, nunca qué copiar.",
+    "product_ref": "TéDivina",
+    "audience": [],
+    "problem": [],
+    "desire": [
+      {
+        "source_module": "marketing_intelligence",
+        "reference_type": "inference",
+        "reference_id": "d2ab0c6a-27ed-42d1-a8e9-07c7b31ec1b1",
+        "rationale": "ANGLE → \"educación\" — aparece en 1 de 26 observaciones de contenido (selected_youtube_sample (N=5, Fase 11))."
+      }
+    ],
+    "promise": [],
+    "mechanism": [],
+    "objections": [],
+    "social_proof": [],
+    "offer": null,
+    "cta": [],
+    "main_message": "El patrón \"ANGLE → educación\" es una posible línea de exploración de contenido para TéDivina, a validar con revisión humana antes de cualquier producción real.",
+    "structure_refs": [
+      {
+        "source_module": "marketing_intelligence",
+        "reference_type": "hypothesis",
+        "reference_id": "89c5f206-427f-4174-8070-abfad3220591",
+        "rationale": "Hipótesis a probar, no un hecho: El patrón \"educación\" (dimensión: ANGLE) podría tener algún efecto, pero esto es especulativo y no está verificado."
+      }
+    ],
+    "design_pattern_refs": [],
+    "design_system_ref": null,
+    "constraints": [
+      "No copiar títulos, guiones, frases largas, estructura palabra por palabra ni CTA literal del contenido externo observado.",
+      "No afirmar que el patrón observado \"es viral\" ni que \"garantiza\" ningún resultado.",
+      "Usar únicamente lo documentado en PRIMARY_PRODUCT_CONTEXT (docs/productos.md, docs/productos/01-control-de-peso/tedivina.md, docs/clientes/perder_peso.md) para cualquier afirmación sobre el producto."
+    ],
+    "claims": [
+      {
+        "claim_text": "eliminate tea okay so let",
+        "claim_type": "health_benefit_claim",
+        "source_claim_id": "731b22a6-d199-4a62-923f-e73aa282beff",
+        "verified_by_vida_divina": false,
+        "requires_human_review": true
+      }
+    ],
+    "requires_human_review": true,
+    "created_at": "2026-08-12T03:22:22.213Z"
+  },
+  {
+    "content_brief_id": "e5689055-d71b-4089-bd6b-617347c08f2d",
+    "page_type": "pagina_producto",
+    "objective": "Brief de INVESTIGACIÓN #2 — qué probar para TéDivina a partir de un patrón observado en YouTube, nunca qué copiar.",
+    "product_ref": "TéDivina",
+    "audience": [],
+    "problem": [],
+    "desire": [
+      {
+        "source_module": "marketing_intelligence",
+        "reference_type": "inference",
+        "reference_id": "df39da43-6d26-431a-a7de-7ca063b39593",
+        "rationale": "DESIRE → \"deseo_explicito\" — aparece en 3 de 26 observaciones de contenido (selected_youtube_sample (N=5, Fase 11))."
+      }
+    ],
+    "promise": [],
+    "mechanism": [],
+    "objections": [],
+    "social_proof": [],
+    "offer": null,
+    "cta": [],
+    "main_message": "El patrón \"DESIRE → deseo_explicito\" es una posible línea de exploración de contenido para TéDivina, a validar con revisión humana antes de cualquier producción real.",
+    "structure_refs": [
+      {
+        "source_module": "marketing_intelligence",
+        "reference_type": "hypothesis",
+        "reference_id": "6dcc2ce0-23b0-4298-898b-eccc8ca2fee0",
+        "rationale": "Hipótesis a probar, no un hecho: El patrón \"deseo_explicito\" (dimensión: DESIRE) podría tener algún efecto, pero esto es especulativo y no está verificado."
+      }
+    ],
+    "design_pattern_refs": [],
+    "design_system_ref": null,
+    "constraints": [
+      "No copiar títulos, guiones, frases largas, estructura palabra por palabra ni CTA literal del contenido externo observado.",
+      "No afirmar que el patrón observado \"es viral\" ni que \"garantiza\" ningún resultado.",
+      "Usar únicamente lo documentado en PRIMARY_PRODUCT_CONTEXT (docs/productos.md, docs/productos/01-control-de-peso/tedivina.md, docs/clientes/perder_peso.md) para cualquier afirmación sobre el producto."
+    ],
+    "claims": [
+      {
+        "claim_text": "eliminate tea okay so let",
+        "claim_type": "health_benefit_claim",
+        "source_claim_id": "731b22a6-d199-4a62-923f-e73aa282beff",
+        "verified_by_vida_divina": false,
+        "requires_human_review": true
+      }
+    ],
+    "requires_human_review": true,
+    "created_at": "2026-08-12T03:22:22.213Z"
+  },
+  {
+    "content_brief_id": "89c3d1f2-010f-490c-8438-8f75a2b2f001",
+    "page_type": "pagina_producto",
+    "objective": "Brief de INVESTIGACIÓN #3 — qué probar para TéDivina a partir de un patrón observado en YouTube, nunca qué copiar.",
+    "product_ref": "TéDivina",
+    "audience": [],
+    "problem": [],
+    "desire": [
+      {
+        "source_module": "marketing_intelligence",
+        "reference_type": "inference",
+        "reference_id": "a071af42-d4ef-4617-abb1-1a7299769625",
+        "rationale": "MECHANISM → \"mecanismo_explicado\" — aparece en 1 de 26 observaciones de contenido (selected_youtube_sample (N=5, Fase 11))."
+      }
+    ],
+    "promise": [],
+    "mechanism": [],
+    "objections": [],
+    "social_proof": [],
+    "offer": null,
+    "cta": [],
+    "main_message": "El patrón \"MECHANISM → mecanismo_explicado\" es una posible línea de exploración de contenido para TéDivina, a validar con revisión humana antes de cualquier producción real.",
+    "structure_refs": [
+      {
+        "source_module": "marketing_intelligence",
+        "reference_type": "hypothesis",
+        "reference_id": "eda826d0-c0f1-45ce-82b5-31ea23d63eb7",
+        "rationale": "Hipótesis a probar, no un hecho: El patrón \"mecanismo_explicado\" (dimensión: MECHANISM) podría tener algún efecto, pero esto es especulativo y no está verificado."
+      }
+    ],
+    "design_pattern_refs": [],
+    "design_system_ref": null,
+    "constraints": [
+      "No copiar títulos, guiones, frases largas, estructura palabra por palabra ni CTA literal del contenido externo observado.",
+      "No afirmar que el patrón observado \"es viral\" ni que \"garantiza\" ningún resultado.",
+      "Usar únicamente lo documentado en PRIMARY_PRODUCT_CONTEXT (docs/productos.md, docs/productos/01-control-de-peso/tedivina.md, docs/clientes/perder_peso.md) para cualquier afirmación sobre el producto."
+    ],
+    "claims": [
+      {
+        "claim_text": "eliminate tea okay so let",
+        "claim_type": "health_benefit_claim",
+        "source_claim_id": "731b22a6-d199-4a62-923f-e73aa282beff",
+        "verified_by_vida_divina": false,
+        "requires_human_review": true
+      }
+    ],
+    "requires_human_review": true,
+    "created_at": "2026-08-12T03:22:22.213Z"
+  }
+]

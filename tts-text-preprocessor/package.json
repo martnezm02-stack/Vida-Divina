@@ -1,0 +1,16 @@
+{
+  "name": "vida-divina-tts-text-preprocessor",
+  "version": "0.1.0",
+  "description": "Revisión lingüística del texto del agente comercial antes de enviarlo al motor TTS (Chatterbox es-MX-LatAm). No genera audio, no envía WhatsApp, no modifica contenido comercial — solo prepara ortografía, puntuación y estructura para habla natural, con auditoría completa de cada cambio. Fase experimental: aún no integrado al pipeline.",
+  "type": "module",
+  "private": true,
+  "main": "src/preprocessor.js",
+  "scripts": {
+    "test": "node --test \"test/**/*.test.js\""
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}

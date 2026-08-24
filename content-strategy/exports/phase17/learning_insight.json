@@ -1,0 +1,23 @@
+{
+  "insight_id": "ac1eb8b1-7245-4412-ab70-1763bd337e33",
+  "dimension": "FORMAT",
+  "pattern": "slideshow",
+  "evidence": "La publicación real de esta pieza (formato \"slideshow\") presenta views con dirección ABOVE_BASELINE respecto a un baseline sintético de referencia — dato de una sola publicación, confianza baja.",
+  "based_on_content_ids": [
+    "b4fd1d25-b6bb-45b1-9a33-0cdbbc932485"
+  ],
+  "based_on_performance_observation_ids": [
+    "0bb20862-1366-4e29-b3a0-76a8b558a6c1"
+  ],
+  "based_on_signal_ids": [
+    "23b64101-c549-43c4-9393-8c13e95afbec"
+  ],
+  "scope": "fase17_publication_loop (N=1 publicación real de simulación vs baseline sintético N=5)",
+  "direction": "ABOVE_BASELINE",
+  "confidence": 0.3,
+  "confidence_basis": "una sola publicación (simulada) — insuficiente para cualquier conclusión sólida, solo demuestra que el circuito funciona.",
+  "basis": "INFERENCIA",
+  "requires_human_review": true,
+  "external_reference": null,
+  "created_at": "2026-08-12T04:20:38.537Z"
+}

@@ -1,0 +1,17 @@
+{
+  "review_id": "bd9f47d5-bfb0-4f00-9e0d-958b4e1dea7a",
+  "content_item_id": "258ae23e-5468-4e53-9496-81c00e22baa1",
+  "content_version": "802129ccf95004e14312ca89262f2d951c9becd5e0f3fd3b232df7779c539daf",
+  "reviewer_id": "martnezm02@gmail.com",
+  "reviewed_at": "2026-08-12T04:13:05.530Z",
+  "decision": "APPROVE",
+  "reviewed_quality_gate": {
+    "passed": true,
+    "failures_count": 0
+  },
+  "reviewed_product_truth_gate": {
+    "status": "REVIEW_REQUIRED",
+    "reasons_count": 3
+  },
+  "notes": "Aprobado a pesar de REVIEW_REQUIRED (lenguaje de \"desintoxicación\") — el catálogo real de TéDivina documenta explícitamente ese uso como preparación previa a un programa, no como resultado garantizado. Revisar antes de cualquier publicación real."
+}

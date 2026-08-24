@@ -1,0 +1,276 @@
+[
+  {
+    "draft_id": "771ed803-f90d-42d7-b46b-5756da0fd930",
+    "content_item_id": "258ae23e-5468-4e53-9496-81c00e22baa1",
+    "format": "slideshow",
+    "platform": "instagram",
+    "title": null,
+    "hook": "¿Sabías que la desintoxicación corporal previa a un programa de pérdida de peso para entender qué ocurre antes de empezar?",
+    "body": "El objetivo de esta pieza es explicar TéDivina desde el ángulo \"educación\" (variante de hook: QUESTION): la desintoxicación corporal previa a un programa de pérdida de peso. Ingredientes reales declarados: malva, mirra, cardo bendito. Referencia de objetivo de campaña: Producir piezas educativas genuinamente distintas para TéDivina, combinando mercado + contenido externo + aprendizaje propio.. Contenido experimental — los resultados pueden variar de persona a persona y no se afirma ningún beneficio no documentado en el catálogo oficial.",
+    "visual_direction": null,
+    "scene_structure": [
+      {
+        "block": "hook",
+        "content": "¿Sabías que la desintoxicación corporal previa a un programa de pérdida de peso para entender qué ocurre antes de empezar?"
+      },
+      {
+        "block": "contexto",
+        "content": "Contexto (educación): antes de cualquier avance hay un paso previo que suele pasarse por alto."
+      },
+      {
+        "block": "desarrollo",
+        "content": "Desarrollo: malva y mirra — sin afirmar un resultado no documentado."
+      },
+      {
+        "block": "insight",
+        "content": "Insight (variante QUESTION): el patrón editorial usado aquí es \"question\", nunca la frase literal de ninguna fuente externa."
+      },
+      {
+        "block": "cta",
+        "content": null
+      }
+    ],
+    "caption": "¿Sabías que la desintoxicación corporal previa a un programa de pérdida de peso para entender qué ocurre antes de empezar?",
+    "cta": "Conoce los ingredientes de TéDivina en el catálogo.",
+    "claims": [],
+    "source_references": [
+      {
+        "source_module": "marketing_intelligence",
+        "reference_type": "inference",
+        "reference_id": "a3c646a8-6c9a-4d3e-bf5a-7734549f8fb4",
+        "rationale": "Patrón real: hook → \"Apertura o título con pregunta\"."
+      },
+      {
+        "source_module": "viral_content_intelligence",
+        "reference_type": "content_opportunity",
+        "reference_id": "1827b8e1-b3ad-4a66-8581-d4f725d4037f",
+        "rationale": "ANGLE → \"educación\" — aparece en 1 de 26 observaciones de contenido (selected_youtube_sample (N=5, Fase 11))."
+      },
+      {
+        "source_module": "performance_learning_intelligence",
+        "reference_type": "learning_insight",
+        "reference_id": "8770ab9c-0b55-49d1-87c2-a0d17aa879ac",
+        "rationale": "Aprendizaje propio: 5 de 10 contenidos con hook \"question\" presentan views con dirección ABOVE_BASELINE respecto al baseline en esta muestra (detalle: NORMAL, ABOVE_BASELINE, BELOW_BASELINE, NORMAL, ABOVE_BASELINE)."
+      }
+    ],
+    "generation_method": "rule_based_template",
+    "requires_human_review": true,
+    "created_at": "2026-08-12T03:53:12.656Z"
+  },
+  {
+    "draft_id": "28bdda34-d71d-4124-acb7-dc17d983d1aa",
+    "content_item_id": "d8044098-d493-45ce-be73-371e97e493c5",
+    "format": "short_video",
+    "platform": "instagram",
+    "title": null,
+    "hook": "\"Empezar directo funciona igual\" — eso es un mito. La realidad: la desintoxicación corporal previa a un programa de pérdida de peso, comparado con saltarse ese paso por completo.",
+    "body": "El objetivo de esta pieza es describir el producto sin afirmar un resultado TéDivina desde el ángulo \"comparación\" (variante de hook: MYTH): la desintoxicación corporal previa a un programa de pérdida de peso. Ingredientes reales declarados: malva, mirra, cardo bendito. Referencia de objetivo de campaña: Producir piezas educativas genuinamente distintas para TéDivina, combinando mercado + contenido externo + aprendizaje propio.. Contenido experimental — los resultados pueden variar de persona a persona y no se afirma ningún beneficio no documentado en el catálogo oficial.",
+    "visual_direction": null,
+    "scene_structure": [
+      {
+        "block": "hook",
+        "content": "\"Empezar directo funciona igual\" — eso es un mito. La realidad: la desintoxicación corporal previa a un programa de pérdida de peso, comparado con saltarse ese paso por completo."
+      },
+      {
+        "block": "desarrollo",
+        "content": "Desarrollo: malva y mirra — sin afirmar un resultado no documentado."
+      },
+      {
+        "block": "proof_context",
+        "content": "Contexto (sin prueba social inventada): esta pieza describir el producto sin afirmar un resultado el producto, no afirma testimonios que el catálogo no documenta."
+      },
+      {
+        "block": "cta",
+        "content": null
+      }
+    ],
+    "caption": "\"Empezar directo funciona igual\" — eso es un mito. La realidad: la desintoxicación corporal previa a un programa de pérdida de peso, comparado con saltarse ese paso por completo.",
+    "cta": "Descubre qué SÍ declara el catálogo de TéDivina.",
+    "claims": [],
+    "source_references": [
+      {
+        "source_module": "marketing_intelligence",
+        "reference_type": "inference",
+        "reference_id": "a3c646a8-6c9a-4d3e-bf5a-7734549f8fb4",
+        "rationale": "Patrón real: hook → \"Apertura o título con pregunta\"."
+      },
+      {
+        "source_module": "viral_content_intelligence",
+        "reference_type": "content_opportunity",
+        "reference_id": "1827b8e1-b3ad-4a66-8581-d4f725d4037f",
+        "rationale": "ANGLE → \"educación\" — aparece en 1 de 26 observaciones de contenido (selected_youtube_sample (N=5, Fase 11))."
+      },
+      {
+        "source_module": "performance_learning_intelligence",
+        "reference_type": "learning_insight",
+        "reference_id": "8770ab9c-0b55-49d1-87c2-a0d17aa879ac",
+        "rationale": "Aprendizaje propio: 5 de 10 contenidos con hook \"question\" presentan views con dirección ABOVE_BASELINE respecto al baseline en esta muestra (detalle: NORMAL, ABOVE_BASELINE, BELOW_BASELINE, NORMAL, ABOVE_BASELINE)."
+      }
+    ],
+    "generation_method": "rule_based_template",
+    "requires_human_review": true,
+    "created_at": "2026-08-12T03:53:12.657Z"
+  },
+  {
+    "draft_id": "703fd52f-e599-4d8b-aaff-da6156401bb7",
+    "content_item_id": "dc12b946-39fe-436e-93c5-27214f864eb4",
+    "format": "static",
+    "platform": "youtube_shorts",
+    "title": null,
+    "hook": "La desintoxicación corporal previa a un programa de pérdida de peso, cuando el cuerpo todavía no está listo: el paso que muchos se saltan.",
+    "body": "El objetivo de esta pieza es hacer visible un problema TéDivina desde el ángulo \"problema\" (variante de hook: PROBLEM): la desintoxicación corporal previa a un programa de pérdida de peso. Ingredientes reales declarados: malva, mirra, cardo bendito. Referencia de objetivo de campaña: Producir piezas educativas genuinamente distintas para TéDivina, combinando mercado + contenido externo + aprendizaje propio.. Contenido experimental — los resultados pueden variar de persona a persona y no se afirma ningún beneficio no documentado en el catálogo oficial.",
+    "visual_direction": null,
+    "scene_structure": [
+      {
+        "block": "headline",
+        "content": "La desintoxicación corporal previa a un programa de pérdida de peso, cuando el cuerpo todavía no está listo: el paso que muchos se saltan."
+      },
+      {
+        "block": "supporting_message",
+        "content": "Mensaje de apoyo (problema): información tomada únicamente del catálogo oficial."
+      },
+      {
+        "block": "cta",
+        "content": null
+      }
+    ],
+    "caption": "La desintoxicación corporal previa a un programa de pérdida de peso, cuando el cuerpo todavía no está listo: el paso que muchos se saltan.",
+    "cta": "Lee más sobre la etapa previa en el catálogo.",
+    "claims": [],
+    "source_references": [
+      {
+        "source_module": "marketing_intelligence",
+        "reference_type": "inference",
+        "reference_id": "a3c646a8-6c9a-4d3e-bf5a-7734549f8fb4",
+        "rationale": "Patrón real: hook → \"Apertura o título con pregunta\"."
+      },
+      {
+        "source_module": "viral_content_intelligence",
+        "reference_type": "content_opportunity",
+        "reference_id": "1827b8e1-b3ad-4a66-8581-d4f725d4037f",
+        "rationale": "ANGLE → \"educación\" — aparece en 1 de 26 observaciones de contenido (selected_youtube_sample (N=5, Fase 11))."
+      },
+      {
+        "source_module": "performance_learning_intelligence",
+        "reference_type": "learning_insight",
+        "reference_id": "8770ab9c-0b55-49d1-87c2-a0d17aa879ac",
+        "rationale": "Aprendizaje propio: 5 de 10 contenidos con hook \"question\" presentan views con dirección ABOVE_BASELINE respecto al baseline en esta muestra (detalle: NORMAL, ABOVE_BASELINE, BELOW_BASELINE, NORMAL, ABOVE_BASELINE)."
+      }
+    ],
+    "generation_method": "rule_based_template",
+    "requires_human_review": true,
+    "created_at": "2026-08-12T03:53:12.657Z"
+  },
+  {
+    "draft_id": "478b0ad5-1508-4bb8-81f6-954afa810fa2",
+    "content_item_id": "f4610d20-e19f-475a-8a06-3780d5773905",
+    "format": "slideshow",
+    "platform": "youtube_shorts",
+    "title": null,
+    "hook": "Cómo entender la desintoxicación corporal previa a un programa de pérdida de peso, y cómo actúa cada ingrediente en ese momento puntual.",
+    "body": "El objetivo de esta pieza es explicar TéDivina desde el ángulo \"mecanismo\" (variante de hook: EDUCATIONAL): la desintoxicación corporal previa a un programa de pérdida de peso. Ingredientes reales declarados: malva, mirra, cardo bendito. Referencia de objetivo de campaña: Producir piezas educativas genuinamente distintas para TéDivina, combinando mercado + contenido externo + aprendizaje propio.. Contenido experimental — los resultados pueden variar de persona a persona y no se afirma ningún beneficio no documentado en el catálogo oficial.",
+    "visual_direction": null,
+    "scene_structure": [
+      {
+        "block": "hook",
+        "content": "Cómo entender la desintoxicación corporal previa a un programa de pérdida de peso, y cómo actúa cada ingrediente en ese momento puntual."
+      },
+      {
+        "block": "contexto",
+        "content": "Contexto (mecanismo): antes de cualquier avance hay un paso previo que suele pasarse por alto."
+      },
+      {
+        "block": "desarrollo",
+        "content": "Desarrollo: malva y mirra — sin afirmar un resultado no documentado."
+      },
+      {
+        "block": "insight",
+        "content": "Insight (variante EDUCATIONAL): el patrón editorial usado aquí es \"educational\", nunca la frase literal de ninguna fuente externa."
+      },
+      {
+        "block": "cta",
+        "content": null
+      }
+    ],
+    "caption": "Cómo entender la desintoxicación corporal previa a un programa de pérdida de peso, y cómo actúa cada ingrediente en ese momento puntual.",
+    "cta": "Conoce los ingredientes de TéDivina en el catálogo.",
+    "claims": [],
+    "source_references": [
+      {
+        "source_module": "marketing_intelligence",
+        "reference_type": "inference",
+        "reference_id": "a3c646a8-6c9a-4d3e-bf5a-7734549f8fb4",
+        "rationale": "Patrón real: hook → \"Apertura o título con pregunta\"."
+      },
+      {
+        "source_module": "viral_content_intelligence",
+        "reference_type": "content_opportunity",
+        "reference_id": "1827b8e1-b3ad-4a66-8581-d4f725d4037f",
+        "rationale": "ANGLE → \"educación\" — aparece en 1 de 26 observaciones de contenido (selected_youtube_sample (N=5, Fase 11))."
+      },
+      {
+        "source_module": "performance_learning_intelligence",
+        "reference_type": "learning_insight",
+        "reference_id": "8770ab9c-0b55-49d1-87c2-a0d17aa879ac",
+        "rationale": "Aprendizaje propio: 5 de 10 contenidos con hook \"question\" presentan views con dirección ABOVE_BASELINE respecto al baseline en esta muestra (detalle: NORMAL, ABOVE_BASELINE, BELOW_BASELINE, NORMAL, ABOVE_BASELINE)."
+      }
+    ],
+    "generation_method": "rule_based_template",
+    "requires_human_review": true,
+    "created_at": "2026-08-12T03:53:12.657Z"
+  },
+  {
+    "draft_id": "7ae712d1-a891-49c2-a3a7-fb055f4578a8",
+    "content_item_id": "24764404-3013-4379-abd5-730c11c168f1",
+    "format": "short_video",
+    "platform": "instagram",
+    "title": null,
+    "hook": "No es lo mismo ignorar la desintoxicación corporal previa a un programa de pérdida de peso que prepararse comparado con saltarse ese paso por completo.",
+    "body": "El objetivo de esta pieza es responder una duda TéDivina desde el ángulo \"comparación\" (variante de hook: CONTRAST): la desintoxicación corporal previa a un programa de pérdida de peso. Ingredientes reales declarados: malva, mirra, cardo bendito. Referencia de objetivo de campaña: Producir piezas educativas genuinamente distintas para TéDivina, combinando mercado + contenido externo + aprendizaje propio.. Contenido experimental — los resultados pueden variar de persona a persona y no se afirma ningún beneficio no documentado en el catálogo oficial.",
+    "visual_direction": null,
+    "scene_structure": [
+      {
+        "block": "hook",
+        "content": "No es lo mismo ignorar la desintoxicación corporal previa a un programa de pérdida de peso que prepararse comparado con saltarse ese paso por completo."
+      },
+      {
+        "block": "desarrollo",
+        "content": "Desarrollo: malva y mirra — sin afirmar un resultado no documentado."
+      },
+      {
+        "block": "proof_context",
+        "content": "Contexto (sin prueba social inventada): esta pieza responder una duda el producto, no afirma testimonios que el catálogo no documenta."
+      },
+      {
+        "block": "cta",
+        "content": null
+      }
+    ],
+    "caption": "No es lo mismo ignorar la desintoxicación corporal previa a un programa de pérdida de peso que prepararse comparado con saltarse ese paso por completo.",
+    "cta": "Compara con tus propias dudas antes de decidir.",
+    "claims": [],
+    "source_references": [
+      {
+        "source_module": "marketing_intelligence",
+        "reference_type": "inference",
+        "reference_id": "a3c646a8-6c9a-4d3e-bf5a-7734549f8fb4",
+        "rationale": "Patrón real: hook → \"Apertura o título con pregunta\"."
+      },
+      {
+        "source_module": "viral_content_intelligence",
+        "reference_type": "content_opportunity",
+        "reference_id": "1827b8e1-b3ad-4a66-8581-d4f725d4037f",
+        "rationale": "ANGLE → \"educación\" — aparece en 1 de 26 observaciones de contenido (selected_youtube_sample (N=5, Fase 11))."
+      },
+      {
+        "source_module": "performance_learning_intelligence",
+        "reference_type": "learning_insight",
+        "reference_id": "8770ab9c-0b55-49d1-87c2-a0d17aa879ac",
+        "rationale": "Aprendizaje propio: 5 de 10 contenidos con hook \"question\" presentan views con dirección ABOVE_BASELINE respecto al baseline en esta muestra (detalle: NORMAL, ABOVE_BASELINE, BELOW_BASELINE, NORMAL, ABOVE_BASELINE)."
+      }
+    ],
+    "generation_method": "rule_based_template",
+    "requires_human_review": true,
+    "created_at": "2026-08-12T03:53:12.657Z"
+  }
+]

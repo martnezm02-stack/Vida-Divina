@@ -1,0 +1,448 @@
+[
+  {
+    "content_opportunity_id": "1827b8e1-b3ad-4a66-8581-d4f725d4037f",
+    "market_pattern": {
+      "description": "ANGLE → \"educación\" — aparece en 1 de 26 observaciones de contenido (selected_youtube_sample (N=5, Fase 11)).",
+      "dimension": "ANGLE",
+      "frequency": 0.04,
+      "scope": "selected_youtube_sample (N=5, Fase 11)",
+      "inference_id": "d2ab0c6a-27ed-42d1-a8e9-07c7b31ec1b1"
+    },
+    "performance_signal": {
+      "observation_id": "0bb7ac05-13f4-46ea-b001-2521bcbf1c01",
+      "metric": "views",
+      "metric_value": 10395
+    },
+    "source_observation_ids": [
+      "1eaa4e84-5a6a-4c7e-90d0-13d41e7553b6"
+    ],
+    "hypothesis": {
+      "hypothesis_id": "89c5f206-427f-4174-8070-abfad3220591",
+      "text": "El patrón \"educación\" (dimensión: ANGLE) podría tener algún efecto, pero esto es especulativo y no está verificado."
+    },
+    "vida_divina_relevance": {
+      "relation_to_primary_context": "El patrón \"ANGLE → educación\" es una posible línea de exploración de contenido para TéDivina, a validar con revisión humana antes de cualquier producción real.",
+      "product_ref": "TéDivina",
+      "risk_note": "Patrón observado en contenido de terceros sobre la categoría \"detox tea\" en general — no implica que TéDivina deba adoptarlo, ni que produciría el mismo resultado."
+    },
+    "requires_human_review": true,
+    "created_at": "2026-08-12T03:22:22.212Z"
+  },
+  {
+    "content_opportunity_id": "88f05709-7990-49dd-8d20-1b8db95cb93a",
+    "market_pattern": {
+      "description": "DESIRE → \"deseo_explicito\" — aparece en 3 de 26 observaciones de contenido (selected_youtube_sample (N=5, Fase 11)).",
+      "dimension": "DESIRE",
+      "frequency": 0.12,
+      "scope": "selected_youtube_sample (N=5, Fase 11)",
+      "inference_id": "df39da43-6d26-431a-a7de-7ca063b39593"
+    },
+    "performance_signal": {
+      "observation_id": "0bb7ac05-13f4-46ea-b001-2521bcbf1c01",
+      "metric": "views",
+      "metric_value": 10395
+    },
+    "source_observation_ids": [
+      "126a1344-4d28-431f-a99e-45d6cb64d3d2",
+      "364aca75-6bff-4fe0-901f-b3297403bce2",
+      "02e4c4be-3632-46b3-a7ac-a97dac25723d"
+    ],
+    "hypothesis": {
+      "hypothesis_id": "6dcc2ce0-23b0-4298-898b-eccc8ca2fee0",
+      "text": "El patrón \"deseo_explicito\" (dimensión: DESIRE) podría tener algún efecto, pero esto es especulativo y no está verificado."
+    },
+    "vida_divina_relevance": {
+      "relation_to_primary_context": "El patrón \"DESIRE → deseo_explicito\" es una posible línea de exploración de contenido para TéDivina, a validar con revisión humana antes de cualquier producción real.",
+      "product_ref": "TéDivina",
+      "risk_note": "Patrón observado en contenido de terceros sobre la categoría \"detox tea\" en general — no implica que TéDivina deba adoptarlo, ni que produciría el mismo resultado."
+    },
+    "requires_human_review": true,
+    "created_at": "2026-08-12T03:22:22.212Z"
+  },
+  {
+    "content_opportunity_id": "d2ffb69e-9573-4958-a016-51eac4e24092",
+    "market_pattern": {
+      "description": "MECHANISM → \"mecanismo_explicado\" — aparece en 1 de 26 observaciones de contenido (selected_youtube_sample (N=5, Fase 11)).",
+      "dimension": "MECHANISM",
+      "frequency": 0.04,
+      "scope": "selected_youtube_sample (N=5, Fase 11)",
+      "inference_id": "a071af42-d4ef-4617-abb1-1a7299769625"
+    },
+    "performance_signal": {
+      "observation_id": "0bb7ac05-13f4-46ea-b001-2521bcbf1c01",
+      "metric": "views",
+      "metric_value": 10395
+    },
+    "source_observation_ids": [
+      "96cc849c-0154-437f-a1bf-900643ccb53f"
+    ],
+    "hypothesis": {
+      "hypothesis_id": "eda826d0-c0f1-45ce-82b5-31ea23d63eb7",
+      "text": "El patrón \"mecanismo_explicado\" (dimensión: MECHANISM) podría tener algún efecto, pero esto es especulativo y no está verificado."
+    },
+    "vida_divina_relevance": {
+      "relation_to_primary_context": "El patrón \"MECHANISM → mecanismo_explicado\" es una posible línea de exploración de contenido para TéDivina, a validar con revisión humana antes de cualquier producción real.",
+      "product_ref": "TéDivina",
+      "risk_note": "Patrón observado en contenido de terceros sobre la categoría \"detox tea\" en general — no implica que TéDivina deba adoptarlo, ni que produciría el mismo resultado."
+    },
+    "requires_human_review": true,
+    "created_at": "2026-08-12T03:22:22.212Z"
+  },
+  {
+    "content_opportunity_id": "4509b453-a20f-435a-9fde-5405a2009eb3",
+    "market_pattern": {
+      "description": "EMOTIONAL_TRIGGER → \"entusiasmo\" — aparece en 3 de 26 observaciones de contenido (selected_youtube_sample (N=5, Fase 11)).",
+      "dimension": "EMOTIONAL_TRIGGER",
+      "frequency": 0.12,
+      "scope": "selected_youtube_sample (N=5, Fase 11)",
+      "inference_id": "514b5e20-f75f-42fb-9db3-e23f53da8123"
+    },
+    "performance_signal": {
+      "observation_id": "0bb7ac05-13f4-46ea-b001-2521bcbf1c01",
+      "metric": "views",
+      "metric_value": 10395
+    },
+    "source_observation_ids": [
+      "1d166c4f-9a3f-476f-b415-dfaf12c519ea",
+      "688ab927-e44c-4dec-95f1-d81384b6b350",
+      "a85b74b1-9c28-4b7e-8a58-e82667597420"
+    ],
+    "hypothesis": {
+      "hypothesis_id": "eaabc605-7805-4db1-b5dd-c92a5f9dc4e1",
+      "text": "El patrón \"entusiasmo\" (dimensión: EMOTIONAL_TRIGGER) podría tener algún efecto, pero esto es especulativo y no está verificado."
+    },
+    "vida_divina_relevance": {
+      "relation_to_primary_context": "El patrón \"EMOTIONAL_TRIGGER → entusiasmo\" es una posible línea de exploración de contenido para TéDivina, a validar con revisión humana antes de cualquier producción real.",
+      "product_ref": "TéDivina",
+      "risk_note": "Patrón observado en contenido de terceros sobre la categoría \"detox tea\" en general — no implica que TéDivina deba adoptarlo, ni que produciría el mismo resultado."
+    },
+    "requires_human_review": true,
+    "created_at": "2026-08-12T03:22:22.212Z"
+  },
+  {
+    "content_opportunity_id": "585ccd9b-e709-419b-9043-9d1bce3e2109",
+    "market_pattern": {
+      "description": "EMOTIONAL_TRIGGER → \"pertenencia\" — aparece en 1 de 26 observaciones de contenido (selected_youtube_sample (N=5, Fase 11)).",
+      "dimension": "EMOTIONAL_TRIGGER",
+      "frequency": 0.04,
+      "scope": "selected_youtube_sample (N=5, Fase 11)",
+      "inference_id": "35d5ce1f-b247-4ce9-a550-d6e051f56542"
+    },
+    "performance_signal": {
+      "observation_id": "0bb7ac05-13f4-46ea-b001-2521bcbf1c01",
+      "metric": "views",
+      "metric_value": 10395
+    },
+    "source_observation_ids": [
+      "cb1ad9d5-5c8c-4afe-8acc-dd1c88db857a"
+    ],
+    "hypothesis": {
+      "hypothesis_id": "ca086340-b3c9-4e0e-a5ab-7cd9de187a6a",
+      "text": "El patrón \"pertenencia\" (dimensión: EMOTIONAL_TRIGGER) podría tener algún efecto, pero esto es especulativo y no está verificado."
+    },
+    "vida_divina_relevance": {
+      "relation_to_primary_context": "El patrón \"EMOTIONAL_TRIGGER → pertenencia\" es una posible línea de exploración de contenido para TéDivina, a validar con revisión humana antes de cualquier producción real.",
+      "product_ref": "TéDivina",
+      "risk_note": "Patrón observado en contenido de terceros sobre la categoría \"detox tea\" en general — no implica que TéDivina deba adoptarlo, ni que produciría el mismo resultado."
+    },
+    "requires_human_review": true,
+    "created_at": "2026-08-12T03:22:22.213Z"
+  },
+  {
+    "content_opportunity_id": "2d809091-a7f7-452c-8e1b-74c5d6b7ae8c",
+    "market_pattern": {
+      "description": "AUDIENCE → \"you as soon\" — aparece en 1 de 26 observaciones de contenido (selected_youtube_sample (N=5, Fase 11)).",
+      "dimension": "AUDIENCE",
+      "frequency": 0.04,
+      "scope": "selected_youtube_sample (N=5, Fase 11)",
+      "inference_id": "54af6c85-a7ef-49be-bf71-b95b89f6602c"
+    },
+    "performance_signal": {
+      "observation_id": "0bb7ac05-13f4-46ea-b001-2521bcbf1c01",
+      "metric": "views",
+      "metric_value": 10395
+    },
+    "source_observation_ids": [
+      "b20f38a3-5e28-47cb-b896-0b2582623370"
+    ],
+    "hypothesis": {
+      "hypothesis_id": "ad4d02d7-31a9-4787-8b9c-d1a78c6df91e",
+      "text": "El patrón \"you as soon\" (dimensión: AUDIENCE) podría tener algún efecto, pero esto es especulativo y no está verificado."
+    },
+    "vida_divina_relevance": {
+      "relation_to_primary_context": "La audiencia observada (\"you as soon\") es consistente con el perfil interno ya documentado en docs/clientes/perder_peso.md — no es un hallazgo nuevo, pero corrobora que el mercado externo se dirige a una audiencia similar.",
+      "product_ref": "TéDivina",
+      "risk_note": "Patrón observado en contenido de terceros sobre la categoría \"detox tea\" en general — no implica que TéDivina deba adoptarlo, ni que produciría el mismo resultado."
+    },
+    "requires_human_review": true,
+    "created_at": "2026-08-12T03:22:22.213Z"
+  },
+  {
+    "content_opportunity_id": "ff9c0bf6-f8b9-424f-9dd4-cff405213618",
+    "market_pattern": {
+      "description": "FORMAT → \"video\" — aparece en 5 de 26 observaciones de contenido (selected_youtube_sample (N=5, Fase 11)).",
+      "dimension": "FORMAT",
+      "frequency": 0.19,
+      "scope": "selected_youtube_sample (N=5, Fase 11)",
+      "inference_id": "c98cd68a-b5b4-461a-99df-080a2e8cb3d7"
+    },
+    "performance_signal": {
+      "observation_id": "0bb7ac05-13f4-46ea-b001-2521bcbf1c01",
+      "metric": "views",
+      "metric_value": 10395
+    },
+    "source_observation_ids": [
+      "09274364-ae8e-4f44-a08c-6f5b1ecd0499",
+      "3eb0b173-3075-4b6c-83a8-9e5bcde72c6b",
+      "8061adcd-c887-4495-9414-604c5f1275f9",
+      "0bf8c9ef-d460-4aa9-9963-0f67ee4abf02",
+      "9a671e30-8f6c-4d95-bb5f-ccf8745b5b68"
+    ],
+    "hypothesis": {
+      "hypothesis_id": "ffe4275a-6887-46a3-9e3e-6ed1f879bd22",
+      "text": "El patrón \"video\" (dimensión: FORMAT) podría tener algún efecto, pero esto es especulativo y no está verificado."
+    },
+    "vida_divina_relevance": {
+      "relation_to_primary_context": "El formato \"video\" observado podría orientar el tipo de pieza a producir para TéDivina, sin implicar que ese formato \"funcione mejor\" — solo que es frecuente en la categoría.",
+      "product_ref": "TéDivina",
+      "risk_note": "Patrón observado en contenido de terceros sobre la categoría \"detox tea\" en general — no implica que TéDivina deba adoptarlo, ni que produciría el mismo resultado."
+    },
+    "requires_human_review": true,
+    "created_at": "2026-08-12T03:22:22.213Z"
+  },
+  {
+    "content_opportunity_id": "588a9315-a7f4-4b9b-a89b-52541891a51f",
+    "market_pattern": {
+      "description": "SOCIAL_PROOF → \"prueba_social\" — aparece en 1 de 26 observaciones de contenido (selected_youtube_sample (N=5, Fase 11)).",
+      "dimension": "SOCIAL_PROOF",
+      "frequency": 0.04,
+      "scope": "selected_youtube_sample (N=5, Fase 11)",
+      "inference_id": "6807ffbe-f402-4a06-be0b-b5913a02c51f"
+    },
+    "performance_signal": {
+      "observation_id": "d5913878-686e-4370-b5d5-88ea3b4258b0",
+      "metric": "views",
+      "metric_value": 1837
+    },
+    "source_observation_ids": [
+      "307c854a-e004-4d94-8c10-40239a5729f6"
+    ],
+    "hypothesis": {
+      "hypothesis_id": "7b12fd04-b96f-4c8a-9948-a71dd2d06402",
+      "text": "El patrón \"prueba_social\" (dimensión: SOCIAL_PROOF) podría tener algún efecto, pero esto es especulativo y no está verificado."
+    },
+    "vida_divina_relevance": {
+      "relation_to_primary_context": "El patrón \"SOCIAL_PROOF → prueba_social\" es una posible línea de exploración de contenido para TéDivina, a validar con revisión humana antes de cualquier producción real.",
+      "product_ref": "TéDivina",
+      "risk_note": "Patrón observado en contenido de terceros sobre la categoría \"detox tea\" en general — no implica que TéDivina deba adoptarlo, ni que produciría el mismo resultado."
+    },
+    "requires_human_review": true,
+    "created_at": "2026-08-12T03:22:22.213Z"
+  },
+  {
+    "content_opportunity_id": "d2fe9bc7-111b-4685-9a66-c254e248c8ff",
+    "market_pattern": {
+      "description": "CTA → \"llamada_a_la_accion\" — aparece en 3 de 26 observaciones de contenido (selected_youtube_sample (N=5, Fase 11)).",
+      "dimension": "CTA",
+      "frequency": 0.12,
+      "scope": "selected_youtube_sample (N=5, Fase 11)",
+      "inference_id": "6e43670f-0e4c-48cc-a309-3a9532f6afcb"
+    },
+    "performance_signal": {
+      "observation_id": "d5913878-686e-4370-b5d5-88ea3b4258b0",
+      "metric": "views",
+      "metric_value": 1837
+    },
+    "source_observation_ids": [
+      "7020d5fe-eeb0-4e9c-8250-4f30e822bb6d",
+      "038849ec-d416-418e-a108-763f0b941610",
+      "5b8cad08-0189-4fdb-bb33-234cef2de6d8"
+    ],
+    "hypothesis": {
+      "hypothesis_id": "036fa963-e9b1-46b6-89aa-73037ff0bd7a",
+      "text": "El patrón \"llamada_a_la_accion\" (dimensión: CTA) podría tener algún efecto, pero esto es especulativo y no está verificado."
+    },
+    "vida_divina_relevance": {
+      "relation_to_primary_context": "El patrón \"CTA → llamada_a_la_accion\" es una posible línea de exploración de contenido para TéDivina, a validar con revisión humana antes de cualquier producción real.",
+      "product_ref": "TéDivina",
+      "risk_note": "Patrón observado en contenido de terceros sobre la categoría \"detox tea\" en general — no implica que TéDivina deba adoptarlo, ni que produciría el mismo resultado."
+    },
+    "requires_human_review": true,
+    "created_at": "2026-08-12T03:22:22.213Z"
+  },
+  {
+    "content_opportunity_id": "b3f04140-6997-4c8c-875f-91eb7be616ce",
+    "market_pattern": {
+      "description": "OFFER → \"oferta_con_precio_o_descuento\" — aparece en 2 de 26 observaciones de contenido (selected_youtube_sample (N=5, Fase 11)).",
+      "dimension": "OFFER",
+      "frequency": 0.08,
+      "scope": "selected_youtube_sample (N=5, Fase 11)",
+      "inference_id": "d7a88eb7-5cbe-4ae9-a69b-75f18e8c91ed"
+    },
+    "performance_signal": {
+      "observation_id": "d5913878-686e-4370-b5d5-88ea3b4258b0",
+      "metric": "views",
+      "metric_value": 1837
+    },
+    "source_observation_ids": [
+      "f7a856e8-9130-4d39-ad0b-d85d2f78ad58",
+      "cd753d4c-758e-411f-b764-1cc57567186c"
+    ],
+    "hypothesis": {
+      "hypothesis_id": "c5f15ca1-d60a-4acf-a8fb-4f32431b9458",
+      "text": "El patrón \"oferta_con_precio_o_descuento\" (dimensión: OFFER) podría tener algún efecto, pero esto es especulativo y no está verificado."
+    },
+    "vida_divina_relevance": {
+      "relation_to_primary_context": "El patrón \"OFFER → oferta_con_precio_o_descuento\" es una posible línea de exploración de contenido para TéDivina, a validar con revisión humana antes de cualquier producción real.",
+      "product_ref": "TéDivina",
+      "risk_note": "Patrón observado en contenido de terceros sobre la categoría \"detox tea\" en general — no implica que TéDivina deba adoptarlo, ni que produciría el mismo resultado."
+    },
+    "requires_human_review": true,
+    "created_at": "2026-08-12T03:22:22.213Z"
+  },
+  {
+    "content_opportunity_id": "11f3d6b9-373b-4af5-ba19-f692a0385eba",
+    "market_pattern": {
+      "description": "AUDIENCE → \"nothing I\" — aparece en 1 de 26 observaciones de contenido (selected_youtube_sample (N=5, Fase 11)).",
+      "dimension": "AUDIENCE",
+      "frequency": 0.04,
+      "scope": "selected_youtube_sample (N=5, Fase 11)",
+      "inference_id": "0915c715-b581-4cf8-a9d7-f41e1a3c9180"
+    },
+    "performance_signal": {
+      "observation_id": "d5913878-686e-4370-b5d5-88ea3b4258b0",
+      "metric": "views",
+      "metric_value": 1837
+    },
+    "source_observation_ids": [
+      "e824c983-0630-4613-afa2-d7021ee7f405"
+    ],
+    "hypothesis": {
+      "hypothesis_id": "57671f56-f172-4f30-bc91-8f970cd4388f",
+      "text": "El patrón \"nothing I\" (dimensión: AUDIENCE) podría tener algún efecto, pero esto es especulativo y no está verificado."
+    },
+    "vida_divina_relevance": {
+      "relation_to_primary_context": "La audiencia observada (\"nothing I\") es consistente con el perfil interno ya documentado en docs/clientes/perder_peso.md — no es un hallazgo nuevo, pero corrobora que el mercado externo se dirige a una audiencia similar.",
+      "product_ref": "TéDivina",
+      "risk_note": "Patrón observado en contenido de terceros sobre la categoría \"detox tea\" en general — no implica que TéDivina deba adoptarlo, ni que produciría el mismo resultado."
+    },
+    "requires_human_review": true,
+    "created_at": "2026-08-12T03:22:22.213Z"
+  },
+  {
+    "content_opportunity_id": "263735d3-1b0d-47bf-b5c8-f271e088049a",
+    "market_pattern": {
+      "description": "AUDIENCE → \"their earnings call\" — aparece en 1 de 26 observaciones de contenido (selected_youtube_sample (N=5, Fase 11)).",
+      "dimension": "AUDIENCE",
+      "frequency": 0.04,
+      "scope": "selected_youtube_sample (N=5, Fase 11)",
+      "inference_id": "8b706b09-9f0b-447d-943f-59b594f5b886"
+    },
+    "performance_signal": {
+      "observation_id": "673eb2d2-83f7-426a-bfb1-8a1db3e5a4d1",
+      "metric": "views",
+      "metric_value": 631
+    },
+    "source_observation_ids": [
+      "96425629-a9c9-48e1-8e80-139479ea510d"
+    ],
+    "hypothesis": {
+      "hypothesis_id": "f58b5b9f-14fa-43da-81ff-702f8994592f",
+      "text": "El patrón \"their earnings call\" (dimensión: AUDIENCE) podría tener algún efecto, pero esto es especulativo y no está verificado."
+    },
+    "vida_divina_relevance": {
+      "relation_to_primary_context": "La audiencia observada (\"their earnings call\") es consistente con el perfil interno ya documentado en docs/clientes/perder_peso.md — no es un hallazgo nuevo, pero corrobora que el mercado externo se dirige a una audiencia similar.",
+      "product_ref": "TéDivina",
+      "risk_note": "Patrón observado en contenido de terceros sobre la categoría \"detox tea\" en general — no implica que TéDivina deba adoptarlo, ni que produciría el mismo resultado."
+    },
+    "requires_human_review": true,
+    "created_at": "2026-08-12T03:22:22.213Z"
+  },
+  {
+    "content_opportunity_id": "0b96cf29-0425-4700-b5f3-555e3620abce",
+    "market_pattern": {
+      "description": "AUDIENCE → \"you\" — aparece en 1 de 26 observaciones de contenido (selected_youtube_sample (N=5, Fase 11)).",
+      "dimension": "AUDIENCE",
+      "frequency": 0.04,
+      "scope": "selected_youtube_sample (N=5, Fase 11)",
+      "inference_id": "ac176a7c-d865-475e-9745-398ceb69f42e"
+    },
+    "performance_signal": {
+      "observation_id": "ad6fe94d-ee16-4582-85bc-8fc87c537289",
+      "metric": "views",
+      "metric_value": 474512
+    },
+    "source_observation_ids": [
+      "0fe662b7-badb-4ad3-9540-c09c8357ac1b"
+    ],
+    "hypothesis": {
+      "hypothesis_id": "14257333-b81b-472e-96a6-0574136b1d7e",
+      "text": "El patrón \"you\" (dimensión: AUDIENCE) podría tener algún efecto, pero esto es especulativo y no está verificado."
+    },
+    "vida_divina_relevance": {
+      "relation_to_primary_context": "La audiencia observada (\"you\") es consistente con el perfil interno ya documentado en docs/clientes/perder_peso.md — no es un hallazgo nuevo, pero corrobora que el mercado externo se dirige a una audiencia similar.",
+      "product_ref": "TéDivina",
+      "risk_note": "Patrón observado en contenido de terceros sobre la categoría \"detox tea\" en general — no implica que TéDivina deba adoptarlo, ni que produciría el mismo resultado."
+    },
+    "requires_human_review": true,
+    "created_at": "2026-08-12T03:22:22.213Z"
+  },
+  {
+    "content_opportunity_id": "4a136ae3-1808-46ec-bede-eb2e8861af82",
+    "market_pattern": {
+      "description": "PAIN_POINT → \"punto_de_dolor\" — aparece en 1 de 26 observaciones de contenido (selected_youtube_sample (N=5, Fase 11)).",
+      "dimension": "PAIN_POINT",
+      "frequency": 0.04,
+      "scope": "selected_youtube_sample (N=5, Fase 11)",
+      "inference_id": "513e6e34-f9cc-482a-8ece-2079f432961d"
+    },
+    "performance_signal": {
+      "observation_id": "2f0fee8c-be7f-4eb3-8bc9-020ab97cc7b1",
+      "metric": "views",
+      "metric_value": 53881
+    },
+    "source_observation_ids": [
+      "4f7cb91a-fd5c-422e-949f-53e64abe4f21"
+    ],
+    "hypothesis": {
+      "hypothesis_id": "0924512d-b780-4e9a-9f2e-d83ea1d642a7",
+      "text": "El patrón \"punto_de_dolor\" (dimensión: PAIN_POINT) podría tener algún efecto, pero esto es especulativo y no está verificado."
+    },
+    "vida_divina_relevance": {
+      "relation_to_primary_context": "El patrón \"PAIN_POINT → punto_de_dolor\" es una posible línea de exploración de contenido para TéDivina, a validar con revisión humana antes de cualquier producción real.",
+      "product_ref": "TéDivina",
+      "risk_note": "Patrón observado en contenido de terceros sobre la categoría \"detox tea\" en general — no implica que TéDivina deba adoptarlo, ni que produciría el mismo resultado."
+    },
+    "requires_human_review": true,
+    "created_at": "2026-08-12T03:22:22.213Z"
+  },
+  {
+    "content_opportunity_id": "eb2103a4-f9bb-4a53-8762-6c71630b1c67",
+    "market_pattern": {
+      "description": "AUDIENCE → \"that it\" — aparece en 1 de 26 observaciones de contenido (selected_youtube_sample (N=5, Fase 11)).",
+      "dimension": "AUDIENCE",
+      "frequency": 0.04,
+      "scope": "selected_youtube_sample (N=5, Fase 11)",
+      "inference_id": "2ba6f2bb-5015-479f-90f4-2ec95dbb3d1c"
+    },
+    "performance_signal": {
+      "observation_id": "2f0fee8c-be7f-4eb3-8bc9-020ab97cc7b1",
+      "metric": "views",
+      "metric_value": 53881
+    },
+    "source_observation_ids": [
+      "63deaed3-0403-454d-a886-2d0f682c7860"
+    ],
+    "hypothesis": {
+      "hypothesis_id": "80479ea8-e051-4700-9a66-cc437adad002",
+      "text": "El patrón \"that it\" (dimensión: AUDIENCE) podría tener algún efecto, pero esto es especulativo y no está verificado."
+    },
+    "vida_divina_relevance": {
+      "relation_to_primary_context": "La audiencia observada (\"that it\") es consistente con el perfil interno ya documentado en docs/clientes/perder_peso.md — no es un hallazgo nuevo, pero corrobora que el mercado externo se dirige a una audiencia similar.",
+      "product_ref": "TéDivina",
+      "risk_note": "Patrón observado en contenido de terceros sobre la categoría \"detox tea\" en general — no implica que TéDivina deba adoptarlo, ni que produciría el mismo resultado."
+    },
+    "requires_human_review": true,
+    "created_at": "2026-08-12T03:22:22.213Z"
+  }
+]

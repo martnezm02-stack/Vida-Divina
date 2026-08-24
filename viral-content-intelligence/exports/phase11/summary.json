@@ -1,0 +1,18 @@
+{
+  "max_videos": 5,
+  "videos_seleccionados": 5,
+  "videos_adquiridos": 5,
+  "videos_con_transcript": 5,
+  "videos_sin_transcript": 0,
+  "tasa_adquisicion_transcript_observada": "5/5",
+  "performance_signals_count": 5,
+  "observations_count": 26,
+  "claims_count": 1,
+  "patterns_count": 15,
+  "hypotheses_count": 15,
+  "content_opportunities_count": 15,
+  "content_briefs_count": 3,
+  "hook_detection_method": "heurístico existente (marketing-intelligence/src/agent/heuristics/hooksAndAngles.js): título + primeros ~200 caracteres del contenido. NO es una ventana de tiempo de 30s literal — los timestamps por segmento se descartan al construir el texto plano de la transcripción (Fase 10E), así que recortar por tiempo real no es posible con el pipeline actual.",
+  "traceability_check": "resolved",
+  "generated_at": "2026-08-12T03:22:22.224Z"
+}

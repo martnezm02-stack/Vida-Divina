@@ -1,0 +1,17 @@
+{
+  "name": "vida-divina-website-intelligence",
+  "version": "0.1.0",
+  "description": "Website Intelligence — Fase 7: contratos de WebsitePatternObservation y ContentBrief. Diseño y validación de contrato únicamente — sin adapters de Internet, sin browser automation, sin frameworks. No sustituye ni duplica marketing-intelligence/: consume su IntelligenceStore por referencia para trazabilidad.",
+  "type": "module",
+  "private": true,
+  "main": "main.js",
+  "scripts": {
+    "demo": "node main.js",
+    "test": "node --test \"test/**/*.test.js\""
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}

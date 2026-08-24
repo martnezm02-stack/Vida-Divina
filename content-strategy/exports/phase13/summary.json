@@ -1,0 +1,15 @@
+{
+  "strategy_id": "963ba499-5769-4d5d-8c27-9317b881aa9d",
+  "plan_id": "ab1b1d52-a364-4232-b387-e956280bd001",
+  "items_count": 5,
+  "drafts_count": 5,
+  "all_production_status": [
+    "DRAFT"
+  ],
+  "max_status_reached": "DRAFT",
+  "generation_method": "rule_based_template",
+  "llm_real_used": false,
+  "primary_product_context": "TéDivina",
+  "external_sources_referenced": 3,
+  "generated_at": "2026-08-12T03:44:24.748Z"
+}

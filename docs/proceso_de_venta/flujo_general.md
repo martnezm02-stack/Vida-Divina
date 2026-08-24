@@ -41,6 +41,8 @@ flowchart TD
 **Módulo a consultar:** [`docs/conversaciones/descubrimiento/`](../conversaciones/descubrimiento/index.md) para las preguntas; reglas en [`descubrimiento.md`](./descubrimiento.md) (este módulo).
 **Estado resultante:** `En descubrimiento`.
 
+> **Nota de compatibilidad (Sprint 5):** [`SPRINT_5_PROCESO_COMERCIAL.md`](./SPRINT_5_PROCESO_COMERCIAL.md) describe el proceso comercial real vigente para los pasos 4-7. En ese proceso, el producto ya viene definido desde la campaña que trajo al cliente, y la secuencia real utiliza **necesidad → testimonio** en lugar del modelo histórico de **necesidad → perfil** descrito abajo. Los pasos 4-7 siguientes se conservan íntegros como documentación del modelo histórico.
+
 ### 4. Identificación del perfil
 **Qué ocurre:** con las respuestas del cliente, se determina a qué perfil de necesidad corresponde.
 **Módulo a consultar:** tabla señal→perfil en [`docs/clientes/README.md#mapa-rápido-necesidad--primer-producto-de-entrada`](../clientes/README.md#mapa-rápido-necesidad--primer-producto-de-entrada), o su equivalente en conversación en [`docs/conversaciones/descubrimiento/senales_por_perfil.md`](../conversaciones/descubrimiento/senales_por_perfil.md).

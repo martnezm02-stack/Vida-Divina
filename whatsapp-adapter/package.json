@@ -1,0 +1,16 @@
+{
+  "name": "vida-divina-whatsapp-adapter",
+  "version": "0.1.0",
+  "description": "Adaptador técnico entre WhatsApp Cloud API y el motor comercial existente (simulator/src/flujoVentaReal.js). Traduce eventos de webhook al motor y sus resultados de vuelta a recursos comerciales estructurados — no reescribe ni duplica lógica de negocio. Fase 4.4: webhook real + envío real opt-in vía Graph API (ver docs/WHATSAPP_INTEGRATION_STATE.md).",
+  "type": "module",
+  "private": true,
+  "main": "main.js",
+  "scripts": {
+    "test": "node --test \"test/**/*.test.js\""
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}

@@ -1,0 +1,15 @@
+{
+  "name": "vida-divina-image-generation",
+  "version": "0.1.0",
+  "description": "Image Generation Layer — la última milla entre un VisualProductionPackage ya validado (creative-intelligence/) y un asset de imagen generado real. Fase 1 (esta fase): solo infraestructura — contrato ImageProvider, adaptador determinista de request, contrato uniforme de resultado — más MockImageProvider (sin credenciales, sin red, sin proveedor real conectado). No reimplementa Persona/Pain/Angle/CreativeCell/ProductionArtifact/VisualProductionPackage ni AssetPackage/AssetLineage — los consume/es compatible con ellos, nunca los duplica.",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "test": "node --test \"test/**/*.test.js\""
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}

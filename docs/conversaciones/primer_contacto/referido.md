@@ -1,5 +1,7 @@
 # Primer Contacto — Cliente Referido
 
+> **Nota de compatibilidad (Sprint 5):** el saludo comercial vigente es [`mensaje_inicial.md`](./mensaje_inicial.md). Este archivo se conserva como contexto histórico/complementario.
+
 # Objetivo
 Recibir con calidez a un cliente que llega por recomendación de otra persona, capitalizando la confianza ya existente sin asumir de inmediato qué necesita.
 

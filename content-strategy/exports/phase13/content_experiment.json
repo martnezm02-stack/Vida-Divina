@@ -1,0 +1,14 @@
+{
+  "experiment_id": "5b47b7c2-3428-4557-a469-a09a2a8dfb23",
+  "variable": "hook",
+  "control": "statement",
+  "variant": "question",
+  "success_metric": "completion_rate",
+  "baseline_reference": null,
+  "hypothesis_reference": "8770ab9c-0b55-49d1-87c2-a0d17aa879ac",
+  "expected_signal": "ABOVE_BASELINE",
+  "sample_requirement": "Mínimo 5 publicaciones reales adicionales por variante antes de concluir.",
+  "status": "PROPOSED",
+  "requires_human_review": true,
+  "created_at": "2026-08-12T03:44:24.739Z"
+}

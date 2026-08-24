@@ -1,5 +1,7 @@
 # Plantillas — Saludos
 
+> **Nota de compatibilidad (Sprint 5):** esta plantilla no representa el saludo comercial principal vigente. El saludo oficial de primer contacto está en [`docs/conversaciones/primer_contacto/mensaje_inicial.md`](../primer_contacto/mensaje_inicial.md).
+
 # Objetivo
 Ofrecer aperturas de saludo cortas y naturales, adaptables a cualquier escenario de [Primer Contacto](../primer_contacto/index.md) o retoma de conversación.
 

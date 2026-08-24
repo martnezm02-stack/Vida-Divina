@@ -1,0 +1,75 @@
+{
+  "strategy_id": "0f373a3a-6862-48f5-96d8-baadbe7e7fbf",
+  "objective": "Producir piezas educativas genuinamente distintas para TéDivina, combinando mercado + contenido externo + aprendizaje propio.",
+  "product_ref": "TéDivina",
+  "audience_refs": [],
+  "market_pattern_refs": [
+    {
+      "source_module": "marketing_intelligence",
+      "reference_type": "inference",
+      "reference_id": "a3c646a8-6c9a-4d3e-bf5a-7734549f8fb4",
+      "rationale": "Patrón real: hook → \"Apertura o título con pregunta\"."
+    }
+  ],
+  "viral_pattern_refs": [
+    {
+      "source_module": "viral_content_intelligence",
+      "reference_type": "content_opportunity",
+      "reference_id": "1827b8e1-b3ad-4a66-8581-d4f725d4037f",
+      "rationale": "ANGLE → \"educación\" — aparece en 1 de 26 observaciones de contenido (selected_youtube_sample (N=5, Fase 11))."
+    }
+  ],
+  "learning_refs": [
+    {
+      "source_module": "performance_learning_intelligence",
+      "reference_type": "learning_insight",
+      "reference_id": "8770ab9c-0b55-49d1-87c2-a0d17aa879ac",
+      "rationale": "Aprendizaje propio: 5 de 10 contenidos con hook \"question\" presentan views con dirección ABOVE_BASELINE respecto al baseline en esta muestra (detalle: NORMAL, ABOVE_BASELINE, BELOW_BASELINE, NORMAL, ABOVE_BASELINE)."
+    }
+  ],
+  "content_pillars": [
+    "EDUCATION",
+    "PRODUCT_CONTEXT",
+    "PROBLEM_AWARENESS",
+    "OBJECTION_HANDLING"
+  ],
+  "recommended_formats": [],
+  "recommended_hooks": [
+    "priorizar pruebas con hook de pregunta (aprendizaje propio de baja confianza)"
+  ],
+  "recommended_angles": [],
+  "experiments": [
+    "81306e07-1b2f-4fee-a407-ac8a5a14a6f8"
+  ],
+  "constraints": [
+    "No copiar frases largas de fuentes externas (PATTERN != COPY).",
+    "No inventar ingredientes, beneficios, resultados ni estudios.",
+    "Todo claim externo permanece UNVERIFIED con requires_human_review=true."
+  ],
+  "claims_policy": {
+    "default_status": "UNVERIFIED",
+    "requires_human_review": true
+  },
+  "source_references": [
+    {
+      "source_module": "marketing_intelligence",
+      "reference_type": "inference",
+      "reference_id": "a3c646a8-6c9a-4d3e-bf5a-7734549f8fb4",
+      "rationale": "Patrón real: hook → \"Apertura o título con pregunta\"."
+    },
+    {
+      "source_module": "viral_content_intelligence",
+      "reference_type": "content_opportunity",
+      "reference_id": "1827b8e1-b3ad-4a66-8581-d4f725d4037f",
+      "rationale": "ANGLE → \"educación\" — aparece en 1 de 26 observaciones de contenido (selected_youtube_sample (N=5, Fase 11))."
+    },
+    {
+      "source_module": "performance_learning_intelligence",
+      "reference_type": "learning_insight",
+      "reference_id": "8770ab9c-0b55-49d1-87c2-a0d17aa879ac",
+      "rationale": "Aprendizaje propio: 5 de 10 contenidos con hook \"question\" presentan views con dirección ABOVE_BASELINE respecto al baseline en esta muestra (detalle: NORMAL, ABOVE_BASELINE, BELOW_BASELINE, NORMAL, ABOVE_BASELINE)."
+    }
+  ],
+  "requires_human_review": true,
+  "created_at": "2026-08-12T03:53:12.653Z"
+}

@@ -1,0 +1,14 @@
+{
+  "name": "vida-divina-content-planning",
+  "version": "0.1.0",
+  "description": "Content Planning & Execution — Fase 12 del roadmap de negocio. Orquesta StrategyContext + Autonomous Create + Publishing Scheduler REALES (content-orchestrator/, publishing-scheduler/, media-hosting/) sin reimplementar ninguno. ContentPlan es el único contrato nuevo: conecta STRATEGY -> PLAN -> GENERATION -> QUALITY GATE -> EXECUTION MODE. AUTO_PUBLISH permanece deshabilitado/protegido en esta fase -- nunca se fabrica una aprobación no humana.",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "test": "node --test \"test/**/*.test.js\"",
+    "validate": "node validateContentPlanningPhase28.mjs"
+  },
+  "engines": { "node": ">=18" },
+  "dependencies": {},
+  "devDependencies": {}
+}

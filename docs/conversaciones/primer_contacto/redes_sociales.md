@@ -1,5 +1,7 @@
 # Primer Contacto — Redes Sociales (Facebook / Publicación)
 
+> **Nota de compatibilidad (Sprint 5):** el saludo comercial vigente es [`mensaje_inicial.md`](./mensaje_inicial.md). Este archivo se conserva como contexto histórico/complementario.
+
 # Objetivo
 Recibir a un cliente que llegó a través de un anuncio de Facebook o de una publicación orgánica (post, historia, reel), conectando su interés puntual en lo que vio con una conversación real.
 

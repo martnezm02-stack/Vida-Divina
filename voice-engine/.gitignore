@@ -1,0 +1,21 @@
+# Entorno virtual, si alguna vez se crea dentro de esta carpeta por error
+# (el recomendado vive fuera del repo, en WSL2 nativo -- ver README).
+.venv/
+venv/
+
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Datos de runtime (modelos, cache, muestras de voz, audio generado) viven
+# en ~/vida-divina-voice-engine-data/, fuera de esta carpeta por completo.
+# Estas reglas son un respaldo adicional por si alguna vez aparece alguna de
+# estas carpetas/archivos localmente aqui dentro por error -- nunca deben
+# llegar a un commit.
+data/
+profiles/
+voice-reference/
+*.wav
+*.ogg
+*.mp3
+manifest.json

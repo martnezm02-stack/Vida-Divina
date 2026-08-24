@@ -1,5 +1,7 @@
 # Primer Contacto — Pregunta Únicamente por Precio
 
+> **Nota de compatibilidad (Sprint 5):** el saludo comercial vigente es [`mensaje_inicial.md`](./mensaje_inicial.md). Además, `SPRINT_5_PROCESO_COMERCIAL.md` §7 ubica el precio **después** del testimonio dentro de la secuencia comercial, no como respuesta de apertura. Este archivo se conserva como contexto histórico/complementario.
+
 # Objetivo
 Responder de forma honesta y sin evasivas a un cliente que abre preguntando solo el precio, sin sonar evasivo pero sin perder la oportunidad de entender su necesidad real antes de hablar solo de números.
 

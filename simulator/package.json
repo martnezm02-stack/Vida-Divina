@@ -6,7 +6,8 @@
   "private": true,
   "main": "main.js",
   "scripts": {
-    "simulate": "node main.js"
+    "simulate": "node main.js",
+    "test": "node --test \"test/**/*.test.js\""
   },
   "engines": {
     "node": ">=18"

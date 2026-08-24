@@ -4,6 +4,8 @@
 
 Paso 10 del [flujo general](./flujo_general.md). Define **qué mensaje de seguimiento corresponde según el estado y el motivo de pausa** del cliente — el texto real está en [`docs/conversaciones/seguimiento/`](../conversaciones/seguimiento/index.md).
 
+> **Nota de compatibilidad (Sprint 5):** [`seguimiento_postventa.md`](./seguimiento_postventa.md) representa el proceso operativo vigente de seguimiento postventa. Los escalones de 24h/15d/30d descritos en este documento histórico no representan el proceso actual.
+
 ## Regla general
 El seguimiento se activa cuando el cliente **no avanza** (no responde, pide tiempo, o queda con una objeción sin resolver) — nunca reemplaza a [`manejo_de_objeciones.md`](./manejo_de_objeciones.md); primero se intenta resolver la objeción, y solo si eso no cierra la conversación se programa seguimiento.
 

@@ -1,0 +1,187 @@
+[
+  {
+    "draft_id": "60f4a7ea-0604-4592-8619-347301412833",
+    "content_item_id": "2087b3a5-5529-4f44-b4a9-258907e1694e",
+    "format": "slideshow",
+    "platform": "instagram",
+    "title": null,
+    "hook": "¿Sabías que la desintoxicación corporal previa a un programa de pérdida de peso suele empezar mucho antes de lo que parece?",
+    "body": "TéDivina está formulado con malva, mirra, cardo bendito, pensado para: la desintoxicación corporal previa a un programa de pérdida de peso. Ángulo de esta pieza: educación. Esto es una pieza experimental — los resultados pueden variar de persona a persona y no se afirma ningún beneficio no documentado en el catálogo oficial.",
+    "visual_direction": null,
+    "scene_structure": null,
+    "caption": "¿Sabías que la desintoxicación corporal previa a un programa de pérdida de peso suele empezar mucho antes de lo que parece?",
+    "cta": "Conoce más sobre TéDivina en el catálogo oficial.",
+    "claims": [],
+    "source_references": [
+      {
+        "source_module": "marketing_intelligence",
+        "reference_type": "inference",
+        "reference_id": "a3c646a8-6c9a-4d3e-bf5a-7734549f8fb4",
+        "rationale": "Patrón real de mercado: hook → \"Apertura o título con pregunta\"."
+      },
+      {
+        "source_module": "viral_content_intelligence",
+        "reference_type": "content_opportunity",
+        "reference_id": "1827b8e1-b3ad-4a66-8581-d4f725d4037f",
+        "rationale": "ANGLE → \"educación\" — aparece en 1 de 26 observaciones de contenido (selected_youtube_sample (N=5, Fase 11))."
+      },
+      {
+        "source_module": "performance_learning_intelligence",
+        "reference_type": "learning_insight",
+        "reference_id": "8770ab9c-0b55-49d1-87c2-a0d17aa879ac",
+        "rationale": "Aprendizaje propio (muestra sintética, confianza 0.4): 5 de 10 contenidos con hook \"question\" presentan views con dirección ABOVE_BASELINE respecto al baseline en esta muestra (detalle: NORMAL, ABOVE_BASELINE, BELOW_BASELINE, NORMAL, ABOVE_BASELINE)."
+      }
+    ],
+    "generation_method": "rule_based_template",
+    "requires_human_review": true,
+    "created_at": "2026-08-12T03:44:24.742Z"
+  },
+  {
+    "draft_id": "145c5d7e-669c-4d08-97e5-266310692a50",
+    "content_item_id": "40d85722-6ae1-4f09-8258-f39f7d43fa3f",
+    "format": "talking_head",
+    "platform": "instagram",
+    "title": null,
+    "hook": "¿Sabías que la desintoxicación corporal previa a un programa de pérdida de peso suele empezar mucho antes de lo que parece?",
+    "body": "TéDivina está formulado con malva, mirra, cardo bendito, pensado para: la desintoxicación corporal previa a un programa de pérdida de peso. Ángulo de esta pieza: transparencia de ingredientes. Esto es una pieza experimental — los resultados pueden variar de persona a persona y no se afirma ningún beneficio no documentado en el catálogo oficial.",
+    "visual_direction": null,
+    "scene_structure": null,
+    "caption": "¿Sabías que la desintoxicación corporal previa a un programa de pérdida de peso suele empezar mucho antes de lo que parece?",
+    "cta": "Conoce más sobre TéDivina en el catálogo oficial.",
+    "claims": [],
+    "source_references": [
+      {
+        "source_module": "marketing_intelligence",
+        "reference_type": "inference",
+        "reference_id": "a3c646a8-6c9a-4d3e-bf5a-7734549f8fb4",
+        "rationale": "Patrón real de mercado: hook → \"Apertura o título con pregunta\"."
+      },
+      {
+        "source_module": "viral_content_intelligence",
+        "reference_type": "content_opportunity",
+        "reference_id": "1827b8e1-b3ad-4a66-8581-d4f725d4037f",
+        "rationale": "ANGLE → \"educación\" — aparece en 1 de 26 observaciones de contenido (selected_youtube_sample (N=5, Fase 11))."
+      },
+      {
+        "source_module": "performance_learning_intelligence",
+        "reference_type": "learning_insight",
+        "reference_id": "8770ab9c-0b55-49d1-87c2-a0d17aa879ac",
+        "rationale": "Aprendizaje propio (muestra sintética, confianza 0.4): 5 de 10 contenidos con hook \"question\" presentan views con dirección ABOVE_BASELINE respecto al baseline en esta muestra (detalle: NORMAL, ABOVE_BASELINE, BELOW_BASELINE, NORMAL, ABOVE_BASELINE)."
+      }
+    ],
+    "generation_method": "rule_based_template",
+    "requires_human_review": true,
+    "created_at": "2026-08-12T03:44:24.743Z"
+  },
+  {
+    "draft_id": "170e4167-f9ef-422c-8f20-275ac70f52ae",
+    "content_item_id": "76ca5926-b1f6-43cd-82a6-128017854669",
+    "format": "slideshow",
+    "platform": "youtube_shorts",
+    "title": null,
+    "hook": "5 ingredientes, un solo propósito: preparar el cuerpo antes de empezar.",
+    "body": "TéDivina está formulado con malva, mirra, cardo bendito, pensado para: la desintoxicación corporal previa a un programa de pérdida de peso. Ángulo de esta pieza: educación. Esto es una pieza experimental — los resultados pueden variar de persona a persona y no se afirma ningún beneficio no documentado en el catálogo oficial.",
+    "visual_direction": null,
+    "scene_structure": null,
+    "caption": "5 ingredientes, un solo propósito: preparar el cuerpo antes de empezar.",
+    "cta": "Conoce más sobre TéDivina en el catálogo oficial.",
+    "claims": [],
+    "source_references": [
+      {
+        "source_module": "marketing_intelligence",
+        "reference_type": "inference",
+        "reference_id": "a3c646a8-6c9a-4d3e-bf5a-7734549f8fb4",
+        "rationale": "Patrón real de mercado: hook → \"Apertura o título con pregunta\"."
+      },
+      {
+        "source_module": "viral_content_intelligence",
+        "reference_type": "content_opportunity",
+        "reference_id": "1827b8e1-b3ad-4a66-8581-d4f725d4037f",
+        "rationale": "ANGLE → \"educación\" — aparece en 1 de 26 observaciones de contenido (selected_youtube_sample (N=5, Fase 11))."
+      },
+      {
+        "source_module": "performance_learning_intelligence",
+        "reference_type": "learning_insight",
+        "reference_id": "8770ab9c-0b55-49d1-87c2-a0d17aa879ac",
+        "rationale": "Aprendizaje propio (muestra sintética, confianza 0.4): 5 de 10 contenidos con hook \"question\" presentan views con dirección ABOVE_BASELINE respecto al baseline en esta muestra (detalle: NORMAL, ABOVE_BASELINE, BELOW_BASELINE, NORMAL, ABOVE_BASELINE)."
+      }
+    ],
+    "generation_method": "rule_based_template",
+    "requires_human_review": true,
+    "created_at": "2026-08-12T03:44:24.744Z"
+  },
+  {
+    "draft_id": "035b30d5-71ad-496f-94a8-c5b5aba1c842",
+    "content_item_id": "a7933d56-ff34-4b1c-9395-47ee98cab518",
+    "format": "talking_head",
+    "platform": "youtube_shorts",
+    "title": null,
+    "hook": "5 ingredientes, un solo propósito: preparar el cuerpo antes de empezar.",
+    "body": "TéDivina está formulado con malva, mirra, cardo bendito, pensado para: la desintoxicación corporal previa a un programa de pérdida de peso. Ángulo de esta pieza: transparencia de ingredientes. Esto es una pieza experimental — los resultados pueden variar de persona a persona y no se afirma ningún beneficio no documentado en el catálogo oficial.",
+    "visual_direction": null,
+    "scene_structure": null,
+    "caption": "5 ingredientes, un solo propósito: preparar el cuerpo antes de empezar.",
+    "cta": "Conoce más sobre TéDivina en el catálogo oficial.",
+    "claims": [],
+    "source_references": [
+      {
+        "source_module": "marketing_intelligence",
+        "reference_type": "inference",
+        "reference_id": "a3c646a8-6c9a-4d3e-bf5a-7734549f8fb4",
+        "rationale": "Patrón real de mercado: hook → \"Apertura o título con pregunta\"."
+      },
+      {
+        "source_module": "viral_content_intelligence",
+        "reference_type": "content_opportunity",
+        "reference_id": "1827b8e1-b3ad-4a66-8581-d4f725d4037f",
+        "rationale": "ANGLE → \"educación\" — aparece en 1 de 26 observaciones de contenido (selected_youtube_sample (N=5, Fase 11))."
+      },
+      {
+        "source_module": "performance_learning_intelligence",
+        "reference_type": "learning_insight",
+        "reference_id": "8770ab9c-0b55-49d1-87c2-a0d17aa879ac",
+        "rationale": "Aprendizaje propio (muestra sintética, confianza 0.4): 5 de 10 contenidos con hook \"question\" presentan views con dirección ABOVE_BASELINE respecto al baseline en esta muestra (detalle: NORMAL, ABOVE_BASELINE, BELOW_BASELINE, NORMAL, ABOVE_BASELINE)."
+      }
+    ],
+    "generation_method": "rule_based_template",
+    "requires_human_review": true,
+    "created_at": "2026-08-12T03:44:24.744Z"
+  },
+  {
+    "draft_id": "cb0bc521-fa25-4e9e-b2bb-61a02d410abf",
+    "content_item_id": "f3cc9e64-c99c-4d78-a9db-ec75f04bb982",
+    "format": "slideshow",
+    "platform": "instagram",
+    "title": null,
+    "hook": "¿Sabías que la desintoxicación corporal previa a un programa de pérdida de peso suele empezar mucho antes de lo que parece?",
+    "body": "TéDivina está formulado con malva, mirra, cardo bendito, pensado para: la desintoxicación corporal previa a un programa de pérdida de peso. Ángulo de esta pieza: transparencia de ingredientes. Esto es una pieza experimental — los resultados pueden variar de persona a persona y no se afirma ningún beneficio no documentado en el catálogo oficial.",
+    "visual_direction": null,
+    "scene_structure": null,
+    "caption": "¿Sabías que la desintoxicación corporal previa a un programa de pérdida de peso suele empezar mucho antes de lo que parece?",
+    "cta": "Conoce más sobre TéDivina en el catálogo oficial.",
+    "claims": [],
+    "source_references": [
+      {
+        "source_module": "marketing_intelligence",
+        "reference_type": "inference",
+        "reference_id": "a3c646a8-6c9a-4d3e-bf5a-7734549f8fb4",
+        "rationale": "Patrón real de mercado: hook → \"Apertura o título con pregunta\"."
+      },
+      {
+        "source_module": "viral_content_intelligence",
+        "reference_type": "content_opportunity",
+        "reference_id": "1827b8e1-b3ad-4a66-8581-d4f725d4037f",
+        "rationale": "ANGLE → \"educación\" — aparece en 1 de 26 observaciones de contenido (selected_youtube_sample (N=5, Fase 11))."
+      },
+      {
+        "source_module": "performance_learning_intelligence",
+        "reference_type": "learning_insight",
+        "reference_id": "8770ab9c-0b55-49d1-87c2-a0d17aa879ac",
+        "rationale": "Aprendizaje propio (muestra sintética, confianza 0.4): 5 de 10 contenidos con hook \"question\" presentan views con dirección ABOVE_BASELINE respecto al baseline en esta muestra (detalle: NORMAL, ABOVE_BASELINE, BELOW_BASELINE, NORMAL, ABOVE_BASELINE)."
+      }
+    ],
+    "generation_method": "rule_based_template",
+    "requires_human_review": true,
+    "created_at": "2026-08-12T03:44:24.745Z"
+  }
+]

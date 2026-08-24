@@ -1,0 +1,16 @@
+{
+  "name": "vida-divina-media-hosting",
+  "version": "0.1.0",
+  "description": "MediaHostingService — aloja copias remotas (nunca mueve el original local) de assets FINAL + aprobados en Cloudflare R2 (S3-compatible), vía HTTPS firmado SigV4 con node:https/node:crypto, cero dependencias nuevas. Sin credenciales reales configuradas, todas las operaciones reales devuelven CONFIGURATION_REQUIRED explícito -- nunca se inventa ni se intenta una llamada de red sin ellas. Incluye un provider mock explícito para tests/desarrollo, nunca usado por defecto.",
+  "type": "module",
+  "private": true,
+  "main": "src/mediaHostingService.js",
+  "scripts": {
+    "test": "node --test \"test/**/*.test.js\""
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}

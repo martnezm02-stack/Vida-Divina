@@ -35,6 +35,8 @@ La tabla completa y canónica (16 perfiles) vive en [`docs/clientes/README.md#ma
 
 ## Tabla 2 Señal de objeción y archivo a consultar
 
+> **Nota de compatibilidad (Sprint 5):** esta clasificación estructurada de objeciones no representa el manejo actual en el flujo comercial principal (`SPRINT_5_PROCESO_COMERCIAL.md` §18 confirma que hoy se usa una respuesta genérica, no esta tabla). `docs/objeciones/` **sí** es conocimiento de apoyo válido para [`recuperacion_de_compra.md`](./recuperacion_de_compra.md).
+
 | SI el cliente dice algo como... | ENTONCES consultar (análisis) | Diálogo de ejemplo |
 |---|---|---|
 | "Está caro" / "se me hace mucho" / "vi más barato" | [`docs/objeciones/esta_caro.md`](../objeciones/esta_caro.md) | [conversaciones/objeciones/esta_caro.md](../conversaciones/objeciones/esta_caro.md) |

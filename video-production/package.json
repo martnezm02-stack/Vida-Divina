@@ -1,0 +1,17 @@
+{
+  "name": "vida-divina-video-production",
+  "version": "0.1.0",
+  "description": "Renderiza VisualProductionPackage (creative-intelligence/) + Audio Asset (tts-text-preprocessor/) en un MP4 real, usando HyperFrames como motor de render. Deliberadamente separado de creative-intelligence/ (que mantiene su convención de cero dependencias externas) porque HyperFrames trae dependencias pesadas (Puppeteer/Chrome, sharp, onnxruntime). No duplica VisualProductionPackage, Audio Asset ni ninguna lógica de Creative Intelligence — solo las consume.",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "test": "node --test \"test/**/*.test.js\""
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "hyperframes": "^0.7.110"
+  },
+  "devDependencies": {}
+}

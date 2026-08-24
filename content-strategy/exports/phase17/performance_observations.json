@@ -1,0 +1,44 @@
+[
+  {
+    "performance_observation_id": "0bb20862-1366-4e29-b3a0-76a8b558a6c1",
+    "content_id": "b4fd1d25-b6bb-45b1-9a33-0cdbbc932485",
+    "platform": "instagram",
+    "metric": "views",
+    "value": 340,
+    "observed_at": "2026-08-12T04:20:38.535Z",
+    "measurement_window": null,
+    "basis": "OBSERVADO",
+    "confidence": 0.5,
+    "confidence_basis": "Dato de mock_performance_source — fixture sintético fijo, nunca una métrica real de plataforma.",
+    "requires_human_review": true,
+    "source": "synthetic_fixture"
+  },
+  {
+    "performance_observation_id": "cabab6b9-d767-4b60-adeb-4596f83a8b12",
+    "content_id": "b4fd1d25-b6bb-45b1-9a33-0cdbbc932485",
+    "platform": "instagram",
+    "metric": "likes",
+    "value": 22,
+    "observed_at": "2026-08-12T04:20:38.535Z",
+    "measurement_window": null,
+    "basis": "OBSERVADO",
+    "confidence": 0.5,
+    "confidence_basis": "Dato de mock_performance_source — fixture sintético fijo, nunca una métrica real de plataforma.",
+    "requires_human_review": true,
+    "source": "synthetic_fixture"
+  },
+  {
+    "performance_observation_id": "c5966311-1cdd-46da-b6a1-d5882d3eb74e",
+    "content_id": "b4fd1d25-b6bb-45b1-9a33-0cdbbc932485",
+    "platform": "instagram",
+    "metric": "comments",
+    "value": 3,
+    "observed_at": "2026-08-12T04:20:38.535Z",
+    "measurement_window": null,
+    "basis": "OBSERVADO",
+    "confidence": 0.5,
+    "confidence_basis": "Dato de mock_performance_source — fixture sintético fijo, nunca una métrica real de plataforma.",
+    "requires_human_review": true,
+    "source": "synthetic_fixture"
+  }
+]

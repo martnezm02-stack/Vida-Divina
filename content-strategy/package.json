@@ -1,0 +1,17 @@
+{
+  "name": "vida-divina-content-strategy",
+  "version": "0.1.0",
+  "description": "Content Strategy + Content Production — Fase 13 (MVP): cierra INTELLIGENCE → CONTENT STRATEGY → CONTENT BRIEF → CONTENT PRODUCTION → HUMAN REVIEW → READY_TO_PUBLISH. Combina Marketing Intelligence + Website Intelligence + Viral Content Intelligence + Performance & Learning Intelligence por REFERENCIA (nunca duplica sus contratos), reutiliza ClaimReference de website-intelligence y el patrón LLMProvider de marketing-intelligence. No publica nada — todo se detiene en READY_TO_PUBLISH, y ningún ContentItem puede llegar ahí sin pasar por un paso de aprobación humana explícito y separado.",
+  "type": "module",
+  "private": true,
+  "main": "phase13Mvp.js",
+  "scripts": {
+    "demo": "node phase13Mvp.js",
+    "test": "node --test \"test/**/*.test.js\""
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}

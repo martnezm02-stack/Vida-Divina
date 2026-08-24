@@ -5,6 +5,8 @@
 Mensajes de valor para retomar el contacto en 5 momentos definidos, sin presionar ni sonar invasivo. Cobertura completa (5/5) porque son mensajes cortos, mecánicos y de uso constante en cualquier venta.
 
 > **Regla de esta carpeta:** cada seguimiento debe aportar algo (un dato, una pregunta genuina, un recurso), nunca ser solo un "¿ya lo pensaste?" repetido.
+>
+> **Nota de compatibilidad (Sprint 5):** el proceso vigente de seguimiento postventa está documentado en [`docs/proceso_de_venta/seguimiento_postventa.md`](../../proceso_de_venta/seguimiento_postventa.md). Los 5 archivos históricos de esta carpeta se conservan sin cambios.
 
 ## Construidos
 

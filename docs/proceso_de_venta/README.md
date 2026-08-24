@@ -99,6 +99,11 @@ Detalle completo de cada paso (qué módulo consultar, condiciones de entrada/sa
 | [`emprendimiento.md`](./emprendimiento.md) | ¿Cuándo tiene sentido invitar a la oportunidad de negocio? |
 | [`reglas_de_decision.md`](./reglas_de_decision.md) | **La tabla maestra SI/ENTONCES** — el archivo más consultado de este módulo. |
 | [`estados_del_cliente.md`](./estados_del_cliente.md) | ¿En qué punto del proceso está este cliente ahora mismo, y a dónde puede pasar? |
+| [`SPRINT_5_PROCESO_COMERCIAL.md`](./SPRINT_5_PROCESO_COMERCIAL.md) | **Fuente de verdad del proceso comercial real** de Vida Divina, extraída directamente del propietario. |
+| [`seguimiento_postventa.md`](./seguimiento_postventa.md) | ¿Qué seguimiento postventa se usa realmente hoy (día 3, +1 semana)? |
+| [`recuperacion_de_compra.md`](./recuperacion_de_compra.md) | Proceso nuevo de recuperación de compra potencial a los 5 días. |
+| [`pago_y_pedido.md`](./pago_y_pedido.md) | ¿Cómo funciona hoy el pago (OXXO/transferencia/Mercado Pago) y el procesamiento del pedido? |
+| [`recursos/README.md`](./recursos/README.md) | Índice de recursos comerciales (audio, testimonios, precios, ofertas, cierres, respuestas rápidas). |
 
 ---
 

@@ -1,0 +1,14 @@
+{
+  "name": "vida-divina-learning-strategy-engine",
+  "version": "0.1.0",
+  "description": "Learning & Strategy Feedback Engine — Fase 9 del roadmap de negocio. Cierra MARKETING INTELLIGENCE -> LEARNING -> STRATEGY FEEDBACK -> RECOMMENDATION READY. Consume MarketingInsight/PerformanceInsight/AttributionRecord tal cual (marketing-intelligence-engine/, attribution-engine/) -- nunca los recalcula. No ejecuta ninguna recomendación automáticamente ni modifica Content Strategy/Content Generation/CRM/Meta/WhatsApp.",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "test": "node --test \"test/**/*.test.js\"",
+    "validate": "node validateLearningPhase22.mjs"
+  },
+  "engines": { "node": ">=18" },
+  "dependencies": {},
+  "devDependencies": {}
+}

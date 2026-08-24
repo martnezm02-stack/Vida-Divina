@@ -1,0 +1,19 @@
+{
+  "name": "vida-divina-marketing-intelligence",
+  "version": "0.1.0",
+  "description": "Marketing Intelligence — Internet Access Layer (Fase 2 del MVP: WebAdapter, RSSAdapter, GitHubAdapter, contrato normalizado, pipeline Observación→Inferencia→Hipótesis). No conecta X, Meta, Reddit ni LinkedIn en esta fase — ver docs de arquitectura del módulo.",
+  "type": "module",
+  "private": true,
+  "main": "main.js",
+  "scripts": {
+    "demo": "node main.js",
+    "demo:agent": "node agentDemo.js",
+    "demo:anthropic": "node anthropicDemo.js",
+    "test": "node --test \"test/**/*.test.js\""
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}

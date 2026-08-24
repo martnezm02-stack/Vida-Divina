@@ -1,0 +1,17 @@
+{
+  "name": "vida-divina-performance-learning-intelligence",
+  "version": "0.1.0",
+  "description": "Performance & Learning Intelligence — Fase 12 (MVP): cierra el circuito PUBLICACIÓN → MÉTRICAS OBSERVADAS → PERFORMANCE SIGNAL → INFERENCIA → LEARNING INSIGHT → CONTENT STRATEGY INPUT, para el rendimiento del CONTENIDO PROPIO de Vida Divina. No conecta ninguna API social todavía (ManualPerformanceSource + fixtures sintéticos). No duplica RawStore/IntelligenceStore/ContentOpportunity — los referencia por id.",
+  "type": "module",
+  "private": true,
+  "main": "phase12Mvp.js",
+  "scripts": {
+    "demo": "node phase12Mvp.js",
+    "test": "node --test \"test/**/*.test.js\""
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}

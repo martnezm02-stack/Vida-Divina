@@ -1,0 +1,45 @@
+{
+  "plan_id": "044124a1-df8f-4344-bc3f-b04a12b695f6",
+  "product_ref": "TéDivina",
+  "objective": "Producir piezas educativas genuinamente distintas para TéDivina, combinando mercado + contenido externo + aprendizaje propio.",
+  "audience_ref": null,
+  "content_pillars": [
+    "EDUCATION",
+    "PRODUCT_CONTEXT",
+    "PROBLEM_AWARENESS",
+    "OBJECTION_HANDLING"
+  ],
+  "experiments": [
+    "81306e07-1b2f-4fee-a407-ac8a5a14a6f8"
+  ],
+  "content_items": [
+    "258ae23e-5468-4e53-9496-81c00e22baa1",
+    "d8044098-d493-45ce-be73-371e97e493c5",
+    "dc12b946-39fe-436e-93c5-27214f864eb4",
+    "f4610d20-e19f-475a-8a06-3780d5773905",
+    "24764404-3013-4379-abd5-730c11c168f1"
+  ],
+  "cadence": null,
+  "source_references": [
+    {
+      "source_module": "marketing_intelligence",
+      "reference_type": "inference",
+      "reference_id": "a3c646a8-6c9a-4d3e-bf5a-7734549f8fb4",
+      "rationale": "Patrón real: hook → \"Apertura o título con pregunta\"."
+    },
+    {
+      "source_module": "viral_content_intelligence",
+      "reference_type": "content_opportunity",
+      "reference_id": "1827b8e1-b3ad-4a66-8581-d4f725d4037f",
+      "rationale": "ANGLE → \"educación\" — aparece en 1 de 26 observaciones de contenido (selected_youtube_sample (N=5, Fase 11))."
+    },
+    {
+      "source_module": "performance_learning_intelligence",
+      "reference_type": "learning_insight",
+      "reference_id": "8770ab9c-0b55-49d1-87c2-a0d17aa879ac",
+      "rationale": "Aprendizaje propio: 5 de 10 contenidos con hook \"question\" presentan views con dirección ABOVE_BASELINE respecto al baseline en esta muestra (detalle: NORMAL, ABOVE_BASELINE, BELOW_BASELINE, NORMAL, ABOVE_BASELINE)."
+    }
+  ],
+  "requires_human_review": true,
+  "created_at": "2026-08-12T03:53:12.661Z"
+}

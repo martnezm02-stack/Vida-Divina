@@ -1,0 +1,14 @@
+{
+  "name": "vida-divina-marketing-intelligence-engine",
+  "version": "0.1.0",
+  "description": "Marketing Intelligence Engine — Fase 8 del roadmap de negocio. Cierra CONTENT -> PUBLICATION -> PERFORMANCE -> PERFORMANCE ANALYSIS -> ATTRIBUTION -> MARKETING INTELLIGENCE -> RECOMMENDATION READY -> [NO ACTION YET]. No reimplementa Performance Analysis Engine (content-strategy/src/performanceAnalysis/) ni Attribution Engine (attribution-engine/) -- los consume tal cual. No ejecuta ninguna acción automática (ni publicación, ni cambios de estrategia, ni ML).",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "test": "node --test \"test/**/*.test.js\"",
+    "validate": "node validateMarketingIntelligencePhase19.mjs"
+  },
+  "engines": { "node": ">=18" },
+  "dependencies": {},
+  "devDependencies": {}
+}

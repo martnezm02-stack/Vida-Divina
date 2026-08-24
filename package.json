@@ -1,0 +1,9 @@
+{
+  "private": true,
+  "description": "Root-level convenience scripts only. Each module under this repo (crm/, whatsapp-adapter/, creative-intelligence/, etc.) keeps its own independent package.json — this file does not declare workspaces or dependencies and does not affect them.",
+  "scripts": {
+    "graft:build": "npx --yes @nanonets/graft build",
+    "graft:check": "npx --yes @nanonets/graft check",
+    "graft:map": "npx --yes @nanonets/graft map --max-dirs 60"
+  }
+}

@@ -1,0 +1,67 @@
+[
+  {
+    "index": 1,
+    "content_item_id": "258ae23e-5468-4e53-9496-81c00e22baa1",
+    "draft_id": "771ed803-f90d-42d7-b46b-5756da0fd930",
+    "hook": "¿Sabías que la desintoxicación corporal previa a un programa",
+    "quality_passed": true,
+    "truth_status": "REVIEW_REQUIRED",
+    "truth_reasons": [
+      "[hook] HEALTH_CLAIM_REQUIRES_REVIEW: contiene lenguaje fisiológico (\"desintoxicación\") sin una negación/disclaimer claro en el mismo texto — nunca se clasifica como hecho respaldado sin evidencia primaria explícita.",
+      "[caption] HEALTH_CLAIM_REQUIRES_REVIEW: contiene lenguaje fisiológico (\"desintoxicación\") sin una negación/disclaimer claro en el mismo texto — nunca se clasifica como hecho respaldado sin evidencia primaria explícita.",
+      "[scene_structure.hook] HEALTH_CLAIM_REQUIRES_REVIEW: contiene lenguaje fisiológico (\"desintoxicación\") sin una negación/disclaimer claro en el mismo texto — nunca se clasifica como hecho respaldado sin evidencia primaria explícita."
+    ]
+  },
+  {
+    "index": 2,
+    "content_item_id": "d8044098-d493-45ce-be73-371e97e493c5",
+    "draft_id": "28bdda34-d71d-4124-acb7-dc17d983d1aa",
+    "hook": "\"Empezar directo funciona igual\" — eso es un mito. La realid",
+    "quality_passed": true,
+    "truth_status": "REVIEW_REQUIRED",
+    "truth_reasons": [
+      "[hook] HEALTH_CLAIM_REQUIRES_REVIEW: contiene lenguaje fisiológico (\"desintoxicación\") sin una negación/disclaimer claro en el mismo texto — nunca se clasifica como hecho respaldado sin evidencia primaria explícita.",
+      "[caption] HEALTH_CLAIM_REQUIRES_REVIEW: contiene lenguaje fisiológico (\"desintoxicación\") sin una negación/disclaimer claro en el mismo texto — nunca se clasifica como hecho respaldado sin evidencia primaria explícita.",
+      "[scene_structure.hook] HEALTH_CLAIM_REQUIRES_REVIEW: contiene lenguaje fisiológico (\"desintoxicación\") sin una negación/disclaimer claro en el mismo texto — nunca se clasifica como hecho respaldado sin evidencia primaria explícita."
+    ]
+  },
+  {
+    "index": 3,
+    "content_item_id": "dc12b946-39fe-436e-93c5-27214f864eb4",
+    "draft_id": "703fd52f-e599-4d8b-aaff-da6156401bb7",
+    "hook": "La desintoxicación corporal previa a un programa de pérdida ",
+    "quality_passed": true,
+    "truth_status": "REVIEW_REQUIRED",
+    "truth_reasons": [
+      "[hook] HEALTH_CLAIM_REQUIRES_REVIEW: contiene lenguaje fisiológico (\"desintoxicación\") sin una negación/disclaimer claro en el mismo texto — nunca se clasifica como hecho respaldado sin evidencia primaria explícita.",
+      "[caption] HEALTH_CLAIM_REQUIRES_REVIEW: contiene lenguaje fisiológico (\"desintoxicación\") sin una negación/disclaimer claro en el mismo texto — nunca se clasifica como hecho respaldado sin evidencia primaria explícita.",
+      "[scene_structure.headline] HEALTH_CLAIM_REQUIRES_REVIEW: contiene lenguaje fisiológico (\"desintoxicación\") sin una negación/disclaimer claro en el mismo texto — nunca se clasifica como hecho respaldado sin evidencia primaria explícita."
+    ]
+  },
+  {
+    "index": 4,
+    "content_item_id": "f4610d20-e19f-475a-8a06-3780d5773905",
+    "draft_id": "478b0ad5-1508-4bb8-81f6-954afa810fa2",
+    "hook": "Cómo entender la desintoxicación corporal previa a un progra",
+    "quality_passed": true,
+    "truth_status": "REVIEW_REQUIRED",
+    "truth_reasons": [
+      "[hook] HEALTH_CLAIM_REQUIRES_REVIEW: contiene lenguaje fisiológico (\"desintoxicación\") sin una negación/disclaimer claro en el mismo texto — nunca se clasifica como hecho respaldado sin evidencia primaria explícita.",
+      "[caption] HEALTH_CLAIM_REQUIRES_REVIEW: contiene lenguaje fisiológico (\"desintoxicación\") sin una negación/disclaimer claro en el mismo texto — nunca se clasifica como hecho respaldado sin evidencia primaria explícita.",
+      "[scene_structure.hook] HEALTH_CLAIM_REQUIRES_REVIEW: contiene lenguaje fisiológico (\"desintoxicación\") sin una negación/disclaimer claro en el mismo texto — nunca se clasifica como hecho respaldado sin evidencia primaria explícita."
+    ]
+  },
+  {
+    "index": 5,
+    "content_item_id": "24764404-3013-4379-abd5-730c11c168f1",
+    "draft_id": "7ae712d1-a891-49c2-a3a7-fb055f4578a8",
+    "hook": "No es lo mismo ignorar la desintoxicación corporal previa a ",
+    "quality_passed": true,
+    "truth_status": "REVIEW_REQUIRED",
+    "truth_reasons": [
+      "[hook] HEALTH_CLAIM_REQUIRES_REVIEW: contiene lenguaje fisiológico (\"desintoxicación\") sin una negación/disclaimer claro en el mismo texto — nunca se clasifica como hecho respaldado sin evidencia primaria explícita.",
+      "[caption] HEALTH_CLAIM_REQUIRES_REVIEW: contiene lenguaje fisiológico (\"desintoxicación\") sin una negación/disclaimer claro en el mismo texto — nunca se clasifica como hecho respaldado sin evidencia primaria explícita.",
+      "[scene_structure.hook] HEALTH_CLAIM_REQUIRES_REVIEW: contiene lenguaje fisiológico (\"desintoxicación\") sin una negación/disclaimer claro en el mismo texto — nunca se clasifica como hecho respaldado sin evidencia primaria explícita."
+    ]
+  }
+]

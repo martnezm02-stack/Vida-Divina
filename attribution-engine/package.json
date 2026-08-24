@@ -1,0 +1,13 @@
+{
+  "name": "vida-divina-attribution-engine",
+  "version": "0.1.0",
+  "description": "Attribution Engine — conecta CONTENT -> PUBLICATION -> PERFORMANCE (content-strategy/performance-learning-intelligence, sin modificarlos) con CONVERSATION -> LEAD -> SALE -> REVENUE (crm/, único módulo autorizado a hablar con PostgreSQL). Produce AttributionRecord trazables y explicables (DIRECT/INDIRECT/ASSISTED/UNKNOWN) -- nunca infiere causalidad ni inventa revenue.",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "test": "node --env-file-if-exists=../crm/.env --test \"test/**/*.test.js\""
+  },
+  "engines": { "node": ">=18" },
+  "dependencies": {},
+  "devDependencies": {}
+}

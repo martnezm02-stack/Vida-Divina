@@ -298,7 +298,7 @@ Lista consolidada y autoritativa. Cambiar cualquiera de estas decisiones requier
 3. Separación estricta entre conocimiento (`docs/`) e implementación (`compiler/`, `recommendation-engine/`, `simulator/`).
 4. Metadatos estructurados mediante archivo paralelo (`.meta.json`), no frontmatter YAML embebido en el `.md`.
 5. Sin base de datos, sin motor de grafos, sin embeddings, sin modelo de lenguaje en ninguno de los componentes de v1.0.
-6. Node.js sin dependencias externas como runtime único de todos los componentes de código.
+6. Node.js sin dependencias externas como runtime único de todos los componentes de código, **excepto el driver PostgreSQL (`pg`) utilizado exclusivamente por `crm/`** (excepción aprobada en la Fase B del CRM/Customer 360 — ver `docs/CRM_FASE_B_POSTGRESQL.md`). Ningún otro módulo está autorizado a importar `pg` ni ningún otro driver de base de datos; `crm/` es la única puerta de acceso a PostgreSQL (`crm/index.js`, que tampoco expone el pool ni ninguna función de query genérica a quien lo importe).
 7. Un componente, una responsabilidad — ningún componente absorbe la responsabilidad de otro (el Recommendation Engine no detecta intención; el Conversation Simulator no clasifica prioridad de producto de forma semántica).
 8. Toda regla de decisión transcrita a código debe citar su fuente documental exacta.
 9. Ninguna categorización o relación se inventa; lo no verificable se declara como hallazgo, nunca se rellena con un valor plausible.

@@ -1,5 +1,7 @@
 # Primer Contacto — WhatsApp Directo (sin contexto previo)
 
+> **Nota de compatibilidad (Sprint 5):** el saludo comercial vigente es [`mensaje_inicial.md`](./mensaje_inicial.md). Este archivo se conserva como contexto histórico/complementario.
+
 # Objetivo
 Responder a un contacto que escribe por WhatsApp sin que se sepa aún de dónde salió el número ni qué busca, abriendo la conversación de forma natural.
 

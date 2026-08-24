@@ -4,6 +4,8 @@
 
 Pasos 11-13 del [flujo general](./flujo_general.md): postventa, venta cruzada y fidelización. Define **cuándo** activar cada una — el diálogo real está en [`docs/conversaciones/postventa/`](../conversaciones/postventa/index.md).
 
+> **Nota de compatibilidad (Sprint 5):** la venta cruzada, la solicitud de testimonio y la solicitud de referido descritas en este documento **no forman parte del proceso postventa actual confirmado**. El proceso vigente está documentado en [`seguimiento_postventa.md`](./seguimiento_postventa.md).
+
 ## Cuándo verificar satisfacción
 
 Tan pronto como haya pasado tiempo razonable desde la [confirmación de envío](../conversaciones/cierre/confirmacion_envio.md) para que el cliente ya haya recibido y probado el producto (días, no horas). Usar [`docs/conversaciones/postventa/verificar_satisfaccion.md`](../conversaciones/postventa/verificar_satisfaccion.md).

@@ -1,0 +1,14 @@
+{
+  "name": "vida-divina-strategy-decision-engine",
+  "version": "0.1.0",
+  "description": "Strategy Decision Engine — Fase 10 del roadmap de negocio. Evalúa StrategyFeedback (learning-strategy-engine/) con reglas determinísticas (sin ML/LLM) y produce StrategyDecision (ACCEPT/REJECT/DEFER). No ejecuta ninguna decisión ni modifica Content Strategy/CRM/Meta/WhatsApp -- ACCEPT solo significa READY_FOR_STRATEGY_UPDATE, executionStatus siempre NOT_EXECUTED.",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "test": "node --test \"test/**/*.test.js\"",
+    "validate": "node validateStrategyDecisionPhase26.mjs"
+  },
+  "engines": { "node": ">=18" },
+  "dependencies": {},
+  "devDependencies": {}
+}

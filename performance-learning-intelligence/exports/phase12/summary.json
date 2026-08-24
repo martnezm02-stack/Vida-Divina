@@ -1,0 +1,48 @@
+{
+  "real_performance_data": "NOT_AVAILABLE",
+  "fixture_source": "synthetic_fixture",
+  "contents_processed": 10,
+  "platforms": [
+    "instagram",
+    "youtube_shorts"
+  ],
+  "formats": [
+    "slideshow",
+    "talking_head",
+    "text_overlay"
+  ],
+  "hooks": [
+    "question",
+    "statistic",
+    "statement"
+  ],
+  "baselines": {
+    "instagram::views": {
+      "baseline_value": 1200,
+      "baseline_method": "median",
+      "sample_size": 5,
+      "insufficient": false
+    },
+    "instagram::completion_rate": {
+      "baseline_value": null,
+      "baseline_method": "median",
+      "sample_size": 2,
+      "insufficient": true
+    },
+    "youtube_shorts::views": {
+      "baseline_value": 2800,
+      "baseline_method": "median",
+      "sample_size": 5,
+      "insufficient": false
+    },
+    "youtube_shorts::completion_rate": {
+      "baseline_value": 0.4,
+      "baseline_method": "median",
+      "sample_size": 5,
+      "insufficient": false
+    }
+  },
+  "insights_count": 5,
+  "hypotheses_count": 4,
+  "generated_at": "2026-08-12T03:33:41.216Z"
+}

@@ -1,0 +1,661 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Vida Divina — Creative Studio</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark">✦</span>
+      <div class="brand-text">
+        <span class="brand-name">VIDA DIVINA</span>
+        <span class="brand-sub">Creative Studio</span>
+      </div>
+    </div>
+    <nav class="topnav" id="topnav">
+      <button class="navbtn active" data-view="home">Inicio</button>
+      <button class="navbtn" data-view="autocreate">Crear autónomo</button>
+      <button class="navbtn" data-view="create">Crear</button>
+      <button class="navbtn" data-view="carousel">Carrusel</button>
+      <button class="navbtn" data-view="edit">Editar</button>
+      <button class="navbtn" data-view="adapt">Adaptar</button>
+      <button class="navbtn" data-view="assets">Assets</button>
+      <button class="navbtn" data-view="products">Productos</button>
+      <button class="navbtn" data-view="campaigns">Campañas</button>
+      <button class="navbtn" data-view="calendar">Calendario</button>
+      <button class="navbtn" data-view="review">Revisión</button>
+      <button class="navbtn" data-view="whatsapp">WhatsApp</button>
+      <button class="navbtn" data-view="performance">Performance</button>
+      <button class="navbtn" data-view="attribution">Attribution</button>
+      <button class="navbtn" data-view="intelligence">Marketing Intelligence</button>
+      <button class="navbtn" data-view="learning">Learning / Strategy</button>
+      <button class="navbtn" data-view="decisions">Strategy Decisions</button>
+      <button class="navbtn" data-view="content-plans">Content Plans</button>
+    </nav>
+  </header>
+
+  <main id="app">
+    <!-- HOME -->
+    <section class="view" id="view-home">
+      <div class="hero">
+        <h1>¿Qué quieres crear?</h1>
+        <p class="hero-sub">Producción real, conectada al motor de generación de Vida Divina — sin simulaciones.</p>
+        <div class="hero-actions">
+          <button class="action-card" data-goto="autocreate">
+            <span class="action-icon">✦</span>
+            <span class="action-title">Crear autónomo</span>
+            <span class="action-desc">Describe qué quieres lograr — el motor deriva persona, ángulo, hook, guion y CTA reales.</span>
+          </button>
+          <button class="action-card" data-goto="create">
+            <span class="action-icon">✎</span>
+            <span class="action-title">Crear contenido</span>
+            <span class="action-desc">Un anuncio nuevo desde una intención o instrucción directa.</span>
+          </button>
+          <button class="action-card" data-goto="carousel">
+            <span class="action-icon">▦</span>
+            <span class="action-title">Carrusel</span>
+            <span class="action-desc">N slides reales para Instagram Feed, desde una intención comercial.</span>
+          </button>
+          <button class="action-card" data-goto="edit">
+            <span class="action-icon">✎</span>
+            <span class="action-title">Editar video</span>
+            <span class="action-desc">Mejora un video existente sin tocar el original.</span>
+          </button>
+          <button class="action-card" data-goto="adapt">
+            <span class="action-icon">⇄</span>
+            <span class="action-title">Adaptar contenido</span>
+            <span class="action-desc">Genera versiones para otras plataformas del mismo video.</span>
+          </button>
+        </div>
+      </div>
+      <div class="status-strip" id="engine-status">Verificando el motor real…</div>
+
+      <h2 style="text-align:center;margin-top:56px;">VIDA DIVINA COMMAND CENTER</h2>
+      <p class="view-sub" style="text-align:center;">Estado real de cada subsistema -- nunca simulado.</p>
+      <div class="command-center-grid" id="command-center-grid"><p class="placeholder">Cargando estado real…</p></div>
+    </section>
+
+    <!-- CREATE -->
+    <section class="view hidden" id="view-create">
+      <h2>Crear contenido</h2>
+      <p class="view-sub">Solicitud real enviada al Content Generation Engine — el guion y el CTA los escribes tú; el motor nunca los inventa.</p>
+      <div class="panel-grid">
+        <form class="panel form-panel" id="create-form">
+          <label>Modo
+            <select name="mode" id="create-mode">
+              <option value="CAMPAIGN">Campaign Mode (resuelve el CreativeCell automáticamente)</option>
+              <option value="DIRECT">Direct Instruction Mode</option>
+            </select>
+          </label>
+          <label>Producto
+            <select name="productId" id="create-product" required></select>
+          </label>
+          <label>Instrucción / intención
+            <textarea name="rawText" rows="2" placeholder="Crear un Reel de TéDivina para generar conversaciones por WhatsApp."></textarea>
+          </label>
+          <label>Hook (primera línea, literal)
+            <input type="text" name="hookText" required placeholder="Si necesitas un laxante casi todas las noches..." />
+          </label>
+          <div id="create-video-script-info" class="meta hidden"></div>
+          <label>Voiceover completo (editable -- este es el texto que se enviará al Voice Engine)
+            <textarea name="voiceoverText" id="create-voiceover-text" rows="4" required placeholder="Guion completo que se convertirá en audio."></textarea>
+          </label>
+          <input type="hidden" name="voiceoverSource" id="create-voiceover-source" value="GENERATED" />
+          <label>CTA (literal)
+            <input type="text" name="ctaText" required placeholder="Si quieres conocer más, escríbenos por WhatsApp." />
+          </label>
+          <label>Fotografía real del producto
+            <select name="imageAssetPath" id="create-image"></select>
+          </label>
+          <label id="create-product-body-wrap">Texto de producto (solo si no hay fotografía, literal)
+            <textarea name="productBody" id="create-product-body" rows="2" placeholder="Sin fotografía real, este texto se usa en la escena de producto -- literal, el motor nunca lo inventa."></textarea>
+          </label>
+          <label>Audio
+            <select name="audioSource" id="create-audio-source">
+              <option value="existing">Usar Audio Asset ya generado</option>
+              <option value="generate">Generar voz nueva (Voice Engine)</option>
+            </select>
+          </label>
+          <div id="create-audio-hint" class="meta"></div>
+          <label id="create-audio-existing-wrap">Audio Asset existente
+            <select name="audioAssetPath" id="create-audio-existing"></select>
+          </label>
+          <fieldset>
+            <legend>Output Profiles</legend>
+            <div id="create-profiles" class="checkbox-grid"></div>
+          </fieldset>
+          <button type="button" class="btn-secondary" id="create-suggest-hypothesis-btn">SUGERIR VARIANTES (HIPÓTESIS)</button>
+          <button type="submit" class="btn-primary">GENERAR</button>
+        </form>
+        <div class="panel result-panel" id="create-result">
+          <p class="placeholder">El resultado real de producción aparecerá aquí.</p>
+        </div>
+      </div>
+      <div id="create-hypothesis-suggestions" class="panel hidden"></div>
+    </section>
+
+    <!-- AUTOCREATE (Bloque 1) -->
+    <section class="view hidden" id="view-autocreate">
+      <h2>Crear autónomo</h2>
+      <p class="view-sub">El motor deriva persona, pain, ángulo, hook, guion y CTA reales desde Creative Intelligence — nunca inventa hechos de producto.</p>
+      <div class="panel-grid">
+        <form class="panel form-panel" id="autocreate-form">
+          <label>Producto (opcional -- si lo eliges, se usa su identidad real del catálogo directamente, sin depender de que el texto lo mencione)
+            <select name="productId" id="autocreate-product">
+              <option value="">(detectar automáticamente del texto)</option>
+            </select>
+          </label>
+          <label>¿Qué quieres lograr?
+            <textarea name="userIntent" rows="3" required placeholder="Crear una campaña para TéDivina dirigida a personas con problemas digestivos, objetivo conversaciones por WhatsApp."></textarea>
+          </label>
+          <button type="submit" class="btn-primary">GENERAR PROPUESTA</button>
+        </form>
+        <div class="panel result-panel" id="autocreate-result">
+          <p class="placeholder">La Creative Proposal real aparecerá aquí (producto, persona, pain, ángulo, hook, guion, CTA).</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CAROUSEL (Bloque 2) -->
+    <section class="view hidden" id="view-carousel">
+      <h2>Carrusel</h2>
+      <p class="view-sub">1 intención → N slides reales (imagen real, renderizada con HyperFrames) para Instagram Feed Carousel.</p>
+      <div class="panel-grid">
+        <form class="panel form-panel" id="carousel-propose-form">
+          <label>¿Qué quieres lograr?
+            <textarea name="userIntent" rows="3" required placeholder="Crear una campaña para TéDivina dirigida a personas con problemas digestivos."></textarea>
+          </label>
+          <label>Número de slides
+            <select name="slideCount">
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5" selected>5</option>
+              <option value="6">6</option>
+              <option value="7">7</option>
+            </select>
+          </label>
+          <button type="submit" class="btn-primary">GENERAR PROPUESTA</button>
+        </form>
+        <div class="panel result-panel" id="carousel-propose-result">
+          <p class="placeholder">La propuesta de slides reales aparecerá aquí antes de producir.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- EDIT -->
+    <section class="view hidden" id="view-edit">
+      <h2>Editar video</h2>
+      <p class="view-sub">El original nunca se modifica — cada operación produce un archivo nuevo.</p>
+      <div class="panel-grid">
+        <form class="panel form-panel" id="edit-form">
+          <label>Video existente
+            <select name="sourceAssetPath" id="edit-source"></select>
+          </label>
+          <div class="lineage-diagram">
+            <span>ORIGINAL</span><span class="arrow">↓</span><span>OPERACIONES</span><span class="arrow">↓</span><span>NUEVO ASSET</span>
+          </div>
+          <fieldset>
+            <legend>Operaciones disponibles</legend>
+            <div id="edit-operations" class="checkbox-grid"></div>
+          </fieldset>
+          <label id="edit-text-overlay-wrap" class="hidden">Texto del CTA a superponer
+            <input type="text" name="textOverlay" placeholder="Escríbenos por WhatsApp" />
+          </label>
+          <button type="submit" class="btn-primary">APLICAR OPERACIONES</button>
+        </form>
+        <div class="panel result-panel" id="edit-result">
+          <p class="placeholder">El resultado real de la edición aparecerá aquí.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ADAPT -->
+    <section class="view hidden" id="view-adapt">
+      <h2>Adaptar contenido</h2>
+      <p class="view-sub">Deriva versiones reales para otras plataformas desde el mismo video — sin regenerar voz ni imagen.</p>
+      <div class="panel-grid">
+        <form class="panel form-panel" id="adapt-form">
+          <label>Video existente
+            <select name="sourceAssetPath" id="adapt-source"></select>
+          </label>
+          <fieldset>
+            <legend>Output Profiles</legend>
+            <div id="adapt-profiles" class="checkbox-grid"></div>
+          </fieldset>
+          <button type="submit" class="btn-primary">ADAPTAR</button>
+        </form>
+        <div class="panel result-panel" id="adapt-result">
+          <p class="placeholder">Las versiones reales generadas aparecerán aquí.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ASSETS (Content Library, Fase 14 Parte 19) -->
+    <section class="view hidden" id="view-assets">
+      <h2>Biblioteca de assets</h2>
+      <p class="view-sub">Los RAW son intocables — no se pueden editar ni sobrescribir desde aquí. Producto y Campaña: pendiente -- el modelo real de Final Outputs todavía no lleva esa atribución por asset.</p>
+      <div class="filters-row" style="display:flex;gap:16px;flex-wrap:wrap;margin-bottom:16px;">
+        <label style="font-size:12px;font-weight:600;color:var(--olive);">Estado
+          <select id="assets-status-filter">
+            <option value="">Todos</option>
+            <option value="RAW">RAW</option>
+            <option value="GENERATED">GENERATED</option>
+            <option value="EDITED">EDITED</option>
+            <option value="FINAL">FINAL</option>
+          </select>
+        </label>
+        <label style="font-size:12px;font-weight:600;color:var(--olive);">Formato (Output Profile)
+          <select id="assets-format-filter"><option value="">Todos</option></select>
+        </label>
+        <label style="font-size:12px;font-weight:600;color:var(--olive);">Desde fecha
+          <input type="date" id="assets-date-filter" />
+        </label>
+      </div>
+      <div id="assets-list" class="asset-grid"><p class="placeholder">Cargando…</p></div>
+    </section>
+
+    <!-- PRODUCTS -->
+    <section class="view hidden" id="view-products">
+      <h2>Productos</h2>
+      <div id="products-list" class="product-grid"><p class="placeholder">Cargando…</p></div>
+    </section>
+
+    <!-- CAMPAIGNS -->
+    <section class="view hidden" id="view-campaigns">
+      <h2>Campañas</h2>
+      <p class="view-sub">Agrupación comercial real (nombre, objetivo, producto, plataforma, fechas, frecuencia, execution mode). Solo metadata + overview -- nunca genera ni publica contenido por sí misma.</p>
+      <div class="panel-grid">
+        <form class="panel form-panel" id="marketing-campaign-form">
+          <label>Nombre
+            <input type="text" name="name" required placeholder="Lanzamiento TéDivina Septiembre" />
+          </label>
+          <label>Objetivo
+            <select name="objective" required>
+              <option value="INSTAGRAM_ENGAGEMENT">INSTAGRAM_ENGAGEMENT</option>
+              <option value="WHATSAPP_CONVERSATIONS">WHATSAPP_CONVERSATIONS</option>
+              <option value="BRAND_AWARENESS">BRAND_AWARENESS</option>
+              <option value="LEAD_GENERATION">LEAD_GENERATION</option>
+              <option value="SALES">SALES</option>
+            </select>
+          </label>
+          <label>Producto
+            <select name="productId" id="mkt-campaign-product" required></select>
+          </label>
+          <label>Plataforma
+            <select name="platform" required>
+              <option value="INSTAGRAM_REEL">INSTAGRAM_REEL</option>
+              <option value="FACEBOOK_REEL">FACEBOOK_REEL</option>
+              <option value="WHATSAPP_VIDEO">WHATSAPP_VIDEO</option>
+              <option value="WHATSAPP">WHATSAPP</option>
+            </select>
+          </label>
+          <label>Fecha inicial
+            <input type="date" name="startDate" required />
+          </label>
+          <label>Fecha final
+            <input type="date" name="endDate" required />
+          </label>
+          <label>Número objetivo de contenidos
+            <input type="number" name="targetContentCount" min="1" value="4" required />
+          </label>
+          <label>Frecuencia
+            <select name="frequency" required>
+              <option value="DAILY">DAILY</option>
+              <option value="EVERY_2_DAYS">EVERY_2_DAYS</option>
+              <option value="WEEKLY" selected>WEEKLY</option>
+              <option value="BIWEEKLY">BIWEEKLY</option>
+            </select>
+          </label>
+          <label>Execution Mode
+            <select name="executionMode">
+              <option value="PREPARE_ONLY" selected>PREPARE_ONLY</option>
+              <option value="HUMAN_REVIEW">HUMAN_REVIEW</option>
+              <option value="AUTO_PUBLISH">AUTO_PUBLISH</option>
+            </select>
+          </label>
+          <button type="submit" class="btn-primary">CREAR CAMPAÑA</button>
+        </form>
+        <div class="panel result-panel" id="marketing-campaign-result">
+          <p class="placeholder">La campaña real creada aparecerá aquí.</p>
+        </div>
+      </div>
+
+      <h3>Mis campañas</h3>
+      <div id="marketing-campaigns-list" class="asset-grid"><p class="placeholder">Cargando…</p></div>
+
+      <h3 style="margin-top:40px;">Producción (CreativeCell → ProductionArtifact → VisualProductionPackage → Asset → Final Output)</h3>
+      <div id="campaigns-list"><p class="placeholder">Cargando…</p></div>
+    </section>
+
+    <!-- CALENDARIO (Media Hosting + Publishing Scheduler) -->
+    <section class="view hidden" id="view-calendar">
+      <h2>Calendario</h2>
+      <p class="view-sub" id="calendar-hosting-status">Verificando Media Hosting…</p>
+      <button class="btn-secondary" id="calendar-run-now">VERIFICAR PUBLICACIONES VENCIDAS AHORA</button>
+      <div id="calendar-list" class="asset-grid"><p class="placeholder">Cargando…</p></div>
+    </section>
+
+    <!-- REVIEW QUEUE (Human Review, Fase 14 Parte 12) -->
+    <section class="view hidden" id="view-review">
+      <h2>Revisión (Human Review Queue)</h2>
+      <p class="view-sub">ContentPlans reales en READY_FOR_REVIEW (Execution Mode HUMAN_REVIEW). Aprobar/Rechazar usa el ScheduledPublication real ya existente (mismo backend que Calendario) -- nunca una aprobación falsa en el frontend.</p>
+      <div id="review-queue-list"><p class="placeholder">Cargando…</p></div>
+    </section>
+
+    <!-- WHATSAPP CONSOLE (Fase 15, Partes 8-16) -->
+    <section class="view hidden" id="view-whatsapp">
+      <h2>WhatsApp</h2>
+      <p class="view-sub" id="whatsapp-send-status">Verificando estado real de envío…</p>
+      <label>Rango
+        <select id="whatsapp-days-filter">
+          <option value="7">Últimos 7 días</option>
+          <option value="30" selected>Últimos 30 días</option>
+          <option value="90">Últimos 90 días</option>
+        </select>
+      </label>
+      <label>Origen
+        <select id="whatsapp-source-filter">
+          <option value="REAL" selected>Reales</option>
+          <option value="SIMULATED">Simulados</option>
+          <option value="TEST">Pruebas</option>
+          <option value="FIXTURE">Fixtures</option>
+          <option value="UNKNOWN">Desconocidos</option>
+          <option value="ALL">Todos</option>
+        </select>
+      </label>
+      <p class="view-sub" id="whatsapp-source-summary"></p>
+      <h3>WhatsApp Inbox</h3>
+      <div id="whatsapp-inbox-list" class="asset-grid"><p class="placeholder">Cargando…</p></div>
+    </section>
+
+    <section class="view hidden" id="view-performance">
+      <h2>Performance Analysis</h2>
+      <p class="view-sub">Solo lectura -- datos reales de Graph API ya recolectados. No publica ni modifica nada.</p>
+      <label>Plataforma
+        <select id="performance-platform-filter">
+          <option value="">Todas</option>
+          <option value="instagram">Instagram</option>
+          <option value="facebook">Facebook</option>
+        </select>
+      </label>
+      <div id="performance-summary"></div>
+      <h3>Top performers</h3>
+      <div id="performance-top" class="asset-grid"><p class="placeholder">Cargando…</p></div>
+      <h3>Underperformers</h3>
+      <div id="performance-bottom" class="asset-grid"><p class="placeholder">Cargando…</p></div>
+      <h3>Insights</h3>
+      <div id="performance-insights" class="asset-grid"><p class="placeholder">Cargando…</p></div>
+    </section>
+
+    <section class="view hidden" id="view-attribution">
+      <h2>Attribution</h2>
+      <p class="view-sub">Solo lectura -- CONTENT → PUBLICATION → PERFORMANCE → CONVERSATION → LEAD → SALE → REVENUE. Nunca inventa un vínculo ni revenue.</p>
+      <div id="attribution-summary"></div>
+      <h3>Registros de atribución</h3>
+      <div id="attribution-list" class="asset-grid"><p class="placeholder">Cargando…</p></div>
+    </section>
+
+    <section class="view hidden" id="view-intelligence">
+      <h2>Marketing Intelligence</h2>
+      <p class="view-sub">Solo lectura -- CONTENT → PUBLICATION → PERFORMANCE → ATTRIBUTION → MARKETING INTELLIGENCE → RECOMMENDATION READY. Nunca ejecuta ninguna acción automática.</p>
+      <label>Plataforma
+        <select id="intelligence-platform-filter">
+          <option value="">Todas</option>
+          <option value="instagram">Instagram</option>
+          <option value="facebook">Facebook</option>
+          <option value="all">Multi-plataforma (all)</option>
+        </select>
+      </label>
+      <label>Categoría
+        <select id="intelligence-category-filter">
+          <option value="">Todas las categorías</option>
+          <option value="CONTENT_PERFORMANCE">CONTENT_PERFORMANCE</option>
+          <option value="PLATFORM_PERFORMANCE">PLATFORM_PERFORMANCE</option>
+          <option value="FORMAT_PERFORMANCE">FORMAT_PERFORMANCE</option>
+          <option value="PRODUCT_PERFORMANCE">PRODUCT_PERFORMANCE</option>
+          <option value="CAMPAIGN_PERFORMANCE">CAMPAIGN_PERFORMANCE</option>
+          <option value="ENGAGEMENT">ENGAGEMENT</option>
+          <option value="CONVERSION">CONVERSION</option>
+          <option value="REVENUE">REVENUE</option>
+          <option value="AUDIENCE_SIGNAL">AUDIENCE_SIGNAL</option>
+          <option value="SCHEDULE">SCHEDULE</option>
+          <option value="OPPORTUNITY">OPPORTUNITY</option>
+        </select>
+      </label>
+      <label>Confianza
+        <select id="intelligence-confidence-filter">
+          <option value="">Toda confianza</option>
+          <option value="HIGH">HIGH</option>
+          <option value="MEDIUM">MEDIUM</option>
+          <option value="LOW">LOW</option>
+          <option value="UNKNOWN">UNKNOWN</option>
+        </select>
+      </label>
+      <div id="intelligence-summary"></div>
+      <h3>Insights</h3>
+      <div id="intelligence-list" class="asset-grid"><p class="placeholder">Cargando…</p></div>
+    </section>
+
+    <section class="view hidden" id="view-learning">
+      <h2>Learning / Strategy</h2>
+      <p class="view-sub"><strong>NO ACTION AUTOMÁTICA.</strong> Solo lectura -- MARKETING INTELLIGENCE → LEARNING → STRATEGY FEEDBACK → RECOMMENDATION READY. Ninguna recomendación se ejecuta desde aquí ni modifica Content Strategy/CRM/Meta/WhatsApp.</p>
+      <label>Plataforma
+        <select id="learning-platform-filter">
+          <option value="">Todas</option>
+          <option value="instagram">Instagram</option>
+          <option value="facebook">Facebook</option>
+          <option value="all">Multi-plataforma (all)</option>
+        </select>
+      </label>
+      <label>Tipo de aprendizaje
+        <select id="learning-type-filter">
+          <option value="">Todos</option>
+          <option value="PERFORMANCE_LEARNING">PERFORMANCE_LEARNING</option>
+          <option value="CONTENT_LEARNING">CONTENT_LEARNING</option>
+          <option value="PLATFORM_LEARNING">PLATFORM_LEARNING</option>
+          <option value="FORMAT_LEARNING">FORMAT_LEARNING</option>
+          <option value="PRODUCT_LEARNING">PRODUCT_LEARNING</option>
+          <option value="COMMERCIAL_LEARNING">COMMERCIAL_LEARNING</option>
+          <option value="ENGAGEMENT_LEARNING">ENGAGEMENT_LEARNING</option>
+          <option value="OPPORTUNITY_LEARNING">OPPORTUNITY_LEARNING</option>
+          <option value="STRATEGY_LEARNING">STRATEGY_LEARNING</option>
+          <option value="DATA_QUALITY_LEARNING">DATA_QUALITY_LEARNING</option>
+        </select>
+      </label>
+      <label>Confianza
+        <select id="learning-confidence-filter">
+          <option value="">Toda confianza</option>
+          <option value="HIGH">HIGH</option>
+          <option value="MEDIUM">MEDIUM</option>
+          <option value="LOW">LOW</option>
+          <option value="UNKNOWN">UNKNOWN</option>
+        </select>
+      </label>
+      <div id="learning-summary"></div>
+
+      <h3>Learning (observación + patrón + evidencia)</h3>
+      <div id="learning-list" class="asset-grid"><p class="placeholder">Cargando…</p></div>
+
+      <h3>Strategy Feedback (recomendación propuesta -- <span style="color:#a04b3a;">PROPOSED, nunca ejecutada automáticamente</span>)</h3>
+      <div id="strategy-feedback-list" class="asset-grid"><p class="placeholder">Cargando…</p></div>
+    </section>
+
+    <section class="view hidden" id="view-decisions">
+      <h2>Strategy Decisions</h2>
+      <p class="view-sub"><strong>EXECUTION: NOT EXECUTED.</strong> Solo lectura -- STRATEGY FEEDBACK → STRATEGY DECISION → ACCEPT/REJECT/DEFER → [preparado para actualización de estrategia]. Ninguna decisión se ejecuta desde aquí; no existe ningún botón que modifique Content Strategy, CRM, Meta o WhatsApp.</p>
+      <label>Decisión
+        <select id="decisions-decision-filter">
+          <option value="">Todas</option>
+          <option value="ACCEPT">ACCEPT</option>
+          <option value="DEFER">DEFER</option>
+          <option value="REJECT">REJECT</option>
+        </select>
+      </label>
+      <label>Riesgo
+        <select id="decisions-risk-filter">
+          <option value="">Todo riesgo</option>
+          <option value="LOW">LOW</option>
+          <option value="MEDIUM">MEDIUM</option>
+          <option value="HIGH">HIGH</option>
+          <option value="UNKNOWN">UNKNOWN</option>
+        </select>
+      </label>
+      <label>Alcance
+        <select id="decisions-scope-filter">
+          <option value="">Todo alcance</option>
+          <option value="GLOBAL">GLOBAL</option>
+          <option value="PLATFORM">PLATFORM</option>
+          <option value="FORMAT">FORMAT</option>
+          <option value="PRODUCT">PRODUCT</option>
+          <option value="CONTENT_TYPE">CONTENT_TYPE</option>
+          <option value="CAMPAIGN">CAMPAIGN</option>
+        </select>
+      </label>
+      <div id="decisions-summary"></div>
+
+      <h3 style="color:#3a7a4e;">ACCEPT (READY_FOR_STRATEGY_UPDATE -- no ejecutado)</h3>
+      <div id="decisions-accept-list" class="asset-grid"><p class="placeholder">Cargando…</p></div>
+      <h3 style="color:#8a7a2a;">DEFER</h3>
+      <div id="decisions-defer-list" class="asset-grid"><p class="placeholder">Cargando…</p></div>
+      <h3 style="color:#a04b3a;">REJECT</h3>
+      <div id="decisions-reject-list" class="asset-grid"><p class="placeholder">Cargando…</p></div>
+    </section>
+
+    <section class="view hidden" id="view-content-plans">
+      <h2>Content Plans</h2>
+      <p class="view-sub">Solo lectura -- STRATEGY → CONTENT PLAN → GENERATION → QUALITY GATE → EXECUTION MODE. Esta vista nunca ejecuta ni publica; para HUMAN_REVIEW, usar la CALENDARIO existente sobre el registro real.</p>
+      <label>Estado
+        <select id="content-plans-status-filter">
+          <option value="">Todos</option>
+          <option value="READY_FOR_REVIEW">READY_FOR_REVIEW</option>
+          <option value="QUALITY_FAILED">QUALITY_FAILED</option>
+          <option value="FAILED_GENERATION">FAILED_GENERATION</option>
+          <option value="AUTO_PUBLISH_DISABLED">AUTO_PUBLISH_DISABLED</option>
+          <option value="FAILED">FAILED</option>
+        </select>
+      </label>
+      <label>Modo de ejecución
+        <select id="content-plans-mode-filter">
+          <option value="">Todos</option>
+          <option value="PREPARE_ONLY">PREPARE_ONLY</option>
+          <option value="HUMAN_REVIEW">HUMAN_REVIEW</option>
+          <option value="AUTO_PUBLISH">AUTO_PUBLISH</option>
+        </select>
+      </label>
+      <div id="content-plans-list" class="asset-grid"><p class="placeholder">Cargando…</p></div>
+
+      <h3>AUTOMATIC PUBLISHING</h3>
+      <p class="view-sub">Política global, única fuente de verdad. Activar/desactivar NUNCA publica de inmediato -- solo cambia la política para próximos ContentPlans elegibles (AUTO_PUBLISH). Ver <code>content-planning/src/autoPublishConfig.js</code>.</p>
+      <div id="auto-publish-status"><p class="placeholder">Cargando…</p></div>
+      <form id="auto-publish-form" class="form-panel">
+        <label>Tu nombre (persona real, obligatorio)
+          <input type="text" name="actorId" placeholder="Nombre y apellido" required />
+        </label>
+        <label>Motivo (opcional)
+          <input type="text" name="reason" placeholder="Motivo de la activación/desactivación" />
+        </label>
+        <button type="submit" class="btn-primary" id="auto-publish-enable-btn">Activar publicación automática</button>
+        <button type="button" class="btn-primary" id="auto-publish-disable-btn">Desactivar publicación automática</button>
+      </form>
+      <div id="auto-publish-result"></div>
+    </section>
+  </main>
+
+  <div class="modal hidden" id="preview-modal">
+    <div class="modal-content">
+      <button class="modal-close" id="preview-close">✕</button>
+      <video id="preview-video" controls></video>
+      <div id="preview-meta"></div>
+    </div>
+  </div>
+
+  <!-- PUBLICAR (Bloque 3) -->
+  <div class="modal hidden" id="publish-modal">
+    <div class="modal-content">
+      <button class="modal-close" id="publish-close">✕</button>
+      <h3>Publicar</h3>
+      <div id="publish-summary"></div>
+      <form id="publish-form" class="form-panel">
+        <label>Plataforma
+          <select name="platform" id="publish-platform"></select>
+        </label>
+        <label id="publish-destination-wrap">Destino (wa_id real, WhatsApp)
+          <input type="text" name="destination" placeholder="5212225240044" />
+        </label>
+        <label id="publish-mediaurl-wrap">URL pública del medio (https, si ya está alojado)
+          <input type="text" name="mediaUrl" placeholder="https://..." />
+        </label>
+        <label>Caption / mensaje
+          <textarea name="caption" rows="2"></textarea>
+        </label>
+        <button type="submit" class="btn-primary">CONFIRMAR PUBLICACIÓN</button>
+      </form>
+      <button class="btn-secondary" id="publish-goto-schedule">PROGRAMAR EN VEZ DE PUBLICAR AHORA →</button>
+      <div id="publish-result"></div>
+    </div>
+  </div>
+
+  <!-- PROGRAMAR (CALENDARIO) -->
+  <div class="modal hidden" id="schedule-modal">
+    <div class="modal-content">
+      <button class="modal-close" id="schedule-close">✕</button>
+      <h3>Programar publicación</h3>
+      <div id="schedule-summary"></div>
+      <form id="schedule-form" class="form-panel">
+        <label>Plataforma
+          <select name="platform" id="schedule-platform">
+            <option value="INSTAGRAM">INSTAGRAM</option>
+            <option value="FACEBOOK">FACEBOOK</option>
+          </select>
+        </label>
+        <label>Caption / mensaje
+          <textarea name="caption" rows="2" required placeholder="Escríbenos por WhatsApp para más información."></textarea>
+        </label>
+        <button type="submit" class="btn-primary">GUARDAR COMO BORRADOR</button>
+      </form>
+      <div id="schedule-result"></div>
+    </div>
+  </div>
+
+  <!-- CONTENT DETAIL (Fase 15, Parte 7) -->
+  <div class="modal hidden" id="content-detail-modal">
+    <div class="modal-content modal-wide">
+      <button class="modal-close" id="content-detail-close">✕</button>
+      <h3>Content Detail</h3>
+      <div id="content-detail-body"><p class="placeholder">Cargando…</p></div>
+    </div>
+  </div>
+
+  <!-- CONVERSATION VIEW (Fase 15, Parte 10/11/13/15) -->
+  <div class="modal hidden" id="whatsapp-conversation-modal">
+    <div class="modal-content modal-wide">
+      <button class="modal-close" id="whatsapp-conversation-close">✕</button>
+      <h3>Conversación</h3>
+      <div id="whatsapp-conversation-body"><p class="placeholder">Cargando…</p></div>
+    </div>
+  </div>
+
+  <!-- CAMPAIGN OVERVIEW (Fase 14, Parte 9) -->
+  <div class="modal hidden" id="campaign-overview-modal">
+    <div class="modal-content modal-wide">
+      <button class="modal-close" id="campaign-overview-close">✕</button>
+      <h3>Campaign Overview</h3>
+      <div id="campaign-overview-body"><p class="placeholder">Cargando…</p></div>
+    </div>
+  </div>
+
+  <!-- PUBLICATION DETAIL (Fase 14, Parte 13) -->
+  <div class="modal hidden" id="pubdetail-modal">
+    <div class="modal-content modal-wide">
+      <button class="modal-close" id="pubdetail-close">✕</button>
+      <h3>Publicación</h3>
+      <div id="pubdetail-body"><p class="placeholder">Cargando…</p></div>
+    </div>
+  </div>
+
+  <script src="/app.js"></script>
+</body>
+</html>

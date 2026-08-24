@@ -1,225 +1,303 @@
 # Vida Divina — Estado Oficial del Proyecto
 
-> **Propósito de este documento:** permitir que cualquier persona o conversación nueva entienda, sin contexto previo, dónde está el proyecto, qué existe, qué falta, y qué sigue — usando únicamente el repositorio, este documento y [`docs/ARCHITECTURE_v1.md`](ARCHITECTURE_v1.md).
+> **Propósito de este documento:** ser la **única fuente de verdad** sobre en qué punto está el proyecto — fases completadas, en curso y pendientes; decisiones arquitectónicas y de negocio; tests y su resultado real; integraciones externas; bloqueos; y el siguiente paso autorizado. Debe ser suficiente, por sí solo (junto con `docs/ARCHITECTURE_v1.md` para el detalle histórico de la capa de conocimiento), para que **cualquier sesión nueva, sin memoria de conversaciones anteriores, entienda dónde está el proyecto sin tener que releer el código completo ni asumir nada.**
 >
-> Este documento resume el estado; no repite el razonamiento ni la evidencia completa detrás de cada decisión. Para el detalle (contratos por componente, diagrama de flujo real, evidencia de cada hallazgo) ver `ARCHITECTURE_v1.md`, referenciado en cada sección donde aplica.
+> Este documento se actualiza al cierre de cada fase, subfase o cambio arquitectónico importante — no se espera a que se solicite. Cuando un dato cambia, se actualiza y se conserva la explicación del cambio; nunca se borra silenciosamente una decisión anterior.
 >
-> **Corte de este cierre:** compilación verificada `2026-08-07T10:54:26.779Z` — 177 entidades, 1898 relaciones, 0 errores, 11 advertencias (`knowledge/compiled/manifest.json`). Repositorio con 2 commits (`d1eb7d1`, `7391271`).
+> **Corte original de esta sección:** 2026-08-14, al cierre de la Fase Pre-Campaña (Validación en Vivo del Motor Async + Cierre de Brechas), posterior a C.2B (Async Migration + CRM Context Storage). Repositorio con 4 commits (`d1eb7d1`, `7391271`, `97878d4`, `aba6470`) — el trabajo de las Fases A-C.2B del CRM y de la Fase Pre-Campaña todavía no está commiteado (ver `git status`).
+>
+> **Nota de actualización 2026-08-23:** entre el corte anterior (2026-08-14) y esta nota, el árbol de trabajo (sin comitear — sigue en `aba6470`) avanzó una capa completa de herramientas que este documento todavía no narra en detalle: WhatsApp Operational Integration + Campaign Pilot (Fase 16), Content Generation Engine, Content Orchestrator/Planning/Strategy, Creative Intelligence, Attribution Engine, Marketing/Learning/Performance Intelligence, Media Hosting + Publishing Scheduler, Operation Dashboard, Human-in-the-Loop Workspace, y — lo más reciente — Video Workspace + Voice Engine real. Cada fase de esa capa tiene su propio checkpoint fechado en `docs/PROJECT_STATE_CHECKPOINT_*.md` (ver lista completa al pie de esta sección); este documento no los duplica. La tabla "ESTADO ACTUAL" de abajo sigue reflejando el corte de 2026-08-14 del **Programa CRM / Customer 360** específicamente (sigue siendo válida para esa capa) — no asumir que también describe el estado de la capa de herramientas más reciente.
 
 ---
 
-## 1. Resumen ejecutivo
+# ESTADO ACTUAL
 
-**¿Qué es Vida Divina?** Un negocio de venta directa (multinivel) de productos de bienestar y nutrición, con una red de distribuidores. Este proyecto no es el negocio en sí — es el sistema de conocimiento y las herramientas de software que lo sostienen.
+```
+FASE ACTUAL:                Ninguna en curso — Fase Pre-Campaña cerrada, C.3 no autorizada
+ESTADO:                     🟢 Estable — motor comercial async sobre PostgreSQL, re-validado en vivo
+ÚLTIMA FASE COMPLETADA:     Fase Pre-Campaña — Validación en Vivo del Motor Async + Cierre de
+                             Brechas (ver docs/FASE_PRECAMPANA_VALIDACION.md)
+SIGUIENTE FASE AUTORIZADA:  Ninguna — esperar instrucciones del propietario antes de lanzar
+                             la primera campaña o iniciar C.3
+BLOQUEO ACTUAL:              Ninguno sobre el código/CRM. Sí existe un bloqueo externo,
+                             no técnico, sobre la migración de WhatsApp al número REAL
+                             (Business Verification de Meta — ver "Integraciones Externas").
+                             Mercado Pago sigue PENDIENTE DE CONFIRMACIÓN DEL PROPIETARIO
+                             (cero código de integración encontrado — ver Fase Pre-Campaña §3).
+ÚLTIMA VALIDACIÓN:           145/145 tests reales (2026-08-14) + validación en vivo adicional
+                             de la Fase Pre-Campaña (servidor real + PostgreSQL real + envío
+                             real por Graph API confirmado con HTTP 200, 2026-08-14) — ver
+                             docs/FASE_PRECAMPANA_VALIDACION.md §1
+TESTS:                       crm/ 63/63 · simulator/ 35/35 · whatsapp-adapter/ 51/52 (1 fallo
+                             conocido, ajeno a la lógica de negocio — ver
+                             docs/FASE_PRECAMPANA_VALIDACION.md §8.4)
+FUENTE DE VERDAD:             docs/PROJECT_STATE.md (este documento) + docs/ARCHITECTURE_v1.md
+INTEGRACIONES EXTERNAS:       PostgreSQL: VALIDADA · WhatsApp (núm. prueba): VALIDADA EN VIVO
+                             post-C.2B (2026-08-14, ver Fase Pre-Campaña) · WhatsApp (núm.
+                             real): BLOQUEADA · Mercado Pago: PENDIENTE DE CONFIRMACIÓN ·
+                             Instagram: NO INICIADA
+ÚLTIMA ACTUALIZACIÓN:         2026-08-14 (Corrección Pre-E2E, cierre formal) — ver nota de
+                             2026-08-23 arriba para lo avanzado después de este corte
+```
 
-**¿Cuál es el objetivo del proyecto?** Convertir el conocimiento comercial de Vida Divina — qué productos existen, quién los necesita, cómo se conversa con un cliente real, por qué resiste, cuándo se decide qué — en una base documental explícita y modular en Markdown (`docs/`), y demostrar mediante implementación real (no solo diseño) que esa base es suficiente para sostener decisiones de recomendación de producto y simulación de conversación sin inventar información ni depender de conocimiento tácito.
+## Checkpoints posteriores a este corte (capa de herramientas, más reciente primero)
 
-**¿En qué etapa se encuentra?** Se cerró la primera gran etapa (base de conocimiento + Knowledge Compiler + Conversation Simulator + Recommendation Engine, descrita y congelada en `ARCHITECTURE_v1.md`) y, en el commit `7391271`, se cerró también la fase de "Estabilización de la Arquitectura" que ese mismo documento recomendaba en su §12: primer commit de Git, resolución de "1 archivo = 1 entidad" (61→66 productos reales), formalización del vocabulario de relaciones en el Knowledge Model, y construcción del **Decision Engine** (`decision-engine/`), que conecta Recommendation Engine y Conversation Simulator en un solo flujo — cerrando el Hallazgo 1 de `ARCHITECTURE_v1.md`. Ver el detalle de este cierre en el Adendum al final de `ARCHITECTURE_v1.md`. **Nada de esto está en producción** — todo se ejecuta localmente, por línea de comandos, sin canal real ni modelo de lenguaje involucrado. La siguiente etapa (ver §12) todavía no ha comenzado.
+Cada uno documenta su propia fase con detalle real (implementado, tests, hallazgos) — no se duplica aquí:
+
+- `docs/PROJECT_STATE_CHECKPOINT_2026-08-23_VIDEO_WORKSPACE_VOICE_ENGINE.md` — Video Workspace (Dashboard) + Voice Engine real conectado; cierre del bug `SOURCE_ASSET_REQUIRED` (causa raíz: piso de timeout de Voice Engine insuficiente para textos cortos); hallazgo abierto de capacidad de memoria de WSL2 en corridas largas.
+- `docs/PROJECT_STATE_CHECKPOINT_2026-08-21_WHATSAPP_INTEGRATION_CAMPAIGN_PILOT.md` — Fase 16: WhatsApp Operational Integration + primer Campaign Pilot real de punta a punta (959/960 tests).
+- `docs/PROJECT_STATE_CHECKPOINT_2026-08-21_HUMAN_IN_THE_LOOP_WORKSPACE.md`
+- `docs/PROJECT_STATE_CHECKPOINT_2026-08-21_DASHBOARD_OPERATIONS.md`
+- `docs/PROJECT_STATE_CHECKPOINT_2026-08-20_MEDIA_HOSTING_SCHEDULER.md`
+- `docs/PROJECT_STATE_CHECKPOINT_2026-08-19_OPERATION_DASHBOARD.md`
+- `docs/PROJECT_STATE_CHECKPOINT_2026-08-17_CONTENT_GENERATION_ENGINE.md`, `docs/PROJECT_STATE_CHECKPOINT_2026-08-17_CONTENT_ORCHESTRATOR.md`, `docs/PROJECT_STATE_CHECKPOINT_2026-08-17_PRODUCTION_STORES.md`
+- `docs/PROJECT_STATE_CHECKPOINT_2026-08-16.md`
 
 ---
 
-## 2. Arquitectura actual
+# ESTADO FINAL DEL PROCESO COMERCIAL (Corrección Pre-E2E, 2026-08-14)
 
-Enumeración de los componentes existentes. Detalle completo de contratos, qué conoce/no conoce cada uno, y el diagrama de flujo real en `ARCHITECTURE_v1.md` §3–§4.
+Cierre formal de la corrección autorizada sobre la Fase Pre-Campaña, antes de la prueba E2E real vía Meta/ngrok (todavía no autorizada). Detalle completo en `docs/FASE_PRECAMPANA_VALIDACION.md` §8.
 
-| Componente | Propósito | Estado | Ubicación | Dependencias principales |
-|---|---|---|---|---|
-| Base de Conocimiento | Contener el conocimiento de negocio en prosa estructurada | Validado (parcial en 2 de 6 módulos, ver §7) | `docs/` (6 módulos) | Ninguna |
-| Knowledge Model | Contrato conceptual: qué entidades y relaciones existen | Diseñado, congelado (Iteración 2, sincronizado con la implementación en `7391271`) | `docs/KNOWLEDGE_MODEL.md` | Ninguna |
-| Knowledge Compiler | Transforma `docs/` en datos estructurados consultables | Validado — resuelve "1 archivo = 1 entidad" (66 productos reales) | `compiler/` | Base de Conocimiento |
-| Knowledge Package | Artefacto de datos regenerable (`raw/` + `compiled/`) | Implementado — 177 entidades, 1898 relaciones | `knowledge/` | Knowledge Compiler |
-| Recommendation Engine | Clasifica productos por prioridad para un perfil dado | Validado, aislado | `recommendation-engine/` | Knowledge Package |
-| Conversation Simulator | Ejecuta el flujo comercial de 7 pasos para un mensaje dado | Validado, aislado | `simulator/` | Knowledge Package |
-| Decision Engine | Conecta Recommendation Engine y Conversation Simulator en un solo flujo de decisión, sin modificar ninguno de los dos | Implementado, verificado (6/6 casos de prueba sin excepciones) | `decision-engine/` | Recommendation Engine, Conversation Simulator |
-
-Nota estructural (ya resuelta — detalle completo en el Adendum de `ARCHITECTURE_v1.md` y Hallazgo 1, §8 de ese documento): Recommendation Engine y Conversation Simulator siguen siendo componentes hermanos que leen `knowledge/compiled/` de forma independiente, **pero ahora `decision-engine/` los conecta** en tiempo de ejecución sin modificar ninguno de los dos — ya no son dos rutas de decisión desconectadas.
-
----
-
-## 3. Componentes implementados
-
-| Componente | Sprint/fase de origen | Estado actual | Madurez | Validado / pendiente |
-|---|---|---|---|---|
-| Auditoría Técnica | Fase 1 | Cerrada | Documento único, de solo lectura | Validado (evidencia recopilada de todo el repo, no solo `docs/`) |
-| Knowledge Model | Fase 2, Sprint 1 + Architecture Review Iteración 1 | Congelado | Diseño maduro, iterado una vez con revisión formal | Validado por uso posterior (los 3 componentes de código siguientes lo cumplen) |
-| Knowledge Compiler | Fase 2, Sprint 2 | Estable | MVP funcional, sin pruebas automatizadas | Validado (165 entidades, 1886 relaciones, 0 errores en la última corrida) |
-| Conversation Simulator | Fase 3, Sprint 3A | Estable | MVP funcional, reglas transcritas a mano, sin pruebas automatizadas | Validado (6/6 casos ejecutados sin excepciones) |
-| Recommendation Engine | Fase 3, Sprint 3B | Estable | MVP funcional, aislado deliberadamente de los otros dos | Validado (6 perfiles, 0 excepciones) — incluyó una extensión puntual y justificada del Knowledge Compiler (3 archivos) |
-| Architecture v1 | Cierre de Fase 3 | Congelado | Documento de síntesis, no software | Validado — aceptado en el mensaje que abre este cierre de fase |
-| Decision Engine | Fase de Estabilización de la Arquitectura, commit `7391271` | Estable | MVP funcional, reutiliza Conversation Simulator y Recommendation Engine sin modificarlos | Validado — 6/6 casos manuales (`decision-engine/main.js`) + 15/15 pruebas automatizadas (`npm test`, `node:test`) sin excepciones. Documento de cierre: [`DECISION_ENGINE_IMPLEMENTATION.md`](DECISION_ENGINE_IMPLEMENTATION.md) |
-
-Ningún componente de código tiene fecha de calendario fiable de aparición (el proyecto no tiene historial de Git); se identifican por su sprint/fase, que es la unidad de trazabilidad real usada durante todo el proyecto.
+| Punto | Estado |
+|---|---|
+| Primer contacto | Bienvenida obligatoria — se envía siempre en el primer mensaje de un contacto nuevo, sin excepción, incluso si ese mensaje ya expresa intención de consumo clara |
+| Primer mensaje del cliente | Persistido siempre (`contexto.respuestaCliente` → `messages.texto`), incluido cuando es ambiguo — corrige el hallazgo de la Fase Pre-Campaña |
+| Clasificación de intención | Ocurre a partir del **segundo** mensaje del cliente, nunca en el mismo turno que la bienvenida |
+| Catálogo de precios | 8 productos con precio real y activo (`docs/proceso_de_venta/recursos/precios.md`) — ver tabla completa en ese documento |
+| Resto del catálogo | Permanece **PENDIENTE** — ningún precio inventado para ningún otro producto |
+| Mecanismo de pago del piloto | **PAGO MANUAL POR WHATSAPP** — sin Mercado Pago, sin integración automatizada (decisión de negocio confirmada, ver `docs/proceso_de_venta/pago_y_pedido.md`) |
+| Té Divina | Único producto que alcanza el flujo completo (audio → necesidad → precio → oferta → cierre) sin handoff — verificado con tests reales |
+| Mercado Pago | Fuera de alcance — no implementado, no integrado |
+| `orders` / `payments` | Fuera de alcance — sin cambios de schema, sin implementación |
+| C.3 | Sin iniciar — no autorizada |
+| Creative Intelligence | Sin iniciar — no autorizada |
+| Prueba E2E real (Meta/ngrok) | **No ejecutada** — requiere autorización explícita separada |
 
 ---
 
-## 4. Componentes pendientes
+# ESTADO DE FASES
 
-Ninguno de los siguientes existe en código. Se documentan, no se diseñan. Detalle completo en `ARCHITECTURE_v1.md` §7.
+## Fundación (Knowledge Model / Compiler / Decision Engine)
 
-Decision Engine / Orchestrator **ya no está pendiente** — se construyó en `decision-engine/` (commit `7391271`). Queda fuera de esta tabla; ver su fila en §3.
-
-| Componente | Objetivo | Prioridad | Dependencia arquitectónica |
+| Fase | Estado | Validación | Observaciones |
 |---|---|---|---|
-| Conversation Runtime | Memoria persistente entre turnos de una misma conversación | Alta — es el siguiente paso desbloqueado del roadmap (§11, paso 6) | Dependía de que existiera primero el Decision Engine (ya existe) — dar memoria a un sistema que puede contradecirse a sí mismo habría amplificado el problema; ese riesgo ya no aplica |
-| Fuente operativa de precios | Dar a `simulator/` una fuente real de precios (hoy: 0 instancias) | Media | Ninguna sobre los componentes actuales — es una integración de datos externa |
-| Modelo de Promoción | Esquema y datos para promociones reales | Baja | Bloqueado por falta de datos reales en `docs/`, no por falta de código |
-| Resource Engine | Selección de recursos de apoyo y testimonios reales | Baja | Bloqueado: la entidad `Resource` ya existe en el Knowledge Model pero tiene 0 instancias reales en `docs/` |
-| Integración de canal real (WhatsApp u otro) | Conectar el sistema a un canal de mensajería real | Más baja — deliberadamente al final | Depende de que los componentes anteriores estén conectados; exponer a un cliente real antes sería prematuro |
+| Fase 1 — Auditoría Técnica | COMPLETA | Documental | Ver `FASE_1_AUDITORIA_TECNICA.md` |
+| Fase 2 — Knowledge Model + Compiler | COMPLETA | 165 entidades, 0 errores | `docs/KNOWLEDGE_MODEL.md` congelado |
+| Fase 3 — Simulator + Recommendation Engine | COMPLETA | 6/6 casos manuales c/u | Ambos aislados, sin integrar entre sí en esta fase |
+| Estabilización de Arquitectura (commit `7391271`) | COMPLETA | 66 productos reales, Decision Engine conectado | Cierra Hallazgo 1 de `ARCHITECTURE_v1.md` |
+| Cierre Decision Engine (commit `97878d4`) | COMPLETA | 6/6 manuales + 15/15 automatizadas | `DECISION_ENGINE_IMPLEMENTATION.md` |
+
+Detalle completo de esta etapa en la sección **"Historia — Fase de Fundación"** al final de este documento, y en `docs/ARCHITECTURE_v1.md`.
+
+## Programa CRM / Customer 360
+
+| Fase | Estado | Validación | Observaciones |
+|---|---|---|---|
+| Auditoría CRM (preflight) | COMPLETA | Documental | Auditoría de persistencia/entidades existentes antes de diseñar el CRM |
+| **A** — CRM Customer 360 Data Model | COMPLETA | Diseño aprobado | `docs/CRM_FASE_A_DATA_MODEL.md` — 10 entidades aprobadas, `orders`/`payments` bloqueadas por decisión de negocio |
+| **B** — PostgreSQL Core Data Store | COMPLETA Y VALIDADA | 46/46 tests, PostgreSQL 18.6 real | `docs/CRM_FASE_B_POSTGRESQL.md` — `crm/` aislado, `pg` como única dependencia nueva del proyecto |
+| **C.0** — CRM Integration Preflight | COMPLETA | Auditoría | Call graph real de `contextoStorage.js`; sin cambios de código |
+| **C.1** — CRM Context Projection | COMPLETA Y VALIDADA | 63/63 tests | `docs/CRM_FASE_C1_CONTEXT_PROJECTION.md` — `crm/context/`, aislado, sin conectar todavía a `contextoStorage.js` |
+| **C.2** (intento inicial) | BLOQUEADA (documentado, no implementado) | — | Incompatibilidad sync/async real entre `contextoStorage.js` y la API async de C.1. Sin código escrito. Ver §"Bloqueos" (RESUELTO en C.2B) |
+| **C.2A** — Async Migration Preflight | COMPLETA | Auditoría | Call graph completo de la propagación async; sin cambios de código |
+| **C.2B** — Async Migration + CRM Context Storage | COMPLETA Y VALIDADA | **145/145 tests**, 3 corridas consecutivas | `docs/CRM_FASE_C2_ASYNC_MIGRATION.md` — PostgreSQL es la fuente de verdad activa del motor comercial; JSON retenido, inerte |
+| **C.3** | **NO INICIADA** | — | No autorizada — no hay diseño ni código |
+| **Fase Pre-Campaña** — Validación en Vivo del Motor Async + Cierre de Brechas | COMPLETA (+ Corrección Pre-E2E, mismo día) | Servidor real + PostgreSQL real + envío real por Graph API (HTTP 200), auditoría de recursos comerciales 1:1 contra Sprint 5, handoff real verificado. Corrección posterior: bienvenida siempre en primer contacto, catálogo real de 8 productos con precio, pago manual del piloto documentado | `docs/FASE_PRECAMPANA_VALIDACION.md` (§8 para la corrección) — gate previo a la primera campaña publicitaria; no es una fase del CRM, es validación operativa sobre lo ya construido |
+
+No se marca ninguna fase como COMPLETA solo porque el código fue escrito — cada una de las filas de arriba tiene una corrida de tests real asociada, ejecutada contra PostgreSQL real (no mocks) donde aplica.
 
 ---
 
-## 5. Documentación oficial
+# DECISIONES ARQUITECTÓNICAS ACTIVAS
 
-Agrupada por módulo. **Normativo** = describe el estado o contrato vigente, se mantiene actualizado. **Histórico** = documento de cierre de un sprint específico, válido como evidencia de lo que se hizo pero no se actualiza hacia adelante.
+Ninguna debería modificarse sin revisión formal (ver criterios en `ARCHITECTURE_v1.md` §13).
 
-**Raíz del proyecto**
-- `CLAUDE.md` — normativo. Documento maestro: rol de la IA, arquitectura de `docs/`, convenciones, estado del proyecto.
-
-**Raíz de `docs/` (arquitectura y cierre de etapa)**
-- [`KNOWLEDGE_MODEL.md`](KNOWLEDGE_MODEL.md) — normativo, congelado.
-- [`ARCHITECTURE_v1.md`](ARCHITECTURE_v1.md) — normativo, baseline vigente.
-- `PROJECT_STATE.md` — normativo, este documento.
-- [`FASE_1_AUDITORIA_TECNICA.md`](FASE_1_AUDITORIA_TECNICA.md) — histórico (auditoría de un momento específico).
-- [`KNOWLEDGE_COMPILER_IMPLEMENTATION.md`](KNOWLEDGE_COMPILER_IMPLEMENTATION.md) — histórico (cierre de Fase 2, Sprint 2).
-- [`KNOWLEDGE_COMPILER_NOTES.md`](KNOWLEDGE_COMPILER_NOTES.md) — histórico (gaps detectados en Fase 2, Sprint 2).
-- [`CONVERSATION_SIMULATOR.md`](CONVERSATION_SIMULATOR.md) — histórico (cierre de Fase 3, Sprint 3A).
-- [`RECOMMENDATION_ENGINE.md`](RECOMMENDATION_ENGINE.md) — histórico (cierre de Fase 3, Sprint 3B).
-- [`DECISION_ENGINE_IMPLEMENTATION.md`](DECISION_ENGINE_IMPLEMENTATION.md) — histórico (cierre del Sprint Decision Engine, commit `7391271` + cierre de deuda posterior).
-
-**Módulos de conocimiento (todos normativos — contenido de negocio vivo)**
-- `docs/productos.md` + `docs/productos/` — catálogo, 66 productos / 13 categorías. Completo.
-- `docs/clientes/` — 16 perfiles de cliente. Completo.
-- `docs/conversaciones/` — diálogos de ejemplo. Parcial (cobertura 80/20; resto documentado como pendiente en cada índice).
-- `docs/objeciones/` — análisis estratégico de objeciones. Parcial (4 de 9 objeciones con análisis completo).
-- `docs/proceso_de_venta/` — orquestador de reglas de decisión de negocio. Completo.
-- `docs/agente_ia/` — especificación cognitiva del agente. Completo.
-
----
-
-## 6. Decisiones arquitectónicas congeladas
-
-Ninguna de estas debería modificarse sin una revisión formal (ver criterios de revisión en `ARCHITECTURE_v1.md` §13). Lista completa con evidencia en `ARCHITECTURE_v1.md` §11.
-
-1. `docs/` en Markdown es la única fuente de verdad; ningún componente de código escribe ahí.
+**Capa de conocimiento (`docs/`/`knowledge/`) — vigentes desde la Fase de Fundación:**
+1. `docs/` en Markdown es la única fuente de verdad de conocimiento de negocio; ningún componente de código escribe ahí.
 2. La compilación es unidireccional (`docs/` → `knowledge/`, nunca al revés).
 3. Separación estricta entre conocimiento (`docs/`) e implementación (código).
 4. Metadatos por archivo paralelo (`.meta.json`), no frontmatter embebido.
-5. Sin base de datos, sin motor de grafos, sin embeddings, sin modelo de lenguaje en ningún componente actual.
-6. Node.js sin dependencias externas como runtime único.
-7. Un componente, una responsabilidad — ninguno absorbe la responsabilidad de otro.
-8. Toda regla de decisión transcrita a código debe citar su fuente documental exacta.
-9. Nunca inventar información; lo no verificable se declara como hallazgo.
-10. La señal de seguridad (médica) tiene prioridad absoluta sobre cualquier recomendación.
-11. Todo hallazgo se documenta antes de corregirse — ningún sprint corrige silenciosamente lo que otro encontró.
-12. `knowledge/` es en su totalidad regenerable y desechable.
+5. Sin motor de grafos, sin embeddings, sin modelo de lenguaje en ningún componente actual.
+6. Un componente, una responsabilidad — ninguno absorbe la responsabilidad de otro.
+7. Toda regla de decisión transcrita a código debe citar su fuente documental exacta.
+8. Nunca inventar información; lo no verificable se declara como hallazgo.
+9. La señal de seguridad (médica) tiene prioridad absoluta sobre cualquier recomendación.
+10. Todo hallazgo se documenta antes de corregirse.
+11. `knowledge/` es en su totalidad regenerable y desechable.
+
+**Capa de datos comerciales (`crm/`) — vigentes desde la Fase B del CRM:**
+12. **`crm/index.js` es la única puerta de acceso directo a PostgreSQL en todo el proyecto.**
+13. **Ningún módulo fuera de `crm/` importa `pg`** (verificado por auditoría en cada fase — 0 en cada cierre).
+14. **PostgreSQL es la fuente de verdad activa del motor comercial** (desde C.2B) — antes era JSON.
+15. **No existe escritura dual JSON + PostgreSQL** — ninguna fase la implementó ni la implementará sin autorización explícita.
+16. **JSON permanece temporalmente como infraestructura legacy inerte** (`data/conversaciones/`, funciones privadas de `contextoStorage.js`) — retenido, no eliminado, hasta una fase futura que lo autorice explícitamente tras validar estabilidad.
+17. **`contextoStorage.js` mantiene su contrato funcional (nombres, parámetros, forma del objeto) pero es `async` desde C.2B** — todo consumidor debe usar `await`.
+18. **`crm/` no importa `simulator/`** — la dependencia va en un solo sentido (`simulator` → `crm`).
+19. **No crear una segunda conexión/pool de PostgreSQL** fuera de `crm/db/pool.js` (los tests usan un segundo pool aislado exclusivamente para `TEST_DATABASE_URL`, dentro de `crm/test/`, mismo criterio de aislamiento).
+20. **No modificar schema/migraciones sin una fase explícitamente autorizada para ello** — ninguna fase del CRM hasta ahora (A-C.2B) tocó `crm/migrations/` después de la migración inicial de la Fase B.
+21. **Node.js sin dependencias externas, excepto `pg` (exclusivo de `crm/`)** — excepción aprobada en Fase B, ver `docs/ARCHITECTURE_v1.md` §11 punto 6.
+22. **No modificar lógica comercial durante migraciones de infraestructura salvo autorización explícita** — verificado en cada fase (B, C.1, C.2B) que ninguna regla de decisión, mensaje comercial ni clasificación cambió; solo el mecanismo de persistencia/sincronía.
 
 ---
 
-## 7. Deuda técnica aceptada
+# DECISIONES DE NEGOCIO
 
-Solo deuda reconocida explícitamente durante los sprints. Detalle completo en `ARCHITECTURE_v1.md` §9 y su Adendum.
+Separadas deliberadamente de las técnicas — una suposición de negocio nunca debe convertirse en una decisión técnica permanente sin que el propietario la haya tomado explícitamente.
 
-**Resuelta en el commit `7391271`** (se deja registro, no se elimina la traza — principio §6.11):
-- ~~Catálogo de productos agrupado por archivo, no por entidad real~~ — resuelto: 66 productos reales compilados como entidades individuales (antes 61, con 7 mal-tipadas como `producto`). Ver Hallazgo 2 en `ARCHITECTURE_v1.md` §8, cerrado en el Adendum.
-- ~~Vocabulario de relaciones compilado más limitado que el contemplado en el Knowledge Model~~ — resuelto: `docs/KNOWLEDGE_MODEL.md` sincronizado con el vocabulario que el compilador ya emitía.
-- ~~Recommendation Engine y Conversation Simulator sin integrar~~ — resuelto: `decision-engine/` los conecta sin modificar ninguno de los dos. Ver Hallazgo 1 en `ARCHITECTURE_v1.md` §8, cerrado en el Adendum.
-- ~~`git_commit` siempre `null` en el manifiesto~~ — resuelto: el repositorio tiene historial de Git (2 commits); el manifiesto ahora registra el hash del commit vigente al momento de compilar.
-- ~~`decision-engine/` sin documento de cierre de sprint dedicado ni pruebas automatizadas~~ — resuelto: [`DECISION_ENGINE_IMPLEMENTATION.md`](DECISION_ENGINE_IMPLEMENTATION.md) + 15 pruebas automatizadas (`decision-engine/test/`, `node:test`), ambas agregadas en el cierre de este sprint. Detalle completo, incluyendo un hallazgo de regresión funcional detectado y corregido en `simulator/src/knowledgeQuery.js`, en ese mismo documento.
+## Resueltas por el propietario
 
-**Deuda vigente:**
-- Sin validación automática de anclas Markdown (`#anchor`).
-- Clasificación de entidades por convención de nombre/carpeta, no por análisis de contenido.
-- Sin cache incremental de compilación.
-- Lectores de `knowledge/compiled/` duplicados en cuatro componentes (`compiler/`, `recommendation-engine/`, `simulator/`, y `decision-engine/`, que reutiliza los lectores de los dos anteriores) en vez de una librería compartida.
-- Cobertura de `NOT_RECOMMENDED` parcial (4 de 16 perfiles con datos reales).
-- Cero pruebas automatizadas en `compiler/`, `recommendation-engine/` y `simulator/` — `decision-engine/` es hoy el único de los cuatro componentes de código con cobertura automatizada (ver `DECISION_ENGINE_IMPLEMENTATION.md` §4); no se extendió retroactivamente a los otros tres, fuera del alcance de este cierre.
-- `docs/conversaciones/` y `docs/objeciones/` con cobertura parcial (ver §5), documentada como pendiente en cada índice, no como vacío silencioso.
+- **Decisión C1 (Fase C.1/C.2):** un `customer_channel` mantiene/reutiliza una única `conversation` — no se introducen reglas de nueva conversación por inactividad o cierre comercial todavía.
+- **Decisión C2, Opción A (Fase C.1/C.2):** solo se capturan mensajes **entrantes**, derivados de `respuestaCliente`. Mensajes salientes, `wamid` y timestamp real de WhatsApp quedan fuera de alcance hasta una decisión posterior.
+- **Decisión sobre `whatsappAdapter.test.js:354` (Fase C.2B):** se autorizó que `procesarEventoWebhook` devuelva una `Promise` (antes se exigía explícitamente que no lo hiciera) — cambio arquitectónico aprobado, no de negocio.
+- **Decisión sobre transacciones (Fase C.2B):** no agrupar los pasos `*Persistente` de un mismo turno en una única transacción — se acepta la ventana de concurrencia resultante como limitación conocida.
 
----
+## Pendientes — requieren decisión explícita del propietario antes de implementarse
 
-## 8. Riesgos actuales
-
-Solo riesgos observados durante la implementación, no teóricos. Detalle completo en `ARCHITECTURE_v1.md` §10 y su Adendum.
-
-- ~~**Ausencia total de historial de Git.**~~ Resuelto: 2 commits (`d1eb7d1`, `7391271`).
-- ~~**Doble fuente de verdad para "qué producto recomendar".**~~ Mitigado: `decision-engine/` concilia ambas fuentes y declara explícitamente cuál usa (`fuenteDeDecision` en su salida) cuando difieren — pero `simulator/src/knowledgeQuery.js` conserva su heurística propia si se invoca fuera del Decision Engine, así que la doble fuente sigue existiendo a nivel de código, solo que ahora hay un componente que la resuelve en vez de dejarla sin resolver.
-- **Desincronización silenciosa entre `docs/` y `knowledge/`.** Sigue sin resolverse: nada detecta automáticamente cuándo `knowledge/compiled/` quedó desactualizado; depende de recordar recompilar manualmente.
-- **Reglas transcritas a mano pueden divergir de su fuente sin aviso.** Sigue sin resolverse: `simulator/src/rules.js` y `stateMachine.js` son transcripciones manuales de `docs/proceso_de_venta/`; un cambio ahí no se propaga ni se detecta.
-- ~~**`decision-engine/` sin pruebas automatizadas ni documento de cierre.**~~ Resuelto en este cierre — ver §7.
+- **Modelado de `orders`/`payments`.** Diferido explícitamente en `docs/proceso_de_venta/pago_y_pedido.md` hasta que existan landing, métodos de pago definidos, Mercado Pago configurado y cuentas de transferencia confirmadas. El esquema propuesto en `docs/CRM_FASE_A_DATA_MODEL.md` §16-17 es preliminar, no aprobado para implementar.
+- **Política de retención de `messages.texto`.** `docs/agente_ia/memoria.md` fue escrito para la memoria de razonamiento del agente, no como política de retención de una base de datos transaccional — falta una decisión explícita sobre cuánto tiempo (o bajo qué redacción) se retiene el texto de los mensajes.
+- **Mecanismo de resolución de `handoffs`.** Existe el campo (`resuelto_en`/`resuelto_por`) pero ningún proceso real lo completa — no está decidido cómo un humano marcaría un handoff como atendido.
+- **Promoción de `nombre`/dirección a atributo permanente de `customers`.** Hoy solo se capturan por pedido (cuando exista `orders`), no como perfil duradero del cliente.
+- **Cuándo abrir una nueva `conversation`** para un canal que ya tiene una (más allá de la Decisión C1, que fijó el comportamiento mínimo, no el definitivo).
+- **Migración de WhatsApp al número real.** Bloqueada por requisitos de identidad de negocio ante Meta (Business Verification, Tech Provider) — ver "Integraciones Externas". No es una decisión técnica: depende de completar el perfil legal del negocio en Meta Business Suite.
 
 ---
 
-## 9. Hallazgos más importantes
+# INTEGRACIONES EXTERNAS
 
-**Knowledge Compiler.** El hallazgo más significativo fue que "¿este archivo es el índice de su módulo?" no es una sola pregunta sino dos distintas: un hecho de posición en el árbol de carpetas (`esRaizDeModulo`) y una excepción histórica documentada (`docs/productos.md` vive fuera de su propia carpeta). Tratarlas como la misma pregunta habría clasificado mal todos los archivos de los módulos sin subcarpetas (`proceso_de_venta/`, `agente_ia/`). Este hallazgo cambió la comprensión de que "convención estructural" en este proyecto no es uniforme entre módulos — hay una excepción real y documentada que el código debe modelar explícitamente, no asumir como caso general.
+Nunca se registran tokens, contraseñas, access tokens, App Secrets ni credenciales reales en este documento — solo estado.
 
-**Conversation Simulator.** El hallazgo más significativo fue que **tener una relación compilada entre un perfil y un producto no es lo mismo que tener una relación priorizada.** El caso de Insomnio expuso que la heurística de "primeros N productos referenciados" trataba a Sleep N' Lose, Eterno y Orange Genius como equivalentes, cuando el documento fuente sí distingue cuál es la recomendación principal. Este hallazgo no se quedó como nota — cambió directamente el roadmap del proyecto: fue la razón por la que se abrió el Sprint 3B (Recommendation Engine).
+## PostgreSQL
 
-**Recommendation Engine.** Dos hallazgos relevantes. Primero, la limitación "1 archivo = 1 entidad" reapareció en una capa distinta (caso Salud Visual), confirmando que no es un defecto aislado del Sprint 2 sino una limitación estructural que afecta a cualquier motor construido sobre `knowledge/compiled/entities.json`. Segundo, se descubrió que la sección "Kits recomendados", presente en la plantilla de los 16 perfiles de cliente, no tiene contenido enlazable real en ninguno de ellos (0/16) — cambió la comprensión de que la plantilla documental y los datos reales que la llenan no siempre coinciden, incluso en un módulo marcado como "completo".
+**ESTADO: VALIDADA.**
+PostgreSQL 18.6 corriendo localmente (servicio de Windows). Dos bases: `vida_divina_crm` (desarrollo) y `vida_divina_crm_test` (test, aislada). Credenciales: **CONFIGURADAS** en `crm/.env` (no versionado, protegido por `.gitignore`). `crm/.env.example` (sin secretos) sí está versionado.
 
-**Transversal a los tres.** El hallazgo más importante de toda la etapa solo se hizo visible una vez que Recommendation Engine y Conversation Simulator existían ambos, por separado: el segundo fue la causa directa de construir el primero, y aun así nunca quedaron conectados. Ninguno de los tres componentes, evaluado de forma aislada, habría revelado esto — solo apareció al mirar la arquitectura completa en conjunto (ejercicio que produjo `ARCHITECTURE_v1.md`).
+## WhatsApp / Meta Cloud API
 
----
+**Número de PRUEBA — ESTADO: VALIDADA (end-to-end real, pero pre-CRM).**
+Confirmado con evidencia verificable en `docs/WHATSAPP_CLOUD_API_STATUS.md` (corte: 2026-08-09): flujo completo probado en vivo contra el número de prueba de Meta — webhook recibido, motor comercial ejecutado, envío real por Graph API confirmado (`wamid` real, estados `sent → delivered → read`). **Importante:** esa validación se ejecutó **antes** de la migración a PostgreSQL/async (Fases C.1-C.2B, cerradas el 2026-08-14) — el motor comercial que se probó en vivo era la versión síncrona sobre JSON. El código de `whatsapp-adapter/` ya fue adaptado a la nueva firma async y sus 51 tests automatizados (incluido un test end-to-end contra PostgreSQL real, sin Meta) pasan en verde, pero **no se ha vuelto a ejecutar una prueba en vivo contra Meta con el motor ya conectado a PostgreSQL.** No es un bloqueo — es una validación en vivo pendiente de repetir antes de considerar esta integración production-ready extremo a extremo.
+Credenciales: **CONFIGURADAS** (token, App Secret, verify token) en `whatsapp-adapter/.env`/`whatsapp-adapter.env` (no versionados).
 
-## 10. Estado de implementación
+**Número REAL — ESTADO: BLOQUEADA.**
+Registrado en Meta (`Phone Number ID` real conocido) pero `DISCONNECTED` — no activo en ninguna plataforma de mensajería de Meta. Bloqueo 100% de identidad de negocio ante Meta, no de código ni de arquitectura: falta completar Business Verification y Tech Provider (nombre legal, dirección, sitio web — todos vacíos hoy en Meta Business Suite). Ver `docs/WHATSAPP_CLOUD_API_STATUS.md` §9-12 para el procedimiento completo y la lista de comprobación antes de migrar. **No debe tocarse** el número real ni ejecutarse `request_code`/`verify_code`/`register` sobre él bajo ninguna circunstancia no confirmada explícitamente como Coexistence.
 
-| Componente | Estado |
-|---|---|
-| Base de Conocimiento (`docs/`) | Validado (parcial en `conversaciones/` y `objeciones/`) |
-| Knowledge Model | Diseñado (congelado, sincronizado con la implementación) |
-| Knowledge Compiler | Validado (resuelve "1 archivo = 1 entidad") |
-| Knowledge Package (`knowledge/`) | Implementado (177 entidades, 1898 relaciones) |
-| Recommendation Engine | Validado |
-| Conversation Simulator | Validado |
-| Architecture v1 | Validado (con Adendum post-cierre) |
-| Decision Engine / Orchestrator | **Implementado, verificado, con pruebas automatizadas y documento de cierre** (6/6 casos manuales + 15/15 pruebas automatizadas) |
-| Conversation Runtime | Pendiente — siguiente paso desbloqueado del roadmap |
-| Fuente operativa de precios | Pendiente |
-| Modelo de Promoción | Pendiente |
-| Resource Engine | Pendiente (bloqueado: 0 instancias de `Resource` en `docs/`) |
-| Integración de canal real | Pendiente |
+## Instagram
+
+**ESTADO: NO INICIADA.**
+Ningún adaptador de atención a clientes por Instagram existe. `content-strategy/instagramPublicationAdapter.js` existe pero es para **publicar contenido de marketing**, no para atender clientes — sin relación con el CRM ni con `simulator/`.
+
+## Website
+
+**ESTADO: NO APLICA a este programa.**
+`website-intelligence/` existe como módulo de inteligencia de mercado (scraping/observación), no como canal de atención a clientes — fuera del alcance del CRM.
 
 ---
 
-## 11. Roadmap recomendado
+# ÚLTIMA VALIDACIÓN
 
-Orden de evolución de arquitectura, no de funcionalidades. Justificación completa (por qué cada paso depende del anterior) en `ARCHITECTURE_v1.md` §12.
+**Corte:** 2026-08-14, cierre de Fase C.2B. Ejecutado en esta misma sesión, contra PostgreSQL 18.6 real (`TEST_DATABASE_URL`), sin mocks de base de datos (los únicos mocks del proyecto son `fetch` hacia Graph API en `graphApiSender.test.js`, deliberado — esa suite no debe tocar la red real de Meta).
 
-1. ~~**Primer commit de Git.**~~ ✅ Hecho — 2 commits en el repositorio.
-2. ~~**Resolver "1 archivo = 1 entidad".**~~ ✅ Hecho en `7391271` — 66 productos reales compilados.
-3. ~~**Formalizar en el Knowledge Model las relaciones tipadas perfil→producto que el compilador ya emite.**~~ ✅ Hecho en `7391271` — `docs/KNOWLEDGE_MODEL.md` sincronizado.
-4. ~~**Diseñar el Decision Engine / Orchestrator.**~~ ✅ Hecho en `7391271` — `decision-engine/`, cierra el Hallazgo 1.
-5. **Resource Engine**, solo cuando exista al menos un dato real de tipo `Resource`. Sigue bloqueado — 0 instancias en `docs/` hoy.
-6. **Conversation Runtime** — **siguiente paso desbloqueado.** El Decision Engine (paso 4) ya existe y produce una decisión coherente por turno; ya no hay razón arquitectónica para posponer memoria persistente.
-7. **Fuente operativa de precios y promociones** — integración de datos externa, no bloquea a los pasos anteriores.
-8. **Integración de canal real**, deliberadamente al final: exponer a un cliente real antes de resolver los pasos 1–6 propagaría las inconsistencias ya documentadas.
+| Suite | Tests | Pass | Fail | Infraestructura |
+|---|---|---|---|---|
+| `crm/` (Fases B + C.1) | 63 | 63 | 0 | PostgreSQL real |
+| `simulator/` (`contextoStorage`, `flujoVentaRealPersistente`, `ventaReal`) | 31 | 31 | 0 | PostgreSQL real (los dos primeros); el tercero no toca persistencia |
+| `whatsapp-adapter/` (`whatsappAdapter`, `httpServer`, `graphApiSender`, `e2ePostgres`) | 51 | 51 | 0 | PostgreSQL real + servidor HTTP real en loopback; Graph API mockeada a propósito |
+| **Total** | **145** | **145** | **0** | — |
 
----
+**Corridas consecutivas verificadas:** 3, sin flakiness. **Número de corridas de la suite completa en esta sesión:** múltiples (cada hallazgo real encontrado — 6 en total durante C.2B — se corrigió y se re-verificó antes de continuar; ver `docs/CRM_FASE_C2_ASYNC_MIGRATION.md` §4 para el detalle de cada uno).
 
-## 12. Próxima fase recomendada
-
-**La fase "Estabilización de la Arquitectura" (pasos 1–4 del roadmap) ya se cerró** en el commit `7391271`: higiene de Git, corrección de granularidad del catálogo, formalización del vocabulario de relaciones en el Knowledge Model, y Decision Engine conectando Recommendation Engine con Conversation Simulator. Esta sección documentaba esa fase como recomendación pendiente; se deja el texto original tachado abajo como registro histórico, y se reemplaza por la recomendación vigente.
-
-**La deuda inmediata que dejó ese cierre — documento de cierre y pruebas automatizadas para `decision-engine/` — también quedó saldada** en un sprint de cierre posterior: ver [`DECISION_ENGINE_IMPLEMENTATION.md`](DECISION_ENGINE_IMPLEMENTATION.md) y §7 de este documento.
-
-**La siguiente fase recomendada es Conversation Runtime (paso 6 del roadmap, memoria persistente entre turnos)**, ahora sin ninguna dependencia arquitectónica bloqueante: el Decision Engine que necesitaba existir para que dar memoria no amplificara inconsistencias ya existe, ya fue verificado por 6 casos manuales, y ya tiene cobertura automatizada. Es, además, el único componente pendiente de mayor valor de negocio que no depende de datos todavía inexistentes (a diferencia de Resource Engine, paso 5, bloqueado por 0 instancias de `Resource` en `docs/`).
-
-> *Recomendación original de este documento, ahora histórica:* "La siguiente gran fase debería ser 'Estabilización de la Arquitectura', cubriendo los pasos 1 a 4 del roadmap [...]" — cumplida en `7391271`.
+No se declara "validado" ningún componente que solo tenga cobertura unitaria cuando la fase exigía integración real — las 145 pruebas de arriba son de integración real donde la fase lo requería (persistencia, transacciones, concurrencia, rollback).
 
 ---
 
-## 13. Estado general del proyecto
+# BLOQUEOS ACTUALES
 
-**🟢 Arquitectura estable, brecha principal cerrada, deuda técnica controlada.**
+## Bloqueo — Migración de WhatsApp al número real
 
-Sube de 🟡 a 🟢 respecto al cierre anterior de este documento: las dos condiciones que entonces impedían el 🟢 sin matices — la desconexión entre Recommendation Engine y Conversation Simulator, y la ausencia total de historial de Git — ya están resueltas (`decision-engine/` y 2 commits, respectivamente). La deuda que ese mismo cierre había introducido (`decision-engine/` sin pruebas ni documento dedicado) también quedó saldada en el sprint de cierre posterior — ver [`DECISION_ENGINE_IMPLEMENTATION.md`](DECISION_ENGINE_IMPLEMENTATION.md).
+**PROBLEMA:** el número real de WhatsApp Business está `DISCONNECTED` en Meta Cloud API.
+**IMPACTO:** no se puede atender clientes reales por WhatsApp con el número de producción — solo con el número de prueba (limitado a destinatarios autorizados explícitamente en Meta).
+**QUÉ DEPENDE DE ÉL:** cualquier despliegue real del motor comercial hacia clientes finales de Vida Divina.
+**ACCIÓN DEL PROPIETARIO:** completar en Meta Business Suite el nombre legal del negocio, dirección y sitio web; iniciar Business Verification (~5 días hábiles según Meta); completar el proceso de Tech Provider. Procedimiento completo en `docs/WHATSAPP_CLOUD_API_STATUS.md` §11-12.
+**QUÉ NO DEBE HACERSE MIENTRAS ESTÁ BLOQUEADO:** ejecutar `request_code`/`verify_code`/`register` sobre el número real; asumir que el flujo disponible en Meta es Coexistence sin verificarlo explícitamente en la interfaz.
 
-No es 🟢 absoluto porque persisten riesgos ya conocidos y no urgentes, sin relación con el Decision Engine: desincronización silenciosa `docs/`↔`knowledge/` y reglas transcritas a mano sin detección de divergencia (§8), además de la ausencia de pruebas automatizadas en los otros tres componentes de código (§7). Ninguno de estos es oculto: cada uno está documentado aquí con su evidencia, igual que en el cierre anterior.
+## Bloqueos ya resueltos (se conserva el historial, no se borra)
+
+**RESUELTO — Incompatibilidad sync/async (C.2 intento inicial, 2026-08-14).**
+`contextoStorage.js` era síncrono; la API de persistencia (C.1) es necesariamente async (PostgreSQL). Se detuvo esa fase sin implementar nada y se documentó el bloqueo en vez de improvisar un puente riesgoso (se evaluaron y descartaron: escritura dual, `worker_threads`+`Atomics.wait`, caché síncrona). **Resuelto en C.2A (auditoría de la propagación) + C.2B (implementación)** — ver tabla de fases arriba.
+
+**RESUELTO — PostgreSQL no instalado (Fase B, primer intento).**
+No existía ninguna instancia de PostgreSQL ni Docker en el entorno de desarrollo. Se detuvo la fase, se documentó exactamente qué instalar, y se retomó cuando el propietario confirmó PostgreSQL 18.6 instalado y funcionando.
+
+---
+
+# SIGUIENTE PASO AUTORIZADO
+
+**"Esperar instrucciones del propietario antes de lanzar la primera campaña publicitaria o de iniciar C.3."**
+
+No hay ninguna otra acción de código autorizada en este momento. El programa CRM tiene, hoy, un motor comercial completo sobre PostgreSQL (async, validado, 145 tests + validación en vivo adicional de la Fase Pre-Campaña, 2026-08-14). La re-validación en vivo del envío real post-C.2B **ya se ejecutó** (ver `docs/FASE_PRECAMPANA_VALIDACION.md` §1) mediante una prueba híbrida (servidor real + PostgreSQL real + Graph API real, webhook entrante sintetizado localmente en vez de recibido vía Meta/ngrok). Sigue pendiente, y no autorizada a ejecutarse sin instrucción explícita, la variante 100% en vivo vía ngrok con un mensaje enviado desde el teléfono del propietario.
+
+---
+
+# PROCEDIMIENTO DE RECUPERACIÓN DE SESIÓN
+
+Si esta conversación se reinicia, o una sesión nueva de Claude (u otro desarrollador) retoma el proyecto sin el historial de conversación disponible, **antes de implementar cualquier cosa**:
+
+1. Leer este documento completo (`docs/PROJECT_STATE.md`).
+2. Leer `docs/ARCHITECTURE_v1.md` (capa de conocimiento/Fundación).
+3. Leer el documento de la última fase completada según la tabla de arriba (hoy: `docs/FASE_PRECAMPANA_VALIDACION.md`, precedida por `docs/CRM_FASE_C2_ASYNC_MIGRATION.md`).
+4. Ejecutar `git status` y comparar contra la sección "Estado de Fases" — confirmar que coincide.
+5. Ejecutar `git diff` sobre los archivos trackeados modificados, para entender qué cambió realmente.
+6. Determinar qué fase está **realmente** autorizada — nunca asumir que una fase está completa solo porque existen archivos creados; buscar evidencia de tests ejecutados y su resultado real.
+7. Si el estado no es inequívoco, **no implementar nada** — presentar primero un resumen de "Recuperación de Sesión" (dónde quedó el proyecto, última fase completada, tests, bloqueos, siguiente paso autorizado) y esperar confirmación.
+
+---
+
+# HISTORIA — Fase de Fundación (Knowledge Model / Compiler / Decision Engine)
+
+> Sección condensada del estado histórico previo al programa CRM — preservada como contenido útil, no reescrita. Para el detalle completo (contratos, evidencia de cada hallazgo, diagrama de flujo) ver `docs/ARCHITECTURE_v1.md`.
+
+**Qué es Vida Divina (el proyecto):** el sistema de conocimiento y las herramientas de software que sostienen el negocio de venta directa de productos de bienestar — no el negocio en sí.
+
+**Qué se cerró en esta etapa:** base de conocimiento modular en `docs/`, Knowledge Compiler (`compiler/`) transformándola en `knowledge/compiled/` (177 entidades, 1898 relaciones), Recommendation Engine (`recommendation-engine/`) y Conversation Simulator (`simulator/`) validados de forma aislada, y Decision Engine (`decision-engine/`) conectándolos sin modificar ninguno de los dos (commit `7391271`, cerrado con pruebas automatizadas en `97878d4`).
+
+**Componentes de esta etapa:**
+
+| Componente | Propósito | Estado | Ubicación |
+|---|---|---|---|
+| Base de Conocimiento | Conocimiento de negocio en prosa estructurada | Validado (parcial en `conversaciones/`, `objeciones/`) | `docs/` |
+| Knowledge Model | Contrato conceptual de entidades/relaciones | Congelado | `docs/KNOWLEDGE_MODEL.md` |
+| Knowledge Compiler | `docs/` → datos estructurados | Validado | `compiler/` |
+| Knowledge Package | Artefacto compilado, regenerable | Implementado | `knowledge/` |
+| Recommendation Engine | Prioridad de producto por perfil | Validado, aislado | `recommendation-engine/` |
+| Conversation Simulator | Flujo comercial de 7 pasos (genérico, `ESTADOS`) | Validado, aislado | `simulator/src/simulator.js` |
+| Decision Engine | Conecta los dos anteriores sin modificarlos | Validado (6/6 + 15/15) | `decision-engine/` |
+
+**Deuda técnica vigente de esta etapa** (sin cambios desde el cierre original): sin validación automática de anclas Markdown; clasificación de entidades por convención de nombre, no de contenido; sin cache incremental de compilación; lectores de `knowledge/compiled/` duplicados en 4 componentes; cobertura de `NOT_RECOMMENDED` parcial (4/16 perfiles); `compiler/`, `recommendation-engine/` y `simulator/src/simulator.js` sin pruebas automatizadas propias (a diferencia de `decision-engine/` y del motor comercial real `simulator/src/flujoVentaReal.js`, que sí las tienen).
+
+**Riesgos vigentes de esta etapa:** desincronización silenciosa entre `docs/` y `knowledge/` (nada detecta automáticamente cuándo `knowledge/compiled/` quedó desactualizado); reglas transcritas a mano (`simulator/src/rules.js`, `stateMachine.js`) pueden divergir de `docs/proceso_de_venta/` sin aviso.
+
+**Nota de corrección respecto a la versión anterior de este documento:** la fila "Conversation Runtime — Pendiente" y el roadmap que la señalaba como "siguiente paso desbloqueado" quedan **obsoletos** — esa capacidad (memoria persistente entre turnos) es exactamente lo que el programa CRM construyó, con una arquitectura distinta a la originalmente imaginada (PostgreSQL vía `crm/`, no un mecanismo ad hoc dentro de `simulator/`). Ver tabla "Programa CRM / Customer 360" arriba. El resto de componentes pendientes de esta etapa (Resource Engine, Modelo de Promoción, Fuente operativa de precios) siguen exactamente en el mismo estado que documentaba el cierre original: bloqueados por ausencia de datos reales en `docs/`, no por código.
+
+**Documentación histórica de esta etapa** (no se actualiza hacia adelante, válida como evidencia de lo que se hizo):
+- `FASE_1_AUDITORIA_TECNICA.md`, `KNOWLEDGE_COMPILER_IMPLEMENTATION.md`, `KNOWLEDGE_COMPILER_NOTES.md`, `CONVERSATION_SIMULATOR.md`, `RECOMMENDATION_ENGINE.md`, `DECISION_ENGINE_IMPLEMENTATION.md`.
+
+**Documentación normativa del programa CRM** (se actualiza en cada fase):
+- `docs/CRM_FASE_A_DATA_MODEL.md`, `docs/CRM_FASE_B_POSTGRESQL.md`, `docs/CRM_FASE_C1_CONTEXT_PROJECTION.md`, `docs/CRM_FASE_C2_ASYNC_MIGRATION.md`.
+
+**Documentación normativa de la Fase Pre-Campaña** (gate de validación operativa, no forma parte del programa CRM ni de sus fases A-C.3):
+- `docs/FASE_PRECAMPANA_VALIDACION.md`.
+
+**Documentación normativa de WhatsApp/Meta** (se actualiza en cada sesión de integración real):
+- `docs/WHATSAPP_INTEGRATION_STATE.md` (configuración administrativa en Meta), `docs/WHATSAPP_CLOUD_API_STATUS.md` (estado técnico validado, número de prueba vs. real).
+
+**Módulos de conocimiento** (normativos, contenido de negocio vivo, sin cambios en el programa CRM): `docs/productos.md` + `docs/productos/` (66 productos/13 categorías, completo); `docs/clientes/` (16 perfiles, completo); `docs/conversaciones/` (parcial, 80/20); `docs/objeciones/` (parcial, 4/9); `docs/proceso_de_venta/` (completo, incluye ahora `SPRINT_5_PROCESO_COMERCIAL.md` y sus derivados — `pago_y_pedido.md`, `seguimiento_postventa.md`, `recuperacion_de_compra.md`); `docs/agente_ia/` (completo).
 
 ---
 
 ## Cierre
 
-Este documento se actualizó (sin reabrir ni reescribir su cierre original) en dos momentos: primero para reflejar el commit `7391271`, que cerró la fase de "Estabilización de la Arquitectura" recomendada en la versión anterior de este mismo documento (primer commit de Git, resolución de "1 archivo = 1 entidad", sincronización del Knowledge Model, y construcción del Decision Engine); después, en un sprint de cierre dedicado, para saldar la deuda que ese mismo commit había dejado — documento de cierre ([`DECISION_ENGINE_IMPLEMENTATION.md`](DECISION_ENGINE_IMPLEMENTATION.md)) y pruebas automatizadas (`decision-engine/test/`, 15/15 exitosas) para `decision-engine/`. Se verificó además, en ese mismo cierre, que `compiler/`, `simulator/` y `recommendation-engine/` siguen funcionando sin regresión (recompilación limpia: 177 entidades, 1898 relaciones, 0 errores). Ningún componente de código de negocio fue modificado — solo se agregó cobertura de pruebas y documentación reflejando trabajo ya hecho y verificado.
+Este documento se reestructuró por completo el 2026-08-14 para dejar de depender del historial de conversación como fuente de estado — instrucción permanente del propietario. Conserva íntegro el contenido histórico útil de su versión anterior (ahora en la sección "Historia — Fase de Fundación"), corrige las afirmaciones que habían quedado obsoletas por el programa CRM (notablemente, "Conversation Runtime: pendiente"), y añade las secciones exigidas por la instrucción permanente: Estado Actual, Estado de Fases, Decisiones Arquitectónicas Activas, Decisiones de Negocio, Integraciones Externas, Última Validación, Bloqueos Actuales, Siguiente Paso Autorizado, y el Procedimiento de Recuperación de Sesión.
 
-Una conversación nueva puede retomar el proyecto usando únicamente: este repositorio, `docs/ARCHITECTURE_v1.md` (con su Adendum) y este documento (`docs/PROJECT_STATE.md`).
+Una conversación nueva puede retomar el proyecto usando únicamente: este repositorio, `docs/ARCHITECTURE_v1.md`, y este documento (`docs/PROJECT_STATE.md`).
+
+**Actualización incremental (2026-08-14, mismo día, tras el cierre de la Fase Pre-Campaña):** este documento se actualizó puntualmente (no se reestructuró) para reflejar el cierre de `docs/FASE_PRECAMPANA_VALIDACION.md` — validación en vivo del motor async post-C.2B, auditoría de recursos comerciales contra Sprint 5, y confirmación del estado real de Mercado Pago. Ningún contenido histórico anterior fue reescrito ni eliminado; los cambios son aditivos (bloque "Estado Actual", tabla de fases, "Siguiente Paso Autorizado", lista de documentación normativa).
