@@ -6,9 +6,21 @@
 
 import { test, describe, before, after } from 'node:test';
 import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import os from 'node:os';
+import path from 'node:path';
 
 process.env.PORT = '0'; // puerto efímero real asignado por el SO -- nunca choca con una instancia ya corriendo.
 delete process.env.DASHBOARD_NO_LISTEN;
+// Creative Factory (2026-08-23): "Sugerir variantes" ahora persiste Batches
+// reales vía hypothesisBatchStore.js -- se aísla SOLO ese store
+// (HYPOTHESIS_BATCH_DATA_ROOT, independiente de CREATIVE_INTELLIGENCE_DATA_ROOT)
+// para que esta suite nunca escriba batches de prueba dentro de
+// creative-intelligence/data/ real, sin aislar (y por lo tanto sin romper)
+// los CreativeCells reales ya persistidos que campaignMode.js necesita leer
+// para las pruebas de mode=CAMPAIGN de este mismo archivo.
+const TEST_CI_DATA_ROOT = fs.mkdtempSync(path.join(os.tmpdir(), 'dashboard-server-test-ci-data-'));
+process.env.HYPOTHESIS_BATCH_DATA_ROOT = TEST_CI_DATA_ROOT;
 
 const { server } = await import('../server/index.js');
 
@@ -18,10 +30,13 @@ before(() => new Promise((resolve, reject) => {
   server.once('listening', () => { baseUrl = `http://127.0.0.1:${server.address().port}`; resolve(); });
   server.once('error', reject);
 }));
-after(() => new Promise((resolve) => {
-  server.close(() => resolve());
-  server.closeAllConnections?.(); // fetch() mantiene keep-alive -- sin esto, close() puede quedarse esperando sockets abiertos.
-}));
+after(async () => {
+  await new Promise((resolve) => {
+    server.close(() => resolve());
+    server.closeAllConnections?.(); // fetch() mantiene keep-alive -- sin esto, close() puede quedarse esperando sockets abiertos.
+  });
+  fs.rmSync(TEST_CI_DATA_ROOT, { recursive: true, force: true });
+});
 
 async function get(path) {
   const res = await fetch(`${baseUrl}${path}`);
@@ -229,6 +244,97 @@ describe('CREATE — Sugerir variantes (hipótesis), Fase 16 Parte 11', () => {
     const { status, body } = await post('/api/create/suggest-hypothesis', { productId: 'producto-de-prueba-sin-catalogo-vinculado' });
     assert.equal(status, 200);
     assert.equal(body.status, 'MISSING_CREATIVE_MATCH');
+  });
+});
+
+describe('Creative Factory — batches reales, un producto propio para no interferir con otras pruebas de este archivo', () => {
+  const CAMPAIGN_PRODUCT_ID = 'ripped-capsules';
+
+  test('Batch #1 real vía HTTP -- variantCount configurable (no hardcodeado a 3)', async () => {
+    const { status, body } = await post('/api/create/suggest-hypothesis', { productId: CAMPAIGN_PRODUCT_ID, variantCount: 7 });
+    assert.equal(status, 200);
+    assert.equal(body.status, 'HYPOTHESIS_EXPERIMENT_READY');
+    assert.equal(body.batchNumber, 1);
+    assert.equal(body.variantsDetail.length, 7);
+    assert.ok(body.batchId);
+    assert.ok(body.generationId);
+  });
+
+  test('Batch #2 real vía HTTP -- variantes nuevas, generationId/batchId distintos del Batch #1', async () => {
+    const b1 = await post('/api/create/suggest-hypothesis', { productId: CAMPAIGN_PRODUCT_ID, variantCount: 6 });
+    const b2 = await post('/api/create/suggest-hypothesis', { productId: CAMPAIGN_PRODUCT_ID, variantCount: 6 });
+    assert.equal(b2.status, 200);
+    assert.equal(b2.body.batchNumber, b1.body.batchNumber + 1);
+    assert.notEqual(b2.body.batchId, b1.body.batchId);
+    assert.notEqual(b2.body.generationId, b1.body.generationId);
+    const fps1 = new Set(b1.body.variantsDetail.map((v) => v.fingerprint));
+    const fps2 = b2.body.variantsDetail.map((v) => v.fingerprint);
+    assert.deepEqual(fps2.filter((fp) => fps1.has(fp)), []);
+  });
+
+  test('GET /api/create/hypothesis-batches -- los batches anteriores siguen disponibles, ninguno se reemplaza', async () => {
+    const { status, body } = await get(`/api/create/hypothesis-batches?productId=${CAMPAIGN_PRODUCT_ID}`);
+    assert.equal(status, 200);
+    assert.equal(body.campaignId, CAMPAIGN_PRODUCT_ID);
+    // Los batches acumulados de los tests previos de este describe (1 + 2) siguen todos accesibles.
+    assert.ok(body.batches.length >= 3);
+    const numbers = body.batches.map((b) => b.batchNumber);
+    assert.deepEqual(numbers, [...numbers].sort((a, b2) => a - b2));
+    for (const b of body.batches) assert.ok(b.variantsDetail.length > 0);
+  });
+
+  test('GET /api/create/hypothesis-batches sin productId responde 400', async () => {
+    const { status, body } = await get('/api/create/hypothesis-batches');
+    assert.equal(status, 400);
+    assert.match(body.error, /productId/);
+  });
+});
+
+describe('Creative Strategy Engine — CampaignIntent real gobierna el copy, no solo el producto', () => {
+  const CAMPAIGN_PRODUCT_ID = 'sculpt-black';
+  const BRIEF = {
+    productId: CAMPAIGN_PRODUCT_ID,
+    targetAudience: 'hombres adultos',
+    problemOrNeed: 'baja vitalidad y confianza en el desempeño diario',
+    campaignTerritory: 'vitalidad y confianza masculina',
+    variantCount: 8,
+  };
+
+  test('con campaignIntent real: el copy real incorpora el territorio de campaña, no solo genérico de producto', async () => {
+    const { status, body } = await post('/api/create/suggest-hypothesis', BRIEF);
+    assert.equal(status, 200);
+    assert.equal(body.status, 'HYPOTHESIS_EXPERIMENT_READY');
+    assert.ok(body.campaignId);
+    assert.notEqual(body.campaignId, CAMPAIGN_PRODUCT_ID); // campaignId real distinto del productId solo -- ver computeCampaignId().
+    for (const v of body.variantsDetail) {
+      assert.ok(v.campaignRelevance.applicable, `variante ${v.blueprintId} debía tener campaignRelevance aplicable`);
+      assert.ok(v.campaignRelevance.score >= 15, `variante ${v.blueprintId} relevancia baja: ${v.campaignRelevance.score}`);
+    }
+  });
+
+  test('sin campaignIntent (mismo producto, sin brief): campaignId vuelve a ser el productId solo (comportamiento preexistente)', async () => {
+    const { body } = await post('/api/create/suggest-hypothesis', { productId: CAMPAIGN_PRODUCT_ID, variantCount: 3 });
+    assert.equal(body.campaignId, CAMPAIGN_PRODUCT_ID);
+    for (const v of body.variantsDetail) assert.equal(v.campaignRelevance.applicable, false);
+  });
+
+  test('un brief que pide un claim médico no permitido se rechaza con 400 real, nunca genera nada', async () => {
+    const { status, body } = await post('/api/create/suggest-hypothesis', {
+      productId: CAMPAIGN_PRODUCT_ID,
+      targetAudience: 'hombres adultos',
+      problemOrNeed: 'el producto trata la disfunción eréctil',
+    });
+    assert.equal(status, 400);
+    assert.match(body.error, /CONFLICTO real/);
+  });
+
+  test('dos campañas distintas para el MISMO producto tienen historiales de batch independientes', async () => {
+    const otraCampania = await post('/api/create/suggest-hypothesis', {
+      productId: CAMPAIGN_PRODUCT_ID, targetAudience: 'mujeres adultas', problemOrNeed: 'control de peso real', variantCount: 3,
+    });
+    const primeraCampania = await get(`/api/create/hypothesis-batches?campaignId=${encodeURIComponent(otraCampania.body.campaignId)}`);
+    assert.notEqual(otraCampania.body.campaignId, CAMPAIGN_PRODUCT_ID);
+    assert.equal(primeraCampania.body.batches.length, 1); // solo el batch de ESTA campaña nueva, no el de BRIEF de arriba.
   });
 });
 

@@ -189,16 +189,19 @@ function computeScore(checks) {
  *
  * @param {{hook:string, primaryText:string, cta:string, bodyLines:string[], sectionsUsed:Array<{section:string,sourceField:string}>, facts:object}} args
  */
-export function runCreativeQualityGate({ hook, primaryText, cta, bodyLines, sectionsUsed, facts }) {
+export function runCreativeQualityGate({
+  hook, primaryText, cta, bodyLines, sectionsUsed, facts, campaignIntent = null,
+}) {
   const checks = {
     claimRepetition: checkClaimRepetition(primaryText, facts),
     structuralSameness: checkStructuralSameness(sectionsUsed),
     hookRepetition: checkHookRepetition(hook, bodyLines, facts?.nombreComercial),
     emptyOrLowValue: checkEmptyOrLowValueCopy({ hook, bodyLines, cta }),
     socialNative: checkSocialNative({ hook, bodyLines, cta }),
+    campaignRelevance: checkCampaignRelevance({ hook, primaryText, campaignIntent }),
   };
 
-  const issues = [...checks.claimRepetition.issues, ...checks.structuralSameness.issues, ...checks.hookRepetition.issues];
+  const issues = [...checks.claimRepetition.issues, ...checks.structuralSameness.issues, ...checks.hookRepetition.issues, ...checks.campaignRelevance.issues];
   const warnings = [...checks.emptyOrLowValue.warnings, ...checks.socialNative.warnings];
 
   return Object.freeze({
@@ -208,6 +211,40 @@ export function runCreativeQualityGate({ hook, primaryText, cta, bodyLines, sect
     warnings: Object.freeze(warnings),
     checks: Object.freeze(checks),
   });
+}
+
+// Umbral mínimo de solapamiento léxico real (0-100) entre el copy
+// renderizado (hook+primaryText) y el territorio/problema/audiencia de la
+// campaña -- Creative Strategy Engine, 2026-08-24. Por construcción (ver
+// hypothesisCreativeEngine.js: el "problema" efectivo de una variante ES
+// campaignIntent.problemOrNeed cuando hay campaña) el solapamiento real
+// suele ser alto; este check es la red de seguridad explícita, no el
+// mecanismo principal -- si algún día una variante generada NO incorpora
+// el territorio real de la campaña, se rechaza aquí en vez de llegar al
+// Dashboard como "buen copy, campaña equivocada".
+const MIN_CAMPAIGN_RELEVANCE_SCORE = 15;
+
+/**
+ * 7. CAMPAIGN RELEVANCE CHECK — mide, con la MISMA utilidad de
+ * solapamiento de palabras ya usada arriba (nunca duplicada), qué tanto
+ * del territorio/problema/audiencia real de la campaña aparece
+ * efectivamente en el copy renderizado. Sin campaignIntent (llamador
+ * legado, producto sin campaña explícita) este check no aplica -- nunca
+ * bloquea el comportamiento preexistente.
+ */
+export function checkCampaignRelevance({ hook, primaryText, campaignIntent }) {
+  if (!campaignIntent) return Object.freeze({ applicable: false, passed: true, score: null, issues: Object.freeze([]) });
+
+  const territorio = [campaignIntent.problemOrNeed, campaignIntent.campaignTerritory, campaignIntent.targetAudience]
+    .filter(Boolean).join(' . ');
+  const copyReal = [hook, primaryText].filter(Boolean).join(' . ');
+  const overlap = solapamientoDePalabras(territorio, copyReal);
+  const score = Math.round(overlap * 100);
+  const passed = score >= MIN_CAMPAIGN_RELEVANCE_SCORE;
+  const issues = passed ? [] : [
+    `El copy real (score de relevancia ${score}/100) no incorpora suficiente del territorio/problema/audiencia real de la campaña ("${campaignIntent.campaignTerritory ?? campaignIntent.problemOrNeed}") -- una creatividad genérica de producto no puede sustituir al brief de campaña (Creative Strategy Engine, regla no negociable).`,
+  ];
+  return Object.freeze({ applicable: true, passed, score, issues: Object.freeze(issues) });
 }
 
 /**

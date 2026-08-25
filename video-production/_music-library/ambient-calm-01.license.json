@@ -1,0 +1,12 @@
+{
+  "title": "Ambient Calm 01",
+  "source": "SYNTHESIZED_LOCAL",
+  "generatedBy": "ffmpeg lavfi (sine tone triad C4/E4/G4 + amix + afade) -- generado localmente en este proyecto, 2026-08-24",
+  "license": "CC0 -- generación algorítmica local, sin muestras ni derechos de terceros involucrados",
+  "licenseUrl": null,
+  "attributionRequired": false,
+  "mood": "calm",
+  "tempo": "slow",
+  "tags": ["ambient", "calm", "background", "pad"],
+  "note": "Pista de reemplazo funcional mientras no exista una biblioteca curada real de terceros con licencia verificable en este entorno (ver musicProvider.js) -- nunca se usa música de origen desconocido; esta se genera, no se descarga."
+}

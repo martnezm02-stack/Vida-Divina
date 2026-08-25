@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {
   checkClaimRepetition, checkStructuralSameness, checkEmptyOrLowValueCopy,
   checkHookRepetition, checkCtaDiversityAcrossExperiment, checkSocialNative,
-  runCreativeQualityGate, runExperimentQualityGate,
+  checkCampaignRelevance, runCreativeQualityGate, runExperimentQualityGate,
 } from '../src/creativeQualityGate.js';
 
 const FACTS = Object.freeze({
@@ -162,6 +162,36 @@ describe('runCreativeQualityGate — integración por variante', () => {
     });
     assert.equal(result.passed, true);
     assert.ok(result.warnings.length > 0); // sin pregunta/emoji/pausa/fragmento corto -> warning real, no bloqueante.
+  });
+});
+
+describe('checkCampaignRelevance — Creative Strategy Engine (2026-08-24)', () => {
+  test('sin campaignIntent: no aplica, siempre passed:true (comportamiento preexistente intacto)', () => {
+    const result = checkCampaignRelevance({ hook: 'Mira esto.', primaryText: 'Mira esto. Compra ya.', campaignIntent: null });
+    assert.equal(result.applicable, false);
+    assert.equal(result.passed, true);
+    assert.equal(result.score, null);
+  });
+
+  test('copy que SÍ incorpora el territorio real de campaña -> score alto, passed', () => {
+    const campaignIntent = { problemOrNeed: 'baja vitalidad masculina', campaignTerritory: 'vitalidad y confianza', targetAudience: 'hombres adultos' };
+    const result = checkCampaignRelevance({
+      hook: '¿vitalidad y confianza?', primaryText: '¿vitalidad y confianza? Pensado para hombres adultos con baja vitalidad masculina.', campaignIntent,
+    });
+    assert.equal(result.applicable, true);
+    assert.ok(result.score > 50, `score esperado alto, fue ${result.score}`);
+    assert.equal(result.passed, true);
+  });
+
+  test('copy genérico de producto que IGNORA el territorio real -> score bajo, rechazado (root cause real de esta fase)', () => {
+    const campaignIntent = { problemOrNeed: 'baja vitalidad masculina', campaignTerritory: 'vitalidad y confianza', targetAudience: 'hombres adultos' };
+    const result = checkCampaignRelevance({
+      hook: '¿mantener una rutina consistente?', primaryText: 'Necesidad de una bebida energética que también apoye el control de peso.', campaignIntent,
+    });
+    assert.equal(result.applicable, true);
+    assert.equal(result.score, 0);
+    assert.equal(result.passed, false);
+    assert.match(result.issues[0], /no incorpora suficiente del territorio/);
   });
 });
 

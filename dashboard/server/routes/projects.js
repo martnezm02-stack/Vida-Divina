@@ -1,0 +1,125 @@
+// projects.js — Editable Video Project (2026-08-24). Capa HTTP delgada
+// sobre content-orchestrator/src/editableVideoProject.js /
+// productionJobStore.js / projectEditor.js / projectRenderer.js -- MISMO
+// criterio que generation.js: valida la solicitud contra datos reales ya
+// conocidos, arma los argumentos, y delega. Nunca reimplementa el modelo
+// de proyecto ni la lógica de render aquí.
+
+import { randomUUID } from 'node:crypto';
+import { sendJson, badRequest, notFound, serverError, readJsonBody } from '../lib/http.js';
+import { toMediaUrl } from '../lib/safePaths.js';
+import { getProductionJob } from '../../../content-orchestrator/src/productionJobStore.js';
+import { buildEditableProjectFromProductionJob, getLatestVersion } from '../../../content-orchestrator/src/editableVideoProject.js';
+import { saveProject, getProject, listProjectsForCreative } from '../../../content-orchestrator/src/editableProjectStore.js';
+import { applyProjectEdit, classifyChangeset } from '../../../content-orchestrator/src/projectEditor.js';
+import { renderProjectVersion } from '../../../content-orchestrator/src/projectRenderer.js';
+import { listMusicLibrary } from '../../../content-orchestrator/src/musicProvider.js';
+
+const FFMPEG_BIN_DIR = process.env.FFMPEG_BIN_DIR
+  ?? 'C:\\Users\\manue\\AppData\\Local\\Microsoft\\WinGet\\Packages\\Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe\\ffmpeg-9.0-full_build\\bin';
+
+function versionWithMediaUrls(version) {
+  return {
+    ...version,
+    masterPath: undefined,
+    masterMediaUrl: version.masterPath ? toMediaUrl(version.masterPath) : null,
+    outputs: (version.outputs ?? []).map((o) => ({ ...o, mediaUrl: o.outputPath ? toMediaUrl(o.outputPath) : null })),
+  };
+}
+
+function projectForClient(project) {
+  return { ...project, versions: project.versions.map(versionWithMediaUrls) };
+}
+
+/** POST /api/projects — crea (o recupera, si ya existe uno) un EditableVideoProject real sobre un ProductionJob ya producido. */
+export async function handleCreateProject(req, res) {
+  let body;
+  try { body = await readJsonBody(req); } catch (err) { badRequest(res, err.message); return; }
+  const { productionJobId } = body;
+  if (!productionJobId?.trim()) { badRequest(res, 'projects: "productionJobId" es obligatorio -- un proyecto editable siempre envuelve un ProductionJob real ya producido.'); return; }
+
+  let jobRecord;
+  try {
+    jobRecord = getProductionJob(productionJobId);
+  } catch (err) {
+    notFound(res, err.message);
+    return;
+  }
+
+  try {
+    const project = buildEditableProjectFromProductionJob({ jobRecord });
+    saveProject(project);
+    sendJson(res, 200, projectForClient(project));
+  } catch (err) {
+    serverError(res, err);
+  }
+}
+
+export async function handleGetProject(req, res, projectId) {
+  try {
+    const project = getProject(projectId);
+    sendJson(res, 200, projectForClient(project));
+  } catch (err) {
+    notFound(res, err.message);
+  }
+}
+
+export async function handleListProjectsForCreative(req, res, url) {
+  const creativeId = url.searchParams.get('creativeId');
+  if (!creativeId?.trim()) { badRequest(res, 'projects: "creativeId" es obligatorio.'); return; }
+  try {
+    const projects = listProjectsForCreative(creativeId);
+    sendJson(res, 200, { projects: projects.map(projectForClient) });
+  } catch (err) {
+    serverError(res, err);
+  }
+}
+
+/** POST /api/projects/:projectId/edit — aplica ediciones reales al draft (Save), SIN renderizar. */
+export async function handleEditProject(req, res, projectId) {
+  let body;
+  try { body = await readJsonBody(req); } catch (err) { badRequest(res, err.message); return; }
+  let project;
+  try { project = getProject(projectId); } catch (err) { notFound(res, err.message); return; }
+
+  try {
+    const edited = applyProjectEdit(project, body.edits ?? {});
+    saveProject(edited);
+    const changeset = classifyChangeset(getLatestVersion(edited), edited);
+    sendJson(res, 200, { project: projectForClient(edited), pendingChangeset: changeset });
+  } catch (err) {
+    badRequest(res, err.message);
+  }
+}
+
+/** POST /api/projects/:projectId/render — Render real (agrega versión nueva) o Preview real (no agrega versión). */
+export async function handleRenderProject(req, res, projectId) {
+  let body;
+  try { body = await readJsonBody(req); } catch (err) { badRequest(res, err.message); return; }
+  const mode = body.mode === 'PREVIEW' ? 'PREVIEW' : 'RENDER';
+
+  let project;
+  try { project = getProject(projectId); } catch (err) { notFound(res, err.message); return; }
+
+  try {
+    const version = await renderProjectVersion(project, { ffmpegBinDir: FFMPEG_BIN_DIR, mode });
+    if (mode === 'RENDER' && version.status !== 'FAILED') {
+      const updated = { ...project, versions: [...project.versions, version], updatedAt: new Date().toISOString() };
+      saveProject(updated);
+      sendJson(res, 200, { project: projectForClient(updated), version: versionWithMediaUrls(version) });
+      return;
+    }
+    sendJson(res, 200, { version: versionWithMediaUrls(version) });
+  } catch (err) {
+    serverError(res, err);
+  }
+}
+
+export async function handleMusicLibrary(req, res) {
+  try {
+    const tracks = listMusicLibrary().filter((t) => t.license);
+    sendJson(res, 200, { tracks: tracks.map((t) => ({ filename: t.filename, license: t.license })) });
+  } catch (err) {
+    serverError(res, err);
+  }
+}

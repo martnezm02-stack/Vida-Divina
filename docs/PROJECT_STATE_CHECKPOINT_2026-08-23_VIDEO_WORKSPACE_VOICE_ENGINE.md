@@ -96,7 +96,25 @@ GIT                            = TODO EL TRABAJO DESDE `aba6470` (2026-08-07) SI
 PHASE_STATUS = CLOSED (bug de esta fase) / HALLAZGO DE CAPACIDAD ABIERTO (ver §5, decisión pendiente del propietario)
 ```
 
-## 8. Siguiente paso sugerido (no ejecutado en esta fase)
+## 8. Recovery point — commit de auditoría (2026-08-23)
+
+Tras esta fase se ejecutó una auditoría completa de `git status` (secretos, caches, node_modules, outputs grandes de video/audio, almacenes de estado en tiempo de ejecución) y se creó un único commit que consolida en Git todo el trabajo real acumulado desde `aba6470` (2026-08-07), incluida esta fase:
+
+```
+COMMIT   = 2879f23c50196deba95e14b6ad4b2c9fb07e8d11
+FECHA    = 2026-08-23 20:53:57 -0600
+TESTS AL MOMENTO DEL COMMIT = los mismos de §6 arriba (sin cambios de código
+             posteriores a esa validación; el trabajo de esta fase de
+             auditoría fue git status / .gitignore / staging / commit,
+             ningún cambio funcional)
+OPEN FINDING = presión de memoria de WSL2 en corridas largas de la suite
+             completa de dashboard sigue SIN resolver (ver §5) — no se
+             tocó .wslconfig
+```
+
+Si algo sale mal a partir de aquí, este commit (`2879f23c`) es el punto seguro desde el cual recuperar Vida Divina.
+
+## 9. Siguiente paso sugerido (no ejecutado en esta fase)
 
 1. Decidir si vale la pena subir la memoria asignada a WSL2 (`.wslconfig`, `memory=`) para correr la suite completa de `dashboard` sin riesgo de que Voice Engine muera a mitad de una corrida larga — cambio de máquina, no de código, requiere decisión del propietario.
 2. Comitear el trabajo acumulado desde `aba6470` (2026-08-07) — sigue sin commitear en su totalidad.

@@ -15,10 +15,18 @@
 //   - COMPLEX (requieren un input adicional real -- logo, música, clip de
 //     intro/outro -- y corren como un paso de ffmpeg propio, encadenado
 //     sobre la salida del paso anterior; ver justificación en
-//     runLocalFfmpegBackend): LOGO_OVERLAY, MUSIC_REPLACEMENT, INTRO_OUTRO.
+//     runLocalFfmpegBackend): LOGO_OVERLAY, MUSIC_REPLACEMENT, INTRO_OUTRO,
+//     MULTI_SCENE_CONCAT.
 // Cualquier operación no reconocida, o una COMPLEX sin el asset real que
 // requiere, se reporta explícitamente (NOT_IMPLEMENTED_YET /
 // SOURCE_ASSET_REQUIRED) -- nunca se finge realizada.
+//
+// MULTI_SCENE_CONCAT (Creative Production Orchestrator, 2026-08-24):
+// generalización real de INTRO_OUTRO -- MISMO filter_complex de concat de
+// N clips reales (nunca duplicado, INTRO_OUTRO ya no reimplementa su
+// propio concat, delega aquí), para el caso real de un Scene Plan con
+// más de 3 escenas (hook/problem/mechanism/benefit/cta...), no solo
+// intro+main+outro.
 
 import { spawnSync } from 'node:child_process';
 import { existsSync, unlinkSync, copyFileSync } from 'node:fs';
@@ -32,7 +40,7 @@ export const SIMPLE_OPERATIONS = Object.freeze([
   'LOUDNESS_NORMALIZATION', 'RESIZE_TO_PROFILE', 'TRIM', 'SILENCE_TRIM', 'AUDIO_CLEANUP', 'TEXT_OVERLAY',
 ]);
 // Operaciones "compleja": requieren un asset real adicional (logo/música/clip) vía un segundo -i.
-export const COMPLEX_OPERATIONS = Object.freeze(['LOGO_OVERLAY', 'MUSIC_REPLACEMENT', 'INTRO_OUTRO']);
+export const COMPLEX_OPERATIONS = Object.freeze(['LOGO_OVERLAY', 'MUSIC_REPLACEMENT', 'INTRO_OUTRO', 'MULTI_SCENE_CONCAT']);
 export const SUPPORTED_OPERATIONS = Object.freeze([...SIMPLE_OPERATIONS, ...COMPLEX_OPERATIONS]);
 
 // Operaciones reales del vocabulario de la Parte "EDIT/ENHANCE — TIPOS DE
@@ -195,20 +203,39 @@ function ejecutarOperacionCompleja(op, { inputPath, outputPath, operationParams,
     // codec/resolución/fps con el clip principal (concat demuxer stream-copy) --
     // no se reescala automáticamente aquí (ver docs/CONTENT_GENERATION_ENGINE.md).
     const partes = [introPath, inputPath, outroPath].filter(Boolean);
-    const extraInputArgs = [];
-    let filterInputs = '';
-    partes.forEach((p, i) => { extraInputArgs.push('-i', p); filterInputs += `[${i}:v:0][${i}:a:0]`; });
-    const filterComplex = `${filterInputs}concat=n=${partes.length}:v=1:a=1[vout][aout]`;
-    const args = ['-y'];
-    for (const p of partes) args.push('-i', p);
-    args.push('-filter_complex', filterComplex, '-map', '[vout]', '-map', '[aout]', '-c:v', 'libx264', '-pix_fmt', 'yuv420p', '-c:a', 'aac', '-b:a', '192k', '-movflags', '+faststart', outputPath);
-    const resultado = correr(ffmpegBin, args);
-    if (resultado.status !== 0) return { ok: false, reason: 'RENDER_FAILED', detail: resultado.stderr || resultado.stdout };
-    const probe = validarMp4ConFfprobe(outputPath, { ffprobeBin });
-    return probe.ok ? { ok: true, probe } : { ok: false, reason: 'RENDER_FAILED', detail: probe.error };
+    return concatenarClipsReal(partes, outputPath, { ffmpegBin, ffprobeBin });
+  }
+
+  if (op === 'MULTI_SCENE_CONCAT') {
+    // Generalización real de INTRO_OUTRO -- N clips reales ya renderizados
+    // (uno por escena real del Scene Plan, ver
+    // content-orchestrator/src/scenePlanner.js), en el orden real que
+    // vienen. inputPath (el "clip principal" de runPostProduction) NUNCA
+    // se usa aquí -- el master real es la concatenación de "scenePaths".
+    const { scenePaths = [] } = operationParams.MULTI_SCENE_CONCAT ?? {};
+    if (!Array.isArray(scenePaths) || scenePaths.length < 2) {
+      return { ok: false, reason: 'SOURCE_ASSET_REQUIRED', detail: `MULTI_SCENE_CONCAT requiere "operationParams.MULTI_SCENE_CONCAT.scenePaths" real, con al menos 2 clips (recibido: ${scenePaths.length ?? 0}).` };
+    }
+    const faltante = scenePaths.find((p) => !existsSync(p));
+    if (faltante) return { ok: false, reason: 'SOURCE_ASSET_REQUIRED', detail: `MULTI_SCENE_CONCAT: no existe el clip real de escena "${faltante}".` };
+    return concatenarClipsReal(scenePaths, outputPath, { ffmpegBin, ffprobeBin });
   }
 
   return { ok: false, reason: 'NOT_IMPLEMENTED_YET', detail: `operación compleja desconocida "${op}".` };
+}
+
+/** Concatena N clips MP4 reales (video+audio, filter_complex concat -- nunca stream-copy silencioso que podría fallar en silencio con codecs distintos) en UN mp4 real. Compartido por INTRO_OUTRO y MULTI_SCENE_CONCAT -- nunca duplicado. */
+function concatenarClipsReal(clipPaths, outputPath, { ffmpegBin, ffprobeBin }) {
+  let filterInputs = '';
+  clipPaths.forEach((_, i) => { filterInputs += `[${i}:v:0][${i}:a:0]`; });
+  const filterComplex = `${filterInputs}concat=n=${clipPaths.length}:v=1:a=1[vout][aout]`;
+  const args = ['-y'];
+  for (const p of clipPaths) args.push('-i', p);
+  args.push('-filter_complex', filterComplex, '-map', '[vout]', '-map', '[aout]', '-c:v', 'libx264', '-pix_fmt', 'yuv420p', '-c:a', 'aac', '-b:a', '192k', '-movflags', '+faststart', outputPath);
+  const resultado = correr(ffmpegBin, args);
+  if (resultado.status !== 0) return { ok: false, reason: 'RENDER_FAILED', detail: resultado.stderr || resultado.stdout };
+  const probe = validarMp4ConFfprobe(outputPath, { ffprobeBin });
+  return probe.ok ? { ok: true, probe } : { ok: false, reason: 'RENDER_FAILED', detail: probe.error };
 }
 
 /**

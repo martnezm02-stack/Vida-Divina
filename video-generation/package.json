@@ -1,0 +1,15 @@
+{
+  "name": "vida-divina-video-generation",
+  "version": "0.1.0",
+  "description": "Video Generation Layer — VideoProvider real hacia proveedores de generación de video por IA (ej. MiniMax H3), para el Creative Production Orchestrator (content-orchestrator/src/creativeProductionOrchestrator.js). Fase 1: contrato VideoProvider, MockVideoProvider (sin credenciales, sin red), MiniMaxVideoProvider (adapter real, requiere MINIMAX_API_KEY -- reporta CONFIGURATION_REQUIRED sin ella, nunca simula una generación). No reimplementa render/composición (eso sigue en video-production/, ffmpeg real) -- este módulo es exclusivamente la última milla hacia un proveedor externo de generación de clips.",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "test": "node --test \"test/**/*.test.js\""
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}

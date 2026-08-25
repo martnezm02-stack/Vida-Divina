@@ -16,7 +16,7 @@ import { extname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { sendJson, notFound, serverError } from './lib/http.js';
 import { handleProducts, handleProduct, handleAssets, handleCampaigns, handleOutputProfiles, handleOperations, handleAudioAssets, handlePreviewInfo } from './routes/library.js';
-import { handleCreate, handleEdit, handleAdapt, handleProposeCreative, handleSuggestHypothesisVariants, handleVideoScript, handleProposeCarousel, handleCreateCarousel, handlePublishTargets, handlePublish } from './routes/generation.js';
+import { handleCreate, handleEdit, handleAdapt, handleProposeCreative, handleSuggestHypothesisVariants, handleListHypothesisBatches, handleVideoScript, handleProposeCarousel, handleCreateCarousel, handlePublishTargets, handlePublish, handleProduceCreative } from './routes/generation.js';
 import { handleMedia } from './routes/media.js';
 import { handlePerformanceList, handlePerformanceAnalysis } from './routes/performance.js';
 import { handleAttributionList, handleAttributionSummary } from './routes/attribution.js';
@@ -29,6 +29,9 @@ import { handleListMarketingCampaigns, handleCreateMarketingCampaign, handleGetM
 import { handleListWhatsappConversations, handleGetWhatsappConversation, handleSendWhatsappMessage, handleWhatsappStatus } from './routes/whatsapp.js';
 import { handleGenerateContentPlan } from './routes/campaignPilot.js';
 import { handleGetAutoPublish, handleGetAutoPublishHistory, handleEnableAutoPublish, handleDisableAutoPublish } from './routes/autoPublish.js';
+import {
+  handleCreateProject, handleGetProject, handleListProjectsForCreative, handleEditProject, handleRenderProject, handleMusicLibrary,
+} from './routes/projects.js';
 import {
   handleListSchedules, handleGetSchedule, handleCreateSchedule, handleApproveSchedule,
   handleProgramSchedule, handleCancelSchedule, handleRunSchedulerNow, handleMediaHostingStatus,
@@ -91,11 +94,25 @@ const server = http.createServer(async (req, res) => {
 
     if (pathname === '/api/create/propose' && req.method === 'POST') { await handleProposeCreative(req, res); return; }
     if (pathname === '/api/create/suggest-hypothesis' && req.method === 'POST') { await handleSuggestHypothesisVariants(req, res); return; }
+    if (pathname === '/api/create/hypothesis-batches' && req.method === 'GET') { await handleListHypothesisBatches(req, res, url); return; }
+    if (pathname === '/api/create/produce' && req.method === 'POST') { await handleProduceCreative(req, res); return; }
     if (pathname === '/api/video-script' && req.method === 'POST') { await handleVideoScript(req, res); return; }
     if (pathname === '/api/carousel/propose' && req.method === 'POST') { await handleProposeCarousel(req, res); return; }
     if (pathname === '/api/carousel' && req.method === 'POST') { await handleCreateCarousel(req, res); return; }
     if (pathname === '/api/publish/targets' && req.method === 'GET') { await handlePublishTargets(req, res); return; }
     if (pathname === '/api/publish' && req.method === 'POST') { await handlePublish(req, res); return; }
+
+    // EDITABLE VIDEO PROJECT (2026-08-24) -- un ProductionJob real ya
+    // producido se convierte en un proyecto editable persistente.
+    if (pathname === '/api/projects' && req.method === 'POST') { await handleCreateProject(req, res); return; }
+    if (pathname === '/api/projects' && req.method === 'GET') { await handleListProjectsForCreative(req, res, url); return; }
+    if (pathname === '/api/music-library' && req.method === 'GET') { await handleMusicLibrary(req, res); return; }
+    const projectIdMatch = pathname.match(/^\/api\/projects\/([^/]+)$/);
+    if (projectIdMatch && req.method === 'GET') { await handleGetProject(req, res, projectIdMatch[1]); return; }
+    const projectEditMatch = pathname.match(/^\/api\/projects\/([^/]+)\/edit$/);
+    if (projectEditMatch && req.method === 'POST') { await handleEditProject(req, res, projectEditMatch[1]); return; }
+    const projectRenderMatch = pathname.match(/^\/api\/projects\/([^/]+)\/render$/);
+    if (projectRenderMatch && req.method === 'POST') { await handleRenderProject(req, res, projectRenderMatch[1]); return; }
 
     // PERFORMANCE INTELLIGENCE (Fase 6 -- lectura mínima, solo lectura)
     if (pathname === '/api/performance' && req.method === 'GET') { await handlePerformanceList(req, res); return; }

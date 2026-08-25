@@ -209,44 +209,216 @@ $('#create-form').addEventListener('submit', async (e) => {
   }
 });
 
-// Fase 16, Parte 11: "Sugerir variantes (hipótesis)" en Crear Contenido --
-// mismo hypothesisCreativeEngine que Crear Autónomo (nunca un segundo
-// motor, ver dashboard/server/routes/generation.js#handleSuggestHypothesisVariants).
+// Creative Factory (2026-08-23): "Sugerir variantes (hipótesis)" en Crear
+// Contenido -- mismo hypothesisCreativeEngine que Crear Autónomo (nunca un
+// segundo motor, ver dashboard/server/routes/generation.js#
+// handleSuggestHypothesisVariants). Cada clic pide un Batch NUEVO real
+// (backend: nextBatchNumber/blueprintOffset/usedFingerprints reales vía
+// hypothesisBatchStore.js) -- el batch anterior NUNCA se reemplaza, se
+// añade un panel más al contenedor. "GENERAR MÁS VARIANTES" reemplaza el
+// texto del botón después del primer batch, para dejar claro que no es
+// "repetir", es "otro lote nuevo".
 const createSuggestBtn = $('#create-suggest-hypothesis-btn');
 if (createSuggestBtn) {
+  let lastCampaignKey = null;
+
+  function readCampaignBrief() {
+    const targetAudience = $('#campaign-target-audience')?.value.trim() || undefined;
+    const problemOrNeed = $('#campaign-problem')?.value.trim() || undefined;
+    if (!targetAudience && !problemOrNeed) return {};
+    return {
+      targetAudience,
+      problemOrNeed,
+      campaignTerritory: $('#campaign-territory')?.value.trim() || undefined,
+      desiredOutcome: $('#campaign-desired-outcome')?.value.trim() || undefined,
+      campaignObjective: $('#campaign-objective')?.value || undefined,
+      awarenessStage: $('#campaign-awareness-stage')?.value || undefined,
+    };
+  }
+
+  function relevanceBadgeHtml(rel) {
+    if (!rel?.applicable) return '';
+    const cls = rel.score >= 50 ? 'relevance-high' : rel.score >= 15 ? 'relevance-mid' : 'relevance-low';
+    return `<span class="relevance-badge ${cls}" title="Solapamiento léxico real entre el copy y el territorio/problema/audiencia de la campaña">Relevancia campaña: ${rel.score}/100</span>`;
+  }
+
+  // Creative Strategy Engine (2026-08-24): inserta, en la tarjeta BASE
+  // compartida (variantCardHtml, misma que usa Crear Autónomo -- nunca
+  // duplicada), el concepto/ángulo/hook real y el score de relevancia
+  // real -- para que se entienda POR QUÉ esta variante pertenece a ESTA
+  // campaña, no a cualquier otra del mismo producto (Paso 10 del
+  // encargo). Se inserta justo antes del botón real (marcador de texto
+  // estable, nunca depende del índice/whitespace exacto de la plantilla).
+  function variantCardWithRelevanceHtml(v, index) {
+    const extra = `
+      <div class="variant-field"><strong>Concepto / Ángulo</strong>${v.conceptId ?? '—'} <span class="meta">(hook: ${v.hookId ?? '—'})</span></div>
+      ${relevanceBadgeHtml(v.campaignRelevance)}
+    `;
+    const marcador = '<button type="button" class="btn-secondary btn-use-variant"';
+    const conBoton = variantCardHtml(v, index).replace(marcador, `${extra}${marcador}`);
+    // Creative Production Orchestrator (2026-08-24): botón real "PRODUCIR
+    // VIDEO REAL" -- llama a /api/create/produce (guion+escenas+voz
+    // real+captions+música si hay+composición ffmpeg real+QA+formatos),
+    // NUNCA regenera la campaña/copy (usa esta MISMA variante ya
+    // persistida). Estado del pipeline visible por etapa (Paso 18).
+    const produceBlock = `
+      <button type="button" class="btn-secondary btn-produce-creative" data-variant-index="${index}">PRODUCIR VIDEO REAL →</button>
+      <div class="production-status hidden" data-variant-index="${index}"></div>`;
+    const marcadorUsar = 'USAR ESTA VARIANTE →</button>';
+    return conBoton.replace(marcadorUsar, `${marcadorUsar}${produceBlock}`);
+  }
+
+  function batchSectionHtml(batch) {
+    const cards = batch.variantsDetail.map((v, i) => variantCardWithRelevanceHtml(v, i)).join('');
+    const ci = batch.campaignIntent;
+    const campaignHeader = ci
+      ? `<div class="meta">Campaña: <strong>${ci.targetAudience}</strong> — ${ci.campaignTerritory} (${ci.campaignObjective}, ${ci.awarenessStage})</div>`
+      : '<div class="meta">Sin brief de campaña -- hipótesis genéricas de producto.</div>';
+    return `
+      <div class="panel hypothesis-batch" data-batch-number="${batch.batchNumber}">
+        <div class="result-status HYPOTHESIS_EXPERIMENT_READY">BATCH #${batch.batchNumber} — ${batch.variantsDetail.length} VARIANTES</div>
+        ${campaignHeader}
+        <div class="hypothesis-banner">
+          No encontramos una dirección creativa validada (Evidence-Based) para este objetivo.
+          Como todavía estamos construyendo historial de clientes, creamos un experimento basado
+          en hipótesis usando únicamente información documentada del producto. ${batch.disclaimer ?? ''}
+        </div>
+        <div class="variant-grid">${cards}</div>
+      </div>
+    `;
+  }
+
+  function attachUseVariantHandlers(sectionEl, batch, form, container) {
+    sectionEl.querySelectorAll('.btn-use-variant').forEach((b) => {
+      b.addEventListener('click', () => {
+        const variant = batch.variantsDetail[Number(b.dataset.variantIndex)];
+        form.hookText.value = variant.copy.hook ?? '';
+        form.ctaText.value = variant.copy.cta ?? '';
+        if (form.productBody) form.productBody.value = variant.copy.primaryText ?? '';
+        applyVideoScriptToCreateForm(form, variant);
+        container.classList.add('hidden');
+      });
+    });
+  }
+
+  // Creative Production Orchestrator (2026-08-24): pipeline visible por
+  // etapa (Paso 18) -- CREATIVE->SCRIPT->SCENES->ASSETS->VOICE->MUSIC->
+  // COMPOSITION->QA->OUTPUT. No construye una UI enorme -- un resumen real
+  // por job, con status explícito (FULL_PRODUCTION/DEGRADED_PRODUCTION/
+  // FAILED, nunca oculto) y enlaces reales a cada formato producido.
+  function productionJobStatusHtml(job) {
+    if (job.status === 'FAILED' && !job.scenePlan) {
+      return `<div class="result-status VALIDATION_FAILED">${job.status}</div><p>${job.error}</p>`;
+    }
+    const escenas = job.scenePlan?.scenes?.length ?? 0;
+    const conceptos = job.assetPlan ? new Set(job.assetPlan.map((a) => a.source)).size : 0;
+    const outputsHtml = (job.outputs ?? []).map((o) => `
+      <div class="variant-field"><strong>${o.profileName} (${o.aspectRatio})</strong>${o.status}${o.mediaUrl ? ` — <a href="${o.mediaUrl}" target="_blank" rel="noopener">ver video</a>` : ''}</div>
+    `).join('');
+    const qaHtml = (job.qualityReports ?? []).map((q) => `
+      <div class="variant-field"><strong>QA ${q.profileName}</strong>${q.status}${q.warnings?.length ? ` (${q.warnings.length} advertencia(s) real(es))` : ''}</div>
+    `).join('');
+    const editorBtn = job.productionJobId
+      ? `<button type="button" class="btn-secondary btn-open-editor" data-production-job-id="${job.productionJobId}">ABRIR EN EDITOR →</button>`
+      : '';
+    return `
+      <div class="result-status ${job.status}">${job.status}</div>
+      <div class="variant-field"><strong>Pipeline</strong>Script → ${escenas} escenas reales → ${conceptos} fuente(s) visual(es) → Voz real → ${job.musicSelection?.status === 'SUCCESS' ? 'Música real' : 'Sin música (no disponible)'} → Composición ffmpeg real → QA</div>
+      ${outputsHtml}
+      ${qaHtml}
+      <div class="variant-field"><strong>Costo estimado</strong>$${job.costReport?.estimatedTotal ?? 0} ${job.costReport?.currency ?? 'USD'}</div>
+      ${editorBtn}
+    `;
+  }
+
+  function attachProduceHandlers(sectionEl, batch) {
+    sectionEl.querySelectorAll('.btn-produce-creative').forEach((b) => {
+      b.addEventListener('click', async () => {
+        const idx = Number(b.dataset.variantIndex);
+        const statusEl = sectionEl.querySelector(`.production-status[data-variant-index="${idx}"]`);
+        statusEl.classList.remove('hidden');
+        statusEl.innerHTML = '<p class="placeholder">Produciendo pieza audiovisual real (guion, escenas, voz real, composición)… puede tardar varios minutos.</p>';
+        b.disabled = true;
+        try {
+          const job = await api('/api/create/produce', {
+            method: 'POST', headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ batchId: batch.batchId, variantIndex: idx, outputProfileNames: ['INSTAGRAM_REEL', 'INSTAGRAM_FEED'] }),
+          });
+          statusEl.innerHTML = productionJobStatusHtml(job);
+          const openBtn = statusEl.querySelector('.btn-open-editor');
+          if (openBtn && window.VidaDivinaEditor) {
+            openBtn.addEventListener('click', () => window.VidaDivinaEditor.openFromProductionJob(openBtn.dataset.productionJobId));
+          }
+        } catch (err) {
+          statusEl.innerHTML = `<div class="result-status VALIDATION_FAILED">ERROR</div><p>${err.message}</p>`;
+        } finally {
+          b.disabled = false;
+        }
+      });
+    });
+  }
+
+  async function loadExistingBatches(productId, brief, form, container) {
+    // URLSearchParams convierte valores undefined en la cadena literal
+    // "undefined" -- a diferencia de JSON.stringify (que sí los omite),
+    // así que aquí se filtran explícitamente antes de construir la query.
+    const entradasReales = Object.entries({ productId, ...brief }).filter(([, v]) => v !== undefined && v !== '');
+    const params = new URLSearchParams(entradasReales);
+    const { batches } = await api(`/api/create/hypothesis-batches?${params.toString()}`);
+    container.innerHTML = '';
+    batches.forEach((batch) => {
+      container.insertAdjacentHTML('beforeend', batchSectionHtml(batch));
+      const sectionEl = container.querySelector(`[data-batch-number="${batch.batchNumber}"]`);
+      attachUseVariantHandlers(sectionEl, batch, form, container);
+      attachProduceHandlers(sectionEl, batch);
+    });
+    if (batches.length > 0) createSuggestBtn.textContent = 'GENERAR MÁS VARIANTES';
+  }
+
   createSuggestBtn.addEventListener('click', async () => {
     const form = $('#create-form');
-    const container = $('#create-hypothesis-suggestions');
+    const container = $('#create-hypothesis-batches');
     const productId = form.productId.value;
+    const batchSizeInput = $('#create-hypothesis-batch-size');
+    const variantCount = Math.max(1, Math.min(50, Number(batchSizeInput?.value) || 10));
+    const brief = readCampaignBrief();
     if (!productId) {
-      container.classList.remove('hidden');
       container.innerHTML = '<p class="placeholder">Selecciona un producto real primero.</p>';
       return;
     }
-    createSuggestBtn.disabled = true; createSuggestBtn.textContent = 'GENERANDO HIPÓTESIS…';
-    container.classList.remove('hidden');
-    container.innerHTML = '<p class="placeholder">Consultando Product Facts reales y construyendo hipótesis…</p>';
+    const campaignKey = JSON.stringify({ productId, ...brief });
+    if (campaignKey !== lastCampaignKey) {
+      // Producto o brief de campaña distinto del último batch generado en
+      // esta sesión de la página -- recarga su historial real desde el
+      // servidor (nunca inventa uno vacío si ya existían batches previos
+      // para ESTA misma campaña).
+      lastCampaignKey = campaignKey;
+      createSuggestBtn.textContent = 'SUGERIR VARIANTES (HIPÓTESIS)';
+      try { await loadExistingBatches(productId, brief, form, container); } catch { /* sin historial real todavía -- se continúa igual */ }
+    }
+    createSuggestBtn.disabled = true; const previousLabel = createSuggestBtn.textContent;
+    createSuggestBtn.textContent = 'GENERANDO LOTE…';
+    const loadingEl = document.createElement('p');
+    loadingEl.className = 'placeholder'; loadingEl.textContent = 'Consultando Product Facts reales y construyendo un lote nuevo de hipótesis…';
+    container.appendChild(loadingEl);
     try {
-      const result = await api('/api/create/suggest-hypothesis', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ productId }) });
+      const result = await api('/api/create/suggest-hypothesis', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ productId, variantCount, ...brief }) });
+      loadingEl.remove();
       if (result.status !== 'HYPOTHESIS_EXPERIMENT_READY') {
-        container.innerHTML = `<div class="result-status MISSING_CREATIVE_MATCH">${result.status}</div><p>${(result.errors ?? [result.reason]).join(' ')}</p>`;
+        container.insertAdjacentHTML('beforeend', `<div class="result-status MISSING_CREATIVE_MATCH">${result.status}</div><p>${(result.errors ?? [result.reason]).join(' ')}</p>`);
         return;
       }
-      container.innerHTML = renderHypothesisExperiment(result);
-      container.querySelectorAll('.btn-use-variant').forEach((b) => {
-        b.addEventListener('click', () => {
-          const variant = result.variantsDetail[Number(b.dataset.variantIndex)];
-          form.hookText.value = variant.copy.hook ?? '';
-          form.ctaText.value = variant.copy.cta ?? '';
-          if (form.productBody) form.productBody.value = variant.copy.primaryText ?? '';
-          applyVideoScriptToCreateForm(form, variant);
-          container.classList.add('hidden');
-        });
-      });
+      container.insertAdjacentHTML('beforeend', batchSectionHtml(result));
+      { const sectionEl = container.querySelector(`[data-batch-number="${result.batchNumber}"]`);
+        attachUseVariantHandlers(sectionEl, result, form, container);
+        attachProduceHandlers(sectionEl, result); }
+      createSuggestBtn.textContent = 'GENERAR MÁS VARIANTES';
     } catch (err) {
-      container.innerHTML = `<div class="result-status VALIDATION_FAILED">ERROR</div><p>${err.message}</p>`;
+      loadingEl.remove();
+      container.insertAdjacentHTML('beforeend', `<div class="result-status VALIDATION_FAILED">ERROR</div><p>${err.message}</p>`);
+      createSuggestBtn.textContent = previousLabel;
     } finally {
-      createSuggestBtn.disabled = false; createSuggestBtn.textContent = 'SUGERIR VARIANTES (HIPÓTESIS)';
+      createSuggestBtn.disabled = false;
     }
   });
 }

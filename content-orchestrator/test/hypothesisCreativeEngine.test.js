@@ -165,11 +165,16 @@ describe('buildHypothesisExperiment — caso real, Divina Ripped Capsules (bench
     assert.match(result.disclaimer, /revisión humana/i);
   });
 
-  test('variantCount configurable entre 3 y 5 (Fase 16, Parte 3: "3-5 CreativeVariants")', () => {
+  test('variantCount configurable entre 3 y 50 (Creative Factory: generación masiva/incremental, ver marketingPlaybook.js#generateBlueprintAtIndex)', () => {
     const r3 = buildHypothesisExperiment({ productGroundedEvidence: evidence, variantCount: 3 });
     assert.equal(r3.variantsDetail.length, 3);
+    // 6 ya NO lanza (antes limitado a los 5 VARIANT_BLUEPRINTS curados a
+    // mano) -- generateBlueprintAtIndex() cubre un espacio combinatorio
+    // mucho más grande a partir del índice 5.
+    const r6 = buildHypothesisExperiment({ productGroundedEvidence: evidence, variantCount: 6 });
+    assert.equal(r6.variantsDetail.length, 6);
     assert.throws(() => buildHypothesisExperiment({ productGroundedEvidence: evidence, variantCount: 2 }));
-    assert.throws(() => buildHypothesisExperiment({ productGroundedEvidence: evidence, variantCount: 6 }));
+    assert.throws(() => buildHypothesisExperiment({ productGroundedEvidence: evidence, variantCount: 51 }));
   });
 });
 

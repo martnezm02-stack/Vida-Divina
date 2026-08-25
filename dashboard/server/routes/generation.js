@@ -17,6 +17,10 @@ import { resolveCampaignCreativeCell, MissingStrategicMatchError } from '../../.
 import { getOutputProfile } from '../../../content-orchestrator/src/outputProfiles.js';
 import { buildCreativeProposal } from '../../../content-orchestrator/src/autonomousCreate.js';
 import { buildHypothesisExperiment } from '../../../content-orchestrator/src/hypothesisCreativeEngine.js';
+import { buildCampaignIntent, computeCampaignId } from '../../../content-orchestrator/src/campaignIntent.js';
+import { saveBatch, listBatchesForCampaign, getCampaignBatchState, getBatch } from '../../../creative-intelligence/src/hypothesisBatchStore.js';
+import { produceCreative } from '../../../content-orchestrator/src/creativeProductionOrchestrator.js';
+import { saveProductionJob } from '../../../content-orchestrator/src/productionJobStore.js';
 import { buildProductGroundedEvidence } from '../../../content-orchestrator/src/productGroundedEvidence.js';
 import { buildVideoScript, assertVoiceoverTextSafe } from '../../../content-orchestrator/src/videoScriptGenerator.js';
 import { buildCarouselSlidesContent } from '../../../content-orchestrator/src/carouselCompositor.js';
@@ -27,6 +31,10 @@ import { mediaHostingService } from '../lib/schedulerInstance.js';
 const FFMPEG_BIN_DIR = process.env.FFMPEG_BIN_DIR
   ?? 'C:\\Users\\manue\\AppData\\Local\\Microsoft\\WinGet\\Packages\\Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe\\ffmpeg-9.0-full_build\\bin';
 const DASHBOARD_OUTPUT_ROOT = join(PROJECT_ROOT, 'video-production', 'dashboard-outputs');
+// Creative Factory (2026-08-23): tamaño de batch por defecto cuando el
+// Dashboard no manda "variantCount" explícito -- configurable por
+// solicitud (Paso 6), este es solo el valor por defecto razonable.
+const DEFAULT_BATCH_SIZE = 10;
 
 function translateFinalAssetPackageForClient(pkg) {
   return {
@@ -251,11 +259,44 @@ export async function handleProposeCreative(req, res) {
  * por el usuario se prellena en el formulario y sigue siendo editable —
  * este endpoint nunca aprueba ni publica nada.
  */
+// Creative Factory + Creative Strategy Engine (2026-08-23/24): "campaña"
+// es, por defecto, 1:1 con productId (compatibilidad con llamadores sin
+// brief real, ej. autonomousCreate.js) -- pero cuando SÍ hay un
+// CampaignIntent real (targetAudience+problemOrNeed reales), la campaña
+// se identifica por el BRIEF (computeCampaignId), no solo por el
+// producto: dos campañas distintas para el mismo producto (ej.
+// "vitalidad masculina" vs "control de peso") tienen su propio historial
+// de batches real, nunca comparten fingerprints/offset entre sí.
+function resolveCampaignId(productId, campaignIntent) {
+  return campaignIntent ? computeCampaignId(campaignIntent) : productId;
+}
+
 export async function handleSuggestHypothesisVariants(req, res) {
   let body;
   try { body = await readJsonBody(req); } catch (err) { badRequest(res, err.message); return; }
-  const { productId } = body;
+  const {
+    productId, variantCount = DEFAULT_BATCH_SIZE,
+    targetAudience, problemOrNeed, campaignTerritory, desiredOutcome, campaignObjective, awarenessStage,
+  } = body;
   if (!productId?.trim()) { badRequest(res, 'suggest-hypothesis: "productId" es obligatorio -- no se inventa un producto.'); return; }
+  if (!Number.isInteger(variantCount) || variantCount < 1) { badRequest(res, 'suggest-hypothesis: "variantCount" debe ser un entero >= 1 (batchSize configurable, ej. 10/20/50).'); return; }
+
+  // CampaignIntent real SOLO si el llamador provee audiencia+problema
+  // reales (el mínimo real de un brief, ver campaignIntent.js) -- sin
+  // esto, comportamiento preexistente intacto (producto solo, sin
+  // campaña). buildCampaignIntent() ya valida Claim Safety del brief
+  // mismo -- "marca el conflicto" real, nunca a mitad del batch.
+  let campaignIntent = null;
+  if (targetAudience?.trim() || problemOrNeed?.trim()) {
+    try {
+      campaignIntent = buildCampaignIntent({
+        productId, targetAudience, problemOrNeed, campaignTerritory, desiredOutcome, campaignObjective, awarenessStage,
+      });
+    } catch (err) {
+      badRequest(res, err.message);
+      return;
+    }
+  }
 
   let productGroundedEvidence;
   try {
@@ -269,12 +310,78 @@ export async function handleSuggestHypothesisVariants(req, res) {
     return;
   }
 
+  const campaignId = resolveCampaignId(productId, campaignIntent);
+  const { nextBatchNumber, blueprintOffset, usedFingerprints } = getCampaignBatchState(campaignId);
+
+  let result;
   try {
-    const result = buildHypothesisExperiment({ productGroundedEvidence });
-    sendJson(res, 200, { ...result, productId });
+    result = buildHypothesisExperiment({
+      productGroundedEvidence, variantCount, batchOffset: blueprintOffset, excludeFingerprints: usedFingerprints, campaignIntent,
+    });
   } catch (err) {
     serverError(res, err);
+    return;
   }
+  if (result.status !== 'HYPOTHESIS_EXPERIMENT_READY') {
+    sendJson(res, 200, { ...result, productId, campaignId });
+    return;
+  }
+
+  const batchId = randomUUID();
+  const generationId = randomUUID();
+  const createdAt = new Date().toISOString();
+  const fingerprints = result.variantsDetail.map((v) => v.fingerprint);
+  saveBatch({
+    batchId, campaignId, batchNumber: nextBatchNumber, generationId, createdAt,
+    variantCount: result.variantsDetail.length, blueprintOffsetStart: blueprintOffset,
+    fingerprints, product: result.product, campaignIntent: result.campaignIntent,
+    experiment: result.experiment,
+    experimentQualityGate: result.experimentQualityGate, variantsDetail: result.variantsDetail,
+    disclaimer: result.disclaimer,
+  });
+
+  sendJson(res, 200, {
+    ...result, productId, campaignId, batchId, batchNumber: nextBatchNumber, generationId, createdAt,
+  });
+}
+
+/**
+ * Lista los Batches reales ya generados para una campaña (hoy: productId)
+ * -- lo que permite al Dashboard mostrar "Batch #1 / #2 / #3..." sin
+ * perder los lotes anteriores al pedir uno nuevo (Creative Factory, Paso
+ * 7). Nunca genera nada -- solo lee el historial real ya persistido por
+ * hypothesisBatchStore.js.
+ */
+export async function handleListHypothesisBatches(req, res, url) {
+  // campaignId explícito (ej. ya conocido por el Dashboard de una
+  // respuesta previa) alcanza por sí solo -- es la identidad real de la
+  // campaña (ver computeCampaignId()). Sin él, se requiere "productId"
+  // real, y opcionalmente el mismo brief (targetAudience+problemOrNeed)
+  // que identificó la campaña originalmente para recomputar su
+  // campaignId; sin ninguno de los dos, cae al productId solo
+  // (comportamiento preexistente, campaña = producto).
+  const explicitCampaignId = url.searchParams.get('campaignId');
+  const productId = url.searchParams.get('productId');
+  if (!explicitCampaignId && !productId?.trim()) { badRequest(res, 'hypothesis-batches: se requiere "campaignId" o "productId" real (query param).'); return; }
+  const targetAudience = url.searchParams.get('targetAudience');
+  const problemOrNeed = url.searchParams.get('problemOrNeed');
+  let campaignId = explicitCampaignId || productId;
+  if (!explicitCampaignId && (targetAudience?.trim() || problemOrNeed?.trim())) {
+    try {
+      const campaignIntent = buildCampaignIntent({
+        productId,
+        targetAudience,
+        problemOrNeed,
+        campaignTerritory: url.searchParams.get('campaignTerritory'),
+      });
+      campaignId = computeCampaignId(campaignIntent);
+    } catch (err) {
+      badRequest(res, err.message);
+      return;
+    }
+  }
+  const batches = listBatchesForCampaign(campaignId);
+  sendJson(res, 200, { campaignId, batches });
 }
 
 /**
@@ -416,6 +523,93 @@ export async function handlePublish(req, res) {
     const hosted = await autoHostIfNeeded(assetPackage, platform, mediaUrl, mediaUrls);
     const result = await publish(assetPackage, platform, destination, { mediaUrl: hosted.mediaUrl, mediaUrls: hosted.mediaUrls, caption });
     sendJson(res, 200, result);
+  } catch (err) {
+    serverError(res, err);
+  }
+}
+
+// ---------------------------------------------------------------------
+// Bloque 4 — Creative Production Orchestrator (2026-08-24): Creative
+// Variant (ya generada y persistida por hypothesisBatchStore.js) -> pieza
+// audiovisual real completa (guion, escenas, voz real, captions, música
+// si hay, composición ffmpeg real, QA, múltiples formatos). NUNCA
+// regenera la campaña/copy -- recibe la creatividad estratégica YA
+// APROBADA (un batch/variante ya persistido) tal cual.
+// ---------------------------------------------------------------------
+
+export async function handleProduceCreative(req, res) {
+  let body;
+  try { body = await readJsonBody(req); } catch (err) { badRequest(res, err.message); return; }
+  const { batchId, variantIndex, outputProfileNames = ['INSTAGRAM_REEL', 'INSTAGRAM_FEED'] } = body;
+  if (!batchId?.trim()) { badRequest(res, 'produce: "batchId" es obligatorio -- la creatividad debe venir de un batch real ya generado, nunca inventada aquí.'); return; }
+  if (!Number.isInteger(variantIndex) || variantIndex < 0) { badRequest(res, 'produce: "variantIndex" debe ser un entero >= 0 real.'); return; }
+
+  let batch;
+  try {
+    batch = getBatch(batchId);
+  } catch (err) {
+    badRequest(res, err.message);
+    return;
+  }
+  const creativeVariant = batch.variantsDetail[variantIndex];
+  if (!creativeVariant) { badRequest(res, `produce: el batch "${batchId}" no tiene una variante real en el índice ${variantIndex} (tiene ${batch.variantsDetail.length}).`); return; }
+
+  const productId = batch.product.productId;
+  const product = getProduct(productId);
+  const productRawAssets = product?.rawAssets ?? [];
+
+  // El mismo Video Script real que produceCreative() volverá a construir
+  // internamente -- se recalcula aquí SOLO para conocer voiceoverText
+  // ANTES de pedir el audio real (mismo texto, función pura/determinista,
+  // nunca diverge).
+  const videoScript = buildVideoScript({
+    hook: creativeVariant.copy.hook, bodyLines: creativeVariant.copy.bodyLines,
+    sectionsUsed: creativeVariant.copy.sectionsUsed, cta: creativeVariant.copy.cta,
+    format: creativeVariant.creativeVariant.format, copyStyle: creativeVariant.copyStyle,
+  });
+  if (!videoScript.applicable) { sendJson(res, 200, { status: 'FAILED', error: videoScript.reason }); return; }
+
+  try {
+    assertVoiceoverTextSafe(videoScript.voiceoverText);
+  } catch (err) {
+    sendJson(res, 200, { status: 'VALIDATION_FAILED', errors: [err.message] });
+    return;
+  }
+
+  let audioSourcePath;
+  let audioDurationSeconds;
+  try {
+    const resultado = await generateNewVoiceover({ text: videoScript.voiceoverText });
+    audioSourcePath = resultado.resolvedPath;
+    audioDurationSeconds = resultado.durationSeconds;
+  } catch (err) {
+    sendJson(res, 200, { status: 'SOURCE_ASSET_REQUIRED', error: err.message });
+    return;
+  }
+
+  const projectDir = join(DASHBOARD_OUTPUT_ROOT, `produce-${randomUUID()}`);
+  try {
+    const job = await produceCreative({
+      creativeVariant, campaignIntent: batch.campaignIntent ?? null, productRawAssets,
+      audioSourcePath, audioDurationSeconds, outputProfileNames, projectDir, ffmpegBinDir: FFMPEG_BIN_DIR,
+      campaignId: batch.campaignId, batchId: batch.batchId, generationId: batch.generationId,
+      creativeId: `${batch.batchId}-v${variantIndex}`,
+    });
+    // Persistencia real (Editable Video Project, 2026-08-24): antes de esta
+    // fase el ProductionJob solo vivía en esta respuesta HTTP -- se
+    // guarda aquí para que el Dashboard pueda abrirlo después como un
+    // proyecto editable (ver dashboard/server/routes/projects.js), sin
+    // volver a producirlo. Un job FAILED no trae escenas reales que
+    // envolver -- no se persiste (nada que editar).
+    let productionJobId = null;
+    if (job.status !== 'FAILED') {
+      ({ productionJobId } = saveProductionJob({ job, projectDir }));
+    }
+    sendJson(res, 200, {
+      ...job,
+      productionJobId,
+      outputs: job.outputs.map((o) => ({ ...o, mediaUrl: o.outputPath ? toMediaUrl(o.outputPath) : null })),
+    });
   } catch (err) {
     serverError(res, err);
   }

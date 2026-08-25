@@ -68,14 +68,41 @@ function buildSection(section, copyStyleId, facts, nombreComercial) {
   return { section, sourceField, text };
 }
 
+// Bridge de campaña (Creative Strategy Engine, 2026-08-24): awareness
+// stages de funnel medio/tardío (Solution/Product/Most Aware) omiten a
+// propósito la sección "problem" (COPY_STRUCTURE_BY_AWARENESS -- ya
+// conocen el problema, no hace falta re-agitarlo). Sin esto, una campaña
+// real con esos awareness stages no tenía NINGÚN canal para que el
+// territorio de campaña llegara al cuerpo del copy (root cause real
+// confirmado: variantes B/C/D del benchmark, 0/100 de relevancia real).
+// Nunca re-agita el problema (respeta el diseño real del funnel) -- solo
+// sitúa a la audiencia real, una frase corta y neutra.
+function buildCampaignBridgeLine(campaignIntent) {
+  if (!campaignIntent) return null;
+  return `Pensado para ${limpiar(campaignIntent.targetAudience)} interesados en ${limpiar(campaignIntent.campaignTerritory)}.`;
+}
+
+// Tipos de hook que NUNCA citan pain/territoryFragment (pattern-interrupt
+// deliberadamente agnóstico de tema, ver renderHook() en
+// marketingPlaybook.js) -- SOLO estos necesitan el bridge de campaña; los
+// demás (verbal/pov/question/problem_recognition/curiosity/demonstration)
+// ya citan el territorio real dentro del hook mismo, y agregar TAMBIÉN un
+// bridge con el mismo territorio colisionaría con
+// creativeQualityGate.js#checkHookRepetition (root cause real encontrado
+// durante la validación de esta fase).
+const HOOK_IDS_SIN_TERRITORIO = Object.freeze(['visual', 'pattern_interrupt', 'contrarian', 'text_on_screen']);
+
 /**
  * @param {object} args
  * @param {{id:string, hook:string, angle:string, awareness:string, format:string, copyStyle:string, ctaStrategy:string}} args.blueprint — VARIANT_BLUEPRINTS entry real (marketingPlaybook.js).
- * @param {string} args.painHookFragment — fragmento CORTO de encuadre de dolor, ya reencuadrado por PERSONA_FRAMINGS#buildPainHookFragment -- nunca el painPoint completo de la PainHypothesis (ese lleva su propio andamiaje "Hipótesis: podría importar..." + cita literal, no apto para un hook publicitario).
- * @param {{nombreComercial:string, problema:?string, beneficios:?string, ingredientes:?string}} args.facts — Product-Grounded Evidence real, ya extraído.
+ * @param {string} args.painHookFragment — fragmento CORTO de encuadre de dolor, ya reencuadrado por PERSONA_FRAMINGS#buildPainHookFragment (o por el territorio real de campaña) -- nunca el painPoint completo de la PainHypothesis (ese lleva su propio andamiaje "Hipótesis: podría importar..." + cita literal, no apto para un hook publicitario).
+ * @param {{nombreComercial:string, problema:?string, beneficios:?string, ingredientes:?string}} args.facts — Product-Grounded Evidence real, ya extraído (o effectiveFacts con "problema" real de campaña -- ver hypothesisCreativeEngine.js).
+ * @param {object|null} [args.campaignIntent] — CampaignIntent real (campaignIntent.js), o null para el comportamiento preexistente (sin campaña).
  * @returns {{hook:string, headline:string, primaryText:string, cta:string, tone:string, copyStyle:string, voiceover:?string[], script:?string[], bodyLines:string[], sectionsUsed:Array<{section:string,sourceField:string}>, missingFields:string[]}}
  */
-export function generateVariantCopy({ blueprint, painHookFragment, facts }) {
+export function generateVariantCopy({
+  blueprint, painHookFragment, facts, campaignIntent = null,
+}) {
   if (!blueprint?.hook || !blueprint?.awareness || !blueprint?.format || !blueprint?.copyStyle || !blueprint?.ctaStrategy) {
     throw new Error('generateVariantCopy: "blueprint" debe incluir "hook"/"awareness"/"format"/"copyStyle"/"ctaStrategy" reales.');
   }
@@ -91,6 +118,7 @@ export function generateVariantCopy({ blueprint, painHookFragment, facts }) {
     painFragment: painHookFragment,
     mechanismFragment: shortMechanismFragment,
     nombreComercial: facts.nombreComercial,
+    territoryFragment: campaignIntent?.campaignTerritory ?? null,
   });
   const cta = buildCta(blueprint.ctaStrategy, facts.nombreComercial);
   const tone = deriveToneLabel(blueprint.copyStyle);
@@ -100,6 +128,13 @@ export function generateVariantCopy({ blueprint, painHookFragment, facts }) {
     .filter((section) => section !== 'hook' && section !== 'cta')
     .map((section) => buildSection(section, blueprint.copyStyle, facts, facts.nombreComercial))
     .filter(Boolean);
+
+  // Bridge de campaña SOLO si esta estructura real omite "problem" Y el
+  // hook de este blueprint no citó ya el territorio real (ver comentario
+  // arriba) -- nunca duplica la sección real cuando ya existe.
+  const necesitaBridge = !structure.includes('problem') && HOOK_IDS_SIN_TERRITORIO.includes(blueprint.hook);
+  const bridgeLine = necesitaBridge ? buildCampaignBridgeLine(campaignIntent) : null;
+  if (bridgeLine) sectionResults.unshift({ section: 'campaignBridge', sourceField: 'campaignTerritory', text: bridgeLine });
 
   const bodyLines = sectionResults.map((s) => s.text);
   const sectionsUsed = Object.freeze(sectionResults.map((s) => Object.freeze({ section: s.section, sourceField: s.sourceField })));

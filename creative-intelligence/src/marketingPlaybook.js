@@ -123,12 +123,26 @@ export function getHookType(hookId) {
  * construcción retórica según el TIPO de hook (11 tipos reales, Fase de
  * Creative Quality Parte 4 del encargo).
  */
-export function renderHook(hookId, { painFragment, mechanismFragment, nombreComercial }) {
+export function renderHook(hookId, {
+  painFragment, mechanismFragment, nombreComercial, territoryFragment = null,
+}) {
   assertValidHookId(hookId);
   const pain = limpiar(painFragment);
   const mech = limpiar(mechanismFragment);
   const emoji = Object.values(HOOK_STRATEGIES).find((h) => h.id === hookId)?.emoji ?? '';
   const sufijo = emoji ? ` ${emoji}` : '';
+  // territoryFragment (Creative Strategy Engine, 2026-08-24): SOLO para
+  // los 2 tipos de hook que hoy citan literalmente el producto/mecanismo
+  // en vez del dolor/territorio real (curiosity/demonstration) -- root
+  // cause real confirmado (hook reportado "Hay algo sobre cómo está
+  // formulado Café Divina Sculpt Black..." en una campaña de vitalidad
+  // masculina, sin ninguna relación con el territorio real pedido).
+  // Los demás tipos (visual/pattern_interrupt/contrarian/text_on_screen)
+  // son pattern-interrupt DELIBERADAMENTE agnósticos de tema -- forzar el
+  // territorio ahí rompería su propósito real (interrumpir el patrón,
+  // sin importar el tema); su relevancia de campaña la aporta el CUERPO
+  // (ver hypothesisCopyProvider.js -- bridge real cuando el awareness
+  // stage no incluye sección "problem").
   switch (hookId) {
     case 'verbal': return `Si ${minuscula(pain)}, esto te interesa.${sufijo}`;
     case 'visual': return `Mira esto.${sufijo}`;
@@ -139,10 +153,14 @@ export function renderHook(hookId, { painFragment, mechanismFragment, nombreCome
     // sección "mechanism" del cuerpo cita después -- root cause real
     // detectado por creativeQualityGate.js#checkClaimRepetition durante
     // las pruebas de esta fase). El mecanismo real se revela en el cuerpo.
-    case 'curiosity': return `Hay algo sobre cómo está formulado ${nombreComercial} que pocas personas conocen.${sufijo}`;
+    case 'curiosity': return territoryFragment
+      ? `Hay algo sobre ${minuscula(territoryFragment)} que pocas personas conocen.${sufijo}`
+      : `Hay algo sobre cómo está formulado ${nombreComercial} que pocas personas conocen.${sufijo}`;
     case 'contrarian': return `No, no necesitas cambiar toda tu rutina para esto.${sufijo}`;
     case 'pov': return `POV: ${minuscula(pain)}.${sufijo}`;
-    case 'demonstration': return `Así es como ${nombreComercial} se integra en tu día a día.${sufijo}`;
+    case 'demonstration': return territoryFragment
+      ? `Así es como esto se conecta con ${minuscula(territoryFragment)}, en tu día a día.${sufijo}`
+      : `Así es como ${nombreComercial} se integra en tu día a día.${sufijo}`;
     case 'problem_recognition': return `¿${pain}? No eres la única persona a la que le pasa.${sufijo}`;
     case 'story': return `Ok, esto llamó mi atención...${sufijo}`;
     case 'question': return `¿${pain}?${sufijo}`;
@@ -502,4 +520,108 @@ export function selectVariantBlueprints(count) {
     throw new Error(`selectVariantBlueprints: "count" debe ser un entero entre 2 y ${VARIANT_BLUEPRINTS.length} (recibido ${count}).`);
   }
   return Object.freeze(VARIANT_BLUEPRINTS.slice(0, count));
+}
+
+// ---------------------------------------------------------------------
+// BlueprintSequence -- generación masiva/incremental (Creative Factory,
+// "generar más variantes" sin repetir). Los 5 VARIANT_BLUEPRINTS de
+// arriba son curados a mano y siguen siendo, por diseño, los índices 0-4
+// de esta secuencia (ids A-E, sin cambios, compatibilidad total con
+// selectVariantBlueprints()/llamadores existentes). Para índices >= 5 se
+// generan combinaciones NUEVAS combinando los mismos catálogos ya
+// vetted (PERSONA_FRAMINGS x ANGLE_STRATEGIES x HOOK_STRATEGIES x
+// COPY_STYLES x CTA_STRATEGIES) -- nunca se inventan catálogos nuevos, ni
+// texto nuevo, solo combinaciones nuevas de dimensiones ya reales.
+//
+// awareness/format/visualStyle/scrollStoppingPattern SIEMPRE se toman de
+// uno de los 5 "TEMPLATE_SLOTS" originales (ciclados por índice) -- esos
+// 4 campos están acoplados entre sí (awareness determina la estructura
+// del copy vía COPY_STRUCTURE_BY_AWARENESS; format determina la
+// StyleCategory del Video Script; visualStyle+scrollStoppingPattern ya
+// fueron pareados a mano) y nunca se recombinan libremente, para no
+// arriesgar una combinación no probada en esos 4 campos correlacionados.
+// personaFraming/angle/hook/copyStyle/ctaStrategy sí varían libremente --
+// son independientes entre sí (cada uno se renderiza por su cuenta, ver
+// renderHook()/COPY_STYLE_SECTION_RENDERERS/CTA_STRATEGIES.build) y son
+// los que realmente producen texto distinto entre variantes.
+//
+// Periodo antes de repetir una combinación completa: lcm(5,7,11,6,5) =
+// 2310 -- muy por encima de cualquier batchSize/cantidad de batches real.
+const TEMPLATE_SLOTS = Object.freeze(VARIANT_BLUEPRINTS.map((bp) => Object.freeze({
+  awareness: bp.awareness, format: bp.format, visualStyle: bp.visualStyle, scrollStoppingPattern: bp.scrollStoppingPattern,
+})));
+
+const PERSONA_FRAMING_IDS = Object.freeze(Object.keys(PERSONA_FRAMINGS));
+const ANGLE_IDS = Object.freeze(Object.values(ANGLE_STRATEGIES).map((a) => a.id));
+const HOOK_IDS = Object.freeze(Object.values(HOOK_STRATEGIES).map((h) => h.id));
+const COPY_STYLE_IDS = Object.freeze(Object.keys(COPY_STYLES));
+const CTA_STRATEGY_IDS = Object.freeze(Object.values(CTA_STRATEGIES).map((c) => c.id));
+
+// createExperiment() (creative-intelligence/src/hypothesisTesting.js)
+// rechaza 2 variantes con el mismo (angleText, hookRenderizado, format) --
+// firma real que SOLO depende de (angle, hook, format), nunca de
+// personaFraming/copyStyle/cta. Las combinaciones generadas (n>=5) tienen
+// garantizado, por construcción (strides coprimos con cada catálogo), no
+// repetirse ENTRE SÍ en esa firma dentro de cualquier ventana de 385
+// índices consecutivos -- pero nada impide que una combinación generada
+// choque por coincidencia con una de las 5 firmas YA USADAS por los
+// blueprints curados a mano (n=0..4, que no siguen esta fórmula). Se
+// excluyen explícitamente esas 5 firmas reales -- si una posición
+// generada coincide, se desplaza de forma determinista (mismo n ->
+// siempre el mismo resultado final) a la siguiente posición libre.
+const CANONICAL_SIGNATURES = new Set(VARIANT_BLUEPRINTS.map((bp) => `${bp.angle}::${bp.hook}::${bp.format}`));
+
+function generatedCombo(n, hookBump = 0) {
+  const slot = TEMPLATE_SLOTS[n % TEMPLATE_SLOTS.length];
+  // Strides distintos y coprimos con cada tamaño de catálogo real, para
+  // decorrelacionar las 5 dimensiones libres entre sí (evita que
+  // personaFraming/angle/hook/copyStyle/cta "roten juntos" y produzcan
+  // menos combinaciones reales de las que el período matemático permite).
+  const personaFraming = PERSONA_FRAMING_IDS[n % PERSONA_FRAMING_IDS.length];
+  const angle = ANGLE_IDS[(n * 2 + 1) % ANGLE_IDS.length];
+  const hook = HOOK_IDS[(n * 3 + 2 + hookBump) % HOOK_IDS.length];
+  const copyStyle = COPY_STYLE_IDS[(n * 5 + 1) % COPY_STYLE_IDS.length];
+  const ctaStrategy = CTA_STRATEGY_IDS[(n * 7 + 3) % CTA_STRATEGY_IDS.length];
+  return {
+    id: hookBump === 0 ? `GEN-${n}` : `GEN-${n}-${hookBump}`, personaFraming, angle, hook, copyStyle, ctaStrategy, ...slot,
+  };
+}
+
+/**
+ * Blueprint determinista en la posición `n` (0-indexado) de la secuencia
+ * infinita real de combinaciones. n=0..4 son EXACTAMENTE los 5 blueprints
+ * curados a mano (mismos ids A-E) -- n>=5 son combinaciones generadas.
+ * Determinista: mismo n -> siempre el mismo blueprint, sin aleatoriedad.
+ */
+export function generateBlueprintAtIndex(n) {
+  if (!Number.isInteger(n) || n < 0) throw new Error(`generateBlueprintAtIndex: "n" debe ser un entero >= 0 (recibido ${n}).`);
+  if (n < VARIANT_BLUEPRINTS.length) return VARIANT_BLUEPRINTS[n];
+
+  let combo = generatedCombo(n);
+  // Ajuste local determinista y acotado si la posición `n` choca con una
+  // firma real de los 5 blueprints curados a mano (probabilidad a priori
+  // ~5/385 por posición): SOLO se mueve el hook (dentro del propio
+  // catálogo de 11) manteniendo angle/format de `n` sin cambios -- a
+  // diferencia de "saltar" a otro índice n' de la secuencia (que
+  // aliasearía con lo que ese n' ya produce de forma natural más
+  // adelante), este ajuste no se superpone con ninguna otra posición real
+  // de la secuencia.
+  for (let hookBump = 1; CANONICAL_SIGNATURES.has(`${combo.angle}::${combo.hook}::${combo.format}`) && hookBump <= HOOK_IDS.length; hookBump += 1) {
+    combo = generatedCombo(n, hookBump);
+  }
+  return Object.freeze(combo);
+}
+
+/**
+ * Rango de `count` blueprints deterministas empezando en `offset` dentro
+ * de la secuencia infinita real (ver generateBlueprintAtIndex). Esto es
+ * lo que permite que un Batch #2 pida blueprints "después de los que ya
+ * usó el Batch #1" -- offset real acumulado, nunca aleatorio.
+ */
+export function selectBlueprintRange(count, offset = 0) {
+  if (!Number.isInteger(count) || count < 1) throw new Error(`selectBlueprintRange: "count" debe ser un entero >= 1 (recibido ${count}).`);
+  if (!Number.isInteger(offset) || offset < 0) throw new Error(`selectBlueprintRange: "offset" debe ser un entero >= 0 (recibido ${offset}).`);
+  const blueprints = [];
+  for (let i = 0; i < count; i += 1) blueprints.push(generateBlueprintAtIndex(offset + i));
+  return Object.freeze(blueprints);
 }

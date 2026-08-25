@@ -19,6 +19,7 @@
       <button class="navbtn active" data-view="home">Inicio</button>
       <button class="navbtn" data-view="autocreate">Crear autónomo</button>
       <button class="navbtn" data-view="create">Crear</button>
+      <button class="navbtn" data-view="editor">Editor de Video</button>
       <button class="navbtn" data-view="carousel">Carrusel</button>
       <button class="navbtn" data-view="edit">Editar</button>
       <button class="navbtn" data-view="adapt">Adaptar</button>
@@ -127,14 +128,90 @@
             <legend>Output Profiles</legend>
             <div id="create-profiles" class="checkbox-grid"></div>
           </fieldset>
-          <button type="button" class="btn-secondary" id="create-suggest-hypothesis-btn">SUGERIR VARIANTES (HIPÓTESIS)</button>
+          <fieldset id="create-campaign-brief">
+            <legend>Brief de campaña (opcional -- sin esto, "Sugerir variantes" solo habla del producto)</legend>
+            <label>Audiencia real <input type="text" id="campaign-target-audience" placeholder="ej. hombres adultos" /></label>
+            <label>Problema/necesidad real <input type="text" id="campaign-problem" placeholder="ej. baja vitalidad y confianza en el desempeño diario" /></label>
+            <label>Territorio de campaña <input type="text" id="campaign-territory" placeholder="ej. vitalidad y confianza masculina (si se omite, usa el problema)" /></label>
+            <label>Resultado deseado <input type="text" id="campaign-desired-outcome" placeholder="ej. contactar por WhatsApp" /></label>
+            <label>Objetivo
+              <select id="campaign-objective">
+                <option value="awareness">Awareness</option>
+                <option value="engagement">Engagement</option>
+                <option value="conversion">Conversion</option>
+                <option value="launch">Launch</option>
+              </select>
+            </label>
+            <label>Etapa de conciencia
+              <select id="campaign-awareness-stage">
+                <option value="Unaware">Unaware</option>
+                <option value="Problem Aware" selected>Problem Aware</option>
+                <option value="Solution Aware">Solution Aware</option>
+                <option value="Product Aware">Product Aware</option>
+                <option value="Most Aware">Most Aware</option>
+              </select>
+            </label>
+          </fieldset>
+          <div class="hypothesis-batch-controls">
+            <label>Variantes por lote <input type="number" id="create-hypothesis-batch-size" value="10" min="1" max="50" step="1"></label>
+            <button type="button" class="btn-secondary" id="create-suggest-hypothesis-btn">SUGERIR VARIANTES (HIPÓTESIS)</button>
+          </div>
           <button type="submit" class="btn-primary">GENERAR</button>
         </form>
         <div class="panel result-panel" id="create-result">
           <p class="placeholder">El resultado real de producción aparecerá aquí.</p>
         </div>
       </div>
-      <div id="create-hypothesis-suggestions" class="panel hidden"></div>
+      <div id="create-hypothesis-batches"></div>
+    </section>
+
+    <!-- EDITABLE VIDEO PROJECT (2026-08-24) -->
+    <section class="view hidden" id="view-editor">
+      <h2>Editor de Video (proyecto editable)</h2>
+      <p class="view-sub">Abre un video ya producido y edita captions, música, assets, CTA y formatos SIN volver a generar la campaña, el copy o la voz. El MP4 es un output del proyecto -- no es el proyecto.</p>
+
+      <div class="panel" id="editor-open-panel">
+        <label>Project ID (o vuelve a "Crear" y pulsa "ABRIR EN EDITOR →" sobre una producción real ya terminada)
+          <input type="text" id="editor-open-project-id" placeholder="projectId..." />
+        </label>
+        <button type="button" id="editor-open-btn" class="btn-secondary">ABRIR PROYECTO</button>
+        <div id="editor-open-status" class="meta"></div>
+      </div>
+
+      <div id="editor-workspace" class="hidden editor-layout">
+        <div class="editor-col editor-scenes-col">
+          <h3>Escenas</h3>
+          <div id="editor-scene-list"></div>
+          <h3>Versiones</h3>
+          <div id="editor-versions-list"></div>
+        </div>
+
+        <div class="editor-col editor-preview-col">
+          <h3>Preview</h3>
+          <video id="editor-preview-video" controls></video>
+          <button type="button" id="editor-preview-btn" class="btn-secondary">GENERAR PREVIEW (1 formato, rápido)</button>
+          <div id="editor-preview-status" class="meta"></div>
+        </div>
+
+        <div class="editor-col editor-props-col">
+          <h3>Propiedades de la escena</h3>
+          <div id="editor-scene-props"><p class="placeholder">Selecciona una escena de la lista.</p></div>
+
+          <h3>Proyecto</h3>
+          <label>CTA en pantalla<textarea id="editor-cta-text" rows="2"></textarea></label>
+          <label>Música
+            <select id="editor-music-select"><option value="">Sin música</option></select>
+          </label>
+          <label>Volumen de música (0-1)<input type="range" id="editor-music-volume" min="0" max="1" step="0.05" value="0.12" /></label>
+          <label>Formatos de salida<div id="editor-output-profiles" class="checkbox-grid"></div></label>
+
+          <div class="editor-actions">
+            <button type="button" id="editor-save-btn" class="btn-secondary">GUARDAR (draft)</button>
+            <button type="button" id="editor-render-btn" class="btn-primary">RENDER (nueva versión) →</button>
+          </div>
+          <div id="editor-render-status" class="meta"></div>
+        </div>
+      </div>
     </section>
 
     <!-- AUTOCREATE (Bloque 1) -->
@@ -657,5 +734,6 @@
   </div>
 
   <script src="/app.js"></script>
+  <script src="/editor.js"></script>
 </body>
 </html>

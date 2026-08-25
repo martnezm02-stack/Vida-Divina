@@ -20,6 +20,7 @@ const FFMPEG_BIN_DIR = 'C:\\Users\\manue\\AppData\\Local\\Microsoft\\WinGet\\Pac
 // problema.
 const TEST_TMP_DIR = mkdtempSync(join(tmpdir(), 'co-postprod-test-'));
 const REAL_MP4 = join(TEST_TMP_DIR, '_fixture-real-source.mp4');
+const REAL_MP4_DURATION_S = 8;
 
 // Se observó en esta máquina que un MP4 recién escrito por un proceso hijo
 // (ffmpeg) puede desaparecer del disco unos pocos segundos después de
@@ -215,6 +216,33 @@ describe('local_ffmpeg backend — operaciones nuevas de Content Generation Engi
     assert.equal(r.operationsSkipped[0].reason, 'SOURCE_ASSET_REQUIRED');
   });
 
+  test('MULTI_SCENE_CONCAT real concatena N clips reales (Creative Production Orchestrator) en un MP4 real más largo', () => {
+    const outputPath = join(TEST_TMP_DIR, '_tmp-scene-concat.mp4');
+    const r = runPostProduction({
+      inputPath: REAL_MP4, outputPath,
+      outputProfile: getOutputProfile('GENERIC_VERTICAL'),
+      operations: ['MULTI_SCENE_CONCAT'],
+      operationParams: { MULTI_SCENE_CONCAT: { scenePaths: [REAL_MP4, REAL_MP4, REAL_MP4] } },
+      ffmpegBinDir: FFMPEG_BIN_DIR,
+    });
+    assert.equal(r.status, 'COMPLETADO');
+    assert.ok(existsSync(outputPath));
+    assert.ok(r.probe.videoDurationSeconds > REAL_MP4_DURATION_S * 2.5); // 3 clips de ~8s reales concatenados -> real y notablemente más largo que uno solo.
+  });
+
+  test('MULTI_SCENE_CONCAT con menos de 2 escenas reales se reporta SOURCE_ASSET_REQUIRED, nunca finge un concat', () => {
+    const outputPath = join(TEST_TMP_DIR, '_tmp-scene-concat-insuficiente.mp4');
+    const r = runPostProduction({
+      inputPath: REAL_MP4, outputPath,
+      outputProfile: getOutputProfile('GENERIC_VERTICAL'),
+      operations: ['MULTI_SCENE_CONCAT'],
+      operationParams: { MULTI_SCENE_CONCAT: { scenePaths: [REAL_MP4] } },
+      ffmpegBinDir: FFMPEG_BIN_DIR,
+    });
+    assert.equal(r.status, 'PARTIAL');
+    assert.equal(r.operationsSkipped[0].reason, 'SOURCE_ASSET_REQUIRED');
+  });
+
   test('una operación real UNSUPPORTED_LOCAL_OPERATION (SCENE_TIMING_CHANGE) se reporta con su motivo real, nunca instala un modelo pesado', () => {
     const outputPath = join(TEST_TMP_DIR, '_tmp-unsupported.mp4');
     const r = runPostProduction({
@@ -248,9 +276,9 @@ describe('Windows path handling', () => {
 });
 
 describe('SUPPORTED_OPERATIONS', () => {
-  test('incluye las 9 operaciones reales implementadas (2 de la fase PostProduction + 7 de Content Generation Engine)', () => {
+  test('incluye las 10 operaciones reales implementadas (2 de la fase PostProduction + 7 de Content Generation Engine + MULTI_SCENE_CONCAT de Creative Production Orchestrator)', () => {
     assert.deepEqual([...SUPPORTED_OPERATIONS].sort(), [
-      'AUDIO_CLEANUP', 'INTRO_OUTRO', 'LOGO_OVERLAY', 'LOUDNESS_NORMALIZATION',
+      'AUDIO_CLEANUP', 'INTRO_OUTRO', 'LOGO_OVERLAY', 'LOUDNESS_NORMALIZATION', 'MULTI_SCENE_CONCAT',
       'MUSIC_REPLACEMENT', 'RESIZE_TO_PROFILE', 'SILENCE_TRIM', 'TEXT_OVERLAY', 'TRIM',
     ]);
   });

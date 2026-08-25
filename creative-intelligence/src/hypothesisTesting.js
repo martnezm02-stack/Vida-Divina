@@ -46,7 +46,17 @@ export const RESEARCH_MODES = Object.freeze(['EVIDENCE_BASED', 'HYPOTHESIS_TESTI
 // nunca afirma nada sobre el producto ni sobre el cliente, solo nombra la
 // estrategia metodológica que se está probando. El significado de las 3
 // categorías existentes no cambia.
-export const HYPOTHESIS_BASIS_TYPES = Object.freeze(['PRODUCT_FACT', 'MARKET_EVIDENCE', 'BRAND_CONTEXT', 'MARKETING_PRINCIPLE']);
+//
+// 'CAMPAIGN_BRIEF' (Creative Strategy Engine, 2026-08-24, aditivo): un
+// dato real del BRIEF de campaña (audiencia/problema/territorio, ver
+// content-orchestrator/src/campaignIntent.js) -- distinto de
+// 'PRODUCT_FACT' (que es siempre del catálogo real del producto,
+// docs/productos/) precisamente para que el lineage nunca etiquete
+// contenido de campaña como si fuera un dato de producto, ni viceversa
+// (root cause real corregido en esta fase: antes no existía ningún
+// concepto de campaña, y el "problema" de toda variante venía siempre de
+// PRODUCT_FACT).
+export const HYPOTHESIS_BASIS_TYPES = Object.freeze(['PRODUCT_FACT', 'MARKET_EVIDENCE', 'BRAND_CONTEXT', 'MARKETING_PRINCIPLE', 'CAMPAIGN_BRIEF']);
 
 export const DISCLAIMER_PERSONA_HYPOTHESIS = 'Esta Persona es una hipótesis de marketing para testing y NO representa conocimiento validado del cliente.';
 export const DISCLAIMER_PAIN_HYPOTHESIS = 'Este Pain es una hipótesis de marketing para testing y NO representa conocimiento validado del cliente.';
