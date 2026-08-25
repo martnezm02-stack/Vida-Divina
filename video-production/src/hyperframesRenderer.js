@@ -311,6 +311,78 @@ export function limpiarProcesosHuerfanosChrome({ padrePids = [] } = {}) {
   }
 }
 
+// ---------------------------------------------------------------------
+// Concurrencia de workers de HyperFrames (2026-08-25) -- investigación
+// real confirmó (ver docs/PROJECT_STATE.md) que HyperFrames decide
+// `workerCount` automáticamente a partir de los cores de la máquina
+// (hasta 5-6 en este entorno de 16 cores), lanzando un browser Chrome
+// COMPLETO por worker en paralelo -- root cause real de la exposición al
+// error 0x800700E8 (ERROR_NO_DATA/pipe, carrera de teardown de Mojo bajo
+// cierre concurrente de varios browsers). HyperFrames YA soporta un punto
+// de control real y nativo para esto -- la variable de entorno
+// `PRODUCER_MAX_WORKERS` (ver node_modules/hyperframes/dist/cli.js,
+// `fromEnv.concurrency = env("PRODUCER_MAX_WORKERS")`, que alimenta
+// directamente `resolveRenderWorkerCount()`). Nunca se toca node_modules
+// ni se reimplementa un límite propio -- solo se traduce nuestra propia
+// variable, real y documentada para Vida Divina, a la variable nativa que
+// HyperFrames ya sabe leer.
+export const DEFAULT_HYPERFRAMES_MAX_WORKERS = 2;
+
+/**
+ * Resuelve el límite real de workers/browsers concurrentes por render.
+ * Nunca lanza sobre un valor inválido -- cae al default conservador real
+ * (2), documentado: 1 = máxima estabilidad/menor paralelismo, 2 = default
+ * recomendado, 4 = mayor velocidad/mayor consumo de Chrome concurrente.
+ *
+ * Límite real descubierto en el código de HyperFrames (parallelCoordinator.ts
+ * #computeWorkerSizing, `minWorkersForJob = totalFrames >= effectiveMinParallelFrames
+ * ? 2 : MIN_WORKERS`): para cualquier composición con suficientes frames
+ * (el caso real de toda escena de Vida Divina), HyperFrames aplica un piso
+ * DURO de 2 workers sin importar qué se pida -- pedir 1 real se comporta
+ * igual que pedir 2. Documentado aquí para que no sea una sorpresa futura;
+ * el valor real y alcanzable que reduce la concurrencia "auto" (5-6 en
+ * este entorno) es 2, no 1.
+ */
+export function resolveHyperframesMaxWorkers(rawValue = process.env.HYPERFRAMES_MAX_WORKERS) {
+  if (rawValue === undefined || rawValue === null || `${rawValue}`.trim() === '') return DEFAULT_HYPERFRAMES_MAX_WORKERS;
+  const parsed = Number(rawValue);
+  if (!Number.isInteger(parsed) || parsed < 1) return DEFAULT_HYPERFRAMES_MAX_WORKERS;
+  return parsed;
+}
+
+// Patrones reales de interés para observabilidad mínima (2026-08-25) --
+// nunca se captura/loguea todo el stderr indiscriminadamente (ruido real
+// en producción); solo estas líneas, si aparecen, tanto en éxito como en
+// fallo (antes de esta fase, un render exitoso descartaba su stdout/
+// stderr por completo -- si 0x800700E8 aparecía en un render que igual
+// terminaba bien, era invisible).
+const PATRONES_OBSERVABILIDAD_RENDER = Object.freeze([
+  /0x800700E8/i, /ERROR_[A-Z_]+/, /NetworkService/, /Target closed/i, /\bpipe\b/i,
+]);
+
+/** Extrae señales reales filtradas (nunca el log completo) de un render ya terminado -- workerCount real usado, cuántos browsers reales se lanzaron, y cualquier línea real que matchee los patrones de interés. */
+export function extraerObservabilidadRenderReal({ stdout = '', stderr = '', durationMs = null } = {}) {
+  const combinado = `${stdout}\n${stderr}`;
+  const workerCountMatch = combinado.match(/"workerCount":\s*(\d+)/);
+  const browsersLaunchedMatch = combinado.match(/\[BrowserManager\] Browser launched/g);
+  const warnings = [];
+  for (const linea of combinado.split('\n')) {
+    if (PATRONES_OBSERVABILIDAD_RENDER.some((re) => re.test(linea))) warnings.push(linea.trim());
+  }
+  return Object.freeze({
+    workerCountUsed: workerCountMatch ? Number(workerCountMatch[1]) : null,
+    browsersLaunched: browsersLaunchedMatch ? browsersLaunchedMatch.length : 0,
+    durationMs,
+    warnings: Object.freeze(warnings),
+  });
+}
+
+/** Loguea (consola real, nunca un archivo nuevo -- esta fase es observabilidad mínima) la observabilidad real de un render, solo si hay algo real que reportar (workerCount conocido o al menos 1 warning real). */
+function logObservabilidadRenderReal(etiqueta, obs) {
+  if (obs.workerCountUsed === null && obs.warnings.length === 0) return;
+  console.log(`[hyperframes-observability] ${etiqueta}`, JSON.stringify(obs));
+}
+
 /**
  * Resuelve el entry point real de la CLI de hyperframes instalada como
  * dependencia local (node_modules/hyperframes/bin/hyperframes.mjs) e invoca
@@ -421,10 +493,13 @@ export function renderVisualProductionPackage({
   const outputPath = join(projectDir, '..', `${basename(projectDir)}.mp4`);
   const env = { ...process.env };
   if (ffmpegBinDir) env.PATH = `${ffmpegBinDir}${process.platform === 'win32' ? ';' : ':'}${env.PATH}`;
+  env.PRODUCER_MAX_WORKERS = String(resolveHyperframesMaxWorkers());
 
   const hyperframesCli = resolverHyperframesCli();
+  const inicioRenderMs = Date.now();
   const renderResult = correr(process.execPath, [hyperframesCli, 'render', '-f', String(RENDER_FPS), '-o', outputPath], { cwd: projectDir, env });
   limpiarProcesosHuerfanosChrome({ padrePids: [renderResult.pid] });
+  logObservabilidadRenderReal('renderVisualProductionPackage', extraerObservabilidadRenderReal({ stdout: renderResult.stdout, stderr: renderResult.stderr, durationMs: Date.now() - inicioRenderMs }));
   if (renderResult.status !== 0) {
     return {
       videoAssetId, visualProductionPackageId, productionArtifactId, audioAssetId,
@@ -638,10 +713,13 @@ export function renderScene({
   const outputPath = join(projectDir, '..', `${basename(projectDir)}.mp4`);
   const env = { ...process.env };
   if (ffmpegBinDir) env.PATH = `${ffmpegBinDir}${process.platform === 'win32' ? ';' : ':'}${env.PATH}`;
+  env.PRODUCER_MAX_WORKERS = String(resolveHyperframesMaxWorkers());
 
   const hyperframesCli = resolverHyperframesCli();
+  const inicioRenderMs = Date.now();
   const renderResult = correr(process.execPath, [hyperframesCli, 'render', '-f', String(RENDER_FPS), '-o', outputPath], { cwd: projectDir, env });
   limpiarProcesosHuerfanosChrome({ padrePids: [renderResult.pid] });
+  logObservabilidadRenderReal('renderScene', extraerObservabilidadRenderReal({ stdout: renderResult.stdout, stderr: renderResult.stderr, durationMs: Date.now() - inicioRenderMs }));
   if (renderResult.status !== 0) {
     return { outputPath: null, status: 'ERROR_RENDER', error: renderResult.stderr || renderResult.stdout };
   }
