@@ -250,8 +250,28 @@ export function construirComposicionHtml({ hookText, productTitle, productBody, 
 `;
 }
 
+// windowsHide (Fix HyperFrames -- eliminar consolas/ventanas visibles de
+// render, 2026-08-26): TODO proceso real que Vida Divina lanza (hyperframes
+// CLI vía process.execPath, ffmpeg, ffprobe, powershell.exe/taskkill.exe
+// del cleanup de huérfanos) pasa por este ÚNICO punto real -- windowsHide
+// aquí cubre los 8 sitios de llamada reales (ver hyperframesRenderer.js/
+// projectRenderer.js/postProduction.js) sin tocar cada uno por separado.
+// windowsHide:true traduce directamente a CREATE_NO_WINDOW en la llamada
+// real de Windows a CreateProcess -- solo afecta si Windows asigna una
+// consola nueva y visible al proceso hijo real, NUNCA afecta stdout/stderr
+// (siguen capturados por pipe real vía `encoding: 'utf8'`, sin cambios) ni
+// el resultado real del proceso (status/output). No tiene efecto en
+// plataformas que no sean win32 (Node lo ignora ahí). No es Chrome mismo
+// (ver limpiarProcesosHuerfanosChrome más abajo -- Chrome real ya corre
+// headless con windowsHide:true propio, vía Puppeteer, confirmado en la
+// investigación previa) -- esto cubre el PADRE real (node.exe ejecutando
+// la CLI de HyperFrames) y los procesos auxiliares reales (ffmpeg/ffprobe/
+// powershell/taskkill) que si abren consola nueva, tampoco deben ser
+// visibles.
 export function correr(cmd, args, opts) {
-  const r = spawnSync(cmd, args, { encoding: 'utf8', shell: false, ...opts });
+  const r = spawnSync(cmd, args, {
+    encoding: 'utf8', shell: false, windowsHide: true, ...opts,
+  });
   return { status: r.status, stdout: r.stdout ?? '', stderr: r.stderr ?? '', pid: r.pid ?? null };
 }
 

@@ -53,8 +53,15 @@ export const UNSUPPORTED_LOCAL_OPERATIONS = Object.freeze({
   AI_VISUAL_ENHANCEMENT: 'Requeriría un modelo de upscaling/enhancement (ej. Real-ESRGAN) -- no instalado; hardware sin GPU dedicada relevante (ver auditoría de hardware de fases anteriores).',
 });
 
+// windowsHide (Fix HyperFrames -- eliminar consolas/ventanas visibles de
+// render, 2026-08-26): mismo criterio real que hyperframesRenderer.js#correr()
+// -- CREATE_NO_WINDOW real para los 2 sitios reales de esta postproducción
+// (MULTI_SCENE_CONCAT/MUSIC_REPLACEMENT/RESIZE_TO_PROFILE, todos vía
+// ffmpeg), sin afectar stdout/stderr capturados por pipe real.
 function correr(cmd, args, opts) {
-  const r = spawnSync(cmd, args, { encoding: 'utf8', shell: false, ...opts });
+  const r = spawnSync(cmd, args, {
+    encoding: 'utf8', shell: false, windowsHide: true, ...opts,
+  });
   return { status: r.status, stdout: r.stdout ?? '', stderr: r.stderr ?? '' };
 }
 
