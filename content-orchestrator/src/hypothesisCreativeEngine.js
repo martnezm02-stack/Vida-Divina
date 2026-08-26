@@ -84,6 +84,10 @@ export function extractGroundedFacts(productGroundedEvidence) {
   if (!productGroundedEvidence) throw new Error('extractGroundedFacts: "productGroundedEvidence" es obligatorio.');
   return Object.freeze({
     nombreComercial: productGroundedEvidence.nombreComercial,
+    // Nombre visible (UX cleanup, 2026-08-26): aditivo, nunca reemplaza
+    // nombreComercial (que sigue siendo el nombre técnico real usado para
+    // matching/correlación) -- ver productFactsLoader.js.
+    nombreVisible: productGroundedEvidence.nombreVisible ?? productGroundedEvidence.nombreComercial,
     problema: extractField(productGroundedEvidence, FIELD_PROBLEMA),
     beneficios: extractField(productGroundedEvidence, FIELD_BENEFICIOS),
     ingredientes: extractField(productGroundedEvidence, FIELD_INGREDIENTES),
@@ -404,7 +408,7 @@ export function buildHypothesisExperiment({
 
   return Object.freeze({
     status: 'HYPOTHESIS_EXPERIMENT_READY',
-    product: Object.freeze({ productId: productGroundedEvidence.productId, nombreComercial: facts.nombreComercial }),
+    product: Object.freeze({ productId: productGroundedEvidence.productId, nombreComercial: facts.nombreComercial, nombreVisible: facts.nombreVisible }),
     campaignIntent,
     experiment,
     variantsDetail: Object.freeze(variants.map((v) => Object.freeze({

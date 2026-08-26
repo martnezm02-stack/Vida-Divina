@@ -15,7 +15,7 @@ import { createReadStream, existsSync, statSync } from 'node:fs';
 import { extname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { sendJson, notFound, serverError } from './lib/http.js';
-import { handleProducts, handleProduct, handleAssets, handleCampaigns, handleOutputProfiles, handleOperations, handleAudioAssets, handlePreviewInfo } from './routes/library.js';
+import { handleProducts, handleProduct, handleAssets, handleDeleteAsset, handleCampaigns, handleOutputProfiles, handleOperations, handleAudioAssets, handlePreviewInfo } from './routes/library.js';
 import { handleCreate, handleEdit, handleAdapt, handleProposeCreative, handleSuggestHypothesisVariants, handleListHypothesisBatches, handleVideoScript, handleProposeCarousel, handleCreateCarousel, handlePublishTargets, handlePublish, handleProduceCreative } from './routes/generation.js';
 import { handleMedia } from './routes/media.js';
 import { handlePerformanceList, handlePerformanceAnalysis } from './routes/performance.js';
@@ -25,7 +25,7 @@ import { handleLearningList, handleLearningSummary, handleStrategyFeedbackList }
 import { handleStrategyDecisionsList, handleStrategyDecisionsSummary } from './routes/strategyDecisions.js';
 import { handleContentPlansList, handleContentPlanGet } from './routes/contentPlans.js';
 import { handleSystemStatus } from './routes/systemStatus.js';
-import { handleListMarketingCampaigns, handleCreateMarketingCampaign, handleGetMarketingCampaign } from './routes/marketingCampaigns.js';
+import { handleListMarketingCampaigns, handleCreateMarketingCampaign, handleGetMarketingCampaign, handleDeleteMarketingCampaign } from './routes/marketingCampaigns.js';
 import { handleListWhatsappConversations, handleGetWhatsappConversation, handleSendWhatsappMessage, handleWhatsappStatus } from './routes/whatsapp.js';
 import { handleGenerateContentPlan } from './routes/campaignPilot.js';
 import { handleGetAutoPublish, handleGetAutoPublishHistory, handleEnableAutoPublish, handleDisableAutoPublish } from './routes/autoPublish.js';
@@ -83,6 +83,7 @@ const server = http.createServer(async (req, res) => {
     const productMatch = pathname.match(/^\/api\/products\/([^/]+)$/);
     if (productMatch && req.method === 'GET') { await handleProduct(req, res, productMatch[1]); return; }
     if (pathname === '/api/assets' && req.method === 'GET') { await handleAssets(req, res); return; }
+    if (pathname === '/api/assets/delete' && req.method === 'POST') { await handleDeleteAsset(req, res); return; }
     if (pathname === '/api/campaigns' && req.method === 'GET') { await handleCampaigns(req, res); return; }
     if (pathname === '/api/output-profiles' && req.method === 'GET') { await handleOutputProfiles(req, res); return; }
     if (pathname === '/api/operations' && req.method === 'GET') { await handleOperations(req, res); return; }
@@ -176,6 +177,8 @@ const server = http.createServer(async (req, res) => {
     if (pathname === '/api/marketing-campaigns' && req.method === 'POST') { await handleCreateMarketingCampaign(req, res); return; }
     const marketingCampaignIdMatch = pathname.match(/^\/api\/marketing-campaigns\/([^/]+)$/);
     if (marketingCampaignIdMatch && req.method === 'GET') { await handleGetMarketingCampaign(req, res, marketingCampaignIdMatch[1]); return; }
+    const marketingCampaignDeleteMatch = pathname.match(/^\/api\/marketing-campaigns\/([^/]+)\/delete$/);
+    if (marketingCampaignDeleteMatch && req.method === 'POST') { await handleDeleteMarketingCampaign(req, res, marketingCampaignDeleteMatch[1]); return; }
 
     // WHATSAPP CONSOLE (Fase 15 -- reutiliza crm/ real + whatsapp-adapter/ real, nunca un segundo cliente)
     if (pathname === '/api/whatsapp/status' && req.method === 'GET') { await handleWhatsappStatus(req, res); return; }

@@ -27,7 +27,7 @@ export function resolveProductIdFromCanonicalId(productId) {
   if (!productId?.trim()) return null;
   try {
     const facts = loadProductFacts(productId);
-    return Object.freeze({ productId, nombreComercial: facts.nombreComercial, matchedOn: 'productId' });
+    return Object.freeze({ productId, nombreComercial: facts.nombreComercial, nombreVisible: facts.nombreVisible, matchedOn: 'productId' });
   } catch {
     return null; // sin hechos reales en docs/productos/ para este productId -- nunca se inventa.
   }
@@ -71,13 +71,13 @@ export function resolveProductIdFromText(userIntent) {
     const slugNormalizado = normalizar(slug);
 
     if (nombreNormalizado && textoNormalizado.includes(nombreNormalizado)) {
-      candidatos.push({ productId: slug, nombreComercial: facts.nombreComercial, matchedOn: nombreNormalizado, len: nombreNormalizado.length });
+      candidatos.push({ productId: slug, nombreComercial: facts.nombreComercial, nombreVisible: facts.nombreVisible, matchedOn: nombreNormalizado, len: nombreNormalizado.length });
     } else if (slugNormalizado && textoNormalizado.replace(/\s+/g, '').includes(slugNormalizado.replace(/\s+/g, ''))) {
-      candidatos.push({ productId: slug, nombreComercial: facts.nombreComercial, matchedOn: slugNormalizado, len: slugNormalizado.length });
+      candidatos.push({ productId: slug, nombreComercial: facts.nombreComercial, nombreVisible: facts.nombreVisible, matchedOn: slugNormalizado, len: slugNormalizado.length });
     }
   }
 
   if (candidatos.length === 0) return null;
   candidatos.sort((a, b) => b.len - a.len);
-  return Object.freeze({ productId: candidatos[0].productId, nombreComercial: candidatos[0].nombreComercial, matchedOn: candidatos[0].matchedOn });
+  return Object.freeze({ productId: candidatos[0].productId, nombreComercial: candidatos[0].nombreComercial, nombreVisible: candidatos[0].nombreVisible, matchedOn: candidatos[0].matchedOn });
 }

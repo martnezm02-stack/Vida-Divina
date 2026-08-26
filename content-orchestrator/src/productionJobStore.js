@@ -59,3 +59,10 @@ export function getProductionJob(productionJobId) {
   if (!fs.existsSync(filePath)) throw new Error(`getProductionJob: no existe ningún ProductionJob guardado con id "${productionJobId}".`);
   return JSON.parse(fs.readFileSync(filePath, 'utf8'));
 }
+
+/** Todos los ProductionJob reales guardados -- usado por la gestión de Assets (Dashboard) para comprobar si un archivo físico (masterPath/outputs) sigue referenciado antes de borrarlo. Nunca inventa uno. */
+export function listAllProductionJobs() {
+  ensureDir(PRODUCTION_JOBS_DIR);
+  const files = fs.readdirSync(PRODUCTION_JOBS_DIR).filter((f) => f.endsWith('.json'));
+  return Object.freeze(files.map((f) => JSON.parse(fs.readFileSync(jobPath(f.replace(/\.json$/, '')), 'utf8'))));
+}

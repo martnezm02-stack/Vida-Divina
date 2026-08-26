@@ -47,6 +47,7 @@ export async function handleGetMarketingCampaign(req, res, id) {
 
   const product = getProduct(campaign.productId);
   const productName = product?.nombreComercial ?? null;
+  const productNameVisible = product?.nombreVisible ?? productName;
 
   const rangeStart = new Date(campaign.startDate);
   const rangeEnd = new Date(new Date(campaign.endDate).getTime() + 24 * 60 * 60 * 1000); // fin de día real del endDate
@@ -74,7 +75,7 @@ export async function handleGetMarketingCampaign(req, res, id) {
     overview: {
       objective: campaign.objective,
       productId: campaign.productId,
-      productName,
+      productName: productNameVisible,
       platforms: [campaign.platform],
       planned: correlatedPlans.length,
       published, pending, failed,
@@ -82,6 +83,40 @@ export async function handleGetMarketingCampaign(req, res, id) {
       contentPlans: contentPlansWithStatus,
     },
   });
+}
+
+/**
+ * DELETE (POST /api/marketing-campaigns/:id/delete) — elimina una campaña
+ * real (2026-08-26). Bloquea si tiene contenido/publicaciones correlacionados
+ * (misma heurística real ya usada en el overview) -- nunca borra contenido
+ * compartido. Las campañas de prueba sin dependencias se eliminan sin más.
+ */
+export async function handleDeleteMarketingCampaign(req, res, id) {
+  const campaign = campaignStore.get(id);
+  if (!campaign) { notFound(res, `No existe ninguna campaña con id "${id}".`); return; }
+
+  const product = getProduct(campaign.productId);
+  const productName = product?.nombreComercial ?? null;
+  const rangeStart = new Date(campaign.startDate);
+  const rangeEnd = new Date(new Date(campaign.endDate).getTime() + 24 * 60 * 60 * 1000);
+  const allPlans = listContentPlans({ store: performanceLearningStore, platform: campaign.platform });
+  const correlatedPlans = allPlans.filter((p) => {
+    if (productName && p.product !== productName) return false;
+    const created = new Date(p.createdAt);
+    return created >= rangeStart && created < rangeEnd;
+  });
+
+  if (correlatedPlans.length > 0) {
+    sendJson(res, 409, {
+      deleted: false,
+      error: 'No se puede eliminar esta campaña porque tiene contenido asociado.',
+      contentPlanCount: correlatedPlans.length,
+    });
+    return;
+  }
+
+  campaignStore.del(id);
+  sendJson(res, 200, { deleted: true });
 }
 
 export { CAMPAIGN_PLATFORMS, CAMPAIGN_FREQUENCIES };

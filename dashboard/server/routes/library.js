@@ -4,10 +4,11 @@
 // módulos reales -- ninguno inventa datos.
 
 import { statSync } from 'node:fs';
-import { sendJson, notFound } from '../lib/http.js';
+import { sendJson, notFound, badRequest, readJsonBody } from '../lib/http.js';
 import { resolveSafeMediaPath, toMediaUrl } from '../lib/safePaths.js';
 import { listProductsWithAssets, getProduct } from '../lib/productCatalog.js';
 import { listCampaigns, listFinalOutputsWithLineage } from '../lib/productionLibrary.js';
+import { isDeletableFinalOutputPath, findAssetDependents, deleteFinalOutputAsset } from '../lib/assetDeletion.js';
 import { listExistingAudioAssets, isVoiceEngineReachable } from '../lib/voiceEngineClient.js';
 import { OUTPUT_PROFILES, OUTPUT_PROFILE_NAMES } from '../../../content-orchestrator/src/outputProfiles.js';
 import { SUPPORTED_OPERATIONS, SIMPLE_OPERATIONS, COMPLEX_OPERATIONS, UNSUPPORTED_LOCAL_OPERATIONS } from '../../../content-orchestrator/src/postProduction.js';
@@ -52,6 +53,38 @@ export async function handleAssets(req, res) {
     lineage: o.lineage,
   }));
   sendJson(res, 200, { rawAssets, finalOutputs });
+}
+
+/**
+ * DELETE (POST /api/assets/delete, body {sourcePath}) — eliminación REAL de
+ * un Final Output (2026-08-26): borra el archivo físico real y su propio
+ * registro de lineage, nunca solo lo oculta de la lista. Restringido a
+ * video-production/ (nunca RAW de assets/products/, que es catálogo real
+ * de producto, no un asset de prueba). Bloquea si algo real depende
+ * todavía del archivo (ProductionJob/EditableVideoProject/
+ * ScheduledPublication/otro asset derivado).
+ */
+export async function handleDeleteAsset(req, res) {
+  let body;
+  try { body = await readJsonBody(req); } catch (err) { badRequest(res, err.message); return; }
+  const { sourcePath } = body;
+  if (!sourcePath?.trim()) { badRequest(res, 'assets: "sourcePath" es obligatorio.'); return; }
+
+  const real = resolveSafeMediaPath(sourcePath);
+  if (!real) { notFound(res, 'Archivo no encontrado o fuera de las raíces permitidas.'); return; }
+  if (!isDeletableFinalOutputPath(real)) {
+    badRequest(res, 'assets: solo se pueden eliminar Final Outputs reales de video-production/ desde aquí -- las fotografías RAW del catálogo de producto no se eliminan por esta vía.');
+    return;
+  }
+
+  const dependiente = findAssetDependents(real);
+  if (dependiente) {
+    sendJson(res, 409, { deleted: false, error: 'No se puede eliminar este asset porque todavía está siendo utilizado.', usedBy: dependiente.reason });
+    return;
+  }
+
+  const resultado = deleteFinalOutputAsset(real);
+  sendJson(res, 200, resultado);
 }
 
 export async function handleCampaigns(req, res) {

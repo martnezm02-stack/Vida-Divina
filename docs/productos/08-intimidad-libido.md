@@ -15,6 +15,7 @@ Suplementos formulados específicamente para la libido masculina y femenina.
 ## Mars Capsules
 
 - **Nombre comercial:** Divina Mars Capsules
+- **Nombre visible:** Cápsulas Mars
 - **Categoría:** Intimidad y Libido (masculina)
 - **Objetivo principal:** Restaurar la energía y libido masculina ("restaurar el león que lleva dentro").
 - **Problema que ayuda a resolver:** Falta de libido en hombres.
@@ -31,6 +32,7 @@ Suplementos formulados específicamente para la libido masculina y femenina.
 ## Venus Capsules
 
 - **Nombre comercial:** Divina Venus Capsules
+- **Nombre visible:** Cápsulas Venus
 - **Categoría:** Intimidad y Libido (femenina)
 - **Objetivo principal:** Recuperar el libido normal y saludable de la mujer.
 - **Problema que ayuda a resolver:** Falta de deseo, intimidad incómoda, síntomas de menopausia, ciclo menstrual irregular.

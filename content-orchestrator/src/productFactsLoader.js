@@ -191,6 +191,13 @@ export function loadProductFacts(productSlug) {
     sourcePath: archivo,
     camposReales: Object.freeze(campos),
     nombreComercial: campos['Nombre comercial'] ?? null,
+    // Nombre visible (UX cleanup, 2026-08-26): nombre corto para
+    // usuario/UI/voiceover/hooks/CTA -- distinto del "Nombre comercial"
+    // (que se conserva intacto arriba, es el nombre técnico usado para
+    // matching/correlación real en todo el proyecto). Si el archivo real
+    // no documenta "Nombre visible", cae al nombre comercial existente
+    // (compatibilidad hacia atrás -- nunca null si hay nombre comercial).
+    nombreVisible: campos['Nombre visible'] ?? campos['Nombre comercial'] ?? null,
     problema: campos['Problema que ayuda a resolver'] ?? null,
     beneficios: campos['Beneficios'] ?? null,
     ingredientes: campos['Ingredientes principales'] ?? null,

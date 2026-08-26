@@ -3,6 +3,7 @@
 [⬅ Café Divina](./index.md) · [🏠 Índice general](../../productos.md)
 
 - **Nombre comercial:** Café Divina Sculpt Tongkat Ali
+- **Nombre visible:** Café Sculpt Tongkat Ali
 - **Categoría:** [Café Divina — Bebidas Funcionales](./index.md)
 - **Objetivo principal:** Combinar los beneficios de Tongkat Ali y Sculpt Black en una bebida para control de peso saludable.
 - **Problema que ayuda a resolver:** Baja libido, agudeza mental reducida y falta de fuerza muscular, junto con necesidad de control de peso.

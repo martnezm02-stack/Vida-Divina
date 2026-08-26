@@ -124,7 +124,7 @@ export async function buildCreativeProposal({ userIntent, productId = null, copy
       // correcto y honesto, comportamiento intacto de fases anteriores.
       return Object.freeze({
         status: 'MISSING_CREATIVE_MATCH', userIntent,
-        product: { productId: productMatch.productId, nombreComercial: productMatch.nombreComercial },
+        product: { productId: productMatch.productId, nombreComercial: productMatch.nombreComercial, nombreVisible: productMatch.nombreVisible },
         missingFields: ['creativeCell'],
         errors: [err.message],
         candidatesTried: err.candidatesTried,
@@ -167,7 +167,7 @@ export async function buildCreativeProposal({ userIntent, productId = null, copy
     status: 'PROPOSAL_READY',
     userIntent,
     objective,
-    product: Object.freeze({ productId: productMatch.productId, nombreComercial: resolution.productFacts.nombreComercial }),
+    product: Object.freeze({ productId: productMatch.productId, nombreComercial: resolution.productFacts.nombreComercial, nombreVisible: resolution.productFacts.nombreVisible }),
     audience: Object.freeze({ personaName: resolution.persona.name, lifeSituation: resolution.persona.lifeSituation ?? null }),
     pain: Object.freeze({ painPoint: resolution.pain.painPoint }),
     awarenessStage: resolution.productionBrief.header.awareness,

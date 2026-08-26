@@ -3,6 +3,7 @@
 [⬅ Café Divina](./index.md) · [🏠 Índice general](../../productos.md)
 
 - **Nombre comercial:** Café Divina Cappuccino Premium Coffee
+- **Nombre visible:** Café Divina Cappuccino
 - **Categoría:** [Café Divina — Bebidas Funcionales](./index.md)
 - **Objetivo principal:** Ofrecer una versión sublime del café con sabor cremoso instantáneo.
 - **Problema que ayuda a resolver:** Deseo de una alternativa saludable al cappuccino tradicional.

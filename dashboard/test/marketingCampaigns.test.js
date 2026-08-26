@@ -99,3 +99,22 @@ describe('GET /api/marketing-campaigns', () => {
     for (const p of body.overview.contentPlans) assert.ok(typeof p.effectiveStatus === 'string');
   });
 });
+
+// Eliminar campaña (UX cleanup, 2026-08-26): campañas de prueba sin
+// dependencias se eliminan sin más; campañas con contenido real
+// correlacionado se protegen contra el borrado accidental.
+describe('POST /api/marketing-campaigns/:id/delete', () => {
+  test('elimina una campaña real sin dependencias -- desaparece de la lista', async () => {
+    const created = await post('/api/marketing-campaigns', validCampaign);
+    const del = await post(`/api/marketing-campaigns/${created.body.id}/delete`, {});
+    assert.equal(del.status, 200);
+    assert.equal(del.body.deleted, true);
+    const list = await get('/api/marketing-campaigns');
+    assert.ok(!list.body.some((c) => c.id === created.body.id));
+  });
+
+  test('id inexistente -- 404 real', async () => {
+    const { status } = await post('/api/marketing-campaigns/00000000-0000-0000-0000-000000000000/delete', {});
+    assert.equal(status, 404);
+  });
+});

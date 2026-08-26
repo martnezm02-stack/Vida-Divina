@@ -76,6 +76,7 @@ export function buildProductGroundedEvidence(productId) {
   return Object.freeze({
     productId,
     nombreComercial: facts.nombreComercial,
+    nombreVisible: facts.nombreVisible ?? facts.nombreComercial,
     evidenceType: PRODUCT_EVIDENCE_TYPE,
     confidence: PRODUCT_GROUNDED_CONFIDENCE,
     sourceEvidence: Object.freeze(sourceEvidence),

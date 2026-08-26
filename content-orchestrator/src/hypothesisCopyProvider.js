@@ -109,6 +109,13 @@ export function generateVariantCopy({
   if (!painHookFragment?.trim()) throw new Error('generateVariantCopy: "painHookFragment" es obligatorio.');
   if (!facts?.nombreComercial?.trim()) throw new Error('generateVariantCopy: "facts.nombreComercial" es obligatorio.');
 
+  // Nombre visible (UX cleanup, 2026-08-26): el copy real (hook/cuerpo/CTA
+  // -- lo que el cliente lee/escucha) usa el nombre visible/comercial
+  // corto, nunca el nombre técnico completo del catálogo (ver
+  // productFactsLoader.js#nombreVisible) -- facts.nombreComercial sigue
+  // intacto para matching/trazabilidad en el resto del sistema.
+  const displayName = facts.nombreVisible?.trim() || facts.nombreComercial;
+
   // Fragmento corto para el HOOK (solo ingredientes, nunca la frase
   // combinada de buildMechanismStatement) -- un hook debe ser breve; el
   // mecanismo completo va en la sección "mechanism" del cuerpo.
@@ -117,16 +124,16 @@ export function generateVariantCopy({
   const hook = renderHook(blueprint.hook, {
     painFragment: painHookFragment,
     mechanismFragment: shortMechanismFragment,
-    nombreComercial: facts.nombreComercial,
+    nombreComercial: displayName,
     territoryFragment: campaignIntent?.campaignTerritory ?? null,
   });
-  const cta = buildCta(blueprint.ctaStrategy, facts.nombreComercial);
+  const cta = buildCta(blueprint.ctaStrategy, displayName);
   const tone = deriveToneLabel(blueprint.copyStyle);
 
   const structure = copyStructureFor(blueprint.awareness);
   const sectionResults = structure
     .filter((section) => section !== 'hook' && section !== 'cta')
-    .map((section) => buildSection(section, blueprint.copyStyle, facts, facts.nombreComercial))
+    .map((section) => buildSection(section, blueprint.copyStyle, facts, displayName))
     .filter(Boolean);
 
   // Bridge de campaña SOLO si esta estructura real omite "problem" Y el

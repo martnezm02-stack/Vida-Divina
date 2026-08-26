@@ -70,7 +70,7 @@ export class DeterministicCopyProvider extends CopyGenerationProvider {
     else missingFields.push('script');
 
     if (esCampoEstablecido(productFacts?.beneficios)) {
-      scriptLineas.push(`En Vida Divina, ${productFacts.nombreComercial ?? 'este producto'}: ${productFacts.beneficios}`);
+      scriptLineas.push(`En Vida Divina, ${productFacts.nombreVisible ?? productFacts.nombreComercial ?? 'este producto'}: ${productFacts.beneficios}`);
     } else {
       missingFields.push('productFacts.beneficios');
     }

@@ -3,6 +3,7 @@
 [⬅ Café Divina](./index.md) · [🏠 Índice general](../../productos.md)
 
 - **Nombre comercial:** Café Divina Tongkat Ali
+- **Nombre visible:** Café Tongkat Ali
 - **Categoría:** [Café Divina — Bebidas Funcionales](./index.md)
 - **Objetivo principal:** Ayudar a mantener una libido saludable normal mediante una mezcla exótica de café.
 - **Problema que ayuda a resolver:** Libido baja o irregular.

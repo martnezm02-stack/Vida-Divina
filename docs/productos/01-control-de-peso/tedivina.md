@@ -5,6 +5,7 @@
 *Producto #1 en ventas de Vida Divina*
 
 - **Nombre comercial:** TéDivina
+- **Nombre visible:** Té Divina
 - **Categoría:** [Control de Peso](./index.md)
 - **Objetivo principal:** Limpiar mente y cuerpo como base para iniciar un estilo de vida saludable.
 - **Problema que ayuda a resolver:** Necesidad de desintoxicación corporal antes de comenzar un programa de pérdida de peso; tránsito intestinal lento.

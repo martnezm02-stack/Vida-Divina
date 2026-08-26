@@ -3,6 +3,7 @@
 [⬅ Extractos de Hongos Medicinales](./index.md) · [🏠 Índice general](../../productos.md)
 
 - **Nombre comercial:** Divina Extracto de Tremella (Tremella fuciformis) — Pure Extract Powder
+- **Nombre visible:** Extracto de Tremella
 - **Categoría:** [Extractos Puros de Hongos Medicinales](./index.md)
 - **Objetivo principal:** Ayudar a mantener un sistema inmunológico saludable y embellecer la piel.
 - **Problema que ayuda a resolver:** Piel poco hidratada; sistema inmune débil.

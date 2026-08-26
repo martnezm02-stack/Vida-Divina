@@ -37,6 +37,20 @@ describe('loadProductFacts — secciones ancladas reales (archivos multi-product
     assert.equal(loadProductFacts('tongkat-ali-cafe').nombreComercial, 'Café Divina Tongkat Ali');
   });
 
+  // Nombre visible (UX cleanup, 2026-08-26): campo aditivo, nunca reemplaza
+  // nombreComercial (nombre técnico, conservado para compatibilidad).
+  test('nombreVisible: TéDivina documenta "Nombre visible" explícito ("Té Divina"), distinto del nombre técnico', () => {
+    const facts = loadProductFacts('te-divina');
+    assert.equal(facts.nombreComercial, 'TéDivina');
+    assert.equal(facts.nombreVisible, 'Té Divina');
+  });
+
+  test('nombreVisible: un producto real SIN "Nombre visible" documentado cae al nombre comercial existente (regla 25, backward compatible, nunca null)', () => {
+    const facts = loadProductFacts('cx90');
+    assert.equal(facts.nombreComercial, 'Divina CX/90');
+    assert.equal(facts.nombreVisible, facts.nombreComercial);
+  });
+
   test('listAllProductSlugs incluye mars-capsules y venus-capsules como slugs reales independientes', () => {
     const slugs = listAllProductSlugs();
     assert.ok(slugs.includes('mars-capsules'));

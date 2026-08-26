@@ -18,17 +18,20 @@
     <nav class="topnav" id="topnav">
       <button class="navbtn active" data-view="home">Inicio</button>
       <button class="navbtn" data-view="autocreate">Crear autónomo</button>
-      <button class="navbtn" data-view="create">Crear</button>
-      <button class="navbtn" data-view="editor">Editor de Video</button>
+      <button class="navbtn" data-view="create">Crear contenido</button>
       <button class="navbtn" data-view="carousel">Carrusel</button>
-      <button class="navbtn" data-view="edit">Editar</button>
-      <button class="navbtn" data-view="adapt">Adaptar</button>
+      <button class="navbtn" data-view="editor">Editar video</button>
+      <button class="navbtn" data-view="adapt">Adaptar contenido</button>
       <button class="navbtn" data-view="assets">Assets</button>
       <button class="navbtn" data-view="products">Productos</button>
       <button class="navbtn" data-view="campaigns">Campañas</button>
       <button class="navbtn" data-view="calendar">Calendario</button>
       <button class="navbtn" data-view="review">Revisión</button>
       <button class="navbtn" data-view="whatsapp">WhatsApp</button>
+      <button class="navbtn navbtn-toggle-advanced" id="nav-toggle-advanced" type="button">Avanzado ▾</button>
+    </nav>
+    <nav class="topnav topnav-advanced hidden" id="topnav-advanced">
+      <button class="navbtn" data-view="edit">Editar (operaciones)</button>
       <button class="navbtn" data-view="performance">Performance</button>
       <button class="navbtn" data-view="attribution">Attribution</button>
       <button class="navbtn" data-view="intelligence">Marketing Intelligence</button>
@@ -87,8 +90,8 @@
         <form class="panel form-panel" id="create-form">
           <label>Modo
             <select name="mode" id="create-mode">
-              <option value="CAMPAIGN">Campaign Mode (resuelve el CreativeCell automáticamente)</option>
-              <option value="DIRECT">Direct Instruction Mode</option>
+              <option value="CAMPAIGN">Modo campaña (resuelve la estrategia automáticamente)</option>
+              <option value="DIRECT">Modo instrucción directa</option>
             </select>
           </label>
           <label>Producto
@@ -125,7 +128,7 @@
             <select name="audioAssetPath" id="create-audio-existing"></select>
           </label>
           <fieldset>
-            <legend>Output Profiles</legend>
+            <legend>Formatos de salida</legend>
             <div id="create-profiles" class="checkbox-grid"></div>
           </fieldset>
           <fieldset id="create-campaign-brief">
@@ -136,19 +139,19 @@
             <label>Resultado deseado <input type="text" id="campaign-desired-outcome" placeholder="ej. contactar por WhatsApp" /></label>
             <label>Objetivo
               <select id="campaign-objective">
-                <option value="awareness">Awareness</option>
-                <option value="engagement">Engagement</option>
-                <option value="conversion">Conversion</option>
-                <option value="launch">Launch</option>
+                <option value="awareness">Reconocimiento</option>
+                <option value="engagement">Interacción</option>
+                <option value="conversion">Conversión</option>
+                <option value="launch">Lanzamiento</option>
               </select>
             </label>
             <label>Etapa de conciencia
               <select id="campaign-awareness-stage">
-                <option value="Unaware">Unaware</option>
-                <option value="Problem Aware" selected>Problem Aware</option>
-                <option value="Solution Aware">Solution Aware</option>
-                <option value="Product Aware">Product Aware</option>
-                <option value="Most Aware">Most Aware</option>
+                <option value="Unaware">No consciente del problema</option>
+                <option value="Problem Aware" selected>Consciente del problema</option>
+                <option value="Solution Aware">Consciente de la solución</option>
+                <option value="Product Aware">Consciente del producto</option>
+                <option value="Most Aware">Listo para comprar</option>
               </select>
             </label>
           </fieldset>
@@ -299,7 +302,7 @@
             <select name="sourceAssetPath" id="adapt-source"></select>
           </label>
           <fieldset>
-            <legend>Output Profiles</legend>
+            <legend>Formatos de salida</legend>
             <div id="adapt-profiles" class="checkbox-grid"></div>
           </fieldset>
           <button type="submit" class="btn-primary">ADAPTAR</button>
@@ -313,15 +316,15 @@
     <!-- ASSETS (Content Library, Fase 14 Parte 19) -->
     <section class="view hidden" id="view-assets">
       <h2>Biblioteca de assets</h2>
-      <p class="view-sub">Los RAW son intocables — no se pueden editar ni sobrescribir desde aquí. Producto y Campaña: pendiente -- el modelo real de Final Outputs todavía no lleva esa atribución por asset.</p>
+      <p class="view-sub">Contenido listo para usar. Las fotografías de catálogo (RAW) no se pueden editar ni eliminar desde aquí.</p>
       <div class="filters-row" style="display:flex;gap:16px;flex-wrap:wrap;margin-bottom:16px;">
         <label style="font-size:12px;font-weight:600;color:var(--olive);">Estado
           <select id="assets-status-filter">
+            <option value="FINAL" selected>Finales aprobados</option>
+            <option value="EDITED">En edición</option>
+            <option value="GENERATED">Generados</option>
+            <option value="RAW">Fotografías de catálogo (RAW)</option>
             <option value="">Todos</option>
-            <option value="RAW">RAW</option>
-            <option value="GENERATED">GENERATED</option>
-            <option value="EDITED">EDITED</option>
-            <option value="FINAL">FINAL</option>
           </select>
         </label>
         <label style="font-size:12px;font-weight:600;color:var(--olive);">Formato (Output Profile)
@@ -351,11 +354,11 @@
           </label>
           <label>Objetivo
             <select name="objective" required>
-              <option value="INSTAGRAM_ENGAGEMENT">INSTAGRAM_ENGAGEMENT</option>
-              <option value="WHATSAPP_CONVERSATIONS">WHATSAPP_CONVERSATIONS</option>
-              <option value="BRAND_AWARENESS">BRAND_AWARENESS</option>
-              <option value="LEAD_GENERATION">LEAD_GENERATION</option>
-              <option value="SALES">SALES</option>
+              <option value="INSTAGRAM_ENGAGEMENT">Interacción en Instagram</option>
+              <option value="WHATSAPP_CONVERSATIONS">Conversaciones por WhatsApp</option>
+              <option value="BRAND_AWARENESS">Reconocimiento de marca</option>
+              <option value="LEAD_GENERATION">Generación de prospectos</option>
+              <option value="SALES">Ventas</option>
             </select>
           </label>
           <label>Producto
@@ -380,17 +383,17 @@
           </label>
           <label>Frecuencia
             <select name="frequency" required>
-              <option value="DAILY">DAILY</option>
-              <option value="EVERY_2_DAYS">EVERY_2_DAYS</option>
-              <option value="WEEKLY" selected>WEEKLY</option>
-              <option value="BIWEEKLY">BIWEEKLY</option>
+              <option value="DAILY">Diaria</option>
+              <option value="EVERY_2_DAYS">Cada 2 días</option>
+              <option value="WEEKLY" selected>Semanal</option>
+              <option value="BIWEEKLY">Quincenal</option>
             </select>
           </label>
-          <label>Execution Mode
+          <label>Modo de ejecución
             <select name="executionMode">
-              <option value="PREPARE_ONLY" selected>PREPARE_ONLY</option>
-              <option value="HUMAN_REVIEW">HUMAN_REVIEW</option>
-              <option value="AUTO_PUBLISH">AUTO_PUBLISH</option>
+              <option value="PREPARE_ONLY" selected>Solo preparar</option>
+              <option value="HUMAN_REVIEW">Revisión humana</option>
+              <option value="AUTO_PUBLISH">Publicación automática</option>
             </select>
           </label>
           <button type="submit" class="btn-primary">CREAR CAMPAÑA</button>
@@ -409,8 +412,8 @@
 
     <!-- CALENDARIO (Media Hosting + Publishing Scheduler) -->
     <section class="view hidden" id="view-calendar">
-      <h2>Calendario</h2>
-      <p class="view-sub" id="calendar-hosting-status">Verificando Media Hosting…</p>
+      <h2>Calendario de publicaciones</h2>
+      <p class="view-sub" id="calendar-hosting-status">Verificando…</p>
       <button class="btn-secondary" id="calendar-run-now">VERIFICAR PUBLICACIONES VENCIDAS AHORA</button>
       <div id="calendar-list" class="asset-grid"><p class="placeholder">Cargando…</p></div>
     </section>
@@ -643,9 +646,10 @@
 
   <div class="modal hidden" id="preview-modal">
     <div class="modal-content">
-      <button class="modal-close" id="preview-close">✕</button>
+      <button class="modal-close" id="preview-close" title="Cerrar vista previa (Esc)">✕</button>
       <video id="preview-video" controls></video>
       <div id="preview-meta"></div>
+      <button type="button" class="btn-secondary" id="preview-close-label">Cerrar vista previa</button>
     </div>
   </div>
 
@@ -719,7 +723,7 @@
   <div class="modal hidden" id="campaign-overview-modal">
     <div class="modal-content modal-wide">
       <button class="modal-close" id="campaign-overview-close">✕</button>
-      <h3>Campaign Overview</h3>
+      <h3>Resumen de campaña</h3>
       <div id="campaign-overview-body"><p class="placeholder">Cargando…</p></div>
     </div>
   </div>

@@ -52,3 +52,10 @@ export function listProjectsForCreative(creativeId) {
       .filter((p) => p.creativeId === creativeId),
   );
 }
+
+/** Todos los proyectos editables reales guardados, sin filtrar por creativeId -- usado por la gestión de Assets (Dashboard) para comprobar si un archivo físico sigue en uso antes de borrarlo. Nunca inventa un proyecto. */
+export function listAllProjects() {
+  ensureDir(EDITABLE_PROJECTS_DIR);
+  const files = fs.readdirSync(EDITABLE_PROJECTS_DIR).filter((f) => f.endsWith('.json'));
+  return Object.freeze(files.map((f) => JSON.parse(fs.readFileSync(path.join(EDITABLE_PROJECTS_DIR, f), 'utf8'))));
+}

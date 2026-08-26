@@ -58,6 +58,13 @@ body {
 }
 .navbtn:hover { background: rgba(230, 223, 208, 0.1); }
 .navbtn.active { background: var(--gold); color: var(--forest); font-weight: 600; }
+.navbtn-toggle-advanced { border-color: rgba(230, 223, 208, 0.35); }
+.topnav-advanced {
+  width: 100%;
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(230, 223, 208, 0.2);
+}
 
 /* ---------- Layout ---------- */
 main#app { max-width: 1180px; margin: 0 auto; padding: 40px 32px 80px; }

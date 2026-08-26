@@ -184,8 +184,12 @@ describe('buildHypothesisExperiment — Té Divina (regresión de Fase 16)', () 
     const result = buildHypothesisExperiment({ productGroundedEvidence: evidence });
     assert.equal(result.status, 'HYPOTHESIS_EXPERIMENT_READY');
     assert.equal(result.product.nombreComercial, 'TéDivina');
+    // Nombre visible (UX cleanup, 2026-08-26): el copy real (lo que el
+    // cliente lee) usa el nombre visible corto "Té Divina", nunca el
+    // nombre técnico completo del catálogo -- ver productos/tedivina.md.
+    assert.equal(result.product.nombreVisible, 'Té Divina');
     for (const v of result.variantsDetail) {
-      assert.match(v.copy.primaryText, /TéDivina/);
+      assert.match(v.copy.primaryText, /Té Divina/);
       assert.equal(v.qualityGate.passed, true);
     }
   });

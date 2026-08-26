@@ -81,6 +81,7 @@ export function listProductsWithAssets() {
       productSlug: slug,
       factsAvailable,
       nombreComercial: facts?.nombreComercial ?? null,
+      nombreVisible: facts?.nombreVisible ?? facts?.nombreComercial ?? null,
       problema: facts?.problema ?? null,
       beneficios: facts?.beneficios ?? null,
       ingredientes: facts?.ingredientes ?? null,

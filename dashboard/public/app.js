@@ -6,10 +6,22 @@
 const $ = (sel, root = document) => root.querySelector(sel);
 const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
 
+// Etiquetas en español para valores técnicos que el backend expone en
+// inglés/mayúsculas (IDs internos, sin tocar) pero que sí se muestran al
+// usuario -- nunca se traduce el valor enviado a la API, solo el texto
+// visible. Ver CLAUDE.md/UX cleanup 2026-08-26.
+const OBJECTIVE_LABELS = {
+  INSTAGRAM_ENGAGEMENT: 'Interacción en Instagram', WHATSAPP_CONVERSATIONS: 'Conversaciones por WhatsApp',
+  BRAND_AWARENESS: 'Reconocimiento de marca', LEAD_GENERATION: 'Generación de prospectos', SALES: 'Ventas',
+};
+const FREQUENCY_LABELS = { DAILY: 'Diaria', EVERY_2_DAYS: 'Cada 2 días', WEEKLY: 'Semanal', BIWEEKLY: 'Quincenal' };
+const EXECUTION_MODE_LABELS = { PREPARE_ONLY: 'Solo preparar', HUMAN_REVIEW: 'Revisión humana', AUTO_PUBLISH: 'Publicación automática' };
+const label = (dict, value) => dict[value] ?? value;
+
 async function api(path, options) {
   const res = await fetch(path, options);
   const data = await res.json().catch(() => ({ error: 'Respuesta no válida del servidor.' }));
-  if (!res.ok) throw new Error(data.error ?? `Error ${res.status}`);
+  if (!res.ok) throw Object.assign(new Error(data.error ?? `Error ${res.status}`), data);
   return data;
 }
 
@@ -34,8 +46,14 @@ function goto(view) {
   if (view === 'autocreate') initAutocreateProductSelect();
   if (view === 'review') loadReviewQueue();
   if (view === 'whatsapp') { loadWhatsappStatus(); loadWhatsappInbox(); }
+  // Si se navega directo a una vista "Avanzado" (ej. desde un botón de
+  // otra pantalla), la sección avanzada se despliega para que el usuario
+  // vea cuál botón quedó activo -- nunca queda una pestaña activa oculta.
+  const advancedBtn = $(`#topnav-advanced .navbtn[data-view="${view}"]`);
+  if (advancedBtn) $('#topnav-advanced').classList.remove('hidden');
 }
-$$('.navbtn').forEach((b) => b.addEventListener('click', () => goto(b.dataset.view)));
+$$('.navbtn[data-view]').forEach((b) => b.addEventListener('click', () => goto(b.dataset.view)));
+$('#nav-toggle-advanced')?.addEventListener('click', () => $('#topnav-advanced').classList.toggle('hidden'));
 $$('[data-goto]').forEach((b) => b.addEventListener('click', () => goto(b.dataset.goto)));
 
 // ---------------- Estado del motor (home) ----------------
@@ -90,7 +108,7 @@ let productsCache = [];
 async function initCreateForm() {
   productsCache = await api('/api/products');
   const productSel = $('#create-product');
-  productSel.innerHTML = productsCache.map((p) => `<option value="${p.productSlug}">${p.nombreComercial ?? p.productSlug}${p.factsAvailable ? '' : ' (sin catálogo real)'}</option>`).join('');
+  productSel.innerHTML = productsCache.map((p) => `<option value="${p.productSlug}">${p.nombreVisible ?? p.productSlug}${p.factsAvailable ? '' : ' (sin catálogo real)'}</option>`).join('');
   updateCreateImages();
   productSel.addEventListener('change', updateCreateImages);
   $('#create-image').addEventListener('change', updateCreateProductBodyVisibility);
@@ -424,6 +442,24 @@ if (createSuggestBtn) {
 }
 
 // ---------------- EDIT ----------------
+// Traducción + explicación corta de cada operación real de postproducción
+// (UX cleanup 2026-08-26) -- IDs técnicos (SIMPLE_OPERATIONS/
+// COMPLEX_OPERATIONS de content-orchestrator/src/postProduction.js) nunca
+// se muestran al usuario. Las operaciones no implementadas
+// (UNSUPPORTED_LOCAL_OPERATIONS) simplemente no se renderizan.
+const OPERATION_LABELS = {
+  LOUDNESS_NORMALIZATION: { label: 'Normalización de volumen', description: 'Equilibra el volumen del audio para que se escuche de forma uniforme.' },
+  TRIM: { label: 'Recortar video', description: 'Elimina una parte del inicio o final del video.' },
+  AUDIO_CLEANUP: { label: 'Limpieza de audio', description: 'Reduce ruido o elementos no deseados del audio.' },
+  LOGO_OVERLAY: { label: 'Agregar logotipo', description: 'Coloca el logotipo de la marca sobre el video.' },
+  INTRO_OUTRO: { label: 'Agregar intro y cierre', description: 'Agrega un clip de introducción y/o cierre al video.' },
+  RESIZE_TO_PROFILE: { label: 'Cambiar formato', description: 'Adapta el video a otro formato de publicación.' },
+  SILENCE_TRIM: { label: 'Recortar silencios', description: 'Elimina silencios innecesarios del audio.' },
+  TEXT_OVERLAY: { label: 'Texto en pantalla', description: 'Agrega o modifica texto que aparece sobre el video.' },
+  MUSIC_REPLACEMENT: { label: 'Cambiar música', description: 'Sustituye la música de fondo.' },
+  MULTI_SCENE_CONCAT: { label: 'Unir escenas', description: 'Combina varias escenas en un solo video.' },
+};
+
 async function loadEditSources() {
   const { rawAssets, finalOutputs } = await api('/api/assets');
   const videos = finalOutputs;
@@ -431,9 +467,12 @@ async function loadEditSources() {
 
   const ops = await api('/api/operations');
   const opsEl = $('#edit-operations');
-  const soportadas = ops.supported.map((op) => `<label><input type="checkbox" name="op" value="${op}"/> ${op}</label>`).join('');
-  const noSoportadas = ops.unsupported.map((u) => `<label class="unsupported" title="${u.reason}"><input type="checkbox" disabled/> ${u.operation} (no disponible)</label>`).join('');
-  opsEl.innerHTML = soportadas + noSoportadas;
+  // Rule 19: solo se renderizan las operaciones realmente soportadas --
+  // las de ops.unsupported nunca aparecen en la UI (ni siquiera deshabilitadas).
+  opsEl.innerHTML = ops.supported.map((op) => {
+    const info = OPERATION_LABELS[op] ?? { label: op, description: '' };
+    return `<label title="${info.description}"><input type="checkbox" name="op" value="${op}"/> ${info.label}</label>`;
+  }).join('');
 
   opsEl.addEventListener('change', () => {
     $('#edit-text-overlay-wrap').classList.toggle('hidden', !$$('input[name="op"]:checked', opsEl).some((c) => c.value === 'TEXT_OVERLAY'));
@@ -614,10 +653,24 @@ async function openPreview(mediaUrl, sourcePath = null) {
     $('#preview-meta').textContent = '';
   }
 }
-$('#preview-close').addEventListener('click', () => {
+function closePreview() {
   $('#preview-modal').classList.add('hidden');
   $('#preview-video').pause();
   $('#preview-video').src = '';
+}
+$('#preview-close').addEventListener('click', closePreview);
+$('#preview-close-label').addEventListener('click', closePreview);
+
+// Preview siempre cerrable: al terminar el video, NO se cierra solo -- el
+// usuario siempre tiene "Cerrar vista previa" visible y ESC disponible.
+// ESC cierra cualquier modal visible de la app (mismo componente reutilizado
+// en Crear/Editar/Adaptar/Assets/Revisión/etc.), no solo el preview.
+document.addEventListener('keydown', (e) => {
+  if (e.key !== 'Escape') return;
+  const modalAbierto = $$('.modal:not(.hidden)')[0];
+  if (!modalAbierto) return;
+  if (modalAbierto.id === 'preview-modal') { closePreview(); return; }
+  modalAbierto.classList.add('hidden');
 });
 
 // ---------------- ASSETS (Content Library, Fase 14 Parte 19) ----------------
@@ -633,17 +686,43 @@ function rawAssetCard(a) {
     </div>
   </div>`;
 }
+const ASSET_CATEGORY_LABELS = { FINAL: 'Final aprobado', EDITED: 'En edición', GENERATED: 'Generado', RAW: 'RAW' };
+
 function outputAssetCard(o) {
   const category = o.lineage ? (o.lineage.operation?.startsWith('ADAPT') ? 'FINAL' : o.lineage.operation?.startsWith('EDIT') ? 'EDITED' : 'GENERATED') : 'FINAL';
-  return `<div class="asset-card" data-status="${category}" data-format="${o.lineage?.outputProfileName ?? ''}" data-modified="${o.modifiedAt}">
+  return `<div class="asset-card" data-status="${category}" data-format="${o.lineage?.outputProfileName ?? ''}" data-modified="${o.modifiedAt}" data-source-path="${o.sourcePath}">
     <div class="body">
       <div class="filename">${o.filename}</div>
-      <span class="tag ${category}">${category}</span>
+      <span class="tag ${category}">${ASSET_CATEGORY_LABELS[category] ?? category}</span>
       ${o.lineage?.outputProfileName ? `<span class="tag" style="background:var(--cream-3);color:var(--soft-black);">${o.lineage.outputProfileName}</span>` : ''}
       <div class="meta" style="font-size:11px;color:#6b654f;margin-top:4px;">${(o.fileSizeBytes / 1024 / 1024).toFixed(1)} MB · ${new Date(o.modifiedAt).toLocaleString()}</div>
-      ${o.mediaUrl ? `<button class="btn-secondary" data-preview="${o.mediaUrl}" data-preview-source="${o.sourcePath}">VER</button>` : ''}
+      <div style="margin-top:6px;display:flex;gap:6px;flex-wrap:wrap;">
+        ${o.mediaUrl ? `<button class="btn-secondary" data-preview="${o.mediaUrl}" data-preview-source="${o.sourcePath}">VER</button>` : ''}
+        <button class="btn-secondary" data-action="delete-asset" data-final="${category === 'FINAL'}">Eliminar</button>
+      </div>
     </div>
   </div>`;
+}
+
+async function deleteAssetWithConfirmation(sourcePath, isFinal) {
+  const advertenciaFinal = isFinal ? '\n\nEste contenido está marcado como final/aprobado.' : '';
+  if (!confirm(`¿Eliminar este asset?${advertenciaFinal}\n\nEl archivo se eliminará permanentemente del almacenamiento local.`)) return;
+  try {
+    const result = await api('/api/assets/delete', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ sourcePath }) });
+    if (result.deleted) {
+      alert('Asset eliminado correctamente.');
+    } else {
+      alert(`No se pudo eliminar el asset: ${result.reason ?? 'motivo desconocido'}`);
+    }
+  } catch (err) {
+    if (err.usedBy) {
+      alert(`No se puede eliminar este asset porque todavía está siendo utilizado.\n\nUtilizado por: ${err.usedBy}`);
+    } else {
+      alert(`No se pudo eliminar el asset: ${err.message}`);
+    }
+  } finally {
+    loadAssets();
+  }
 }
 
 async function loadAssets() {
@@ -675,6 +754,10 @@ function renderAssetsList() {
 
   el.innerHTML = rawCards + outputCards || '<p class="empty-state">Sin assets para este filtro.</p>';
   $$('[data-preview]', el).forEach((b) => b.addEventListener('click', () => openPreview(b.dataset.preview, b.dataset.previewSource)));
+  $$('[data-action="delete-asset"]', el).forEach((b) => {
+    const card = b.closest('[data-source-path]');
+    b.addEventListener('click', () => deleteAssetWithConfirmation(card.dataset.sourcePath, b.dataset.final === 'true'));
+  });
 }
 $('#assets-status-filter')?.addEventListener('change', renderAssetsList);
 $('#assets-format-filter')?.addEventListener('change', renderAssetsList);
@@ -695,14 +778,14 @@ async function loadProducts() {
   // uso/estado comercial) -- ya existían en productFactsLoader.js/
   // productCatalog.js pero nunca llegaban a esta vista; NOT_AVAILABLE
   // explícito cuando la ficha real no documenta el campo (nunca se rellena).
-  const NOT_AVAILABLE = '<span style="font-style:italic;color:var(--burgundy);">NOT_AVAILABLE</span>';
+  const NOT_AVAILABLE = '<span style="font-style:italic;color:var(--burgundy);">No especificado</span>';
   const campo = (label, valor) => `<div style="font-size:12px;margin-top:4px;"><strong>${label}:</strong> ${valor ?? NOT_AVAILABLE}</div>`;
 
   el.innerHTML = products.map((p) => `
     <div class="product-card">
       ${p.rawAssets[0] ? `<img src="/media/assets-products/${encodeURIComponent(p.productSlug)}/raw/${encodeURIComponent(p.rawAssets[0].originalFilename)}" alt="${p.productSlug}" />` : ''}
       <div class="body">
-        <div class="product-name">${p.factsAvailable ? p.nombreComercial : `${p.productSlug} <span style="font-weight:400;font-style:italic;color:var(--burgundy);">(sin nombre comercial real)</span>`}</div>
+        <div class="product-name">${p.factsAvailable ? p.nombreVisible : `${p.productSlug} <span style="font-weight:400;font-style:italic;color:var(--burgundy);">(sin nombre comercial real)</span>`}</div>
         ${p.factsAvailable ? `
           ${p.estadoComercial && p.estadoComercial !== 'ACTIVO' ? `<div class="tag" style="background:#f2c94c;color:#3a2e00;display:inline-block;margin:4px 0;">${p.estadoComercial}</div>` : ''}
           <div class="problema">${p.problema ?? ''}</div>
@@ -744,7 +827,7 @@ async function initMarketingCampaignForm() {
   const sel = $('#mkt-campaign-product');
   if (!sel || sel.dataset.loaded) return;
   const products = productsCache.length ? productsCache : (productsCache = await api('/api/products'));
-  sel.innerHTML = products.map((p) => `<option value="${p.productSlug}">${p.nombreComercial ?? p.productSlug}</option>`).join('');
+  sel.innerHTML = products.map((p) => `<option value="${p.productSlug}">${p.nombreVisible ?? p.productSlug}</option>`).join('');
   sel.dataset.loaded = '1';
 }
 
@@ -775,10 +858,26 @@ $('#marketing-campaign-form')?.addEventListener('submit', async (e) => {
 function marketingCampaignCard(c) {
   return `<div class="campaign-card" data-mkt-campaign-id="${c.id}">
     <strong>${c.name}</strong>
-    <div style="font-size:12px;">${c.objective} · ${c.platform} · ${c.frequency} · Execution Mode: ${c.executionMode}</div>
+    <div style="font-size:12px;">${label(OBJECTIVE_LABELS, c.objective)} · ${c.platform} · ${label(FREQUENCY_LABELS, c.frequency)} · Modo de ejecución: ${label(EXECUTION_MODE_LABELS, c.executionMode)}</div>
     <div style="font-size:12px;color:#6b654f;">${c.startDate} → ${c.endDate} · objetivo: ${c.targetContentCount} contenidos</div>
-    <button class="btn-secondary" data-action="overview">VER CAMPAIGN OVERVIEW</button>
+    <div style="margin-top:6px;display:flex;gap:6px;flex-wrap:wrap;">
+      <button class="btn-secondary" data-action="overview">VER RESUMEN DE CAMPAÑA</button>
+      <button class="btn-secondary" data-action="delete">Eliminar campaña</button>
+    </div>
   </div>`;
+}
+async function deleteMarketingCampaignWithConfirmation(id) {
+  if (!confirm('¿Eliminar esta campaña?')) return;
+  try {
+    await api(`/api/marketing-campaigns/${id}/delete`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: '{}' });
+    loadMarketingCampaigns();
+  } catch (err) {
+    if (err.contentPlanCount) {
+      alert(`No se puede eliminar esta campaña porque tiene ${err.contentPlanCount} contenido(s) asociado(s).`);
+    } else {
+      alert(`No se pudo eliminar la campaña: ${err.message}`);
+    }
+  }
 }
 async function loadMarketingCampaigns() {
   const el = $('#marketing-campaigns-list');
@@ -787,6 +886,7 @@ async function loadMarketingCampaigns() {
   el.innerHTML = campaigns.length ? campaigns.map(marketingCampaignCard).join('') : '<p class="empty-state">Sin campañas creadas todavía.</p>';
   $$('[data-mkt-campaign-id]', el).forEach((card) => {
     card.querySelector('[data-action="overview"]')?.addEventListener('click', () => openCampaignOverview(card.dataset.mktCampaignId));
+    card.querySelector('[data-action="delete"]')?.addEventListener('click', () => deleteMarketingCampaignWithConfirmation(card.dataset.mktCampaignId));
   });
 }
 
@@ -800,11 +900,11 @@ async function openCampaignOverview(id) {
     body.innerHTML = `
       <div class="pubdetail-grid">
         <div><strong>Nombre</strong>${campaign.name}</div>
-        <div><strong>Objetivo</strong>${overview.objective}</div>
+        <div><strong>Objetivo</strong>${label(OBJECTIVE_LABELS, overview.objective)}</div>
         <div><strong>Producto</strong>${overview.productName ?? campaign.productId}</div>
-        <div><strong>Plataformas</strong>${overview.platforms.join(', ')}</div>
-        <div><strong>Rango</strong>${campaign.startDate} → ${campaign.endDate}</div>
-        <div><strong>Execution Mode</strong>${campaign.executionMode}</div>
+        <div><strong>Plataforma</strong>${overview.platforms.join(', ')}</div>
+        <div><strong>Periodo</strong>${campaign.startDate} → ${campaign.endDate}</div>
+        <div><strong>Modo de ejecución</strong>${label(EXECUTION_MODE_LABELS, campaign.executionMode)}</div>
       </div>
       <div class="pubdetail-grid">
         <div><strong>Planificados</strong>${overview.planned}</div>
@@ -812,10 +912,10 @@ async function openCampaignOverview(id) {
         <div><strong>Pendientes</strong>${overview.pending}</div>
         <div><strong>Fallidos</strong>${overview.failed}</div>
       </div>
-      <p style="font-size:11px;color:#9c9683;">${overview.correlationMethod}</p>
-      ${overview.planned === 0 ? '<p class="empty-state">Sin ContentPlan real correlacionado todavía para este producto/plataforma/rango de fechas.</p>' : ''}
-      <h4 style="margin:16px 0 4px;">Content Plans de esta campaña</h4>
+      ${overview.planned === 0 ? '<p class="empty-state">Sin contenido asociado todavía para este producto/plataforma/rango de fechas.</p>' : ''}
+      <h4 style="margin:16px 0 4px;">Contenidos de esta campaña</h4>
       <div id="campaign-overview-plans">${overview.contentPlans.map((p) => contentPlanCard({ ...p, status: p.effectiveStatus })).join('') || ''}</div>
+      <details style="margin-top:12px;"><summary style="cursor:pointer;font-size:11px;color:#9c9683;">Detalles técnicos</summary><p style="font-size:11px;color:#9c9683;">${overview.correlationMethod}</p></details>
     `;
     bindContentDetailButtons($('#campaign-overview-plans', body));
   } catch (err) {
@@ -1016,7 +1116,7 @@ function contentPlanCard(p) {
   const eligibility = p.autoPublish ? (p.autoPublish.eligible ? 'ELIGIBLE' : 'NOT_ELIGIBLE') : 'N/A';
   const autoPublishState = p.autoPublish ? (p.autoPublish.enabled ? 'ON' : 'OFF') : 'N/A';
   return `<div class="campaign-card">
-    <strong>${p.status} · Execution Mode: ${p.executionMode}</strong>
+    <strong>${p.status} · Modo de ejecución: ${label(EXECUTION_MODE_LABELS, p.executionMode)}</strong>
     <div style="font-size:12px;">${p.platform ?? '—'}${p.format ? ` · ${p.format}` : ''}${p.product ? ` · ${p.product}` : ''}${p.objective ? ` · ${p.objective}` : ''}</div>
     <div style="font-size:11px;">Auto Publish: ${autoPublishState} · Eligibility: ${eligibility} · Quality: ${quality} · Publication: ${publicationLabel(p)}</div>
     ${p.strategyDecisionIds.length ? `<div style="font-size:11px;color:#6b654f;">strategy decisions: ${p.strategyDecisionIds.join(', ')}</div>` : '<div style="font-size:11px;color:#9c9683;">sin StrategyDecision aplicable</div>'}
@@ -1138,7 +1238,7 @@ function renderCreativeProposal(proposal) {
   return `
     <div class="result-status COMPLETED">PROPUESTA LISTA</div>
     <div class="proposal-card">
-      <div><strong>Producto</strong><br/>${proposal.product.nombreComercial}</div>
+      <div><strong>Producto</strong><br/>${proposal.product.nombreVisible ?? proposal.product.nombreComercial}</div>
       <div><strong>Persona</strong><br/>${proposal.audience.personaName}</div>
       <div><strong>Pain</strong><br/>${proposal.pain.painPoint}</div>
       <div><strong>Ángulo</strong><br/>${proposal.angle.angleText}</div>
@@ -1173,7 +1273,7 @@ async function initAutocreateProductSelect() {
   if (!sel || sel.dataset.loaded) return;
   const products = productsCache.length ? productsCache : (productsCache = await api('/api/products'));
   sel.innerHTML = '<option value="">(detectar automáticamente del texto)</option>'
-    + products.map((p) => `<option value="${p.productSlug}">${p.nombreComercial ?? p.productSlug}${p.factsAvailable ? '' : ' (sin catálogo real todavía)'}</option>`).join('');
+    + products.map((p) => `<option value="${p.productSlug}">${p.nombreVisible ?? p.productSlug}${p.factsAvailable ? '' : ' (sin catálogo real todavía)'}</option>`).join('');
   sel.dataset.loaded = '1';
 }
 
@@ -1377,7 +1477,7 @@ let assetToPublish = null;
 function renderPublicationGateSummary(result, meta) {
   if (!meta) return '';
   const rows = [];
-  if (meta.executionMode) rows.push(`<div><strong>Execution Mode</strong>${meta.executionMode}</div>`);
+  if (meta.executionMode) rows.push(`<div><strong>Modo de ejecución</strong>${label(EXECUTION_MODE_LABELS, meta.executionMode)}</div>`);
   if (meta.product) rows.push(`<div><strong>Producto</strong>${meta.product}</div>`);
   if (meta.platform) rows.push(`<div><strong>Plataforma</strong>${meta.platform}</div>`);
   if (meta.strategyContext) rows.push(`<div><strong>Strategy</strong>${meta.strategyContext.applied ? `${meta.strategyContext.strategicDirection} (confidence ${meta.strategyContext.confidence})` : 'sin StrategyContext aplicable'}</div>`);
@@ -1488,8 +1588,8 @@ async function loadCalendar() {
   try {
     const { configured } = await api('/api/media-hosting/status');
     statusEl.textContent = configured
-      ? 'Media Hosting (Cloudflare R2) configurado -- las publicaciones vencidas se alojan y publican de verdad.'
-      : 'Media Hosting (Cloudflare R2) SIN configurar en este entorno -- las publicaciones vencidas quedarán en CONFIGURACIÓN REQUERIDA hasta definir R2_ACCOUNT_ID/R2_ACCESS_KEY_ID/R2_SECRET_ACCESS_KEY/R2_BUCKET/R2_PUBLIC_BASE_URL.';
+      ? 'Calendario de publicaciones — la publicación automática está lista.'
+      : 'La publicación automática todavía no está configurada. Contacta al administrador para completar la configuración.';
     statusEl.classList.toggle('warn', !configured);
     statusEl.classList.toggle('ok', configured);
   } catch {
@@ -1564,7 +1664,7 @@ async function renderCalendarList() {
 // publicationId) y con Performance real (por externalPublicationId <->
 // external_post_id) -- ninguna de las dos correlaciones inventa un vínculo:
 // si no hay coincidencia real, se muestra explícito "Sin ContentPlan
-// asociado" / "NOT AVAILABLE", nunca 0 ni un dato simulado.
+// asociado" / "No disponible", nunca 0 ni un dato simulado.
 async function openPublicationDetail(id) {
   const modal = $('#pubdetail-modal');
   const body = $('#pubdetail-body');
@@ -1584,10 +1684,10 @@ async function openPublicationDetail(id) {
     html += `<div class="pubdetail-grid">
       <div><strong>Plataforma</strong>${record.platform}</div>
       <div><strong>Publication ID</strong>${record.id}</div>
-      <div><strong>External ID</strong>${record.externalPublicationId ?? 'NOT AVAILABLE'}</div>
+      <div><strong>External ID</strong>${record.externalPublicationId ?? 'No disponible'}</div>
       <div><strong>Fecha</strong>${record.publishedAt ? new Date(record.publishedAt).toLocaleString() : (record.scheduledAt ? new Date(record.scheduledAt).toLocaleString() : 'Sin fecha aún')}</div>
       <div><strong>Estado</strong>${record.status}</div>
-      <div><strong>Permalink</strong>NOT AVAILABLE</div>
+      <div><strong>Permalink</strong>No disponible</div>
     </div>`;
     if (record.caption) html += `<p><strong>Caption:</strong> ${record.caption}</p>`;
     if (record.error) html += `<p style="color:#a04b3a;"><strong>Error real:</strong> ${record.error}</p>`;
@@ -1599,8 +1699,8 @@ async function openPublicationDetail(id) {
 
     html += '<h4 style="margin-bottom:4px;">Performance</h4>';
     html += perf
-      ? `<div class="campaign-card"><div style="font-size:12px;">engagement ${perf.metrics?.engagement ?? 'NOT AVAILABLE'} · views ${perf.metrics?.views ?? 'NOT AVAILABLE'} · likes ${perf.metrics?.likes ?? 'NOT AVAILABLE'} · comments ${perf.metrics?.comments ?? 'NOT AVAILABLE'} · shares ${perf.metrics?.shares ?? 'NOT AVAILABLE'} · saves ${perf.metrics?.saves ?? 'NOT AVAILABLE'}</div></div>`
-      : '<p class="empty-state">NOT AVAILABLE -- sin datos de Performance todavía para este publicationId externo.</p>';
+      ? `<div class="campaign-card"><div style="font-size:12px;">engagement ${perf.metrics?.engagement ?? 'No disponible'} · views ${perf.metrics?.views ?? 'No disponible'} · likes ${perf.metrics?.likes ?? 'No disponible'} · comments ${perf.metrics?.comments ?? 'No disponible'} · shares ${perf.metrics?.shares ?? 'No disponible'} · saves ${perf.metrics?.saves ?? 'No disponible'}</div></div>`
+      : '<p class="empty-state">No disponible -- sin datos de Performance todavía para este publicationId externo.</p>';
 
     body.innerHTML = html;
     bindAssetPreviewButtons(body);
@@ -1708,17 +1808,17 @@ async function openContentDetail(planId) {
     const audioAsset = schedule?.assetPackageSnapshot?.audioAssets?.[0]?.path;
 
     let html = '<h4>CREATIVE</h4>';
-    html += schedule ? renderAssetPackagePreview(schedule.assetPackageSnapshot) : '<p class="empty-state">Sin preview disponible: este ContentPlan no tiene una publicación real vinculada todavía.</p>';
+    html += schedule ? renderAssetPackagePreview(schedule.assetPackageSnapshot) : '<p class="empty-state">Este contenido todavía no ha sido producido.</p>';
     html += `<div class="pubdetail-grid">
-      <div><strong>Hook</strong>NOT AVAILABLE (no persistido en ContentPlan real)</div>
-      <div><strong>Guion</strong>NOT AVAILABLE (no persistido en ContentPlan real)</div>
-      <div><strong>CTA</strong>${plan.cta ?? 'NOT AVAILABLE'}</div>
-      <div><strong>Audio</strong>${audioAsset ? audioAsset.split(/[\\/]/).pop() : 'NOT AVAILABLE'}</div>
-      <div><strong>Caption</strong>${schedule?.caption ?? 'NOT AVAILABLE'}</div>
-      <div><strong>Formato</strong>${plan.format ?? 'NOT AVAILABLE'}</div>
-      <div><strong>Producto</strong>${plan.product ?? 'NOT AVAILABLE'}</div>
-      <div><strong>Plataforma</strong>${plan.platform ?? 'NOT AVAILABLE'}</div>
-      <div><strong>Objetivo</strong>${plan.objective ?? 'NOT AVAILABLE'}</div>
+      <div><strong>Hook</strong>No disponible (no persistido en ContentPlan real)</div>
+      <div><strong>Guion</strong>No disponible (no persistido en ContentPlan real)</div>
+      <div><strong>CTA</strong>${plan.cta ?? 'No disponible'}</div>
+      <div><strong>Audio</strong>${audioAsset ? audioAsset.split(/[\\/]/).pop() : 'No disponible'}</div>
+      <div><strong>Caption</strong>${schedule?.caption ?? 'No disponible'}</div>
+      <div><strong>Formato</strong>${plan.format ?? 'No disponible'}</div>
+      <div><strong>Producto</strong>${plan.product ?? 'No disponible'}</div>
+      <div><strong>Plataforma</strong>${plan.platform ?? 'No disponible'}</div>
+      <div><strong>Objetivo</strong>${plan.objective ?? 'No disponible'}</div>
       <div><strong>Fecha prevista</strong>${schedule?.scheduledAt ? new Date(schedule.scheduledAt).toLocaleString() : (plan.scheduledAt ? new Date(plan.scheduledAt).toLocaleString() : 'Sin fecha aún')}</div>
     </div>`;
 
@@ -1735,17 +1835,17 @@ async function openContentDetail(planId) {
     html += '<h4>PUBLICATION</h4>';
     html += `<div class="pubdetail-grid">
       <div><strong>ContentPlan Status</strong>${plan.status}</div>
-      <div><strong>Execution Mode</strong>${plan.executionMode}</div>
+      <div><strong>Modo de ejecución</strong>${label(EXECUTION_MODE_LABELS, plan.executionMode)}</div>
       <div><strong>Publication Status</strong>${schedule ? (SCHEDULE_STATUS_LABELS[schedule.status] ?? schedule.status) : 'Sin ScheduledPublication vinculada'}</div>
-      <div><strong>External ID</strong>${schedule?.externalPublicationId ?? 'NOT AVAILABLE'}</div>
+      <div><strong>External ID</strong>${schedule?.externalPublicationId ?? 'No disponible'}</div>
     </div>`;
     if (plan.autoPublish) html += `<p style="font-size:12px;">Auto Publish: ${plan.autoPublish.enabled ? 'ON' : 'OFF'} · Eligibility: ${plan.autoPublish.eligible ? 'ELIGIBLE' : 'NOT_ELIGIBLE'}${plan.autoPublish.reasons?.length ? ` · ${plan.autoPublish.reasons.join(' · ')}` : ''}</p>`;
     html += '<div class="schedule-actions" style="margin-top:8px;display:flex;flex-wrap:wrap;gap:6px;" id="content-detail-actions"></div>';
 
     html += '<h4>PERFORMANCE</h4>';
     html += perf
-      ? `<div class="campaign-card"><div style="font-size:12px;">engagement ${perf.metrics?.engagement ?? 'NOT AVAILABLE'} · views ${perf.metrics?.views ?? 'NOT AVAILABLE'} · likes ${perf.metrics?.likes ?? 'NOT AVAILABLE'}</div></div>`
-      : '<p class="empty-state">NOT AVAILABLE.</p>';
+      ? `<div class="campaign-card"><div style="font-size:12px;">engagement ${perf.metrics?.engagement ?? 'No disponible'} · views ${perf.metrics?.views ?? 'No disponible'} · likes ${perf.metrics?.likes ?? 'No disponible'}</div></div>`
+      : '<p class="empty-state">No disponible.</p>';
 
     body.innerHTML = html;
     bindAssetPreviewButtons(body);
@@ -1872,19 +1972,19 @@ async function openWhatsappConversation(id) {
   try {
     const { conversation, contact, messages, opportunity } = await api(`/api/whatsapp/conversations/${id}`);
     let html = `<div class="pubdetail-grid">
-      <div><strong>Contacto</strong>${contact?.nombre ?? conversation.waIdConversacion ?? 'NOT AVAILABLE'}</div>
+      <div><strong>Contacto</strong>${contact?.nombre ?? conversation.waIdConversacion ?? 'No disponible'}</div>
       <div><strong>wa_id</strong>${conversation.waIdConversacion}</div>
-      <div><strong>Estado</strong>${conversation.estadoActual ?? 'NOT AVAILABLE'}</div>
+      <div><strong>Estado</strong>${conversation.estadoActual ?? 'No disponible'}</div>
       <div><strong>Origen</strong>${conversation.source}</div>
-      <div><strong>Última actividad</strong>${conversation.ultimaInteraccion ? new Date(conversation.ultimaInteraccion).toLocaleString() : 'NOT AVAILABLE'}</div>
-      <div><strong>Producto (Opportunity)</strong>${opportunity?.productName ?? 'NOT AVAILABLE'}</div>
-      <div><strong>Opportunity estado</strong>${opportunity?.estado ?? 'NOT AVAILABLE'}</div>
+      <div><strong>Última actividad</strong>${conversation.ultimaInteraccion ? new Date(conversation.ultimaInteraccion).toLocaleString() : 'No disponible'}</div>
+      <div><strong>Producto (Opportunity)</strong>${opportunity?.productName ?? 'No disponible'}</div>
+      <div><strong>Opportunity estado</strong>${opportunity?.estado ?? 'No disponible'}</div>
     </div>`;
     html += '<h4>Historial real</h4>';
     html += messages.length ? messages.map(whatsappMessageBubble).join('') : '<p class="empty-state">Sin mensajes todavía.</p>';
     html += `
       <h4>Respuesta manual</h4>
-      <button class="btn-secondary" disabled title="AI response suggestion not available -- el único motor comercial real (simulator/src/flujoVentaReal.js) persiste estado como efecto secundario de calcular una respuesta; no existe una variante pura y reutilizable que pueda proponer un borrador sin también procesar el mensaje. Investigado en Fase 16 Parte 11 -- no se construyó un agente nuevo.">AI response suggestion not available</button>
+      <button class="btn-secondary" disabled title="Sugerencia de respuesta con IA no disponible todavía en esta pantalla.">Sugerencia de IA no disponible</button>
       <form id="whatsapp-send-form" class="form-panel" style="margin-top:8px;">
         <label>Escribe una respuesta…
           <textarea name="text" rows="3" required></textarea>

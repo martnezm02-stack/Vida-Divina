@@ -14,6 +14,7 @@ Suplementos orientados al aumento de fuerza muscular y rendimiento físico.
 ## Ripped Capsules
 
 - **Nombre comercial:** Divina Ripped Capsules
+- **Nombre visible:** Cápsulas Ripped
 - **Categoría:** Rendimiento Físico y Fuerza
 - **Objetivo principal:** Quemar grasa y promover el aumento muscular mediante Tongkat Ali.
 - **Problema que ayuda a resolver:** Baja masa muscular y envejecimiento prematuro.

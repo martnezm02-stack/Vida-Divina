@@ -37,7 +37,7 @@ const MASTER_OUTPUT_PROFILE = 'GENERIC_VERTICAL'; // 1080x1920 -- el aspect rati
 function visualProductionPackageToRenderArgs(vpp, productFacts) {
   return {
     hookText: vpp.screenText[0],
-    productTitle: productFacts?.nombreComercial ?? vpp.subjectDescription,
+    productTitle: productFacts?.nombreVisible ?? productFacts?.nombreComercial ?? vpp.subjectDescription,
     productBody: vpp.screenText[1] ?? vpp.caption,
     ctaText: vpp.cta,
     whatsappLabel: vpp.whatsappCta,
@@ -55,7 +55,7 @@ function productionBriefToRenderArgs(brief, productFacts) {
   const sceneProduct = brief.scenes.find((s) => s.role === 'product');
   return {
     hookText: brief.screenText[0] ?? brief.voiceoverText,
-    productTitle: productFacts?.nombreComercial ?? 'Vida Divina',
+    productTitle: productFacts?.nombreVisible ?? productFacts?.nombreComercial ?? 'Vida Divina',
     productBody: sceneProduct?.visualAssetId ? null : (productFacts?.beneficios ?? brief.cta),
     ctaText: brief.cta,
     whatsappLabel: 'WhatsApp',

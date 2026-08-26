@@ -86,6 +86,25 @@ describe('Navegación de API real (listados, sin inventar datos)', () => {
     assert.equal(teDivina.nombreComercial, 'TéDivina');
   });
 
+  // Nombre visible (UX cleanup, 2026-08-26): campo comercial/UX, separado
+  // del nombre técnico (que se conserva intacto para compatibilidad).
+  test('GET /api/products expone nombreVisible -- distinto del nombre técnico cuando el catálogo lo documenta, igual cuando no', async () => {
+    const { body } = await get('/api/products');
+    const tremella = body.find((p) => p.productSlug === 'extracto-tremella');
+    assert.ok(tremella, 'precondición: debe existir extracto-tremella en assets/products/');
+    assert.equal(tremella.nombreComercial, 'Divina Extracto de Tremella (Tremella fuciformis) — Pure Extract Powder');
+    assert.equal(tremella.nombreVisible, 'Extracto de Tremella');
+
+    const teDivina = body.find((p) => p.productSlug === 'te-divina');
+    assert.equal(teDivina.nombreVisible, 'Té Divina');
+    // La compatibilidad hacia atrás (regla 25 -- sin "Nombre visible"
+    // documentado, cae al nombre comercial existente) se prueba a nivel de
+    // loadProductFacts() en content-orchestrator/test/productFactsLoader.test.js,
+    // sobre un producto real de docs/productos/ que no tiene fotografía
+    // real registrada todavía en assets/products/ (y por lo tanto no
+    // aparece en este listado del Dashboard).
+  });
+
   test('GET /api/products/te-divina incluye integridad real verificada', async () => {
     const { status, body } = await get('/api/products/te-divina');
     assert.equal(status, 200);

@@ -3,6 +3,7 @@
 [⬅ Café Divina](./index.md) · [🏠 Índice general](../../productos.md)
 
 - **Nombre comercial:** Café Divina Sculpt Black
+- **Nombre visible:** Café Sculpt Black
 - **Categoría:** [Café Divina — Bebidas Funcionales](./index.md)
 - **Objetivo principal:** Acelerar el proceso de oxidación de grasa y controlar el apetito mediante Reishi y Garcinia Cambogia.
 - **Problema que ayuda a resolver:** Necesidad de una bebida energética que también apoye el control de peso.
