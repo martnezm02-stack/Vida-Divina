@@ -95,6 +95,75 @@ describe('construirComposicionEscenaHtml — validación real', () => {
       textOverlays: [{ text: 'esto cura todo', position: 'top', startSeconds: 0, durationSeconds: 1 }],
     }), /claim/i);
   });
+
+  // Fix Editor Hook/Voiceover/Captions (2026-08-25) -- Problema 1 (UI
+  // "Mostrar texto en pantalla") aplicado al Hook/CTA-headline.
+  describe('onScreenTextVisible -- oculta SOLO la capa visual del Hook/CTA-headline, nunca borra el dato', () => {
+    test('default (omitido) es byte-idéntico al HTML de antes de esta fase', () => {
+      const args = { sceneKind: 'CONCEPT', text: 'vitalidad real', audioRelPath: 'a.wav', durationSeconds: 3, subtitulos: [] };
+      assert.equal(construirComposicionEscenaHtml(args), construirComposicionEscenaHtml({ ...args, onScreenTextVisible: true }));
+    });
+
+    test('onScreenTextVisible:false oculta el hook-text en una escena CONCEPT (pero mantiene el contenedor .content para la animación)', () => {
+      const html = construirComposicionEscenaHtml({
+        sceneKind: 'CONCEPT', text: 'Texto que no debe verse', audioRelPath: 'a.wav', durationSeconds: 3, subtitulos: [], onScreenTextVisible: false,
+      });
+      assert.ok(!html.includes('<div class="hook-text">')); // sin el ELEMENTO -- la regla CSS ".hook-text{...}" sigue en <style>, eso es esperado.
+      assert.ok(!html.includes('Texto que no debe verse'));
+      assert.ok(html.includes('<div class="content"></div>'));
+    });
+
+    test('onScreenTextVisible:false en CTA oculta el cta-text pero MANTIENE el pill de WhatsApp real (la acción, no el copy decorativo)', () => {
+      const html = construirComposicionEscenaHtml({
+        sceneKind: 'CTA', text: 'Copy de CTA que no debe verse', ctaWhatsappLabel: 'WhatsApp', audioRelPath: 'a.wav', durationSeconds: 3, subtitulos: [], onScreenTextVisible: false,
+      });
+      assert.ok(!html.includes('<div class="cta-text">'));
+      assert.ok(!html.includes('Copy de CTA que no debe verse'));
+      assert.ok(html.includes('whatsapp-pill'));
+      assert.ok(html.includes('WhatsApp'));
+    });
+
+    test('sigue validando "text" aunque esté oculto (el dato real nunca deja de existir/validarse)', () => {
+      assert.throws(() => construirComposicionEscenaHtml({
+        sceneKind: 'CONCEPT', text: 'esto cura todo', audioRelPath: 'a.wav', durationSeconds: 3, subtitulos: [], onScreenTextVisible: false,
+      }), /claim/i);
+    });
+  });
+
+  describe('captionStyle extendido (Problema 3) -- outline/shadow/alignment se traducen a CSS real', () => {
+    test('outlineWidthPx > 0 agrega -webkit-text-stroke real', () => {
+      const html = construirComposicionEscenaHtml({
+        sceneKind: 'CONCEPT', text: 'x', audioRelPath: 'a.wav', durationSeconds: 3, subtitulos: [{ texto: 'x', start: 0, duration: 3 }],
+        captionStyle: { outlineColor: '#ff0000', outlineWidthPx: 4 },
+      });
+      assert.ok(html.includes('-webkit-text-stroke: 4px #ff0000'));
+    });
+
+    test('shadow:true agrega text-shadow real', () => {
+      const html = construirComposicionEscenaHtml({
+        sceneKind: 'CONCEPT', text: 'x', audioRelPath: 'a.wav', durationSeconds: 3, subtitulos: [{ texto: 'x', start: 0, duration: 3 }],
+        captionStyle: { shadow: true },
+      });
+      assert.ok(html.includes('text-shadow'));
+    });
+
+    test('alignment real se traduce a text-align', () => {
+      const html = construirComposicionEscenaHtml({
+        sceneKind: 'CONCEPT', text: 'x', audioRelPath: 'a.wav', durationSeconds: 3, subtitulos: [{ texto: 'x', start: 0, duration: 3 }],
+        captionStyle: { alignment: 'left' },
+      });
+      assert.ok(html.includes('text-align: left'));
+    });
+
+    test('un preset real (Bold) se puede pasar directamente como captionStyle', () => {
+      const html = construirComposicionEscenaHtml({
+        sceneKind: 'CONCEPT', text: 'x', audioRelPath: 'a.wav', durationSeconds: 3, subtitulos: [{ texto: 'x', start: 0, duration: 3 }],
+        captionStyle: { fontSizePx: 52, fontWeight: 800, outlineWidthPx: 3, shadow: true },
+      });
+      assert.ok(html.includes('font-size: 52px'));
+      assert.ok(html.includes('font-weight: 800'));
+    });
+  });
 });
 
 describe('renderScene — render REAL de una escena (sin mock)', () => {

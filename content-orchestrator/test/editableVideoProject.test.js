@@ -6,7 +6,10 @@
 import { test, describe } from 'node:test';
 import assert from 'node:assert/strict';
 import { join } from 'node:path';
-import { buildEditableProjectFromProductionJob, getLatestVersion } from '../src/editableVideoProject.js';
+import {
+  buildEditableProjectFromProductionJob, getLatestVersion, currentSceneBaseDuration, currentSceneNarration,
+  currentSceneOnScreenText, currentSceneOnScreenTextVisible, currentSceneCaptionsVisibility,
+} from '../src/editableVideoProject.js';
 
 // Forma real de un ProductionJob (tomada de un job real ya producido --
 // ver docs/PROJECT_STATE_CHECKPOINT_2026-08-21_HUMAN_IN_THE_LOOP_WORKSPACE.md
@@ -87,5 +90,54 @@ describe('buildEditableProjectFromProductionJob — envuelve un ProductionJob re
     assert.throws(() => buildEditableProjectFromProductionJob({
       jobRecord: { ...JOB_RECORD_REAL, job: { status: 'FAILED' } },
     }), /FAILED/);
+  });
+
+  // Fix Editor Hook/Voiceover/Captions (2026-08-25).
+  test('cada escena real nace con las TRES capas separadas en su estado default (Auto/visible/sin regenerar)', () => {
+    const project = buildEditableProjectFromProductionJob({ jobRecord: JOB_RECORD_REAL });
+    for (const scene of project.scenes) {
+      assert.equal(scene.captionsVisibility, 'AUTO');
+      assert.equal(scene.onScreenTextVisible, true);
+      assert.equal(scene.voiceoverTextOverride, null);
+      assert.equal(scene.voiceTrack.durationSeconds, scene.duration);
+      assert.equal(scene.voiceTrack.regeneratedAt, null);
+    }
+  });
+});
+
+describe('Helpers de "valor efectivo actual" — fuente única de verdad para projectEditor.js/projectRenderer.js (Fix Editor Hook/Voiceover/Captions)', () => {
+  const project = buildEditableProjectFromProductionJob({ jobRecord: JOB_RECORD_REAL });
+  const sceneNueva = project.scenes[0];
+
+  test('sin overrides, los helpers devuelven los valores base reales de producción', () => {
+    assert.equal(currentSceneBaseDuration(sceneNueva), sceneNueva.duration);
+    assert.equal(currentSceneNarration(sceneNueva), sceneNueva.narration);
+    assert.equal(currentSceneOnScreenText(sceneNueva), sceneNueva.onScreenText);
+    assert.equal(currentSceneOnScreenTextVisible(sceneNueva), true);
+    assert.equal(currentSceneCaptionsVisibility(sceneNueva), 'AUTO');
+  });
+
+  test('con voz regenerada real, currentSceneBaseDuration usa la duración del audio NUEVO, nunca la original', () => {
+    const regenerada = { ...sceneNueva, voiceTrack: { ...sceneNueva.voiceTrack, isRegenerated: true, durationSeconds: 9.9 } };
+    assert.equal(currentSceneBaseDuration(regenerada), 9.9);
+  });
+
+  test('con voiceoverTextOverride real, currentSceneNarration usa el override -- el onScreenText NUNCA se ve afectado', () => {
+    const editada = { ...sceneNueva, voiceoverTextOverride: 'Un guion hablado real distinto.' };
+    assert.equal(currentSceneNarration(editada), 'Un guion hablado real distinto.');
+    assert.equal(currentSceneOnScreenText(editada), sceneNueva.onScreenText);
+  });
+
+  // Backward compatibility real: un proyecto guardado en disco ANTES de
+  // este fix (JSON.parse crudo, ver editableProjectStore.js) no trae estos
+  // campos -- simulado aquí quitándolos explícitamente del objeto escena.
+  test('backward compatibility -- una escena real SIN estos campos (proyecto viejo) se comporta EXACTAMENTE igual que antes de este fix', () => {
+    const { captionsVisibility, onScreenTextVisible, voiceoverTextOverride, ...escenaVieja } = sceneNueva;
+    const voiceTrackViejo = { sourcePath: sceneNueva.voiceTrack.sourcePath, volume: 1, isRegenerated: false };
+    const escenaLegacy = { ...escenaVieja, voiceTrack: voiceTrackViejo };
+    assert.equal(currentSceneBaseDuration(escenaLegacy), sceneNueva.duration);
+    assert.equal(currentSceneNarration(escenaLegacy), sceneNueva.narration);
+    assert.equal(currentSceneOnScreenTextVisible(escenaLegacy), true);
+    assert.equal(currentSceneCaptionsVisibility(escenaLegacy), 'AUTO');
   });
 });

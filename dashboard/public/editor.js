@@ -1,10 +1,14 @@
-// editor.js — Editable Video Project (2026-08-24). Primer Editor
-// funcional (no pulido) del Dashboard: abre un proyecto editable real
-// sobre un ProductionJob ya producido y permite editar captions, música,
-// asset por-escena, CTA y formatos de salida SIN volver a correr la capa
-// estratégica ni regenerar voz por defecto -- Save guarda el draft real,
-// Preview renderiza rápido 1 formato, Render produce una versión nueva
-// real (v2, v3...) reutilizando lo que no cambió.
+// editor.js — Editable Video Project (2026-08-24, extendido 2026-08-25 —
+// Fix Editor: Hook/Voiceover/Captions + Caption Styles). Editor funcional
+// del Dashboard: abre un proyecto editable real sobre un ProductionJob ya
+// producido y permite editar, como TRES CAPAS SEPARADAS por escena --
+// Hook/On-Screen Text, Voiceover/Voz y Captions (visibilidad/posición/
+// preset/estilo) --, además de música, asset por-escena, CTA y formatos de
+// salida. SIN volver a correr la capa estratégica ni regenerar voz por
+// defecto -- Save guarda el draft real, "Regenerar voz" es la ÚNICA acción
+// que llama a Voice Engine (nunca automática al escribir), Preview
+// renderiza rápido 1 formato, Render produce una versión nueva real (v2,
+// v3...) reutilizando lo que no cambió.
 //
 // Carga como script clásico (no module) DESPUÉS de app.js -- reutiliza
 // sus helpers globales $()/api() (ver app.js), y expone
@@ -16,9 +20,12 @@
   let selectedSceneId = null;
   let pendingEdits = { scenes: {} };
   let musicTracks = [];
+  let captionStyleOptions = null; // /api/caption-style-options -- ÚNICA fuente real de posiciones/alineaciones/animaciones/presets (nunca duplicados aquí).
+  let highlightWordsDraft = []; // estado real de la fila de "palabras destacadas" de la escena SELECCIONADA -- se reconstruye al cambiar de escena.
+  let styleEditorOpen = false;
 
   function sceneLabel(scene) {
-    const dur = scene.durationOverride ?? scene.duration;
+    const dur = scene.durationOverride ?? scene.voiceTrack?.durationSeconds ?? scene.duration;
     const pendientes = pendingEdits.scenes[scene.sceneId] ? ' ✎' : '';
     return `${scene.sceneId} · ${scene.sceneKind} · ${dur.toFixed(1)}s${pendientes}`;
   }
@@ -43,20 +50,110 @@
     `).join('');
   }
 
+  // ---------------------------------------------------------------------
+  // Valores reales VIGENTES de la escena seleccionada -- misma regla de
+  // fallback que editableVideoProject.js (override ?? original), para que
+  // el formulario nunca muestre un valor distinto del que el render
+  // realmente va a usar.
   function currentSceneOverrideOrBase(scene) {
     const style = scene.captionStyleOverride ?? {};
     return {
       onScreenText: scene.onScreenTextOverride ?? scene.onScreenText,
-      fontSizePx: style.fontSizePx ?? 38,
-      textColor: style.textColor ?? '#ffffff',
+      onScreenTextVisible: scene.onScreenTextVisible ?? true,
+      voiceoverText: scene.voiceoverTextOverride ?? scene.narration,
+      narrationOriginal: scene.narration,
+      voiceRegenerated: Boolean(scene.voiceTrack?.isRegenerated),
+      voiceRegeneratedAt: scene.voiceTrack?.regeneratedAt ?? null,
+      captionsVisibility: scene.captionsVisibility ?? 'AUTO',
       position: style.position ?? 'bottom',
+      alignment: style.alignment ?? 'center',
       animation: style.animation ?? 'fade',
-      highlightWords: (style.highlightWords ?? []).join(', '),
+      presetId: style.presetId ?? null,
+      fontFamily: style.fontFamily ?? '"Segoe UI", Arial, sans-serif',
+      fontSizePx: style.fontSizePx ?? 38,
+      fontWeight: style.fontWeight ?? 600,
+      textColor: style.textColor ?? '#ffffff',
+      backgroundColor: style.backgroundColor ?? '#000000',
+      backgroundOpacity: style.backgroundOpacity ?? 0.45,
+      outlineColor: style.outlineColor ?? '#000000',
+      outlineWidthPx: style.outlineWidthPx ?? 0,
+      shadow: style.shadow ?? false,
+      highlightColor: style.highlightColor ?? '#ffd166',
+      highlightWords: (style.highlightWords ?? []).map((w) => (typeof w === 'string' ? { text: w } : { ...w })),
       assetPath: scene.assetOverride?.imageSourcePath ?? '',
-      duration: scene.durationOverride ?? scene.duration,
-      maxDuration: scene.duration,
+      duration: scene.durationOverride ?? scene.voiceTrack?.durationSeconds ?? scene.duration,
+      maxDuration: scene.voiceTrack?.isRegenerated && scene.voiceTrack?.durationSeconds ? scene.voiceTrack.durationSeconds : scene.duration,
       voiceVolume: scene.voiceTrack?.volume ?? 1,
     };
+  }
+
+  // ---------------------------------------------------------------------
+  // Palabras destacadas -- fila editable real (Problema 3: color/peso/
+  // tamaño/background/animación por palabra).
+  function renderHighlightWordsRows() {
+    const container = $('#prop-highlight-words-rows');
+    if (!container) return;
+    const animOpts = captionStyleOptions?.animations ?? ['fade', 'pop', 'none'];
+    container.innerHTML = highlightWordsDraft.map((w, i) => `
+      <div class="highlight-word-row" data-index="${i}">
+        <input type="text" class="hw-text" placeholder="palabra/frase" value="${w.text ?? ''}" />
+        <input type="color" class="hw-color" value="${w.color ?? '#ffd166'}" title="color" />
+        <input type="number" class="hw-weight" placeholder="peso" min="100" max="900" step="100" value="${w.fontWeight ?? ''}" title="font-weight" />
+        <input type="number" class="hw-size" placeholder="tamaño px" min="1" value="${w.fontSizePx ?? ''}" title="font-size (px)" />
+        <input type="color" class="hw-bg" value="${w.backgroundColor ?? '#000000'}" title="background" />
+        <select class="hw-anim" title="animación">
+          ${animOpts.map((a) => `<option value="${a}" ${a === (w.animation ?? 'none') ? 'selected' : ''}>${a}</option>`).join('')}
+        </select>
+        <button type="button" class="hw-remove btn-secondary" title="Quitar">✕</button>
+      </div>
+    `).join('') || '<p class="placeholder">Sin palabras destacadas.</p>';
+
+    container.querySelectorAll('.hw-remove').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const i = Number(btn.closest('.highlight-word-row').dataset.index);
+        highlightWordsDraft.splice(i, 1);
+        renderHighlightWordsRows();
+      });
+    });
+  }
+
+  function collectHighlightWordsFromRows() {
+    const container = $('#prop-highlight-words-rows');
+    if (!container) return [];
+    return [...container.querySelectorAll('.highlight-word-row')].map((row) => {
+      const text = row.querySelector('.hw-text').value.trim();
+      if (!text) return null;
+      const entry = { text };
+      const color = row.querySelector('.hw-color').value;
+      const bg = row.querySelector('.hw-bg').value;
+      const weight = row.querySelector('.hw-weight').value;
+      const size = row.querySelector('.hw-size').value;
+      const anim = row.querySelector('.hw-anim').value;
+      if (color) entry.color = color;
+      if (bg) entry.backgroundColor = bg;
+      if (weight) entry.fontWeight = Number(weight);
+      if (size) entry.fontSizePx = Number(size);
+      if (anim && anim !== 'none') entry.animation = anim;
+      return entry;
+    }).filter(Boolean);
+  }
+
+  function applyCaptionPreset(presetName) {
+    const preset = captionStyleOptions?.presets?.[presetName];
+    if (!preset) return;
+    $('#prop-position').value = preset.position;
+    $('#prop-alignment').value = preset.alignment;
+    $('#prop-animation').value = preset.animation;
+    $('#prop-font-family').value = preset.fontFamily;
+    $('#prop-font-size').value = preset.fontSizePx;
+    $('#prop-font-weight').value = preset.fontWeight;
+    $('#prop-text-color').value = preset.textColor;
+    $('#prop-bg-color').value = preset.backgroundColor;
+    $('#prop-bg-opacity').value = preset.backgroundOpacity;
+    $('#prop-outline-color').value = preset.outlineColor;
+    $('#prop-outline-width').value = preset.outlineWidthPx;
+    $('#prop-shadow').checked = preset.shadow;
+    $('#prop-highlight-color').value = preset.highlightColor;
   }
 
   function renderScenePropsPanel() {
@@ -64,50 +161,156 @@
     if (!selectedSceneId) { panel.innerHTML = '<p class="placeholder">Selecciona una escena de la lista.</p>'; return; }
     const scene = currentProject.scenes.find((s) => s.sceneId === selectedSceneId);
     const v = currentSceneOverrideOrBase(scene);
+    highlightWordsDraft = v.highlightWords;
+    const fontOpts = captionStyleOptions?.fontFamilies ?? [v.fontFamily];
+    const positions = captionStyleOptions?.positions ?? ['top', 'center', 'bottom'];
+    const alignments = captionStyleOptions?.alignments ?? ['left', 'center', 'right'];
+    const animations = captionStyleOptions?.animations ?? ['fade', 'pop', 'none'];
+    const presetNames = captionStyleOptions?.presetNames ?? ['CLASSIC', 'BOLD', 'MINIMAL', 'HIGHLIGHT', 'SOCIAL_DYNAMIC'];
+
     panel.innerHTML = `
-      <div class="variant-field"><strong>${scene.sceneId}</strong> ${scene.sceneKind} · narración: "${scene.narration}"</div>
-      <label>Texto en pantalla<textarea id="prop-onscreen-text" rows="2">${v.onScreenText}</textarea></label>
-      <label>Tamaño de fuente (px)<input type="number" id="prop-font-size" value="${v.fontSizePx}" min="16" max="120" /></label>
-      <label>Color de texto<input type="color" id="prop-text-color" value="${v.textColor}" /></label>
-      <label>Posición
-        <select id="prop-position">
-          ${['top', 'center', 'bottom'].map((p) => `<option value="${p}" ${p === v.position ? 'selected' : ''}>${p}</option>`).join('')}
-        </select>
-      </label>
-      <label>Animación
-        <select id="prop-animation">
-          ${['fade', 'pop', 'none'].map((a) => `<option value="${a}" ${a === v.animation ? 'selected' : ''}>${a}</option>`).join('')}
-        </select>
-      </label>
-      <label>Palabra(s) resaltada(s) (separadas por coma)<input type="text" id="prop-highlight-words" value="${v.highlightWords}" /></label>
-      <label>Reemplazar asset (ruta local real ya existente en este equipo)<input type="text" id="prop-asset-path" value="${v.assetPath}" placeholder="C:\\ruta\\real\\imagen.png" /></label>
-      <label>Duración (solo acortar, nunca alargar -- máx ${v.maxDuration.toFixed(2)}s)<input type="number" id="prop-duration" value="${v.duration}" min="0.5" max="${v.maxDuration}" step="0.1" /></label>
-      <label>Volumen de voz<input type="range" id="prop-voice-volume" min="0" max="2" step="0.1" value="${v.voiceVolume}" /></label>
+      <div class="variant-field"><strong>${scene.sceneId}</strong> ${scene.sceneKind}</div>
+
+      <div class="editor-layer-section">
+        <h4>Texto en pantalla / Hook</h4>
+        <textarea id="prop-onscreen-text" rows="2">${v.onScreenText}</textarea>
+        <label class="inline-check"><input type="checkbox" id="prop-onscreen-visible" ${v.onScreenTextVisible ? 'checked' : ''}/> Mostrar texto en pantalla</label>
+        <p class="editor-note">Esto modifica solamente el texto visual -- nunca regenera voz ni captions.</p>
+      </div>
+
+      <div class="editor-layer-section">
+        <h4>Voiceover / Voz</h4>
+        <textarea id="prop-voiceover-text" rows="3">${v.voiceoverText}</textarea>
+        <button type="button" id="prop-regenerate-voice-btn" class="btn-secondary">REGENERAR VOZ DE ESTA ESCENA</button>
+        <div id="prop-voice-status" class="meta">${v.voiceRegenerated ? `Voz regenerada el ${new Date(v.voiceRegeneratedAt).toLocaleString()}.` : 'Voz original de producción (sin regenerar).'}</div>
+        <p class="editor-note">Modificar este texto y pulsar "Regenerar voz" genera un audio nuevo real y sincroniza los subtítulos. Guardar sin regenerar solo deja el texto en borrador -- el audio NO cambia hasta que regeneras.</p>
+      </div>
+
+      <div class="editor-layer-section">
+        <h4>Subtítulos (captions)</h4>
+        <label>Modo
+          <select id="prop-captions-mode"></select>
+        </label>
+        <label>Posición
+          <select id="prop-position">${positions.map((p) => `<option value="${p}" ${p === v.position ? 'selected' : ''}>${p}</option>`).join('')}</select>
+        </label>
+        <label>Preset
+          <select id="prop-caption-preset">
+            <option value="">(personalizado)</option>
+            ${presetNames.map((p) => `<option value="${p}" ${p === v.presetId ? 'selected' : ''}>${p.replace('_', ' · ')}</option>`).join('')}
+          </select>
+        </label>
+        <button type="button" id="prop-toggle-style-editor" class="btn-secondary">${styleEditorOpen ? 'OCULTAR ESTILO' : 'EDITAR ESTILO'}</button>
+
+        <div id="prop-style-advanced" class="${styleEditorOpen ? '' : 'hidden'}">
+          <label>Fuente
+            <select id="prop-font-family">${fontOpts.map((f) => `<option value='${f}' ${f === v.fontFamily ? 'selected' : ''}>${f}</option>`).join('')}</select>
+          </label>
+          <label>Tamaño de fuente (px)<input type="number" id="prop-font-size" value="${v.fontSizePx}" min="10" max="140" /></label>
+          <label>Peso de fuente<input type="number" id="prop-font-weight" value="${v.fontWeight}" min="100" max="900" step="100" /></label>
+          <label>Color de texto<input type="color" id="prop-text-color" value="${v.textColor}" /></label>
+          <label>Color de fondo<input type="color" id="prop-bg-color" value="${v.backgroundColor}" /></label>
+          <label>Opacidad de fondo (0-1)<input type="range" id="prop-bg-opacity" min="0" max="1" step="0.05" value="${v.backgroundOpacity}" /></label>
+          <label>Color de contorno (outline)<input type="color" id="prop-outline-color" value="${v.outlineColor}" /></label>
+          <label>Grosor de contorno (px)<input type="number" id="prop-outline-width" value="${v.outlineWidthPx}" min="0" max="12" /></label>
+          <label class="inline-check"><input type="checkbox" id="prop-shadow" ${v.shadow ? 'checked' : ''}/> Sombra de texto</label>
+          <label>Alineación
+            <select id="prop-alignment">${alignments.map((a) => `<option value="${a}" ${a === v.alignment ? 'selected' : ''}>${a}</option>`).join('')}</select>
+          </label>
+          <label>Animación
+            <select id="prop-animation">${animations.map((a) => `<option value="${a}" ${a === v.animation ? 'selected' : ''}>${a}</option>`).join('')}</select>
+          </label>
+          <label>Color de palabra resaltada (default)<input type="color" id="prop-highlight-color" value="${v.highlightColor}" /></label>
+
+          <h5>Palabras destacadas</h5>
+          <div id="prop-highlight-words-rows"></div>
+          <button type="button" id="prop-add-highlight-word" class="btn-secondary">+ AGREGAR PALABRA</button>
+        </div>
+      </div>
+
+      <div class="editor-layer-section">
+        <h4>Otros</h4>
+        <label>Reemplazar asset (ruta local real ya existente en este equipo)<input type="text" id="prop-asset-path" value="${v.assetPath}" placeholder="C:\\ruta\\real\\imagen.png" /></label>
+        <label>Duración (solo acortar, nunca alargar -- máx ${v.maxDuration.toFixed(2)}s)<input type="number" id="prop-duration" value="${v.duration}" min="0.5" max="${v.maxDuration}" step="0.1" /></label>
+        <label>Volumen de voz<input type="range" id="prop-voice-volume" min="0" max="2" step="0.1" value="${v.voiceVolume}" /></label>
+      </div>
+
       <button type="button" id="prop-apply-btn" class="btn-secondary">APLICAR A ESTA ESCENA (draft)</button>
     `;
+
+    // El <select> de modo de captions se arma con innerHTML "crudo" arriba
+    // (visibilityModes ya viene de la API real) -- lo reconstruimos con
+    // <option> reales para poder marcar el seleccionado correctamente.
+    const modeSelect = $('#prop-captions-mode');
+    const modes = captionStyleOptions?.visibilityModes ?? ['AUTO', 'SHOW', 'HIDE'];
+    modeSelect.innerHTML = modes.map((m) => `<option value="${m}" ${m === v.captionsVisibility ? 'selected' : ''}>${m}</option>`).join('');
+
+    renderHighlightWordsRows();
+
     $('#prop-apply-btn').addEventListener('click', () => applySceneProps(scene));
+    $('#prop-regenerate-voice-btn').addEventListener('click', () => regenerateSceneVoice(scene));
+    $('#prop-toggle-style-editor').addEventListener('click', () => { styleEditorOpen = !styleEditorOpen; renderScenePropsPanel(); });
+    $('#prop-caption-preset').addEventListener('change', (e) => { if (e.target.value) applyCaptionPreset(e.target.value); });
+    $('#prop-add-highlight-word').addEventListener('click', () => { highlightWordsDraft.push({ text: '' }); renderHighlightWordsRows(); });
   }
 
   function applySceneProps(scene) {
-    const highlightWords = $('#prop-highlight-words').value.split(',').map((w) => w.trim()).filter(Boolean);
     const duration = Number($('#prop-duration').value);
     const edit = {
       onScreenTextOverride: $('#prop-onscreen-text').value.trim(),
+      onScreenTextVisible: $('#prop-onscreen-visible').checked,
+      voiceoverTextOverride: $('#prop-voiceover-text').value.trim(),
+      captionsVisibility: $('#prop-captions-mode').value,
       captionStyleOverride: {
-        fontSizePx: Number($('#prop-font-size').value),
-        textColor: $('#prop-text-color').value,
         position: $('#prop-position').value,
+        alignment: $('#prop-alignment').value,
         animation: $('#prop-animation').value,
-        highlightWords,
+        fontFamily: $('#prop-font-family').value,
+        fontSizePx: Number($('#prop-font-size').value),
+        fontWeight: Number($('#prop-font-weight').value),
+        textColor: $('#prop-text-color').value,
+        backgroundColor: $('#prop-bg-color').value,
+        backgroundOpacity: Number($('#prop-bg-opacity').value),
+        outlineColor: $('#prop-outline-color').value,
+        outlineWidthPx: Number($('#prop-outline-width').value),
+        shadow: $('#prop-shadow').checked,
+        highlightColor: $('#prop-highlight-color').value,
+        highlightWords: collectHighlightWordsFromRows(),
+        presetId: $('#prop-caption-preset').value || null,
       },
       voiceTrack: { volume: Number($('#prop-voice-volume').value) },
     };
-    if (duration < scene.duration) edit.durationOverride = duration;
+    const maxDuration = Number($('#prop-duration').max);
+    if (duration < maxDuration) edit.durationOverride = duration;
     const assetPath = $('#prop-asset-path').value.trim();
     if (assetPath) edit.assetOverride = { source: 'EXISTING_ASSET', imageSourcePath: assetPath };
     pendingEdits.scenes[scene.sceneId] = edit;
     renderSceneList();
     $('#editor-render-status').textContent = 'Cambio(s) en draft, sin guardar todavía -- pulsa GUARDAR.';
+  }
+
+  /** Problema 4 -- ÚNICA acción real que llama a Voice Engine. Guarda cualquier draft pendiente primero (para no perder otros cambios de la escena), luego regenera. */
+  async function regenerateSceneVoice(scene) {
+    const statusEl = $('#prop-voice-status');
+    const voiceoverText = $('#prop-voiceover-text').value.trim();
+    if (!voiceoverText) { statusEl.textContent = 'Escribe el texto del voiceover antes de regenerar.'; return; }
+    const guardado = await save();
+    if (!guardado) return;
+    statusEl.textContent = 'Regenerando voz real (Voice Engine)… puede tardar hasta varios minutos.';
+    try {
+      const res = await fetch(`/api/projects/${currentProject.projectId}/scenes/${scene.sceneId}/regenerate-voice`, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ voiceoverText }),
+      });
+      const body = await res.json();
+      if (body.status === 'VALIDATION_FAILED') { statusEl.textContent = `Rechazado: ${body.errors.join(' ')}`; return; }
+      if (body.status === 'SOURCE_ASSET_REQUIRED') { statusEl.textContent = `Voice Engine no disponible: ${body.error}`; return; }
+      if (!res.ok || !body.project) { statusEl.textContent = `Error al regenerar voz: ${body.error ?? res.status}`; return; }
+      currentProject = body.project;
+      renderSceneList(); renderVersionsList(); renderScenePropsPanel();
+      statusEl.textContent = 'Voz regenerada real -- audio y captions sincronizados. Pulsa RENDER para producir el nuevo clip.';
+    } catch (err) {
+      statusEl.textContent = `Error al regenerar voz: ${err.message}`;
+    }
   }
 
   async function loadMusicLibrary() {
@@ -117,6 +320,11 @@
       const select = $('#editor-music-select');
       select.innerHTML = '<option value="">Sin música</option>' + tracks.map((t) => `<option value="${t.filename}">${t.license.title} (${t.license.mood ?? 'sin mood'})</option>`).join('');
     } catch { /* biblioteca real opcional -- sin música sigue siendo un estado válido. */ }
+  }
+
+  async function loadCaptionStyleOptions() {
+    if (captionStyleOptions) return;
+    try { captionStyleOptions = await api('/api/caption-style-options'); } catch { captionStyleOptions = null; }
   }
 
   async function loadOutputProfiles() {
@@ -195,7 +403,8 @@
       currentProject = await api(`/api/projects/${projectId}`);
       pendingEdits = { scenes: {} };
       selectedSceneId = currentProject.scenes[0]?.sceneId ?? null;
-      await Promise.all([loadMusicLibrary(), loadOutputProfiles()]);
+      styleEditorOpen = false;
+      await Promise.all([loadMusicLibrary(), loadOutputProfiles(), loadCaptionStyleOptions()]);
       fillProjectPanel(); renderSceneList(); renderVersionsList(); renderScenePropsPanel();
       $('#editor-open-status').textContent = `Proyecto real "${projectId}" abierto -- v${currentProject.versions.length} actual.`;
       $('#editor-workspace').classList.remove('hidden');

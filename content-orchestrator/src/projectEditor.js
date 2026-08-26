@@ -10,7 +10,8 @@
 // defecto, no rerenderices toda la producción para un cambio de estilo").
 
 import { existsSync } from 'node:fs';
-import { mergeCaptionStyle, assertValidTextOverlay } from '../../video-production/src/captionStyle.js';
+import { mergeCaptionStyle, assertValidTextOverlay, CAPTION_VISIBILITY_MODES } from '../../video-production/src/captionStyle.js';
+import { currentSceneBaseDuration } from './editableVideoProject.js';
 
 export const ASSET_OVERRIDE_SOURCES = Object.freeze(['USER_UPLOAD', 'EXISTING_ASSET', 'REGENERATE_AI']);
 
@@ -35,9 +36,20 @@ function assertValidAssetOverride(override, sceneId) {
  *   globalCaptionStyle?: ?object, musicTrack?: ?object, outputProfileNames?: string[], ctaText?: string,
  *   scenes?: {[sceneId:string]: {
  *     captionStyleOverride?: ?object, textOverlaysOverride?: ?object[], assetOverride?: ?object,
- *     onScreenTextOverride?: ?string, durationOverride?: ?number, voiceTrack?: {volume?:number, isRegenerated?:boolean},
+ *     onScreenTextOverride?: ?string, onScreenTextVisible?: boolean, voiceoverTextOverride?: ?string,
+ *     captionsVisibility?: 'AUTO'|'SHOW'|'HIDE', durationOverride?: ?number,
+ *     voiceTrack?: {volume?:number, isRegenerated?:boolean, sourcePath?:string, durationSeconds?:number, regeneratedAt?:string},
  *   }},
  * }} edits
+ *
+ * REGLA DE CAPAS (Fix Editor Hook/Voiceover/Captions, 2026-08-25):
+ * `onScreenTextOverride`/`onScreenTextVisible` editan SOLO el Hook/texto en
+ * pantalla -- nunca tocan voz ni captions. `voiceoverTextOverride` edita
+ * SOLO el guion hablado -- se guarda como draft real (Save) SIN regenerar
+ * audio (eso requiere una llamada explícita a applyVoiceRegeneration() más
+ * abajo, nunca automática al escribir). `captionsVisibility`/
+ * `captionStyleOverride` editan SOLO el render visual de captions -- nunca
+ * regeneran voz ni cambian su contenido.
  */
 export function applyProjectEdit(project, edits = {}) {
   const sceneEdits = { ...(edits.scenes ?? {}) };
@@ -77,11 +89,30 @@ export function applyProjectEdit(project, edits = {}) {
         if (e.onScreenTextOverride !== null && !e.onScreenTextOverride.trim()) throw new Error(`applyProjectEdit: escena "${scene.sceneId}": onScreenTextOverride no puede ser una cadena vacía.`);
         next.onScreenTextOverride = e.onScreenTextOverride;
       }
+      if ('onScreenTextVisible' in e) {
+        if (typeof e.onScreenTextVisible !== 'boolean') throw new Error(`applyProjectEdit: escena "${scene.sceneId}": onScreenTextVisible debe ser boolean.`);
+        next.onScreenTextVisible = e.onScreenTextVisible;
+      }
+      // VOICEOVER (Problema 4): editar este campo es SOLO un Save de draft
+      // -- guarda el texto real pero NUNCA llama a Voice Engine ni toca
+      // voiceTrack (eso requiere applyVoiceRegeneration(), abajo, invocado
+      // explícitamente por el botón "Regenerar voz" de la UI).
+      if ('voiceoverTextOverride' in e) {
+        if (e.voiceoverTextOverride !== null && !e.voiceoverTextOverride.trim()) throw new Error(`applyProjectEdit: escena "${scene.sceneId}": voiceoverTextOverride no puede ser una cadena vacía.`);
+        next.voiceoverTextOverride = e.voiceoverTextOverride;
+      }
+      if ('captionsVisibility' in e) {
+        if (!CAPTION_VISIBILITY_MODES.includes(e.captionsVisibility)) {
+          throw new Error(`applyProjectEdit: escena "${scene.sceneId}": captionsVisibility inválida "${e.captionsVisibility}" (válidas: ${CAPTION_VISIBILITY_MODES.join(', ')}).`);
+        }
+        next.captionsVisibility = e.captionsVisibility;
+      }
       if ('durationOverride' in e) {
         if (e.durationOverride !== null) {
+          const baseDuration = currentSceneBaseDuration(scene);
           if (!(e.durationOverride > 0)) throw new Error(`applyProjectEdit: escena "${scene.sceneId}": durationOverride debe ser > 0.`);
-          if (e.durationOverride > scene.duration) {
-            throw new Error(`applyProjectEdit: escena "${scene.sceneId}": durationOverride (${e.durationOverride}s) no puede ser mayor a la duración original real (${scene.duration}s) -- alargar una escena requeriría voz real que no existe todavía (limitación real documentada; acortar sí está soportado).`);
+          if (e.durationOverride > baseDuration) {
+            throw new Error(`applyProjectEdit: escena "${scene.sceneId}": durationOverride (${e.durationOverride}s) no puede ser mayor a la duración real vigente (${baseDuration}s) -- alargar una escena requeriría voz real que no existe todavía (limitación real documentada; acortar sí está soportado).`);
           }
         }
         next.durationOverride = e.durationOverride;
@@ -89,6 +120,12 @@ export function applyProjectEdit(project, edits = {}) {
       if ('voiceTrack' in e) {
         if (e.voiceTrack.volume !== undefined && (!Number.isFinite(e.voiceTrack.volume) || e.voiceTrack.volume < 0)) {
           throw new Error(`applyProjectEdit: escena "${scene.sceneId}": voiceTrack.volume debe ser un número real >= 0.`);
+        }
+        if (e.voiceTrack.sourcePath !== undefined && !existsSync(e.voiceTrack.sourcePath)) {
+          throw new Error(`applyProjectEdit: escena "${scene.sceneId}": voiceTrack.sourcePath no existe realmente ("${e.voiceTrack.sourcePath}").`);
+        }
+        if (e.voiceTrack.durationSeconds !== undefined && (!Number.isFinite(e.voiceTrack.durationSeconds) || e.voiceTrack.durationSeconds <= 0)) {
+          throw new Error(`applyProjectEdit: escena "${scene.sceneId}": voiceTrack.durationSeconds debe ser un número real > 0.`);
         }
         next.voiceTrack = Object.freeze({ ...scene.voiceTrack, ...e.voiceTrack });
       }
@@ -138,9 +175,13 @@ export function classifyChangeset(prevVersion, project) {
       || !shallowEqualJson(prevScene.textOverlaysOverride, scene.textOverlaysOverride)
       || !shallowEqualJson(prevScene.assetOverride, scene.assetOverride)
       || prevScene.onScreenTextOverride !== scene.onScreenTextOverride
+      || (prevScene.onScreenTextVisible ?? true) !== (scene.onScreenTextVisible ?? true)
+      || prevScene.voiceoverTextOverride !== scene.voiceoverTextOverride
+      || (prevScene.captionsVisibility ?? 'AUTO') !== (scene.captionsVisibility ?? 'AUTO')
       || prevScene.durationOverride !== scene.durationOverride
       || prevScene.voiceTrack?.sourcePath !== scene.voiceTrack?.sourcePath
-      || prevScene.voiceTrack?.volume !== scene.voiceTrack?.volume;
+      || prevScene.voiceTrack?.volume !== scene.voiceTrack?.volume
+      || prevScene.voiceTrack?.durationSeconds !== scene.voiceTrack?.durationSeconds;
     const afectadaPorGlobal = globalCaptionChanged && !scene.captionStyleOverride;
 
     if (visualChanged || afectadaPorGlobal) {
@@ -168,5 +209,49 @@ export function classifyChangeset(prevVersion, project) {
     noVisualChanges,
     formatsOnly,
     musicOnly,
+  });
+}
+
+/**
+ * Problema 4 "EDITAR VOICEOVER DEBE REGENERAR LA VOZ" -- ÚNICO camino real
+ * para que el voiceTrack de una escena cambie de audio real. Nunca se
+ * invoca al escribir (el llamador -- dashboard/server/routes/projects.js
+ * -- ya obtuvo `audioSourcePath`/`audioDurationSeconds` reales de una
+ * llamada explícita y ya completada al Voice Engine existente, ver
+ * voiceEngineClient.js; este módulo NUNCA conoce a Voice Engine ni hace
+ * TTS, solo aplica el resultado real ya generado sobre el proyecto).
+ *
+ * Reutiliza applyProjectEdit() (misma validación/inmutabilidad real) --
+ * nunca reimplementa el merge de escenas. Efectos reales:
+ *  - voiceTrack.sourcePath/durationSeconds -> apuntan al WAV real nuevo.
+ *  - voiceTrack.isRegenerated = true, voiceTrack.regeneratedAt = lineage real.
+ *  - durationOverride se resetea a null -- un recorte manual previo era
+ *    relativo a la duración BASE anterior; con audio nuevo, ya no aplica
+ *    (el usuario puede volver a recortar sobre la nueva duración real si
+ *    quiere).
+ *  - onScreenTextOverride/captionStyleOverride/captionsVisibility NUNCA se
+ *    tocan aquí (Regla de Capas: regenerar voz nunca cambia el Hook ni el
+ *    estilo/visibilidad de captions).
+ *
+ * classifyChangeset() ya detecta este cambio (voiceTrack.sourcePath
+ * distinto + isRegenerated=true) y marca la escena real tanto para
+ * re-render como en `voiceRegeneratedSceneIds` -- sin cambios adicionales.
+ */
+export function applyVoiceRegeneration(project, sceneId, { audioSourcePath, audioDurationSeconds, regeneratedAt = new Date().toISOString() }) {
+  const scene = project.scenes.find((s) => s.sceneId === sceneId);
+  if (!scene) throw new Error(`applyVoiceRegeneration: sceneId desconocido para este proyecto: "${sceneId}".`);
+  if (!audioSourcePath?.trim()) throw new Error(`applyVoiceRegeneration: escena "${sceneId}": "audioSourcePath" real es obligatorio.`);
+  if (!existsSync(audioSourcePath)) throw new Error(`applyVoiceRegeneration: escena "${sceneId}": "audioSourcePath" no existe realmente ("${audioSourcePath}").`);
+  if (!Number.isFinite(audioDurationSeconds) || audioDurationSeconds <= 0) throw new Error(`applyVoiceRegeneration: escena "${sceneId}": "audioDurationSeconds" debe ser un número real > 0.`);
+
+  return applyProjectEdit(project, {
+    scenes: {
+      [sceneId]: {
+        voiceTrack: {
+          sourcePath: audioSourcePath, isRegenerated: true, durationSeconds: audioDurationSeconds, regeneratedAt,
+        },
+        durationOverride: null,
+      },
+    },
   });
 }

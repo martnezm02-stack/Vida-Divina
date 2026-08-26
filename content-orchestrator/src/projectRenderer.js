@@ -19,13 +19,16 @@ import { randomUUID, createHash } from 'node:crypto';
 import {
   renderScene, distribuirSubtitulos, recortarAudioReal, correr,
 } from '../../video-production/src/hyperframesRenderer.js';
+import { shouldRenderCaptions } from '../../video-production/src/captionStyle.js';
 import { generateImage } from '../../image-generation/src/imageProvider.js';
 import { LocalFfmpegEnhancementProvider } from './enhancementProvider.js';
 import { selectMusicTrack } from './musicProvider.js';
 import { getOutputProfile } from './outputProfiles.js';
 import { runProductionQualityGate } from './productionQualityGate.js';
 import { classifyChangeset } from './projectEditor.js';
-import { getLatestVersion } from './editableVideoProject.js';
+import {
+  getLatestVersion, currentSceneBaseDuration, currentSceneNarration, currentSceneOnScreenText, currentSceneOnScreenTextVisible,
+} from './editableVideoProject.js';
 
 export const RENDER_MODES = Object.freeze(['RENDER', 'PREVIEW']);
 
@@ -36,12 +39,24 @@ function aplicarVolumenReal(sourcePath, volume, outputPath, ffmpegBinDir) {
   return outputPath;
 }
 
-/** Resuelve el audio REAL a usar para una escena en esta versión -- recorta si hay durationOverride real (nunca alarga, ver projectEditor.js), ajusta volumen real si difiere de 1. Nunca vuelve a llamar a Voice Engine. */
+/**
+ * Resuelve el audio REAL a usar para una escena en esta versión -- recorta
+ * si hay durationOverride real (nunca alarga, ver projectEditor.js),
+ * ajusta volumen real si difiere de 1. Nunca vuelve a llamar a Voice
+ * Engine (eso ya ocurrió, si aplica, en applyVoiceRegeneration() ANTES de
+ * llegar aquí -- este renderer solo consume `scene.voiceTrack.sourcePath`
+ * ya resuelto, sea original o regenerado).
+ *
+ * `baseDuration` (Problema 4) usa la duración real del audio REGENERADO si
+ * la voz ya se regeneró para esta escena -- nunca la duración original de
+ * producción en ese caso (ver editableVideoProject.js#currentSceneBaseDuration).
+ */
 function resolverAudioEfectivoEscena(scene, versionDir, ffmpegBinDir) {
   let audioPath = scene.voiceTrack.sourcePath;
-  const effectiveDuration = scene.durationOverride ?? scene.duration;
+  const baseDuration = currentSceneBaseDuration(scene);
+  const effectiveDuration = scene.durationOverride ?? baseDuration;
   const sceneWorkDir = join(versionDir, scene.sceneId);
-  if (scene.durationOverride && scene.durationOverride < scene.duration) {
+  if (scene.durationOverride && scene.durationOverride < baseDuration) {
     mkdirSync(sceneWorkDir, { recursive: true });
     const trimmedPath = join(sceneWorkDir, `${scene.sceneId}-audio-trimmed.wav`);
     recortarAudioReal(audioPath, 0, effectiveDuration, trimmedPath, ffmpegBinDir);
@@ -120,13 +135,22 @@ export async function renderProjectVersion(project, { ffmpegBinDir = null, mode 
     }
 
     const { audioPath, effectiveDuration } = resolverAudioEfectivoEscena(scene, versionDir, ffmpegBinDir);
-    const subtitulos = distribuirSubtitulos([scene.narration], effectiveDuration);
+    // Problema 2/4: el texto REAL vigente de cada capa -- narración
+    // (voiceover, fuente de los captions) y on-screen text (Hook) son DOS
+    // campos independientes, nunca uno solo (ver editableVideoProject.js).
+    const narrationText = currentSceneNarration(scene);
+    const onScreenText = currentSceneOnScreenText(scene);
+    const captionsVisible = shouldRenderCaptions({
+      visibilityMode: scene.captionsVisibility, onScreenText, narrationText,
+    });
+    const subtitulos = captionsVisible ? distribuirSubtitulos([narrationText], effectiveDuration) : [];
     const sceneVersionDir = join(versionDir, scene.sceneId, 'proj');
     // eslint-disable-next-line no-await-in-loop
     const rendered = renderScene({
       projectDir: sceneVersionDir,
       sceneKind: scene.sceneKind,
-      text: scene.onScreenTextOverride ?? scene.onScreenText,
+      text: onScreenText,
+      onScreenTextVisible: currentSceneOnScreenTextVisible(scene),
       ctaWhatsappLabel: scene.sceneKind === 'CTA' ? 'WhatsApp' : null,
       imageSourcePath,
       audioSourcePath: audioPath,
@@ -182,8 +206,8 @@ export async function renderProjectVersion(project, { ffmpegBinDir = null, mode 
   const outputs = [];
   const qualityReports = [];
   const ctaScene = project.scenes.find((s) => s.sceneKind === 'CTA');
-  const expectedCtaText = ctaScene ? (ctaScene.onScreenTextOverride ?? ctaScene.onScreenText) : (project.scenes[0]?.onScreenText ?? '');
-  const totalDurationSeconds = project.scenes.reduce((acc, s) => acc + (s.durationOverride ?? s.duration), 0);
+  const expectedCtaText = ctaScene ? currentSceneOnScreenText(ctaScene) : (project.scenes[0]?.onScreenText ?? '');
+  const totalDurationSeconds = project.scenes.reduce((acc, s) => acc + (s.durationOverride ?? currentSceneBaseDuration(s)), 0);
 
   for (const profileName of profilesToRender) {
     const profile = getOutputProfile(profileName);

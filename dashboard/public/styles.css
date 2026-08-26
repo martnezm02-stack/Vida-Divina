@@ -270,3 +270,16 @@ main#app { max-width: 1180px; margin: 0 auto; padding: 40px 32px 80px; }
 .editor-actions { display: flex; gap: 10px; margin-top: 14px; }
 #editor-scene-props label, #editor-scene-props input, #editor-scene-props select, #editor-scene-props textarea { display: block; width: 100%; margin-top: 4px; }
 #editor-scene-props label { font-size: 12px; color: var(--olive); margin-top: 10px; }
+
+/* Fix Editor Hook/Voiceover/Captions (2026-08-25) -- tres capas separadas por escena. */
+.editor-layer-section { border-top: 1px solid var(--line); padding-top: 10px; margin-top: 14px; }
+.editor-layer-section:first-of-type { border-top: none; margin-top: 4px; padding-top: 0; }
+.editor-layer-section h4 { font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--burgundy); margin: 0 0 6px; }
+.editor-layer-section h5 { font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--olive); margin: 10px 0 4px; }
+.editor-note { font-size: 11px; color: #6b654f; font-style: italic; margin: 4px 0 0; }
+.inline-check { display: flex !important; align-items: center; gap: 6px; width: auto !important; }
+.inline-check input { width: auto !important; margin-top: 0 !important; }
+#prop-style-advanced { background: var(--cream-2); border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; margin-top: 8px; }
+.highlight-word-row { display: grid; grid-template-columns: 1.6fr 0.6fr 0.7fr 0.8fr 0.6fr 0.9fr auto; gap: 6px; align-items: center; margin-bottom: 6px; }
+.highlight-word-row input, .highlight-word-row select { margin-top: 0 !important; width: 100% !important; }
+.highlight-word-row .hw-remove { padding: 4px 10px; font-size: 11px; }

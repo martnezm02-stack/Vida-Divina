@@ -16,6 +16,7 @@
 import { join } from 'node:path';
 import { randomUUID } from 'node:crypto';
 import { SCENE_KIND_BY_VISUAL_INTENT } from './creativeProductionOrchestrator.js';
+import { resolveEffectiveCaptionsVisibility } from '../../video-production/src/captionStyle.js';
 
 export const PROJECT_VERSION_STATUSES = Object.freeze(['FULL_PRODUCTION', 'DEGRADED_PRODUCTION', 'FAILED']);
 
@@ -66,9 +67,26 @@ export function buildEditableProjectFromProductionJob({ jobRecord, projectId = r
       textOverlaysOverride: null,
       assetOverride: null,
       onScreenTextOverride: null,
+      // Fix Editor Hook/Voiceover/Captions (2026-08-25) -- HOOK/ON-SCREEN
+      // TEXT, VOICEOVER y CAPTIONS son TRES capas distintas (ver
+      // docs/PROJECT_STATE.md): `onScreenTextOverride` (arriba) edita SOLO
+      // el texto visual; `voiceoverTextOverride` edita SOLO el guion
+      // hablado (regenera voz real, ver projectEditor.js#applyVoiceRegeneration);
+      // ninguno de los dos toca al otro.
+      voiceoverTextOverride: null,
+      onScreenTextVisible: true,
+      // Captions: Auto/Mostrar/Ocultar (Problema 1) -- 'AUTO' decide en
+      // base a isHookCaptionDuplicate() (Problema 2, ver captionStyle.js).
+      captionsVisibility: 'AUTO',
       durationOverride: null,
       voiceTrack: Object.freeze({
         sourcePath: sceneAudioPath(projectDir, scene.sceneId), volume: 1, isRegenerated: false,
+        // Duración real conocida del audio BASE de esta escena (= scene.duration,
+        // ya medido por la producción original) -- se actualiza SOLO cuando
+        // se regenera la voz real (Problema 4), nunca al editar el Hook/On-Screen
+        // Text ni el estilo de captions.
+        durationSeconds: scene.duration,
+        regeneratedAt: null,
       }),
     });
   });
@@ -129,4 +147,42 @@ export function getCurrentDraftSnapshot(project) {
 
 export function getLatestVersion(project) {
   return project.versions[project.versions.length - 1];
+}
+
+// ---------------------------------------------------------------------
+// Helpers de "valor efectivo actual" de una escena -- fuente ÚNICA de
+// verdad para projectEditor.js (validación) y projectRenderer.js (render),
+// para que ambos nunca puedan desincronizarse sobre qué duración/narración/
+// texto/visibilidad está REALMENTE vigente para una escena real. Todos
+// usan `??`/fallback explícito -- backward compatible con proyectos reales
+// guardados ANTES de estos campos (Fix Editor Hook/Voiceover/Captions,
+// 2026-08-25): un proyecto viejo cargado de disco sin `voiceoverTextOverride`/
+// `captionsVisibility`/`onScreenTextVisible`/`voiceTrack.durationSeconds`
+// se comporta EXACTAMENTE igual que antes de este fix.
+
+/** Duración real "base" vigente de una escena -- la del audio REGENERADO real si ya se regeneró la voz (Problema 4), o la original de producción si no. `durationOverride` (recorte manual) se aplica SOBRE este valor, nunca lo reemplaza. */
+export function currentSceneBaseDuration(scene) {
+  return scene.voiceTrack?.isRegenerated && Number.isFinite(scene.voiceTrack?.durationSeconds)
+    ? scene.voiceTrack.durationSeconds
+    : scene.duration;
+}
+
+/** Texto de VOICEOVER real vigente de una escena -- el override real del usuario (Problema 4) si existe, la narración original si no. Nunca el mismo campo que el Hook/On-Screen Text (Problema 2: son TRES capas distintas). */
+export function currentSceneNarration(scene) {
+  return scene.voiceoverTextOverride ?? scene.narration;
+}
+
+/** Texto de HOOK/ON-SCREEN TEXT real vigente de una escena -- el override real del usuario si existe, el original si no. */
+export function currentSceneOnScreenText(scene) {
+  return scene.onScreenTextOverride ?? scene.onScreenText;
+}
+
+/** true si el Hook/On-Screen Text de esta escena debe verse -- backward compatible (ausente = true, mismo comportamiento que antes de este fix). */
+export function currentSceneOnScreenTextVisible(scene) {
+  return scene.onScreenTextVisible ?? true;
+}
+
+/** Modo real de visibilidad de captions vigente ('AUTO'/'SHOW'/'HIDE') -- backward compatible (ausente/inválido = 'AUTO', mismo comportamiento visual que antes de este fix: captions siempre mostrados). */
+export function currentSceneCaptionsVisibility(scene) {
+  return resolveEffectiveCaptionsVisibility(scene.captionsVisibility);
 }

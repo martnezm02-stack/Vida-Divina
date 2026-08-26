@@ -152,3 +152,105 @@ describe('GET /api/music-library — biblioteca real con licencia conocida', () 
     }
   });
 });
+
+// Fix Editor Hook/Voiceover/Captions (2026-08-25).
+describe('GET /api/caption-style-options — opciones/presets reales de captionStyle.js (nunca duplicados en el cliente)', () => {
+  test('expone posiciones/alineaciones/animaciones/modos/presets reales', async () => {
+    const { status, body } = await get('/api/caption-style-options');
+    assert.equal(status, 200);
+    assert.deepEqual(body.visibilityModes, ['AUTO', 'SHOW', 'HIDE']);
+    assert.deepEqual(body.presetNames, ['CLASSIC', 'BOLD', 'MINIMAL', 'HIGHLIGHT', 'SOCIAL_DYNAMIC']);
+    assert.equal(body.presets.BOLD.presetId, 'BOLD');
+    assert.equal(body.presets.BOLD.fontWeight, 800);
+    assert.equal(body.presets.CLASSIC.position, 'bottom');
+  });
+});
+
+describe('POST /api/projects/:id/edit — captions Auto/Mostrar/Ocultar + Hook visible/oculto (Problema 1/2)', () => {
+  let projectId;
+  before(async () => {
+    const { body } = await post('/api/projects', { productionJobId });
+    projectId = body.projectId;
+  });
+
+  test('captionsVisibility real se guarda y se refleja en la escena', async () => {
+    const { status, body } = await post(`/api/projects/${projectId}/edit`, {
+      edits: { scenes: { 'scene-1': { captionsVisibility: 'HIDE' } } },
+    });
+    assert.equal(status, 200);
+    assert.equal(body.project.scenes.find((s) => s.sceneId === 'scene-1').captionsVisibility, 'HIDE');
+  });
+
+  test('captionsVisibility inválida responde 400, nunca 500', async () => {
+    const { status, body } = await post(`/api/projects/${projectId}/edit`, {
+      edits: { scenes: { 'scene-1': { captionsVisibility: 'DIAGONAL' } } },
+    });
+    assert.equal(status, 400);
+    assert.match(body.error, /captionsVisibility/);
+  });
+
+  test('onScreenTextVisible real se guarda sin tocar voiceoverTextOverride ni voiceTrack (Regla de Capas)', async () => {
+    const { status, body } = await post(`/api/projects/${projectId}/edit`, {
+      edits: { scenes: { 'scene-1': { onScreenTextVisible: false } } },
+    });
+    assert.equal(status, 200);
+    const scene1 = body.project.scenes.find((s) => s.sceneId === 'scene-1');
+    assert.equal(scene1.onScreenTextVisible, false);
+    assert.equal(scene1.voiceoverTextOverride, null);
+    assert.equal(scene1.voiceTrack.isRegenerated, false);
+  });
+
+  test('voiceoverTextOverride real se guarda como draft SIN regenerar voz (voiceTrack intacto)', async () => {
+    const { status, body } = await post(`/api/projects/${projectId}/edit`, {
+      edits: { scenes: { 'scene-1': { voiceoverTextOverride: 'Un guion hablado real distinto.' } } },
+    });
+    assert.equal(status, 200);
+    const scene1 = body.project.scenes.find((s) => s.sceneId === 'scene-1');
+    assert.equal(scene1.voiceoverTextOverride, 'Un guion hablado real distinto.');
+    assert.equal(scene1.voiceTrack.isRegenerated, false);
+    assert.equal(scene1.onScreenText, 'Hook real.'); // el Hook nunca cambia al editar voiceover.
+  });
+});
+
+describe('POST /api/projects/:id/scenes/:sceneId/regenerate-voice — Problema 4 (Voice Engine real, único camino)', () => {
+  let projectId;
+  before(async () => {
+    const { body } = await post('/api/projects', { productionJobId });
+    projectId = body.projectId;
+  });
+
+  test('sceneId real inexistente responde 404', async () => {
+    const { status, body } = await post(`/api/projects/${projectId}/scenes/scene-inventada/regenerate-voice`, { voiceoverText: 'x' });
+    assert.equal(status, 404);
+    assert.match(body.error, /scene-inventada/);
+  });
+
+  test('projectId real inexistente responde 404', async () => {
+    const { status } = await post('/api/projects/no-existe-real/scenes/scene-1/regenerate-voice', { voiceoverText: 'x' });
+    assert.equal(status, 404);
+  });
+
+  test('un voiceoverText con un claim prohibido real se rechaza (200 + VALIDATION_FAILED) ANTES de llamar a Voice Engine', async () => {
+    const { status, body } = await post(`/api/projects/${projectId}/scenes/scene-1/regenerate-voice`, {
+      voiceoverText: 'Este producto cura el envejecimiento por completo.',
+    });
+    assert.equal(status, 200);
+    assert.equal(body.status, 'VALIDATION_FAILED');
+    assert.ok(Array.isArray(body.errors) && body.errors.length > 0);
+  });
+
+  test('Voice Engine real disponible: regenera la voz de la escena y sincroniza narración/duración', async (t) => {
+    const health = await fetch('http://localhost:8000/health').catch(() => null);
+    if (!health?.ok) { t.skip('Voice Engine no está reachable en este entorno -- se omite (cubierto por unit tests de projectEditor.js).'); return; }
+
+    const marker = `EDITOR VOICE REGEN TEST ${Date.now()}`;
+    const { status, body } = await post(`/api/projects/${projectId}/scenes/scene-1/regenerate-voice`, { voiceoverText: marker });
+    assert.equal(status, 200);
+    const scene1 = body.project.scenes.find((s) => s.sceneId === 'scene-1');
+    assert.equal(scene1.voiceoverTextOverride, marker);
+    assert.equal(scene1.voiceTrack.isRegenerated, true);
+    assert.ok(scene1.voiceTrack.regeneratedAt);
+    assert.ok(body.pendingChangeset.voiceRegeneratedSceneIds.includes('scene-1'));
+    assert.ok(body.pendingChangeset.rerenderedSceneIds.includes('scene-1'));
+  });
+});

@@ -31,6 +31,7 @@ import { handleGenerateContentPlan } from './routes/campaignPilot.js';
 import { handleGetAutoPublish, handleGetAutoPublishHistory, handleEnableAutoPublish, handleDisableAutoPublish } from './routes/autoPublish.js';
 import {
   handleCreateProject, handleGetProject, handleListProjectsForCreative, handleEditProject, handleRenderProject, handleMusicLibrary,
+  handleRegenerateSceneVoice, handleCaptionStyleOptions,
 } from './routes/projects.js';
 import {
   handleListSchedules, handleGetSchedule, handleCreateSchedule, handleApproveSchedule,
@@ -107,12 +108,16 @@ const server = http.createServer(async (req, res) => {
     if (pathname === '/api/projects' && req.method === 'POST') { await handleCreateProject(req, res); return; }
     if (pathname === '/api/projects' && req.method === 'GET') { await handleListProjectsForCreative(req, res, url); return; }
     if (pathname === '/api/music-library' && req.method === 'GET') { await handleMusicLibrary(req, res); return; }
+    if (pathname === '/api/caption-style-options' && req.method === 'GET') { await handleCaptionStyleOptions(req, res); return; }
     const projectIdMatch = pathname.match(/^\/api\/projects\/([^/]+)$/);
     if (projectIdMatch && req.method === 'GET') { await handleGetProject(req, res, projectIdMatch[1]); return; }
     const projectEditMatch = pathname.match(/^\/api\/projects\/([^/]+)\/edit$/);
     if (projectEditMatch && req.method === 'POST') { await handleEditProject(req, res, projectEditMatch[1]); return; }
     const projectRenderMatch = pathname.match(/^\/api\/projects\/([^/]+)\/render$/);
     if (projectRenderMatch && req.method === 'POST') { await handleRenderProject(req, res, projectRenderMatch[1]); return; }
+    // Fix Editor Hook/Voiceover/Captions (2026-08-25), Problema 4.
+    const projectRegenerateVoiceMatch = pathname.match(/^\/api\/projects\/([^/]+)\/scenes\/([^/]+)\/regenerate-voice$/);
+    if (projectRegenerateVoiceMatch && req.method === 'POST') { await handleRegenerateSceneVoice(req, res, projectRegenerateVoiceMatch[1], projectRegenerateVoiceMatch[2]); return; }
 
     // PERFORMANCE INTELLIGENCE (Fase 6 -- lectura mínima, solo lectura)
     if (pathname === '/api/performance' && req.method === 'GET') { await handlePerformanceList(req, res); return; }

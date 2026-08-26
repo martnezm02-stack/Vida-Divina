@@ -564,10 +564,16 @@ export const SCENE_KINDS = Object.freeze(['CONCEPT', 'PRODUCT', 'CTA']);
  * habilita resaltado de palabras; `textOverlays` agrega texto en pantalla
  * INDEPENDIENTE de los subtítulos de narración (ej. un dato/badge que no
  * viene de la voz).
+ *
+ * `onScreenTextVisible` (Fix Editor Hook/Voiceover/Captions, 2026-08-25):
+ * EXTENSIÓN aditiva, default `true` (byte-idéntico si se omite) -- oculta
+ * SOLO la capa visual del Hook/CTA-headline (`.hook-text`/`.cta-text`),
+ * nunca borra `text` (sigue validado/disponible) ni el pill de WhatsApp
+ * real en escenas CTA (esa es la acción, no el copy decorativo).
  */
 export function construirComposicionEscenaHtml({
   sceneKind, text, ctaWhatsappLabel = null, imageRelPath = null, audioRelPath, durationSeconds, subtitulos,
-  brandColors = DEFAULT_BRAND_COLORS, captionStyle = null, textOverlays = [],
+  brandColors = DEFAULT_BRAND_COLORS, captionStyle = null, textOverlays = [], onScreenTextVisible = true,
 }) {
   if (!SCENE_KINDS.includes(sceneKind)) throw new Error(`construirComposicionEscenaHtml: "sceneKind" inválido "${sceneKind}" (válidos: ${SCENE_KINDS.join(', ')}).`);
   assertNonEmptyString(text, 'text');
@@ -605,8 +611,10 @@ export function construirComposicionEscenaHtml({
   const cuerpoEscena = sceneKind === 'PRODUCT' && imageRelPath
     ? `<img class="product-photo" src="${escapeHtml(imageRelPath)}" alt="" />`
     : sceneKind === 'CTA'
-      ? `<div class="content"><div class="cta-text">${escapeHtml(text)}</div><div class="whatsapp-pill">${escapeHtml(ctaWhatsappLabel)} →</div></div>`
-      : `<div class="content"><div class="hook-text">${escapeHtml(text)}</div></div>`;
+      ? `<div class="content">${onScreenTextVisible ? `<div class="cta-text">${escapeHtml(text)}</div>` : ''}<div class="whatsapp-pill">${escapeHtml(ctaWhatsappLabel)} →</div></div>`
+      : onScreenTextVisible
+        ? `<div class="content"><div class="hook-text">${escapeHtml(text)}</div></div>`
+        : `<div class="content"></div>`;
 
   const animacionCuerpo = sceneKind === 'PRODUCT' && imageRelPath
     ? `mainTl.fromTo('.product-photo', { opacity: 0, scale: 1 }, { opacity: 1, duration: 0.4 }, 0);
@@ -680,7 +688,7 @@ export function construirComposicionEscenaHtml({
  */
 export function renderScene({
   projectDir, sceneKind, text, ctaWhatsappLabel = null, imageSourcePath = null, audioSourcePath, durationSeconds,
-  subtitulos, ffmpegBinDir = null, brandColors = DEFAULT_BRAND_COLORS, captionStyle = null, textOverlays = [],
+  subtitulos, ffmpegBinDir = null, brandColors = DEFAULT_BRAND_COLORS, captionStyle = null, textOverlays = [], onScreenTextVisible = true,
 }) {
   assertNonEmptyString(audioSourcePath, 'audioSourcePath');
   if (!existsSync(audioSourcePath)) throw new Error(`renderScene: no existe el Audio Asset real en ${audioSourcePath}.`);
@@ -700,7 +708,7 @@ export function renderScene({
   }
 
   const html = construirComposicionEscenaHtml({
-    sceneKind, text, ctaWhatsappLabel, imageRelPath, audioRelPath, durationSeconds, subtitulos, brandColors, captionStyle, textOverlays,
+    sceneKind, text, ctaWhatsappLabel, imageRelPath, audioRelPath, durationSeconds, subtitulos, brandColors, captionStyle, textOverlays, onScreenTextVisible,
   });
   writeFileSync(join(projectDir, 'index.html'), html, 'utf8');
   writeFileSync(join(projectDir, 'hyperframes.json'), JSON.stringify({

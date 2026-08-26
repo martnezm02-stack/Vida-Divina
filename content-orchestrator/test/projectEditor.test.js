@@ -1,9 +1,12 @@
 // projectEditor.test.js — Editable Video Project (2026-08-24). Prueba
 // pura (sin ffmpeg/Chrome real) de applyProjectEdit()/classifyChangeset().
 
-import { test, describe } from 'node:test';
+import { test, describe, after } from 'node:test';
 import assert from 'node:assert/strict';
-import { applyProjectEdit, classifyChangeset } from '../src/projectEditor.js';
+import { mkdtempSync, writeFileSync, rmSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
+import { applyProjectEdit, applyVoiceRegeneration, classifyChangeset } from '../src/projectEditor.js';
 import { buildEditableProjectFromProductionJob } from '../src/editableVideoProject.js';
 
 const PROJECT_DIR = 'C:\\fake\\produce-xyz';
@@ -87,6 +90,100 @@ describe('applyProjectEdit — ediciones reales, inmutables, validadas', () => {
   test('voiceTrack.volume real se valida (>= 0)', () => {
     const project = proyectoBase();
     assert.throws(() => applyProjectEdit(project, { scenes: { 'scene-1': { voiceTrack: { volume: -1 } } } }), /volume/);
+  });
+
+  // Fix Editor Hook/Voiceover/Captions (2026-08-25) -- REGLA DE CAPAS: HOOK/
+  // ON-SCREEN TEXT, VOICEOVER y CAPTIONS son TRES campos independientes.
+  describe('Regla de Capas -- Hook/On-Screen Text, Voiceover y Captions nunca se pisan entre sí', () => {
+    test('captionsVisibility real se edita y se valida (Auto/Mostrar/Ocultar)', () => {
+      const project = proyectoBase();
+      const edited = applyProjectEdit(project, { scenes: { 'scene-1': { captionsVisibility: 'HIDE' } } });
+      assert.equal(edited.scenes.find((s) => s.sceneId === 'scene-1').captionsVisibility, 'HIDE');
+      assert.throws(() => applyProjectEdit(project, { scenes: { 'scene-1': { captionsVisibility: 'DIAGONAL' } } }), /captionsVisibility/);
+    });
+
+    test('onScreenTextVisible real se edita y se valida boolean', () => {
+      const project = proyectoBase();
+      const edited = applyProjectEdit(project, { scenes: { 'scene-1': { onScreenTextVisible: false } } });
+      assert.equal(edited.scenes.find((s) => s.sceneId === 'scene-1').onScreenTextVisible, false);
+      assert.throws(() => applyProjectEdit(project, { scenes: { 'scene-1': { onScreenTextVisible: 'no' } } }), /onScreenTextVisible/);
+    });
+
+    test('editar voiceoverTextOverride NUNCA toca onScreenText/onScreenTextOverride ni voiceTrack (Problema 4: no regenera al escribir)', () => {
+      const project = proyectoBase();
+      const edited = applyProjectEdit(project, { scenes: { 'scene-1': { voiceoverTextOverride: 'Un guion hablado real distinto del Hook.' } } });
+      const scene1 = edited.scenes.find((s) => s.sceneId === 'scene-1');
+      assert.equal(scene1.voiceoverTextOverride, 'Un guion hablado real distinto del Hook.');
+      assert.equal(scene1.onScreenText, 'Hook real.');
+      assert.equal(scene1.onScreenTextOverride, null);
+      assert.equal(scene1.voiceTrack.sourcePath, project.scenes[0].voiceTrack.sourcePath);
+      assert.equal(scene1.voiceTrack.isRegenerated, false);
+    });
+
+    test('editar onScreenTextOverride NUNCA toca voiceoverTextOverride ni voiceTrack (Problema 4, dirección inversa)', () => {
+      const project = proyectoBase();
+      const edited = applyProjectEdit(project, { scenes: { 'scene-1': { onScreenTextOverride: 'Un Hook nuevo real.' } } });
+      const scene1 = edited.scenes.find((s) => s.sceneId === 'scene-1');
+      assert.equal(scene1.onScreenTextOverride, 'Un Hook nuevo real.');
+      assert.equal(scene1.voiceoverTextOverride, null);
+      assert.equal(scene1.voiceTrack.isRegenerated, false);
+    });
+
+    test('rechaza voiceoverTextOverride vacío', () => {
+      const project = proyectoBase();
+      assert.throws(() => applyProjectEdit(project, { scenes: { 'scene-1': { voiceoverTextOverride: '   ' } } }), /voiceoverTextOverride/);
+    });
+  });
+});
+
+describe('applyVoiceRegeneration — Problema 4 "EDITAR VOICEOVER DEBE REGENERAR LA VOZ", único camino real', () => {
+  const TEST_TMP_DIR = mkdtempSync(join(tmpdir(), 'apply-voice-regen-test-'));
+  const NUEVO_AUDIO_PATH = join(TEST_TMP_DIR, 'nuevo-voiceover.wav');
+  writeFileSync(NUEVO_AUDIO_PATH, Buffer.from('RIFF....WAVEfmt '));
+  after(() => rmSync(TEST_TMP_DIR, { recursive: true, force: true }));
+
+  test('sceneId real desconocido lanza', () => {
+    const project = proyectoBase();
+    assert.throws(() => applyVoiceRegeneration(project, 'scene-inventada', { audioSourcePath: NUEVO_AUDIO_PATH, audioDurationSeconds: 3 }), /desconocido/);
+  });
+
+  test('audioSourcePath real que no existe lanza', () => {
+    const project = proyectoBase();
+    assert.throws(() => applyVoiceRegeneration(project, 'scene-1', { audioSourcePath: 'C:/no/existe-real.wav', audioDurationSeconds: 3 }), /no existe realmente/);
+  });
+
+  test('audioDurationSeconds inválido lanza', () => {
+    const project = proyectoBase();
+    assert.throws(() => applyVoiceRegeneration(project, 'scene-1', { audioSourcePath: NUEVO_AUDIO_PATH, audioDurationSeconds: 0 }), /audioDurationSeconds/);
+  });
+
+  test('actualiza voiceTrack real (sourcePath/duración/lineage) y resetea durationOverride, SIN tocar el Hook', () => {
+    const project = proyectoBase();
+    const conOverridePrevio = applyProjectEdit(project, { scenes: { 'scene-1': { durationOverride: 2 } } });
+    const regenerada = applyVoiceRegeneration(conOverridePrevio, 'scene-1', { audioSourcePath: NUEVO_AUDIO_PATH, audioDurationSeconds: 3.7 });
+    const scene1 = regenerada.scenes.find((s) => s.sceneId === 'scene-1');
+    assert.equal(scene1.voiceTrack.sourcePath, NUEVO_AUDIO_PATH);
+    assert.equal(scene1.voiceTrack.durationSeconds, 3.7);
+    assert.equal(scene1.voiceTrack.isRegenerated, true);
+    assert.ok(scene1.voiceTrack.regeneratedAt);
+    assert.equal(scene1.durationOverride, null); // el recorte anterior era relativo a la duración BASE anterior -- ya no aplica.
+    assert.equal(scene1.onScreenText, 'Hook real.'); // el Hook NUNCA cambia al regenerar voz.
+  });
+
+  test('nunca muta el proyecto original (inmutable, mismo criterio que applyProjectEdit)', () => {
+    const project = proyectoBase();
+    const regenerada = applyVoiceRegeneration(project, 'scene-1', { audioSourcePath: NUEVO_AUDIO_PATH, audioDurationSeconds: 3.7 });
+    assert.notEqual(regenerada, project);
+    assert.equal(project.scenes.find((s) => s.sceneId === 'scene-1').voiceTrack.isRegenerated, false);
+  });
+
+  test('classifyChangeset detecta la regeneración real: re-render + voiceRegeneratedSceneIds', () => {
+    const project = proyectoBase();
+    const regenerada = applyVoiceRegeneration(project, 'scene-1', { audioSourcePath: NUEVO_AUDIO_PATH, audioDurationSeconds: 3.7 });
+    const changeset = classifyChangeset(project.versions[0], regenerada);
+    assert.ok(changeset.rerenderedSceneIds.includes('scene-1'));
+    assert.ok(changeset.voiceRegeneratedSceneIds.includes('scene-1'));
+    assert.deepEqual([...changeset.reusedSceneIds], ['scene-2']);
   });
 });
 
