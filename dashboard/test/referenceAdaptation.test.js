@@ -7,7 +7,7 @@
 
 import { test, describe, before, after } from 'node:test';
 import assert from 'node:assert/strict';
-import { existsSync, rmSync, mkdtempSync } from 'node:fs';
+import { existsSync, rmSync, mkdtempSync, writeFileSync } from 'node:fs';
 import { spawnSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import { readFileSync } from 'node:fs';
@@ -41,10 +41,42 @@ function generarVideoDeReferenciaReal() {
   if (r.status !== 0) throw new Error(`No se pudo generar el video de referencia real de prueba: ${r.stderr}`);
 }
 
+// Reference Intelligence real (2026-08-27) -- video CON subtítulos
+// embebidos reales, para probar el flujo HTTP completo de transcripción
+// real + heurísticas reales de hook/CTA/problema/estructura.
+const REFERENCE_VIDEO_WITH_SUBS = join(TEST_TMP_DIR, 'referencia-con-subs.mp4');
+const SRT_PATH = join(TEST_TMP_DIR, 'referencia-subs.srt');
+const SRT_CONTENT_HTTP = `1
+00:00:00,000 --> 00:00:02,000
+¿Por qué nadie te dijo esto antes?
+
+2
+00:00:02,000 --> 00:00:04,000
+Es un problema real que casi todos enfrentan.
+
+3
+00:00:04,000 --> 00:00:06,000
+Escríbenos por WhatsApp para conocer más.
+`;
+function generarVideoDeReferenciaConSubsReales() {
+  const ffmpegBin = join(FFMPEG_BIN_DIR, 'ffmpeg.exe');
+  writeFileSync(SRT_PATH, SRT_CONTENT_HTTP, 'utf8');
+  const r = spawnSync(ffmpegBin, [
+    '-y', '-f', 'lavfi', '-i', 'color=c=0x29361C:s=640x360:d=6:r=30',
+    '-f', 'lavfi', '-i', 'sine=frequency=440:duration=6:sample_rate=48000',
+    '-i', SRT_PATH,
+    '-c:v', 'libx264', '-pix_fmt', 'yuv420p', '-c:a', 'aac', '-b:a', '128k', '-c:s', 'mov_text', '-movflags', '+faststart',
+    REFERENCE_VIDEO_WITH_SUBS,
+  ], { encoding: 'utf8', shell: false });
+  if (r.status !== 0) throw new Error(`No se pudo generar el video de referencia CON subtítulos reales: ${r.stderr}`);
+}
+
 let baseUrl;
 let ingestedReferenceDir; // carpeta real bajo video-production/reference-analysis/<hash> -- se limpia en after().
+const ingestedReferenceDirs = []; // varias referencias reales analizadas en esta suite -- todas se limpian en after().
 before(() => new Promise((resolve, reject) => {
   generarVideoDeReferenciaReal();
+  generarVideoDeReferenciaConSubsReales();
   if (server.listening) { baseUrl = `http://127.0.0.1:${server.address().port}`; resolve(); return; }
   server.once('listening', () => { baseUrl = `http://127.0.0.1:${server.address().port}`; resolve(); });
   server.once('error', reject);
@@ -54,6 +86,7 @@ after(async () => {
   rmSync(TEST_TMP_DIR, { recursive: true, force: true });
   rmSync(TEST_CO_DATA_ROOT, { recursive: true, force: true });
   if (ingestedReferenceDir) rmSync(ingestedReferenceDir, { recursive: true, force: true });
+  for (const dir of ingestedReferenceDirs) rmSync(dir, { recursive: true, force: true });
 });
 
 async function post(path, body) {
@@ -72,20 +105,28 @@ describe('POST /api/adapt/reference/analyze', () => {
     assert.match(body.error, /no existe/);
   });
 
-  test('analiza un video de referencia real -- duración/formato reales, estructura de escenas, keyframes reales, campos semánticos explícitamente no disponibles', async () => {
+  test('analiza un video de referencia real -- duración/formato reales (technicalAnalysis, sin duplicar), campos semánticos explícitamente no disponibles sin subtítulos embebidos', async () => {
     const { status, body } = await post('/api/adapt/reference/analyze', { sourcePath: REFERENCE_VIDEO });
     assert.equal(status, 200);
     assert.equal(body.reused, false);
     const { analysis } = body;
     ingestedReferenceDir = join('C:\\Users\\manue\\Vida Divina\\video-production\\reference-analysis', analysis.referenceId);
-    assert.ok(Math.abs(analysis.duration - 6) < 0.5);
-    assert.equal(analysis.aspectRatio, '16:9');
-    assert.ok(analysis.pacing.sceneCount >= 1);
-    assert.ok(Array.isArray(analysis.scenes) && analysis.scenes.length >= 1);
-    assert.ok(Array.isArray(analysis.keyframes) && analysis.keyframes.length >= 1);
-    assert.ok(analysis.keyframes[0].mediaUrl.startsWith('/media/video-production/'));
+    const { technicalAnalysis } = analysis;
+    assert.ok(Math.abs(technicalAnalysis.duration - 6) < 0.5);
+    assert.equal(technicalAnalysis.aspectRatio, '16:9');
+    assert.ok(technicalAnalysis.pacing.sceneCount >= 1);
+    assert.ok(Array.isArray(technicalAnalysis.scenes) && technicalAnalysis.scenes.length >= 1);
+    assert.ok(Array.isArray(technicalAnalysis.keyframes) && technicalAnalysis.keyframes.length >= 1);
+    assert.ok(technicalAnalysis.keyframes[0].mediaUrl.startsWith('/media/video-production/'));
+    // Reference Intelligence real -- sin subtítulos embebidos ni OCR/visión disponibles, todo explícito.
     assert.equal(analysis.transcript.available, false);
     assert.equal(analysis.hook.available, false);
+    assert.equal(analysis.cta.available, false);
+    assert.equal(analysis.onScreenText.available, false);
+    assert.equal(analysis.visualStyle.available, false);
+    assert.equal(analysis.people.available, false);
+    assert.equal(analysis.productPresence.available, false);
+    assert.ok(Array.isArray(analysis.semanticScenes) && analysis.semanticScenes.length === technicalAnalysis.scenes.length);
   });
 
   test('reanalizar el MISMO video real reutiliza el análisis ya persistido -- nunca vuelve a correr ffmpeg/ffprobe', async () => {
@@ -145,5 +186,58 @@ describe('POST /api/adapt/reference/propose', () => {
     const batch = await get(`/api/create/hypothesis-batches?campaignId=te-divina`);
     assert.equal(batch.status, 200);
     assert.ok(batch.body.batches.some((b) => b.batchId === body.proposals[0].batchId));
+  });
+
+  test('un CampaignIntent real inválido (claim médico no permitido) se rechaza con 400 -- la referencia nunca fuerza un claim que el producto no tenga permitido (regla 15)', async () => {
+    const { status, body } = await post('/api/adapt/reference/propose', {
+      referenceId, productId: 'te-divina', targetAudience: 'adultos', problemOrNeed: 'el producto cura el estreñimiento crónico',
+    });
+    assert.equal(status, 400);
+    assert.match(body.error, /CONFLICTO real|claim/i);
+  });
+
+  test('con CampaignIntent real (targetAudience+problemOrNeed) las propuestas se siguen generando -- prioridad real: CampaignIntent > Product Knowledge > estructura de la referencia', async () => {
+    const { status, body } = await post('/api/adapt/reference/propose', {
+      referenceId, productId: 'te-divina', targetAudience: 'personas con problemas digestivos', problemOrNeed: 'desintoxicación corporal antes de un programa de pérdida de peso',
+    });
+    assert.equal(status, 200);
+    assert.equal(body.status, 'PROPOSALS_READY');
+    assert.ok(body.proposals.length >= 2);
+  });
+});
+
+describe('Reference Intelligence real vía HTTP (video con subtítulos embebidos reales)', () => {
+  let referenceId, proposals;
+  before(async () => {
+    const analyzeRes = await post('/api/adapt/reference/analyze', { sourcePath: REFERENCE_VIDEO_WITH_SUBS });
+    referenceId = analyzeRes.body.analysis.referenceId;
+    ingestedReferenceDirs.push(join('C:\\Users\\manue\\Vida Divina\\video-production\\reference-analysis', referenceId));
+    const proposeRes = await post('/api/adapt/reference/propose', { referenceId, productId: 'te-divina' });
+    proposals = proposeRes.body.proposals;
+  });
+
+  test('transcript real disponible (subtítulos embebidos), hook real tipo "question", CTA real tipo "whatsapp"', async () => {
+    const { body } = await post('/api/adapt/reference/analyze', { sourcePath: REFERENCE_VIDEO_WITH_SUBS });
+    assert.equal(body.reused, true); // ya analizado en el before() -- reutiliza (regla 11/12).
+    assert.equal(body.analysis.transcript.available, true);
+    assert.equal(body.analysis.hook.available, true);
+    assert.equal(body.analysis.hook.type, 'question');
+    assert.equal(body.analysis.cta.available, true);
+    assert.equal(body.analysis.cta.type, 'whatsapp');
+    assert.equal(body.analysis.problem.available, true);
+    assert.equal(body.analysis.narrativeStructure.available, true);
+  });
+
+  test('las propuestas reales exponen el hook/estructura real detectados de la referencia (referenceHook/referenceStructure)', () => {
+    const estructural = proposals.find((p) => p.proposalKey === 'STRUCTURAL');
+    assert.equal(estructural.referenceHook.available, true);
+    assert.equal(estructural.referenceHook.type, 'question');
+  });
+
+  test('NUNCA copia el texto literal de la referencia -- el hook/CTA generado para Té Divina es distinto del texto real detectado en la referencia', () => {
+    for (const p of proposals) {
+      assert.notEqual(p.hook, p.referenceHook.available ? p.referenceHook.text : undefined);
+      assert.ok(p.hook.length > 0 && p.cta.length > 0);
+    }
   });
 });

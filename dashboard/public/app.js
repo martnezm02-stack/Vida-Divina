@@ -543,22 +543,39 @@ let currentReferenceId = null;
 
 const RHYTHM_LABELS = { MUY_RAPIDO: 'Muy rápido', RAPIDO: 'Rápido', MODERADO: 'Moderado', PAUSADO: 'Pausado' };
 const NOT_AVAILABLE_LABEL = 'No disponible';
+const HOOK_TYPE_LABELS = { question: 'Pregunta', curiosity: 'Curiosidad', statement: 'Afirmación', problem: 'Problema', promise: 'Promesa', shock: 'Impacto', story: 'Historia' };
+const CTA_TYPE_LABELS = { learn_more: 'Conocer más', buy_now: 'Comprar ahora', follow: 'Seguir', comment: 'Comentar', visit_link: 'Visitar enlace', contact: 'Contactar', whatsapp: 'WhatsApp' };
 
-function referenceAnalysisPreviewHtml(analysis) {
-  const estructura = (analysis.narrativeStructure ?? []).join(' → ') || NOT_AVAILABLE_LABEL;
-  const escenasHtml = analysis.scenes.map((s) => `<div class="variant-field"><strong>Escena ${s.sceneIndex + 1}</strong>${s.position} · ${s.durationSeconds}s</div>`).join('');
-  const keyframesHtml = analysis.keyframes.map((k) => `<img src="${k.mediaUrl}" alt="Escena ${k.sceneIndex + 1}" style="width:100px;height:auto;border-radius:6px;margin:4px;" />`).join('');
+// Estados reales (regla 18) -- nunca "NOT_AVAILABLE"/"UNAVAILABLE"/"ERROR_STATE"
+// como texto visible. Un campo con available:true muestra su detección real
+// (via formatter); available:false distingue "No detectado" (la capacidad
+// real corrió pero no encontró evidencia -- el motivo empieza con "No se
+// detectó") de "No disponible" (la capacidad no existe/no está configurada
+// en este entorno).
+function fieldStateHtml(field, formatter) {
+  if (field?.available) return formatter(field);
+  const label = field?.reason?.startsWith('No se detectó') ? 'No detectado' : NOT_AVAILABLE_LABEL;
+  return `<span style="color:#9c9683;font-style:italic;" title="${field?.reason ?? ''}">${label}</span>`;
+}
+
+function referenceAnalysisPreviewHtml(intelligence) {
+  const ta = intelligence.technicalAnalysis;
+  const escenasHtml = ta.scenes.map((s) => `<div class="variant-field"><strong>Escena ${s.sceneIndex + 1}</strong>${s.position} · ${s.durationSeconds}s</div>`).join('');
+  const keyframesHtml = ta.keyframes.map((k) => `<img src="${k.mediaUrl}" alt="Escena ${k.sceneIndex + 1}" style="width:100px;height:auto;border-radius:6px;margin:4px;" />`).join('');
   return `
-    <h4>Video de referencia</h4>
+    <h4>Inteligencia de referencia</h4>
     <div class="pubdetail-grid">
-      <div><strong>Duración</strong>${analysis.duration ? `${analysis.duration.toFixed(1)}s` : NOT_AVAILABLE_LABEL}</div>
-      <div><strong>Formato</strong>${analysis.aspectRatio ?? NOT_AVAILABLE_LABEL}</div>
-      <div><strong>Ritmo</strong>${RHYTHM_LABELS[analysis.pacing?.rhythm] ?? NOT_AVAILABLE_LABEL}</div>
-      <div><strong>Escenas</strong>${analysis.pacing?.sceneCount ?? NOT_AVAILABLE_LABEL}</div>
-      <div><strong>Hook</strong>${NOT_AVAILABLE_LABEL} (requiere transcripción, no disponible en este entorno)</div>
-      <div><strong>CTA</strong>${NOT_AVAILABLE_LABEL} (requiere transcripción, no disponible en este entorno)</div>
+      <div><strong>Duración</strong>${ta.duration ? `${ta.duration.toFixed(1)}s` : NOT_AVAILABLE_LABEL}</div>
+      <div><strong>Formato</strong>${ta.aspectRatio ?? NOT_AVAILABLE_LABEL}</div>
+      <div><strong>Ritmo</strong>${RHYTHM_LABELS[ta.pacing?.rhythm] ?? NOT_AVAILABLE_LABEL}</div>
+      <div><strong>Hook</strong>${fieldStateHtml(intelligence.hook, (f) => `${HOOK_TYPE_LABELS[f.type] ?? f.type}: "${f.text}"`)}</div>
+      <div><strong>Estructura</strong>${fieldStateHtml(intelligence.narrativeStructure, (f) => f.sequence.join(' → '))}</div>
+      <div><strong>CTA</strong>${fieldStateHtml(intelligence.cta, (f) => `${CTA_TYPE_LABELS[f.type] ?? f.type}`)}</div>
+      <div><strong>Estilo visual</strong>${fieldStateHtml(intelligence.visualStyle, () => '')}</div>
+      <div><strong>Texto en pantalla</strong>${fieldStateHtml(intelligence.onScreenText, () => '')}</div>
+      <div><strong>Personas</strong>${fieldStateHtml(intelligence.people, () => '')}</div>
+      <div><strong>Producto</strong>${fieldStateHtml(intelligence.productPresence, () => '')}</div>
     </div>
-    <div class="variant-field"><strong>Estructura</strong>${estructura}</div>
     ${escenasHtml}
     ${keyframesHtml ? `<div style="margin-top:8px;">${keyframesHtml}</div>` : ''}
   `;

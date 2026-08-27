@@ -26,6 +26,15 @@ function fakeHypothesisResult(variantCount = 3) {
 function fakeReferenceAnalysis() {
   return { referenceId: 'ref-1', duration: 22.4, pacing: { sceneCount: 4, avgSceneDurationSeconds: 5.6, cutsPerMinute: 8, rhythm: 'MODERADO' } };
 }
+/** Forma real de Reference Intelligence (2026-08-27): technicalAnalysis anidado + capas semánticas. */
+function fakeReferenceIntelligence({ hookAvailable = false, structureAvailable = false } = {}) {
+  return {
+    referenceId: 'ref-2',
+    technicalAnalysis: fakeReferenceAnalysis(),
+    hook: hookAvailable ? { available: true, type: 'question', text: '¿Por qué...?', confidence: 0.65 } : { available: false, reason: 'sin transcript' },
+    narrativeStructure: structureAvailable ? { available: true, sequence: ['HOOK', 'PROBLEM', 'CTA'], confidence: 0.5 } : { available: false, reason: 'sin transcript' },
+  };
+}
 
 describe('buildAdaptationProposals', () => {
   test('lanza si el experimento real no está HYPOTHESIS_EXPERIMENT_READY', () => {
@@ -71,5 +80,26 @@ describe('buildAdaptationProposals', () => {
   test('con menos de 3 variantes reales disponibles, genera solo las propuestas que hay evidencia real para respaldar (nunca fabrica una extra)', () => {
     const proposals = buildAdaptationProposals(fakeHypothesisResult(2), fakeReferenceAnalysis());
     assert.equal(proposals.length, 2);
+  });
+
+  test('acepta la forma anidada real de Reference Intelligence (technicalAnalysis + hook/narrativeStructure semánticos) -- duración/escenas siguen viniendo del technicalAnalysis real', () => {
+    const [proposal] = buildAdaptationProposals(fakeHypothesisResult(3), fakeReferenceIntelligence());
+    assert.equal(proposal.targetDurationSeconds, 22.4);
+    assert.equal(proposal.targetSceneCount, 4);
+  });
+
+  test('sin hook/estructura semánticos detectados (sin transcript real), la propuesta expone available:false explícito -- nunca inventa un tipo de hook', () => {
+    const [proposal] = buildAdaptationProposals(fakeHypothesisResult(3), fakeReferenceIntelligence());
+    assert.equal(proposal.referenceHook.available, false);
+    assert.equal(proposal.referenceStructure.available, false);
+    assert.match(proposal.keeps, /ritmo|estructura/i); // cae al texto genérico del arquetipo, nunca a un dato inventado.
+  });
+
+  test('con hook/estructura semánticos reales detectados, la propuesta "Adaptación estructural" los cita tal cual', () => {
+    const proposals = buildAdaptationProposals(fakeHypothesisResult(3), fakeReferenceIntelligence({ hookAvailable: true, structureAvailable: true }));
+    const estructural = proposals.find((p) => p.proposalKey === 'STRUCTURAL');
+    assert.equal(estructural.referenceHook.available, true);
+    assert.equal(estructural.referenceHook.type, 'question');
+    assert.match(estructural.keeps, /question|HOOK → PROBLEM → CTA/);
   });
 });
