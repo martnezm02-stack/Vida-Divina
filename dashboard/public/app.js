@@ -531,6 +531,145 @@ $('#adapt-form').addEventListener('submit', async (e) => {
   }
 });
 
+// ---------------- ADAPTAR — Video de referencia (2026-08-26) ----------------
+// Flujo: referencia -> análisis real (ffprobe/ffmpeg, ver
+// referenceVideoAnalyzer.js) -> propuestas reales (mismo Creative Strategy
+// Engine que "Sugerir variantes", ver referenceAdaptationProposals.js) ->
+// selección -> producción real vía el MISMO /api/create/produce ya
+// existente (nunca un segundo pipeline). El análisis y las propuestas
+// NUNCA lanzan una producción por sí solos -- solo "PRODUCIR VIDEO" real
+// hace eso, y siempre después de que el usuario elige una propuesta.
+let currentReferenceId = null;
+
+const RHYTHM_LABELS = { MUY_RAPIDO: 'Muy rápido', RAPIDO: 'Rápido', MODERADO: 'Moderado', PAUSADO: 'Pausado' };
+const NOT_AVAILABLE_LABEL = 'No disponible';
+
+function referenceAnalysisPreviewHtml(analysis) {
+  const estructura = (analysis.narrativeStructure ?? []).join(' → ') || NOT_AVAILABLE_LABEL;
+  const escenasHtml = analysis.scenes.map((s) => `<div class="variant-field"><strong>Escena ${s.sceneIndex + 1}</strong>${s.position} · ${s.durationSeconds}s</div>`).join('');
+  const keyframesHtml = analysis.keyframes.map((k) => `<img src="${k.mediaUrl}" alt="Escena ${k.sceneIndex + 1}" style="width:100px;height:auto;border-radius:6px;margin:4px;" />`).join('');
+  return `
+    <h4>Video de referencia</h4>
+    <div class="pubdetail-grid">
+      <div><strong>Duración</strong>${analysis.duration ? `${analysis.duration.toFixed(1)}s` : NOT_AVAILABLE_LABEL}</div>
+      <div><strong>Formato</strong>${analysis.aspectRatio ?? NOT_AVAILABLE_LABEL}</div>
+      <div><strong>Ritmo</strong>${RHYTHM_LABELS[analysis.pacing?.rhythm] ?? NOT_AVAILABLE_LABEL}</div>
+      <div><strong>Escenas</strong>${analysis.pacing?.sceneCount ?? NOT_AVAILABLE_LABEL}</div>
+      <div><strong>Hook</strong>${NOT_AVAILABLE_LABEL} (requiere transcripción, no disponible en este entorno)</div>
+      <div><strong>CTA</strong>${NOT_AVAILABLE_LABEL} (requiere transcripción, no disponible en este entorno)</div>
+    </div>
+    <div class="variant-field"><strong>Estructura</strong>${estructura}</div>
+    ${escenasHtml}
+    ${keyframesHtml ? `<div style="margin-top:8px;">${keyframesHtml}</div>` : ''}
+  `;
+}
+
+function adaptationProposalCardHtml(p, index) {
+  return `<div class="variant-card" data-proposal-index="${index}">
+    <h4>${p.label}</h4>
+    <div class="variant-field"><strong>Mantiene</strong>${p.keeps}</div>
+    <div class="variant-field"><strong>Cambia</strong>${p.changes}</div>
+    <div class="variant-field"><strong>Duración objetivo</strong>${p.targetDurationSeconds ? `${p.targetDurationSeconds.toFixed(1)}s` : NOT_AVAILABLE_LABEL}</div>
+    <div class="variant-field"><strong>Escenas objetivo</strong>${p.targetSceneCount ?? NOT_AVAILABLE_LABEL}</div>
+    <div class="variant-field"><strong>Producto</strong>${p.productNombreVisible}</div>
+    <div class="variant-field"><strong>Hook</strong>${p.hook}</div>
+    <div class="variant-field"><strong>CTA</strong>${p.cta}</div>
+    <button type="button" class="btn-secondary btn-use-proposal" data-proposal-index="${index}">USAR ESTA PROPUESTA →</button>
+    <div class="production-status hidden" data-proposal-index="${index}"></div>
+  </div>`;
+}
+
+async function analyzeReferenceVideo() {
+  const sourcePath = $('#reference-source-path').value.trim();
+  const statusEl = $('#reference-analysis-status');
+  const resultEl = $('#reference-analysis-result');
+  if (!sourcePath) { statusEl.textContent = 'Escribe la ruta real local del video de referencia.'; return; }
+
+  const btn = $('#reference-analyze-btn');
+  btn.disabled = true; btn.textContent = 'ANALIZANDO REFERENCIA…';
+  statusEl.textContent = 'Analizando referencia (duración, formato, escenas, ritmo, silencios)…';
+  resultEl.innerHTML = '';
+  try {
+    const { analysis, reused } = await api('/api/adapt/reference/analyze', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ sourcePath }) });
+    currentReferenceId = analysis.referenceId;
+    statusEl.textContent = reused ? 'Este video ya había sido analizado -- se reutiliza el análisis existente.' : 'Análisis creativo completo.';
+
+    if (!productsCache.length) productsCache = await api('/api/products');
+    const productOptions = productsCache.filter((p) => p.factsAvailable).map((p) => `<option value="${p.productSlug}">${p.nombreVisible ?? p.productSlug}</option>`).join('');
+
+    resultEl.innerHTML = `
+      ${referenceAnalysisPreviewHtml(analysis)}
+      <h4 style="margin-top:16px;">¿Cómo quieres adaptarlo?</h4>
+      <label>Producto de Vida Divina
+        <select id="reference-product-select">${productOptions}</select>
+      </label>
+      <button type="button" class="btn-primary" id="reference-propose-btn">GENERAR PROPUESTAS DE ADAPTACIÓN</button>
+      <div id="reference-proposals-status" class="meta"></div>
+      <div id="reference-proposals-list" class="variant-grid"></div>
+    `;
+    $('#reference-propose-btn').addEventListener('click', proposeReferenceAdaptation);
+  } catch (err) {
+    statusEl.textContent = `Error al analizar la referencia: ${err.message}`;
+  } finally {
+    btn.disabled = false; btn.textContent = 'ANALIZAR REFERENCIA';
+  }
+}
+$('#reference-analyze-btn')?.addEventListener('click', analyzeReferenceVideo);
+
+async function proposeReferenceAdaptation() {
+  const productId = $('#reference-product-select').value;
+  const statusEl = $('#reference-proposals-status');
+  const listEl = $('#reference-proposals-list');
+  const btn = $('#reference-propose-btn');
+  btn.disabled = true; btn.textContent = 'GENERANDO PROPUESTAS…';
+  statusEl.textContent = 'Consultando Creative Strategy Engine real…';
+  listEl.innerHTML = '';
+  try {
+    const result = await api('/api/adapt/reference/propose', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ referenceId: currentReferenceId, productId }) });
+    if (result.status !== 'PROPOSALS_READY') {
+      statusEl.textContent = '';
+      listEl.innerHTML = `<div class="result-status ${result.status}">${result.status}</div><p>${(result.errors ?? []).join(' ')}</p>`;
+      return;
+    }
+    statusEl.textContent = 'Propuestas de adaptación reales, listas para producir.';
+    listEl.innerHTML = result.proposals.map((p, i) => adaptationProposalCardHtml(p, i)).join('');
+    listEl.querySelectorAll('.btn-use-proposal').forEach((useBtn) => {
+      useBtn.addEventListener('click', () => {
+        const idx = Number(useBtn.dataset.proposalIndex);
+        const proposal = result.proposals[idx];
+        const statusDiv = listEl.querySelector(`.production-status[data-proposal-index="${idx}"]`);
+        statusDiv.classList.remove('hidden');
+        statusDiv.innerHTML = '<button type="button" class="btn-primary btn-produce-reference">PRODUCIR VIDEO →</button>';
+        statusDiv.querySelector('.btn-produce-reference').addEventListener('click', () => produceReferenceAdaptation(proposal, statusDiv));
+      });
+    });
+  } catch (err) {
+    statusEl.textContent = `Error al generar propuestas: ${err.message}`;
+  } finally {
+    btn.disabled = false; btn.textContent = 'GENERAR PROPUESTAS DE ADAPTACIÓN';
+  }
+}
+
+// La producción real solo ocurre aquí, después de que el usuario elige una
+// propuesta y confirma explícitamente -- llama al MISMO endpoint real que
+// ya usa "Sugerir variantes -> PRODUCIR VIDEO REAL" (nunca un segundo pipeline).
+async function produceReferenceAdaptation(proposal, statusEl) {
+  statusEl.innerHTML = '<p class="placeholder">Produciendo pieza audiovisual real (guion, escenas, voz real, composición)… puede tardar varios minutos.</p>';
+  try {
+    const job = await api('/api/create/produce', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ batchId: proposal.batchId, variantIndex: proposal.variantIndex, outputProfileNames: ['INSTAGRAM_REEL', 'INSTAGRAM_FEED'] }),
+    });
+    const outputsHtml = (job.outputs ?? []).map((o) => `<div class="variant-field"><strong>${o.profileName}</strong>${o.status}${o.mediaUrl ? ` — <a href="${o.mediaUrl}" target="_blank" rel="noopener">ver video</a>` : ''}</div>`).join('');
+    const editorBtn = job.productionJobId ? `<button type="button" class="btn-secondary btn-open-editor-ref" data-production-job-id="${job.productionJobId}">ABRIR EN EDITOR →</button>` : '';
+    statusEl.innerHTML = `<div class="result-status ${job.status}">${job.status}</div>${outputsHtml}${job.error ? `<p>${job.error}</p>` : ''}${editorBtn}`;
+    const openBtn = statusEl.querySelector('.btn-open-editor-ref');
+    if (openBtn && window.VidaDivinaEditor) openBtn.addEventListener('click', () => window.VidaDivinaEditor.openFromProductionJob(openBtn.dataset.productionJobId));
+  } catch (err) {
+    statusEl.innerHTML = `<div class="result-status VALIDATION_FAILED">ERROR</div><p>${err.message}</p>`;
+  }
+}
+
 // ---------------- Resultado (compartido CREATE/EDIT/ADAPT/Review/Publication Detail) ----------------
 // Fase 14, Parte 5/13 -- reutilizado en cualquier vista que necesite mostrar
 // un Final Asset Package real (nunca solo JSON): resultado de generación,

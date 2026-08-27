@@ -311,6 +311,17 @@
           <p class="placeholder">Las versiones reales generadas aparecerán aquí.</p>
         </div>
       </div>
+
+      <div class="panel" id="reference-panel" style="margin-top:32px;">
+        <h3>Video de referencia</h3>
+        <p class="view-sub">Analiza la estructura de un video de referencia (duración, ritmo, escenas) y genera propuestas de adaptación reales para un producto de Vida Divina. Nunca reutiliza el audio ni el contenido del video original -- genera guion, visuales, voz y CTA nuevos.</p>
+        <label>Ruta local del video de referencia
+          <input type="text" id="reference-source-path" placeholder="C:\ruta\real\al\video.mp4" />
+        </label>
+        <button type="button" class="btn-secondary" id="reference-analyze-btn">ANALIZAR REFERENCIA</button>
+        <div id="reference-analysis-status" class="meta"></div>
+        <div id="reference-analysis-result"></div>
+      </div>
     </section>
 
     <!-- ASSETS (Content Library, Fase 14 Parte 19) -->

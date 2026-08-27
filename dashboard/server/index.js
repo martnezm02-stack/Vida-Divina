@@ -28,6 +28,7 @@ import { handleSystemStatus } from './routes/systemStatus.js';
 import { handleListMarketingCampaigns, handleCreateMarketingCampaign, handleGetMarketingCampaign, handleDeleteMarketingCampaign } from './routes/marketingCampaigns.js';
 import { handleListWhatsappConversations, handleGetWhatsappConversation, handleSendWhatsappMessage, handleWhatsappStatus } from './routes/whatsapp.js';
 import { handleGenerateContentPlan } from './routes/campaignPilot.js';
+import { handleAnalyzeReference, handleListReferenceAnalyses, handleProposeReferenceAdaptation } from './routes/referenceAdaptation.js';
 import { handleGetAutoPublish, handleGetAutoPublishHistory, handleEnableAutoPublish, handleDisableAutoPublish } from './routes/autoPublish.js';
 import {
   handleCreateProject, handleGetProject, handleListProjectsForCreative, handleEditProject, handleRenderProject, handleMusicLibrary,
@@ -103,6 +104,11 @@ const server = http.createServer(async (req, res) => {
     if (pathname === '/api/carousel' && req.method === 'POST') { await handleCreateCarousel(req, res); return; }
     if (pathname === '/api/publish/targets' && req.method === 'GET') { await handlePublishTargets(req, res); return; }
     if (pathname === '/api/publish' && req.method === 'POST') { await handlePublish(req, res); return; }
+
+    // ADAPTAR CONTENIDO -- Video de referencia (2026-08-26)
+    if (pathname === '/api/adapt/reference/analyze' && req.method === 'POST') { await handleAnalyzeReference(req, res); return; }
+    if (pathname === '/api/adapt/reference/analyses' && req.method === 'GET') { await handleListReferenceAnalyses(req, res); return; }
+    if (pathname === '/api/adapt/reference/propose' && req.method === 'POST') { await handleProposeReferenceAdaptation(req, res); return; }
 
     // EDITABLE VIDEO PROJECT (2026-08-24) -- un ProductionJob real ya
     // producido se convierte en un proyecto editable persistente.

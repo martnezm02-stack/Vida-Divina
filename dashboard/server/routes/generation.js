@@ -271,6 +271,48 @@ function resolveCampaignId(productId, campaignIntent) {
   return campaignIntent ? computeCampaignId(campaignIntent) : productId;
 }
 
+/**
+ * Núcleo real de "Sugerir variantes (hipótesis)" -- extraído tal cual del
+ * handler HTTP (Adaptar contenido / Video de referencia, 2026-08-26) para
+ * que la propuesta de adaptación desde un video de referencia reutilice
+ * EXACTAMENTE el mismo Creative Strategy Engine + persistencia de Batch
+ * real, en vez de duplicar esta orquestación o crear un segundo pipeline
+ * (ver dashboard/server/routes/referenceAdaptation.js). Comportamiento
+ * idéntico al que ya tenía handleSuggestHypothesisVariants -- ningún caso
+ * nuevo, solo movido a una función reutilizable.
+ */
+export async function suggestHypothesisVariantsCore({ productId, variantCount, campaignIntent = null }) {
+  const productGroundedEvidence = buildProductGroundedEvidence(productId);
+  if (!productGroundedEvidence) {
+    return { status: 'MISSING_CREATIVE_MATCH', productId, errors: [`suggest-hypothesis: "${productId}" no tiene hechos reales en docs/productos/.`] };
+  }
+
+  const campaignId = resolveCampaignId(productId, campaignIntent);
+  const { nextBatchNumber, blueprintOffset, usedFingerprints } = getCampaignBatchState(campaignId);
+
+  const result = buildHypothesisExperiment({
+    productGroundedEvidence, variantCount, batchOffset: blueprintOffset, excludeFingerprints: usedFingerprints, campaignIntent,
+  });
+  if (result.status !== 'HYPOTHESIS_EXPERIMENT_READY') {
+    return { ...result, productId, campaignId };
+  }
+
+  const batchId = randomUUID();
+  const generationId = randomUUID();
+  const createdAt = new Date().toISOString();
+  const fingerprints = result.variantsDetail.map((v) => v.fingerprint);
+  saveBatch({
+    batchId, campaignId, batchNumber: nextBatchNumber, generationId, createdAt,
+    variantCount: result.variantsDetail.length, blueprintOffsetStart: blueprintOffset,
+    fingerprints, product: result.product, campaignIntent: result.campaignIntent,
+    experiment: result.experiment,
+    experimentQualityGate: result.experimentQualityGate, variantsDetail: result.variantsDetail,
+    disclaimer: result.disclaimer,
+  });
+
+  return { ...result, productId, campaignId, batchId, batchNumber: nextBatchNumber, generationId, createdAt };
+}
+
 export async function handleSuggestHypothesisVariants(req, res) {
   let body;
   try { body = await readJsonBody(req); } catch (err) { badRequest(res, err.message); return; }
@@ -298,51 +340,12 @@ export async function handleSuggestHypothesisVariants(req, res) {
     }
   }
 
-  let productGroundedEvidence;
   try {
-    productGroundedEvidence = buildProductGroundedEvidence(productId);
+    const result = await suggestHypothesisVariantsCore({ productId, variantCount, campaignIntent });
+    sendJson(res, 200, result);
   } catch (err) {
     serverError(res, err);
-    return;
   }
-  if (!productGroundedEvidence) {
-    sendJson(res, 200, { status: 'MISSING_CREATIVE_MATCH', productId, errors: [`suggest-hypothesis: "${productId}" no tiene hechos reales en docs/productos/.`] });
-    return;
-  }
-
-  const campaignId = resolveCampaignId(productId, campaignIntent);
-  const { nextBatchNumber, blueprintOffset, usedFingerprints } = getCampaignBatchState(campaignId);
-
-  let result;
-  try {
-    result = buildHypothesisExperiment({
-      productGroundedEvidence, variantCount, batchOffset: blueprintOffset, excludeFingerprints: usedFingerprints, campaignIntent,
-    });
-  } catch (err) {
-    serverError(res, err);
-    return;
-  }
-  if (result.status !== 'HYPOTHESIS_EXPERIMENT_READY') {
-    sendJson(res, 200, { ...result, productId, campaignId });
-    return;
-  }
-
-  const batchId = randomUUID();
-  const generationId = randomUUID();
-  const createdAt = new Date().toISOString();
-  const fingerprints = result.variantsDetail.map((v) => v.fingerprint);
-  saveBatch({
-    batchId, campaignId, batchNumber: nextBatchNumber, generationId, createdAt,
-    variantCount: result.variantsDetail.length, blueprintOffsetStart: blueprintOffset,
-    fingerprints, product: result.product, campaignIntent: result.campaignIntent,
-    experiment: result.experiment,
-    experimentQualityGate: result.experimentQualityGate, variantsDetail: result.variantsDetail,
-    disclaimer: result.disclaimer,
-  });
-
-  sendJson(res, 200, {
-    ...result, productId, campaignId, batchId, batchNumber: nextBatchNumber, generationId, createdAt,
-  });
 }
 
 /**

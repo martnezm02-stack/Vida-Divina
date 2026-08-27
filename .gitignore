@@ -47,6 +47,10 @@ video-production/audit-frames/
 video-production/frames-check/
 video-production/content-generation-engine-real-*/
 video-production/real-e2e-content-orchestrator/
+# Videos de referencia ingeridos + keyframes reales (Adaptar contenido /
+# Video de referencia, 2026-08-26) -- artefactos de sesión, content-addressed
+# y 100% regenerables desde el análisis real (referenceAnalysisStore.js).
+video-production/reference-analysis/
 video-production/te-divina-*/
 video-production/te-divina-*.mp4
 video-production/output-cc-a1-a.mp4
