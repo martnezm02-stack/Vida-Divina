@@ -350,15 +350,22 @@ if (createSuggestBtn) {
     const fuentesVisuales = job.assetPlan
       ? [...new Set(job.assetPlan.map((a) => VISUAL_SOURCE_LABELS[a.source] ?? a.source))].join(', ')
       : '—';
-    // Krea Image Provider (Paso 14 del encargo Krea): proveedor/modelo
-    // reales -- nunca el prompt técnico completo ni ningún UUID como
-    // información principal.
-    const PROVIDER_LABELS = { krea: 'Krea', openai: 'OpenAI' };
-    const MODEL_LABELS = { krea: 'Krea 2', openai: 'GPT Image 1' };
+    // Krea MCP Directo (Paso 18 del encargo Krea MCP Directo): proveedor/
+    // modelo reales -- nunca el endpoint MCP, ni el token OAuth, ni ningún
+    // UUID interno como información principal.
+    const PROVIDER_LABELS = { 'krea-mcp': 'Krea', openai: 'OpenAI' };
+    // Mismo vocabulario real ya mostrado antes de producir (ver
+    // initModelRecommendation()/imageModelCatalog.js#displayName) -- id
+    // real del catálogo -> nombre humano real, nunca el id técnico.
+    const MODEL_DISPLAY_NAMES = {
+      'krea-2-turbo': 'Krea 2 Turbo', 'krea-2-medium': 'Krea 2 Medium', 'krea-2-large': 'Krea 2 Large',
+      'runway-gen4': 'Runway Gen-4', 'openai-gpt-image': 'GPT Image',
+    };
     const chosenImageProvider = job.providerRouting?.image?.chosenProvider ?? null;
+    const selectedModelId = job.visualStrategy?.selectedModel ?? null;
     const providerHtml = chosenImageProvider
       ? `<div class="variant-field"><strong>Proveedor</strong>${PROVIDER_LABELS[chosenImageProvider] ?? chosenImageProvider}</div>
-         <div class="variant-field"><strong>Modelo</strong>${MODEL_LABELS[chosenImageProvider] ?? '—'}</div>`
+         <div class="variant-field"><strong>Modelo</strong>${MODEL_DISPLAY_NAMES[selectedModelId] ?? '—'}</div>`
       : '';
     const treatmentHtml = job.visualStrategy?.visualTreatmentLabel
       ? `<div class="variant-field"><strong>Tratamiento visual</strong>${job.visualStrategy.visualTreatmentLabel}</div>

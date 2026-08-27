@@ -1,46 +1,47 @@
 // imageModelCatalog.test.js — Modelo Sugerido + Selección Manual + Krea MCP
-// (2026-08-27).
+// Directo (2026-08-27).
 //
-// Krea REST (KreaImageProvider) fue removido (decisión de arquitectura
-// real: KREA_API_TOKEN revocado, el acceso real que se conserva es Krea
-// MCP/OAuth). El catálogo real hoy tiene 5 modelos: krea-2-turbo/medium/
-// large + runway-gen4 (vía kreaMcpImageProvider.js, real, sin REST) +
-// openai-gpt-image. isConfigured() de los modelos krea-mcp refleja el
-// ESTADO REAL de la máquina (`claude mcp get krea`, cacheado) -- para
-// forzar disponible/no-disponible en test se usa KREA_MCP_CLAUDE_BIN
-// (apuntar a un binario real inexistente = "no disponible", real y
-// determinista, sin depender de mockear el módulo) + resetKreaMcpConnectionCache().
+// Krea REST (KreaImageProvider) y el puente `claude -p` fueron ambos
+// retirados (decisión de arquitectura real: KREA_API_TOKEN revocado,
+// Krea MCP DIRECTO desde Node -- kreaMcpClient.js, sin Claude -- es el
+// acceso real que se conserva). El catálogo real hoy tiene 5 modelos:
+// krea-2-turbo/medium/large + runway-gen4 (vía kreaMcpImageProvider.js) +
+// openai-gpt-image. isKreaMcpConfigured() ahora es real y rápido (lee
+// tokens reales persistidos en disco, ver kreaMcpAuthStore.js) -- se
+// aísla real vía IMAGE_GENERATION_DATA_ROOT (mismo criterio real que el
+// resto de tests de image-generation/) para NUNCA leer/tocar los tokens
+// reales de producción ya persistidos en este entorno real.
 
 import { test, describe, before, after } from 'node:test';
 import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import os from 'node:os';
+import path from 'node:path';
 import {
   IMAGE_MODEL_CATALOG, listAvailableImageModels, recommendImageModel, buildModelSelection, getImageModel,
 } from '../src/imageModelCatalog.js';
-import { resetKreaMcpConnectionCache } from '../../image-generation/src/providers/kreaMcpImageProvider.js';
 
 const ORIGINAL_OPENAI_KEY = process.env.OPENAI_API_KEY;
-const ORIGINAL_CLAUDE_BIN = process.env.KREA_MCP_CLAUDE_BIN;
+const ORIGINAL_DATA_ROOT = process.env.IMAGE_GENERATION_DATA_ROOT;
 
 function sinNingunaCredencialReal() {
   delete process.env.OPENAI_API_KEY;
-  process.env.KREA_MCP_CLAUDE_BIN = 'claude-binario-real-inexistente-para-test';
-  resetKreaMcpConnectionCache();
+  process.env.IMAGE_GENERATION_DATA_ROOT = fs.mkdtempSync(path.join(os.tmpdir(), 'catalog-test-sin-krea-'));
 }
 function conOpenAiSoloConfigurado() {
   process.env.OPENAI_API_KEY = 'test-key-catalog';
-  process.env.KREA_MCP_CLAUDE_BIN = 'claude-binario-real-inexistente-para-test';
-  resetKreaMcpConnectionCache();
+  process.env.IMAGE_GENERATION_DATA_ROOT = fs.mkdtempSync(path.join(os.tmpdir(), 'catalog-test-openai-'));
 }
 function conKreaMcpSoloConfigurado() {
   delete process.env.OPENAI_API_KEY;
-  delete process.env.KREA_MCP_CLAUDE_BIN; // real: usa el "claude" real de PATH -- en esta máquina, real y Connected.
-  resetKreaMcpConnectionCache();
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'catalog-test-krea-mcp-'));
+  fs.writeFileSync(path.join(dir, 'krea-mcp-auth.json'), JSON.stringify({ tokens: { access_token: 'fake-test-token-not-real' } }));
+  process.env.IMAGE_GENERATION_DATA_ROOT = dir;
 }
 
 after(() => {
   if (ORIGINAL_OPENAI_KEY === undefined) delete process.env.OPENAI_API_KEY; else process.env.OPENAI_API_KEY = ORIGINAL_OPENAI_KEY;
-  if (ORIGINAL_CLAUDE_BIN === undefined) delete process.env.KREA_MCP_CLAUDE_BIN; else process.env.KREA_MCP_CLAUDE_BIN = ORIGINAL_CLAUDE_BIN;
-  resetKreaMcpConnectionCache();
+  if (ORIGINAL_DATA_ROOT === undefined) delete process.env.IMAGE_GENERATION_DATA_ROOT; else process.env.IMAGE_GENERATION_DATA_ROOT = ORIGINAL_DATA_ROOT;
 });
 
 describe('IMAGE_MODEL_CATALOG — vocabulario real pedido por el encargo (Krea MCP)', () => {

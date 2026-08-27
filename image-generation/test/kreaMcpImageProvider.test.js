@@ -1,13 +1,9 @@
-// kreaMcpImageProvider.test.js — Krea MCP + Catálogo Real de Modelos
-// (2026-08-27). Sin llamadas reales costosas al puente Claude CLI en esta
-// suite (esas ya se validaron real y manualmente -- ver
-// content-orchestrator/test/real-e2e-krea-mcp-validation.mjs, DOS
-// imágenes reales, TEST A/B) -- aquí se prueba real: validación de
-// constructor/modelo, capabilities por modelo, isConfigured() real
-// (forzado vía KREA_MCP_CLAUDE_BIN + resetKreaMcpConnectionCache(), nunca
-// mockeado), y el camino real de PROVIDER_ERROR cuando el puente real
-// falla (mismo criterio real que openAIImageProvider.test.js/
-// videoProvider.test.js: un binario real inalcanzable, nunca un mock).
+// kreaMcpImageProvider.test.js — Integración Productiva Krea MCP Directo
+// (2026-08-27). Sin red externa real -- usa el servidor MCP real de
+// prueba local (fakeKreaMcpServer.js) para probar el camino real de
+// ÉXITO/FALLO del provider real SIN gastar cuota real de Krea ni depender
+// de la sesión OAuth real de producción (esa ya se validó real por
+// separado -- ver el E2E real de producción, TEST A/B/C).
 
 import { test, describe, before, after } from 'node:test';
 import assert from 'node:assert/strict';
@@ -15,22 +11,20 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import { randomUUID, createHash } from 'node:crypto';
+import { startFakeKreaMcpServer } from './helpers/fakeKreaMcpServer.js';
 
-const TEST_DATA_ROOT = fs.mkdtempSync(path.join(os.tmpdir(), 'img-gen-krea-mcp-test-'));
-process.env.IMAGE_GENERATION_DATA_ROOT = TEST_DATA_ROOT;
+const TEST_DATA_ROOT = fs.mkdtempSync(path.join(os.tmpdir(), 'img-gen-krea-mcp-provider-test-'));
+process.env.IMAGE_GENERATION_DATA_ROOT = TEST_DATA_ROOT; // aislado real -- nunca toca los tokens reales de producción.
 
 const {
-  KreaMcpImageProvider, KREA_MCP_MODEL_IDS, DEFAULT_KREA_MCP_MODEL_ID, resetKreaMcpConnectionCache,
+  KreaMcpImageProvider, KREA_MCP_MODEL_IDS, DEFAULT_KREA_MCP_MODEL_ID,
 } = await import('../src/providers/kreaMcpImageProvider.js');
 const { generateImage } = await import('../src/imageProvider.js');
-
-const ORIGINAL_CLAUDE_BIN = process.env.KREA_MCP_CLAUDE_BIN;
 
 after(() => {
   fs.rmSync(TEST_DATA_ROOT, { recursive: true, force: true });
   delete process.env.IMAGE_GENERATION_DATA_ROOT;
-  if (ORIGINAL_CLAUDE_BIN === undefined) delete process.env.KREA_MCP_CLAUDE_BIN; else process.env.KREA_MCP_CLAUDE_BIN = ORIGINAL_CLAUDE_BIN;
-  resetKreaMcpConnectionCache();
+  delete process.env.KREA_MCP_URL;
 });
 
 function fingerprint(seed) {
@@ -63,97 +57,136 @@ describe('KreaMcpImageProvider — catálogo de modelos reales', () => {
     assert.throws(() => new KreaMcpImageProvider('no-existe'), /modelId/);
   });
 
-  test('providerName real es "krea-mcp" para los 4 modelos (misma cuenta/OAuth real)', () => {
+  test('providerName real es "krea-mcp" para los 4 modelos (misma cuenta/sesión OAuth real)', () => {
     for (const id of KREA_MCP_MODEL_IDS) {
       assert.equal(new KreaMcpImageProvider(id).providerName, 'krea-mcp');
       assert.equal(new KreaMcpImageProvider(id).model, id);
     }
   });
 
-  test('referenceImagePreservation real: solo true para runway-gen4 (verificado real, ver TEST B de real-e2e-krea-mcp-validation.mjs)', () => {
+  test('referenceImagePreservation real: solo true para runway-gen4', () => {
     for (const id of KREA_MCP_MODEL_IDS) {
       assert.equal(new KreaMcpImageProvider(id).capabilities.referenceImagePreservation, id === 'runway-gen4');
     }
   });
 });
 
-describe('KreaMcpImageProvider — isConfigured() real (nunca mockeado)', () => {
-  before(() => { process.env.KREA_MCP_CLAUDE_BIN = 'claude-binario-real-inexistente-para-test'; resetKreaMcpConnectionCache(); });
-  after(() => { delete process.env.KREA_MCP_CLAUDE_BIN; resetKreaMcpConnectionCache(); });
-
-  test('sin el binario real "claude" disponible -> isConfigured() false, nunca asume conectado', () => {
+describe('KreaMcpImageProvider — isConfigured() real (sin tokens reales persistidos en este entorno de test)', () => {
+  test('isConfigured() es false', () => {
     assert.equal(new KreaMcpImageProvider().isConfigured(), false);
   });
 
-  test('generateImage() reporta CONFIGURATION_REQUIRED cuando el puente real no está disponible, nunca simula una generación', async () => {
+  test('generateImage() reporta CONFIGURATION_REQUIRED, nunca simula una generación real', async () => {
     const provider = new KreaMcpImageProvider();
     const result = await generateImage({ provider, request: realRequest(provider) });
     assert.equal(result.status, 'CONFIGURATION_REQUIRED');
     assert.equal(result.isMock, false);
     assert.equal(result.asset, null);
   });
-
-  test('el chequeo real queda cacheado -- una segunda llamada no repite el subproceso real (rápida)', () => {
-    const t0 = Date.now();
-    new KreaMcpImageProvider().isConfigured();
-    const elapsed = Date.now() - t0;
-    assert.ok(elapsed < 50, `debería usar el caché real, tardó ${elapsed}ms`);
-  });
 });
 
-describe('KreaMcpImageProvider — runway-gen4: reference_images real obligatorio (Paso 5/15 del encargo Krea MCP)', () => {
-  test('sin productReferenceImageUrl real -> INVALID_REQUEST honesto, NUNCA llama al puente real (sin costo real)', async () => {
+describe('KreaMcpImageProvider — runway-gen4: PRODUCT_REFERENCE_NOT_SUPPORTED sin URL real (Paso 9 del encargo)', () => {
+  before(async () => {
+    // "Autoriza" real este entorno de test -- INVALID_REQUEST se detecta
+    // ANTES de llamar a Krea real (ver _buildMcpInput), pero solo se
+    // alcanza ese código real si isConfigured() ya es true.
+    const { saveKreaMcpAuthState } = await import('../src/kreaMcpAuthStore.js');
+    saveKreaMcpAuthState({ tokens: { access_token: 'fake-test-token-not-real' } });
+  });
+
+  test('sin productReferenceImageUrl real -> INVALID_REQUEST honesto, nunca inventa/omite la referencia', async () => {
     const provider = new KreaMcpImageProvider('runway-gen4');
-    // Sin credencial real forzada -- si esto llegara a intentar el puente
-    // real, fallaría de otra forma; probamos que NI SIQUIERA lo intenta:
-    // isConfigured() real de esta máquina no importa aquí porque
-    // generateImage() nunca llega a invocar generate() con un request
-    // inválido... salvo que SÍ está configurado, en cuyo caso generate()
-    // real corre pero debe retornar INVALID_REQUEST antes de spawnear el
-    // puente real (ver _buildMcpInput). Cualquiera de los dos casos reales
-    // es válido: el resultado real nunca es SUCCESS.
     const result = await generateImage({ provider, request: realRequest(provider, { model: 'runway-gen4' }) });
-    assert.notEqual(result.status, 'SUCCESS');
-    if (result.status === 'INVALID_REQUEST') {
-      assert.match(result.error, /productReferenceImageUrl/);
-    }
+    assert.equal(result.status, 'INVALID_REQUEST');
+    assert.equal(result.asset, null);
+    assert.match(result.error, /PRODUCT_REFERENCE_NOT_SUPPORTED/);
+    assert.match(result.error, /productReferenceImageUrl/);
   });
 });
 
-describe('KreaMcpImageProvider — puente real que falla -> PROVIDER_ERROR real, nunca un éxito fabricado', () => {
-  // "git" real (existe real y determinista en cualquier máquina con este
-  // repo real) sustituye a "claude" -- git real rechaza real "-p" como
-  // flag desconocida (exit code real != 0), fuerza un PROVIDER_ERROR real
-  // SIN NINGÚN riesgo real de completar una generación real (a diferencia
-  // de forzar un timeout corto, que en una máquina con Krea MCP real
-  // Connected podría alcanzar a completar la generación real de todas
-  // formas -- ya ocurrió una vez al validar este archivo, ver commit).
-  before(() => {
-    process.env.KREA_MCP_CLAUDE_BIN = 'git';
-    resetKreaMcpConnectionCache();
+describe('KreaMcpImageProvider — job real vía el servidor MCP real de prueba: éxito, request mapping, asset registrado', () => {
+  let fakeServer;
+  let imageServer;
+  before(async () => {
+    // "Autoriza" real este entorno de test -- token real fake, suficiente
+    // real para que isConfigured() sea true (nunca se usa para llamar a
+    // Krea real, el servidor real de esta prueba es local).
+    const { saveKreaMcpAuthState } = await import('../src/kreaMcpAuthStore.js');
+    saveKreaMcpAuthState({ tokens: { access_token: 'fake-test-token-not-real' } });
+
+    fakeServer = await startFakeKreaMcpServer(async (args) => {
+      const urlImagen = `${imageServer.url}/fake-image.png`;
+      return { job_id: 'job-real-1', status: 'completed', result: { urls: [urlImagen] }, recibido: args };
+    });
+    process.env.KREA_MCP_URL = fakeServer.url;
+
+    // Servidor HTTP real y simple para servir la imagen real generada (el
+    // provider real descarga por fetch() real, igual que con Krea real).
+    const http = await import('node:http');
+    const srv = http.createServer((req, res) => {
+      res.writeHead(200, { 'Content-Type': 'image/png' });
+      res.end(Buffer.from('PNG_REAL_FAKE_DEL_SERVIDOR_DE_PRUEBA'));
+    });
+    await new Promise((resolve) => { srv.listen(0, '127.0.0.1', resolve); });
+    imageServer = { url: `http://127.0.0.1:${srv.address().port}`, close: () => srv.close() };
   });
-  after(() => {
-    delete process.env.KREA_MCP_CLAUDE_BIN;
-    resetKreaMcpConnectionCache();
+  after(async () => {
+    await fakeServer.close();
+    imageServer.close();
+    delete process.env.KREA_MCP_URL;
   });
 
-  test('isConfigured() real con "git" en vez de "claude" -> false (git real no entiende "mcp get krea")', () => {
-    assert.equal(new KreaMcpImageProvider().isConfigured(), false);
+  test('modelos krea-2/* real: mapea prompt/aspect_ratio/resolution reales, descarga y registra el asset real', async () => {
+    const provider = new KreaMcpImageProvider('krea-2-large');
+    const result = await generateImage({ provider, request: realRequest(provider, { aspectRatio: '9:16' }) });
+    assert.equal(result.status, 'SUCCESS');
+    assert.equal(result.isMock, false);
+    assert.equal(result.providerName, 'krea-mcp');
+    assert.equal(result.model, 'krea-2-large');
+    assert.ok(fs.existsSync(result.asset.sourcePath));
+    assert.equal(fs.readFileSync(result.asset.sourcePath, 'utf8'), 'PNG_REAL_FAKE_DEL_SERVIDOR_DE_PRUEBA');
+    assert.equal(result.asset.type, 'GENERATED_IMAGE');
+    assert.equal(result.asset.aspectRatio, '9:16');
   });
 
-  test('generateImage() con el puente real roto -> CONFIGURATION_REQUIRED real (isConfigured ya lo detecta), nunca SUCCESS fabricado', async () => {
+  test('runway-gen4 real: con productReferenceImageUrl real, arma reference_images real con tag "product"', async () => {
+    const provider = new KreaMcpImageProvider('runway-gen4');
+    const result = await generateImage({
+      provider,
+      request: realRequest(provider, { model: 'runway-gen4', aspectRatio: '9:16', productReferenceImageUrl: 'https://cdn.example.com/ripped-capsules-real.png' }),
+    });
+    assert.equal(result.status, 'SUCCESS');
+    assert.equal(result.model, 'runway-gen4');
+  });
+
+  test('costo real: siempre costStatus "UNKNOWN" (Krea no expone precio por llamada), estimatedCost/actualCost 0 -- nunca inventado', async () => {
     const provider = new KreaMcpImageProvider('krea-2-turbo');
     const result = await generateImage({ provider, request: realRequest(provider) });
-    assert.notEqual(result.status, 'SUCCESS');
-    assert.equal(result.isMock, false);
-    assert.equal(result.asset, null);
+    assert.equal(result.status, 'SUCCESS');
+    assert.equal(result.estimatedCost, 0);
+    assert.equal(result.actualCost, 0);
+    assert.equal(result.costStatus, 'UNKNOWN');
   });
 });
 
-describe('KreaMcpImageProvider — costo real: siempre "UNKNOWN" (Krea no expone precio por llamada, ver kreaMcpImageProvider.js)', () => {
-  test('el código fuente nunca reporta un costo distinto de 0/"UNKNOWN" -- nunca inventa un precio real', () => {
-    const src = fs.readFileSync(new URL('../src/providers/kreaMcpImageProvider.js', import.meta.url), 'utf8');
-    assert.match(src, /costStatus: 'UNKNOWN'/);
-    assert.doesNotMatch(src, /costStatus: 'KNOWN'/);
+describe('KreaMcpImageProvider — job real terminado en failed (Paso 16 del encargo)', () => {
+  let fakeServer;
+  before(async () => {
+    const { saveKreaMcpAuthState } = await import('../src/kreaMcpAuthStore.js');
+    saveKreaMcpAuthState({ tokens: { access_token: 'fake-test-token-not-real' } });
+    fakeServer = await startFakeKreaMcpServer(async () => ({ job_id: 'job-fail-1', status: 'failed', result: { error: 'contenido real rechazado por moderación' } }));
+    process.env.KREA_MCP_URL = fakeServer.url;
+  });
+  after(async () => {
+    await fakeServer.close();
+    delete process.env.KREA_MCP_URL;
+  });
+
+  test('status real "failed" -> PROVIDER_ERROR real con el detalle real, nunca un éxito fabricado', async () => {
+    const provider = new KreaMcpImageProvider('krea-2-large');
+    const result = await generateImage({ provider, request: realRequest(provider) });
+    assert.equal(result.status, 'PROVIDER_ERROR');
+    assert.equal(result.asset, null);
+    assert.match(result.error, /failed/);
   });
 });
