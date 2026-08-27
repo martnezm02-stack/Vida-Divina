@@ -15,6 +15,7 @@ import { createHash } from 'node:crypto';
 import { mkdirSync, writeFileSync, copyFileSync, existsSync, rmSync } from 'node:fs';
 import { join, extname, basename } from 'node:path';
 import { createRequire } from 'node:module';
+import { fileURLToPath } from 'node:url';
 import { mergeCaptionStyle, construirCssCaption, resaltarPalabrasHtml, assertValidTextOverlay, OVERLAY_POSICION_CSS } from './captionStyle.js';
 
 export const RENDER_STATUS = Object.freeze(['COMPLETADO', 'ERROR_RENDER', 'ERROR_VALIDACION']);
@@ -419,6 +420,20 @@ export function resolverHyperframesCli() {
   return require.resolve('hyperframes/bin/hyperframes.mjs');
 }
 
+// Fix ventanas de consola visibles durante el render (2026-08-27, ver
+// hideChildProcessConsoleWindows.cjs para el root cause real y por qué
+// este es el punto de control correcto -- nunca node_modules). `node
+// --require <preload> <hyperframesCli> render ...` precarga el parche
+// ANTES de que el bundle de HyperFrames importe child_process, en el
+// mismo proceso node.exe real que ya lanzamos con windowsHide:true --
+// nunca un proceso ni una consola adicional.
+export const HIDE_CONSOLE_PRELOAD = fileURLToPath(new URL('./hideChildProcessConsoleWindows.cjs', import.meta.url));
+
+/** Argumentos reales para invocar la CLI de HyperFrames con las ventanas de consola de sus procesos hijos (ffmpeg/ffprobe) ocultas -- ver HIDE_CONSOLE_PRELOAD. */
+export function argsRenderOculto(hyperframesCli, outputPath) {
+  return ['--require', HIDE_CONSOLE_PRELOAD, hyperframesCli, 'render', '-f', String(RENDER_FPS), '-o', outputPath];
+}
+
 /**
  * Valida un MP4 real con ffprobe -- nunca declara éxito solo porque
  * HyperFrames terminó sin error.
@@ -517,7 +532,7 @@ export function renderVisualProductionPackage({
 
   const hyperframesCli = resolverHyperframesCli();
   const inicioRenderMs = Date.now();
-  const renderResult = correr(process.execPath, [hyperframesCli, 'render', '-f', String(RENDER_FPS), '-o', outputPath], { cwd: projectDir, env });
+  const renderResult = correr(process.execPath, argsRenderOculto(hyperframesCli, outputPath), { cwd: projectDir, env });
   limpiarProcesosHuerfanosChrome({ padrePids: [renderResult.pid] });
   logObservabilidadRenderReal('renderVisualProductionPackage', extraerObservabilidadRenderReal({ stdout: renderResult.stdout, stderr: renderResult.stderr, durationMs: Date.now() - inicioRenderMs }));
   if (renderResult.status !== 0) {
@@ -745,7 +760,7 @@ export function renderScene({
 
   const hyperframesCli = resolverHyperframesCli();
   const inicioRenderMs = Date.now();
-  const renderResult = correr(process.execPath, [hyperframesCli, 'render', '-f', String(RENDER_FPS), '-o', outputPath], { cwd: projectDir, env });
+  const renderResult = correr(process.execPath, argsRenderOculto(hyperframesCli, outputPath), { cwd: projectDir, env });
   limpiarProcesosHuerfanosChrome({ padrePids: [renderResult.pid] });
   logObservabilidadRenderReal('renderScene', extraerObservabilidadRenderReal({ stdout: renderResult.stdout, stderr: renderResult.stderr, durationMs: Date.now() - inicioRenderMs }));
   if (renderResult.status !== 0) {
