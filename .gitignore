@@ -47,6 +47,7 @@ video-production/audit-frames/
 video-production/frames-check/
 video-production/content-generation-engine-real-*/
 video-production/real-e2e-content-orchestrator/
+video-production/real-e2e-creative-director-ripped/
 # Videos de referencia ingeridos + keyframes reales (Adaptar contenido /
 # Video de referencia, 2026-08-26) -- artefactos de sesión, content-addressed
 # y 100% regenerables desde el análisis real (referenceAnalysisStore.js).

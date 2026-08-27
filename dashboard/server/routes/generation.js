@@ -597,6 +597,11 @@ export async function handleProduceCreative(req, res) {
       audioSourcePath, audioDurationSeconds, outputProfileNames, projectDir, ffmpegBinDir: FFMPEG_BIN_DIR,
       campaignId: batch.campaignId, batchId: batch.batchId, generationId: batch.generationId,
       creativeId: `${batch.batchId}-v${variantIndex}`,
+      // Creative Director (Paso 1/3/28 del encargo): "product" ya trae
+      // nombreVisible real (hypothesisCreativeEngine.js), y variantIndex
+      // real (posición dentro de ESTE batch) garantiza diversidad real de
+      // tratamiento visual entre variantes producidas del mismo batch.
+      productFacts: batch.product ?? null, variantIndex,
     });
     // Persistencia real (Editable Video Project, 2026-08-24): antes de esta
     // fase el ProductionJob solo vivía en esta respuesta HTTP -- se

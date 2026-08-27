@@ -19,8 +19,15 @@
 
 import { createHash, randomUUID } from 'node:crypto';
 import { generateImage } from '../../image-generation/src/imageProvider.js';
+import { recordLineage } from './assetLineage.js';
 
 export const ASSET_SOURCES = Object.freeze(['EXISTING_PRODUCT_ASSET', 'GENERATED_IMAGE', 'STOCK_FOOTAGE', 'GENERATED_VIDEO', 'TYPOGRAPHIC']);
+
+// Fuente única real del negative prompt por defecto -- Creative Director
+// (creativeDirector.js) lo reutiliza por import, nunca lo duplica como
+// string literal aparte (dos copias del mismo prompt real divergirían con
+// el tiempo).
+export const DEFAULT_NEGATIVE_PROMPT = 'texto en pantalla, marcas de agua, logos ajenos, contenido explícito, afirmaciones médicas';
 
 /**
  * Request mínimo real y determinista para ImageProvider.generate() --
@@ -33,8 +40,12 @@ export const ASSET_SOURCES = Object.freeze(['EXISTING_PRODUCT_ASSET', 'GENERATED
  */
 function buildSceneImageRequest(scene, provider) {
   const generationPrompt = scene.visualPrompt;
-  const negativePrompt = 'texto en pantalla, marcas de agua, logos ajenos, contenido explícito, afirmaciones médicas';
-  const aspectRatio = '9:16';
+  // Creative Director (creativeDirector.js) puede enriquecer la escena real
+  // con negativePrompt/aspectRatio propios (misma escena real, campos
+  // AÑADIDOS, nunca reemplazados) -- si no existen (llamador preexistente
+  // sin Creative Director), se conserva el default real de siempre.
+  const negativePrompt = scene.negativePrompt ?? DEFAULT_NEGATIVE_PROMPT;
+  const aspectRatio = scene.aspectRatio ?? '9:16';
   const generationFingerprint = createHash('sha256').update(JSON.stringify({ generationPrompt, aspectRatio, providerName: provider.providerName, model: provider.model })).digest('hex');
   return Object.freeze({
     requestId: randomUUID(), visualProductionPackageId: null, providerName: provider.providerName, model: provider.model,
@@ -58,6 +69,7 @@ export async function resolveSceneAsset({
     return Object.freeze({
       sceneId: scene.sceneId, source: 'EXISTING_PRODUCT_ASSET',
       imageSourcePath: scene.assetRequirements.productImageSourcePath, providerUsed: null, isMock: false,
+      cost: Object.freeze({ estimatedCost: 0, actualCost: 0, currency: 'USD' }),
       attempted: Object.freeze(attempted),
     });
   }
@@ -72,9 +84,23 @@ export async function resolveSceneAsset({
       const result = await generateImage({ provider: imageProvider, request });
       if (result.status === 'SUCCESS' && result.isMock === false) {
         attempted.push({ source: 'GENERATED_IMAGE', outcome: 'USED', providerUsed: result.providerName });
+        // Lineage real (Editable Video Project, Paso 24 del encargo
+        // Creative Director) -- reutiliza assetLineage.js, nunca un
+        // segundo sistema de lineage paralelo. sourceAssetIds vacío: una
+        // imagen generada por IA a partir de un prompt real no "deriva" de
+        // ningún archivo real preexistente (no confundir con una foto de
+        // producto real, que nunca pasa por esta rama).
+        recordLineage({
+          derivedAssetId: result.asset.assetId ?? createHash('sha256').update(result.asset.sourcePath).digest('hex'),
+          derivedAssetPath: result.asset.sourcePath,
+          sourceAssetIds: [],
+          sourceAssetPaths: [],
+          operation: `CREATIVE_DIRECTOR_IMAGE_GENERATION:${result.providerName}`,
+        });
         return Object.freeze({
           sceneId: scene.sceneId, source: 'GENERATED_IMAGE',
           imageSourcePath: result.asset.sourcePath, providerUsed: result.providerName, isMock: false,
+          cost: Object.freeze({ estimatedCost: result.estimatedCost ?? 0, actualCost: result.actualCost ?? 0, currency: result.currency ?? 'USD' }),
           attempted: Object.freeze(attempted),
         });
       }
@@ -102,6 +128,7 @@ export async function resolveSceneAsset({
   attempted.push({ source: 'TYPOGRAPHIC', outcome: 'USED' });
   return Object.freeze({
     sceneId: scene.sceneId, source: 'TYPOGRAPHIC', imageSourcePath: null, providerUsed: null, isMock: false,
+    cost: Object.freeze({ estimatedCost: 0, actualCost: 0, currency: 'USD' }),
     attempted: Object.freeze(attempted),
   });
 }

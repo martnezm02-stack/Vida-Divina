@@ -26,11 +26,45 @@ import {
 } from '../../video-production/src/hyperframesRenderer.js';
 import { buildVideoScript } from './videoScriptGenerator.js';
 import { buildScenePlan } from './scenePlanner.js';
+import { buildVisualStrategy } from './creativeDirector.js';
+import { resolveVisualGenerationRequest } from './visualGenerationRequest.js';
 import { resolveAssetPlan } from './assetResolver.js';
+import { selectProvider } from './providerRouter.js';
 import { runProductionQualityGate } from './productionQualityGate.js';
 import { LocalFfmpegEnhancementProvider } from './enhancementProvider.js';
 import { selectMusicTrack } from './musicProvider.js';
 import { getOutputProfile } from './outputProfiles.js';
+import { OpenAIImageProvider } from '../../image-generation/src/providers/openAIImageProvider.js';
+import { MiniMaxVideoProvider } from '../../video-generation/src/providers/miniMaxVideoProvider.js';
+
+// Pricing público estimado (Paso 34 del encargo: "economic provider" antes
+// que "premium") -- documentado junto a cada adapter real (ver
+// openAIImageProvider.js/miniMaxVideoProvider.js), solo referenciado aquí
+// para construir la lista real de candidatos del Provider Router.
+const OPENAI_IMAGE_ESTIMATED_COST_USD = 0.02;
+const MINIMAX_VIDEO_ESTIMATED_COST_USD = 0.50;
+
+/**
+ * Provider Router REAL (Paso 13 del encargo Creative Director) -- decisión
+ * auditable (chosen/reason) sobre la lista real de candidatos de imagen
+ * disponibles en este entorno. Sin OPENAI_API_KEY real, "chosen" es null y
+ * assetResolver.js cae al fallback tipográfico real (nunca simula una
+ * generación). NUNCA se incluye MockImageProvider como candidato real de
+ * producción -- un mock nunca es un candidato válido para un asset final.
+ */
+function routeImageProvider() {
+  return selectProvider({
+    task: 'image',
+    candidates: [{ provider: new OpenAIImageProvider(), estimatedCost: OPENAI_IMAGE_ESTIMATED_COST_USD }],
+  });
+}
+
+function routeVideoProvider() {
+  return selectProvider({
+    task: 'video',
+    candidates: [{ provider: new MiniMaxVideoProvider(), estimatedCost: MINIMAX_VIDEO_ESTIMATED_COST_USD }],
+  });
+}
 
 // Exportado (Editable Video Project, 2026-08-24) -- editableVideoProject.js
 // necesita derivar el MISMO sceneKind real al envolver un ProductionJob ya
@@ -50,6 +84,7 @@ function proporcion(scene, factorEscala) {
  *   outputProfileNames: string[], projectDir: string, ffmpegBinDir?: string,
  *   campaignId?: ?string, batchId?: ?string, generationId?: ?string, creativeId?: string,
  *   imageProvider?: object, videoProvider?: object, includeMusic?: boolean,
+ *   productFacts?: ?object, variantIndex?: number,
  * }} args
  * @returns {Promise<object>} ProductionJob real.
  */
@@ -57,7 +92,13 @@ export async function produceCreative({
   creativeVariant, campaignIntent = null, productRawAssets = [],
   audioSourcePath, audioDurationSeconds, outputProfileNames, projectDir, ffmpegBinDir = null,
   campaignId = null, batchId = null, generationId = null, creativeId = randomUUID(),
-  imageProvider = null, videoProvider = null, includeMusic = true,
+  // undefined (no "null") es la señal real de "el llamador no decidió" --
+  // así produceCreative() puede enrutar un provider real por defecto
+  // (Provider Router, Paso 13) SIN romper a quien explícitamente pasa
+  // "null" para forzar el fallback tipográfico (comportamiento
+  // preexistente intacto, ver tests).
+  imageProvider = undefined, videoProvider = undefined, includeMusic = true,
+  productFacts = null, variantIndex = 0,
 }) {
   if (!audioSourcePath?.trim() || !existsSync(audioSourcePath)) {
     throw new Error(`produceCreative: "audioSourcePath" debe ser un WAV real ya existente (recibido: ${audioSourcePath}).`);
@@ -88,10 +129,44 @@ export async function produceCreative({
   // generar el audio real).
   const scenePlanEstimado = buildScenePlan({ videoScript, productRawAssets, campaignIntent });
   const factorEscala = audioDurationSeconds / videoScript.estimatedDurationSeconds;
-  const scenePlan = Object.freeze({ ...scenePlanEstimado, scenes: Object.freeze(scenePlanEstimado.scenes.map((s) => proporcion(s, factorEscala))), totalDurationSeconds: audioDurationSeconds });
+  const scenePlanBase = Object.freeze({ ...scenePlanEstimado, scenes: Object.freeze(scenePlanEstimado.scenes.map((s) => proporcion(s, factorEscala))), totalDurationSeconds: audioDurationSeconds });
 
-  // 3. ASSET PLAN real -- prioridad real (existente > generado local > stock > premium > tipográfico).
-  const assetPlan = await resolveAssetPlan({ scenes: scenePlan.scenes, imageProvider, videoProvider });
+  // 2b. CREATIVE DIRECTOR real (nueva capa, Paso 1 del encargo Creative
+  // Director/Visual Generation Provider Router): transforma el Scene Plan
+  // real en una Visual Strategy real -- tratamiento visual, dirección de
+  // escena, product grounding -- SOLO añade campos sobre las MISMAS
+  // escenas reales de scenePlanner.js, nunca las reemplaza.
+  const visualStrategy = buildVisualStrategy({
+    creativeVariant, campaignIntent, productFacts, productRawAssets, scenePlan: scenePlanBase,
+    format: creativeVariant.creativeVariant.format, variantIndex, campaignId, batchId, creativeId,
+  });
+  const scenePlan = Object.freeze({ ...scenePlanBase, scenes: visualStrategy.sceneVisuals });
+
+  // 3. PROVIDER ROUTER real (Paso 13) -- decisión auditable, sin
+  // credenciales reales cae a null (assetResolver.js usa el fallback
+  // tipográfico real, nunca simula una generación). "undefined" del
+  // llamador es la señal real de "decide tú"; "null" explícito del
+  // llamador sigue forzando el fallback tipográfico (comportamiento
+  // preexistente intacto, ver tests).
+  const imageRouting = imageProvider === undefined ? routeImageProvider() : null;
+  const resolvedImageProvider = imageProvider === undefined ? imageRouting.chosen : imageProvider;
+  const videoRouting = videoProvider === undefined ? routeVideoProvider() : null;
+  const resolvedVideoProvider = videoProvider === undefined ? videoRouting.chosen : videoProvider;
+
+  // 3b. ASSET PLAN real -- prioridad real (existente > generado local > stock > premium > tipográfico).
+  const assetPlan = await resolveAssetPlan({ scenes: scenePlan.scenes, imageProvider: resolvedImageProvider, videoProvider: resolvedVideoProvider });
+
+  // Visual Generation Requests reales (Paso 15/22 del encargo): une el
+  // request PENDIENTE que ya construyó el Creative Director con la
+  // resolución REAL de Asset Resolver -- honesto por diseño (ver
+  // visualGenerationRequest.js): nunca etiqueta un fallback tipográfico
+  // como "generado por IA".
+  const requestBySceneId = new Map(visualStrategy.imageGenerationRequests.map((r) => [r.sceneId, r]));
+  const visualGenerationRequests = Object.freeze(
+    assetPlan
+      .filter((resolution) => requestBySceneId.has(resolution.sceneId))
+      .map((resolution) => resolveVisualGenerationRequest(requestBySceneId.get(resolution.sceneId), resolution)),
+  );
 
   // 4. MÚSICA real -- pista curada real si existe (nunca fabricada).
   const musicSelection = includeMusic ? selectMusicTrack({}) : { status: 'NO_TRACK_AVAILABLE', track: null };
@@ -126,7 +201,12 @@ export async function produceCreative({
       });
     }
     scenePaths.push(rendered.outputPath);
-    costEntries.push({ sceneId: scene.sceneId, provider: resolution.providerUsed ?? 'local_ffmpeg', estimatedCost: 0 });
+    costEntries.push({
+      sceneId: scene.sceneId,
+      provider: resolution.providerUsed ?? 'local_ffmpeg',
+      estimatedCost: resolution.cost?.estimatedCost ?? 0,
+      actualCost: resolution.cost?.actualCost ?? 0,
+    });
   }
 
   // 6. Concatena TODAS las escenas reales en UN master real (MISMO
@@ -180,6 +260,7 @@ export async function produceCreative({
   const costReport = Object.freeze({
     entries: Object.freeze(costEntries),
     estimatedTotal: costEntries.reduce((s, e) => s + e.estimatedCost, 0),
+    actualTotal: costEntries.reduce((s, e) => s + (e.actualCost ?? 0), 0),
     currency: 'USD',
   });
 
@@ -188,6 +269,16 @@ export async function produceCreative({
     campaignId, batchId, generationId, creativeId,
     conceptId: creativeVariant.conceptId, angleId: creativeVariant.angleId, hookId: creativeVariant.hookId,
     script: videoScript, scenePlan, assetPlan: Object.freeze(assetPlan), musicSelection,
+    // Creative Director / Visual Generation Provider Router (Paso 1/13/15
+    // del encargo) -- visualStrategySummary omite "sceneVisuals" (ya está,
+    // MÁS completo, dentro de scenePlan.scenes; evita duplicar el mismo
+    // dato dos veces en el mismo ProductionJob real).
+    visualStrategy: (({ sceneVisuals, ...rest }) => Object.freeze(rest))(visualStrategy),
+    visualGenerationRequests,
+    providerRouting: Object.freeze({
+      image: imageRouting ? Object.freeze({ chosenProvider: imageRouting.chosen?.providerName ?? null, reason: imageRouting.reason }) : Object.freeze({ chosenProvider: resolvedImageProvider?.providerName ?? null, reason: 'produceCreative: provider de imagen explícito del llamador (no enrutado).' }),
+      video: videoRouting ? Object.freeze({ chosenProvider: videoRouting.chosen?.providerName ?? null, reason: videoRouting.reason }) : Object.freeze({ chosenProvider: resolvedVideoProvider?.providerName ?? null, reason: 'produceCreative: provider de video explícito del llamador (no enrutado).' }),
+    }),
     masterPath, outputs: Object.freeze(outputs), qualityReports: Object.freeze(qualityReports), costReport,
   });
 }

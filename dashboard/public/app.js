@@ -330,6 +330,19 @@ if (createSuggestBtn) {
     }
     const escenas = job.scenePlan?.scenes?.length ?? 0;
     const conceptos = job.assetPlan ? new Set(job.assetPlan.map((a) => a.source)).size : 0;
+    // Creative Director (Paso 23 del encargo): tratamiento visual real
+    // elegido + fuente visual real usada -- nunca UUID/prompt técnico como
+    // información principal.
+    const VISUAL_SOURCE_LABELS = {
+      EXISTING_PRODUCT_ASSET: 'Asset propio', GENERATED_IMAGE: 'Generado con IA', GENERATED_VIDEO: 'Generado con IA', STOCK_FOOTAGE: 'Stock', TYPOGRAPHIC: 'Tipográfico',
+    };
+    const fuentesVisuales = job.assetPlan
+      ? [...new Set(job.assetPlan.map((a) => VISUAL_SOURCE_LABELS[a.source] ?? a.source))].join(', ')
+      : '—';
+    const treatmentHtml = job.visualStrategy?.visualTreatmentLabel
+      ? `<div class="variant-field"><strong>Tratamiento visual</strong>${job.visualStrategy.visualTreatmentLabel}</div>
+         <div class="variant-field"><strong>Fuente visual</strong>${fuentesVisuales}</div>`
+      : '';
     const outputsHtml = (job.outputs ?? []).map((o) => `
       <div class="variant-field"><strong>${o.profileName} (${o.aspectRatio})</strong>${o.status}${o.mediaUrl ? ` — <a href="${o.mediaUrl}" target="_blank" rel="noopener">ver video</a>` : ''}</div>
     `).join('');
@@ -342,6 +355,7 @@ if (createSuggestBtn) {
     return `
       <div class="result-status ${job.status}">${job.status}</div>
       <div class="variant-field"><strong>Pipeline</strong>Script → ${escenas} escenas reales → ${conceptos} fuente(s) visual(es) → Voz real → ${job.musicSelection?.status === 'SUCCESS' ? 'Música real' : 'Sin música (no disponible)'} → Composición ffmpeg real → QA</div>
+      ${treatmentHtml}
       ${outputsHtml}
       ${qaHtml}
       <div class="variant-field"><strong>Costo estimado</strong>$${job.costReport?.estimatedTotal ?? 0} ${job.costReport?.currency ?? 'USD'}</div>
