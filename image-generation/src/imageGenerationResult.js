@@ -17,6 +17,13 @@ export const IMAGE_GENERATION_STATUSES = Object.freeze([
   'SUCCESS', 'CONFIGURATION_REQUIRED', 'INVALID_REQUEST', 'PROVIDER_ERROR',
 ]);
 
+// costStatus (Krea Image Provider, 2026-08-27): honesto sobre si
+// estimatedCost/actualCost representan un costo real conocido o son un
+// placeholder porque el provider real no expone precio en su respuesta.
+// Aditivo -- default 'KNOWN' preserva el comportamiento/forma de siempre
+// para providers ya existentes (Mock/OpenAI/MiniMax), que nunca lo pasan.
+export const IMAGE_GENERATION_COST_STATUSES = Object.freeze(['KNOWN', 'ESTIMATED', 'UNKNOWN']);
+
 // Fijo -- todo GeneratedImage nace en DRAFT, nunca APPROVED. La integración
 // con Human Review (dashboard) queda para una fase posterior (Fase 1, Parte 11).
 export const GENERATED_IMAGE_REVIEW_STATUS = 'DRAFT';
@@ -55,6 +62,7 @@ export function createImageGenerationResult({
   actualCost = 0,
   currency = 'USD',
   error = null,
+  costStatus = 'KNOWN',
 }) {
   if (!IMAGE_GENERATION_STATUSES.includes(status)) {
     throw new Error(`createImageGenerationResult: "status" inválido "${status}" (válidos: ${IMAGE_GENERATION_STATUSES.join(', ')}).`);
@@ -75,6 +83,9 @@ export function createImageGenerationResult({
     throw new Error('createImageGenerationResult: "actualCost" debe ser un número >= 0.');
   }
   assertNonEmptyString(currency, 'currency');
+  if (!IMAGE_GENERATION_COST_STATUSES.includes(costStatus)) {
+    throw new Error(`createImageGenerationResult: "costStatus" inválido "${costStatus}" (válidos: ${IMAGE_GENERATION_COST_STATUSES.join(', ')}).`);
+  }
 
   if (status === 'SUCCESS') {
     if (error !== null) throw new Error('createImageGenerationResult: status "SUCCESS" no puede llevar "error" -- un resultado exitoso nunca reporta un fallo.');
@@ -111,6 +122,7 @@ export function createImageGenerationResult({
     estimatedCost,
     actualCost,
     currency,
+    costStatus,
     error,
     createdAt: new Date().toISOString(),
   });

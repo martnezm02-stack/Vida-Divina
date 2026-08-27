@@ -307,6 +307,44 @@ describe('Creative Factory — batches reales, un producto propio para no interf
     assert.equal(status, 400);
     assert.match(body.error, /productId/);
   });
+
+  describe('Modelo Sugerido — GET /api/create/model-recommendation (2026-08-27)', () => {
+    let batchId;
+    before(async () => {
+      const b = await post('/api/create/suggest-hypothesis', { productId: CAMPAIGN_PRODUCT_ID, variantCount: 3 });
+      batchId = b.body.batchId;
+    });
+
+    test('sin batchId responde 400', async () => {
+      const { status, body } = await get('/api/create/model-recommendation?variantIndex=0');
+      assert.equal(status, 400);
+      assert.match(body.error, /batchId/);
+    });
+
+    test('sin variantIndex real responde 400', async () => {
+      const { status, body } = await get(`/api/create/model-recommendation?batchId=${batchId}`);
+      assert.equal(status, 400);
+      assert.match(body.error, /variantIndex/);
+    });
+
+    test('batchId inexistente responde 400, nunca inventa una campaña', async () => {
+      const { status } = await get('/api/create/model-recommendation?batchId=no-existe&variantIndex=0');
+      assert.equal(status, 400);
+    });
+
+    test('recomendación real real: trae visualTreatment/recommendedModel/recommendationReason/availableModels, nunca nombres técnicos de endpoint', async () => {
+      const { status, body } = await get(`/api/create/model-recommendation?batchId=${batchId}&variantIndex=0`);
+      assert.equal(status, 200);
+      assert.ok(body.visualTreatment);
+      assert.ok(body.visualTreatmentLabel);
+      assert.ok('recommendedModel' in body);
+      assert.ok(body.recommendationReason?.length > 0);
+      assert.ok(Array.isArray(body.availableModels));
+      for (const m of body.availableModels) {
+        assert.doesNotMatch(m.displayName, /generate\/image|krea-2\/|gen-4-image/);
+      }
+    });
+  });
 });
 
 describe('Creative Strategy Engine — CampaignIntent real gobierna el copy, no solo el producto', () => {

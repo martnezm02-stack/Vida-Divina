@@ -29,6 +29,7 @@ content-orchestrator/data/
 content-planning/data/
 content-strategy/data/
 creative-intelligence/data/
+image-generation/data/
 marketing-intelligence/data/
 performance-learning-intelligence/data/
 publishing-scheduler/data/
@@ -48,6 +49,7 @@ video-production/frames-check/
 video-production/content-generation-engine-real-*/
 video-production/real-e2e-content-orchestrator/
 video-production/real-e2e-creative-director-ripped/
+video-production/real-e2e-krea-mcp/
 # Videos de referencia ingeridos + keyframes reales (Adaptar contenido /
 # Video de referencia, 2026-08-26) -- artefactos de sesión, content-addressed
 # y 100% regenerables desde el análisis real (referenceAnalysisStore.js).

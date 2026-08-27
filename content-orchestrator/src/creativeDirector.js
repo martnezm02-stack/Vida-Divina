@@ -32,6 +32,7 @@ import { VISUAL_TREATMENTS, assignVisualTreatment } from './visualTreatments.js'
 import { buildVisualGenerationRequest } from './visualGenerationRequest.js';
 import { assertBrandAvoidCompliance } from './brandVisualSystem.js';
 import { DEFAULT_NEGATIVE_PROMPT } from './assetResolver.js';
+import { recommendImageModel, buildModelSelection, listAvailableImageModels } from './imageModelCatalog.js';
 
 const ASPECT_RATIO_BY_FORMAT = Object.freeze({ 'Static comparison frames': '4:5' });
 const DEFAULT_ASPECT_RATIO = '9:16';
@@ -120,6 +121,13 @@ function directScene({
 export function buildVisualStrategy({
   creativeVariant, campaignIntent = null, productFacts = null, productRawAssets = [],
   scenePlan, platform = null, format = null, variantIndex = 0, campaignId = null, batchId = null, creativeId = null,
+  // Modelo Sugerido + Selección Manual (2026-08-27): "undefined" real
+  // (nunca pasado) = el usuario todavía no decidió, se usa la recomendación
+  // real tal cual (selectionMode "automatic"); un id real de
+  // imageModelCatalog.js SOBRESCRIBE la recomendación para ESTA generación
+  // (selectionMode "user_selected") -- regla central del encargo: "el
+  // sistema recomienda, el usuario decide".
+  selectedModelId = null,
 }) {
   if (!scenePlan?.scenes?.length) {
     throw new Error('buildVisualStrategy: "scenePlan" debe ser un Scene Plan real ya construido (scenePlanner.js#buildScenePlan) -- el Creative Director nunca inventa escenas.');
@@ -171,6 +179,20 @@ export function buildVisualStrategy({
   // video POR ESCENA independiente del master compuesto.
   const videoGenerationRequests = Object.freeze([]);
 
+  // Modelo Sugerido + Selección Manual (2026-08-27): recomendación real
+  // (Creative Director + Provider Router, ver imageModelCatalog.js) +
+  // selección real del usuario si la proveyó -- nunca decide por sí solo
+  // sin dejar la puerta real abierta a que el usuario la sobrescriba.
+  const modelRecommendation = recommendImageModel({
+    productAssetAvailable: Boolean(productAsset),
+    visualTreatmentId: treatment.id,
+    hasGenerationRequiredScenes: imageGenerationRequests.length > 0,
+    aspectRatio,
+  });
+  const modelSelection = buildModelSelection({
+    ...modelRecommendation, selectedModelId, productAssetAvailable: Boolean(productAsset), aspectRatio,
+  });
+
   const overview = treatment.describe({
     audience: campaignIntent?.targetAudience ?? 'la audiencia real de esta campaña',
     territory: campaignIntent?.campaignTerritory ?? creativeVariant?.creativeVariant?.angleText ?? 'esta campaña',
@@ -209,5 +231,52 @@ export function buildVisualStrategy({
     sceneVisuals: scenes,
     imageGenerationRequests,
     videoGenerationRequests,
+    // Lineage real de recomendación vs selección (regla de lineage del
+    // encargo Modelo Sugerido) -- permite medir después recomendación
+    // automática vs selección manual, nunca solo el resultado final.
+    recommendedProvider: modelSelection.recommendedProvider,
+    recommendedModel: modelSelection.recommendedModel,
+    recommendationReason: modelSelection.recommendationReason,
+    selectedProvider: modelSelection.selectedProvider,
+    selectedModel: modelSelection.selectedModel,
+    selectionMode: modelSelection.selectionMode,
+    // finalModelId: SIEMPRE igual a selectedModel (mismo valor, ver
+    // imageModelCatalog.js#buildModelSelection) -- expuesto aparte porque
+    // es el campo real que consume creativeProductionOrchestrator.js para
+    // construir el provider real de esta generación, sin que el llamador
+    // tenga que re-derivar la misma regla de "selectedModel gana".
+    finalModelId: modelSelection.finalModelId,
+  });
+}
+
+/**
+ * Vista previa real (Modelo Sugerido + Selección Manual, 2026-08-27) --
+ * para que el Dashboard muestre "Modelo sugerido" + "Cambiar modelo" ANTES
+ * de producir (antes de generar el voiceover real, que es costoso). Usa
+ * SOLO señales reales ya disponibles sin un Scene Plan completo
+ * (treatment real + disponibilidad real de asset de producto) -- nunca
+ * inventa un Scene Plan falso solo para esta vista previa.
+ * "hasGenerationRequiredScenes" se asume real true (toda campaña real con
+ * al menos una sección no-producto genera al menos una escena real que
+ * requiere generación, ver scenePlanner.js) -- una simplificación real y
+ * documentada, nunca un cálculo inventado.
+ *
+ * @param {{campaignIntent?:?object, productFacts?:?object, productRawAssets?:object[], variantIndex?:number, campaignId?:?string, format?:?string}} args
+ */
+export function previewVisualRecommendation({
+  campaignIntent = null, productFacts = null, productRawAssets = [], variantIndex = 0, campaignId = null, format = null,
+}) {
+  const treatment = assignVisualTreatment({ variantIndex, campaignIntent, campaignId });
+  const productAsset = productRawAssets.find((a) => a.role === 'PRODUCT_PRIMARY') ?? productRawAssets[0] ?? null;
+  const aspectRatio = aspectRatioForFormat(format);
+  const { recommendedModel, recommendationReason } = recommendImageModel({
+    productAssetAvailable: Boolean(productAsset), visualTreatmentId: treatment.id, hasGenerationRequiredScenes: true, aspectRatio,
+  });
+  return Object.freeze({
+    visualTreatment: treatment.id,
+    visualTreatmentLabel: treatment.label,
+    recommendedModel,
+    recommendationReason,
+    availableModels: listAvailableImageModels({ productReferenceAvailable: Boolean(productAsset), aspectRatio }),
   });
 }

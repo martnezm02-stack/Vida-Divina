@@ -52,6 +52,13 @@ describe('produceCreative — pipeline real completo (sin mocks)', () => {
       outputProfileNames: ['INSTAGRAM_REEL', 'INSTAGRAM_FEED'],
       projectDir, ffmpegBinDir: FFMPEG_BIN_DIR,
       campaignId: 'sculpt-black-test', batchId: 'batch-1', generationId: 'gen-1', creativeId: 'creative-1',
+      // imageProvider:null explícito (Krea MCP, 2026-08-27): esta suite real
+      // debe seguir siendo rápida/gratis/determinista sin importar si ESTA
+      // máquina real tiene Krea MCP realmente Connected -- fuerza el
+      // fallback tipográfico real para el RENDER, sin afectar la
+      // recomendación real del Creative Director (independiente, se sigue
+      // probando abajo con job.visualStrategy).
+      imageProvider: null, videoProvider: null,
     });
 
     assert.ok(['FULL_PRODUCTION', 'DEGRADED_PRODUCTION'].includes(job.status), `status inesperado: ${job.status} / error: ${job.error}`);
@@ -67,6 +74,16 @@ describe('produceCreative — pipeline real completo (sin mocks)', () => {
     assert.equal(job.campaignId, 'sculpt-black-test');
     assert.equal(job.creativeId, 'creative-1');
     assert.equal(job.conceptId, 'problem_agitation');
+
+    // Modelo Sugerido + Selección Manual (2026-08-27): sin selectedModelId
+    // real del llamador -- selectionMode real debe ser "automatic", y el
+    // lineage completo debe quedar registrado en el ProductionJob real.
+    assert.equal(job.visualStrategy.selectionMode, 'automatic');
+    assert.equal(job.visualStrategy.selectedModel, job.visualStrategy.recommendedModel);
+    assert.ok(job.visualStrategy.recommendationReason?.length > 0);
+    for (const campo of ['recommendedProvider', 'recommendedModel', 'recommendationReason', 'selectedProvider', 'selectedModel', 'selectionMode']) {
+      assert.ok(campo in job.visualStrategy, `falta el campo de lineage "${campo}" en job.visualStrategy`);
+    }
   });
 
   test('rechaza sin audioSourcePath real', async () => {
@@ -74,5 +91,20 @@ describe('produceCreative — pipeline real completo (sin mocks)', () => {
       creativeVariant: CREATIVE_VARIANT_REAL, audioSourcePath: 'C:/no/existe.wav', audioDurationSeconds: 5,
       outputProfileNames: ['INSTAGRAM_REEL'], projectDir: join(TEST_TMP_DIR, 'job-invalid'),
     }), /audioSourcePath/);
+  });
+
+  test('Validación E (Modelo Sugerido): selectedModelId real sin credencial real disponible en este entorno -> rechaza explícito, nunca produce con un modelo no disponible', async () => {
+    const projectDir = join(TEST_TMP_DIR, 'job-2');
+    const audioPath = join(TEST_TMP_DIR, 'voice-2.wav');
+    writeFileSync(audioPath, crearWavSilencioBuffer(6));
+
+    await assert.rejects(() => produceCreative({
+      creativeVariant: CREATIVE_VARIANT_REAL, campaignIntent: CAMPAIGN_INTENT_REAL, productRawAssets: [],
+      audioSourcePath: audioPath, audioDurationSeconds: 6,
+      outputProfileNames: ['INSTAGRAM_REEL'],
+      projectDir, ffmpegBinDir: FFMPEG_BIN_DIR,
+      campaignId: 'sculpt-black-test-2', batchId: 'batch-2', generationId: 'gen-2', creativeId: 'creative-2',
+      selectedModelId: 'openai-gpt-image', // sin OPENAI_API_KEY real en este proceso de test -- no está realmente disponible.
+    }), /no es un modelo real disponible/);
   });
 });

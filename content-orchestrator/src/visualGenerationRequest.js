@@ -54,7 +54,7 @@ export function buildVisualGenerationRequest({
     provider: null,
     status: 'PENDING',
     assetId: null,
-    cost: Object.freeze({ estimated: null, actual: null, currency: 'USD' }),
+    cost: Object.freeze({ estimated: null, actual: null, currency: 'USD', status: null }),
     lineage: Object.freeze({ sourceType: null, sourceAssetId: null, sourcePath: null }),
     fingerprint,
     createdAt: new Date().toISOString(),
@@ -96,6 +96,10 @@ export function resolveVisualGenerationRequest(request, resolution) {
       estimated: resolution.cost?.estimatedCost ?? 0,
       actual: resolution.cost?.actualCost ?? 0,
       currency: resolution.cost?.currency ?? 'USD',
+      // Krea Image Provider (Paso 12 del encargo Krea): "UNKNOWN" cuando el
+      // provider real no expone precio por llamada -- nunca se disfraza de
+      // costo conocido/cero real.
+      status: resolution.cost?.costStatus ?? 'KNOWN',
     }),
     lineage: Object.freeze({
       sourceType: resolution.source,

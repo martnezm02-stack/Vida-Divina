@@ -20,6 +20,8 @@ import { buildHypothesisExperiment } from '../../../content-orchestrator/src/hyp
 import { buildCampaignIntent, computeCampaignId } from '../../../content-orchestrator/src/campaignIntent.js';
 import { saveBatch, listBatchesForCampaign, getCampaignBatchState, getBatch } from '../../../creative-intelligence/src/hypothesisBatchStore.js';
 import { produceCreative } from '../../../content-orchestrator/src/creativeProductionOrchestrator.js';
+import { previewVisualRecommendation } from '../../../content-orchestrator/src/creativeDirector.js';
+import { listAvailableImageModels } from '../../../content-orchestrator/src/imageModelCatalog.js';
 import { saveProductionJob } from '../../../content-orchestrator/src/productionJobStore.js';
 import { buildProductGroundedEvidence } from '../../../content-orchestrator/src/productGroundedEvidence.js';
 import { buildVideoScript, assertVoiceoverTextSafe } from '../../../content-orchestrator/src/videoScriptGenerator.js';
@@ -540,10 +542,48 @@ export async function handlePublish(req, res) {
 // APROBADA (un batch/variante ya persistido) tal cual.
 // ---------------------------------------------------------------------
 
+// Modelo Sugerido + Selección Manual (2026-08-27): vista previa real ANTES
+// de producir (antes del voiceover real, costoso) -- "el sistema
+// recomienda, el usuario decide", regla central del encargo. GET, no POST:
+// solo lee/calcula, nunca genera nada real.
+export async function handleModelRecommendation(req, res, url) {
+  const batchId = url.searchParams.get('batchId');
+  const variantIndexRaw = url.searchParams.get('variantIndex');
+  const variantIndex = Number(variantIndexRaw);
+  if (!batchId?.trim()) { badRequest(res, 'model-recommendation: "batchId" es obligatorio (query param).'); return; }
+  if (!variantIndexRaw?.trim() || !Number.isInteger(variantIndex) || variantIndex < 0) { badRequest(res, 'model-recommendation: "variantIndex" debe ser un entero >= 0 real (query param).'); return; }
+
+  let batch;
+  try {
+    batch = getBatch(batchId);
+  } catch (err) {
+    badRequest(res, err.message);
+    return;
+  }
+  if (!batch.variantsDetail[variantIndex]) { badRequest(res, `model-recommendation: el batch "${batchId}" no tiene una variante real en el índice ${variantIndex}.`); return; }
+
+  const product = getProduct(batch.product?.productId ?? '');
+  const preview = previewVisualRecommendation({
+    campaignIntent: batch.campaignIntent ?? null,
+    productFacts: batch.product ?? null,
+    productRawAssets: product?.rawAssets ?? [],
+    variantIndex,
+    campaignId: batch.campaignId,
+  });
+  sendJson(res, 200, preview);
+}
+
 export async function handleProduceCreative(req, res) {
   let body;
   try { body = await readJsonBody(req); } catch (err) { badRequest(res, err.message); return; }
-  const { batchId, variantIndex, outputProfileNames = ['INSTAGRAM_REEL', 'INSTAGRAM_FEED'] } = body;
+  const {
+    batchId, variantIndex, outputProfileNames = ['INSTAGRAM_REEL', 'INSTAGRAM_FEED'],
+    // Modelo Sugerido + Selección Manual: null real = el usuario aceptó la
+    // recomendación (selectionMode "automatic"); un id real del catálogo
+    // (imageModelCatalog.js) = el usuario lo cambió (selectionMode
+    // "user_selected", sobrescribe la recomendación para ESTA generación).
+    imageModelId = null,
+  } = body;
   if (!batchId?.trim()) { badRequest(res, 'produce: "batchId" es obligatorio -- la creatividad debe venir de un batch real ya generado, nunca inventada aquí.'); return; }
   if (!Number.isInteger(variantIndex) || variantIndex < 0) { badRequest(res, 'produce: "variantIndex" debe ser un entero >= 0 real.'); return; }
 
@@ -560,6 +600,18 @@ export async function handleProduceCreative(req, res) {
   const productId = batch.product.productId;
   const product = getProduct(productId);
   const productRawAssets = product?.rawAssets ?? [];
+
+  // Modelo Sugerido + Selección Manual (Validación D/E): valida el modelo
+  // real elegido por el usuario ANTES de pagar el costo real de generar un
+  // voiceover (más abajo) -- nunca deja que una selección inválida se
+  // descubra recién después de ese costo real.
+  if (imageModelId) {
+    const disponibles = listAvailableImageModels({ productReferenceAvailable: productRawAssets.length > 0 });
+    if (!disponibles.some((m) => m.id === imageModelId)) {
+      badRequest(res, `produce: "imageModelId" ("${imageModelId}") no es un modelo real disponible ahora (credencial ausente o requiere una referencia de producto real que no existe) -- modelos reales disponibles: ${disponibles.map((m) => m.id).join(', ') || 'ninguno'}.`);
+      return;
+    }
+  }
 
   // El mismo Video Script real que produceCreative() volverá a construir
   // internamente -- se recalcula aquí SOLO para conocer voiceoverText
@@ -601,7 +653,7 @@ export async function handleProduceCreative(req, res) {
       // nombreVisible real (hypothesisCreativeEngine.js), y variantIndex
       // real (posición dentro de ESTE batch) garantiza diversidad real de
       // tratamiento visual entre variantes producidas del mismo batch.
-      productFacts: batch.product ?? null, variantIndex,
+      productFacts: batch.product ?? null, variantIndex, selectedModelId: imageModelId,
     });
     // Persistencia real (Editable Video Project, 2026-08-24): antes de esta
     // fase el ProductionJob solo vivía en esta respuesta HTTP -- se

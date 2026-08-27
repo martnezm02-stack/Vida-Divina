@@ -279,7 +279,18 @@ if (createSuggestBtn) {
     // real+captions+música si hay+composición ffmpeg real+QA+formatos),
     // NUNCA regenera la campaña/copy (usa esta MISMA variante ya
     // persistida). Estado del pipeline visible por etapa (Paso 18).
+    // Modelo Sugerido + Selección Manual (2026-08-27): "el sistema
+    // recomienda, el usuario decide" -- carga real vía GET
+    // /api/create/model-recommendation (initModelRecommendation()), NUNCA
+    // nombres técnicos de endpoint/UUID como texto principal.
+    const modelBlock = `
+      <div class="model-recommendation" data-variant-index="${index}">
+        <span class="model-suggestion-label" data-variant-index="${index}">Calculando modelo sugerido…</span>
+        <button type="button" class="btn-link btn-change-model hidden" data-variant-index="${index}">Cambiar modelo</button>
+        <select class="model-select hidden" data-variant-index="${index}"></select>
+      </div>`;
     const produceBlock = `
+      ${modelBlock}
       <button type="button" class="btn-secondary btn-produce-creative" data-variant-index="${index}">PRODUCIR VIDEO REAL →</button>
       <div class="production-status hidden" data-variant-index="${index}"></div>`;
     const marcadorUsar = 'USAR ESTA VARIANTE →</button>';
@@ -339,9 +350,20 @@ if (createSuggestBtn) {
     const fuentesVisuales = job.assetPlan
       ? [...new Set(job.assetPlan.map((a) => VISUAL_SOURCE_LABELS[a.source] ?? a.source))].join(', ')
       : '—';
+    // Krea Image Provider (Paso 14 del encargo Krea): proveedor/modelo
+    // reales -- nunca el prompt técnico completo ni ningún UUID como
+    // información principal.
+    const PROVIDER_LABELS = { krea: 'Krea', openai: 'OpenAI' };
+    const MODEL_LABELS = { krea: 'Krea 2', openai: 'GPT Image 1' };
+    const chosenImageProvider = job.providerRouting?.image?.chosenProvider ?? null;
+    const providerHtml = chosenImageProvider
+      ? `<div class="variant-field"><strong>Proveedor</strong>${PROVIDER_LABELS[chosenImageProvider] ?? chosenImageProvider}</div>
+         <div class="variant-field"><strong>Modelo</strong>${MODEL_LABELS[chosenImageProvider] ?? '—'}</div>`
+      : '';
     const treatmentHtml = job.visualStrategy?.visualTreatmentLabel
       ? `<div class="variant-field"><strong>Tratamiento visual</strong>${job.visualStrategy.visualTreatmentLabel}</div>
-         <div class="variant-field"><strong>Fuente visual</strong>${fuentesVisuales}</div>`
+         <div class="variant-field"><strong>Fuente visual</strong>${fuentesVisuales}</div>
+         ${providerHtml}`
       : '';
     const outputsHtml = (job.outputs ?? []).map((o) => `
       <div class="variant-field"><strong>${o.profileName} (${o.aspectRatio})</strong>${o.status}${o.mediaUrl ? ` — <a href="${o.mediaUrl}" target="_blank" rel="noopener">ver video</a>` : ''}</div>
@@ -363,18 +385,58 @@ if (createSuggestBtn) {
     `;
   }
 
+  // Modelo Sugerido + Selección Manual (2026-08-27): "el sistema
+  // recomienda, el usuario decide" -- carga real vía GET
+  // /api/create/model-recommendation ANTES de producir (voiceover real es
+  // costoso, esto es solo lectura). Nunca muestra UUID/prompt técnico
+  // como texto principal (Paso "IMPORTANTE" del encargo).
+  async function initModelRecommendation(sectionEl, batch) {
+    const widgets = [...sectionEl.querySelectorAll('.model-recommendation')];
+    await Promise.all(widgets.map(async (widget) => {
+      const idx = widget.dataset.variantIndex;
+      const labelEl = widget.querySelector('.model-suggestion-label');
+      const changeBtn = widget.querySelector('.btn-change-model');
+      const selectEl = widget.querySelector('.model-select');
+      try {
+        const rec = await api(`/api/create/model-recommendation?batchId=${batch.batchId}&variantIndex=${idx}`);
+        if (!rec.recommendedModel) {
+          labelEl.textContent = 'Sin modelo de imagen disponible en este entorno.';
+          return;
+        }
+        labelEl.innerHTML = `Modelo sugerido: <strong>${rec.recommendedModel.displayName} ✓</strong><br><span class="meta">${rec.recommendedModel.shortComment} — ${rec.recommendationReason}</span>`;
+        selectEl.innerHTML = rec.availableModels.map((m) => `<option value="${m.id}"${m.id === rec.recommendedModel.id ? ' selected' : ''}>${m.displayName} — ${m.costTierLabel}</option>`).join('');
+        if (rec.availableModels.length > 1) {
+          changeBtn.classList.remove('hidden');
+          changeBtn.addEventListener('click', () => selectEl.classList.toggle('hidden'));
+        }
+      } catch {
+        labelEl.textContent = 'No se pudo calcular el modelo sugerido (se producirá con el fallback real disponible).';
+      }
+    }));
+  }
+
   function attachProduceHandlers(sectionEl, batch) {
+    initModelRecommendation(sectionEl, batch);
     sectionEl.querySelectorAll('.btn-produce-creative').forEach((b) => {
       b.addEventListener('click', async () => {
         const idx = Number(b.dataset.variantIndex);
         const statusEl = sectionEl.querySelector(`.production-status[data-variant-index="${idx}"]`);
+        // Modelo Sugerido + Selección Manual: si el usuario nunca tocó el
+        // selector, su valor real ya es el modelo recomendado (option
+        // "selected" en initModelRecommendation) -- enviarlo tal cual
+        // sigue resultando en selectionMode "automatic" del lado real del
+        // servidor (buildModelSelection compara contra la recomendación).
+        const selectEl = sectionEl.querySelector(`.model-select[data-variant-index="${idx}"]`);
+        const imageModelId = selectEl?.value || null;
         statusEl.classList.remove('hidden');
         statusEl.innerHTML = '<p class="placeholder">Produciendo pieza audiovisual real (guion, escenas, voz real, composición)… puede tardar varios minutos.</p>';
         b.disabled = true;
         try {
           const job = await api('/api/create/produce', {
             method: 'POST', headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ batchId: batch.batchId, variantIndex: idx, outputProfileNames: ['INSTAGRAM_REEL', 'INSTAGRAM_FEED'] }),
+            body: JSON.stringify({
+              batchId: batch.batchId, variantIndex: idx, outputProfileNames: ['INSTAGRAM_REEL', 'INSTAGRAM_FEED'], imageModelId,
+            }),
           });
           statusEl.innerHTML = productionJobStatusHtml(job);
           const openBtn = statusEl.querySelector('.btn-open-editor');

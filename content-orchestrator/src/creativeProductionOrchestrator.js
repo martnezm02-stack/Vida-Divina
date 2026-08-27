@@ -34,28 +34,44 @@ import { runProductionQualityGate } from './productionQualityGate.js';
 import { LocalFfmpegEnhancementProvider } from './enhancementProvider.js';
 import { selectMusicTrack } from './musicProvider.js';
 import { getOutputProfile } from './outputProfiles.js';
-import { OpenAIImageProvider } from '../../image-generation/src/providers/openAIImageProvider.js';
+import { IMAGE_MODEL_CATALOG, getImageModel } from './imageModelCatalog.js';
 import { MiniMaxVideoProvider } from '../../video-generation/src/providers/miniMaxVideoProvider.js';
 
-// Pricing público estimado (Paso 34 del encargo: "economic provider" antes
-// que "premium") -- documentado junto a cada adapter real (ver
-// openAIImageProvider.js/miniMaxVideoProvider.js), solo referenciado aquí
-// para construir la lista real de candidatos del Provider Router.
-const OPENAI_IMAGE_ESTIMATED_COST_USD = 0.02;
+// Pricing público estimado (Paso 34 del encargo Creative Director:
+// "economic provider" antes que "premium"; Paso "COSTO" del encargo Modelo
+// Sugerido: categoría simple, nunca precio inventado) -- ordinal real de
+// costTier (imageModelCatalog.js), solo para que Provider Router pueda
+// ORDENAR candidatos reales; nunca se reporta como costo real (eso lo
+// resuelve costStatus:"UNKNOWN" en el resultado real de cada provider).
+const IMAGE_COST_TIER_ORDINAL_USD = Object.freeze({
+  LOW: 0, BALANCED: 0.02, HIGH: 0.04, PREMIUM: 0.08,
+});
 const MINIMAX_VIDEO_ESTIMATED_COST_USD = 0.50;
 
 /**
- * Provider Router REAL (Paso 13 del encargo Creative Director) -- decisión
+ * Provider Router REAL (Paso 13 del encargo Creative Director; Paso 5 del
+ * encargo Krea; Modelo Sugerido + Selección Manual, 2026-08-27) -- decisión
  * auditable (chosen/reason) sobre la lista real de candidatos de imagen
- * disponibles en este entorno. Sin OPENAI_API_KEY real, "chosen" es null y
- * assetResolver.js cae al fallback tipográfico real (nunca simula una
- * generación). NUNCA se incluye MockImageProvider como candidato real de
- * producción -- un mock nunca es un candidato válido para un asset final.
+ * disponibles en este entorno. "preferredModelId" (recomendado o
+ * seleccionado real por el usuario, ver
+ * imageModelCatalog.js#buildModelSelection / creativeDirector.js) va
+ * SIEMPRE primero -- el resto del catálogo real (excluyendo modelos que
+ * requieren referencia real de producto, ej. runway-gen4, que NUNCA cae
+ * como fallback silencioso sin una referencia real) queda como respaldo
+ * real. Sin ninguna credencial real, "chosen" es null y assetResolver.js
+ * cae al fallback tipográfico real (nunca simula una generación). NUNCA se
+ * incluye MockImageProvider como candidato real de producción -- un mock
+ * nunca es un candidato válido para un asset final.
  */
-function routeImageProvider() {
+export function routeImageProvider(preferredModelId = null) {
+  const respaldoSeguro = IMAGE_MODEL_CATALOG.filter((m) => !m.requiresProductReference);
+  const preferido = preferredModelId ? getImageModel(preferredModelId) : null;
+  const orden = preferido
+    ? [preferido, ...respaldoSeguro.filter((m) => m.id !== preferido.id)]
+    : respaldoSeguro;
   return selectProvider({
     task: 'image',
-    candidates: [{ provider: new OpenAIImageProvider(), estimatedCost: OPENAI_IMAGE_ESTIMATED_COST_USD }],
+    candidates: orden.map((m) => ({ provider: m.buildProvider(), estimatedCost: IMAGE_COST_TIER_ORDINAL_USD[m.costTier] })),
   });
 }
 
@@ -84,7 +100,7 @@ function proporcion(scene, factorEscala) {
  *   outputProfileNames: string[], projectDir: string, ffmpegBinDir?: string,
  *   campaignId?: ?string, batchId?: ?string, generationId?: ?string, creativeId?: string,
  *   imageProvider?: object, videoProvider?: object, includeMusic?: boolean,
- *   productFacts?: ?object, variantIndex?: number,
+ *   productFacts?: ?object, variantIndex?: number, selectedModelId?: ?string,
  * }} args
  * @returns {Promise<object>} ProductionJob real.
  */
@@ -99,6 +115,12 @@ export async function produceCreative({
   // preexistente intacto, ver tests).
   imageProvider = undefined, videoProvider = undefined, includeMusic = true,
   productFacts = null, variantIndex = 0,
+  // Modelo Sugerido + Selección Manual (2026-08-27): null real = el
+  // usuario no cambió nada, se usa la recomendación real tal cual
+  // (selectionMode "automatic"); un id real de imageModelCatalog.js
+  // SOBRESCRIBE la recomendación para ESTA generación (selectionMode
+  // "user_selected").
+  selectedModelId = null,
 }) {
   if (!audioSourcePath?.trim() || !existsSync(audioSourcePath)) {
     throw new Error(`produceCreative: "audioSourcePath" debe ser un WAV real ya existente (recibido: ${audioSourcePath}).`);
@@ -139,6 +161,7 @@ export async function produceCreative({
   const visualStrategy = buildVisualStrategy({
     creativeVariant, campaignIntent, productFacts, productRawAssets, scenePlan: scenePlanBase,
     format: creativeVariant.creativeVariant.format, variantIndex, campaignId, batchId, creativeId,
+    selectedModelId,
   });
   const scenePlan = Object.freeze({ ...scenePlanBase, scenes: visualStrategy.sceneVisuals });
 
@@ -147,8 +170,12 @@ export async function produceCreative({
   // tipográfico real, nunca simula una generación). "undefined" del
   // llamador es la señal real de "decide tú"; "null" explícito del
   // llamador sigue forzando el fallback tipográfico (comportamiento
-  // preexistente intacto, ver tests).
-  const imageRouting = imageProvider === undefined ? routeImageProvider() : null;
+  // preexistente intacto, ver tests). Modelo Sugerido + Selección Manual:
+  // "finalModelId" real ya resuelto por el Creative Director (recomendado
+  // o sobrescrito por el usuario, ver visualStrategy.selectionMode) va
+  // primero en la lista real de candidatos.
+  const preferredImageProviderName = visualStrategy.finalModelId ? getImageModel(visualStrategy.finalModelId).providerName : null;
+  const imageRouting = imageProvider === undefined ? routeImageProvider(visualStrategy.finalModelId) : null;
   const resolvedImageProvider = imageProvider === undefined ? imageRouting.chosen : imageProvider;
   const videoRouting = videoProvider === undefined ? routeVideoProvider() : null;
   const resolvedVideoProvider = videoProvider === undefined ? videoRouting.chosen : videoProvider;
@@ -276,7 +303,19 @@ export async function produceCreative({
     visualStrategy: (({ sceneVisuals, ...rest }) => Object.freeze(rest))(visualStrategy),
     visualGenerationRequests,
     providerRouting: Object.freeze({
-      image: imageRouting ? Object.freeze({ chosenProvider: imageRouting.chosen?.providerName ?? null, reason: imageRouting.reason }) : Object.freeze({ chosenProvider: resolvedImageProvider?.providerName ?? null, reason: 'produceCreative: provider de imagen explícito del llamador (no enrutado).' }),
+      image: imageRouting ? Object.freeze({
+        chosenProvider: imageRouting.chosen?.providerName ?? null, reason: imageRouting.reason,
+        // Fallback real (Paso 10 del encargo Krea MCP): true SOLO cuando el
+        // provider real elegido por el router difiere del provider real que
+        // el modelo recomendado/seleccionado (visualStrategy.finalModelId)
+        // pedía -- ej. se pidió "krea-mcp" pero no está Connected, el router
+        // real cayó al siguiente candidato real configurado. NUNCA se
+        // reporta "krea-mcp" como usado si en realidad se usó el fallback.
+        fallbackUsed: Boolean(preferredImageProviderName) && imageRouting.chosen?.providerName !== preferredImageProviderName,
+        fallbackReason: (Boolean(preferredImageProviderName) && imageRouting.chosen?.providerName !== preferredImageProviderName) ? imageRouting.reason : null,
+      }) : Object.freeze({
+        chosenProvider: resolvedImageProvider?.providerName ?? null, reason: 'produceCreative: provider de imagen explícito del llamador (no enrutado).', fallbackUsed: false, fallbackReason: null,
+      }),
       video: videoRouting ? Object.freeze({ chosenProvider: videoRouting.chosen?.providerName ?? null, reason: videoRouting.reason }) : Object.freeze({ chosenProvider: resolvedVideoProvider?.providerName ?? null, reason: 'produceCreative: provider de video explícito del llamador (no enrutado).' }),
     }),
     masterPath, outputs: Object.freeze(outputs), qualityReports: Object.freeze(qualityReports), costReport,

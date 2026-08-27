@@ -193,6 +193,12 @@ main#app { max-width: 1180px; margin: 0 auto; padding: 40px 32px 80px; }
 .variant-card .variant-field strong { display: block; font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--olive); }
 .variant-card .btn-use-variant { margin-top: 8px; width: 100%; }
 
+/* ---------- Modelo Sugerido + Selección Manual (2026-08-27) ---------- */
+.model-recommendation { margin-top: 10px; padding: 8px 10px; border: 1px dashed var(--line); border-radius: 8px; font-size: 12px; }
+.model-recommendation .meta { display: block; margin-top: 2px; color: #6b654f; font-size: 11px; }
+.model-recommendation .btn-link { background: none; border: none; padding: 0; margin-top: 4px; color: var(--olive); font-size: 11px; text-decoration: underline; cursor: pointer; }
+.model-recommendation .model-select { display: block; margin-top: 6px; width: 100%; font-size: 12px; padding: 4px; }
+
 /* ---------- Creative Factory — batches incrementales (2026-08-23) ---------- */
 .hypothesis-batch-controls { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
 .hypothesis-batch-controls label { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--olive); }

@@ -46,10 +46,20 @@ function buildSceneImageRequest(scene, provider) {
   // sin Creative Director), se conserva el default real de siempre.
   const negativePrompt = scene.negativePrompt ?? DEFAULT_NEGATIVE_PROMPT;
   const aspectRatio = scene.aspectRatio ?? '9:16';
-  const generationFingerprint = createHash('sha256').update(JSON.stringify({ generationPrompt, aspectRatio, providerName: provider.providerName, model: provider.model })).digest('hex');
+  // productReferenceImageUrl (Krea MCP + Catálogo Real de Modelos,
+  // 2026-08-27): reenvío ADITIVO real -- si la escena real ya trae una URL
+  // pública real de la fotografía real del producto (ej. runway-gen4 vía
+  // kreaMcpImageProvider.js, único modelo real con
+  // referenceImagePreservation real), se reenvía tal cual. Ningún provider
+  // real que no la necesite la usa; ninguno la inventa si falta.
+  const generationFingerprint = createHash('sha256').update(JSON.stringify({
+    generationPrompt, aspectRatio, providerName: provider.providerName, model: provider.model, productReferenceImageUrl: scene.productReferenceImageUrl ?? null,
+  })).digest('hex');
   return Object.freeze({
     requestId: randomUUID(), visualProductionPackageId: null, providerName: provider.providerName, model: provider.model,
-    generationPrompt, negativePrompt, aspectRatio, productReference: null, generationFingerprint,
+    generationPrompt, negativePrompt, aspectRatio, productReference: null,
+    productReferenceImageUrl: scene.productReferenceImageUrl ?? null,
+    generationFingerprint,
   });
 }
 
@@ -69,7 +79,7 @@ export async function resolveSceneAsset({
     return Object.freeze({
       sceneId: scene.sceneId, source: 'EXISTING_PRODUCT_ASSET',
       imageSourcePath: scene.assetRequirements.productImageSourcePath, providerUsed: null, isMock: false,
-      cost: Object.freeze({ estimatedCost: 0, actualCost: 0, currency: 'USD' }),
+      cost: Object.freeze({ estimatedCost: 0, actualCost: 0, currency: 'USD', costStatus: 'KNOWN' }),
       attempted: Object.freeze(attempted),
     });
   }
@@ -100,7 +110,7 @@ export async function resolveSceneAsset({
         return Object.freeze({
           sceneId: scene.sceneId, source: 'GENERATED_IMAGE',
           imageSourcePath: result.asset.sourcePath, providerUsed: result.providerName, isMock: false,
-          cost: Object.freeze({ estimatedCost: result.estimatedCost ?? 0, actualCost: result.actualCost ?? 0, currency: result.currency ?? 'USD' }),
+          cost: Object.freeze({ estimatedCost: result.estimatedCost ?? 0, actualCost: result.actualCost ?? 0, currency: result.currency ?? 'USD', costStatus: result.costStatus ?? 'KNOWN' }),
           attempted: Object.freeze(attempted),
         });
       }
@@ -128,7 +138,7 @@ export async function resolveSceneAsset({
   attempted.push({ source: 'TYPOGRAPHIC', outcome: 'USED' });
   return Object.freeze({
     sceneId: scene.sceneId, source: 'TYPOGRAPHIC', imageSourcePath: null, providerUsed: null, isMock: false,
-    cost: Object.freeze({ estimatedCost: 0, actualCost: 0, currency: 'USD' }),
+    cost: Object.freeze({ estimatedCost: 0, actualCost: 0, currency: 'USD', costStatus: 'KNOWN' }),
     attempted: Object.freeze(attempted),
   });
 }
