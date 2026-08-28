@@ -122,6 +122,10 @@ export async function produceCreative({
   // SOBRESCRIBE la recomendación para ESTA generación (selectionMode
   // "user_selected").
   selectedModelId = null,
+  // Generation Settings (Paso 6/14 del encargo Creative Structure +
+  // Generation Settings): mismo criterio real que selectedModelId, pero
+  // para CALIDAD -- null real = el usuario aceptó la calidad recomendada.
+  selectedQuality = null,
   // Creative Structure Engine (Paso 6/7/9 del encargo): "userInstruction"
   // real (texto libre del usuario, ej. campo "Instrucción/Intención" del
   // Dashboard) influye en la estructura narrativa recomendada; null real =
@@ -189,7 +193,7 @@ export async function produceCreative({
   const visualStrategy = buildVisualStrategy({
     creativeVariant, campaignIntent, productFacts, productRawAssets, scenePlan: scenePlanBase,
     format: creativeVariant.creativeVariant.format, variantIndex, campaignId, batchId, creativeId,
-    selectedModelId,
+    selectedModelId, selectedQuality,
   });
   const scenePlan = Object.freeze({ ...scenePlanBase, scenes: visualStrategy.sceneVisuals });
 

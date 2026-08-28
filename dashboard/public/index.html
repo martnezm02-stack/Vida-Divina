@@ -104,12 +104,12 @@
             <input type="text" name="hookText" required placeholder="Si necesitas un laxante casi todas las noches..." />
           </label>
           <div id="create-video-script-info" class="meta hidden"></div>
-          <label>Voiceover completo (editable -- este es el texto que se enviará al Voice Engine)
-            <textarea name="voiceoverText" id="create-voiceover-text" rows="4" required placeholder="Guion completo que se convertirá en audio."></textarea>
+          <label>Voiceover completo (editable -- este es el texto que se enviará al Voice Engine. Solo necesario en Modo instrucción directa SIN una "Instrucción / intención" real -- con instrucción, el Creative Director lo redacta después de que aceptes la estructura sugerida)
+            <textarea name="voiceoverText" id="create-voiceover-text" rows="4" placeholder="Guion completo que se convertirá en audio."></textarea>
           </label>
           <input type="hidden" name="voiceoverSource" id="create-voiceover-source" value="GENERATED" />
-          <label>CTA (literal)
-            <input type="text" name="ctaText" required placeholder="Si quieres conocer más, escríbenos por WhatsApp." />
+          <label>CTA (literal, opcional con "Instrucción / intención" real)
+            <input type="text" name="ctaText" placeholder="Si quieres conocer más, escríbenos por WhatsApp." />
           </label>
           <label>Fotografía real del producto
             <select name="imageAssetPath" id="create-image"></select>

@@ -38,6 +38,10 @@ const DASHBOARD_OUTPUT_ROOT = join(PROJECT_ROOT, 'video-production', 'dashboard-
 // Dashboard no manda "variantCount" explícito -- configurable por
 // solicitud (Paso 6), este es solo el valor por defecto razonable.
 const DEFAULT_BATCH_SIZE = 10;
+// Corrección de flujo UI ("Crear contenido", instrucción directa):
+// buildHypothesisExperiment() exige un mínimo real de 3 variantes -- este
+// flujo solo expone/usa la primera (variantIndex 0), nunca las otras 2.
+const DIRECT_PROPOSAL_VARIANT_COUNT = 3;
 
 function translateFinalAssetPackageForClient(pkg) {
   return {
@@ -352,6 +356,79 @@ export async function handleSuggestHypothesisVariants(req, res) {
 }
 
 /**
+ * Corrección de flujo UI (Paso "Crear contenido" del encargo): "Crear
+ * contenido" en modo instrucción directa (Producto+Instrucción+Hook+
+ * formato) YA NO debe producir directamente vía handleCreate() -- debe
+ * primero pasar por CampaignIntent -> Creative Strategy -> Creative
+ * Director -> Creative Structure Engine y mostrar "Estructura sugerida"
+ * ANTES de gastar un render real. Este endpoint es SOLO la mitad
+ * "PROPOSAL": genera UNA variante real grounded (mismo
+ * hypothesisCreativeEngine que "Sugerir variantes", nunca un segundo
+ * motor) y la persiste como un Batch de 1 -- así el Dashboard puede
+ * reutilizar TAL CUAL los endpoints ya existentes y probados
+ * (/api/create/structure-recommendation, /api/create/produce) para el
+ * resto del flujo, sin duplicar ni modificar Creative Structure Engine,
+ * Krea, Provider Router ni Voice Engine.
+ *
+ * Hook/CTA literales del usuario ("Hook / contenido existente" del
+ * formulario) sobrescriben el copy generado ANTES de persistir el Batch
+ * (los Batches son inmutables, ver hypothesisBatchStore.js) -- mismo
+ * criterio real ya usado en el proyecto: el texto que el usuario escribió
+ * es la fuente de verdad, la IA nunca lo reemplaza en silencio.
+ */
+export async function handleProposeDirectCreative(req, res) {
+  let body;
+  try { body = await readJsonBody(req); } catch (err) { badRequest(res, err.message); return; }
+  const { productId, rawText, hookText = null, ctaText = null } = body;
+  if (!productId?.trim()) { badRequest(res, 'propose-direct: "productId" es obligatorio -- no se inventa un producto.'); return; }
+  if (!rawText?.trim()) { badRequest(res, 'propose-direct: "rawText" (instrucción/intención) es obligatorio -- sin instrucción real, usa el formulario manual (modo campaña/copy literal).'); return; }
+
+  const productGroundedEvidence = buildProductGroundedEvidence(productId);
+  if (!productGroundedEvidence) {
+    sendJson(res, 200, { status: 'MISSING_CREATIVE_MATCH', productId, errors: [`propose-direct: "${productId}" no tiene hechos reales en docs/productos/.`] });
+    return;
+  }
+
+  const campaignId = productId;
+  const { nextBatchNumber, blueprintOffset, usedFingerprints } = getCampaignBatchState(campaignId);
+  // buildHypothesisExperiment() exige variantCount real entre 3 y 50 (no
+  // relajado aquí -- no es este endpoint quien decide ese mínimo). Se
+  // piden DIRECT_PROPOSAL_VARIANT_COUNT variantes reales pero SOLO la
+  // primera (índice 0) se expone/usa en este flujo de instrucción directa
+  // -- "una instrucción -> una propuesta", nunca una lista para elegir.
+  const result = buildHypothesisExperiment({
+    productGroundedEvidence, variantCount: DIRECT_PROPOSAL_VARIANT_COUNT, batchOffset: blueprintOffset, excludeFingerprints: usedFingerprints, campaignIntent: null,
+  });
+  if (result.status !== 'HYPOTHESIS_EXPERIMENT_READY') {
+    sendJson(res, 200, { ...result, productId, campaignId });
+    return;
+  }
+
+  // result.variantsDetail[*] viene congelado (Object.freeze, mismo criterio
+  // real de inmutabilidad del resto del proyecto) -- el override de
+  // hook/cta literal construye un objeto NUEVO, nunca muta el original.
+  const originalVariant = result.variantsDetail[0];
+  const overriddenCopy = (hookText?.trim() || ctaText?.trim())
+    ? { ...originalVariant.copy, ...(hookText?.trim() ? { hook: hookText.trim() } : {}), ...(ctaText?.trim() ? { cta: ctaText.trim() } : {}) }
+    : originalVariant.copy;
+  const variant = { ...originalVariant, copy: overriddenCopy };
+  const variantsDetail = [variant, ...result.variantsDetail.slice(1)];
+
+  const batchId = randomUUID();
+  const generationId = randomUUID();
+  const createdAt = new Date().toISOString();
+  saveBatch({
+    batchId, campaignId, batchNumber: nextBatchNumber, generationId, createdAt,
+    variantCount: variantsDetail.length, blueprintOffsetStart: blueprintOffset, fingerprints: variantsDetail.map((v) => v.fingerprint),
+    product: result.product, campaignIntent: null, experiment: result.experiment,
+    experimentQualityGate: result.experimentQualityGate, variantsDetail,
+    disclaimer: result.disclaimer,
+  });
+
+  sendJson(res, 200, { batchId, variantIndex: 0, product: result.product, creativeVariant: variant, rawText, disclaimer: result.disclaimer });
+}
+
+/**
  * Lista los Batches reales ya generados para una campaña (hoy: productId)
  * -- lo que permite al Dashboard mostrar "Batch #1 / #2 / #3..." sin
  * perder los lotes anteriores al pedir uno nuevo (Creative Factory, Paso
@@ -577,6 +654,13 @@ export async function handleModelRecommendation(req, res, url) {
   }
   if (!batch.variantsDetail[variantIndex]) { badRequest(res, `model-recommendation: el batch "${batchId}" no tiene una variante real en el índice ${variantIndex}.`); return; }
 
+  // Generation Settings (Paso 12/13 del encargo): selección manual real ya
+  // hecha por el usuario en esta vista previa -- mismo criterio real que
+  // structure-recommendation (query params opcionales, null = recomendación
+  // aceptada tal cual).
+  const selectedModelId = url.searchParams.get('selectedModelId') || null;
+  const selectedQuality = url.searchParams.get('selectedQuality') || null;
+
   const product = getProduct(batch.product?.productId ?? '');
   const preview = previewVisualRecommendation({
     campaignIntent: batch.campaignIntent ?? null,
@@ -584,6 +668,7 @@ export async function handleModelRecommendation(req, res, url) {
     productRawAssets: product?.rawAssets ?? [],
     variantIndex,
     campaignId: batch.campaignId,
+    selectedModelId, selectedQuality,
   });
   sendJson(res, 200, preview);
 }
@@ -637,6 +722,10 @@ export async function handleProduceCreative(req, res) {
     // (imageModelCatalog.js) = el usuario lo cambió (selectionMode
     // "user_selected", sobrescribe la recomendación para ESTA generación).
     imageModelId = null,
+    // Generation Settings: mismo patrón real -- null = calidad recomendada
+    // aceptada tal cual, una calidad real de generationSettings.js#QUALITY_TIERS
+    // sobrescribe la recomendación para ESTA generación.
+    selectedQuality = null,
     // Creative Structure Engine: mismo patrón real -- null = recomendación
     // aceptada tal cual, un structureId real de creativeStructureEngine.js
     // sobrescribe la estructura para ESTA generación.
@@ -711,7 +800,7 @@ export async function handleProduceCreative(req, res) {
       // nombreVisible real (hypothesisCreativeEngine.js), y variantIndex
       // real (posición dentro de ESTE batch) garantiza diversidad real de
       // tratamiento visual entre variantes producidas del mismo batch.
-      productFacts: batch.product ?? null, variantIndex, selectedModelId: imageModelId,
+      productFacts: batch.product ?? null, variantIndex, selectedModelId: imageModelId, selectedQuality,
       userInstruction, selectedStructureId,
     });
     // Persistencia real (Editable Video Project, 2026-08-24): antes de esta

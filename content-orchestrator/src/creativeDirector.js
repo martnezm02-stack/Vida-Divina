@@ -33,6 +33,7 @@ import { buildVisualGenerationRequest } from './visualGenerationRequest.js';
 import { assertBrandAvoidCompliance } from './brandVisualSystem.js';
 import { DEFAULT_NEGATIVE_PROMPT } from './assetResolver.js';
 import { recommendImageModel, buildModelSelection, listAvailableImageModels } from './imageModelCatalog.js';
+import { buildGenerationSettings } from './generationSettings.js';
 
 const ASPECT_RATIO_BY_FORMAT = Object.freeze({ 'Static comparison frames': '4:5' });
 const DEFAULT_ASPECT_RATIO = '9:16';
@@ -128,6 +129,12 @@ export function buildVisualStrategy({
   // (selectionMode "user_selected") -- regla central del encargo: "el
   // sistema recomienda, el usuario decide".
   selectedModelId = null,
+  // Generation Settings (Paso 6/14 del encargo Creative Structure +
+  // Generation Settings): mismo criterio real que selectedModelId --
+  // "undefined"/null = el usuario acepta la calidad recomendada
+  // (qualitySelectionMode "automatic"); una calidad real de
+  // generationSettings.js#QUALITY_TIERS sobrescribe la recomendación.
+  selectedQuality = null,
 }) {
   if (!scenePlan?.scenes?.length) {
     throw new Error('buildVisualStrategy: "scenePlan" debe ser un Scene Plan real ya construido (scenePlanner.js#buildScenePlan) -- el Creative Director nunca inventa escenas.');
@@ -192,6 +199,19 @@ export function buildVisualStrategy({
   const modelSelection = buildModelSelection({
     ...modelRecommendation, selectedModelId, productAssetAvailable: Boolean(productAsset), aspectRatio,
   });
+  // Generation Settings (Paso 6 del encargo): UN objeto real que une
+  // MODELO + CALIDAD -- nunca un sistema paralelo al lineage individual ya
+  // devuelto más abajo (recommendedModel/selectedModel/selectionMode se
+  // preservan tal cual para no romper consumidores existentes).
+  const generationSettings = buildGenerationSettings({
+    mediaType: 'IMAGE',
+    recommendedModel: modelRecommendation.recommendedModel,
+    recommendationReason: modelRecommendation.recommendationReason,
+    selectedModelId,
+    productAssetAvailable: Boolean(productAsset),
+    aspectRatio,
+    selectedQuality,
+  });
 
   const overview = treatment.describe({
     audience: campaignIntent?.targetAudience ?? 'la audiencia real de esta campaña',
@@ -217,6 +237,11 @@ export function buildVisualStrategy({
     environment: overview.environment,
     camera: overview.cameraDirection,
     lighting: overview.lightingDirection,
+    // Visual Intent (Paso 4 del encargo): descripción real, independiente
+    // del voiceover completo -- misma dirección visual real ya calculada
+    // arriba (overview.subject/environment/moodDirection), solo expuesta
+    // bajo el nombre real que pide el encargo, nunca recalculada de nuevo.
+    visualIntent: [overview.subject, overview.environment].filter((f) => limpiar(f).length > 0).join(', '),
     composition: Object.freeze(scenes.map((s) => Object.freeze({
       sceneId: s.sceneId, visualIntent: s.visualIntent, visualTreatment: s.visualTreatment, visualSource: s.visualSource,
     }))),
@@ -246,6 +271,12 @@ export function buildVisualStrategy({
     // construir el provider real de esta generación, sin que el llamador
     // tenga que re-derivar la misma regla de "selectedModel gana".
     finalModelId: modelSelection.finalModelId,
+    // Generation Settings (Paso 6/15 del encargo): objeto unificado
+    // MODELO+CALIDAD, con lineage completo -- se persiste tal cual en
+    // job.visualStrategy.generationSettings (ver
+    // creativeProductionOrchestrator.js, sin cambios adicionales
+    // necesarios: ya serializa visualStrategy completo).
+    generationSettings,
   });
 }
 
@@ -265,6 +296,11 @@ export function buildVisualStrategy({
  */
 export function previewVisualRecommendation({
   campaignIntent = null, productFacts = null, productRawAssets = [], variantIndex = 0, campaignId = null, format = null,
+  // Generation Settings (Paso 12/13 del encargo): selección manual real ya
+  // hecha por el usuario en esta vista previa (antes de producir) -- mismo
+  // criterio real que selectedModelId (null = recomendación aceptada tal
+  // cual).
+  selectedModelId = null, selectedQuality = null,
 }) {
   const treatment = assignVisualTreatment({ variantIndex, campaignIntent, campaignId });
   const productAsset = productRawAssets.find((a) => a.role === 'PRODUCT_PRIMARY') ?? productRawAssets[0] ?? null;
@@ -272,11 +308,28 @@ export function previewVisualRecommendation({
   const { recommendedModel, recommendationReason } = recommendImageModel({
     productAssetAvailable: Boolean(productAsset), visualTreatmentId: treatment.id, hasGenerationRequiredScenes: true, aspectRatio,
   });
+  const overview = treatment.describe({
+    audience: campaignIntent?.targetAudience ?? 'la audiencia real de esta campaña',
+    territory: campaignIntent?.campaignTerritory ?? 'esta campaña',
+    nombreVisible: productFacts?.nombreVisible ?? productFacts?.nombreComercial ?? null,
+  });
   return Object.freeze({
     visualTreatment: treatment.id,
     visualTreatmentLabel: treatment.label,
+    // Visual Intent (Paso 4 del encargo): misma dirección visual real ya
+    // calculada por el treatment, expuesta antes de producir.
+    visualIntent: [overview.subject, overview.environment].filter((f) => limpiar(f).length > 0).join(', '),
     recommendedModel,
     recommendationReason,
     availableModels: listAvailableImageModels({ productReferenceAvailable: Boolean(productAsset), aspectRatio }),
+    // Generation Settings (Paso 6/20 del encargo): objeto unificado
+    // MODELO+CALIDAD para que el Dashboard muestre "Modelo sugerido" +
+    // "Calidad sugerida" en un solo lugar -- nunca un sistema paralelo,
+    // reusa exactamente el mismo recommendedModel/recommendationReason de
+    // arriba.
+    generationSettings: buildGenerationSettings({
+      mediaType: 'IMAGE', recommendedModel, recommendationReason, selectedModelId,
+      productAssetAvailable: Boolean(productAsset), aspectRatio, selectedQuality,
+    }),
   });
 }

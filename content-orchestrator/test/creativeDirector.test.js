@@ -165,3 +165,49 @@ describe('buildVisualStrategy — Creative Director real', () => {
     }
   });
 });
+
+// Creative Structure + Generation Settings (Paso 32 del encargo): visual
+// intent independiente del voiceover, generationSettings unificado
+// (modelo+calidad), manual model/quality selection, product reference,
+// lineage.
+describe('buildVisualStrategy — Generation Settings (Paso 4/6/11/12)', () => {
+  test('visualIntent real, independiente del voiceover completo (Paso 4)', () => {
+    const scenePlan = realScenePlan([PRODUCT_ASSET_REAL]);
+    const strategy = buildVisualStrategy({
+      creativeVariant: CREATIVE_VARIANT_REAL, campaignIntent: CAMPAIGN_INTENT_REAL, productFacts: PRODUCT_FACTS_REAL,
+      productRawAssets: [PRODUCT_ASSET_REAL], scenePlan, variantIndex: 0,
+    });
+    assert.ok(strategy.visualIntent?.length > 0);
+    // visualIntent describe la escena visualmente -- nunca es el guion/CTA
+    // completo (esos son texto/voz, un eje real distinto, Paso 4).
+    assert.doesNotMatch(strategy.visualIntent, /Escríbenos por WhatsApp/);
+  });
+
+  test('generationSettings real: un objeto único con mediaType/modelo/calidad/lineage (Paso 6/15)', () => {
+    const scenePlan = realScenePlan([PRODUCT_ASSET_REAL]);
+    const strategy = buildVisualStrategy({
+      creativeVariant: CREATIVE_VARIANT_REAL, campaignIntent: CAMPAIGN_INTENT_REAL, productFacts: PRODUCT_FACTS_REAL,
+      productRawAssets: [PRODUCT_ASSET_REAL], scenePlan, variantIndex: 0,
+    });
+    assert.equal(strategy.generationSettings.mediaType, 'IMAGE');
+    for (const key of ['recommendedModel', 'recommendedQuality', 'selectedModel', 'selectedQuality', 'selectionMode', 'modelSelectionMode', 'qualitySelectionMode', 'costStatus']) {
+      assert.ok(key in strategy.generationSettings, `generationSettings debe exponer "${key}"`);
+    }
+  });
+
+  test('manual model selection real recalcula la calidad disponible (Paso 13/22)', () => {
+    const scenePlan = realScenePlan([]);
+    const automatic = buildVisualStrategy({
+      creativeVariant: CREATIVE_VARIANT_REAL, campaignIntent: CAMPAIGN_INTENT_REAL, productFacts: PRODUCT_FACTS_REAL,
+      productRawAssets: [], scenePlan, variantIndex: 0,
+    });
+    if (!automatic.generationSettings.selectedModel) return; // ningún provider real configurado en este entorno -- nada que reseleccionar.
+    const manual = buildVisualStrategy({
+      creativeVariant: CREATIVE_VARIANT_REAL, campaignIntent: CAMPAIGN_INTENT_REAL, productFacts: PRODUCT_FACTS_REAL,
+      productRawAssets: [], scenePlan, variantIndex: 0,
+      selectedModelId: automatic.generationSettings.selectedModel, selectedQuality: automatic.generationSettings.selectedQuality,
+    });
+    // Selección explícita que coincide con la recomendación real -> sigue "automatic" (regla central: solo un cambio real activa "user_selected").
+    assert.equal(manual.generationSettings.selectionMode, 'automatic');
+  });
+});

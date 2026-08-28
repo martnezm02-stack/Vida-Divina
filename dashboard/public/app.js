@@ -189,7 +189,288 @@ function updateCreateProductBodyVisibility() {
   const wrap = $('#create-product-body-wrap');
   const textarea = $('#create-product-body');
   wrap.classList.toggle('hidden', !sinFoto);
-  textarea.required = sinFoto;
+  // Corrección de flujo UI: ya NO es "required" a nivel de navegador --
+  // con una "Instrucción / intención" real, este campo ni siquiera se usa
+  // (Creative Director/Visual Director deciden el visual). Sin
+  // instrucción (modo manual/literal), el servidor sigue validando esto
+  // igual que antes (handleCreate) y muestra el mismo error real si falta.
+}
+
+// Creative Production Orchestrator (2026-08-24): pipeline visible por
+// etapa (Paso 18) -- CREATIVE->SCRIPT->SCENES->ASSETS->VOICE->MUSIC->
+// COMPOSITION->QA->OUTPUT. No construye una UI enorme -- un resumen real
+// por job, con status explícito (FULL_PRODUCTION/DEGRADED_PRODUCTION/
+// FAILED, nunca oculto) y enlaces reales a cada formato producido.
+// Scope de módulo (Corrección de flujo UI "Crear contenido"): tanto el
+// flujo de instrucción directa (runDirectStructureProposal, abajo) como
+// las tarjetas de "Sugerir variantes" (más abajo) la reutilizan tal cual
+// -- nunca duplicada.
+function productionJobStatusHtml(job) {
+  if (job.status === 'FAILED' && !job.scenePlan) {
+    return `<div class="result-status VALIDATION_FAILED">${job.status}</div><p>${job.error}</p>`;
+  }
+  const escenas = job.scenePlan?.scenes?.length ?? 0;
+  const conceptos = job.assetPlan ? new Set(job.assetPlan.map((a) => a.source)).size : 0;
+  // Creative Director (Paso 23 del encargo): tratamiento visual real
+  // elegido + fuente visual real usada -- nunca UUID/prompt técnico como
+  // información principal.
+  const VISUAL_SOURCE_LABELS = {
+    EXISTING_PRODUCT_ASSET: 'Asset propio', GENERATED_IMAGE: 'Generado con IA', GENERATED_VIDEO: 'Generado con IA', STOCK_FOOTAGE: 'Stock', TYPOGRAPHIC: 'Tipográfico',
+  };
+  const fuentesVisuales = job.assetPlan
+    ? [...new Set(job.assetPlan.map((a) => VISUAL_SOURCE_LABELS[a.source] ?? a.source))].join(', ')
+    : '—';
+  // Krea MCP Directo (Paso 18 del encargo Krea MCP Directo): proveedor/
+  // modelo reales -- nunca el endpoint MCP, ni el token OAuth, ni ningún
+  // UUID interno como información principal.
+  const PROVIDER_LABELS = { 'krea-mcp': 'Krea', openai: 'OpenAI' };
+  // Mismo vocabulario real ya mostrado antes de producir (ver
+  // initModelRecommendation()/imageModelCatalog.js#displayName) -- id
+  // real del catálogo -> nombre humano real, nunca el id técnico.
+  const MODEL_DISPLAY_NAMES = {
+    'krea-2-turbo': 'Krea 2 Turbo', 'krea-2-medium': 'Krea 2 Medium', 'krea-2-large': 'Krea 2 Large',
+    'runway-gen4': 'Runway Gen-4', 'openai-gpt-image': 'GPT Image',
+  };
+  const chosenImageProvider = job.providerRouting?.image?.chosenProvider ?? null;
+  const selectedModelId = job.visualStrategy?.selectedModel ?? null;
+  const providerHtml = chosenImageProvider
+    ? `<div class="variant-field"><strong>Proveedor</strong>${PROVIDER_LABELS[chosenImageProvider] ?? chosenImageProvider}</div>
+       <div class="variant-field"><strong>Modelo</strong>${MODEL_DISPLAY_NAMES[selectedModelId] ?? '—'}</div>`
+    : '';
+  const treatmentHtml = job.visualStrategy?.visualTreatmentLabel
+    ? `<div class="variant-field"><strong>Tratamiento visual</strong>${job.visualStrategy.visualTreatmentLabel}</div>
+       <div class="variant-field"><strong>Fuente visual</strong>${fuentesVisuales}</div>
+       ${providerHtml}`
+    : '';
+  // Creative Structure Engine (Paso 16 del encargo): "Así se contará la
+  // pieza" -- secuencia narrativa real ya producida, para que el usuario
+  // entienda la estructura antes/después de gastar el render real.
+  const structureStages = job.scenePlan?.creativeStructure?.stages ?? [];
+  const structureHtml = structureStages.length
+    ? `<div class="variant-field"><strong>Así se contó la pieza</strong>${structureStages.map((s, i) => `${i + 1}. ${s}`).join(' → ')}</div>`
+    : '';
+  const outputsHtml = (job.outputs ?? []).map((o) => `
+    <div class="variant-field"><strong>${o.profileName} (${o.aspectRatio})</strong>${o.status}${o.mediaUrl ? ` — <a href="${o.mediaUrl}" target="_blank" rel="noopener">ver video</a>` : ''}</div>
+  `).join('');
+  const qaHtml = (job.qualityReports ?? []).map((q) => `
+    <div class="variant-field"><strong>QA ${q.profileName}</strong>${q.status}${q.warnings?.length ? ` (${q.warnings.length} advertencia(s) real(es))` : ''}</div>
+  `).join('');
+  const editorBtn = job.productionJobId
+    ? `<button type="button" class="btn-secondary btn-open-editor" data-production-job-id="${job.productionJobId}">ABRIR EN EDITOR →</button>`
+    : '';
+  return `
+    <div class="result-status ${job.status}">${job.status}</div>
+    <div class="variant-field"><strong>Pipeline</strong>Script → ${escenas} escenas reales → ${conceptos} fuente(s) visual(es) → Voz real → ${job.musicSelection?.status === 'SUCCESS' ? 'Música real' : 'Sin música (no disponible)'} → Composición ffmpeg real → QA</div>
+    ${structureHtml}
+    ${treatmentHtml}
+    ${outputsHtml}
+    ${qaHtml}
+    <div class="variant-field"><strong>Costo estimado</strong>$${job.costReport?.estimatedTotal ?? 0} ${job.costReport?.currency ?? 'USD'}</div>
+    ${editorBtn}
+  `;
+}
+
+// Corrección de flujo UI ("Crear contenido"): "Estructura sugerida" real
+// ANTES de producir, como panel de confirmación completo (Paso 4/5 del
+// encargo) -- mismo dato real que ya devuelve
+// /api/create/structure-recommendation (Creative Structure Engine, sin
+// tocar), solo renderizado distinto al widget inline compacto que ya usan
+// las tarjetas de "Sugerir variantes" (structureBlock, más abajo).
+function structureProposalHtml(rec) {
+  const stagesHtml = rec.recommended.stages.map((s, i) => `${i + 1}. ${s}`).join(' → ');
+  const optionsHtml = rec.options.map((o) => `<option value="${o.structureId}"${o.structureId === rec.recommended.structureId ? ' selected' : ''}>${o.label} (${o.stages.join(' → ')})</option>`).join('');
+  return `
+    <div class="panel structure-proposal">
+      <h3>Estructura sugerida</h3>
+      <p><strong>${rec.recommended.label}</strong></p>
+      <p class="meta">Motivo: ${rec.recommended.recommendationReason}</p>
+      <div class="variant-field"><strong>Así se contará la pieza</strong>${stagesHtml}</div>
+      <select class="direct-structure-select hidden">${optionsHtml}</select>
+      <div class="structure-proposal-actions">
+        <button type="button" class="btn-primary btn-use-structure">Usar estructura sugerida →</button>
+        <button type="button" class="btn-link btn-change-structure-direct">Cambiar estructura</button>
+      </div>
+    </div>
+  `;
+}
+
+// Generation Settings (Creative Structure + Generation Settings, Paso
+// 9/20 del encargo): vocabulario real exacto pedido para "Calidad
+// sugerida" -- mismo texto real que QUALITY_TIER_DESCRIPTIONS
+// (content-orchestrator/src/generationSettings.js), duplicado aquí SOLO
+// porque el navegador no puede importar ese módulo de servidor (no es
+// lógica, es vocabulario fijo del encargo).
+const GENERATION_QUALITY_SHORT_LABELS = { FAST: 'Rápida', STANDARD: 'Estándar', HIGH: 'Alta', PREMIUM: 'Premium' };
+const GENERATION_QUALITY_LABELS = {
+  FAST: 'Rápida · menor consumo',
+  STANDARD: 'Equilibrio entre calidad y consumo',
+  HIGH: 'Mayor detalle · mayor consumo',
+  PREMIUM: 'Máxima calidad disponible · mayor consumo',
+};
+
+/**
+ * Generation Settings (Paso 6/20 del encargo): "Modelo sugerido" +
+ * "Calidad sugerida" -- mismo dato real que ya devuelve
+ * /api/create/model-recommendation (Creative Director, sin tocar su
+ * lógica), solo renderizado como panel de confirmación completo (mismo
+ * patrón visual que structureProposalHtml, arriba).
+ */
+function generationSettingsProposalHtml(preview) {
+  const gs = preview.generationSettings ?? {};
+  const models = preview.availableModels ?? [];
+  const recommendedModelInfo = models.find((m) => m.id === gs.recommendedModel);
+  const modelOptions = models.map((m) => `<option value="${m.id}"${m.id === gs.selectedModel ? ' selected' : ''}>${m.displayName} — ${m.shortComment}</option>`).join('');
+  const qualityOptions = (gs.availableQualities ?? []).map((q) => `<option value="${q}"${q === gs.selectedQuality ? ' selected' : ''}>${GENERATION_QUALITY_LABELS[q] ?? q}</option>`).join('');
+  const visualIntentHtml = preview.visualIntent
+    ? `<div class="variant-field"><strong>Visual Intent</strong>${preview.visualIntent}</div>`
+    : '';
+  return `
+    <div class="panel generation-settings-proposal">
+      ${visualIntentHtml}
+      <h3>Modelo sugerido</h3>
+      <p><strong>${recommendedModelInfo?.displayName ?? (gs.recommendedModel ? gs.recommendedModel : 'Ningún modelo real disponible en este entorno')}</strong></p>
+      <p class="meta">Motivo: ${gs.recommendationReason ?? '—'}</p>
+      <select class="direct-model-select hidden">${modelOptions}</select>
+      <h3>Calidad sugerida</h3>
+      <p><strong>${GENERATION_QUALITY_SHORT_LABELS[gs.recommendedQuality] ?? '—'}</strong></p>
+      <p class="meta">${gs.qualityRecommendationReason ?? GENERATION_QUALITY_LABELS[gs.recommendedQuality] ?? ''}</p>
+      <select class="direct-quality-select hidden">${qualityOptions}</select>
+      <div class="generation-settings-actions">
+        <button type="button" class="btn-primary btn-use-generation-settings">Usar recomendaciones →</button>
+        <button type="button" class="btn-link btn-change-model-direct"${models.length > 1 ? '' : ' disabled'}>Cambiar modelo</button>
+        <button type="button" class="btn-link btn-change-quality-direct"${(gs.availableQualities ?? []).length > 1 ? '' : ' disabled'}>Cambiar calidad</button>
+      </div>
+    </div>
+  `;
+}
+
+/**
+ * Flujo de confirmación (Paso 21 del encargo): Estructura sugerida ->
+ * Modelo sugerido -> Calidad sugerida -> usuario acepta o cambia ->
+ * Producir. Se llama DESPUÉS de aceptar la estructura (runDirectStructureProposal,
+ * abajo) -- reusa /api/create/model-recommendation (Creative Director, sin
+ * tocar), ahora extendido con generationSettings. "Cambiar modelo"
+ * recalcula la calidad disponible real (Paso 13/22): vuelve a pedir la
+ * recomendación con el modelo elegido, nunca asume compatibilidad.
+ */
+async function renderGenerationSettingsStep({
+  form, resultEl, rawText, batchId, selectedStructureId,
+}) {
+  resultEl.innerHTML = '<p class="placeholder">Consultando Creative Director (modelo + calidad reales)…</p>';
+
+  async function fetchPreview(selectedModelId, selectedQuality) {
+    const qs = new URLSearchParams({ batchId, variantIndex: '0' });
+    if (selectedModelId) qs.set('selectedModelId', selectedModelId);
+    if (selectedQuality) qs.set('selectedQuality', selectedQuality);
+    return api(`/api/create/model-recommendation?${qs.toString()}`);
+  }
+
+  async function render(selectedModelId, selectedQuality) {
+    const preview = await fetchPreview(selectedModelId, selectedQuality);
+    resultEl.innerHTML = generationSettingsProposalHtml(preview);
+
+    const modelSelect = $('.direct-model-select', resultEl);
+    const qualitySelect = $('.direct-quality-select', resultEl);
+    const changeModelBtn = $('.btn-change-model-direct', resultEl);
+    const changeQualityBtn = $('.btn-change-quality-direct', resultEl);
+    const useBtn = $('.btn-use-generation-settings', resultEl);
+
+    changeModelBtn.addEventListener('click', () => modelSelect.classList.toggle('hidden'));
+    changeQualityBtn.addEventListener('click', () => qualitySelect.classList.toggle('hidden'));
+    // Cambiar modelo recalcula la calidad disponible real (Paso 13/22) --
+    // vuelve a pedir la recomendación completa con el modelo nuevo, nunca
+    // reutiliza la calidad vieja a ciegas.
+    modelSelect.addEventListener('change', () => render(modelSelect.value, null));
+
+    useBtn.addEventListener('click', async () => {
+      const finalModelId = modelSelect.classList.contains('hidden') ? null : modelSelect.value;
+      const finalQuality = qualitySelect.classList.contains('hidden') ? null : qualitySelect.value;
+      const outputProfileNames = $$('input[name="profile"]:checked', form).map((c) => c.value);
+      useBtn.disabled = true; useBtn.textContent = 'PRODUCIENDO…';
+      resultEl.insertAdjacentHTML('beforeend', '<p class="placeholder">Produciendo pieza audiovisual real (Scene Planner → Visual Director → Provider Router → Krea)… puede tardar varios minutos.</p>');
+      try {
+        const job = await api('/api/create/produce', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            batchId, variantIndex: 0, userInstruction: rawText, selectedStructureId,
+            imageModelId: finalModelId, selectedQuality: finalQuality,
+            outputProfileNames: outputProfileNames.length ? outputProfileNames : undefined,
+          }),
+        });
+        resultEl.innerHTML = productionJobStatusHtml(job);
+      } catch (err) {
+        resultEl.insertAdjacentHTML('beforeend', `<div class="result-status VALIDATION_FAILED">ERROR</div><p>${err.message}</p>`);
+      }
+    });
+  }
+
+  await render(null, null);
+}
+
+/**
+ * Corrección de flujo UI ("Crear contenido", instrucción directa, Paso
+ * "DETENER — CORRECCIÓN DE FLUJO UI" del encargo): separa PROPOSAL de
+ * PRODUCTION. Con una instrucción real ("Instrucción / intención"),
+ * "Generar" YA NO produce directamente -- primero ejecuta SOLO
+ * CampaignIntent -> Creative Strategy -> Creative Director -> Creative
+ * Structure Engine (vía el nuevo /api/create/propose-direct + el ya
+ * existente /api/create/structure-recommendation, ninguno de los dos
+ * reimplementado aquí), luego Modelo/Calidad sugeridos
+ * (renderGenerationSettingsStep, arriba), y exige que el usuario acepte o
+ * cambie TODO ANTES de continuar a Scene Planner -> Visual Director ->
+ * Provider Router -> Krea -> producción (/api/create/produce, ya
+ * existente, sin tocar).
+ */
+async function runDirectStructureProposal({ form, btn, resultEl, rawText }) {
+  btn.disabled = true; btn.textContent = 'CALCULANDO PROPUESTA…';
+  resultEl.innerHTML = '<p class="placeholder">Consultando Creative Director + Creative Structure Engine real (sin producir todavía)…</p>';
+  try {
+    const proposal = await api('/api/create/propose-direct', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        productId: form.productId.value, rawText,
+        hookText: form.hookText.value || null, ctaText: form.ctaText.value || null,
+      }),
+    });
+    if (!proposal.batchId) {
+      resultEl.innerHTML = `<div class="result-status ${proposal.status ?? 'VALIDATION_FAILED'}">${proposal.status ?? 'ERROR'}</div><p>${(proposal.errors ?? []).join(' ') || 'No se pudo calcular una propuesta creativa real para esta instrucción.'}</p>`;
+      return;
+    }
+
+    const { batchId } = proposal;
+    const rec = await api(`/api/create/structure-recommendation?batchId=${batchId}&variantIndex=0&userInstruction=${encodeURIComponent(rawText)}`);
+    resultEl.innerHTML = structureProposalHtml(rec);
+
+    const selectEl = $('.direct-structure-select', resultEl);
+    const changeBtn = $('.btn-change-structure-direct', resultEl);
+    const useBtn = $('.btn-use-structure', resultEl);
+    if (rec.options.length > 1) {
+      changeBtn.addEventListener('click', () => selectEl.classList.toggle('hidden'));
+    } else {
+      changeBtn.classList.add('hidden');
+    }
+
+    useBtn.addEventListener('click', async () => {
+      // selectionMode: si el selector sigue oculto (el usuario nunca lo
+      // tocó), se envía selectedStructureId=null -> el servidor lo
+      // registra como "automatic" (recomendación aceptada tal cual);
+      // visible = el usuario cambió la estructura -> "user_selected"
+      // (mismo criterio real que Modelo Sugerido + Selección Manual).
+      const selectedStructureId = selectEl.classList.contains('hidden') ? null : selectEl.value;
+      // Flujo de confirmación (Paso 21 del encargo): Estructura aceptada ->
+      // ahora Modelo/Calidad sugeridos (Generation Settings) -- NUNCA
+      // produce todavía.
+      await renderGenerationSettingsStep({
+        form, resultEl, rawText, batchId, selectedStructureId,
+      });
+    });
+  } catch (err) {
+    resultEl.innerHTML = `<div class="result-status VALIDATION_FAILED">ERROR</div><p>${err.message}</p>`;
+  } finally {
+    btn.disabled = false; btn.textContent = 'GENERAR';
+  }
 }
 
 $('#create-form').addEventListener('submit', async (e) => {
@@ -197,6 +478,18 @@ $('#create-form').addEventListener('submit', async (e) => {
   const form = e.target;
   const btn = form.querySelector('button[type="submit"]');
   const resultEl = $('#create-result');
+  const rawText = form.rawText.value.trim();
+
+  // Corrección de flujo UI: con una instrucción real, el flujo pasa por
+  // el gate de Creative Structure Engine (arriba) en vez de producir
+  // directamente. Sin instrucción, el formulario sigue siendo 100%
+  // manual/literal -- comportamiento preexistente intacto (compatibilidad
+  // hacia atrás, ningún proyecto existente se rompe).
+  if (rawText) {
+    await runDirectStructureProposal({ form, btn, resultEl, rawText });
+    return;
+  }
+
   const outputProfileNames = $$('input[name="profile"]:checked', form).map((c) => c.value);
 
   btn.disabled = true; btn.textContent = 'GENERANDO…';
@@ -339,76 +632,6 @@ if (createSuggestBtn) {
         container.classList.add('hidden');
       });
     });
-  }
-
-  // Creative Production Orchestrator (2026-08-24): pipeline visible por
-  // etapa (Paso 18) -- CREATIVE->SCRIPT->SCENES->ASSETS->VOICE->MUSIC->
-  // COMPOSITION->QA->OUTPUT. No construye una UI enorme -- un resumen real
-  // por job, con status explícito (FULL_PRODUCTION/DEGRADED_PRODUCTION/
-  // FAILED, nunca oculto) y enlaces reales a cada formato producido.
-  function productionJobStatusHtml(job) {
-    if (job.status === 'FAILED' && !job.scenePlan) {
-      return `<div class="result-status VALIDATION_FAILED">${job.status}</div><p>${job.error}</p>`;
-    }
-    const escenas = job.scenePlan?.scenes?.length ?? 0;
-    const conceptos = job.assetPlan ? new Set(job.assetPlan.map((a) => a.source)).size : 0;
-    // Creative Director (Paso 23 del encargo): tratamiento visual real
-    // elegido + fuente visual real usada -- nunca UUID/prompt técnico como
-    // información principal.
-    const VISUAL_SOURCE_LABELS = {
-      EXISTING_PRODUCT_ASSET: 'Asset propio', GENERATED_IMAGE: 'Generado con IA', GENERATED_VIDEO: 'Generado con IA', STOCK_FOOTAGE: 'Stock', TYPOGRAPHIC: 'Tipográfico',
-    };
-    const fuentesVisuales = job.assetPlan
-      ? [...new Set(job.assetPlan.map((a) => VISUAL_SOURCE_LABELS[a.source] ?? a.source))].join(', ')
-      : '—';
-    // Krea MCP Directo (Paso 18 del encargo Krea MCP Directo): proveedor/
-    // modelo reales -- nunca el endpoint MCP, ni el token OAuth, ni ningún
-    // UUID interno como información principal.
-    const PROVIDER_LABELS = { 'krea-mcp': 'Krea', openai: 'OpenAI' };
-    // Mismo vocabulario real ya mostrado antes de producir (ver
-    // initModelRecommendation()/imageModelCatalog.js#displayName) -- id
-    // real del catálogo -> nombre humano real, nunca el id técnico.
-    const MODEL_DISPLAY_NAMES = {
-      'krea-2-turbo': 'Krea 2 Turbo', 'krea-2-medium': 'Krea 2 Medium', 'krea-2-large': 'Krea 2 Large',
-      'runway-gen4': 'Runway Gen-4', 'openai-gpt-image': 'GPT Image',
-    };
-    const chosenImageProvider = job.providerRouting?.image?.chosenProvider ?? null;
-    const selectedModelId = job.visualStrategy?.selectedModel ?? null;
-    const providerHtml = chosenImageProvider
-      ? `<div class="variant-field"><strong>Proveedor</strong>${PROVIDER_LABELS[chosenImageProvider] ?? chosenImageProvider}</div>
-         <div class="variant-field"><strong>Modelo</strong>${MODEL_DISPLAY_NAMES[selectedModelId] ?? '—'}</div>`
-      : '';
-    const treatmentHtml = job.visualStrategy?.visualTreatmentLabel
-      ? `<div class="variant-field"><strong>Tratamiento visual</strong>${job.visualStrategy.visualTreatmentLabel}</div>
-         <div class="variant-field"><strong>Fuente visual</strong>${fuentesVisuales}</div>
-         ${providerHtml}`
-      : '';
-    // Creative Structure Engine (Paso 16 del encargo): "Así se contará la
-    // pieza" -- secuencia narrativa real ya producida, para que el usuario
-    // entienda la estructura antes/después de gastar el render real.
-    const structureStages = job.scenePlan?.creativeStructure?.stages ?? [];
-    const structureHtml = structureStages.length
-      ? `<div class="variant-field"><strong>Así se contó la pieza</strong>${structureStages.map((s, i) => `${i + 1}. ${s}`).join(' → ')}</div>`
-      : '';
-    const outputsHtml = (job.outputs ?? []).map((o) => `
-      <div class="variant-field"><strong>${o.profileName} (${o.aspectRatio})</strong>${o.status}${o.mediaUrl ? ` — <a href="${o.mediaUrl}" target="_blank" rel="noopener">ver video</a>` : ''}</div>
-    `).join('');
-    const qaHtml = (job.qualityReports ?? []).map((q) => `
-      <div class="variant-field"><strong>QA ${q.profileName}</strong>${q.status}${q.warnings?.length ? ` (${q.warnings.length} advertencia(s) real(es))` : ''}</div>
-    `).join('');
-    const editorBtn = job.productionJobId
-      ? `<button type="button" class="btn-secondary btn-open-editor" data-production-job-id="${job.productionJobId}">ABRIR EN EDITOR →</button>`
-      : '';
-    return `
-      <div class="result-status ${job.status}">${job.status}</div>
-      <div class="variant-field"><strong>Pipeline</strong>Script → ${escenas} escenas reales → ${conceptos} fuente(s) visual(es) → Voz real → ${job.musicSelection?.status === 'SUCCESS' ? 'Música real' : 'Sin música (no disponible)'} → Composición ffmpeg real → QA</div>
-      ${structureHtml}
-      ${treatmentHtml}
-      ${outputsHtml}
-      ${qaHtml}
-      <div class="variant-field"><strong>Costo estimado</strong>$${job.costReport?.estimatedTotal ?? 0} ${job.costReport?.currency ?? 'USD'}</div>
-      ${editorBtn}
-    `;
   }
 
   // Modelo Sugerido + Selección Manual (2026-08-27): "el sistema
