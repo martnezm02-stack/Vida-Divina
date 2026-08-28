@@ -6,7 +6,7 @@
 
 import { join } from 'node:path';
 import { randomUUID } from 'node:crypto';
-import { sendJson, badRequest, serverError, readJsonBody } from '../lib/http.js';
+import { sendJson, badRequest, serverError, readJsonBody, notFound } from '../lib/http.js';
 import { resolveSafeMediaPath, toMediaUrl, PROJECT_ROOT } from '../lib/safePaths.js';
 import { getProduct } from '../lib/productCatalog.js';
 import { listExistingAudioAssets, generateNewVoiceover } from '../lib/voiceEngineClient.js';
@@ -24,8 +24,9 @@ import { previewVisualRecommendation } from '../../../content-orchestrator/src/c
 import { previewStructureOptions, buildCreativeStructure, listCompatibleStructures } from '../../../content-orchestrator/src/creativeStructureEngine.js';
 import { listAvailableImageModels } from '../../../content-orchestrator/src/imageModelCatalog.js';
 import { saveProductionJob } from '../../../content-orchestrator/src/productionJobStore.js';
+import { buildDisplayName } from '../../../content-orchestrator/src/displayName.js';
 import { buildProductGroundedEvidence } from '../../../content-orchestrator/src/productGroundedEvidence.js';
-import { buildVideoScript, assertVoiceoverTextSafe } from '../../../content-orchestrator/src/videoScriptGenerator.js';
+import { buildVideoScript, assertVoiceoverTextSafe, STATIC_FORMATS } from '../../../content-orchestrator/src/videoScriptGenerator.js';
 import { buildCarouselSlidesContent } from '../../../content-orchestrator/src/carouselCompositor.js';
 import { loadProductFacts } from '../../../content-orchestrator/src/productFactsLoader.js';
 import { publish, listPublishTargets } from '../../../content-orchestrator/src/publishing/publishingService.js';
@@ -404,15 +405,43 @@ export async function handleProposeDirectCreative(req, res) {
     return;
   }
 
+  // Media Type (Corrección "Crear contenido", Paso 1/2 del encargo): este
+  // endpoint solo alimenta el pipeline de VIDEO real (produceCreative,
+  // nunca CAROUSEL) -- se evita, entre las variantes reales ya generadas,
+  // cualquiera cuyo blueprint sea un formato ESTÁTICO real
+  // (STATIC_FORMATS de videoScriptGenerator.js, ej. "Static comparison
+  // frames"), que buildVideoScript() rechazaría más tarde con
+  // "applicable:false" -- root cause real del bug reportado ("una
+  // instrucción explícita de VIDEO puede terminar cayendo en un formato
+  // estático"). Nunca se filtra en buildHypothesisExperiment() (no se
+  // toca Creative Strategy Engine); se elige, entre las
+  // DIRECT_PROPOSAL_VARIANT_COUNT variantes reales ya devueltas, la
+  // primera compatible -- si NINGUNA lo es (extremadamente improbable,
+  // solo 1 de 5 blueprints reales es estático), se reporta explícito en
+  // vez de producir un video roto.
+  const mediaType = 'VIDEO';
+  const compatibleIndex = result.variantsDetail.findIndex((v) => !STATIC_FORMATS.includes(v.creativeVariant.format));
+  if (compatibleIndex === -1) {
+    sendJson(res, 200, {
+      status: 'MEDIA_TYPE_MISMATCH', productId, campaignId, mediaType,
+      errors: [`propose-direct: ninguna de las ${result.variantsDetail.length} variantes reales generadas para "${productId}" es compatible con VIDEO (todas cayeron en un formato estático real) -- reintenta la propuesta.`],
+    });
+    return;
+  }
+
   // result.variantsDetail[*] viene congelado (Object.freeze, mismo criterio
   // real de inmutabilidad del resto del proyecto) -- el override de
   // hook/cta literal construye un objeto NUEVO, nunca muta el original.
-  const originalVariant = result.variantsDetail[0];
+  const originalVariant = result.variantsDetail[compatibleIndex];
   const overriddenCopy = (hookText?.trim() || ctaText?.trim())
     ? { ...originalVariant.copy, ...(hookText?.trim() ? { hook: hookText.trim() } : {}), ...(ctaText?.trim() ? { cta: ctaText.trim() } : {}) }
     : originalVariant.copy;
   const variant = { ...originalVariant, copy: overriddenCopy };
-  const variantsDetail = [variant, ...result.variantsDetail.slice(1)];
+  // La variante elegida real se mueve al índice 0 -- variantIndex:0 sigue
+  // siendo el contrato real que structure-recommendation/produce esperan
+  // (nunca se expone un índice distinto de 0 en este flujo de instrucción
+  // directa, Paso "una instrucción -> una propuesta").
+  const variantsDetail = [variant, ...result.variantsDetail.filter((_, i) => i !== compatibleIndex)];
 
   const batchId = randomUUID();
   const generationId = randomUUID();
@@ -425,7 +454,7 @@ export async function handleProposeDirectCreative(req, res) {
     disclaimer: result.disclaimer,
   });
 
-  sendJson(res, 200, { batchId, variantIndex: 0, product: result.product, creativeVariant: variant, rawText, disclaimer: result.disclaimer });
+  sendJson(res, 200, { batchId, variantIndex: 0, mediaType, product: result.product, creativeVariant: variant, rawText, disclaimer: result.disclaimer });
 }
 
 /**
@@ -660,6 +689,11 @@ export async function handleModelRecommendation(req, res, url) {
   // aceptada tal cual).
   const selectedModelId = url.searchParams.get('selectedModelId') || null;
   const selectedQuality = url.searchParams.get('selectedQuality') || null;
+  // Visual Continuity Context (Corrección "Crear contenido", Paso 8 del
+  // encargo): mismo query param real ya usado por structure-recommendation
+  // -- la vista previa de modelo/calidad debe reflejar el MISMO
+  // sujeto/entorno que luego verá el usuario en las escenas reales.
+  const userInstruction = url.searchParams.get('userInstruction') || null;
 
   const product = getProduct(batch.product?.productId ?? '');
   const preview = previewVisualRecommendation({
@@ -668,7 +702,7 @@ export async function handleModelRecommendation(req, res, url) {
     productRawAssets: product?.rawAssets ?? [],
     variantIndex,
     campaignId: batch.campaignId,
-    selectedModelId, selectedQuality,
+    selectedModelId, selectedQuality, userInstruction,
   });
   sendJson(res, 200, preview);
 }
@@ -816,9 +850,154 @@ export async function handleProduceCreative(req, res) {
     sendJson(res, 200, {
       ...job,
       productionJobId,
-      outputs: job.outputs.map((o) => ({ ...o, mediaUrl: o.outputPath ? toMediaUrl(o.outputPath) : null })),
+      outputs: job.outputs.map((o) => ({
+        ...o,
+        mediaUrl: o.outputPath ? toMediaUrl(o.outputPath) : null,
+        // displayName (Corrección "Flujo creativo integral", Paso 17/18 del
+        // encargo): nombre humano real -- v1 siempre para la producción
+        // original (una V2+ real solo existe vía render del Editable Video
+        // Project, ver projects.js).
+        ...buildDisplayName({
+          nombreVisible: batch.product?.nombreVisible, nombreComercial: batch.product?.nombreComercial,
+          conceptId: creativeVariant.conceptId, angleId: creativeVariant.angleId,
+          outputProfileName: o.profileName, versionNumber: 1,
+        }),
+      })),
     });
   } catch (err) {
     serverError(res, err);
   }
+}
+
+// produce-start / produce-status (Corrección E2E "Crear contenido", polling,
+// 2026-08-28): /api/create/produce (arriba) NO cambia -- sigue siendo la
+// misma llamada síncrona real de siempre, para no romper a ningún llamador
+// existente (dashboard/public/app.js incluido). Este par de endpoints es
+// SOLO una forma alternativa de invocar exactamente el mismo pipeline real
+// (produceCreative/generateNewVoiceover/saveProductionJob, sin tocar una
+// sola línea de ninguno) para un cliente que no puede sostener una única
+// conexión HTTP abierta durante los varios minutos reales que tarda una
+// producción real -- nunca un segundo sistema de jobs: el resultado final
+// es el mismo ProductionJob real, y se persiste con el mismo
+// saveProductionJob() de siempre. `produceJobsInFlight` es memoria de
+// proceso, no un store nuevo -- solo cubre el hueco real que no cubre
+// productionJobStore.js (que nunca guarda un estado "en progreso", solo el
+// resultado final ya inmutable): aquí vive el estado mientras la
+// producción real todavía está corriendo.
+const produceJobsInFlight = new Map(); // jobId -> { status: 'RUNNING'|'COMPLETED'|'FAILED', result, error, startedAt, finishedAt }
+
+export async function handleProduceCreativeStart(req, res) {
+  let body;
+  try { body = await readJsonBody(req); } catch (err) { badRequest(res, err.message); return; }
+  const {
+    batchId, variantIndex, outputProfileNames = ['INSTAGRAM_REEL', 'INSTAGRAM_FEED'],
+    imageModelId = null, selectedQuality = null,
+    userInstruction = null, selectedStructureId = null,
+  } = body;
+  if (!batchId?.trim()) { badRequest(res, 'produce-start: "batchId" es obligatorio -- la creatividad debe venir de un batch real ya generado, nunca inventada aquí.'); return; }
+  if (!Number.isInteger(variantIndex) || variantIndex < 0) { badRequest(res, 'produce-start: "variantIndex" debe ser un entero >= 0 real.'); return; }
+
+  let batch;
+  try {
+    batch = getBatch(batchId);
+  } catch (err) {
+    badRequest(res, err.message);
+    return;
+  }
+  const creativeVariant = batch.variantsDetail[variantIndex];
+  if (!creativeVariant) { badRequest(res, `produce-start: el batch "${batchId}" no tiene una variante real en el índice ${variantIndex} (tiene ${batch.variantsDetail.length}).`); return; }
+
+  const productId = batch.product.productId;
+  const product = getProduct(productId);
+  const productRawAssets = product?.rawAssets ?? [];
+
+  if (imageModelId) {
+    const disponibles = listAvailableImageModels({ productReferenceAvailable: productRawAssets.length > 0 });
+    if (!disponibles.some((m) => m.id === imageModelId)) {
+      badRequest(res, `produce-start: "imageModelId" ("${imageModelId}") no es un modelo real disponible ahora (credencial ausente o requiere una referencia de producto real que no existe) -- modelos reales disponibles: ${disponibles.map((m) => m.id).join(', ') || 'ninguno'}.`);
+      return;
+    }
+  }
+
+  const jobId = randomUUID();
+  produceJobsInFlight.set(jobId, { status: 'RUNNING', startedAt: new Date().toISOString() });
+  sendJson(res, 202, { jobId, status: 'RUNNING' });
+
+  // Fire-and-forget real: nunca se espera aquí -- la respuesta HTTP ya se
+  // envió arriba. Mismos pasos reales que handleProduceCreative(), sin
+  // reimplementarlos (produceCreative/generateNewVoiceover/saveProductionJob
+  // son exactamente las mismas funciones importadas arriba).
+  (async () => {
+    try {
+      const videoScript = buildVideoScript({
+        hook: creativeVariant.copy.hook, bodyLines: creativeVariant.copy.bodyLines,
+        sectionsUsed: creativeVariant.copy.sectionsUsed, cta: creativeVariant.copy.cta,
+        format: creativeVariant.creativeVariant.format, copyStyle: creativeVariant.copyStyle,
+      });
+      if (!videoScript.applicable) {
+        produceJobsInFlight.set(jobId, { status: 'FAILED', result: { status: 'FAILED', error: videoScript.reason }, finishedAt: new Date().toISOString() });
+        return;
+      }
+
+      try {
+        assertVoiceoverTextSafe(videoScript.voiceoverText);
+      } catch (err) {
+        produceJobsInFlight.set(jobId, { status: 'VALIDATION_FAILED', result: { status: 'VALIDATION_FAILED', errors: [err.message] }, finishedAt: new Date().toISOString() });
+        return;
+      }
+
+      let audioSourcePath;
+      let audioDurationSeconds;
+      try {
+        const resultado = await generateNewVoiceover({ text: videoScript.voiceoverText });
+        audioSourcePath = resultado.resolvedPath;
+        audioDurationSeconds = resultado.durationSeconds;
+      } catch (err) {
+        produceJobsInFlight.set(jobId, { status: 'SOURCE_ASSET_REQUIRED', result: { status: 'SOURCE_ASSET_REQUIRED', error: err.message }, finishedAt: new Date().toISOString() });
+        return;
+      }
+
+      const projectDir = join(DASHBOARD_OUTPUT_ROOT, `produce-${randomUUID()}`);
+      const job = await produceCreative({
+        creativeVariant, campaignIntent: batch.campaignIntent ?? null, productRawAssets,
+        audioSourcePath, audioDurationSeconds, outputProfileNames, projectDir, ffmpegBinDir: FFMPEG_BIN_DIR,
+        campaignId: batch.campaignId, batchId: batch.batchId, generationId: batch.generationId,
+        creativeId: `${batch.batchId}-v${variantIndex}`,
+        productFacts: batch.product ?? null, variantIndex, selectedModelId: imageModelId, selectedQuality,
+        userInstruction, selectedStructureId,
+      });
+      let productionJobId = null;
+      if (job.status !== 'FAILED') {
+        ({ productionJobId } = saveProductionJob({ job, projectDir }));
+      }
+      produceJobsInFlight.set(jobId, {
+        status: job.status,
+        result: {
+          ...job,
+          productionJobId,
+          outputs: job.outputs.map((o) => ({
+            ...o,
+            mediaUrl: o.outputPath ? toMediaUrl(o.outputPath) : null,
+            ...buildDisplayName({
+              nombreVisible: batch.product?.nombreVisible, nombreComercial: batch.product?.nombreComercial,
+              conceptId: creativeVariant.conceptId, angleId: creativeVariant.angleId,
+              outputProfileName: o.profileName, versionNumber: 1,
+            }),
+          })),
+        },
+        finishedAt: new Date().toISOString(),
+      });
+    } catch (err) {
+      produceJobsInFlight.set(jobId, { status: 'FAILED', result: { status: 'FAILED', error: err.message }, finishedAt: new Date().toISOString() });
+    }
+  })();
+}
+
+export function handleProduceCreativeStatus(req, res, url) {
+  const jobId = url.searchParams.get('jobId');
+  if (!jobId?.trim()) { badRequest(res, 'produce-status: "jobId" es obligatorio (query param).'); return; }
+  const entry = produceJobsInFlight.get(jobId);
+  if (!entry) { notFound(res, `produce-status: no existe ningún job en memoria con jobId "${jobId}" (nunca se lanzó en este proceso, o el servidor se reinició desde entonces).`); return; }
+  if (entry.status === 'RUNNING') { sendJson(res, 200, { jobId, status: 'RUNNING' }); return; }
+  sendJson(res, 200, { jobId, ...entry.result });
 }

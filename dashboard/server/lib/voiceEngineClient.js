@@ -21,9 +21,15 @@ import { PROJECT_ROOT } from './safePaths.js';
 
 const AUDIO_CACHE_DIR = join(PROJECT_ROOT, 'video-production', '_audio-cache');
 const VOICE_ENGINE_BASE_URL = process.env.VOICE_ENGINE_URL ?? 'http://localhost:8000';
-// Mismo default de desarrollo local ya documentado en voice-engine/app/config.py
+// Leída en cada llamada (nunca cacheada en una const de módulo): las
+// importaciones estáticas de ESM se evalúan antes que el resto de
+// index.js, así que una const de nivel de módulo capturaría el fallback
+// ANTES de que loadIntegrationEnv() cargue voice-engine/.env. Mismo
+// default de desarrollo local ya documentado en voice-engine/app/config.py
 // -- nunca un secreto real de producción, y nunca se expone al frontend.
-const VOICE_ENGINE_API_KEY = process.env.VOICE_ENGINE_API_KEY ?? 'dev-local-only-change-me';
+function voiceEngineApiKey() {
+  return process.env.VOICE_ENGINE_API_KEY ?? 'dev-local-only-change-me';
+}
 // Mismo usuario WSL ya usado en el resto del proyecto (tts-text-preprocessor/,
 // scripts reales de fases anteriores) -- Voice Engine nunca devuelve una ruta
 // absoluta de servidor (por diseño de seguridad, ver voice-engine/README.md),
@@ -74,7 +80,7 @@ export async function generateNewVoiceover({ text, voiceProfileId = 'manuel_es_m
   try {
     res = await fetch(`${VOICE_ENGINE_BASE_URL}/v1/speak`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'x-api-key': VOICE_ENGINE_API_KEY },
+      headers: { 'Content-Type': 'application/json', 'x-api-key': voiceEngineApiKey() },
       body: JSON.stringify({ text, language, voice_profile_id: voiceProfileId }),
       signal: AbortSignal.timeout(600_000), // la generación real puede tardar varios minutos.
     });

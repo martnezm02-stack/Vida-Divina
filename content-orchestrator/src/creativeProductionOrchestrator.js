@@ -193,7 +193,7 @@ export async function produceCreative({
   const visualStrategy = buildVisualStrategy({
     creativeVariant, campaignIntent, productFacts, productRawAssets, scenePlan: scenePlanBase,
     format: creativeVariant.creativeVariant.format, variantIndex, campaignId, batchId, creativeId,
-    selectedModelId, selectedQuality,
+    selectedModelId, selectedQuality, userInstruction,
   });
   const scenePlan = Object.freeze({ ...scenePlanBase, scenes: visualStrategy.sceneVisuals });
 

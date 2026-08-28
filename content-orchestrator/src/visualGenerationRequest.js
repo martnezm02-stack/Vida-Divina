@@ -51,9 +51,16 @@ export function buildVisualGenerationRequest({
     campaignId, batchId, creativeId, sceneId,
     visualTreatment,
     promptSpec: Object.freeze({ ...promptSpec }),
+    // promptMode (Corrección "Crear contenido", Paso 15/16 del encargo):
+    // "system_generated" por defecto -- si el usuario edita el prompt
+    // ANTES de producir (UI todavía no lo permite en esta fase, ver
+    // reporte final), el llamador real pasaría "user_edited" aquí; nunca
+    // sobrescrito en silencio.
+    promptMode: 'system_generated',
     provider: null,
     status: 'PENDING',
     assetId: null,
+    generatedPrompt: null,
     cost: Object.freeze({ estimated: null, actual: null, currency: 'USD', status: null }),
     lineage: Object.freeze({ sourceType: null, sourceAssetId: null, sourcePath: null }),
     fingerprint,
@@ -92,6 +99,10 @@ export function resolveVisualGenerationRequest(request, resolution) {
     provider: resolution.providerUsed ?? (resolution.source === 'EXISTING_PRODUCT_ASSET' ? 'existing_asset' : resolution.source === 'TYPOGRAPHIC' ? 'local_typographic' : null),
     status,
     assetId,
+    // Prompt Auditable (Paso 13/14 del encargo): EXACTAMENTE lo que
+    // assetResolver.js reportó que se envió al provider real -- null real
+    // cuando no hubo generación real (asset existente/tipográfico).
+    generatedPrompt: resolution.generatedPrompt ?? null,
     cost: Object.freeze({
       estimated: resolution.cost?.estimatedCost ?? 0,
       actual: resolution.cost?.actualCost ?? 0,

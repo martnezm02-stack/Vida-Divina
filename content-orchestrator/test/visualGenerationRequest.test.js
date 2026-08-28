@@ -67,6 +67,31 @@ describe('resolveVisualGenerationRequest — nunca simula (Paso 25 del encargo)'
     assert.notEqual(resolved.status, 'RESOLVED_GENERATED');
   });
 
+  // Prompt Auditable (Corrección "Crear contenido", Paso 13/14 del
+  // encargo: L/M del encargo).
+  test('L/M: generatedPrompt real de la resolución se persiste TAL CUAL (nunca reconstruido desde promptSpec)', () => {
+    const req = buildVisualGenerationRequest({ sceneId: 's6', visualTreatment: 'CINEMATIC', promptSpec: PROMPT_SPEC_REAL });
+    const promptRealEnviado = 'mujer entrenando en gimnasio moderno. luz natural. plano medio.';
+    const resolved = resolveVisualGenerationRequest(req, {
+      source: 'GENERATED_IMAGE', imageSourcePath: 'C:/data/krea-xyz.png', providerUsed: 'krea-mcp', isMock: false,
+      generatedPrompt: promptRealEnviado,
+      cost: { estimatedCost: 0, actualCost: 0, currency: 'USD', costStatus: 'UNKNOWN' },
+    });
+    assert.equal(resolved.generatedPrompt, promptRealEnviado);
+    assert.notEqual(resolved.generatedPrompt, JSON.stringify(req.promptSpec), 'nunca debe reconstruirse desde promptSpec -- debe ser el string real reportado por la resolución.');
+  });
+
+  test('sin generación real (EXISTING_PRODUCT_ASSET/TYPOGRAPHIC): generatedPrompt null real, nunca inventado', () => {
+    const req = buildVisualGenerationRequest({ sceneId: 's7', visualTreatment: 'EDUCATIONAL', promptSpec: PROMPT_SPEC_REAL });
+    const resolved = resolveVisualGenerationRequest(req, { source: 'TYPOGRAPHIC', imageSourcePath: null, providerUsed: null, isMock: false });
+    assert.equal(resolved.generatedPrompt, null);
+  });
+
+  test('promptMode por defecto real es "system_generated" en el request PENDIENTE (Paso 16 del encargo)', () => {
+    const req = buildVisualGenerationRequest({ sceneId: 's8', visualTreatment: 'UGC', promptSpec: PROMPT_SPEC_REAL });
+    assert.equal(req.promptMode, 'system_generated');
+  });
+
   test('rechaza sin request/resolution reales', () => {
     assert.throws(() => resolveVisualGenerationRequest(null, { source: 'TYPOGRAPHIC' }), /VisualGenerationRequest real/);
     const req = buildVisualGenerationRequest({ sceneId: 's4', visualTreatment: 'UGC', promptSpec: PROMPT_SPEC_REAL });

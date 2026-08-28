@@ -9,7 +9,9 @@ import { randomUUID } from 'node:crypto';
 import { sendJson, badRequest, notFound, serverError, readJsonBody } from '../lib/http.js';
 import { toMediaUrl } from '../lib/safePaths.js';
 import { generateNewVoiceover } from '../lib/voiceEngineClient.js';
-import { getProductionJob } from '../../../content-orchestrator/src/productionJobStore.js';
+import { getProductionJob, saveProductionJob } from '../../../content-orchestrator/src/productionJobStore.js';
+import { buildDisplayName } from '../../../content-orchestrator/src/displayName.js';
+import { getProduct } from '../lib/productCatalog.js';
 import {
   buildEditableProjectFromProductionJob, getLatestVersion, currentSceneNarration,
 } from '../../../content-orchestrator/src/editableVideoProject.js';
@@ -172,9 +174,45 @@ export async function handleRenderProject(req, res, projectId) {
   try {
     const version = await renderProjectVersion(project, { ffmpegBinDir: FFMPEG_BIN_DIR, mode });
     if (mode === 'RENDER' && version.status !== 'FAILED') {
-      const updated = { ...project, versions: [...project.versions, version], updatedAt: new Date().toISOString() };
+      // ProductionJob real por versión (Corrección "Flujo creativo
+      // integral", 2026-08-28, Paso 20/21 del encargo): antes, un render
+      // real de V2 solo vivía dentro de project.versions[] -- nunca tenía
+      // productionJobId propio, así que quedaba SIN la protección real de
+      // findAssetDependents() (que solo consulta productionJobStore.js) y
+      // sin lineage explícito real hacia la versión anterior. Se persiste
+      // aquí con el MISMO saveProductionJob() de siempre (nunca un
+      // segundo store) -- "job" es el "version" real mismo (ya trae
+      // status/masterPath/outputs, mismo contrato real que valida
+      // saveProductionJob()), con projectDir = version.renderDir real
+      // (carpeta física DISTINTA de V1, ver projectRenderer.js).
+      const previousProductionJobId = getLatestVersion(project).productionJobId ?? project.productionJobId ?? null;
+      const { productionJobId } = saveProductionJob({ job: version, projectDir: version.renderDir });
+
+      // displayName real (Paso 17/18 del encargo) -- conceptId/angleId
+      // reales vienen del ProductionJob ORIGINAL (nunca inventados aquí;
+      // el EditableVideoProject real no los guarda por separado).
+      let conceptId = null;
+      let angleId = null;
+      try {
+        const original = getProductionJob(project.productionJobId);
+        conceptId = original.job.conceptId ?? null;
+        angleId = original.job.angleId ?? null;
+      } catch { /* ProductionJob original real ya no disponible -- displayName se degrada sin concepto, nunca inventa uno. */ }
+      const product = getProduct(project.campaignId);
+      const outputsConNombre = version.outputs.map((o) => ({
+        ...o,
+        ...buildDisplayName({
+          nombreVisible: product?.nombreVisible, nombreComercial: product?.nombreComercial,
+          conceptId, angleId, outputProfileName: o.profileName, versionNumber: version.versionNumber,
+        }),
+      }));
+
+      const versionConLineage = {
+        ...version, productionJobId, previousProductionJobId, outputs: Object.freeze(outputsConNombre),
+      };
+      const updated = { ...project, versions: [...project.versions, versionConLineage], updatedAt: new Date().toISOString() };
       saveProject(updated);
-      sendJson(res, 200, { project: projectForClient(updated), version: versionWithMediaUrls(version) });
+      sendJson(res, 200, { project: projectForClient(updated), version: versionWithMediaUrls(versionConLineage) });
       return;
     }
     sendJson(res, 200, { version: versionWithMediaUrls(version) });

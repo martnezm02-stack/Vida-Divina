@@ -40,12 +40,18 @@
     });
   }
 
+  // Versiones (Corrección "Flujo creativo integral", 2026-08-28, Paso 22
+  // del encargo): nombre humano real (o.displayName, ver
+  // content-orchestrator/src/displayName.js) como texto del enlace -- el
+  // profileName técnico ("INSTAGRAM_REEL") solo queda como fallback real
+  // para versiones ya existentes de ANTES de esta corrección (nunca
+  // "output-INSTAGRAM_REEL.mp4" ni un UUID como información principal).
   function renderVersionsList() {
     const list = $('#editor-versions-list');
     list.innerHTML = [...currentProject.versions].reverse().map((v) => `
       <div class="variant-field">
         <strong>v${v.versionNumber}</strong> ${v.status} — ${v.editsSummary ?? 'Producción original.'}
-        ${(v.outputs ?? []).map((o) => (o.mediaUrl ? `<br/><a href="${o.mediaUrl}" target="_blank" rel="noopener">${o.profileName}</a>` : '')).join('')}
+        ${(v.outputs ?? []).map((o) => (o.mediaUrl ? `<br/><a href="${o.mediaUrl}" target="_blank" rel="noopener">${o.displayName ?? o.profileName}</a>` : '')).join('')}
       </div>
     `).join('');
   }
@@ -390,7 +396,16 @@
       } else {
         currentProject = res.project;
         renderSceneList(); renderVersionsList();
-        statusEl.textContent = `v${res.version.versionNumber} real: ${res.version.status} -- ${res.version.editsSummary} (costo real: $${res.version.costReport?.estimatedTotal ?? 0})`;
+        // "Versión N generada" (Paso 23 del encargo) -- SOLO aparece aquí,
+        // tras un render real ya completado (nunca tras regenerar voz,
+        // ver regenerateSceneVoice() arriba). Un status distinto de
+        // FULL_PRODUCTION/DEGRADED_PRODUCTION (ej. FAILED) nunca se
+        // reporta como "generada".
+        const primerOutput = res.version.outputs?.find((o) => o.mediaUrl);
+        const verVersionHtml = primerOutput ? ` <a href="${primerOutput.mediaUrl}" target="_blank" rel="noopener">[Ver versión]</a>` : '';
+        statusEl.innerHTML = res.version.status === 'FAILED'
+          ? `Render de v${res.version.versionNumber} falló: ${res.version.error ?? res.version.status}`
+          : `✅ Versión ${res.version.versionNumber} generada -- ${primerOutput?.displayName ?? res.version.editsSummary} (costo real: $${res.version.costReport?.estimatedTotal ?? 0})${verVersionHtml}`;
       }
     } catch (err) {
       statusEl.textContent = `Error al renderizar: ${err.message}`;

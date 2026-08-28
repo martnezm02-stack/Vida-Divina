@@ -249,6 +249,45 @@ function productionJobStatusHtml(job) {
   const structureHtml = structureStages.length
     ? `<div class="variant-field"><strong>Así se contó la pieza</strong>${structureStages.map((s, i) => `${i + 1}. ${s}`).join(' → ')}</div>`
     : '';
+  // Visual Continuity Context (Corrección "Crear contenido", Paso 8/9 del
+  // encargo): mismo sujeto/entorno real ya usado en TODAS las escenas --
+  // se muestra una vez, no por escena (es el MISMO valor real en cada
+  // una).
+  const vcc = job.visualStrategy?.visualContinuityContext;
+  const vccParts = vcc ? [vcc.subjectDescription, vcc.environment].filter(Boolean) : [];
+  const continuityHtml = vccParts.length
+    ? `<div class="variant-field"><strong>Sujeto/entorno (consistente en todas las escenas)</strong>${vccParts.join(' · ')}</div>`
+    : '';
+  // Prompt Auditable (Paso 13/14 del encargo): el prompt EXACTO ya
+  // enviado al provider real por escena, nunca reconstruido -- "Ver
+  // prompt" es un <details> nativo (sin JS extra para abrir/cerrar),
+  // "Copiar prompt" usa un listener real adjunto después del render (ver
+  // attachPromptCopyHandlers, más abajo).
+  // Visual Scene Brief (Corrección "Diversidad Visual", 2026-08-28, Paso
+  // 14 del encargo): "Objetivo visual"/"Acción"/"Encuadre" legibles ANTES
+  // del prompt técnico (que sigue colapsado por defecto, <details> nativo)
+  // -- cruza por sceneId con job.scenePlan.scenes (mismo campo real ya
+  // usado por creativeDirector.js, nunca un segundo cálculo). Sin
+  // continuidad real (backward compatibility), esos campos no existen en
+  // la escena real -- el bloque de brief simplemente no se muestra.
+  const sceneById = new Map((job.scenePlan?.scenes ?? []).map((s) => [s.sceneId, s]));
+  const promptsHtml = (job.visualGenerationRequests ?? []).filter((r) => r.generatedPrompt).map((r, i) => {
+    const escenaReal = sceneById.get(r.sceneId);
+    const briefHtml = escenaReal?.action
+      ? `<div class="variant-field"><strong>Objetivo visual</strong>${escenaReal.narrativePurpose ?? '—'}</div>
+         <div class="variant-field"><strong>Acción</strong>${escenaReal.action}</div>
+         <div class="variant-field"><strong>Encuadre</strong>${escenaReal.shotType ?? '—'}${escenaReal.cameraAngle ? `, ángulo ${escenaReal.cameraAngle}` : ''}</div>`
+      : '';
+    return `
+    <details class="scene-prompt-detail">
+      <summary>Escena ${i + 1} — ${r.status} — <strong>Ver prompt</strong></summary>
+      ${briefHtml}
+      <div class="variant-field"><strong>Instrucción visual</strong>${r.promptSpec?.subject ?? '—'}</div>
+      <pre class="scene-prompt-text">${r.generatedPrompt}</pre>
+      <button type="button" class="btn-link btn-copy-prompt" data-prompt="${r.generatedPrompt.replace(/"/g, '&quot;')}">Copiar prompt</button>
+    </details>
+  `;
+  }).join('');
   const outputsHtml = (job.outputs ?? []).map((o) => `
     <div class="variant-field"><strong>${o.profileName} (${o.aspectRatio})</strong>${o.status}${o.mediaUrl ? ` — <a href="${o.mediaUrl}" target="_blank" rel="noopener">ver video</a>` : ''}</div>
   `).join('');
@@ -262,12 +301,37 @@ function productionJobStatusHtml(job) {
     <div class="result-status ${job.status}">${job.status}</div>
     <div class="variant-field"><strong>Pipeline</strong>Script → ${escenas} escenas reales → ${conceptos} fuente(s) visual(es) → Voz real → ${job.musicSelection?.status === 'SUCCESS' ? 'Música real' : 'Sin música (no disponible)'} → Composición ffmpeg real → QA</div>
     ${structureHtml}
+    ${continuityHtml}
     ${treatmentHtml}
     ${outputsHtml}
     ${qaHtml}
     <div class="variant-field"><strong>Costo estimado</strong>$${job.costReport?.estimatedTotal ?? 0} ${job.costReport?.currency ?? 'USD'}</div>
+    ${promptsHtml}
     ${editorBtn}
   `;
+}
+
+// Prompt Auditable (Paso 14 del encargo): adjunta el listener real de
+// "Copiar prompt" DESPUÉS de insertar productionJobStatusHtml() vía
+// innerHTML (los atributos onclick inline no son necesarios ni deseables
+// -- mismo patrón real ya usado en el resto de este archivo). Debe
+// llamarse en cada punto donde productionJobStatusHtml() se asigna a un
+// contenedor real.
+function attachPromptCopyHandlers(container) {
+  container.querySelectorAll('.btn-copy-prompt').forEach((btn) => {
+    btn.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(btn.dataset.prompt);
+        const original = btn.textContent;
+        btn.textContent = 'Copiado ✓';
+        setTimeout(() => { btn.textContent = original; }, 1500);
+      } catch {
+        // Portapapeles no disponible en este contexto (ej. sin HTTPS) --
+        // el prompt real sigue visible/seleccionable en <pre>, nunca se
+        // bloquea la función principal por esto.
+      }
+    });
+  });
 }
 
 // Corrección de flujo UI ("Crear contenido"): "Estructura sugerida" real
@@ -359,7 +423,7 @@ async function renderGenerationSettingsStep({
   resultEl.innerHTML = '<p class="placeholder">Consultando Creative Director (modelo + calidad reales)…</p>';
 
   async function fetchPreview(selectedModelId, selectedQuality) {
-    const qs = new URLSearchParams({ batchId, variantIndex: '0' });
+    const qs = new URLSearchParams({ batchId, variantIndex: '0', userInstruction: rawText });
     if (selectedModelId) qs.set('selectedModelId', selectedModelId);
     if (selectedQuality) qs.set('selectedQuality', selectedQuality);
     return api(`/api/create/model-recommendation?${qs.toString()}`);
@@ -399,6 +463,7 @@ async function renderGenerationSettingsStep({
           }),
         });
         resultEl.innerHTML = productionJobStatusHtml(job);
+        attachPromptCopyHandlers(resultEl);
       } catch (err) {
         resultEl.insertAdjacentHTML('beforeend', `<div class="result-status VALIDATION_FAILED">ERROR</div><p>${err.message}</p>`);
       }
@@ -425,6 +490,12 @@ async function renderGenerationSettingsStep({
 async function runDirectStructureProposal({ form, btn, resultEl, rawText }) {
   btn.disabled = true; btn.textContent = 'CALCULANDO PROPUESTA…';
   resultEl.innerHTML = '<p class="placeholder">Consultando Creative Director + Creative Structure Engine real (sin producir todavía)…</p>';
+  // Estado del formulario (Corrección "Crear contenido", Paso 6 del
+  // encargo): marca de qué Producto+Instrucción real viene ESTA propuesta
+  // -- invalidateStaleProposal() (más abajo) la compara contra el valor
+  // actual del formulario para nunca mezclar "propuesta A" con un cambio
+  // posterior de producto/instrucción.
+  resultEl.dataset.proposalFor = JSON.stringify({ productId: form.productId.value, rawText });
   try {
     const proposal = await api('/api/create/propose-direct', {
       method: 'POST',
@@ -473,12 +544,36 @@ async function runDirectStructureProposal({ form, btn, resultEl, rawText }) {
   }
 }
 
+// Estado del formulario (Corrección "Crear contenido", Paso 6 del
+// encargo): si Producto o Instrucción/intención cambian DESPUÉS de que ya
+// se mostró una propuesta/producción real (marcada por
+// resultEl.dataset.proposalFor, ver runDirectStructureProposal), esa
+// propuesta queda obsoleta -- nunca se deja al usuario aceptar/producir
+// "estructura nueva + voiceover viejo" (Paso 6: "no mezclar propuesta A
+// con voiceover B con visual plan C"). Los botones [Usar estructura
+// sugerida]/[Usar recomendaciones]/[Producir] que ya estaban en el DOM
+// quedan huérfanos del panel reemplazado -- inertes, nunca se re-envían.
+function invalidateStaleProposal() {
+  const form = $('#create-form');
+  const resultEl = $('#create-result');
+  const stale = resultEl?.dataset?.proposalFor;
+  if (!stale) return;
+  const current = JSON.stringify({ productId: form.productId.value, rawText: form.rawText.value.trim() });
+  if (current !== stale) {
+    delete resultEl.dataset.proposalFor;
+    resultEl.innerHTML = '<p class="placeholder">Producto o instrucción cambiaron -- pulsa GENERAR de nuevo para una propuesta real coherente con el nuevo valor.</p>';
+  }
+}
+$('#create-product')?.addEventListener('change', invalidateStaleProposal);
+$('#create-form textarea[name="rawText"]')?.addEventListener('input', invalidateStaleProposal);
+
 $('#create-form').addEventListener('submit', async (e) => {
   e.preventDefault();
   const form = e.target;
   const btn = form.querySelector('button[type="submit"]');
   const resultEl = $('#create-result');
   const rawText = form.rawText.value.trim();
+  delete resultEl.dataset.proposalFor;
 
   // Corrección de flujo UI: con una instrucción real, el flujo pasa por
   // el gate de Creative Structure Engine (arriba) en vez de producir
@@ -581,6 +676,7 @@ if (createSuggestBtn) {
         <span class="model-suggestion-label" data-variant-index="${index}">Calculando modelo sugerido…</span>
         <button type="button" class="btn-link btn-change-model hidden" data-variant-index="${index}">Cambiar modelo</button>
         <select class="model-select hidden" data-variant-index="${index}"></select>
+        <div class="variant-field" data-variant-index="${index}"><strong>Referencia visual del producto</strong><span class="product-reference-status" data-variant-index="${index}">Calculando…</span></div>
       </div>`;
     // Creative Structure Engine (Paso 9/16 del encargo): "Estructura
     // sugerida" real + "Cambiar estructura" -- mismo patrón real que
@@ -658,6 +754,16 @@ if (createSuggestBtn) {
           changeBtn.classList.remove('hidden');
           changeBtn.addEventListener('click', () => selectEl.classList.toggle('hidden'));
         }
+        // Referencia visual del producto (Corrección "Flujo creativo
+        // integral", 2026-08-28, Paso 27 del encargo): aviso ANTES de
+        // producir -- nunca "produce silenciosamente" sin fotografía real
+        // cuando el producto podría necesitar mostrarse físicamente.
+        const refEl = widget.querySelector('.product-reference-status');
+        if (refEl && rec.assetRequirements) {
+          refEl.innerHTML = rec.assetRequirements.productAssetAvailable
+            ? '✅ Fotografía seleccionada'
+            : '⚠️ Sin fotografía del producto -- para mostrar el producto físicamente necesitas seleccionar una fotografía real del producto.';
+        }
       } catch {
         labelEl.textContent = 'No se pudo calcular el modelo sugerido (se producirá con el fallback real disponible).';
       }
@@ -719,6 +825,7 @@ if (createSuggestBtn) {
             }),
           });
           statusEl.innerHTML = productionJobStatusHtml(job);
+          attachPromptCopyHandlers(statusEl);
           const openBtn = statusEl.querySelector('.btn-open-editor');
           if (openBtn && window.VidaDivinaEditor) {
             openBtn.addEventListener('click', () => window.VidaDivinaEditor.openFromProductionJob(openBtn.dataset.productionJobId));

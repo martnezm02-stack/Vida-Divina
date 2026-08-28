@@ -16,7 +16,7 @@ import { extname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { sendJson, notFound, serverError } from './lib/http.js';
 import { handleProducts, handleProduct, handleAssets, handleDeleteAsset, handleCampaigns, handleOutputProfiles, handleOperations, handleAudioAssets, handlePreviewInfo } from './routes/library.js';
-import { handleCreate, handleEdit, handleAdapt, handleProposeCreative, handleProposeDirectCreative, handleSuggestHypothesisVariants, handleListHypothesisBatches, handleVideoScript, handleProposeCarousel, handleCreateCarousel, handlePublishTargets, handlePublish, handleProduceCreative, handleModelRecommendation, handleStructureRecommendation } from './routes/generation.js';
+import { handleCreate, handleEdit, handleAdapt, handleProposeCreative, handleProposeDirectCreative, handleSuggestHypothesisVariants, handleListHypothesisBatches, handleVideoScript, handleProposeCarousel, handleCreateCarousel, handlePublishTargets, handlePublish, handleProduceCreative, handleProduceCreativeStart, handleProduceCreativeStatus, handleModelRecommendation, handleStructureRecommendation } from './routes/generation.js';
 import { handleMedia } from './routes/media.js';
 import { handlePerformanceList, handlePerformanceAnalysis } from './routes/performance.js';
 import { handleAttributionList, handleAttributionSummary } from './routes/attribution.js';
@@ -51,6 +51,10 @@ loadIntegrationEnv({
 loadIntegrationEnv({
   path: fileURLToPath(new URL('../../whatsapp-adapter/.env', import.meta.url)),
   keys: ['WHATSAPP_ACCESS_TOKEN', 'WHATSAPP_PHONE_NUMBER_ID', 'WHATSAPP_GRAPH_API_VERSION'],
+});
+loadIntegrationEnv({
+  path: fileURLToPath(new URL('../../voice-engine/.env', import.meta.url)),
+  keys: ['VOICE_ENGINE_API_KEY'],
 });
 
 const PORT = process.env.PORT !== undefined ? Number(process.env.PORT) : 4310; // "0" -> puerto efímero real (usado por los tests); "" || 4310 se comía el 0 por ser falsy en JS.
@@ -102,6 +106,8 @@ const server = http.createServer(async (req, res) => {
     if (pathname === '/api/create/model-recommendation' && req.method === 'GET') { await handleModelRecommendation(req, res, url); return; }
     if (pathname === '/api/create/structure-recommendation' && req.method === 'GET') { await handleStructureRecommendation(req, res, url); return; }
     if (pathname === '/api/create/produce' && req.method === 'POST') { await handleProduceCreative(req, res); return; }
+    if (pathname === '/api/create/produce-start' && req.method === 'POST') { await handleProduceCreativeStart(req, res); return; }
+    if (pathname === '/api/create/produce-status' && req.method === 'GET') { handleProduceCreativeStatus(req, res, url); return; }
     if (pathname === '/api/video-script' && req.method === 'POST') { await handleVideoScript(req, res); return; }
     if (pathname === '/api/carousel/propose' && req.method === 'POST') { await handleProposeCarousel(req, res); return; }
     if (pathname === '/api/carousel' && req.method === 'POST') { await handleCreateCarousel(req, res); return; }
@@ -206,6 +212,18 @@ const server = http.createServer(async (req, res) => {
     serverError(res, err);
   }
 });
+
+// Corrección "Crear contenido" (2026-08-28): /api/create/produce y
+// /api/carousel son operaciones reales de larga duración por diseño
+// (guion + N escenas HyperFrames/ffmpeg + Krea real + Voice Engine real
+// fácilmente supera varios minutos reales) -- se desactivan los timeouts
+// automáticos reales de Node para TODA la API (0 = sin límite, mismo
+// criterio que el resto del proyecto: nunca cortar una operación real a
+// medias). Defensivo: requestTimeout/headersTimeout gobiernan la
+// RECEPCIÓN de la solicitud del cliente (rápida aquí), no cuánto tarda el
+// servidor en responder -- pero se desactivan igual, sin riesgo real.
+server.requestTimeout = 0;
+server.headersTimeout = 0;
 
 if (process.env.DASHBOARD_NO_LISTEN !== '1') {
   server.listen(PORT, () => {

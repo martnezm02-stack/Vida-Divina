@@ -13,6 +13,24 @@
 
 import { alignStagesToCount, LEGACY_STRUCTURE } from './creativeStructureEngine.js';
 
+// Text Overlay corto real para CTA (Corrección "Flujo creativo integral",
+// 2026-08-28, Paso 9 del encargo): el overlay de CTA NO debe repetir
+// literalmente el CTA hablado completo (voiceover + overlay + subtítulos
+// mostrando el mismo texto largo tres veces) -- se extrae, de forma
+// determinista y a partir del MISMO texto real del CTA (nunca inventado),
+// una frase de cierre corta cuando el texto real contiene una señal clara
+// (WhatsApp/enlace); si no hay señal real, se preserva el CTA completo tal
+// cual (nunca se acorta arbitrariamente un texto sin patrón reconocible).
+const SHORT_CTA_PATTERNS = Object.freeze([
+  { re: /whatsapp/i, label: 'Escríbenos por WhatsApp' },
+  { re: /\benlace\b|\blink\b/i, label: 'Visita el enlace' },
+]);
+
+function buildShortCtaOverlay(ctaText) {
+  const encontrado = SHORT_CTA_PATTERNS.find((p) => p.re.test(ctaText ?? ''));
+  return encontrado?.label ?? ctaText;
+}
+
 export const VISUAL_INTENT_TYPES = Object.freeze(['CONCEPT_OPENING', 'AUDIENCE_CONTEXT', 'PRODUCT_REVEAL', 'CTA_BRAND']);
 
 const VISUAL_INTENT_BY_SECTION_TYPE = Object.freeze({
@@ -76,7 +94,7 @@ export function buildScenePlan({
       visualIntent,
       visualType: hasProductAsset ? 'PRODUCT_ASSET' : 'TYPOGRAPHIC',
       textOverlay: section.type === 'HOOK' ? videoScript.onScreenText.hook
-        : section.type === 'CTA' ? videoScript.onScreenText.cta
+        : section.type === 'CTA' ? buildShortCtaOverlay(videoScript.onScreenText.cta)
           : null,
       transition: i === 0 ? 'NONE' : 'CUT',
       audioIntent: 'VOICEOVER_SEGMENT',

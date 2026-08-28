@@ -70,7 +70,11 @@ const STYLE_CATEGORY_BY_COPY_STYLE = Object.freeze({
 // Formatos sin pieza audiovisual real (mismo criterio que
 // hypothesisCopyProvider.js#STATIC_FORMATS, sin duplicarlo -- se repite
 // aquí literal porque ese archivo no lo exporta y no se debe tocar).
-const STATIC_FORMATS = Object.freeze(['Static comparison frames']);
+// Exportado (Corrección "Crear contenido" -- Media Type, 2026-08-28):
+// generation.js#handleProposeDirectCreative necesita evitar blueprints
+// estáticos cuando la pieza es de VIDEO -- fuente única real, en vez de
+// una tercera copia del mismo arreglo literal.
+export const STATIC_FORMATS = Object.freeze(['Static comparison frames']);
 
 // section (CopyStructure real, hypothesisCopyProvider.js#sectionsUsed) -> tipo de sección de Video Script.
 const SECTION_TYPE_BY_COPY_SECTION = Object.freeze({

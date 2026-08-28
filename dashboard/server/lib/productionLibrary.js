@@ -43,11 +43,20 @@ export function listAllPackages() {
   return listVisualProductionPackages();
 }
 
+// Profundidad real (Corrección "Flujo creativo integral", 2026-08-28, Paso
+// 21/24 del encargo): 3 dejaba invisibles los outputs reales de una V2/V3
+// (dashboard-outputs/produce-<uuid>/versions/v2/output-*.mp4 real -- 4
+// niveles desde VIDEO_PRODUCTION_DIR) -- bug real confirmado: un render
+// real de V2 nunca aparecía en Assets aunque el archivo real ya existía en
+// disco. 6 da margen real para versions/vN/ sin escanear árboles ajenos
+// desmedidos.
+const MAX_SCAN_DEPTH = 6;
+
 /** Recorre video-production/ buscando MP4 reales ya producidos (sin inventar ninguno) -- clasifica por convención de carpeta cuando es reconocible. */
 export function listFinalOutputs() {
   const resultados = [];
   function recorrer(dir, profundidad) {
-    if (profundidad > 3) return;
+    if (profundidad > MAX_SCAN_DEPTH) return;
     let entradas;
     try {
       entradas = readdirSync(dir);

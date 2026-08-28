@@ -28,6 +28,9 @@ describe('resolveSceneAsset — prioridad real (Paso 4)', () => {
     assert.equal(r.source, 'EXISTING_PRODUCT_ASSET');
     assert.equal(r.imageSourcePath, 'C:/assets/sculpt-black.png');
     assert.equal(r.isMock, false);
+    // Prompt Auditable (Corrección "Crear contenido", Paso 13 del
+    // encargo): sin generación real, generatedPrompt null explícito.
+    assert.equal(r.generatedPrompt, null);
   });
 
   test('escena de concepto sin producto + solo MockImageProvider disponible -> nunca acepta el mock como visual real, cae a TYPOGRAPHIC', async () => {

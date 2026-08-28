@@ -80,6 +80,10 @@ export async function resolveSceneAsset({
       sceneId: scene.sceneId, source: 'EXISTING_PRODUCT_ASSET',
       imageSourcePath: scene.assetRequirements.productImageSourcePath, providerUsed: null, isMock: false,
       cost: Object.freeze({ estimatedCost: 0, actualCost: 0, currency: 'USD', costStatus: 'KNOWN' }),
+      // Prompt Auditable (Corrección "Crear contenido", Paso 13 del
+      // encargo): sin generación real, no hay prompt real que auditar --
+      // null explícito, nunca reconstruido.
+      generatedPrompt: null,
       attempted: Object.freeze(attempted),
     });
   }
@@ -111,6 +115,11 @@ export async function resolveSceneAsset({
           sceneId: scene.sceneId, source: 'GENERATED_IMAGE',
           imageSourcePath: result.asset.sourcePath, providerUsed: result.providerName, isMock: false,
           cost: Object.freeze({ estimatedCost: result.estimatedCost ?? 0, actualCost: result.actualCost ?? 0, currency: result.currency ?? 'USD', costStatus: result.costStatus ?? 'KNOWN' }),
+          // Prompt Auditable (Paso 13 del encargo): EXACTAMENTE
+          // request.generationPrompt -- el mismo string real ya enviado a
+          // generateImage() arriba, nunca reconstruido después a partir de
+          // scene.visualPrompt (que podría, en teoría, divergir a futuro).
+          generatedPrompt: request.generationPrompt,
           attempted: Object.freeze(attempted),
         });
       }
@@ -139,6 +148,7 @@ export async function resolveSceneAsset({
   return Object.freeze({
     sceneId: scene.sceneId, source: 'TYPOGRAPHIC', imageSourcePath: null, providerUsed: null, isMock: false,
     cost: Object.freeze({ estimatedCost: 0, actualCost: 0, currency: 'USD', costStatus: 'KNOWN' }),
+    generatedPrompt: null,
     attempted: Object.freeze(attempted),
   });
 }
