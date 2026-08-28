@@ -4,6 +4,7 @@ import { test, describe } from 'node:test';
 import assert from 'node:assert/strict';
 import { buildVideoScript } from '../src/videoScriptGenerator.js';
 import { buildScenePlan } from '../src/scenePlanner.js';
+import { buildCreativeStructure, LEGACY_STRUCTURE } from '../src/creativeStructureEngine.js';
 
 const COPY_REAL = {
   hook: '¿vitalidad y confianza masculina?',
@@ -74,5 +75,35 @@ describe('buildScenePlan — Script real -> Scene Plan real', () => {
     const plan = buildScenePlan({ videoScript: script, productRawAssets: PRODUCT_ASSETS_REAL });
     const sumaReal = plan.scenes.reduce((s, sc) => s + sc.duration, 0);
     assert.ok(Math.abs(sumaReal - script.estimatedDurationSeconds) < 0.1);
+  });
+});
+
+describe('buildScenePlan — Creative Structure Engine (integración)', () => {
+  test('sin "creativeStructure" real, cae a LEGACY_STRUCTURE explícito (Paso 20, backward compatibility)', () => {
+    const plan = buildScenePlan({ videoScript: realScript(), productRawAssets: PRODUCT_ASSETS_REAL, campaignIntent: CAMPAIGN_INTENT_REAL });
+    assert.equal(plan.creativeStructure.structureId, LEGACY_STRUCTURE.structureId);
+    assert.equal(plan.creativeStructure.selectionMode, 'legacy_fallback');
+    assert.equal(plan.scenes.length, plan.creativeStructure.stages.length);
+    assert.ok(plan.scenes.every((s) => typeof s.narrativeStage === 'string'));
+  });
+
+  test('con "creativeStructure" real, cada escena recibe el narrativeStage alineado real (nunca Hook→Producto→CTA fijo)', () => {
+    const creativeStructure = buildCreativeStructure({ contentType: 'VIDEO', userInstruction: 'Quiero contar una experiencia real, les cuento que me pasó algo' });
+    const plan = buildScenePlan({
+      videoScript: realScript(), productRawAssets: PRODUCT_ASSETS_REAL, campaignIntent: CAMPAIGN_INTENT_REAL, creativeStructure,
+    });
+    assert.equal(plan.creativeStructure.structureId, creativeStructure.structureId);
+    assert.equal(plan.creativeStructure.selectionMode, creativeStructure.selectionMode);
+    assert.equal(plan.scenes.length, plan.creativeStructure.stages.length);
+    assert.deepEqual(plan.scenes.map((s) => s.narrativeStage), plan.creativeStructure.stages);
+    // Preserva TODO lo que scenePlanner.js ya decidía (sectionType/visualIntent/visualType/duration) -- solo AÑADE narrativeStage.
+    assert.equal(plan.scenes[0].sectionType, 'HOOK');
+    assert.equal(plan.scenes.at(-1).sectionType, 'CTA');
+  });
+
+  test('la estructura nunca cambia el número real de escenas (siempre 5, igual que el copy real)', () => {
+    const creativeStructure = buildCreativeStructure({ contentType: 'VIDEO', userInstruction: 'Quiero mostrar cómo se usa paso a paso' });
+    const plan = buildScenePlan({ videoScript: realScript(), productRawAssets: PRODUCT_ASSETS_REAL, creativeStructure });
+    assert.equal(plan.scenes.length, 5);
   });
 });

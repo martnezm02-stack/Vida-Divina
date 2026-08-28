@@ -289,7 +289,18 @@ if (createSuggestBtn) {
         <button type="button" class="btn-link btn-change-model hidden" data-variant-index="${index}">Cambiar modelo</button>
         <select class="model-select hidden" data-variant-index="${index}"></select>
       </div>`;
+    // Creative Structure Engine (Paso 9/16 del encargo): "Estructura
+    // sugerida" real + "Cambiar estructura" -- mismo patrón real que
+    // modelBlock (el sistema recomienda, el usuario decide), ANTES de
+    // producir (voiceover real es costoso).
+    const structureBlock = `
+      <div class="model-recommendation structure-recommendation" data-variant-index="${index}">
+        <span class="structure-suggestion-label" data-variant-index="${index}">Calculando estructura sugerida…</span>
+        <button type="button" class="btn-link btn-change-structure hidden" data-variant-index="${index}">Cambiar estructura</button>
+        <select class="structure-select hidden" data-variant-index="${index}"></select>
+      </div>`;
     const produceBlock = `
+      ${structureBlock}
       ${modelBlock}
       <button type="button" class="btn-secondary btn-produce-creative" data-variant-index="${index}">PRODUCIR VIDEO REAL →</button>
       <div class="production-status hidden" data-variant-index="${index}"></div>`;
@@ -372,6 +383,13 @@ if (createSuggestBtn) {
          <div class="variant-field"><strong>Fuente visual</strong>${fuentesVisuales}</div>
          ${providerHtml}`
       : '';
+    // Creative Structure Engine (Paso 16 del encargo): "Así se contará la
+    // pieza" -- secuencia narrativa real ya producida, para que el usuario
+    // entienda la estructura antes/después de gastar el render real.
+    const structureStages = job.scenePlan?.creativeStructure?.stages ?? [];
+    const structureHtml = structureStages.length
+      ? `<div class="variant-field"><strong>Así se contó la pieza</strong>${structureStages.map((s, i) => `${i + 1}. ${s}`).join(' → ')}</div>`
+      : '';
     const outputsHtml = (job.outputs ?? []).map((o) => `
       <div class="variant-field"><strong>${o.profileName} (${o.aspectRatio})</strong>${o.status}${o.mediaUrl ? ` — <a href="${o.mediaUrl}" target="_blank" rel="noopener">ver video</a>` : ''}</div>
     `).join('');
@@ -384,6 +402,7 @@ if (createSuggestBtn) {
     return `
       <div class="result-status ${job.status}">${job.status}</div>
       <div class="variant-field"><strong>Pipeline</strong>Script → ${escenas} escenas reales → ${conceptos} fuente(s) visual(es) → Voz real → ${job.musicSelection?.status === 'SUCCESS' ? 'Música real' : 'Sin música (no disponible)'} → Composición ffmpeg real → QA</div>
+      ${structureHtml}
       ${treatmentHtml}
       ${outputsHtml}
       ${qaHtml}
@@ -422,8 +441,35 @@ if (createSuggestBtn) {
     }));
   }
 
+  // Creative Structure Engine (Paso 9/16 del encargo): "el sistema
+  // recomienda, el usuario decide" -- carga real vía GET
+  // /api/create/structure-recommendation ANTES de producir. Mismo patrón
+  // real que initModelRecommendation(), sin duplicar su lógica de red
+  // (llamada independiente, misma forma).
+  async function initStructureRecommendation(sectionEl, batch) {
+    const widgets = [...sectionEl.querySelectorAll('.structure-recommendation')];
+    await Promise.all(widgets.map(async (widget) => {
+      const idx = widget.dataset.variantIndex;
+      const labelEl = widget.querySelector('.structure-suggestion-label');
+      const changeBtn = widget.querySelector('.btn-change-structure');
+      const selectEl = widget.querySelector('.structure-select');
+      try {
+        const rec = await api(`/api/create/structure-recommendation?batchId=${batch.batchId}&variantIndex=${idx}`);
+        labelEl.innerHTML = `Estructura sugerida: <strong>${rec.recommended.label} ✓</strong><br><span class="meta">${rec.recommended.recommendationReason}</span>`;
+        selectEl.innerHTML = rec.options.map((o) => `<option value="${o.structureId}"${o.structureId === rec.recommended.structureId ? ' selected' : ''}>${o.label}</option>`).join('');
+        if (rec.options.length > 1) {
+          changeBtn.classList.remove('hidden');
+          changeBtn.addEventListener('click', () => selectEl.classList.toggle('hidden'));
+        }
+      } catch {
+        labelEl.textContent = 'No se pudo calcular la estructura sugerida (se producirá con el enfoque real por defecto).';
+      }
+    }));
+  }
+
   function attachProduceHandlers(sectionEl, batch) {
     initModelRecommendation(sectionEl, batch);
+    initStructureRecommendation(sectionEl, batch);
     sectionEl.querySelectorAll('.btn-produce-creative').forEach((b) => {
       b.addEventListener('click', async () => {
         const idx = Number(b.dataset.variantIndex);
@@ -435,6 +481,10 @@ if (createSuggestBtn) {
         // servidor (buildModelSelection compara contra la recomendación).
         const selectEl = sectionEl.querySelector(`.model-select[data-variant-index="${idx}"]`);
         const imageModelId = selectEl?.value || null;
+        // Creative Structure Engine: mismo criterio real -- valor tal cual
+        // del selector (recomendado si el usuario no lo tocó).
+        const structureSelectEl = sectionEl.querySelector(`.structure-select[data-variant-index="${idx}"]`);
+        const selectedStructureId = structureSelectEl?.value || null;
         statusEl.classList.remove('hidden');
         statusEl.innerHTML = '<p class="placeholder">Produciendo pieza audiovisual real (guion, escenas, voz real, composición)… puede tardar varios minutos.</p>';
         b.disabled = true;
@@ -442,7 +492,7 @@ if (createSuggestBtn) {
           const job = await api('/api/create/produce', {
             method: 'POST', headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-              batchId: batch.batchId, variantIndex: idx, outputProfileNames: ['INSTAGRAM_REEL', 'INSTAGRAM_FEED'], imageModelId,
+              batchId: batch.batchId, variantIndex: idx, outputProfileNames: ['INSTAGRAM_REEL', 'INSTAGRAM_FEED'], imageModelId, selectedStructureId,
             }),
           });
           statusEl.innerHTML = productionJobStatusHtml(job);
@@ -1652,38 +1702,59 @@ async function applyHypothesisVariantToCreateForm(productId, variant, userIntent
 let lastCarouselProposal = null;
 const carouselProposeForm = $('#carousel-propose-form');
 if (carouselProposeForm) {
-  carouselProposeForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
+  async function requestCarouselProposal(selectedStructureId = null) {
     const resultEl = $('#carousel-propose-result');
-    const btn = carouselProposeForm.querySelector('button[type="submit"]');
-    btn.disabled = true; btn.textContent = 'GENERANDO PROPUESTA…';
     resultEl.innerHTML = '<p class="placeholder">Consultando Creative Intelligence real…</p>';
     try {
       const proposal = await api('/api/carousel/propose', {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userIntent: carouselProposeForm.userIntent.value, slideCount: Number(carouselProposeForm.slideCount.value) }),
+        body: JSON.stringify({
+          userIntent: carouselProposeForm.userIntent.value, slideCount: Number(carouselProposeForm.slideCount.value), selectedStructureId,
+        }),
       });
       lastCarouselProposal = proposal;
       if (proposal.status !== 'PROPOSAL_READY') {
         resultEl.innerHTML = renderCreativeProposal(proposal);
         return;
       }
+      // Creative Structure Engine (Paso 16/18 del encargo): "Así se
+      // contará la pieza" real -- función narrativa real de cada slide,
+      // ya alineada al número real de slides.
       const slidesHtml = proposal.carousel.slides.map((s, i) => `
         <div class="output-card">
-          <h4>Slide ${i + 1}/${proposal.carousel.actualSlideCount}</h4>
+          <h4>Slide ${i + 1}/${proposal.carousel.actualSlideCount} — ${s.stage}</h4>
           <div>${s.headline ?? ''}</div>
           ${s.body ? `<div style="font-size:12px;color:#6b654f;">${s.body}</div>` : ''}
           ${s.cta ? `<div style="font-weight:700;">${s.cta}</div>` : ''}
         </div>`).join('');
+      const cs = proposal.carousel.creativeStructure;
+      const structureOptionsHtml = (proposal.structureOptions ?? [])
+        .map((o) => `<option value="${o.structureId}"${o.structureId === cs.structureId ? ' selected' : ''}>${o.label}</option>`).join('');
       resultEl.innerHTML = `
         <div class="result-status COMPLETED">PROPUESTA LISTA — ${proposal.carousel.actualSlideCount} slides</div>
+        <div class="model-recommendation structure-recommendation">
+          <span class="structure-suggestion-label">Estructura sugerida: <strong>${cs.recommendedStructure?.label ?? cs.structureId} ✓</strong><br><span class="meta">${cs.recommendationReason}</span></span>
+          <button type="button" class="btn-link btn-change-structure">Cambiar estructura</button>
+          <select class="structure-select hidden" id="carousel-structure-select">${structureOptionsHtml}</select>
+        </div>
         ${proposal.carousel.warnings.length ? `<p style="font-size:12px;color:#6b654f;">${proposal.carousel.warnings.join(' · ')}</p>` : ''}
         ${slidesHtml}
         <button class="btn-primary" id="carousel-produce-btn">PRODUCIR CARRUSEL REAL</button>
       `;
-      $('#carousel-produce-btn', resultEl).addEventListener('click', () => produceCarousel(proposal));
+      $('.btn-change-structure', resultEl).addEventListener('click', () => $('#carousel-structure-select', resultEl).classList.toggle('hidden'));
+      $('#carousel-structure-select', resultEl).addEventListener('change', (ev) => requestCarouselProposal(ev.target.value));
+      $('#carousel-produce-btn', resultEl).addEventListener('click', () => produceCarousel(lastCarouselProposal));
     } catch (err) {
       resultEl.innerHTML = `<div class="result-status VALIDATION_FAILED">ERROR</div><p>${err.message}</p>`;
+    }
+  }
+
+  carouselProposeForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btn = carouselProposeForm.querySelector('button[type="submit"]');
+    btn.disabled = true; btn.textContent = 'GENERANDO PROPUESTA…';
+    try {
+      await requestCarouselProposal(null);
     } finally {
       btn.disabled = false; btn.textContent = 'GENERAR PROPUESTA';
     }

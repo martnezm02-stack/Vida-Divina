@@ -21,6 +21,7 @@ import { buildCampaignIntent, computeCampaignId } from '../../../content-orchest
 import { saveBatch, listBatchesForCampaign, getCampaignBatchState, getBatch } from '../../../creative-intelligence/src/hypothesisBatchStore.js';
 import { produceCreative } from '../../../content-orchestrator/src/creativeProductionOrchestrator.js';
 import { previewVisualRecommendation } from '../../../content-orchestrator/src/creativeDirector.js';
+import { previewStructureOptions, buildCreativeStructure, listCompatibleStructures } from '../../../content-orchestrator/src/creativeStructureEngine.js';
 import { listAvailableImageModels } from '../../../content-orchestrator/src/imageModelCatalog.js';
 import { saveProductionJob } from '../../../content-orchestrator/src/productionJobStore.js';
 import { buildProductGroundedEvidence } from '../../../content-orchestrator/src/productGroundedEvidence.js';
@@ -420,7 +421,7 @@ export async function handleVideoScript(req, res) {
 export async function handleProposeCarousel(req, res) {
   let body;
   try { body = await readJsonBody(req); } catch (err) { badRequest(res, err.message); return; }
-  const { userIntent, slideCount = 5, productId = null } = body;
+  const { userIntent, slideCount = 5, productId = null, selectedStructureId = null } = body;
   if (!userIntent?.trim()) { badRequest(res, 'proponer carrusel: "userIntent" es obligatorio.'); return; }
   if (!(Number.isInteger(slideCount) && slideCount >= 3)) { badRequest(res, 'proponer carrusel: "slideCount" debe ser un entero >= 3.'); return; }
 
@@ -435,12 +436,26 @@ export async function handleProposeCarousel(req, res) {
 
   try {
     const facts = loadProductFacts(proposal.product.productId);
+    // Creative Structure Engine (Paso 5/7/18 del encargo): "userIntent" ya
+    // ES la instrucción real del usuario para esta pieza -- mismo campo,
+    // nunca duplicado -- influye REALMENTE en la estructura recomendada.
+    // "selectedStructureId" (opcional) permite re-pedir la propuesta con
+    // otra estructura real del catálogo ("Cambiar estructura", Paso 9).
+    const creativeStructure = buildCreativeStructure({
+      userInstruction: userIntent,
+      productFacts: facts,
+      contentType: 'CAROUSEL',
+      selectedStructureId,
+    });
     const content = buildCarouselSlidesContent({
       hook: proposal.hook, cta: proposal.cta,
       productFacts: facts,
       slideCount,
+      creativeStructure,
     });
-    sendJson(res, 200, { ...proposal, carousel: content });
+    const structureOptions = listCompatibleStructures({ contentType: 'CAROUSEL' })
+      .map((s) => ({ structureId: s.structureId, label: s.label, stages: s.stages, objective: s.objective }));
+    sendJson(res, 200, { ...proposal, carousel: content, structureOptions });
   } catch (err) {
     serverError(res, err);
   }
@@ -573,6 +588,45 @@ export async function handleModelRecommendation(req, res, url) {
   sendJson(res, 200, preview);
 }
 
+// Creative Structure Engine (Paso 9/16 del encargo): "Estructura sugerida"
+// real ANTES de producir (antes del voiceover real, costoso) -- mismo
+// patrón real ya validado por handleModelRecommendation ("el sistema
+// recomienda, el usuario decide"). GET, no POST: solo lee/calcula, nunca
+// genera nada real. "userInstruction" (query param opcional) es el mismo
+// texto libre real que el usuario ya escribió en el Dashboard (ej. campo
+// "Instrucción/Intención") -- influye REALMENTE en la estructura
+// recomendada (Paso 7 del encargo).
+export async function handleStructureRecommendation(req, res, url) {
+  const batchId = url.searchParams.get('batchId');
+  const variantIndexRaw = url.searchParams.get('variantIndex');
+  const variantIndex = Number(variantIndexRaw);
+  const userInstruction = url.searchParams.get('userInstruction');
+  if (!batchId?.trim()) { badRequest(res, 'structure-recommendation: "batchId" es obligatorio (query param).'); return; }
+  if (!variantIndexRaw?.trim() || !Number.isInteger(variantIndex) || variantIndex < 0) { badRequest(res, 'structure-recommendation: "variantIndex" debe ser un entero >= 0 real (query param).'); return; }
+
+  let batch;
+  try {
+    batch = getBatch(batchId);
+  } catch (err) {
+    badRequest(res, err.message);
+    return;
+  }
+  const creativeVariant = batch.variantsDetail[variantIndex];
+  if (!creativeVariant) { badRequest(res, `structure-recommendation: el batch "${batchId}" no tiene una variante real en el índice ${variantIndex}.`); return; }
+
+  const preview = previewStructureOptions({
+    userInstruction: userInstruction?.trim() || null,
+    campaignIntent: batch.campaignIntent ?? null,
+    creativeVariant,
+    productFacts: batch.product ?? null,
+    platform: batch.campaignIntent?.platform ?? null,
+    contentType: 'VIDEO',
+    angle: creativeVariant?.creativeVariant?.angleText ?? null,
+    hook: creativeVariant?.copy?.hook ?? null,
+  });
+  sendJson(res, 200, preview);
+}
+
 export async function handleProduceCreative(req, res) {
   let body;
   try { body = await readJsonBody(req); } catch (err) { badRequest(res, err.message); return; }
@@ -583,6 +637,10 @@ export async function handleProduceCreative(req, res) {
     // (imageModelCatalog.js) = el usuario lo cambió (selectionMode
     // "user_selected", sobrescribe la recomendación para ESTA generación).
     imageModelId = null,
+    // Creative Structure Engine: mismo patrón real -- null = recomendación
+    // aceptada tal cual, un structureId real de creativeStructureEngine.js
+    // sobrescribe la estructura para ESTA generación.
+    userInstruction = null, selectedStructureId = null,
   } = body;
   if (!batchId?.trim()) { badRequest(res, 'produce: "batchId" es obligatorio -- la creatividad debe venir de un batch real ya generado, nunca inventada aquí.'); return; }
   if (!Number.isInteger(variantIndex) || variantIndex < 0) { badRequest(res, 'produce: "variantIndex" debe ser un entero >= 0 real.'); return; }
@@ -654,6 +712,7 @@ export async function handleProduceCreative(req, res) {
       // real (posición dentro de ESTE batch) garantiza diversidad real de
       // tratamiento visual entre variantes producidas del mismo batch.
       productFacts: batch.product ?? null, variantIndex, selectedModelId: imageModelId,
+      userInstruction, selectedStructureId,
     });
     // Persistencia real (Editable Video Project, 2026-08-24): antes de esta
     // fase el ProductionJob solo vivía en esta respuesta HTTP -- se

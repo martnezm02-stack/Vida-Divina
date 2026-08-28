@@ -49,6 +49,8 @@ video-production/frames-check/
 video-production/content-generation-engine-real-*/
 video-production/real-e2e-content-orchestrator/
 video-production/real-e2e-creative-director-ripped/
+video-production/real-e2e-creative-structure-ripped/
+video-production/real-e2e-creative-structure-carousel/
 video-production/real-e2e-krea-mcp/
 # Videos de referencia ingeridos + keyframes reales (Adaptar contenido /
 # Video de referencia, 2026-08-26) -- artefactos de sesión, content-addressed

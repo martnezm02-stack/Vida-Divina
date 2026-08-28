@@ -27,6 +27,7 @@ import {
 import { buildVideoScript } from './videoScriptGenerator.js';
 import { buildScenePlan } from './scenePlanner.js';
 import { buildVisualStrategy } from './creativeDirector.js';
+import { buildCreativeStructure } from './creativeStructureEngine.js';
 import { resolveVisualGenerationRequest } from './visualGenerationRequest.js';
 import { resolveAssetPlan } from './assetResolver.js';
 import { selectProvider } from './providerRouter.js';
@@ -121,6 +122,13 @@ export async function produceCreative({
   // SOBRESCRIBE la recomendación para ESTA generación (selectionMode
   // "user_selected").
   selectedModelId = null,
+  // Creative Structure Engine (Paso 6/7/9 del encargo): "userInstruction"
+  // real (texto libre del usuario, ej. campo "Instrucción/Intención" del
+  // Dashboard) influye en la estructura narrativa recomendada; null real =
+  // el usuario aceptó la recomendación (selectionMode "automatic");
+  // "selectedStructureId" real de creativeStructureEngine.js SOBRESCRIBE
+  // la recomendación para ESTA generación (selectionMode "user_selected").
+  userInstruction = null, selectedStructureId = null,
 }) {
   if (!audioSourcePath?.trim() || !existsSync(audioSourcePath)) {
     throw new Error(`produceCreative: "audioSourcePath" debe ser un WAV real ya existente (recibido: ${audioSourcePath}).`);
@@ -146,10 +154,30 @@ export async function produceCreative({
     });
   }
 
+  // 1b. CREATIVE STRUCTURE real (nueva capa, Paso 1/6/8 del encargo
+  // Creative Structure Engine): decide la ESTRUCTURA NARRATIVA real de
+  // esta pieza (userInstruction > CampaignIntent > Creative Variant >
+  // plataforma/contentType > default) -- NUNCA cambia el copy ni el
+  // número de escenas que videoScript ya construyó, solo la función
+  // narrativa real de cada una (ver scenePlanner.js).
+  const creativeStructure = buildCreativeStructure({
+    userInstruction,
+    campaignIntent,
+    creativeVariant,
+    productFacts,
+    platform: campaignIntent?.platform ?? null,
+    contentType: 'VIDEO',
+    angle: creativeVariant?.creativeVariant?.angleText ?? null,
+    hook: creativeVariant?.copy?.hook ?? null,
+    selectedStructureId,
+  });
+
   // 2. SCENE PLAN real -- reescalado al AUDIO REAL medido (nunca al
   // estimado por conteo de palabras, que solo sirve como target ANTES de
   // generar el audio real).
-  const scenePlanEstimado = buildScenePlan({ videoScript, productRawAssets, campaignIntent });
+  const scenePlanEstimado = buildScenePlan({
+    videoScript, productRawAssets, campaignIntent, creativeStructure,
+  });
   const factorEscala = audioDurationSeconds / videoScript.estimatedDurationSeconds;
   const scenePlanBase = Object.freeze({ ...scenePlanEstimado, scenes: Object.freeze(scenePlanEstimado.scenes.map((s) => proporcion(s, factorEscala))), totalDurationSeconds: audioDurationSeconds });
 

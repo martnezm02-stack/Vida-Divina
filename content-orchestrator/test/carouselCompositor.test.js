@@ -1,6 +1,7 @@
 import { test, describe } from 'node:test';
 import assert from 'node:assert/strict';
 import { buildCarouselSlidesContent } from '../src/carouselCompositor.js';
+import { buildCreativeStructure, LEGACY_STRUCTURE } from '../src/creativeStructureEngine.js';
 
 const PRODUCT_FACTS_REAL = Object.freeze({
   nombreComercial: 'TéDivina',
@@ -33,5 +34,35 @@ describe('buildCarouselSlidesContent — deriva slides de hechos 100% reales', (
 
   test('rechaza slideCount < 3', () => {
     assert.throws(() => buildCarouselSlidesContent({ hook: 'H', cta: 'C', productFacts: PRODUCT_FACTS_REAL, slideCount: 2 }));
+  });
+});
+
+describe('buildCarouselSlidesContent — Creative Structure Engine (integración)', () => {
+  test('sin "creativeStructure" real, cae a LEGACY_STRUCTURE explícito (Paso 20, backward compatibility)', () => {
+    const r = buildCarouselSlidesContent({ hook: 'Hook real', cta: 'CTA real', productFacts: PRODUCT_FACTS_REAL, slideCount: 5 });
+    assert.equal(r.creativeStructure.structureId, LEGACY_STRUCTURE.structureId);
+    assert.equal(r.slides[0].stage, LEGACY_STRUCTURE.stages[0]);
+    assert.equal(r.slides.at(-1).stage, 'CTA');
+    assert.ok(r.slides.every((s) => typeof s.stage === 'string'));
+  });
+
+  test('con "creativeStructure" real (ej. sección 15 del encargo), cada slide recibe su función narrativa real, contenido real intacto', () => {
+    const creativeStructure = buildCreativeStructure({ contentType: 'CAROUSEL', userInstruction: 'Quiero explicar tres beneficios importantes' });
+    const r = buildCarouselSlidesContent({
+      hook: 'Hook real', cta: 'CTA real', productFacts: PRODUCT_FACTS_REAL, slideCount: 5, creativeStructure,
+    });
+    assert.equal(r.creativeStructure.structureId, creativeStructure.structureId);
+    assert.deepEqual(r.slides.map((s) => s.stage), r.creativeStructure.stages);
+    // Regla central del archivo NUNCA cambia: slide 1 = hook real, último = CTA real.
+    assert.equal(r.slides[0].headline, 'Hook real');
+    assert.equal(r.slides.at(-1).cta, 'CTA real');
+  });
+
+  test('el número de slides sigue controlado por el usuario/warnings existentes, la estructura solo etiqueta la función', () => {
+    const creativeStructure = buildCreativeStructure({ contentType: 'CAROUSEL', userInstruction: 'Quiero explicar tres beneficios importantes' });
+    const factsPobre = { nombreComercial: 'X', beneficios: 'Un solo beneficio real', ingredientes: null };
+    const r = buildCarouselSlidesContent({ hook: 'H', cta: 'C', productFacts: factsPobre, slideCount: 6, creativeStructure });
+    assert.ok(r.actualSlideCount < 6);
+    assert.equal(r.slides.length, r.creativeStructure.stages.length);
   });
 });
