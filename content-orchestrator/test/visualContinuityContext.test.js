@@ -138,4 +138,35 @@ describe('computeInstructionCoverage / applyPromptGate — Paso 14/15/36/37/43 d
     assert.equal(gate.status, 'VALID');
     assert.equal(gate.prompt, 'mujer adulta, oficina moderna, revisa documentos.');
   });
+
+  // NO TEXT BAKING (Paso 29/30/33/39 del encargo "Master Creative
+  // Production Flow"): un prompt real que le pide al proveedor escribir
+  // CTA/caption/subtítulo dentro de la imagen es SIEMPRE INVALID real --
+  // nunca se repara en automático (podría ser una edición intencional
+  // real del usuario, Paso 45).
+  test('PROMPT GATE / NO TEXT BAKING: un prompt real que pide "CTA"/"caption"/"subtítulo" es INVALID real, nunca reparado en automático', () => {
+    for (const scenePrompt of [
+      'mujer adulta, oficina moderna, con el texto del CTA visible en la imagen.',
+      'mujer adulta, oficina moderna, incluir un caption real con el mensaje.',
+      'mujer adulta, oficina moderna, subtítulo real superpuesto.',
+    ]) {
+      const gate = applyPromptGate({ context: ctx, scenePrompt });
+      assert.equal(gate.status, 'INVALID', `prompt real "${scenePrompt}" debe ser INVALID`);
+      assert.equal(gate.repaired, false, 'nunca se repara en automático una violación real de text baking');
+      assert.equal(gate.textBakingViolation, true);
+      assert.equal(gate.prompt, scenePrompt, 'el prompt real nunca se modifica en silencio -- el llamador decide qué hacer');
+    }
+  });
+
+  test('PROMPT GATE / NO TEXT BAKING: aplica INCLUSO sin characterContinuityRequired real (regla de seguridad de contenido, no de continuidad)', () => {
+    const sinContexto = buildVisualContinuityContext({});
+    const gate = applyPromptGate({ context: sinContexto, scenePrompt: 'persona en una oficina, con caption real superpuesto.' });
+    assert.equal(gate.status, 'INVALID');
+    assert.equal(gate.textBakingViolation, true);
+  });
+
+  test('PROMPT GATE / NO TEXT BAKING: un prompt real normal (sin CTA/caption/subtítulo) NUNCA se marca INVALID por esta regla', () => {
+    const gate = applyPromptGate({ context: ctx, scenePrompt: 'mujer adulta, oficina moderna, revisa documentos con calma.' });
+    assert.notEqual(gate.textBakingViolation, true);
+  });
 });

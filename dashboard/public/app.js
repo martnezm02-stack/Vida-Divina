@@ -341,6 +341,19 @@ function productionJobStatusHtml(job) {
   `;
 }
 
+// FORMAT OUTPUT — HARD LOCK (Corrección "Master Creative Production Flow",
+// 2026-08-29, Paso "FORMAT OUTPUT — HARD LOCK" del encargo):
+// selectedFormats real ES la ÚNICA fuente de verdad real para qué
+// formatos se producen -- lee EXACTAMENTE los checkboxes reales marcados
+// en #create-profiles (ya poblados en initCreateForm(), ver arriba),
+// NUNCA agrega un formato real que el usuario no marcó explícitamente
+// (nunca "selectedFormats || defaultFormats"). Compartida real por TODOS
+// los puntos de producción del flujo "Crear contenido" -- nunca un
+// segundo cálculo/hardcode por handler.
+function getSelectedOutputProfiles(form) {
+  return $$('input[name="profile"]:checked', form).map((c) => c.value);
+}
+
 // Prompt Auditable (Paso 14 del encargo): adjunta el listener real de
 // "Copiar prompt" DESPUÉS de insertar productionJobStatusHtml() vía
 // innerHTML (los atributos onclick inline no son necesarios ni deseables
@@ -955,6 +968,15 @@ if (createSuggestBtn) {
         // del selector (recomendado si el usuario no lo tocó).
         const structureSelectEl = sectionEl.querySelector(`.structure-select[data-variant-index="${idx}"]`);
         const selectedStructureId = structureSelectEl?.value || null;
+        // FORMAT OUTPUT — HARD LOCK: selectedFormats real (checkboxes de
+        // #create-profiles) es la ÚNICA fuente real -- nunca un default
+        // hardcodeado de 2 formatos reales.
+        const outputProfileNames = getSelectedOutputProfiles($('#create-form'));
+        if (outputProfileNames.length === 0) {
+          statusEl.classList.remove('hidden');
+          statusEl.innerHTML = '<div class="result-status VALIDATION_FAILED">SELECCIONA UN FORMATO</div><p>Marca al menos un formato de salida real ("Formatos de salida") antes de producir.</p>';
+          return;
+        }
         statusEl.classList.remove('hidden');
         statusEl.innerHTML = '<p class="placeholder">Produciendo pieza audiovisual real (guion, escenas, voz real, composición)… puede tardar varios minutos.</p>';
         b.disabled = true;
@@ -962,7 +984,7 @@ if (createSuggestBtn) {
           const job = await api('/api/create/produce', {
             method: 'POST', headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-              batchId: batch.batchId, variantIndex: idx, outputProfileNames: ['INSTAGRAM_REEL', 'INSTAGRAM_FEED'], imageModelId, selectedStructureId,
+              batchId: batch.batchId, variantIndex: idx, outputProfileNames, imageModelId, selectedStructureId,
             }),
           });
           statusEl.innerHTML = productionJobStatusHtml(job);
@@ -1171,7 +1193,7 @@ if (generateVariantsBtn) {
         <div class="variant-field"><strong>Estructura</strong>${v.structureLabel ?? '—'}</div>
         <div class="variant-field"><strong>Claims principales</strong>${claimsText}</div>
         <div class="variant-field"><strong>Qué queremos ver (Visual Brief)</strong>${v.visualBrief ?? v.visualIntent ?? '—'}</div>
-        <div class="variant-field"><strong>Formato</strong>Instagram Reel + Instagram Feed</div>
+        <div class="variant-field"><strong>Formatos seleccionados</strong><span id="selected-formats-preview">—</span></div>
         ${productBadgeHtml(v.productAssetAvailable)}
         <div class="model-recommendation" data-variant-index="0">
           <span class="model-suggestion-label" data-variant-index="0">Calculando modelo sugerido…</span>
@@ -1285,6 +1307,19 @@ if (generateVariantsBtn) {
     return GENDER_WORDS.some((re) => re.test(originalPrompt) && !re.test(editedPrompt));
   }
 
+  // NO TEXT BAKING (Paso 29/30/33/39 del encargo "Master Creative
+  // Production Flow"): mismo criterio real ya validado en
+  // applyPromptGate() (content-orchestrator/src/visualContinuityContext.js)
+  // -- un prompt real editado a mano que le pide al proveedor "escribir"
+  // CTA/caption/subtítulo/hook dentro de la imagen es una violación real
+  // (esos textos pertenecen a postproducción, nunca al prompt visual).
+  // Aviso NO destructivo (Paso 45): nunca bloquea/revierte la edición
+  // real del usuario, solo advierte antes de guardar.
+  function checkPromptTextBaking(editedPrompt) {
+    const PATTERNS = [/\bcta\b/i, /\bcaption(s)?\b/i, /\bsubt[ií]tulo(s)?\b/i, /\bsubtitle(s)?\b/i, /texto en pantalla/i, /\btext overlay\b/i];
+    return PATTERNS.some((re) => re.test(editedPrompt));
+  }
+
   function attachPromptEditHandlers(promptsEl, previewEl, v) {
     promptsEl.querySelectorAll('.btn-edit-prompt').forEach((b) => {
       b.addEventListener('click', () => {
@@ -1304,6 +1339,9 @@ if (generateVariantsBtn) {
         // misma vista previa.
         if (checkPromptSubjectRegression(original, edited)) {
           if (!confirm('El prompt editado ya no coincide con el sujeto definido (se eliminó una referencia de género presente en el prompt original). ¿Guardar de todas formas?')) return;
+        }
+        if (checkPromptTextBaking(edited)) {
+          if (!confirm('El prompt editado parece pedirle al generador que escriba texto (CTA/caption/subtítulo) dentro de la imagen -- esos textos van en postproducción, nunca en el prompt visual. ¿Guardar de todas formas?')) return;
         }
         scenePromptOverrides = { ...scenePromptOverrides, [sceneId]: edited };
         renderVisualPlanPreview(previewEl, v);
@@ -1361,7 +1399,32 @@ if (generateVariantsBtn) {
     workspace.insertAdjacentHTML('beforeend', productionPreviewHtml(v, selectedIndex));
     const previewEl = workspace.querySelector('#variant-production-preview');
     scenePromptOverrides = {};
-    await populateCreateFormFromVariant(v, $('#create-form'));
+    const createForm = $('#create-form');
+    await populateCreateFormFromVariant(v, createForm);
+
+    // FORMAT PREVIEW (Paso "FORMAT PREVIEW" del encargo): muestra
+    // EXACTAMENTE los formatos reales marcados ahora mismo en
+    // #create-profiles -- nunca "Reel + Feed" fijo. Se mantiene en vivo
+    // real si el usuario cambia los checkboxes mientras este panel está
+    // abierto (listener real, se adjunta UNA sola vez -- guard real
+    // `dataset.formatPreviewBound`, nunca duplicado entre renders).
+    const formatPreviewEl = previewEl.querySelector('#selected-formats-preview');
+    function refreshFormatPreview() {
+      const selected = getSelectedOutputProfiles(createForm);
+      formatPreviewEl.textContent = selected.length > 0 ? selected.join(' + ') : '(ninguno seleccionado)';
+    }
+    refreshFormatPreview();
+    const profilesContainer = $('#create-profiles');
+    if (profilesContainer && !profilesContainer.dataset.formatPreviewBound) {
+      profilesContainer.addEventListener('change', () => {
+        const live = workspace.querySelector('#selected-formats-preview');
+        if (live) {
+          const selected = getSelectedOutputProfiles(createForm);
+          live.textContent = selected.length > 0 ? selected.join(' + ') : '(ninguno seleccionado)';
+        }
+      });
+      profilesContainer.dataset.formatPreviewBound = '1';
+    }
 
     // Plan visual + Prompts (Paso 1/6/7 del encargo): se calculan de una
     // vez al mostrar la revisión de ESTA variante seleccionada -- lectura
@@ -1398,6 +1461,18 @@ if (generateVariantsBtn) {
     produceBtn.addEventListener('click', async () => {
       const statusEl = previewEl.querySelector('.production-status');
       const imageModelId = selectEl?.value || null;
+      const createForm = $('#create-form');
+      // FORMAT OUTPUT — HARD LOCK (Paso "FORMAT OUTPUT — HARD LOCK" del
+      // encargo): selectedFormats real (checkboxes reales de
+      // #create-profiles) es la ÚNICA fuente real -- nunca un default
+      // hardcodeado de 2 formatos reales, nunca "selectedFormats ||
+      // defaultFormats".
+      const outputProfileNames = getSelectedOutputProfiles(createForm);
+      if (outputProfileNames.length === 0) {
+        statusEl.classList.remove('hidden');
+        statusEl.innerHTML = '<div class="result-status VALIDATION_FAILED">SELECCIONA UN FORMATO</div><p>Marca al menos un formato de salida real ("Formatos de salida") antes de producir.</p>';
+        return;
+      }
       statusEl.classList.remove('hidden');
       statusEl.innerHTML = '<p class="placeholder">Produciendo pieza audiovisual real (guion, escenas, voz real, composición)… puede tardar varios minutos.</p>';
       produceBtn.disabled = true;
@@ -1409,7 +1484,6 @@ if (generateVariantsBtn) {
       // instrucción real ya usada en la vista previa -- sin esto, Subject
       // Lock/Narrative Grounding se pierden en la producción real aunque
       // la vista previa los muestre correctos (Prompt Parity).
-      const createForm = $('#create-form');
       const hookOverride = createForm.hookText.value.trim() && createForm.hookText.value.trim() !== (createForm.dataset.baselineHook ?? '').trim()
         ? createForm.hookText.value.trim() : null;
       const ctaOverride = createForm.ctaText.value.trim() !== (createForm.dataset.baselineCta ?? '').trim()
@@ -1421,7 +1495,7 @@ if (generateVariantsBtn) {
         const job = await api('/api/create/produce', {
           method: 'POST', headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            batchId: v.batchId, variantIndex: 0, outputProfileNames: ['INSTAGRAM_REEL', 'INSTAGRAM_FEED'], imageModelId,
+            batchId: v.batchId, variantIndex: 0, outputProfileNames, imageModelId,
             userInstruction: currentUserInstruction,
             hookOverride, ctaOverride, voiceoverOverride,
             scenePromptOverrides: Object.keys(scenePromptOverrides).length ? scenePromptOverrides : null,
@@ -1480,6 +1554,17 @@ if (generateVariantsBtn) {
     if (continueBtn) continueBtn.addEventListener('click', () => renderProductionPreview());
   }
 
+  // GENERAR MÁS VARIANTES (Paso 49/52-54 del encargo "Master Creative
+  // Production Flow"): "GENERAR VARIANTES" (campaña nueva) vs "GENERAR
+  // MÁS VARIANTES" (extiende la MISMA campaña real, nunca la reemplaza)
+  // -- mismo criterio real ya validado por "SUGERIR VARIANTES
+  // (HIPÓTESIS)"/lastCampaignKey (arriba), aplicado aquí sin duplicar esa
+  // lógica (variable propia, mismo patrón). El tracking real de
+  // diversidad entre llamadas (previousAngles/Hooks/...) vive en el
+  // servidor real (multiVariantTrackingByCampaign, ver generation.js) --
+  // el frontend solo decide si ACUMULA o REEMPLAZA la lista visible real.
+  let lastVariantsCampaignKey = null;
+
   generateVariantsBtn.addEventListener('click', async () => {
     const form = $('#create-form');
     const productId = form.productId.value;
@@ -1488,28 +1573,42 @@ if (generateVariantsBtn) {
       workspace.innerHTML = '<p class="placeholder">Selecciona un producto real y escribe una instrucción/intención real primero.</p>';
       return;
     }
+    // VARIANT COUNT (Paso 50/51 del encargo): NO limitar artificialmente
+    // a 5 -- el usuario real decide cuántas pedir (hasta el techo técnico
+    // real que valida el servidor, MAX_MULTI_VARIANT_COUNT).
+    const countInput = $('#create-variants-count');
+    const variantCount = Math.max(1, Math.min(50, Number(countInput?.value) || 5));
+    const campaignKey = JSON.stringify({ productId, rawText });
+    const esMasVariantes = campaignKey === lastVariantsCampaignKey && currentVariants.length > 0;
+
     generateVariantsBtn.disabled = true;
     const previousLabel = generateVariantsBtn.textContent;
-    generateVariantsBtn.textContent = 'GENERANDO VARIANTES…';
-    workspace.innerHTML = '<p class="placeholder">Generando variantes…</p>';
+    generateVariantsBtn.textContent = esMasVariantes ? 'GENERANDO MÁS VARIANTES…' : 'GENERANDO VARIANTES…';
+    if (!esMasVariantes) workspace.innerHTML = '<p class="placeholder">Generando variantes…</p>';
     try {
       const result = await api('/api/create/propose-direct-variants', {
-        method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ productId, rawText }),
+        method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ productId, rawText, variantCount }),
       });
       if (!Array.isArray(result.variants) || result.variants.length === 0) {
         workspace.innerHTML = `<div class="result-status MISSING_CREATIVE_MATCH">${result.status ?? 'SIN VARIANTES'}</div><p>${(result.errors ?? ['No se generaron variantes reales para este producto/instrucción.']).join(' ')}</p>`;
         return;
       }
-      currentVariants = result.variants;
+      // Acumula real (nunca reemplaza) cuando es "GENERAR MÁS VARIANTES"
+      // de la MISMA campaña real -- selectedIndex se conserva (no se
+      // pierde la selección real ya hecha por seguir viendo más
+      // opciones).
+      currentVariants = esMasVariantes ? [...currentVariants, ...result.variants] : result.variants;
       currentDiversity = { diversityScore: result.diversityScore, ...result.diversityDetail };
-      selectedIndex = null;
+      if (!esMasVariantes) selectedIndex = null;
       currentUserInstruction = rawText;
+      lastVariantsCampaignKey = campaignKey;
       renderVariantsWorkspace();
+      generateVariantsBtn.textContent = 'GENERAR MÁS VARIANTES';
     } catch (err) {
       workspace.innerHTML = `<div class="result-status VALIDATION_FAILED">ERROR</div><p>${err.message}</p>`;
+      generateVariantsBtn.textContent = previousLabel;
     } finally {
       generateVariantsBtn.disabled = false;
-      generateVariantsBtn.textContent = previousLabel;
     }
   });
 }

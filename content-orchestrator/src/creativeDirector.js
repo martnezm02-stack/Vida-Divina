@@ -41,6 +41,19 @@ import { ANGLE_LABELS } from './creativeAngleSelector.js';
 const ASPECT_RATIO_BY_FORMAT = Object.freeze({ 'Static comparison frames': '4:5' });
 const DEFAULT_ASPECT_RATIO = '9:16';
 
+// SCENE_STAGE_LABEL (Corrección "Master Creative Production Flow",
+// 2026-08-29, Paso 30 del encargo): descriptor real ESTRUCTURAL (nunca
+// texto hablado/narración real) usado SOLO en la rama legacy (sin
+// sceneBrief/continuidad, Paso 31: compatibilidad hacia atrás) para que
+// el prompt real varíe entre escenas sin citar el guion real -- "no text
+// baking" (Paso 30/33/39): esto es un ROL de la escena, nunca palabras
+// reales que el proveedor deba escribir en la imagen.
+const SCENE_STAGE_LABEL = Object.freeze({
+  HOOK: 'Apertura de la historia', PROBLEM: 'Presentación del problema real',
+  PRODUCT_MECHANISM: 'Mecanismo del producto', GROUNDED_PRODUCT_FACT: 'Beneficio real del producto',
+  PRODUCT_REVEAL: 'Revelación del producto', CTA: 'Cierre y llamado a la acción',
+});
+
 function limpiar(texto) {
   return String(texto ?? '').trim();
 }
@@ -142,13 +155,11 @@ function directScene({
         subject, environment,
         primaryAngleLabel ? `Ángulo creativo: ${primaryAngleLabel}` : null,
         sceneBrief.sceneNarrativeContext ? `Contexto narrativo: ${sceneBrief.sceneNarrativeContext}` : null,
-        isHookScene && hookText ? `Hook real: "${hookText}"` : null,
         sceneBrief.action, sceneBrief.composition, sceneBrief.interaction,
         sceneBrief.emotionalState ? `Estado emocional: ${sceneBrief.emotionalState}` : null,
         cameraDirection,
         described.moodDirection,
         wantsProduct ? productPlacement : null,
-        `Momento real de la escena: ${scene.narration}`,
         // Continuity (Paso 13/30 del encargo): refuerzo real explícito
         // DENTRO del texto del prompt real (no solo en negativePrompt/
         // metadata separada) -- el provider real solo ve el texto real que
@@ -157,7 +168,7 @@ function directScene({
       ]
         .filter((f) => limpiar(f).length > 0)
         .join('. ')
-      : [described.subject, described.environment, described.moodDirection, `Momento real de la escena: ${scene.narration}`]
+      : [described.subject, described.environment, described.moodDirection, SCENE_STAGE_LABEL[scene.sectionType] ? `Etapa de la escena: ${SCENE_STAGE_LABEL[scene.sectionType]}.` : null]
         .filter((f) => limpiar(f).length > 0)
         .join('. ');
 

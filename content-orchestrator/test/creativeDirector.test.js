@@ -397,7 +397,7 @@ describe('buildVisualStrategy — Creative Angle / Hook Intelligence (Correcció
     }
   });
 
-  test('generatedPrompt real de la escena HOOK incluye el ángulo creativo real y el hook real (Paso 26 del encargo)', () => {
+  test('generatedPrompt real de la escena HOOK incluye el ángulo creativo real (Paso 26 del encargo)', () => {
     const scenePlan = realScenePlan([]);
     const strategy = buildVisualStrategy({
       creativeVariant: CREATIVE_VARIANT_REAL, campaignIntent: null, productFacts: PRODUCT_FACTS_REAL,
@@ -405,7 +405,29 @@ describe('buildVisualStrategy — Creative Angle / Hook Intelligence (Correcció
     });
     const hookScene = strategy.sceneVisuals.find((s) => s.narrativePurpose === 'HOOK');
     assert.match(hookScene.visualPrompt, /Agitaci[oó]n del problema/);
-    assert.match(hookScene.visualPrompt, new RegExp(CREATIVE_VARIANT_REAL.copy.hook.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
+  });
+
+  // NO TEXT BAKING (Corrección "Master Creative Production Flow",
+  // 2026-08-29, Paso 30/33/39 del encargo): generatedPrompt real NUNCA
+  // debe pedirle al proveedor que escriba el hook/narración/CTA como
+  // texto dentro de la imagen -- esos textos viven en voiceover/captions/
+  // overlay (postproducción), nunca en el prompt visual real enviado a
+  // Krea. hookVisualIntent (campo real SEPARADO, solo informativo para la
+  // UI de revisión) SÍ puede incorporar el hook real -- nunca se envía a
+  // ningún proveedor real.
+  test('NO TEXT BAKING: visualPrompt real NUNCA incluye el hook/narración literal como texto a renderizar (solo hookVisualIntent, campo informativo separado, lo incluye)', () => {
+    const scenePlan = realScenePlan([]);
+    const strategy = buildVisualStrategy({
+      creativeVariant: CREATIVE_VARIANT_REAL, campaignIntent: null, productFacts: PRODUCT_FACTS_REAL,
+      productRawAssets: [], scenePlan, variantIndex: 0, userInstruction: INSTRUCCION_MUJER_OFICINA,
+    });
+    const hookRegex = new RegExp(CREATIVE_VARIANT_REAL.copy.hook.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
+    for (const s of strategy.sceneVisuals) {
+      assert.doesNotMatch(s.visualPrompt, hookRegex, `escena "${s.sceneId}" real: visualPrompt NUNCA debe citar el hook literal (text baking prohibido)`);
+      assert.doesNotMatch(s.visualPrompt, /"Momento real de la escena|Hook real:/, `escena "${s.sceneId}" real: visualPrompt NUNCA debe incluir narración/hook citados como texto a renderizar`);
+    }
+    const hookScene = strategy.sceneVisuals.find((s) => s.narrativePurpose === 'HOOK');
+    assert.match(hookScene.hookVisualIntent, hookRegex, 'hookVisualIntent (informativo, nunca enviado al proveedor) SÍ puede incluir el hook real');
   });
 
   test('backward compatibility real: sin userInstruction, visualIntent real preserva el cálculo preexistente (nunca angle/hook)', () => {

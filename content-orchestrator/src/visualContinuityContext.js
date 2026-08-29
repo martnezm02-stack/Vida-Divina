@@ -262,14 +262,37 @@ export function computeInstructionCoverage({ context, combinedPromptText = '' })
 // 0.70 ya usado por Creative Quality Auto-QA para otros componentes.
 export const MIN_INSTRUCTION_COVERAGE_SCORE = 0.70;
 
+// NO TEXT BAKING (Corrección "Master Creative Production Flow",
+// 2026-08-29, Paso 29/30/33/39 del encargo): un prompt real que le pide
+// al proveedor que ESCRIBA texto (CTA/caption/subtítulo/hook/overlay)
+// dentro de la imagen es INVALID -- captions/CTA/overlay pertenecen a
+// postproducción (hyperframesRenderer.js), nunca al prompt visual real.
+// Aplica SIEMPRE (incluso sin characterContinuityRequired real) porque
+// es una regla de seguridad de contenido, no de continuidad visual.
+const TEXT_BAKING_FORBIDDEN_PATTERNS = Object.freeze([
+  /\bcta\b/i, /\bcaption(s)?\b/i, /\bsubt[ií]tulo(s)?\b/i, /\bsubtitle(s)?\b/i,
+  /texto en pantalla/i, /\btext overlay\b/i, /\bhook real:/i, /\bmomento real de la escena:/i,
+]);
+function tieneTextBakingViolation(scenePrompt) {
+  return TEXT_BAKING_FORBIDDEN_PATTERNS.some((re) => re.test(scenePrompt ?? ''));
+}
+
 /**
- * Prompt Gate real (Paso 15/30 del encargo): VALID/INVALID por escena --
- * SOLO señala (nunca produce), y repara de forma determinista cuando la
- * reparación real es segura (reinyectar el sujeto/entorno real YA
- * conocido, nunca inventar uno nuevo). Devuelve el prompt real reparado
- * cuando aplica -- el llamador decide si lo usa.
+ * Prompt Gate real (Paso 15/29/30 del encargo): VALID/INVALID por escena
+ * -- SOLO señala (nunca produce), y repara de forma determinista cuando
+ * la reparación real es segura (reinyectar el sujeto/entorno real YA
+ * conocido, nunca inventar uno nuevo). Un prompt real con una violación
+ * real de "no text baking" (Paso 30/33/39) SIEMPRE es INVALID real y
+ * NUNCA se repara en automático (podría ser una edición real intencional
+ * del usuario -- Paso 45 "no sobrescribir silenciosamente cambios del
+ * usuario" -- el llamador real debe mostrar el aviso y dejar que el
+ * usuario corrija). Devuelve el prompt real reparado cuando aplica -- el
+ * llamador decide si lo usa.
  */
 export function applyPromptGate({ context, scenePrompt }) {
+  if (tieneTextBakingViolation(scenePrompt)) {
+    return Object.freeze({ status: 'INVALID', prompt: scenePrompt, repaired: false, textBakingViolation: true });
+  }
   if (!context?.characterContinuityRequired) return Object.freeze({ status: 'VALID', prompt: scenePrompt, repaired: false });
   const coverage = computeInstructionCoverage({ context, combinedPromptText: scenePrompt });
   if (coverage.missing.length === 0) return Object.freeze({ status: 'VALID', prompt: scenePrompt, repaired: false });

@@ -185,6 +185,42 @@ describe('POST /api/create/propose-direct-variants — diversidad real entre var
     assert.equal(status, 200);
     assert.ok(body.variants.length <= 2);
   });
+
+  // VARIANT COUNT (Paso 50/51 del encargo "Master Creative Production
+  // Flow"): "5" es SOLO el default/mínimo real -- NUNCA un techo
+  // artificial. 7 > 5 real debe poder devolver más de 5 variantes reales
+  // (nunca truncado en silencio a 5).
+  test('NO limita artificialmente a 5: variantCount real 7 puede devolver más de 5 variantes reales', async () => {
+    const { status, body } = await post('/api/create/propose-direct-variants', {
+      productId: 'ripped-capsules', rawText: 'Instrucción real de prueba para más de 5 variantes.', variantCount: 7,
+    });
+    assert.equal(status, 200);
+    assert.ok(body.variants.length > 5, `se esperaban > 5 variantes reales con variantCount:7, obtuvo ${body.variants.length} -- NO debe truncarse artificialmente a 5`);
+    assert.ok(body.variants.length <= 7, 'nunca genera más de lo pedido');
+  });
+
+  // GENERAR MÁS VARIANTES (Paso 52-54 del encargo): dos llamadas reales
+  // sucesivas para la MISMA campaña real (mismo productId) deben usar
+  // tracking real ACUMULADO -- la segunda ronda real evita repetir los
+  // hooks reales ya usados en la primera (nunca "empieza desde cero").
+  test('GENERAR MÁS VARIANTES: la segunda llamada real para la misma campaña evita repetir hooks reales ya usados en la primera', async () => {
+    const rawText = `Instrucción real de prueba tracking acumulado ${Date.now()}.`;
+    const primera = await post('/api/create/propose-direct-variants', { productId: 'ripped-capsules', rawText, variantCount: 3 });
+    assert.equal(primera.status, 200);
+    const hooksIdsPrimera = new Set(primera.body.variants.map((v) => v.hookType?.id).filter(Boolean));
+
+    const segunda = await post('/api/create/propose-direct-variants', { productId: 'ripped-capsules', rawText, variantCount: 3 });
+    assert.equal(segunda.status, 200);
+    const hooksIdsSegunda = segunda.body.variants.map((v) => v.hookType?.id).filter(Boolean);
+    // No es un gate absoluto (el catálogo real de hookTypes es finito y
+    // selectHook() puede legítimamente reutilizar un tipo si ya se
+    // agotaron alternativas reales, Paso 6/27: "usar el mejor
+    // disponible") -- pero NO todas las hookIds reales de la segunda
+    // ronda deberían coincidir exactamente con la primera si el
+    // tracking real está funcionando.
+    const totalmenteRepetido = hooksIdsSegunda.length > 0 && hooksIdsSegunda.every((id) => hooksIdsPrimera.has(id));
+    assert.ok(!totalmenteRepetido, 'el tracking real acumulado (previousHooks) debería introducir al menos algo de variación real entre rondas sucesivas de la misma campaña');
+  });
 });
 
 describe('POST /api/create/propose-direct-variants — datos reales para la UI de comparación (Corrección "UI de Variantes Creativas")', () => {
@@ -370,6 +406,51 @@ describe('GET /api/create/visual-plan-preview — auditable ANTES de producir (C
     const escenaProducidaReal = (job.visualGenerationRequests ?? []).find((r) => r.sceneId === escenaConPromptPreview.sceneId);
     assert.ok(escenaProducidaReal, 'la escena real del preview existe también en la producción real ya terminada');
     assert.equal(escenaProducidaReal.generatedPrompt, escenaConPromptPreview.generatedPrompt, 'el generatedPrompt real mostrado en el preview es EXACTAMENTE el mismo real que terminó persistido tras producir -- nunca reconstruido');
+
+    // FORMAT OUTPUT — HARD LOCK (A/D/K del encargo "Master Creative
+    // Production Flow"): outputProfileNames real == ["INSTAGRAM_REEL"]
+    // (un único formato real pedido) -> EXACTAMENTE 1 output real, nunca
+    // INSTAGRAM_FEED agregado como efecto colateral.
+    assert.equal(job.outputs.length, 1, 'un único formato real pedido -> EXACTAMENTE 1 output real (nunca un segundo formato agregado)');
+    assert.equal(job.outputs[0].profileName, 'INSTAGRAM_REEL');
+    assert.ok(!job.outputs.some((o) => o.profileName === 'INSTAGRAM_FEED'), 'INSTAGRAM_FEED NUNCA aparece cuando no fue solicitado real');
+    assert.deepEqual(job.requestedFormats, ['INSTAGRAM_REEL'], 'requestedFormats real == exactamente lo pedido');
+    assert.deepEqual(job.actualOutputs, ['INSTAGRAM_REEL'], 'actualOutputs real == exactamente lo producido');
+    assert.equal(job.formatSelectionValid, true, 'formatSelectionValid real true cuando requestedFormats/actualOutputs coinciden exactamente');
+  });
+});
+
+describe('FORMAT OUTPUT — HARD LOCK (Corrección "Master Creative Production Flow", 2026-08-29)', () => {
+  // K/L del encargo: computeFormatSelectionValid real es lógica pura --
+  // cubierta aquí sin pagar el costo real de una producción completa
+  // (ya cubierta arriba, caso A/D con una producción real completa).
+  test('K: requestedFormats real === actualOutputFormats real (mismo contenido, orden indiferente) -> valid true', async () => {
+    const { computeFormatSelectionValid } = await import('../server/routes/generation.js');
+    const r = computeFormatSelectionValid(['INSTAGRAM_REEL', 'INSTAGRAM_FEED'], [
+      { profileName: 'INSTAGRAM_FEED', status: 'COMPLETADO' },
+      { profileName: 'INSTAGRAM_REEL', status: 'COMPLETADO' },
+    ]);
+    assert.equal(r.formatSelectionValid, true);
+    assert.deepEqual(new Set(r.actualOutputs), new Set(['INSTAGRAM_REEL', 'INSTAGRAM_FEED']));
+  });
+
+  test('L: un formato real extra/inesperado en los outputs reales -> formatSelectionValid false (producción real INVÁLIDA, nunca declarada éxito)', async () => {
+    const { computeFormatSelectionValid } = await import('../server/routes/generation.js');
+    const r = computeFormatSelectionValid(['INSTAGRAM_REEL'], [
+      { profileName: 'INSTAGRAM_REEL', status: 'COMPLETADO' },
+      { profileName: 'INSTAGRAM_FEED', status: 'COMPLETADO' },
+    ]);
+    assert.equal(r.formatSelectionValid, false, 'un output real no pedido invalida formatSelectionValid, incluso si el pedido real también está presente');
+  });
+
+  test('un output real FAILED nunca cuenta como formato realmente entregado', async () => {
+    const { computeFormatSelectionValid } = await import('../server/routes/generation.js');
+    const r = computeFormatSelectionValid(['INSTAGRAM_REEL', 'INSTAGRAM_FEED'], [
+      { profileName: 'INSTAGRAM_REEL', status: 'COMPLETADO' },
+      { profileName: 'INSTAGRAM_FEED', status: 'POSTPRODUCTION_FAILED' },
+    ]);
+    assert.equal(r.formatSelectionValid, false);
+    assert.deepEqual(r.actualOutputs, ['INSTAGRAM_REEL']);
   });
 });
 

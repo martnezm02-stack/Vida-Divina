@@ -291,6 +291,23 @@ function resolveCampaignId(productId, campaignIntent) {
   return campaignIntent ? computeCampaignId(campaignIntent) : productId;
 }
 
+// AUTO-QA FORMAT GATE (Corrección "Master Creative Production Flow",
+// 2026-08-29, Paso "AUTO-QA FORMAT GATE"/"POST-PRODUCTION OUTPUT CHECK"
+// del encargo): compara real requestedFormats (lo que el usuario real
+// seleccionó, orden indiferente) contra los outputs reales que
+// produceCreative() de verdad generó -- NUNCA declara éxito real si
+// difieren (ni de más ni de menos). "actualOutputs" real solo cuenta
+// outputs con status COMPLETADO (un output FAILED real no es un formato
+// realmente entregado).
+export function computeFormatSelectionValid(requestedFormats, outputs) {
+  const actualOutputs = (outputs ?? []).filter((o) => o.status === 'COMPLETADO').map((o) => o.profileName);
+  const requestedSet = new Set(requestedFormats ?? []);
+  const actualSet = new Set(actualOutputs);
+  const formatSelectionValid = requestedSet.size === actualSet.size
+    && [...requestedSet].every((f) => actualSet.has(f));
+  return { formatSelectionValid, actualOutputs };
+}
+
 /**
  * Núcleo real de "Sugerir variantes (hipótesis)" -- extraído tal cual del
  * handler HTTP (Adaptar contenido / Video de referencia, 2026-08-26) para
@@ -627,7 +644,36 @@ export async function handleProposeDirectCreative(req, res) {
   });
 }
 
-const MAX_MULTI_VARIANT_COUNT = 5;
+// VARIANT COUNT (Corrección "Master Creative Production Flow",
+// 2026-08-29, Paso 50/51 del encargo): "5" es SOLO el mínimo/default
+// real -- NUNCA un techo artificial. Único límite técnico REAL de este
+// archivo (única fuente real, la UI lo refleja tal cual vía
+// GET /api/create/variant-count-limit, nunca un segundo valor
+// hardcodeado en el frontend) -- 50 porque es el mismo techo real ya
+// establecido para "Sugerir variantes (hipótesis)" en este mismo
+// Dashboard (ver dashboard/public/index.html#create-hypothesis-batch-size,
+// max="50"), nunca un número inventado nuevo.
+const MAX_MULTI_VARIANT_COUNT = 50;
+const DEFAULT_MULTI_VARIANT_COUNT = 5;
+
+// GENERAR MÁS VARIANTES (Paso 52-54 del encargo): tracking real
+// ACUMULADO por campaña (productId, mismo criterio real de scoping que
+// getCampaignBatchState/hypothesisBatchStore.js) -- persiste
+// previousAngles/previousHooks/previousStructureIds/previousClaims
+// reales ENTRE llamadas sucesivas a este mismo endpoint, para que "+5
+// variantes más" real NUNCA "empiece desde cero" (Paso 54). Memoria de
+// proceso real, mismo patrón ya validado por "produceJobsInFlight" en
+// este archivo -- nunca un segundo sistema de persistencia.
+const multiVariantTrackingByCampaign = new Map();
+const MAX_TRACKED_SIGNALS = 200; // cota real, nunca crecimiento sin límite en una sesión real muy larga.
+
+function getOrCreateMultiVariantTracking(campaignId) {
+  const existing = multiVariantTrackingByCampaign.get(campaignId);
+  if (existing) return existing;
+  const fresh = { previousAngles: [], previousHooks: [], previousStructureIds: [], previousClaims: [] };
+  multiVariantTrackingByCampaign.set(campaignId, fresh);
+  return fresh;
+}
 
 /**
  * POST /api/create/propose-direct-variants — Corrección "Cierre del
@@ -794,10 +840,14 @@ function sonMuySimilares(a, b) {
 export async function handleProposeDirectMultiVariant(req, res) {
   let body;
   try { body = await readJsonBody(req); } catch (err) { badRequest(res, err.message); return; }
-  const { productId, rawText, variantCount = MAX_MULTI_VARIANT_COUNT } = body;
+  const { productId, rawText, variantCount = DEFAULT_MULTI_VARIANT_COUNT } = body;
   if (!productId?.trim()) { badRequest(res, 'propose-direct-variants: "productId" es obligatorio -- no se inventa un producto.'); return; }
   if (!rawText?.trim()) { badRequest(res, 'propose-direct-variants: "rawText" (instrucción/intención) es obligatorio.'); return; }
-  const count = Math.min(MAX_MULTI_VARIANT_COUNT, Math.max(1, Number.isInteger(variantCount) ? variantCount : MAX_MULTI_VARIANT_COUNT));
+  // NO truncar silenciosamente (Paso 50/51 del encargo): el usuario puede
+  // pedir 5/7/10/15/20 hasta el techo técnico REAL (MAX_MULTI_VARIANT_COUNT);
+  // sin variantCount real, el default sigue siendo 5 (comportamiento
+  // preexistente intacto).
+  const count = Math.min(MAX_MULTI_VARIANT_COUNT, Math.max(1, Number.isInteger(variantCount) ? variantCount : DEFAULT_MULTI_VARIANT_COUNT));
 
   const productGroundedEvidence = buildProductGroundedEvidence(productId);
   if (!productGroundedEvidence) {
@@ -808,9 +858,10 @@ export async function handleProposeDirectMultiVariant(req, res) {
   const campaignId = productId;
   const productRawAssets = getProduct(productId)?.rawAssets ?? [];
   const results = [];
-  const tracking = {
-    previousAngles: [], previousHooks: [], previousStructureIds: [], previousClaims: [],
-  };
+  // GENERAR MÁS VARIANTES (Paso 52-54 del encargo): tracking real
+  // ACUMULADO desde la llamada real anterior a este mismo endpoint para
+  // ESTE producto/campaña -- nunca "empieza desde cero" (Paso 54).
+  const tracking = getOrCreateMultiVariantTracking(campaignId);
 
   for (let i = 0; i < count; i += 1) {
     const one = generateOneVariant({
@@ -823,6 +874,14 @@ export async function handleProposeDirectMultiVariant(req, res) {
     if (one.structureId) tracking.previousStructureIds.push(one.structureId);
     tracking.previousClaims.push(...one.coreClaims);
   }
+  // Cota real (Paso "no crecimiento sin límite"): conserva solo las
+  // señales reales MÁS RECIENTES -- suficiente para evitar repetición
+  // real sin degradar el rendimiento real de selectCreativeAngle/
+  // selectHook en una sesión real muy larga.
+  tracking.previousAngles.splice(0, Math.max(0, tracking.previousAngles.length - MAX_TRACKED_SIGNALS));
+  tracking.previousHooks.splice(0, Math.max(0, tracking.previousHooks.length - MAX_TRACKED_SIGNALS));
+  tracking.previousStructureIds.splice(0, Math.max(0, tracking.previousStructureIds.length - MAX_TRACKED_SIGNALS));
+  tracking.previousClaims.splice(0, Math.max(0, tracking.previousClaims.length - MAX_TRACKED_SIGNALS));
 
   if (results.length === 0) {
     sendJson(res, 200, { status: 'MEDIA_TYPE_MISMATCH', productId, campaignId, errors: [`propose-direct-variants: ninguna variante real compatible con VIDEO para "${productId}".`] });
@@ -1501,9 +1560,17 @@ export async function handleProduceCreative(req, res) {
     if (job.status !== 'FAILED') {
       ({ productionJobId } = saveProductionJob({ job, projectDir }));
     }
+    // AUTO-QA FORMAT GATE (Paso "AUTO-QA FORMAT GATE" del encargo):
+    // requestedFormats real == outputProfileNames real ya validado/usado
+    // arriba (Format Output Hard Lock, nunca expandido); actualOutputs
+    // real == lo que produceCreative() de verdad entregó.
+    const { formatSelectionValid, actualOutputs } = computeFormatSelectionValid(outputProfileNames, job.outputs);
     sendJson(res, 200, {
       ...job,
       productionJobId,
+      requestedFormats: outputProfileNames,
+      actualOutputs,
+      formatSelectionValid,
       outputs: job.outputs.map((o) => ({
         ...o,
         mediaUrl: o.outputPath ? toMediaUrl(o.outputPath) : null,
@@ -1633,11 +1700,15 @@ export async function handleProduceCreativeStart(req, res) {
       if (job.status !== 'FAILED') {
         ({ productionJobId } = saveProductionJob({ job, projectDir }));
       }
+      const { formatSelectionValid, actualOutputs } = computeFormatSelectionValid(outputProfileNames, job.outputs);
       produceJobsInFlight.set(jobId, {
         status: job.status,
         result: {
           ...job,
           productionJobId,
+          requestedFormats: outputProfileNames,
+          actualOutputs,
+          formatSelectionValid,
           outputs: job.outputs.map((o) => ({
             ...o,
             mediaUrl: o.outputPath ? toMediaUrl(o.outputPath) : null,
