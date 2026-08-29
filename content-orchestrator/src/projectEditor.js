@@ -237,7 +237,30 @@ export function classifyChangeset(prevVersion, project) {
  * distinto + isRegenerated=true) y marca la escena real tanto para
  * re-render como en `voiceRegeneratedSceneIds` -- sin cambios adicionales.
  */
-export function applyVoiceRegeneration(project, sceneId, { audioSourcePath, audioDurationSeconds, regeneratedAt = new Date().toISOString() }) {
+/**
+ * @param {object} project
+ * @param {string} sceneId
+ * @param {{
+ *   audioSourcePath:string, audioDurationSeconds:number, regeneratedAt?:string,
+ *   targetDurationMs?:?number, actualDurationMs?:?number, voiceTimingMismatch?:boolean,
+ *   voiceParams?:?object,
+ * }} args
+ *
+ * targetDurationMs/actualDurationMs/voiceTimingMismatch (Corrección
+ * "Consistencia de audio y persistencia de ediciones de captions",
+ * 2026-08-29, Paso 6 del encargo): lineage real de la reconciliación de
+ * tempo YA resuelta por projectRenderer.js#reconcileVoiceTimingReal
+ * ANTES de llegar aquí -- este módulo nunca decide/calcula, solo
+ * persiste. voiceParams (Paso 2/7): parámetros reales de Voice Engine
+ * (voice_profile_id/language/exaggeration/cfg_weight/temperature) YA
+ * usados para ESTA regeneración -- permite que la PRÓXIMA regeneración
+ * de la MISMA escena los reutilice (mismo criterio real, nunca inventa
+ * uno nuevo cada vez).
+ */
+export function applyVoiceRegeneration(project, sceneId, {
+  audioSourcePath, audioDurationSeconds, regeneratedAt = new Date().toISOString(),
+  targetDurationMs = null, actualDurationMs = null, voiceTimingMismatch = false, voiceParams = null,
+}) {
   const scene = project.scenes.find((s) => s.sceneId === sceneId);
   if (!scene) throw new Error(`applyVoiceRegeneration: sceneId desconocido para este proyecto: "${sceneId}".`);
   if (!audioSourcePath?.trim()) throw new Error(`applyVoiceRegeneration: escena "${sceneId}": "audioSourcePath" real es obligatorio.`);
@@ -249,6 +272,7 @@ export function applyVoiceRegeneration(project, sceneId, { audioSourcePath, audi
       [sceneId]: {
         voiceTrack: {
           sourcePath: audioSourcePath, isRegenerated: true, durationSeconds: audioDurationSeconds, regeneratedAt,
+          targetDurationMs, actualDurationMs, voiceTimingMismatch, voiceParams,
         },
         durationOverride: null,
       },

@@ -228,4 +228,31 @@ describe('classifyChangeset — decide qué escenas reales necesitan re-render v
     const changeset = classifyChangeset(project.versions[0], edited);
     assert.equal(changeset.formatsOnly, true);
   });
+
+  // RENDER SOURCE OF TRUTH (Corrección "Consistencia de audio y
+  // persistencia de ediciones de captions", 2026-08-29, Paso 9/13/24 del
+  // encargo) -- caso real reportado: "usuario desactiva subtítulos, el
+  // render final los vuelve a mostrar". Confirma que classifyChangeset()
+  // real SIEMPRE detecta un cambio real de captionsVisibility (nunca lo
+  // ignora en silencio) -- root cause real del bug estaba en el
+  // FRONTEND (editor.js no capturaba el formulario antes de renderizar,
+  // ver editor.js#captureCurrentSceneFormIfOpen), nunca aquí.
+  test('B/D: desactivar captions real (captionsVisibility HIDE) SIEMPRE marca la escena real para re-render', () => {
+    const project = proyectoBase();
+    const edited = applyProjectEdit(project, { scenes: { 'scene-1': { captionsVisibility: 'HIDE' } } });
+    const changeset = classifyChangeset(project.versions[0], edited);
+    assert.deepEqual([...changeset.rerenderedSceneIds], ['scene-1']);
+  });
+
+  // TEXT OVERRIDE (Paso 12/24 del encargo) -- caso real reportado:
+  // "usuario cambia el texto del CTA, el render final sigue mostrando el
+  // texto anterior". classifyChangeset() real SIEMPRE detecta un cambio
+  // real de onScreenTextOverride.
+  test('C: editar el texto en pantalla real (onScreenTextOverride, ej. CTA) SIEMPRE marca la escena real para re-render', () => {
+    const project = proyectoBase();
+    const edited = applyProjectEdit(project, { ctaText: 'Escríbenos al +521416556' });
+    const ctaSceneId = project.scenes.find((s) => s.sceneKind === 'CTA')?.sceneId ?? 'scene-2';
+    const changeset = classifyChangeset(project.versions[0], edited);
+    assert.ok(changeset.rerenderedSceneIds.includes(ctaSceneId), `la escena CTA real "${ctaSceneId}" debe marcarse para re-render tras editar su texto real`);
+  });
 });

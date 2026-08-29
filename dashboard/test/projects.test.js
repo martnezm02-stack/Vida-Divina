@@ -252,5 +252,29 @@ describe('POST /api/projects/:id/scenes/:sceneId/regenerate-voice — Problema 4
     assert.ok(scene1.voiceTrack.regeneratedAt);
     assert.ok(body.pendingChangeset.voiceRegeneratedSceneIds.includes('scene-1'));
     assert.ok(body.pendingChangeset.rerenderedSceneIds.includes('scene-1'));
+
+    // AUDIO CONSISTENCY (Corrección "Consistencia de audio y
+    // persistencia de ediciones de captions", 2026-08-29, Paso 2/6/7 del
+    // encargo): la regeneración real deja lineage real de timing/params
+    // -- nunca solo sourcePath/duración crudos.
+    assert.equal(typeof scene1.voiceTrack.targetDurationMs, 'number');
+    assert.equal(typeof scene1.voiceTrack.actualDurationMs, 'number');
+    assert.equal(typeof scene1.voiceTrack.voiceTimingMismatch, 'boolean');
+    assert.ok(scene1.voiceTrack.voiceParams, 'voiceParams real (Paso 2/7) debe quedar persistido tras regenerar');
+    assert.equal(scene1.voiceTrack.voiceParams.voiceProfileId, 'manuel_es_mx');
+    assert.equal(typeof body.voiceTimingMismatch, 'boolean');
+  });
+
+  test('una SEGUNDA regeneración real de la MISMA escena reutiliza los MISMOS voiceParams reales ya usados (Paso 2/7: consistencia entre regeneraciones sucesivas)', async (t) => {
+    const health = await fetch('http://localhost:8000/health').catch(() => null);
+    if (!health?.ok) { t.skip('Voice Engine no está reachable en este entorno -- se omite (cubierto por unit tests de projectEditor.js).'); return; }
+
+    const { body: after1 } = await post(`/api/projects/${projectId}/scenes/scene-1/regenerate-voice`, { voiceoverText: `Primera regeneración real ${Date.now()}` });
+    const voiceParams1 = after1.project.scenes.find((s) => s.sceneId === 'scene-1').voiceTrack.voiceParams;
+
+    const { body: after2 } = await post(`/api/projects/${projectId}/scenes/scene-1/regenerate-voice`, { voiceoverText: `Segunda regeneración real ${Date.now()}` });
+    const voiceParams2 = after2.project.scenes.find((s) => s.sceneId === 'scene-1').voiceTrack.voiceParams;
+
+    assert.deepEqual(voiceParams2, voiceParams1, 'los parámetros reales de voz deben ser IDÉNTICOS entre regeneraciones sucesivas de la MISMA escena');
   });
 });

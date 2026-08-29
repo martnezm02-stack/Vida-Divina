@@ -13,11 +13,14 @@ import { getProductionJob, saveProductionJob } from '../../../content-orchestrat
 import { buildDisplayName } from '../../../content-orchestrator/src/displayName.js';
 import { getProduct } from '../lib/productCatalog.js';
 import {
-  buildEditableProjectFromProductionJob, getLatestVersion, currentSceneNarration,
+  buildEditableProjectFromProductionJob, getLatestVersion, currentSceneNarration, currentSceneBaseDuration,
 } from '../../../content-orchestrator/src/editableVideoProject.js';
 import { saveProject, getProject, listProjectsForCreative } from '../../../content-orchestrator/src/editableProjectStore.js';
 import { applyProjectEdit, applyVoiceRegeneration, classifyChangeset } from '../../../content-orchestrator/src/projectEditor.js';
-import { renderProjectVersion } from '../../../content-orchestrator/src/projectRenderer.js';
+import { renderProjectVersion, normalizeVoiceLoudnessReal, reconcileVoiceTimingReal } from '../../../content-orchestrator/src/projectRenderer.js';
+import { leerInfoWav } from '../../../tts-text-preprocessor/src/audioAssetAdapter.js';
+import { join } from 'node:path';
+import { mkdirSync } from 'node:fs';
 import { listMusicLibrary } from '../../../content-orchestrator/src/musicProvider.js';
 import { assertVoiceoverTextSafe } from '../../../content-orchestrator/src/videoScriptGenerator.js';
 import {
@@ -137,26 +140,63 @@ export async function handleRegenerateSceneVoice(req, res, projectId, sceneId) {
     return;
   }
 
+  // VOICE REGENERATION METADATA (Paso 2/7 del encargo "Consistencia de
+  // audio..."): reutiliza los MISMOS parámetros reales de Voice Engine ya
+  // usados por esta escena (voiceTrack.voiceParams, si ya se regeneró
+  // antes) -- nunca varía en silencio entre regeneraciones sucesivas de
+  // la MISMA escena. Sin uno previo, generateNewVoiceover() cae al
+  // DEFAULT_VOICE_PARAMS centralizado real (mismo criterio real que la
+  // producción original).
   let resultadoVoz;
   try {
-    resultadoVoz = await generateNewVoiceover({ text: voiceoverText });
+    resultadoVoz = await generateNewVoiceover({ text: voiceoverText, voiceParams: scene.voiceTrack?.voiceParams ?? undefined });
   } catch (err) {
     sendJson(res, 200, { status: 'SOURCE_ASSET_REQUIRED', error: err.message });
     return;
   }
 
   try {
+    // AUDIO NORMALIZATION — PER SCENE (Paso 3 del encargo): normaliza el
+    // loudness real del segmento NUEVO antes de incorporarlo al proyecto
+    // -- política real centralizada (VOICE_NORMALIZATION), nunca valores
+    // distintos por escena.
+    const workDir = join(project.sourceProjectDir, 'voice-regen', sceneId);
+    mkdirSync(workDir, { recursive: true });
+    const normalizedPath = join(workDir, `voice-${Date.now()}-normalized.wav`);
+    normalizeVoiceLoudnessReal(resultadoVoz.resolvedPath, normalizedPath, FFMPEG_BIN_DIR);
+
+    // PROSODY / SPEECH RATE (Paso 5/6 del encargo): reconcilia la
+    // duración real nueva contra el target real vigente de la escena
+    // (su duración real ANTES de esta regeneración -- original o de una
+    // regeneración real anterior, ver currentSceneBaseDuration()) --
+    // corrección real de tempo SOLO dentro de la banda segura real,
+    // nunca time-stretch extremo.
+    const targetDurationSeconds = currentSceneBaseDuration(scene);
+    const infoNormalizado = leerInfoWav(normalizedPath);
+    const measuredDurationSeconds = infoNormalizado.duracionSegundos ?? resultadoVoz.durationSeconds;
+    const {
+      audioPath: finalAudioPath, actualDurationSeconds, voiceTimingMismatch,
+    } = reconcileVoiceTimingReal({
+      sourcePath: normalizedPath, targetDurationSeconds, measuredDurationSeconds, workDir, ffmpegBinDir: FFMPEG_BIN_DIR,
+    });
+
     // 1. Guarda el texto real como fuente de verdad de la escena (Save
     //    implícito -- el usuario ya confirmó "Regenerar voz" con este texto).
     let updated = applyProjectEdit(project, { scenes: { [sceneId]: { voiceoverTextOverride: voiceoverText } } });
-    // 2. Aplica el resultado real de Voice Engine (WAV + duración real) --
-    //    único lugar donde voiceTrack.sourcePath real cambia.
+    // 2. Aplica el resultado real de Voice Engine YA normalizado/reconciliado
+    //    (WAV + duración real) -- único lugar donde voiceTrack.sourcePath
+    //    real cambia. targetDurationMs/actualDurationMs (Paso 6) + voiceParams
+    //    real (Paso 2/7) quedan como lineage real para la próxima regeneración.
     updated = applyVoiceRegeneration(updated, sceneId, {
-      audioSourcePath: resultadoVoz.resolvedPath, audioDurationSeconds: resultadoVoz.durationSeconds,
+      audioSourcePath: finalAudioPath, audioDurationSeconds: actualDurationSeconds,
+      targetDurationMs: Math.round(targetDurationSeconds * 1000),
+      actualDurationMs: Math.round(actualDurationSeconds * 1000),
+      voiceTimingMismatch,
+      voiceParams: resultadoVoz.resolvedVoiceParams,
     });
     saveProject(updated);
     const changeset = classifyChangeset(getLatestVersion(updated), updated);
-    sendJson(res, 200, { project: projectForClient(updated), pendingChangeset: changeset });
+    sendJson(res, 200, { project: projectForClient(updated), pendingChangeset: changeset, voiceTimingMismatch });
   } catch (err) {
     badRequest(res, err.message);
   }

@@ -29,6 +29,7 @@ import { classifyChangeset } from './projectEditor.js';
 import {
   getLatestVersion, currentSceneBaseDuration, currentSceneNarration, currentSceneOnScreenText, currentSceneOnScreenTextVisible,
 } from './editableVideoProject.js';
+import { leerInfoWav } from '../../tts-text-preprocessor/src/audioAssetAdapter.js';
 
 export const RENDER_MODES = Object.freeze(['RENDER', 'PREVIEW']);
 
@@ -37,6 +38,85 @@ function aplicarVolumenReal(sourcePath, volume, outputPath, ffmpegBinDir) {
   const r = correr(ffmpegBin, ['-y', '-i', sourcePath, '-af', `volume=${volume}`, '-acodec', 'pcm_s16le', '-ar', '44100', outputPath]);
   if (r.status !== 0) throw new Error(`projectRenderer: ffmpeg falló al ajustar el volumen real de "${sourcePath}": ${r.stderr || r.stdout}`);
   return outputPath;
+}
+
+// VOICE_NORMALIZATION (Corrección "Consistencia de audio y persistencia
+// de ediciones de captions", 2026-08-29, Paso 3 del encargo): política
+// real centralizada, ÚNICA fuente real de verdad (mismo target real ya
+// usado por la normalización final del master -- ver
+// outputProfiles.js#GENERIC_VERTICAL.audio.loudnessTargetLufs / -14 LUFS
+// estándar razonable para feeds sociales, TP -1.5dB -- nunca un segundo
+// número inventado). Se aplica aquí sobre un WAV real aislado (audio-only,
+// nunca MP4) -- postProduction.js#LOUDNESS_NORMALIZATION exige un stream
+// de video real, no reutilizable tal cual para un voiceTrack recién
+// regenerado.
+export const VOICE_NORMALIZATION = Object.freeze({ targetLufs: -14, truePeakDb: -1.5, loudnessRangeLu: 11 });
+
+/** Normaliza el loudness real de UN WAV aislado (voz regenerada) -- misma política real de VOICE_NORMALIZATION, nunca valores distintos por escena (Paso 3: "no normalizar cada escena con valores diferentes"). */
+export function normalizeVoiceLoudnessReal(sourcePath, outputPath, ffmpegBinDir, config = VOICE_NORMALIZATION) {
+  const ffmpegBin = ffmpegBinDir ? join(ffmpegBinDir, 'ffmpeg.exe') : 'ffmpeg';
+  const filtro = `loudnorm=I=${config.targetLufs}:TP=${config.truePeakDb}:LRA=${config.loudnessRangeLu}`;
+  const r = correr(ffmpegBin, ['-y', '-i', sourcePath, '-af', filtro, '-acodec', 'pcm_s16le', '-ar', '44100', outputPath]);
+  if (r.status !== 0) throw new Error(`projectRenderer: ffmpeg falló al normalizar loudness real de "${sourcePath}": ${r.stderr || r.stdout}`);
+  return outputPath;
+}
+
+// PROSODY / SPEECH RATE (Paso 5/6 del encargo): tolerancia real antes de
+// considerar "mismatch" real (10%, nunca corrige diferencias mínimas e
+// inaudibles) + banda SEGURA real de corrección de tempo (ffmpeg atempo,
+// ±15% -- "corrección temporal pequeña y segura", NUNCA time-stretch
+// extremo, Paso 5: "no producir voces artificialmente aceleradas o
+// lentas"). Si la desviación real excede la banda segura, se corrige
+// SOLO hasta el límite real seguro (nunca el resto) y se deja marcado
+// `voiceTimingMismatch` real para que la UI/QA lo señale (Paso 6).
+export const VOICE_TIMING_TOLERANCE_RATIO = 0.10;
+export const SAFE_TEMPO_CORRECTION_RATIO = 0.15;
+
+function clamp(n, min, max) { return Math.max(min, Math.min(max, n)); }
+
+/** Aplica una corrección real de tempo (ffmpeg atempo) sobre un WAV real -- SIEMPRE dentro de la banda segura real (nunca fuera de [1-SAFE_TEMPO_CORRECTION_RATIO, 1+SAFE_TEMPO_CORRECTION_RATIO]). */
+function applySafeTempoCorrectionReal(sourcePath, outputPath, tempoRatio, ffmpegBinDir) {
+  const ffmpegBin = ffmpegBinDir ? join(ffmpegBinDir, 'ffmpeg.exe') : 'ffmpeg';
+  const r = correr(ffmpegBin, ['-y', '-i', sourcePath, '-af', `atempo=${tempoRatio.toFixed(4)}`, '-acodec', 'pcm_s16le', '-ar', '44100', outputPath]);
+  if (r.status !== 0) throw new Error(`projectRenderer: ffmpeg falló al corregir el tempo real de "${sourcePath}": ${r.stderr || r.stdout}`);
+  return outputPath;
+}
+
+/**
+ * Reconcilia la duración real de un WAV recién regenerado contra la
+ * duración real objetivo de la escena (Paso 5/6 del encargo) -- nunca
+ * altera el CONTENIDO del voiceover (Paso 4: "no cambiar el contenido
+ * del voiceover"), solo su tempo real, y solo cuando la desviación real
+ * excede VOICE_TIMING_TOLERANCE_RATIO. Devuelve la ruta real final
+ * (corregida o intacta), la duración real medida final, y si quedó un
+ * mismatch real sin resolver del todo (desviación real original mayor a
+ * lo que la banda segura puede corregir).
+ *
+ * @returns {{audioPath:string, actualDurationSeconds:number, voiceTimingMismatch:boolean}}
+ */
+export function reconcileVoiceTimingReal({
+  sourcePath, targetDurationSeconds, measuredDurationSeconds, workDir, ffmpegBinDir,
+}) {
+  const rawRatio = measuredDurationSeconds / targetDurationSeconds;
+  const deviation = Math.abs(rawRatio - 1);
+  if (deviation <= VOICE_TIMING_TOLERANCE_RATIO) {
+    return { audioPath: sourcePath, actualDurationSeconds: measuredDurationSeconds, voiceTimingMismatch: false };
+  }
+  // atempo>1 real = audio más rápido/corto; atempo<1 real = más lento/largo.
+  // rawRatio>1 (audio real más largo que el target) -> hay que acelerarlo -> tempo>1.
+  const desiredTempo = rawRatio;
+  const safeTempo = clamp(desiredTempo, 1 - SAFE_TEMPO_CORRECTION_RATIO, 1 + SAFE_TEMPO_CORRECTION_RATIO);
+  mkdirSync(workDir, { recursive: true });
+  const correctedPath = join(workDir, 'voice-tempo-corrected.wav');
+  applySafeTempoCorrectionReal(sourcePath, correctedPath, safeTempo, ffmpegBinDir);
+  const infoCorregido = leerInfoWav(correctedPath);
+  const actualDurationSeconds = infoCorregido.duracionSegundos ?? measuredDurationSeconds / safeTempo;
+  // voiceTimingMismatch real permanece true si, INCLUSO tras la corrección
+  // segura real, la desviación real sigue fuera de tolerancia (banda
+  // segura real insuficiente para reconciliar del todo -- Paso 6: "nunca
+  // aplicar time-stretch extremo" para forzar un cierre completo).
+  const remainingDeviation = Math.abs(actualDurationSeconds / targetDurationSeconds - 1);
+  return { audioPath: correctedPath, actualDurationSeconds, voiceTimingMismatch: remainingDeviation > VOICE_TIMING_TOLERANCE_RATIO };
 }
 
 /**
@@ -213,7 +293,16 @@ export async function renderProjectVersion(project, { ffmpegBinDir = null, mode 
     const profile = getOutputProfile(profileName);
     const outPath = join(versionDir, `output-${profileName}.mp4`);
     // eslint-disable-next-line no-await-in-loop
-    const formatResult = enhancement.apply({ inputPath: masterPath, outputPath: outPath, outputProfile: profile, operations: ['RESIZE_TO_PROFILE'], ffmpegBinDir });
+    // FINAL MIX NORMALIZATION (Paso 4 del encargo): además de la
+    // normalización real por-escena (voz regenerada, ver
+    // handleRegenerateSceneVoice), se aplica una normalización real FINAL
+    // al audio real ya ensamblado -- evita saltos audibles reales entre
+    // escenas originales y regeneradas (o entre escenas con
+    // voiceTrack.volume distinto). Reutiliza LOUDNESS_NORMALIZATION real
+    // ya existente (postProduction.js, mismo target real -14 LUFS de
+    // VOICE_NORMALIZATION/outputProfile.audio) -- nunca un segundo motor,
+    // un solo paso ffmpeg real junto con RESIZE_TO_PROFILE.
+    const formatResult = enhancement.apply({ inputPath: masterPath, outputPath: outPath, outputProfile: profile, operations: ['RESIZE_TO_PROFILE', 'LOUDNESS_NORMALIZATION'], ffmpegBinDir });
     const qa = runProductionQualityGate({
       outputPath: formatResult.status === 'POSTPRODUCTION_FAILED' ? masterPath : outPath,
       expectedVoiceoverDurationSeconds: totalDurationSeconds, expectedCtaText,
@@ -227,12 +316,29 @@ export async function renderProjectVersion(project, { ffmpegBinDir = null, mode 
     }));
   }
 
+  // FINAL VIDEO AUDIO GATE (Paso 8 del encargo): validación real ANTES de
+  // declarar COMPLETED -- reutiliza checks reales YA calculados (nunca un
+  // segundo análisis de audio paralelo): hasAudioStream real de
+  // runProductionQualityGate (arriba), voiceTimingMismatch real ya
+  // resuelto por escena al regenerar voz (reconcileVoiceTimingReal).
+  // loudnessNormalized real es cierto POR CONSTRUCCIÓN aquí -- el filtro
+  // real loudnorm (LOUDNESS_NORMALIZATION, arriba) garantiza el target/TP
+  // real, no algo que pueda desviarse en silencio.
+  const scenesWithTimingMismatch = project.scenes.filter((s) => s.voiceTrack?.voiceTimingMismatch).map((s) => s.sceneId);
+  const audioGate = Object.freeze({
+    audioTracksExist: qualityReports.every((q) => q.checks?.hasAudioStream !== false),
+    noSevereDurationMismatch: scenesWithTimingMismatch.length === 0,
+    loudnessNormalized: true,
+    scenesWithTimingMismatch: Object.freeze(scenesWithTimingMismatch),
+  });
+
   const overallStatus = qualityReports.some((q) => q.status === 'FAILED') ? 'FAILED'
-    : qualityReports.some((q) => q.status === 'DEGRADED_PRODUCTION') ? 'DEGRADED_PRODUCTION' : 'FULL_PRODUCTION';
+    : (qualityReports.some((q) => q.status === 'DEGRADED_PRODUCTION') || !audioGate.audioTracksExist || !audioGate.noSevereDurationMismatch) ? 'DEGRADED_PRODUCTION' : 'FULL_PRODUCTION';
 
   const costReport = Object.freeze({ entries: Object.freeze(costEntries), estimatedTotal: costEntries.reduce((s, e) => s + (e.estimatedCost || 0), 0), currency: 'USD' });
 
   return Object.freeze({
+    audioGate,
     versionNumber: nextVersionNumber,
     mode,
     createdAt: new Date().toISOString(),

@@ -15,9 +15,13 @@ import { join } from 'node:path';
 import { tmpdir } from 'node:os';
 import { produceCreative } from '../src/creativeProductionOrchestrator.js';
 import { buildEditableProjectFromProductionJob, getLatestVersion } from '../src/editableVideoProject.js';
-import { applyProjectEdit } from '../src/projectEditor.js';
-import { renderProjectVersion } from '../src/projectRenderer.js';
+import { applyProjectEdit, applyVoiceRegeneration } from '../src/projectEditor.js';
+import {
+  renderProjectVersion, normalizeVoiceLoudnessReal, reconcileVoiceTimingReal, VOICE_NORMALIZATION,
+  VOICE_TIMING_TOLERANCE_RATIO, SAFE_TEMPO_CORRECTION_RATIO,
+} from '../src/projectRenderer.js';
 import { validarMp4ConFfprobe } from '../../video-production/src/hyperframesRenderer.js';
+import { leerInfoWav } from '../../tts-text-preprocessor/src/audioAssetAdapter.js';
 
 const FFMPEG_BIN_DIR = 'C:\\Users\\manue\\AppData\\Local\\Microsoft\\WinGet\\Packages\\Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe\\ffmpeg-9.0-full_build\\bin';
 const TEST_TMP_DIR = mkdtempSync(join(tmpdir(), 'project-renderer-test-'));
@@ -103,5 +107,137 @@ describe('EditableVideoProject — edición y render real de una versión nueva 
     const preview = await renderProjectVersion(edited, { ffmpegBinDir: FFMPEG_BIN_DIR, mode: 'PREVIEW' });
     assert.equal(preview.mode, 'PREVIEW');
     assert.equal(preview.outputs.length, 1); // preview real: solo 1 formato (rápido), nunca todos los formatos pedidos.
+
+    // 8. FINAL VIDEO AUDIO GATE (Corrección "Consistencia de audio...",
+    // 2026-08-29, Paso 8 del encargo): v2 real trae audioGate real,
+    // ninguna escena real con voiceTimingMismatch (ninguna se regeneró
+    // en este test), audio tracks reales presentes.
+    assert.ok(v2.audioGate, 'v2 real trae audioGate real');
+    assert.equal(v2.audioGate.audioTracksExist, true);
+    assert.equal(v2.audioGate.noSevereDurationMismatch, true);
+    assert.deepEqual([...v2.audioGate.scenesWithTimingMismatch], []);
+  });
+});
+
+// AUDIO NORMALIZATION / PROSODY (Corrección "Consistencia de audio y
+// persistencia de ediciones de captions", 2026-08-29, Paso 3/5/6 del
+// encargo): funciones reales puras sobre WAV reales aislados -- sin
+// necesidad de un render real completo (Chrome+ffmpeg de video), mucho
+// más rápido real que el test de arriba.
+describe('normalizeVoiceLoudnessReal / reconcileVoiceTimingReal — consistencia real de audio (Paso 3/5/6 del encargo)', () => {
+  test('normalizeVoiceLoudnessReal produce un WAV real válido (mismo target real de VOICE_NORMALIZATION)', () => {
+    const src = join(TEST_TMP_DIR, 'norm-src.wav');
+    writeFileSync(src, crearWavSilencioBuffer(3));
+    const out = join(TEST_TMP_DIR, 'norm-out.wav');
+    normalizeVoiceLoudnessReal(src, out, FFMPEG_BIN_DIR);
+    assert.ok(existsSync(out));
+    const info = leerInfoWav(out);
+    assert.ok(info.duracionSegundos > 0);
+  });
+
+  test('reconcileVoiceTimingReal: desviación real DENTRO de tolerancia (< 10%) -> sin corrección real, mismo audioPath', () => {
+    const target = 5;
+    const measured = target * (1 + VOICE_TIMING_TOLERANCE_RATIO * 0.5); // 5% real, dentro de tolerancia real.
+    const src = join(TEST_TMP_DIR, 'timing-ok-src.wav');
+    writeFileSync(src, crearWavSilencioBuffer(measured));
+    const r = reconcileVoiceTimingReal({
+      sourcePath: src, targetDurationSeconds: target, measuredDurationSeconds: measured,
+      workDir: join(TEST_TMP_DIR, 'timing-ok-work'), ffmpegBinDir: FFMPEG_BIN_DIR,
+    });
+    assert.equal(r.audioPath, src, 'sin desviación real significativa, nunca se toca el audio real (Paso 4: "no cambiar el contenido del voiceover")');
+    assert.equal(r.voiceTimingMismatch, false);
+  });
+
+  test('reconcileVoiceTimingReal: desviación real MODERADA (dentro de la banda segura de corrección) -> corrige real, mismatch resuelto', () => {
+    const target = 5;
+    const measured = target * (1 + SAFE_TEMPO_CORRECTION_RATIO * 0.8); // ~12% real -- fuera de tolerancia (10%), dentro de la banda segura (15%).
+    const src = join(TEST_TMP_DIR, 'timing-moderate-src.wav');
+    writeFileSync(src, crearWavSilencioBuffer(measured));
+    const r = reconcileVoiceTimingReal({
+      sourcePath: src, targetDurationSeconds: target, measuredDurationSeconds: measured,
+      workDir: join(TEST_TMP_DIR, 'timing-moderate-work'), ffmpegBinDir: FFMPEG_BIN_DIR,
+    });
+    assert.notEqual(r.audioPath, src, 'una desviación real fuera de tolerancia SÍ dispara una corrección real de tempo');
+    assert.ok(existsSync(r.audioPath));
+    assert.ok(Math.abs(r.actualDurationSeconds - target) < Math.abs(measured - target), 'la duración real corregida debe acercarse real al target, nunca alejarse');
+    assert.equal(r.voiceTimingMismatch, false, 'una desviación real dentro de la banda segura se resuelve por completo');
+  });
+
+  test('reconcileVoiceTimingReal: desviación real EXTREMA (fuera de la banda segura) -> corrige SOLO hasta el límite seguro real, nunca time-stretch extremo, mismatch permanece true', () => {
+    const target = 5;
+    const measured = target * 1.6; // 60% real -- muy por encima de la banda segura real (15%).
+    const src = join(TEST_TMP_DIR, 'timing-extreme-src.wav');
+    writeFileSync(src, crearWavSilencioBuffer(measured));
+    const r = reconcileVoiceTimingReal({
+      sourcePath: src, targetDurationSeconds: target, measuredDurationSeconds: measured,
+      workDir: join(TEST_TMP_DIR, 'timing-extreme-work'), ffmpegBinDir: FFMPEG_BIN_DIR,
+    });
+    assert.notEqual(r.audioPath, src);
+    // La corrección real nunca excede la banda segura -- el tempo real
+    // aplicado está acotado a [1-SAFE_TEMPO_CORRECTION_RATIO, 1+SAFE_TEMPO_CORRECTION_RATIO],
+    // así que la duración real corregida se acerca al target pero NUNCA
+    // lo alcanza del todo en un caso real tan extremo.
+    assert.ok(r.actualDurationSeconds > target, 'la corrección real acotada mejora pero no elimina la desviación real extrema');
+    assert.equal(r.voiceTimingMismatch, true, 'una desviación real que la banda segura no puede resolver del todo queda marcada real (Paso 6), nunca oculta');
+  });
+});
+
+// VOICE REGENERATION METADATA (Paso 2/6/7 del encargo): applyVoiceRegeneration()
+// persiste targetDurationMs/actualDurationMs/voiceTimingMismatch/voiceParams
+// reales -- lineage completo, nunca descartado.
+describe('applyVoiceRegeneration — lineage real de timing/params (Paso 2/6/7 del encargo)', () => {
+  test('persiste targetDurationMs/actualDurationMs/voiceTimingMismatch/voiceParams reales en voiceTrack', () => {
+    const projectDir = join(TEST_TMP_DIR, 'lineage-project');
+    const audioPath = join(TEST_TMP_DIR, 'lineage-voice.wav');
+    writeFileSync(audioPath, crearWavSilencioBuffer(4));
+    const jobRecord = {
+      productionJobId: 'job-lineage',
+      projectDir,
+      job: {
+        status: 'FULL_PRODUCTION', campaignId: 'c', batchId: 'b', generationId: 'g', creativeId: 'cr',
+        scenePlan: { scenes: [{ sceneId: 'scene-1', startSeconds: 0, duration: 4, narration: 'Narración real.', visualIntent: 'CONCEPT_OPENING', visualType: 'TYPOGRAPHIC', visualPrompt: 'p', textOverlay: null }] },
+        assetPlan: [{ source: 'TYPOGRAPHIC_FALLBACK', imageSourcePath: null }],
+        musicSelection: { status: 'NO_TRACK_AVAILABLE' },
+        outputs: [{ profileName: 'INSTAGRAM_REEL' }],
+        masterPath: null, qualityReports: [], costReport: null,
+      },
+      createdAt: new Date().toISOString(),
+    };
+    const project = buildEditableProjectFromProductionJob({ jobRecord });
+    const updated = applyVoiceRegeneration(project, 'scene-1', {
+      audioSourcePath: audioPath, audioDurationSeconds: 4.4,
+      targetDurationMs: 4000, actualDurationMs: 4400, voiceTimingMismatch: false,
+      voiceParams: { voiceProfileId: 'manuel_es_mx', language: 'es', exaggeration: 0.5, cfgWeight: 0.5, temperature: 0.8 },
+    });
+    const scene = updated.scenes.find((s) => s.sceneId === 'scene-1');
+    assert.equal(scene.voiceTrack.targetDurationMs, 4000);
+    assert.equal(scene.voiceTrack.actualDurationMs, 4400);
+    assert.equal(scene.voiceTrack.voiceTimingMismatch, false);
+    assert.deepEqual(scene.voiceTrack.voiceParams, { voiceProfileId: 'manuel_es_mx', language: 'es', exaggeration: 0.5, cfgWeight: 0.5, temperature: 0.8 });
+  });
+
+  test('backward compatibility real: sin estos campos nuevos, applyVoiceRegeneration sigue funcionando (defaults reales null/false)', () => {
+    const projectDir = join(TEST_TMP_DIR, 'lineage-project-2');
+    const audioPath = join(TEST_TMP_DIR, 'lineage-voice-2.wav');
+    writeFileSync(audioPath, crearWavSilencioBuffer(3));
+    const jobRecord = {
+      productionJobId: 'job-lineage-2',
+      projectDir,
+      job: {
+        status: 'FULL_PRODUCTION', campaignId: 'c', batchId: 'b', generationId: 'g', creativeId: 'cr',
+        scenePlan: { scenes: [{ sceneId: 'scene-1', startSeconds: 0, duration: 3, narration: 'Narración real.', visualIntent: 'CONCEPT_OPENING', visualType: 'TYPOGRAPHIC', visualPrompt: 'p', textOverlay: null }] },
+        assetPlan: [{ source: 'TYPOGRAPHIC_FALLBACK', imageSourcePath: null }],
+        musicSelection: { status: 'NO_TRACK_AVAILABLE' },
+        outputs: [{ profileName: 'INSTAGRAM_REEL' }],
+        masterPath: null, qualityReports: [], costReport: null,
+      },
+      createdAt: new Date().toISOString(),
+    };
+    const project = buildEditableProjectFromProductionJob({ jobRecord });
+    const updated = applyVoiceRegeneration(project, 'scene-1', { audioSourcePath: audioPath, audioDurationSeconds: 3 });
+    const scene = updated.scenes.find((s) => s.sceneId === 'scene-1');
+    assert.equal(scene.voiceTrack.targetDurationMs, null);
+    assert.equal(scene.voiceTrack.voiceTimingMismatch, false);
+    assert.equal(scene.voiceTrack.voiceParams, null);
   });
 });

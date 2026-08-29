@@ -69,19 +69,49 @@ export async function isVoiceEngineReachable() {
   }
 }
 
+// DEFAULT_VOICE_PARAMS (Corrección "Consistencia de audio y persistencia
+// de ediciones de captions", 2026-08-29, Paso 2/7 del encargo): ÚNICA
+// fuente real centralizada de los parámetros reales de voz que Voice
+// Engine SÍ soporta (ver voice-engine/app/api/speak.py#SpeakRequest --
+// nunca "speed"/"pitch"/"seed", el proveedor real no los expone, Paso 2:
+// "no inventar parámetros que el proveedor no soporte"). Antes, estos
+// valores vivían implícitos como defaults de argumento en
+// generateNewVoiceover() -- ahora son explícitos y reutilizables, para
+// que una regeneración real de escena pueda declarar "mismos parámetros
+// reales que la producción original" en vez de depender en silencio de
+// que nadie los cambie.
+export const DEFAULT_VOICE_PARAMS = Object.freeze({
+  voiceProfileId: 'manuel_es_mx', language: 'es', exaggeration: 0.5, cfgWeight: 0.5, temperature: 0.8,
+});
+
 /**
  * Genera un voiceover REAL nuevo vía el Voice Engine ya existente. Si el
  * servicio no responde, lanza con un mensaje real y accionable -- nunca
  * fabrica un audio ni un resultado simulado.
+ *
+ * voiceParams (Paso 2/7 del encargo): real, opcional -- por defecto
+ * DEFAULT_VOICE_PARAMS (comportamiento preexistente intacto). Un
+ * llamador real (ej. "Regenerar voz" de una escena ya existente) puede
+ * pasar los MISMOS parámetros reales ya usados por esa escena
+ * (scene.voiceTrack.voiceParams) para conservar identidad de voz real
+ * consistente -- nunca varía en silencio entre la producción original y
+ * una regeneración real.
  */
-export async function generateNewVoiceover({ text, voiceProfileId = 'manuel_es_mx', language = 'es' }) {
+export async function generateNewVoiceover({ text, voiceParams = {} }) {
   if (!text?.trim()) throw new Error('generateNewVoiceover: "text" es obligatorio.');
+  const {
+    voiceProfileId = DEFAULT_VOICE_PARAMS.voiceProfileId, language = DEFAULT_VOICE_PARAMS.language,
+    exaggeration = DEFAULT_VOICE_PARAMS.exaggeration, cfgWeight = DEFAULT_VOICE_PARAMS.cfgWeight,
+    temperature = DEFAULT_VOICE_PARAMS.temperature,
+  } = voiceParams;
   let res;
   try {
     res = await fetch(`${VOICE_ENGINE_BASE_URL}/v1/speak`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'x-api-key': voiceEngineApiKey() },
-      body: JSON.stringify({ text, language, voice_profile_id: voiceProfileId }),
+      body: JSON.stringify({
+        text, language, voice_profile_id: voiceProfileId, exaggeration, cfg_weight: cfgWeight, temperature,
+      }),
       signal: AbortSignal.timeout(600_000), // la generación real puede tardar varios minutos.
     });
   } catch (err) {
@@ -117,7 +147,20 @@ export async function generateNewVoiceover({ text, voiceProfileId = 'manuel_es_m
     durationSeconds = info.duracionSegundos ?? info.durationSeconds ?? null;
   } catch { /* WAV real pero header no parseable -- se reporta sin duración, nunca inventada. */ }
 
-  return { ...body, resolvedPath: windowsPath, durationSeconds };
+  // resolvedVoiceParams (Paso 2/7 del encargo): los parámetros reales
+  // EFECTIVAMENTE usados en esta llamada real (defaults ya resueltos,
+  // nunca los valores crudos del llamador que podrían venir undefined) --
+  // el llamador los persiste en scene.voiceTrack.voiceParams para que la
+  // PRÓXIMA regeneración real de esta MISMA escena los reutilice tal
+  // cual (Paso 2: "conservar los mismos parámetros de voz").
+  return {
+    ...body,
+    resolvedPath: windowsPath,
+    durationSeconds,
+    resolvedVoiceParams: Object.freeze({
+      voiceProfileId, language, exaggeration, cfgWeight, temperature,
+    }),
+  };
 }
 
 export { VOICE_ENGINE_BASE_URL };

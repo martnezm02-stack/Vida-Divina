@@ -36,7 +36,16 @@
       <button type="button" class="editor-scene-btn ${s.sceneId === selectedSceneId ? 'active' : ''}" data-scene-id="${s.sceneId}">${sceneLabel(s)}</button>
     `).join('');
     list.querySelectorAll('.editor-scene-btn').forEach((b) => {
-      b.addEventListener('click', () => { selectedSceneId = b.dataset.sceneId; renderSceneList(); renderScenePropsPanel(); });
+      b.addEventListener('click', () => {
+        // Paso 9/16/17 del encargo: captura real el formulario de la
+        // escena SALIENTE ANTES de reemplazar el panel -- de lo
+        // contrario, cambiar de escena sin haber pulsado "APLICAR"
+        // primero descarta en silencio la edición real recién hecha
+        // (el panel se reconstruye desde currentProject, no desde el
+        // formulario real que se está abandonando).
+        captureCurrentSceneFormIfOpen();
+        selectedSceneId = b.dataset.sceneId; renderSceneList(); renderScenePropsPanel();
+      });
     });
   }
 
@@ -260,7 +269,21 @@
     $('#prop-add-highlight-word').addEventListener('click', () => { highlightWordsDraft.push({ text: '' }); renderHighlightWordsRows(); });
   }
 
-  function applySceneProps(scene) {
+  // RENDER SOURCE OF TRUTH (Corrección "Consistencia de audio y
+  // persistencia de ediciones de captions", 2026-08-29, Paso 9/16/17 del
+  // encargo): root cause real del Problema 2 reportado -- ANTES, esta
+  // lectura del formulario real SOLO ocurría al pulsar "APLICAR A ESTA
+  // ESCENA", un botón real SEPARADO de GUARDAR/RENDER. Si el usuario
+  // editaba un campo real (ej. desactivaba captions, cambiaba el CTA) y
+  // pulsaba GUARDAR/RENDER directamente -- o cambiaba de escena -- sin
+  // pulsar ese botón primero, el cambio real NUNCA llegaba a
+  // pendingEdits.scenes y se perdía en silencio (el render usaba el
+  // estado real ANTERIOR). Ahora esta lectura es una función real PURA
+  // (sin efectos secundarios) para poder invocarse automáticamente desde
+  // save()/el cambio de escena, además del botón explícito -- Paso 9:
+  // "la fuente de verdad debe ser CURRENT EDITABLE PROJECT STATE", nunca
+  // un estado de formulario real que el usuario olvidó confirmar.
+  function readSceneEditFromForm() {
     const duration = Number($('#prop-duration').value);
     const edit = {
       onScreenTextOverride: $('#prop-onscreen-text').value.trim(),
@@ -290,7 +313,24 @@
     if (duration < maxDuration) edit.durationOverride = duration;
     const assetPath = $('#prop-asset-path').value.trim();
     if (assetPath) edit.assetOverride = { source: 'EXISTING_ASSET', imageSourcePath: assetPath };
-    pendingEdits.scenes[scene.sceneId] = edit;
+    return edit;
+  }
+
+  // true si el panel de propiedades real está efectivamente en pantalla
+  // (una escena real seleccionada Y el DOM real ya renderizado) -- nunca
+  // intenta leer un formulario real que no existe todavía.
+  function scenePropsFormIsOpen() {
+    return Boolean(selectedSceneId) && Boolean($('#prop-onscreen-text'));
+  }
+
+  /** Captura automáticamente (Paso 9/16/17 del encargo) el formulario real VIGENTE de la escena seleccionada hacia pendingEdits -- llamada SIEMPRE antes de guardar/renderizar/cambiar de escena, nunca solo al pulsar el botón explícito. */
+  function captureCurrentSceneFormIfOpen() {
+    if (!scenePropsFormIsOpen()) return;
+    pendingEdits.scenes[selectedSceneId] = readSceneEditFromForm();
+  }
+
+  function applySceneProps(scene) {
+    pendingEdits.scenes[scene.sceneId] = readSceneEditFromForm();
     renderSceneList();
     $('#editor-render-status').textContent = 'Cambio(s) en draft, sin guardar todavía -- pulsa GUARDAR.';
   }
@@ -363,6 +403,12 @@
   async function save() {
     const statusEl = $('#editor-render-status');
     statusEl.textContent = 'Guardando draft…';
+    // Paso 9/16/17 del encargo (root cause real del Problema 2): captura
+    // real el formulario VIGENTE de la escena seleccionada ANTES de
+    // construir el payload real -- garantiza que Guardar/Render SIEMPRE
+    // reflejen el estado real que el usuario ve en pantalla, nunca
+    // dependan de que haya pulsado "APLICAR A ESTA ESCENA" primero.
+    captureCurrentSceneFormIfOpen();
     try {
       const { project } = await api(`/api/projects/${currentProject.projectId}/edit`, {
         method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ edits: collectProjectLevelEdits() }),

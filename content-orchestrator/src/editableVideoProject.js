@@ -87,6 +87,20 @@ export function buildEditableProjectFromProductionJob({ jobRecord, projectId = r
         // Text ni el estilo de captions.
         durationSeconds: scene.duration,
         regeneratedAt: null,
+        // targetDurationMs/actualDurationMs/voiceTimingMismatch (Corrección
+        // "Consistencia de audio...", 2026-08-29, Paso 6 del encargo): el
+        // audio ORIGINAL de producción es, por definición, su propio
+        // target real (nunca hay mismatch real en v1 -- solo aplica tras
+        // una regeneración real, ver applyVoiceRegeneration()).
+        // voiceParams real: null aquí -- la producción original real no
+        // registró todavía los parámetros reales de Voice Engine usados
+        // (backward compatibility real); una regeneración real futura
+        // cae al default centralizado (ver voiceEngineClient.js#DEFAULT_VOICE_PARAMS),
+        // nunca inventa uno.
+        targetDurationMs: Math.round(scene.duration * 1000),
+        actualDurationMs: Math.round(scene.duration * 1000),
+        voiceTimingMismatch: false,
+        voiceParams: null,
       }),
     });
   });
