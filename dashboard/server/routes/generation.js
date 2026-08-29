@@ -31,6 +31,11 @@ import { buildCarouselSlidesContent } from '../../../content-orchestrator/src/ca
 import { loadProductFacts } from '../../../content-orchestrator/src/productFactsLoader.js';
 import { publish, listPublishTargets } from '../../../content-orchestrator/src/publishing/publishingService.js';
 import { mediaHostingService } from '../lib/schedulerInstance.js';
+import { selectCreativeAngle } from '../../../content-orchestrator/src/creativeAngleSelector.js';
+import { selectHook, scoreHookText } from '../../../content-orchestrator/src/hookIntelligence.js';
+import { selectRelevantClaims } from '../../../content-orchestrator/src/claimRelevance.js';
+import { evaluateCreativeProposal } from '../../../content-orchestrator/src/creativeQualityAutoQA.js';
+import { computeDiversityScore } from '../../../content-orchestrator/src/creativeVariantDiversity.js';
 
 const FFMPEG_BIN_DIR = process.env.FFMPEG_BIN_DIR
   ?? 'C:\\Users\\manue\\AppData\\Local\\Microsoft\\WinGet\\Packages\\Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe\\ffmpeg-9.0-full_build\\bin';
@@ -39,10 +44,16 @@ const DASHBOARD_OUTPUT_ROOT = join(PROJECT_ROOT, 'video-production', 'dashboard-
 // Dashboard no manda "variantCount" explícito -- configurable por
 // solicitud (Paso 6), este es solo el valor por defecto razonable.
 const DEFAULT_BATCH_SIZE = 10;
-// Corrección de flujo UI ("Crear contenido", instrucción directa):
-// buildHypothesisExperiment() exige un mínimo real de 3 variantes -- este
-// flujo solo expone/usa la primera (variantIndex 0), nunca las otras 2.
-const DIRECT_PROPOSAL_VARIANT_COUNT = 3;
+// Corrección "Evolución integral del Creative Director" (2026-08-28, Paso
+// 1/8 del encargo): 3 candidatos reales dejaban muy poco margen real para
+// que selectCreativeAngle() (creativeAngleSelector.js) encontrara una
+// variante real cuyo angle/hook coincidiera de verdad con userInstruction
+// (7 ángulos × 11 tipos de hook posibles, ver marketingPlaybook.js) --
+// 8 candidatos reales (dentro del mínimo/máximo real de
+// buildHypothesisExperiment, 3..50) dan margen real sin generar
+// desperdicio excesivo. Este flujo sigue exponiendo/usando SOLO UNA
+// (variantIndex 0, la elegida por el selector real), nunca las demás.
+const DIRECT_PROPOSAL_VARIANT_COUNT = 8;
 
 function translateFinalAssetPackageForClient(pkg) {
   return {
@@ -420,8 +431,10 @@ export async function handleProposeDirectCreative(req, res) {
   // solo 1 de 5 blueprints reales es estático), se reporta explícito en
   // vez de producir un video roto.
   const mediaType = 'VIDEO';
-  const compatibleIndex = result.variantsDetail.findIndex((v) => !STATIC_FORMATS.includes(v.creativeVariant.format));
-  if (compatibleIndex === -1) {
+  const compatibleVariants = result.variantsDetail
+    .map((v, i) => ({ v, i }))
+    .filter(({ v }) => !STATIC_FORMATS.includes(v.creativeVariant.format));
+  if (compatibleVariants.length === 0) {
     sendJson(res, 200, {
       status: 'MEDIA_TYPE_MISMATCH', productId, campaignId, mediaType,
       errors: [`propose-direct: ninguna de las ${result.variantsDetail.length} variantes reales generadas para "${productId}" es compatible con VIDEO (todas cayeron en un formato estático real) -- reintenta la propuesta.`],
@@ -429,14 +442,79 @@ export async function handleProposeDirectCreative(req, res) {
     return;
   }
 
+  // Creative Angle Selector (Corrección "Evolución integral del Creative
+  // Director", 2026-08-28, Paso 1/3/4 del encargo): entre las variantes
+  // reales YA GENERADAS y compatibles con VIDEO, elige la que mejor
+  // coincide con userInstruction real (angle+hook YA definidos por el
+  // blueprint real, nunca inventados aquí) -- root cause real corregido
+  // del bug "userInstruction nunca influía en qué variante se usaba"
+  // (antes: siempre la primera compatible por orden de rotación).
+  const angleSelection = selectCreativeAngle({
+    userInstruction: rawText, candidates: compatibleVariants.map(({ v }) => v),
+  });
+  const compatibleIndex = compatibleVariants[angleSelection.selectedIndex].i;
+
   // result.variantsDetail[*] viene congelado (Object.freeze, mismo criterio
   // real de inmutabilidad del resto del proyecto) -- el override de
   // hook/cta literal construye un objeto NUEVO, nunca muta el original.
   const originalVariant = result.variantsDetail[compatibleIndex];
-  const overriddenCopy = (hookText?.trim() || ctaText?.trim())
-    ? { ...originalVariant.copy, ...(hookText?.trim() ? { hook: hookText.trim() } : {}), ...(ctaText?.trim() ? { cta: ctaText.trim() } : {}) }
-    : originalVariant.copy;
-  const variant = { ...originalVariant, copy: overriddenCopy };
+
+  // previousHooks (Corrección "Hook Intelligence", 2026-08-28, Paso 8 del
+  // encargo): hooks reales ya usados en batches anteriores de ESTA
+  // campaña -- anti-repetición real entre corridas, nunca inventado.
+  let previousHooks = [];
+  try {
+    previousHooks = listBatchesForCampaign(campaignId)
+      .map((b) => b.variantsDetail?.[0])
+      .filter(Boolean)
+      .map((v) => ({ hook: v.copy?.hook, hookId: v.hookId }));
+  } catch { /* campaña real sin batches previos -- lista vacía real, nunca bloquea. */ }
+
+  // Claim Relevance (Paso 10/11/12 del encargo): recorta beneficios/
+  // ingredientes reales de la variante elegida a los realmente relevantes
+  // para su primaryAngle real -- ANTES de generar candidatos de hook
+  // (mismos "facts" reales, nunca inventados, solo priorizados).
+  const claimSelection = originalVariant.hookRegenerationContext
+    ? selectRelevantClaims({ facts: originalVariant.hookRegenerationContext.facts, angleId: originalVariant.angleId })
+    : null;
+  const variantForHooks = claimSelection
+    ? { ...originalVariant, hookRegenerationContext: { ...originalVariant.hookRegenerationContext, facts: claimSelection.filteredFacts } }
+    : originalVariant;
+
+  // Hook Intelligence (Paso 2/3/5/6/7 del encargo): varios candidatos
+  // reales (generateVariantCopy() real, MISMO motor real de siempre)
+  // evaluados con hookRelevanceScore real -- reemplaza el hook/copy real
+  // de la variante ya elegida por el mejor candidato real encontrado.
+  let hookSelection = null;
+  try {
+    hookSelection = selectHook({ variant: variantForHooks, userInstruction: rawText, previousHooks });
+  } catch { /* ningún candidato real de hook pasó Claim Safety -- se conserva el copy/hook original real, nunca se bloquea la propuesta (Paso 29). */ }
+  const finalCopy = hookSelection?.copy ?? originalVariant.copy;
+  const finalHookId = hookSelection?.hookId ?? originalVariant.hookId;
+
+  // Propagación real del hook/cta editado (Corrección "Cierre del
+  // Creative Director", 2026-08-28, Paso 17/22 del encargo: "hook =
+  // primera línea del script" / "actualizar coherentemente script
+  // opening; voiceover opening") -- root cause real encontrado por el
+  // E2E real de esta corrección: antes, hookText solo pisaba
+  // copy.hook, dejando copy.script[0]/copy.voiceover[0] con el texto
+  // real VIEJO (generateVariantCopy() los construye como
+  // [hook, ...bodyLines], nunca se resincronizaban). Reconstruye ambos
+  // arreglos reales reemplazando SOLO el primer elemento real, preserva
+  // el resto (bodyLines reales intactos, nunca regenerados).
+  const hookFinal = hookText?.trim() || null;
+  const ctaFinal = ctaText?.trim() || null;
+  const overriddenCopy = (hookFinal || ctaFinal)
+    ? {
+      ...finalCopy,
+      ...(hookFinal ? { hook: hookFinal, headline: hookFinal } : {}),
+      ...(ctaFinal ? { cta: ctaFinal } : {}),
+      ...(hookFinal && Array.isArray(finalCopy.script) ? { script: [hookFinal, ...finalCopy.script.slice(1)] } : {}),
+      ...(hookFinal && Array.isArray(finalCopy.voiceover) ? { voiceover: [hookFinal, ...finalCopy.voiceover.slice(1)] } : {}),
+      primaryText: [hookFinal ?? finalCopy.hook, ...(finalCopy.bodyLines ?? []), ctaFinal ?? finalCopy.cta].join(' '),
+    }
+    : finalCopy;
+  const variant = { ...originalVariant, hookId: finalHookId, copy: overriddenCopy };
   // La variante elegida real se mueve al índice 0 -- variantIndex:0 sigue
   // siendo el contrato real que structure-recommendation/produce esperan
   // (nunca se expone un índice distinto de 0 en este flujo de instrucción
@@ -454,7 +532,303 @@ export async function handleProposeDirectCreative(req, res) {
     disclaimer: result.disclaimer,
   });
 
-  sendJson(res, 200, { batchId, variantIndex: 0, mediaType, product: result.product, creativeVariant: variant, rawText, disclaimer: result.disclaimer });
+  // hookMode/re-evaluación real (Corrección "Cierre del Creative
+  // Director", 2026-08-28, Paso 22/23 del encargo): con hookText real
+  // literal, el hook mostrado YA NO es el candidato real que eligió Hook
+  // Intelligence -- se re-puntúa el TEXTO real del usuario (nunca se
+  // sustituye), para que creativeQualityScore refleje la realidad, no un
+  // score real obsoleto del candidato descartado.
+  const hookEdited = Boolean(hookText?.trim());
+  const finalHookRelevanceScore = hookEdited
+    ? scoreHookText({
+      hookText: hookText.trim(), angleId: variant.angleId, userInstruction: rawText, previousHooks,
+    }).hookRelevanceScore
+    : (hookSelection?.hookRelevanceScore ?? angleSelection.hookRelevanceScore);
+  const finalRepetitionPenalty = hookEdited
+    ? scoreHookText({
+      hookText: hookText.trim(), angleId: variant.angleId, userInstruction: rawText, previousHooks,
+    }).repetitionPenalty
+    : (hookSelection?.repetitionPenalty ?? 0);
+
+  // Structure preview real (SOLO para alimentar Auto-QA global -- el
+  // Dashboard sigue pidiendo /api/create/structure-recommendation por
+  // separado para "Cambiar estructura", nunca duplicado aquí).
+  let structurePreview = null;
+  try {
+    structurePreview = previewStructureOptions({
+      userInstruction: rawText, campaignIntent: null, creativeVariant: variant, productFacts: result.product, contentType: 'VIDEO',
+    });
+  } catch { /* preview real opcional -- Auto-QA usa su fallback neutro real sin ella. */ }
+
+  // Auto-QA global real (Paso 1/2/7 del encargo "Cierre del Creative
+  // Director") -- SOLO lee los datos reales ya construidos arriba, nunca
+  // reconstruye hook/script/voiceover/visualIntent desde cero.
+  const qualityEval = evaluateCreativeProposal({
+    primaryAngle: angleSelection.primaryAngle,
+    hadUserInstruction: Boolean(rawText?.trim()),
+    hookRelevanceScore: finalHookRelevanceScore,
+    hookRepetitionPenalty: finalRepetitionPenalty,
+    relevantClaims: claimSelection,
+    structureId: structurePreview?.recommended?.structureId ?? null,
+    copy: variant.copy,
+    visualIntent: null, // Visual Intent real solo existe tras consultar model-recommendation (paso posterior real) -- Auto-QA usa su fallback neutro real aquí, nunca inventa uno.
+    visualContinuityContext: null,
+  });
+
+  sendJson(res, 200, {
+    batchId, variantIndex: 0, mediaType, product: result.product, creativeVariant: variant, rawText, disclaimer: result.disclaimer,
+    // Creative Angle Selector (Paso 29 del encargo): expuesto para que el
+    // Dashboard muestre "Ángulo creativo"/"Hook sugerido" ANTES de producir.
+    primaryAngle: angleSelection.primaryAngle,
+    secondaryAngle: angleSelection.secondaryAngle,
+    // Hook Intelligence (Paso 5/6/30 del encargo): hookType/score/status
+    // reales del MEJOR candidato real ya evaluado (hookSelection) --
+    // fallback real a angleSelection solo si Hook Intelligence real no
+    // pudo construir ningún candidato (Claim Safety rechazó todos).
+    hookType: hookSelection?.hookType ?? angleSelection.hookType,
+    hookRelevanceScore: finalHookRelevanceScore,
+    hookQualityStatus: hookEdited
+      ? (finalHookRelevanceScore >= 0.65 ? 'ACCEPTED' : 'LOW_CONFIDENCE')
+      : (hookSelection?.hookQualityStatus ?? 'LOW_CONFIDENCE'),
+    hookCandidates: hookSelection?.candidates ?? [],
+    // hookOriginal/hookEdited (Paso 20 del encargo): trazabilidad real del
+    // hook real ya elegido por Hook Intelligence vs el texto real que el
+    // usuario terminó usando -- nunca se pierde cuál era el real sugerido.
+    hookOriginal: hookSelection?.hook ?? originalVariant.copy.hook,
+    // Claim Relevance (Paso 10/11 del encargo): expuesto para "Claims
+    // principales" en el Dashboard (Paso 30) -- nunca un claim inventado,
+    // solo la clasificación real de los claims reales del producto.
+    relevantClaims: claimSelection ? { core: claimSelection.core, supporting: claimSelection.supporting, irrelevant: claimSelection.irrelevant } : null,
+    // hookMode (Paso 30 del encargo): "user_edited" real cuando el usuario
+    // ya sobrescribió el hook con hookText literal -- nunca se sobrescribe
+    // en silencio; "system_generated" es el default real (mismo hook que
+    // ya eligió Hook Intelligence real arriba).
+    hookMode: hookEdited ? 'user_edited' : 'system_generated',
+    // Auto-QA global real (Paso 8/9 del encargo) -- el Dashboard muestra
+    // SOLO "✅ Lista para producir" / "⚠️ Confianza baja", nunca los
+    // cálculos internos completos (Paso 9: "no mostrar todos los
+    // cálculos").
+    creativeQualityScore: qualityEval.creativeQualityScore,
+    creativeQualityStatus: qualityEval.creativeQualityStatus,
+  });
+}
+
+const MAX_MULTI_VARIANT_COUNT = 5;
+
+/**
+ * POST /api/create/propose-direct-variants — Corrección "Cierre del
+ * Creative Director" (2026-08-28, Paso 11/24/25/26/40/41 del encargo).
+ * Genera hasta MAX_MULTI_VARIANT_COUNT propuestas reales de UNA sola
+ * llamada real -- MISMA secuencia real por variante que
+ * handleProposeDirectCreative() (angle -> claims -> hook intelligence ->
+ * structure/visual preview -> Auto-QA), repetida N veces, cada una
+ * persistida como su propio Batch real e informando a la siguiente
+ * ronda real vía previousAngles/previousHooks (diversidad real, nunca
+ * artificial -- relevancia real sigue dominando, ver
+ * creativeAngleSelector.js/hookIntelligence.js). Nunca reimplementa
+ * Creative Structure Engine/Creative Director/Krea -- solo los consulta
+ * N veces reales.
+ */
+export async function handleProposeDirectMultiVariant(req, res) {
+  let body;
+  try { body = await readJsonBody(req); } catch (err) { badRequest(res, err.message); return; }
+  const { productId, rawText, variantCount = MAX_MULTI_VARIANT_COUNT } = body;
+  if (!productId?.trim()) { badRequest(res, 'propose-direct-variants: "productId" es obligatorio -- no se inventa un producto.'); return; }
+  if (!rawText?.trim()) { badRequest(res, 'propose-direct-variants: "rawText" (instrucción/intención) es obligatorio.'); return; }
+  const count = Math.min(MAX_MULTI_VARIANT_COUNT, Math.max(1, Number.isInteger(variantCount) ? variantCount : MAX_MULTI_VARIANT_COUNT));
+
+  const productGroundedEvidence = buildProductGroundedEvidence(productId);
+  if (!productGroundedEvidence) {
+    sendJson(res, 200, { status: 'MISSING_CREATIVE_MATCH', productId, errors: [`propose-direct-variants: "${productId}" no tiene hechos reales en docs/productos/.`] });
+    return;
+  }
+
+  const campaignId = productId;
+  const productRawAssets = getProduct(productId)?.rawAssets ?? [];
+  const variants = [];
+  const previousAngles = [];
+  const previousHooks = [];
+
+  for (let i = 0; i < count; i += 1) {
+    // eslint-disable-next-line no-await-in-loop
+    const { nextBatchNumber, blueprintOffset, usedFingerprints } = getCampaignBatchState(campaignId);
+    const result = buildHypothesisExperiment({
+      productGroundedEvidence, variantCount: DIRECT_PROPOSAL_VARIANT_COUNT, batchOffset: blueprintOffset, excludeFingerprints: usedFingerprints, campaignIntent: null,
+    });
+    if (result.status !== 'HYPOTHESIS_EXPERIMENT_READY') break; // sin más combinaciones reales -- se detiene, nunca inventa una variante faltante (Paso 25).
+
+    const compatibleVariants = result.variantsDetail
+      .map((v, idx) => ({ v, i: idx }))
+      .filter(({ v }) => !STATIC_FORMATS.includes(v.creativeVariant.format));
+    if (compatibleVariants.length === 0) continue; // esta ronda real no dio ningún candidato de VIDEO -- se reintenta la siguiente (acotado por "count").
+
+    const angleSelection = selectCreativeAngle({
+      userInstruction: rawText, candidates: compatibleVariants.map(({ v }) => v), previousAngles,
+    });
+    const compatibleIndex = compatibleVariants[angleSelection.selectedIndex].i;
+    const originalVariant = result.variantsDetail[compatibleIndex];
+
+    const claimSelection = originalVariant.hookRegenerationContext
+      ? selectRelevantClaims({ facts: originalVariant.hookRegenerationContext.facts, angleId: originalVariant.angleId })
+      : null;
+    const variantForHooks = claimSelection
+      ? { ...originalVariant, hookRegenerationContext: { ...originalVariant.hookRegenerationContext, facts: claimSelection.filteredFacts } }
+      : originalVariant;
+
+    let hookSelection = null;
+    try {
+      hookSelection = selectHook({ variant: variantForHooks, userInstruction: rawText, previousHooks });
+    } catch { /* ningún candidato real pasó Claim Safety -- se conserva el hook/copy original real de la variante. */ }
+    const finalCopy = hookSelection?.copy ?? originalVariant.copy;
+    const finalHookId = hookSelection?.hookId ?? originalVariant.hookId;
+    const variant = { ...originalVariant, hookId: finalHookId, copy: finalCopy };
+
+    const variantsDetail = [variant, ...result.variantsDetail.filter((_, idx) => idx !== compatibleIndex)];
+    const batchId = randomUUID();
+    const generationId = randomUUID();
+    const createdAt = new Date().toISOString();
+    saveBatch({
+      batchId, campaignId, batchNumber: nextBatchNumber, generationId, createdAt,
+      variantCount: variantsDetail.length, blueprintOffsetStart: blueprintOffset, fingerprints: variantsDetail.map((v) => v.fingerprint),
+      product: result.product, campaignIntent: null, experiment: result.experiment,
+      experimentQualityGate: result.experimentQualityGate, variantsDetail, disclaimer: result.disclaimer,
+    });
+
+    let structurePreview = null;
+    try {
+      structurePreview = previewStructureOptions({
+        userInstruction: rawText, campaignIntent: null, creativeVariant: variant, productFacts: result.product, contentType: 'VIDEO',
+      });
+    } catch { /* preview real opcional. */ }
+
+    // visualPreview: "i" real como variantIndex (rota assignVisualTreatment()
+    // real ya existente, Paso 18 del encargo -- reutiliza la MISMA
+    // diversidad real de tratamiento visual entre variantes de un batch,
+    // nunca un mecanismo nuevo).
+    let visualPreview = null;
+    try {
+      visualPreview = previewVisualRecommendation({
+        campaignIntent: null, productFacts: result.product, productRawAssets, variantIndex: i, campaignId,
+        userInstruction: rawText, angleId: variant.angleId,
+      });
+    } catch { /* preview real opcional. */ }
+
+    const qualityEval = evaluateCreativeProposal({
+      primaryAngle: angleSelection.primaryAngle,
+      hadUserInstruction: true,
+      hookRelevanceScore: hookSelection?.hookRelevanceScore ?? angleSelection.hookRelevanceScore,
+      hookRepetitionPenalty: hookSelection?.repetitionPenalty ?? 0,
+      relevantClaims: claimSelection,
+      structureId: structurePreview?.recommended?.structureId ?? null,
+      copy: variant.copy,
+      visualIntent: visualPreview?.visualIntent ?? null,
+      visualContinuityContext: visualPreview?.visualContinuityContext ?? null,
+    });
+
+    variants.push(Object.freeze({
+      batchId, variantIndex: 0, product: result.product, creativeVariant: variant,
+      primaryAngle: angleSelection.primaryAngle, secondaryAngle: angleSelection.secondaryAngle,
+      hookType: hookSelection?.hookType ?? angleSelection.hookType, hook: variant.copy.hook,
+      hookRelevanceScore: hookSelection?.hookRelevanceScore ?? angleSelection.hookRelevanceScore,
+      hookQualityStatus: hookSelection?.hookQualityStatus ?? 'LOW_CONFIDENCE',
+      relevantClaims: claimSelection ? { core: claimSelection.core, supporting: claimSelection.supporting } : null,
+      structureId: structurePreview?.recommended?.structureId ?? null,
+      structureLabel: structurePreview?.recommended?.label ?? null,
+      visualTreatment: visualPreview?.visualTreatment ?? null,
+      // Campos ya calculados por previewVisualRecommendation() -- solo se
+      // exponen aquí para que la tarjeta de comparación (UI de Variantes
+      // Creativas, Paso 3/11 del encargo) los muestre sin una llamada de
+      // red adicional por variante; nunca un segundo cálculo.
+      visualTreatmentLabel: visualPreview?.visualTreatmentLabel ?? null,
+      visualIntent: visualPreview?.visualIntent ?? null,
+      recommendedModel: visualPreview?.recommendedModel
+        ? { id: visualPreview.recommendedModel.id, displayName: visualPreview.recommendedModel.displayName }
+        : null,
+      productAssetAvailable: visualPreview?.assetRequirements?.productAssetAvailable ?? null,
+      creativeQualityScore: qualityEval.creativeQualityScore,
+      creativeQualityStatus: qualityEval.creativeQualityStatus,
+    }));
+
+    previousAngles.push(variant.angleId);
+    previousHooks.push({ hook: variant.copy.hook, hookId: variant.hookId });
+  }
+
+  if (variants.length === 0) {
+    sendJson(res, 200, { status: 'MEDIA_TYPE_MISMATCH', productId, campaignId, errors: [`propose-direct-variants: ninguna variante real compatible con VIDEO para "${productId}".`] });
+    return;
+  }
+
+  // diversityScore real (Paso 25/26 del encargo) -- determinista, nunca
+  // un modelo de IA adicional (Paso 26/43).
+  const diversity = computeDiversityScore(variants);
+
+  sendJson(res, 200, {
+    productId, campaignId, mediaType: 'VIDEO', variantCount: variants.length, variants,
+    diversityScore: diversity.diversityScore,
+    diversityDetail: {
+      distinctHooks: diversity.distinctHooks, distinctHookTypes: diversity.distinctHookTypes, distinctAngles: diversity.distinctAngles,
+      distinctStructures: diversity.distinctStructures, distinctTreatments: diversity.distinctTreatments, exactDuplicateHooks: diversity.exactDuplicateHooks,
+    },
+  });
+}
+
+/**
+ * POST /api/create/regenerate-hook — Corrección "Cierre del Creative
+ * Director" (2026-08-28, Paso 21/32 del encargo). Genera candidatos
+ * NUEVOS reales para el MISMO ángulo/estructura/claims/audiencia ya
+ * elegidos de una variante YA propuesta (batchId+variantIndex reales) --
+ * excluye explícitamente el hookId real actual (y cualquier otro real ya
+ * mostrado) de la búsqueda real. NUNCA persiste un batch nuevo (los
+ * Batches son inmutables) -- devuelve el resultado real para que el
+ * Dashboard lo use como "hookText" al aceptar la propuesta (mismo
+ * mecanismo real ya existente, nunca uno nuevo).
+ */
+export async function handleRegenerateHook(req, res) {
+  let body;
+  try { body = await readJsonBody(req); } catch (err) { badRequest(res, err.message); return; }
+  const { batchId, variantIndex = 0, userInstruction = null, excludeHookIds = [] } = body;
+  if (!batchId?.trim()) { badRequest(res, 'regenerate-hook: "batchId" es obligatorio.'); return; }
+
+  let batch;
+  try {
+    batch = getBatch(batchId);
+  } catch (err) {
+    badRequest(res, err.message);
+    return;
+  }
+  const variant = batch.variantsDetail[variantIndex];
+  if (!variant) { badRequest(res, `regenerate-hook: el batch "${batchId}" no tiene una variante real en el índice ${variantIndex}.`); return; }
+
+  const previousHooks = [];
+  try {
+    previousHooks.push(...listBatchesForCampaign(batch.campaignId)
+      .map((b) => b.variantsDetail?.[variantIndex])
+      .filter(Boolean)
+      .map((v) => ({ hook: v.copy?.hook, hookId: v.hookId })));
+  } catch { /* sin batches previos reales -- lista vacía real. */ }
+
+  const claimSelection = variant.hookRegenerationContext
+    ? selectRelevantClaims({ facts: variant.hookRegenerationContext.facts, angleId: variant.angleId })
+    : null;
+  const variantForHooks = claimSelection
+    ? { ...variant, hookRegenerationContext: { ...variant.hookRegenerationContext, facts: claimSelection.filteredFacts } }
+    : variant;
+
+  let hookSelection;
+  try {
+    hookSelection = selectHook({
+      variant: variantForHooks, userInstruction, previousHooks, excludeHookIds: [variant.hookId, ...excludeHookIds],
+    });
+  } catch (err) {
+    sendJson(res, 200, { status: 'LOW_CONFIDENCE', error: err.message });
+    return;
+  }
+
+  sendJson(res, 200, {
+    hook: hookSelection.hook, hookId: hookSelection.hookId, hookType: hookSelection.hookType,
+    hookRelevanceScore: hookSelection.hookRelevanceScore, hookQualityStatus: hookSelection.hookQualityStatus,
+    hookMode: 'system_generated',
+  });
 }
 
 /**
@@ -703,6 +1077,9 @@ export async function handleModelRecommendation(req, res, url) {
     variantIndex,
     campaignId: batch.campaignId,
     selectedModelId, selectedQuality, userInstruction,
+    // Creative Angle (Paso 18/29 del encargo): angleId real YA elegido
+    // (batch.variantsDetail[variantIndex].angleId), nunca recalculado.
+    angleId: batch.variantsDetail[variantIndex]?.angleId ?? null,
   });
   sendJson(res, 200, preview);
 }

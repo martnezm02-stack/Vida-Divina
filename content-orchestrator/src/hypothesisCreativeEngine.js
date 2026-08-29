@@ -271,6 +271,14 @@ function buildVariant(blueprint, productBasis, facts, campaignIntent = null) {
     copyStyle: blueprint.copyStyle,
     ctaStrategy: blueprint.ctaStrategy,
     scrollStoppingPattern: blueprint.scrollStoppingPattern,
+    // hookRegenerationContext (Corrección "Hook Intelligence + Claim
+    // Relevance + Auto-QA", 2026-08-28, Paso 2/3 del encargo): MISMOS
+    // insumos reales ya usados arriba para generateVariantCopy() --
+    // expuestos para que hookIntelligence.js pueda re-renderizar
+    // candidatos de hook reales (mismo painHookFragment/facts/
+    // campaignIntent, solo cambiando blueprint.hook) sin recalcular nada
+    // ni inventar un segundo motor de copy.
+    hookRegenerationContext: Object.freeze({ blueprint, painHookFragment, facts, campaignIntent }),
   });
 }
 
@@ -427,6 +435,7 @@ export function buildHypothesisExperiment({
       copyStyle: v.copyStyle,
       ctaStrategy: v.ctaStrategy,
       scrollStoppingPattern: v.scrollStoppingPattern,
+      hookRegenerationContext: v.hookRegenerationContext,
     }))),
     experimentQualityGate,
     disclaimer: 'Estas ideas son hipótesis de marketing. No representan conocimiento validado de clientes y requieren revisión humana.',

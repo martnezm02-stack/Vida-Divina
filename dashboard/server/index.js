@@ -16,7 +16,7 @@ import { extname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { sendJson, notFound, serverError } from './lib/http.js';
 import { handleProducts, handleProduct, handleAssets, handleDeleteAsset, handleCampaigns, handleOutputProfiles, handleOperations, handleAudioAssets, handlePreviewInfo } from './routes/library.js';
-import { handleCreate, handleEdit, handleAdapt, handleProposeCreative, handleProposeDirectCreative, handleSuggestHypothesisVariants, handleListHypothesisBatches, handleVideoScript, handleProposeCarousel, handleCreateCarousel, handlePublishTargets, handlePublish, handleProduceCreative, handleProduceCreativeStart, handleProduceCreativeStatus, handleModelRecommendation, handleStructureRecommendation } from './routes/generation.js';
+import { handleCreate, handleEdit, handleAdapt, handleProposeCreative, handleProposeDirectCreative, handleProposeDirectMultiVariant, handleRegenerateHook, handleSuggestHypothesisVariants, handleListHypothesisBatches, handleVideoScript, handleProposeCarousel, handleCreateCarousel, handlePublishTargets, handlePublish, handleProduceCreative, handleProduceCreativeStart, handleProduceCreativeStatus, handleModelRecommendation, handleStructureRecommendation } from './routes/generation.js';
 import { handleMedia } from './routes/media.js';
 import { handlePerformanceList, handlePerformanceAnalysis } from './routes/performance.js';
 import { handleAttributionList, handleAttributionSummary } from './routes/attribution.js';
@@ -101,6 +101,8 @@ const server = http.createServer(async (req, res) => {
 
     if (pathname === '/api/create/propose' && req.method === 'POST') { await handleProposeCreative(req, res); return; }
     if (pathname === '/api/create/propose-direct' && req.method === 'POST') { await handleProposeDirectCreative(req, res); return; }
+    if (pathname === '/api/create/propose-direct-variants' && req.method === 'POST') { await handleProposeDirectMultiVariant(req, res); return; }
+    if (pathname === '/api/create/regenerate-hook' && req.method === 'POST') { await handleRegenerateHook(req, res); return; }
     if (pathname === '/api/create/suggest-hypothesis' && req.method === 'POST') { await handleSuggestHypothesisVariants(req, res); return; }
     if (pathname === '/api/create/hypothesis-batches' && req.method === 'GET') { await handleListHypothesisBatches(req, res, url); return; }
     if (pathname === '/api/create/model-recommendation' && req.method === 'GET') { await handleModelRecommendation(req, res, url); return; }

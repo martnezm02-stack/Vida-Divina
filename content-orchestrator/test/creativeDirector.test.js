@@ -366,3 +366,57 @@ describe('buildVisualStrategy — Diversidad Visual entre escenas (Corrección "
     }
   });
 });
+
+describe('buildVisualStrategy — Creative Angle / Hook Intelligence (Corrección "Evolución integral del Creative Director", 2026-08-28)', () => {
+  const INSTRUCCION_MUJER_OFICINA = 'Quiero un video de una mujer adulta trabajando en una oficina moderna, mostrando cómo puede integrar el producto en su rutina diaria.';
+
+  test('Visual Intent real específico: incluye el ángulo creativo real (nunca el default genérico por-tratamiento, Paso 18)', () => {
+    const scenePlan = realScenePlan([]);
+    const strategy = buildVisualStrategy({
+      creativeVariant: CREATIVE_VARIANT_REAL, campaignIntent: null, productFacts: PRODUCT_FACTS_REAL,
+      productRawAssets: [], scenePlan, variantIndex: 0, userInstruction: INSTRUCCION_MUJER_OFICINA,
+    });
+    // CREATIVE_VARIANT_REAL.angleId real = "problem_agitation" -> label real "Agitación del problema".
+    assert.match(strategy.visualIntent, /Agitaci[oó]n del problema/);
+    assert.match(strategy.visualIntent, /mujer adulta/);
+  });
+
+  test('hookVisualIntent real: presente SOLO en la escena real HOOK, incorpora el hook real (Paso 11 del encargo)', () => {
+    const scenePlan = realScenePlan([]);
+    const strategy = buildVisualStrategy({
+      creativeVariant: CREATIVE_VARIANT_REAL, campaignIntent: null, productFacts: PRODUCT_FACTS_REAL,
+      productRawAssets: [], scenePlan, variantIndex: 0, userInstruction: INSTRUCCION_MUJER_OFICINA,
+    });
+    const hookScene = strategy.sceneVisuals.find((s) => s.narrativePurpose === 'HOOK');
+    assert.ok(hookScene, 'debe existir una escena real con narrativePurpose HOOK');
+    assert.ok(hookScene.hookVisualIntent?.length > 0, 'la escena HOOK real trae hookVisualIntent real');
+    assert.match(hookScene.hookVisualIntent, new RegExp(CREATIVE_VARIANT_REAL.copy.hook.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
+    const nonHookScenes = strategy.sceneVisuals.filter((s) => s.narrativePurpose !== 'HOOK');
+    for (const s of nonHookScenes) {
+      assert.equal(s.hookVisualIntent, undefined, `escena "${s.sceneId}" real (${s.narrativePurpose}) NO debe traer hookVisualIntent real`);
+    }
+  });
+
+  test('generatedPrompt real de la escena HOOK incluye el ángulo creativo real y el hook real (Paso 26 del encargo)', () => {
+    const scenePlan = realScenePlan([]);
+    const strategy = buildVisualStrategy({
+      creativeVariant: CREATIVE_VARIANT_REAL, campaignIntent: null, productFacts: PRODUCT_FACTS_REAL,
+      productRawAssets: [], scenePlan, variantIndex: 0, userInstruction: INSTRUCCION_MUJER_OFICINA,
+    });
+    const hookScene = strategy.sceneVisuals.find((s) => s.narrativePurpose === 'HOOK');
+    assert.match(hookScene.visualPrompt, /Agitaci[oó]n del problema/);
+    assert.match(hookScene.visualPrompt, new RegExp(CREATIVE_VARIANT_REAL.copy.hook.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
+  });
+
+  test('backward compatibility real: sin userInstruction, visualIntent real preserva el cálculo preexistente (nunca angle/hook)', () => {
+    const scenePlan = realScenePlan([]);
+    const strategy = buildVisualStrategy({
+      creativeVariant: CREATIVE_VARIANT_REAL, campaignIntent: CAMPAIGN_INTENT_REAL, productFacts: PRODUCT_FACTS_REAL,
+      productRawAssets: [], scenePlan, variantIndex: 0, userInstruction: null,
+    });
+    assert.doesNotMatch(strategy.visualIntent, /Agitaci[oó]n del problema/);
+    for (const s of strategy.sceneVisuals) {
+      assert.equal(s.hookVisualIntent, undefined);
+    }
+  });
+});

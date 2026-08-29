@@ -288,9 +288,29 @@ function productionJobStatusHtml(job) {
     </details>
   `;
   }).join('');
+  // Nombre humano real (Corrección "UI de Variantes Creativas", Paso 17
+  // del encargo): o.displayName ya viene del backend (buildDisplayName(),
+  // ver /api/create/produce) -- nunca output-<uuid>.mp4 como nombre
+  // principal; el nombre técnico (profileName/aspectRatio) queda como meta.
   const outputsHtml = (job.outputs ?? []).map((o) => `
-    <div class="variant-field"><strong>${o.profileName} (${o.aspectRatio})</strong>${o.status}${o.mediaUrl ? ` — <a href="${o.mediaUrl}" target="_blank" rel="noopener">ver video</a>` : ''}</div>
+    <div class="variant-field"><strong>${o.displayName ?? o.profileName}</strong><span class="meta">${o.profileName} (${o.aspectRatio})</span> ${o.status}${o.mediaUrl ? ` — <a href="${o.mediaUrl}" target="_blank" rel="noopener">ver video</a>` : ''}</div>
   `).join('');
+  // Plan visual por escena (Corrección "UI de Variantes Creativas", Paso 9
+  // del encargo): Etapa/Objetivo/Acción/Encuadre reales, ya calculados por
+  // Visual Scene Brief (job.scenePlan.scenes) -- nunca reconstruido aquí,
+  // solo leído y presentado en un <details> colapsable.
+  const SECTION_TYPE_LABELS = { HOOK: 'Hook', STORY: 'Historia', PRODUCT: 'Producto', CTA: 'Llamado a la acción' };
+  const scenePlanHtml = (job.scenePlan?.scenes ?? []).length
+    ? `<details class="scene-prompt-detail">
+        <summary><strong>Ver plan visual</strong> (${job.scenePlan.scenes.length} escena(s) real(es))</summary>
+        ${job.scenePlan.scenes.map((s, i) => `
+          <div class="variant-field"><strong>Escena ${i + 1} — ${SECTION_TYPE_LABELS[s.sectionType] ?? s.sectionType}</strong></div>
+          ${s.narrativePurpose ? `<div class="variant-field"><strong>Objetivo</strong>${s.narrativePurpose}</div>` : ''}
+          ${s.action ? `<div class="variant-field"><strong>Acción</strong>${s.action}</div>` : ''}
+          ${s.shotType ? `<div class="variant-field"><strong>Encuadre</strong>${s.shotType}${s.cameraAngle ? `, ángulo ${s.cameraAngle}` : ''}</div>` : ''}
+        `).join('')}
+      </details>`
+    : '';
   const qaHtml = (job.qualityReports ?? []).map((q) => `
     <div class="variant-field"><strong>QA ${q.profileName}</strong>${q.status}${q.warnings?.length ? ` (${q.warnings.length} advertencia(s) real(es))` : ''}</div>
   `).join('');
@@ -306,6 +326,7 @@ function productionJobStatusHtml(job) {
     ${outputsHtml}
     ${qaHtml}
     <div class="variant-field"><strong>Costo estimado</strong>$${job.costReport?.estimatedTotal ?? 0} ${job.costReport?.currency ?? 'USD'}</div>
+    ${scenePlanHtml}
     ${promptsHtml}
     ${editorBtn}
   `;
@@ -340,6 +361,63 @@ function attachPromptCopyHandlers(container) {
 // /api/create/structure-recommendation (Creative Structure Engine, sin
 // tocar), solo renderizado distinto al widget inline compacto que ya usan
 // las tarjetas de "Sugerir variantes" (structureBlock, más abajo).
+// Creative Angle / Hook Intelligence (Corrección "Evolución integral del
+// Creative Director", 2026-08-28, Paso 29 del encargo): "Ángulo
+// creativo"/"Hook sugerido" ANTES de Estructura -- mismos campos reales
+// ya devueltos por propose-direct (primaryAngle/hookType/creativeVariant.copy.hook,
+// ver creativeAngleSelector.js), nunca recalculados aquí.
+// Hook Intelligence + Claim Relevance (Corrección "Hook Intelligence +
+// Claim Relevance + Auto-QA", 2026-08-28, Paso 30 del encargo): Relevancia
+// (score + categoría real -- nunca solo el número crudo) y Claims
+// principales (CORE/SUPPORTING reales, nunca la lista completa del
+// catálogo) se muestran ANTES de producir.
+function hookRelevanceCategoryLabel(status, score) {
+  if (status === 'LOW_CONFIDENCE') return `⚠️ Confianza baja (${(score ?? 0).toFixed(2)})`;
+  return `✅ Aceptado (${(score ?? 0).toFixed(2)})`;
+}
+
+// Auto-QA global (Corrección "Cierre del Creative Director", 2026-08-28,
+// Paso 9 del encargo): "✅ Lista para producir" / "⚠️ Confianza baja" --
+// NUNCA los cálculos internos completos (Paso 9: "no mostrar todos los
+// cálculos"). "Revisión automática aplicada" cuando el hookMode real ya
+// es user_edited (el usuario ya intervino sobre lo que el sistema
+// propuso).
+function creativeQualityLabel(proposal) {
+  const base = proposal.creativeQualityStatus === 'ACCEPTED' ? '✅ Lista para producir' : '⚠️ Confianza baja';
+  return proposal.hookMode === 'user_edited' ? `${base} <span class="meta">(hook editado por usuario)</span>` : base;
+}
+
+function creativeAngleProposalHtml(proposal) {
+  const angleHtml = proposal.primaryAngle
+    ? `<strong>${proposal.primaryAngle.label}</strong>${proposal.secondaryAngle ? ` <span class="meta">(con matiz de ${proposal.secondaryAngle.label})</span>` : ''}`
+    : '<span class="meta">Sin ángulo creativo detectado real en la instrucción.</span>';
+  const claims = proposal.relevantClaims;
+  const claimsHtml = claims && (claims.core.length || claims.supporting.length)
+    ? `<h3>Claims principales</h3><p>${[...claims.core.map((c) => `<strong>${c}</strong>`), ...claims.supporting.map((c) => c)].join(' · ')}</p>`
+    : '';
+  return `
+    <div class="panel creative-angle-proposal">
+      <h3>Calidad de la propuesta</h3>
+      <p>${creativeQualityLabel(proposal)}</p>
+      <h3>Ángulo creativo</h3>
+      <p>${angleHtml}</p>
+      <h3>Hook sugerido</h3>
+      <p><strong id="proposal-hook-text">${proposal.creativeVariant.copy.hook}</strong>${proposal.hookType ? ` <span class="meta">(${proposal.hookType.label})</span>` : ''}
+        <button type="button" class="btn-link btn-edit-hook">Editar</button>
+        <button type="button" class="btn-link btn-regenerate-hook">Regenerar</button>
+      </p>
+      <div class="hook-edit-box hidden">
+        <input type="text" class="hook-edit-input" />
+        <button type="button" class="btn-primary btn-save-hook">Guardar</button>
+        <button type="button" class="btn-link btn-cancel-hook-edit">Cancelar</button>
+      </div>
+      <h3>Relevancia</h3>
+      <p>${hookRelevanceCategoryLabel(proposal.hookQualityStatus, proposal.hookRelevanceScore)}</p>
+      ${claimsHtml}
+    </div>
+  `;
+}
+
 function structureProposalHtml(rec) {
   const stagesHtml = rec.recommended.stages.map((s, i) => `${i + 1}. ${s}`).join(' → ');
   const optionsHtml = rec.options.map((o) => `<option value="${o.structureId}"${o.structureId === rec.recommended.structureId ? ' selected' : ''}>${o.label} (${o.stages.join(' → ')})</option>`).join('');
@@ -510,33 +588,87 @@ async function runDirectStructureProposal({ form, btn, resultEl, rawText }) {
       return;
     }
 
-    const { batchId } = proposal;
-    const rec = await api(`/api/create/structure-recommendation?batchId=${batchId}&variantIndex=0&userInstruction=${encodeURIComponent(rawText)}`);
-    resultEl.innerHTML = structureProposalHtml(rec);
+    // Control manual de hook (Corrección "Cierre del Creative Director",
+    // 2026-08-28, Paso 19-23 del encargo): "showProposal" real es
+    // reutilizable -- la llamada inicial Y cada [Guardar]/[Regenerar] real
+    // re-renderizan el MISMO flujo real (Ángulo/Hook/Estructura), nunca
+    // uno paralelo.
+    async function showProposal(currentProposal) {
+      const { batchId } = currentProposal;
+      const rec = await api(`/api/create/structure-recommendation?batchId=${batchId}&variantIndex=0&userInstruction=${encodeURIComponent(rawText)}`);
+      resultEl.innerHTML = creativeAngleProposalHtml(currentProposal) + structureProposalHtml(rec);
 
-    const selectEl = $('.direct-structure-select', resultEl);
-    const changeBtn = $('.btn-change-structure-direct', resultEl);
-    const useBtn = $('.btn-use-structure', resultEl);
-    if (rec.options.length > 1) {
-      changeBtn.addEventListener('click', () => selectEl.classList.toggle('hidden'));
-    } else {
-      changeBtn.classList.add('hidden');
+      // Editar/Regenerar hook (Paso 19-23 del encargo): "Editar" revela un
+      // input real pre-lleno con el hook real vigente; "Regenerar" pide un
+      // candidato real nuevo (excluyendo el hookId real actual, ver
+      // /api/create/regenerate-hook) y lo precarga en el mismo input real
+      // para que el usuario lo revise antes de "Guardar" -- NUNCA sustituye
+      // el hook real en silencio.
+      const hookBox = $('.hook-edit-box', resultEl);
+      const hookInput = $('.hook-edit-input', resultEl);
+      $('.btn-edit-hook', resultEl)?.addEventListener('click', () => {
+        hookInput.value = currentProposal.creativeVariant.copy.hook;
+        hookBox.classList.remove('hidden');
+        hookInput.focus();
+      });
+      $('.btn-regenerate-hook', resultEl)?.addEventListener('click', async (ev) => {
+        const regenBtn = ev.currentTarget;
+        regenBtn.disabled = true; regenBtn.textContent = 'REGENERANDO…';
+        try {
+          const nuevo = await api('/api/create/regenerate-hook', {
+            method: 'POST', headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ batchId, variantIndex: 0, userInstruction: rawText }),
+          });
+          if (nuevo.hook) {
+            hookInput.value = nuevo.hook;
+            hookBox.classList.remove('hidden');
+            hookInput.focus();
+          }
+        } catch { /* fallo real de red -- el usuario puede reintentar, nunca rompe la propuesta ya mostrada. */ }
+        regenBtn.disabled = false; regenBtn.textContent = 'Regenerar';
+      });
+      $('.btn-cancel-hook-edit', resultEl)?.addEventListener('click', () => hookBox.classList.add('hidden'));
+      $('.btn-save-hook', resultEl)?.addEventListener('click', async () => {
+        const hookEditado = hookInput.value.trim();
+        if (!hookEditado) return;
+        // Re-evaluación real (Paso 23 del encargo): re-llama a
+        // propose-direct real con el hook real editado como hookText --
+        // MISMO mecanismo real ya existente (nunca uno nuevo), obtiene un
+        // creativeQualityScore real que refleja el texto real del
+        // usuario, nunca el candidato descartado.
+        const nuevaPropuesta = await api('/api/create/propose-direct', {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ productId: form.productId.value, rawText, hookText: hookEditado }),
+        });
+        if (nuevaPropuesta.batchId) await showProposal(nuevaPropuesta);
+      });
+
+      const selectEl = $('.direct-structure-select', resultEl);
+      const changeBtn = $('.btn-change-structure-direct', resultEl);
+      const useBtn = $('.btn-use-structure', resultEl);
+      if (rec.options.length > 1) {
+        changeBtn.addEventListener('click', () => selectEl.classList.toggle('hidden'));
+      } else {
+        changeBtn.classList.add('hidden');
+      }
+
+      useBtn.addEventListener('click', async () => {
+        // selectionMode: si el selector sigue oculto (el usuario nunca lo
+        // tocó), se envía selectedStructureId=null -> el servidor lo
+        // registra como "automatic" (recomendación aceptada tal cual);
+        // visible = el usuario cambió la estructura -> "user_selected"
+        // (mismo criterio real que Modelo Sugerido + Selección Manual).
+        const selectedStructureId = selectEl.classList.contains('hidden') ? null : selectEl.value;
+        // Flujo de confirmación (Paso 21 del encargo): Estructura aceptada ->
+        // ahora Modelo/Calidad sugeridos (Generation Settings) -- NUNCA
+        // produce todavía.
+        await renderGenerationSettingsStep({
+          form, resultEl, rawText, batchId, selectedStructureId,
+        });
+      });
     }
 
-    useBtn.addEventListener('click', async () => {
-      // selectionMode: si el selector sigue oculto (el usuario nunca lo
-      // tocó), se envía selectedStructureId=null -> el servidor lo
-      // registra como "automatic" (recomendación aceptada tal cual);
-      // visible = el usuario cambió la estructura -> "user_selected"
-      // (mismo criterio real que Modelo Sugerido + Selección Manual).
-      const selectedStructureId = selectEl.classList.contains('hidden') ? null : selectEl.value;
-      // Flujo de confirmación (Paso 21 del encargo): Estructura aceptada ->
-      // ahora Modelo/Calidad sugeridos (Generation Settings) -- NUNCA
-      // produce todavía.
-      await renderGenerationSettingsStep({
-        form, resultEl, rawText, batchId, selectedStructureId,
-      });
-    });
+    await showProposal(proposal);
   } catch (err) {
     resultEl.innerHTML = `<div class="result-status VALIDATION_FAILED">ERROR</div><p>${err.message}</p>`;
   } finally {
@@ -900,6 +1032,237 @@ if (createSuggestBtn) {
       createSuggestBtn.textContent = previousLabel;
     } finally {
       createSuggestBtn.disabled = false;
+    }
+  });
+}
+
+// ============================================================
+// UI DE VARIANTES CREATIVAS — Comparar + Seleccionar + Producir
+// (Corrección "UI de Variantes Creativas", 2026-08-28). Consume
+// POST /api/create/propose-direct-variants (Cierre del Creative
+// Director, ya validado a nivel backend: Auto-QA/Diversity/Hook
+// Intelligence/Claim Relevance/Creative Structure Engine/Creative
+// Director) -- esta UI SOLO presenta, compara, selecciona y dispara
+// la producción real de UNA variante ya generada; nunca recalcula
+// angle/hook/quality/diversity en el frontend (Paso 5/6/22 del
+// encargo). Cada variante ya es su propio Batch real persistido
+// (batchId, variantIndex siempre 0) -- por eso reutiliza tal cual
+// /api/create/model-recommendation y /api/create/produce (mismo
+// mecanismo real ya validado por "Sugerir variantes", arriba), nunca
+// un segundo pipeline de producción.
+const generateVariantsBtn = $('#create-generate-variants-btn');
+if (generateVariantsBtn) {
+  const workspace = $('#create-variants-workspace');
+  let currentVariants = [];
+  let currentDiversity = null;
+  let selectedIndex = null;
+
+  function qualityBadgeHtml(status) {
+    return status === 'ACCEPTED'
+      ? '<span class="quality-badge quality-ok">✅ Lista para producir</span>'
+      : '<span class="quality-badge quality-low">⚠️ Confianza baja</span>';
+  }
+
+  function productBadgeHtml(available) {
+    if (available === null || available === undefined) return '';
+    return available
+      ? '<div class="variant-field"><strong>Producto</strong>✅ Fotografía real del producto</div>'
+      : '<div class="variant-field"><strong>Producto</strong>⚠️ Sin fotografía del producto -- para mostrarlo físicamente selecciona una fotografía real antes de producir.</div>';
+  }
+
+  function diversityLabel(score) {
+    if (score >= 0.7) return 'Alta diversidad';
+    if (score >= 0.4) return 'Diversidad media';
+    return 'Diversidad baja';
+  }
+
+  // Ver detalle (Paso 8 del encargo): SOLO campos ya devueltos por
+  // propose-direct-variants -- nunca reconstruye script/voiceover/visual
+  // intent, ya vienen calculados por Creative Director/Hook Intelligence.
+  function variantDetailHtml(v) {
+    const claims = v.relevantClaims;
+    const claimsHtml = claims
+      ? `<div class="variant-field"><strong>Claims principales</strong>${[...(claims.core ?? []), ...(claims.supporting ?? [])].join(' · ') || '—'}</div>`
+      : '';
+    const script = (v.creativeVariant?.copy?.script ?? []).join(' ');
+    const voiceover = (v.creativeVariant?.copy?.voiceover ?? []).join(' ');
+    return `
+      <div class="variant-field"><strong>Ángulo creativo</strong>${v.primaryAngle?.label ?? '—'}${v.secondaryAngle?.label ? ` <span class="meta">(secundario: ${v.secondaryAngle.label})</span>` : ''}</div>
+      <div class="variant-field"><strong>Hook</strong>${v.hook}</div>
+      <div class="variant-field"><strong>Tipo de hook</strong>${v.hookType?.label ?? '—'}</div>
+      <div class="variant-field"><strong>Estructura</strong>${v.structureLabel ?? '—'}</div>
+      ${claimsHtml}
+      ${script ? `<div class="variant-field"><strong>Script</strong>${script}</div>` : ''}
+      ${voiceover ? `<div class="variant-field"><strong>Voiceover</strong>${voiceover}</div>` : ''}
+      ${v.visualIntent ? `<div class="variant-field"><strong>Visual Intent</strong>${v.visualIntent}</div>` : ''}
+      <div class="variant-field"><strong>Tratamiento visual</strong>${v.visualTreatmentLabel ?? v.visualTreatment ?? '—'}</div>
+      <div class="variant-field"><strong>Modelo sugerido</strong>${v.recommendedModel?.displayName ?? '—'}</div>
+      <div class="variant-field"><strong>Calidad</strong>${qualityBadgeHtml(v.creativeQualityStatus)}</div>
+      ${productBadgeHtml(v.productAssetAvailable)}
+    `;
+  }
+
+  // Tarjeta compacta (Paso 3/4 del encargo): idea + apertura + narrativa +
+  // visual + calidad, de un vistazo -- nunca el script completo ni UUIDs.
+  function variantCompareCardHtml(v, index) {
+    const isSelected = index === selectedIndex;
+    return `
+      <div class="variant-card compare-card${isSelected ? ' selected' : ''}" data-variant-index="${index}">
+        <h4>Variante ${index + 1}</h4>
+        <div class="variant-field"><strong>Ángulo</strong>${v.primaryAngle?.label ?? '—'}</div>
+        <div class="variant-field"><strong>Hook</strong>"${v.hook}"</div>
+        <div class="variant-field"><strong>Estructura</strong>${v.structureLabel ?? '—'}</div>
+        <div class="variant-field"><strong>Tratamiento</strong>${v.visualTreatmentLabel ?? v.visualTreatment ?? '—'}</div>
+        <div class="variant-field"><strong>Calidad</strong>${qualityBadgeHtml(v.creativeQualityStatus)}</div>
+        <div class="variant-field"><strong>Modelo sugerido</strong>${v.recommendedModel?.displayName ?? '—'}</div>
+        <button type="button" class="btn-secondary btn-select-variant" data-variant-index="${index}">${isSelected ? '✓ Seleccionada' : 'Seleccionar'}</button>
+        <details class="scene-prompt-detail">
+          <summary>Ver detalle</summary>
+          ${variantDetailHtml(v)}
+        </details>
+      </div>
+    `;
+  }
+
+  function productionPreviewHtml(v, index) {
+    return `
+      <div class="panel" id="variant-production-preview">
+        <h4>Producir variante ${index + 1}</h4>
+        <div class="variant-field"><strong>Ángulo</strong>${v.primaryAngle?.label ?? '—'}</div>
+        <div class="variant-field"><strong>Hook</strong>"${v.hook}"</div>
+        <div class="variant-field"><strong>Estructura</strong>${v.structureLabel ?? '—'}</div>
+        <div class="variant-field"><strong>Formato</strong>Instagram Reel + Instagram Feed</div>
+        ${productBadgeHtml(v.productAssetAvailable)}
+        <div class="model-recommendation" data-variant-index="0">
+          <span class="model-suggestion-label" data-variant-index="0">Calculando modelo sugerido…</span>
+          <button type="button" class="btn-link btn-change-model hidden" data-variant-index="0">Cambiar modelo</button>
+          <select class="model-select hidden" data-variant-index="0"></select>
+        </div>
+        <button type="button" class="btn-primary btn-produce-variant">PRODUCIR →</button>
+        <div class="production-status hidden"></div>
+      </div>
+    `;
+  }
+
+  // Modelo Sugerido + Selección Manual (Paso 14 del encargo): mismo
+  // mecanismo real ya validado en initModelRecommendation() (arriba) --
+  // batchId real de LA variante seleccionada (cada variante ya es su
+  // propio batch real). Un cambio manual del <select> hace que
+  // selectionMode="user_selected" del lado real del servidor
+  // (buildModelSelection ya existente, nunca tocado aquí).
+  async function renderProductionPreview() {
+    if (selectedIndex === null) return;
+    const v = currentVariants[selectedIndex];
+    const existing = workspace.querySelector('#variant-production-preview');
+    if (existing) existing.remove();
+    workspace.insertAdjacentHTML('beforeend', productionPreviewHtml(v, selectedIndex));
+    const previewEl = workspace.querySelector('#variant-production-preview');
+
+    const widget = previewEl.querySelector('.model-recommendation');
+    const labelEl = widget.querySelector('.model-suggestion-label');
+    const changeBtn = widget.querySelector('.btn-change-model');
+    const selectEl = widget.querySelector('.model-select');
+    try {
+      const rec = await api(`/api/create/model-recommendation?batchId=${v.batchId}&variantIndex=0`);
+      if (rec.recommendedModel) {
+        labelEl.innerHTML = `Modelo sugerido: <strong>${rec.recommendedModel.displayName} ✓</strong><br><span class="meta">${rec.recommendedModel.shortComment ?? ''} — ${rec.recommendationReason ?? ''}</span>`;
+        selectEl.innerHTML = rec.availableModels.map((m) => `<option value="${m.id}"${m.id === rec.recommendedModel.id ? ' selected' : ''}>${m.displayName} — ${m.costTierLabel}</option>`).join('');
+        if (rec.availableModels.length > 1) {
+          changeBtn.classList.remove('hidden');
+          changeBtn.addEventListener('click', () => selectEl.classList.toggle('hidden'));
+        }
+      } else {
+        labelEl.textContent = 'Sin modelo de imagen disponible en este entorno.';
+      }
+    } catch {
+      labelEl.textContent = 'No se pudo calcular el modelo sugerido (se producirá con el fallback real disponible).';
+    }
+
+    // Producción (Paso 15/26 del encargo): SOLO la variante seleccionada
+    // -- un único job real por clic, nunca las otras cuatro.
+    const produceBtn = previewEl.querySelector('.btn-produce-variant');
+    produceBtn.addEventListener('click', async () => {
+      const statusEl = previewEl.querySelector('.production-status');
+      const imageModelId = selectEl?.value || null;
+      statusEl.classList.remove('hidden');
+      statusEl.innerHTML = '<p class="placeholder">Produciendo pieza audiovisual real (guion, escenas, voz real, composición)… puede tardar varios minutos.</p>';
+      produceBtn.disabled = true;
+      try {
+        const job = await api('/api/create/produce', {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ batchId: v.batchId, variantIndex: 0, outputProfileNames: ['INSTAGRAM_REEL', 'INSTAGRAM_FEED'], imageModelId }),
+        });
+        statusEl.innerHTML = productionJobStatusHtml(job);
+        attachPromptCopyHandlers(statusEl);
+        const openBtn = statusEl.querySelector('.btn-open-editor');
+        if (openBtn && window.VidaDivinaEditor) {
+          openBtn.addEventListener('click', () => window.VidaDivinaEditor.openFromProductionJob(openBtn.dataset.productionJobId));
+        }
+      } catch (err) {
+        statusEl.innerHTML = `<div class="result-status VALIDATION_FAILED">ERROR</div><p>${err.message}</p>`;
+      } finally {
+        produceBtn.disabled = false;
+      }
+    });
+  }
+
+  // Paso 16 del encargo: seleccionar (o cambiar de selección) SIEMPRE
+  // re-renderiza la lista completa de variantes (nunca la destruye) --
+  // cualquier vista previa de producción anterior queda invalidada y debe
+  // pedirse de nuevo con "Continuar a producción" (Paso 25/26: cambiar de
+  // variante nunca deja un job real a medias de la variante anterior).
+  function renderVariantsWorkspace() {
+    const diversityHtml = currentDiversity
+      ? `<div class="meta">Diversidad de variantes: <strong>${currentDiversity.diversityScore.toFixed(2)}</strong> (${diversityLabel(currentDiversity.diversityScore)})</div>`
+      : '';
+    const cards = currentVariants.map((v, i) => variantCompareCardHtml(v, i)).join('');
+    workspace.innerHTML = `
+      <div class="panel">
+        <div class="result-status HYPOTHESIS_EXPERIMENT_READY">${currentVariants.length} VARIANTE(S) DISPONIBLE(S)</div>
+        ${diversityHtml}
+        <div class="variant-grid">${cards}</div>
+        ${selectedIndex === null ? '<p class="placeholder">Selecciona una variante para continuar a producción.</p>' : '<button type="button" class="btn-primary" id="btn-continue-to-production">Continuar a producción →</button>'}
+      </div>
+    `;
+    workspace.querySelectorAll('.btn-select-variant').forEach((b) => {
+      b.addEventListener('click', () => {
+        selectedIndex = Number(b.dataset.variantIndex);
+        renderVariantsWorkspace();
+      });
+    });
+    const continueBtn = workspace.querySelector('#btn-continue-to-production');
+    if (continueBtn) continueBtn.addEventListener('click', () => renderProductionPreview());
+  }
+
+  generateVariantsBtn.addEventListener('click', async () => {
+    const form = $('#create-form');
+    const productId = form.productId.value;
+    const rawText = form.rawText.value.trim();
+    if (!productId || !rawText) {
+      workspace.innerHTML = '<p class="placeholder">Selecciona un producto real y escribe una instrucción/intención real primero.</p>';
+      return;
+    }
+    generateVariantsBtn.disabled = true;
+    const previousLabel = generateVariantsBtn.textContent;
+    generateVariantsBtn.textContent = 'GENERANDO VARIANTES…';
+    workspace.innerHTML = '<p class="placeholder">Generando variantes…</p>';
+    try {
+      const result = await api('/api/create/propose-direct-variants', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ productId, rawText }),
+      });
+      if (!Array.isArray(result.variants) || result.variants.length === 0) {
+        workspace.innerHTML = `<div class="result-status MISSING_CREATIVE_MATCH">${result.status ?? 'SIN VARIANTES'}</div><p>${(result.errors ?? ['No se generaron variantes reales para este producto/instrucción.']).join(' ')}</p>`;
+        return;
+      }
+      currentVariants = result.variants;
+      currentDiversity = { diversityScore: result.diversityScore, ...result.diversityDetail };
+      selectedIndex = null;
+      renderVariantsWorkspace();
+    } catch (err) {
+      workspace.innerHTML = `<div class="result-status VALIDATION_FAILED">ERROR</div><p>${err.message}</p>`;
+    } finally {
+      generateVariantsBtn.disabled = false;
+      generateVariantsBtn.textContent = previousLabel;
     }
   });
 }

@@ -76,6 +76,27 @@ describe('buildScenePlan — Script real -> Scene Plan real', () => {
     const sumaReal = plan.scenes.reduce((s, sc) => s + sc.duration, 0);
     assert.ok(Math.abs(sumaReal - script.estimatedDurationSeconds) < 0.1);
   });
+
+  test('TEXT: hook real corto (gancho de una línea) SÍ se muestra como overlay real (Paso 12 del encargo)', () => {
+    const plan = buildScenePlan({ videoScript: realScript(), productRawAssets: PRODUCT_ASSETS_REAL });
+    const hookScene = plan.scenes.find((s) => s.sectionType === 'HOOK');
+    assert.equal(hookScene.textOverlay, '¿vitalidad y confianza masculina?');
+  });
+
+  test('TEXT: hook real largo NUNCA se duplica completo como overlay real (Paso 12: "no repetir automáticamente todo el hook en texto grande")', () => {
+    const hookLargo = 'Esta es una frase de hook real deliberadamente larga, mucho más extensa que un gancho típico de una sola línea corta.';
+    const script = buildVideoScript({ ...COPY_REAL, hook: hookLargo });
+    const plan = buildScenePlan({ videoScript: script, productRawAssets: PRODUCT_ASSETS_REAL });
+    const hookScene = plan.scenes.find((s) => s.sectionType === 'HOOK');
+    assert.equal(hookScene.textOverlay, null, 'un hook real largo nunca se duplica completo como overlay -- se omite (voiceover+subtítulos ya lo comunican)');
+  });
+
+  test('TEXT: CTA real con WhatsApp usa overlay corto real, nunca la frase completa duplicada (Paso 9/12 del encargo)', () => {
+    const plan = buildScenePlan({ videoScript: realScript(), productRawAssets: PRODUCT_ASSETS_REAL });
+    const ctaScene = plan.scenes.find((s) => s.sectionType === 'CTA');
+    assert.equal(ctaScene.textOverlay, 'Escríbenos por WhatsApp');
+    assert.notEqual(ctaScene.textOverlay, COPY_REAL.cta);
+  });
 });
 
 describe('buildScenePlan — Creative Structure Engine (integración)', () => {

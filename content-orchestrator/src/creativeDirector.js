@@ -36,6 +36,7 @@ import { recommendImageModel, buildModelSelection, listAvailableImageModels } fr
 import { buildGenerationSettings } from './generationSettings.js';
 import { buildVisualContinuityContext, resolveContinuityAudience, resolveContinuityTerritory } from './visualContinuityContext.js';
 import { buildVisualSceneBriefs } from './visualSceneBrief.js';
+import { ANGLE_LABELS } from './creativeAngleSelector.js';
 
 const ASPECT_RATIO_BY_FORMAT = Object.freeze({ 'Static comparison frames': '4:5' });
 const DEFAULT_ASPECT_RATIO = '9:16';
@@ -63,6 +64,14 @@ function directScene({
   // (compatibilidad hacia atrás exacta, Paso 31: ningún llamador sin
   // userInstruction ve un cambio).
   sceneBrief = null, visualContinuityContext = null,
+  // Creative Angle / Hook Intelligence (Corrección "Evolución integral del
+  // Creative Director", 2026-08-28, Paso 18/26 del encargo): reales,
+  // opcionales -- ausentes = comportamiento EXACTO de antes (Paso 31,
+  // compatibilidad hacia atrás). primaryAngleLabel/hookText vienen del
+  // MISMO creativeVariant.angleId/copy.hook ya elegidos por
+  // hypothesisCreativeEngine.js/creativeAngleSelector.js -- nunca
+  // inventados aquí.
+  primaryAngleLabel = null, hookText = null,
 }) {
   const described = treatment.describe({ audience, territory, nombreVisible });
 
@@ -105,14 +114,34 @@ function directScene({
   // asset real ya disponible, el prompt original de scenePlanner.js queda
   // intacto (assetResolver ni siquiera lo usará: usa la fotografía real
   // directamente).
+  // hookVisualIntent (Paso 11 del encargo): SOLO en la escena real cuya
+  // función narrativa es HOOK -- traducción visual real del hook real ya
+  // elegido (nunca "persona genérica mirando a cámara").
+  const isHookScene = sceneBrief?.narrativePurpose === 'HOOK';
+  const hookVisualIntent = isHookScene
+    ? [subject, environment, sceneBrief?.action, hookText ? `Hook real: "${hookText}"` : null]
+      .filter((f) => limpiar(f).length > 0)
+      .join('. ')
+    : null;
+
   const visualPrompt = hasRealProductAsset
     ? scene.visualPrompt
     : sceneBrief
-      // GLOBAL (subject+environment, fijo para toda la pieza) + SCENE
-      // (acción/composición/interacción, real y distinta por escena, Paso
-      // 6 del encargo: "NO usar el mismo prompt base para varias escenas
-      // cambiando solamente una palabra").
-      ? [subject, environment, sceneBrief.action, sceneBrief.composition, sceneBrief.interaction, described.moodDirection, `Momento real de la escena: ${scene.narration}`]
+      // GLOBAL (subject+environment, fijo para toda la pieza) + CREATIVE
+      // ANGLE + SCENE (acción/composición/interacción, real y distinta por
+      // escena, Paso 6/26 del encargo: "NO usar el mismo prompt base para
+      // varias escenas cambiando solamente una palabra" / "combinar GLOBAL
+      // + CREATIVE ANGLE + NARRATIVE STAGE + HOOK CONTEXT + SCENE ACTION +
+      // EMOTIONAL STATE + COMPOSITION").
+      ? [
+        subject, environment,
+        primaryAngleLabel ? `Ángulo creativo: ${primaryAngleLabel}` : null,
+        isHookScene && hookText ? `Hook real: "${hookText}"` : null,
+        sceneBrief.action, sceneBrief.composition, sceneBrief.interaction,
+        sceneBrief.emotionalState ? `Estado emocional: ${sceneBrief.emotionalState}` : null,
+        described.moodDirection,
+        `Momento real de la escena: ${scene.narration}`,
+      ]
         .filter((f) => limpiar(f).length > 0)
         .join('. ')
       : [described.subject, described.environment, described.moodDirection, `Momento real de la escena: ${scene.narration}`]
@@ -153,6 +182,7 @@ function directScene({
       props: sceneBrief.props,
       productPresence: wantsProduct,
       continuityConstraints: sceneBrief.continuityConstraints,
+      ...(hookVisualIntent ? { hookVisualIntent } : {}),
     } : {}),
   });
 }
@@ -200,6 +230,12 @@ export function buildVisualStrategy({
   const productAsset = productRawAssets.find((a) => a.role === 'PRODUCT_PRIMARY') ?? productRawAssets[0] ?? null;
   const nombreVisible = productFacts?.nombreVisible ?? productFacts?.nombreComercial ?? null;
   const aspectRatio = aspectRatioForFormat(format ?? creativeVariant?.creativeVariant?.format ?? null);
+  // Creative Angle / Hook Intelligence (Paso 1/4/26 del encargo): MISMO
+  // angleId/hook real ya elegido río arriba (creativeAngleSelector.js /
+  // hypothesisCreativeEngine.js, vía creativeVariant.angleId/copy.hook) --
+  // nunca recalculado ni inventado aquí.
+  const primaryAngleLabel = creativeVariant?.angleId ? (ANGLE_LABELS[creativeVariant.angleId] ?? creativeVariant.angleId) : null;
+  const hookText = creativeVariant?.copy?.hook ?? null;
 
   // UNA sola vez para TODA la pieza (nunca por escena) -- esto es lo que
   // garantiza que ninguna escena cambie de sujeto/entorno a mitad de
@@ -232,6 +268,8 @@ export function buildVisualStrategy({
     territory: resolveContinuityTerritory(visualContinuityContext, baseTerritory ?? scene.narration),
     sceneBrief: sceneBriefs?.[i] ?? null,
     visualContinuityContext: sceneBriefs ? visualContinuityContext : null,
+    primaryAngleLabel: sceneBriefs ? primaryAngleLabel : null,
+    hookText: sceneBriefs ? hookText : null,
   }));
 
   const imageGenerationRequests = Object.freeze(
@@ -325,11 +363,16 @@ export function buildVisualStrategy({
     environment: overview.environment,
     camera: overview.cameraDirection,
     lighting: overview.lightingDirection,
-    // Visual Intent (Paso 4 del encargo): descripción real, independiente
-    // del voiceover completo -- misma dirección visual real ya calculada
-    // arriba (overview.subject/environment/moodDirection), solo expuesta
-    // bajo el nombre real que pide el encargo, nunca recalculada de nuevo.
-    visualIntent: [overview.subject, overview.environment].filter((f) => limpiar(f).length > 0).join(', '),
+    // Visual Intent (Paso 4/18 del encargo): CON continuidad real
+    // (subject/environment/angle reales), específico y dinámico -- nunca
+    // el default genérico por-tratamiento (ej. "Explicación clara y
+    // visual relacionada con esta campaña", EDUCATIONAL en
+    // visualTreatments.js). SIN continuidad real (Paso 31, compatibilidad
+    // hacia atrás), preserva EXACTAMENTE overview.subject/environment.
+    visualIntent: visualContinuityContext.characterContinuityRequired
+      ? [visualContinuityContext.subjectDescription, visualContinuityContext.environment, primaryAngleLabel]
+        .filter((f) => limpiar(f).length > 0).join(', ')
+      : [overview.subject, overview.environment].filter((f) => limpiar(f).length > 0).join(', '),
     composition: Object.freeze(scenes.map((s) => Object.freeze({
       sceneId: s.sceneId, visualIntent: s.visualIntent, visualTreatment: s.visualTreatment, visualSource: s.visualSource,
     }))),
@@ -398,6 +441,10 @@ export function previewVisualRecommendation({
   // previa debe mostrar el MISMO sujeto/entorno que luego se propagará a
   // todas las escenas reales, nunca uno distinto.
   userInstruction = null,
+  // Creative Angle (Paso 18 del encargo): angleId real YA elegido por
+  // creativeAngleSelector.js (batch.variantsDetail[variantIndex].angleId)
+  // -- opcional, nunca recalculado ni inventado aquí.
+  angleId = null,
 }) {
   const treatment = assignVisualTreatment({ variantIndex, campaignIntent, campaignId });
   const productAsset = productRawAssets.find((a) => a.role === 'PRODUCT_PRIMARY') ?? productRawAssets[0] ?? null;
@@ -406,6 +453,7 @@ export function previewVisualRecommendation({
     productAssetAvailable: Boolean(productAsset), visualTreatmentId: treatment.id, hasGenerationRequiredScenes: true, aspectRatio,
   });
   const visualContinuityContext = buildVisualContinuityContext({ userInstruction, campaignIntent, productFacts });
+  const primaryAngleLabel = angleId ? (ANGLE_LABELS[angleId] ?? angleId) : null;
   const overview = treatment.describe({
     audience: resolveContinuityAudience(visualContinuityContext, campaignIntent?.targetAudience ?? 'la audiencia real de esta campaña'),
     territory: resolveContinuityTerritory(visualContinuityContext, campaignIntent?.campaignTerritory ?? 'esta campaña'),
@@ -414,9 +462,13 @@ export function previewVisualRecommendation({
   return Object.freeze({
     visualTreatment: treatment.id,
     visualTreatmentLabel: treatment.label,
-    // Visual Intent (Paso 4 del encargo): misma dirección visual real ya
-    // calculada por el treatment, expuesta antes de producir.
-    visualIntent: [overview.subject, overview.environment].filter((f) => limpiar(f).length > 0).join(', '),
+    // Visual Intent (Paso 4/18 del encargo): con continuidad real,
+    // específico (sujeto/entorno/ángulo reales) -- nunca el default
+    // genérico por-tratamiento. Sin ella, preserva el cálculo preexistente.
+    visualIntent: visualContinuityContext.characterContinuityRequired
+      ? [visualContinuityContext.subjectDescription, visualContinuityContext.environment, primaryAngleLabel]
+        .filter((f) => limpiar(f).length > 0).join(', ')
+      : [overview.subject, overview.environment].filter((f) => limpiar(f).length > 0).join(', '),
     visualContinuityContext,
     recommendedModel,
     recommendationReason,

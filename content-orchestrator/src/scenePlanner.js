@@ -31,6 +31,20 @@ function buildShortCtaOverlay(ctaText) {
   return encontrado?.label ?? ctaText;
 }
 
+// Text Overlay real para HOOK (Corrección "Evolución integral del
+// Creative Director", 2026-08-28, Paso 12 del encargo): "si el hook se
+// está diciendo, no repetir automáticamente todo el hook en texto
+// grande". Un hook corto (gancho de una línea, el caso real más común) SÍ
+// se muestra tal cual -- es su propio propósito visual. Uno largo real
+// (frase completa) se omite como overlay (el voiceover+subtítulos ya lo
+// comunican) en vez de fabricar una versión acortada inventada.
+const HOOK_OVERLAY_MAX_CHARS = 60;
+
+function buildHookOverlay(hookText) {
+  const limpio = String(hookText ?? '').trim();
+  return limpio.length > 0 && limpio.length <= HOOK_OVERLAY_MAX_CHARS ? limpio : null;
+}
+
 export const VISUAL_INTENT_TYPES = Object.freeze(['CONCEPT_OPENING', 'AUDIENCE_CONTEXT', 'PRODUCT_REVEAL', 'CTA_BRAND']);
 
 const VISUAL_INTENT_BY_SECTION_TYPE = Object.freeze({
@@ -93,7 +107,7 @@ export function buildScenePlan({
         : section.text,
       visualIntent,
       visualType: hasProductAsset ? 'PRODUCT_ASSET' : 'TYPOGRAPHIC',
-      textOverlay: section.type === 'HOOK' ? videoScript.onScreenText.hook
+      textOverlay: section.type === 'HOOK' ? buildHookOverlay(videoScript.onScreenText.hook)
         : section.type === 'CTA' ? buildShortCtaOverlay(videoScript.onScreenText.cta)
           : null,
       transition: i === 0 ? 'NONE' : 'CUT',

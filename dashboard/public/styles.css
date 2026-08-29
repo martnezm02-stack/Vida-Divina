@@ -193,6 +193,13 @@ main#app { max-width: 1180px; margin: 0 auto; padding: 40px 32px 80px; }
 .variant-card .variant-field strong { display: block; font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--olive); }
 .variant-card .btn-use-variant { margin-top: 8px; width: 100%; }
 
+/* ---------- UI de Variantes Creativas — Comparar/Seleccionar (2026-08-28) ---------- */
+.variant-card.compare-card.selected { border: 2px solid var(--forest); background: var(--cream-2, var(--cream-3)); }
+.variant-card .btn-select-variant { margin-top: 8px; width: 100%; }
+.quality-badge { display: inline-block; font-size: 11px; font-weight: 600; }
+.quality-badge.quality-ok { color: var(--forest); }
+.quality-badge.quality-low { color: #7a5b12; }
+
 /* ---------- Modelo Sugerido + Selección Manual (2026-08-27) ---------- */
 .model-recommendation { margin-top: 10px; padding: 8px 10px; border: 1px dashed var(--line); border-radius: 8px; font-size: 12px; }
 .model-recommendation .meta { display: block; margin-top: 2px; color: #6b654f; font-size: 11px; }

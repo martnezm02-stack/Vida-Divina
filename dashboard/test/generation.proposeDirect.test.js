@@ -93,6 +93,17 @@ describe('POST /api/create/propose-direct — coherencia con la instrucción (Pa
     const second = await post('/api/create/propose-direct', { productId: 'ripped-capsules', rawText: 'Segunda instrucción real de prueba, distinta.' });
     assert.notEqual(first.body.batchId, second.body.batchId);
   });
+
+  test('Creative Angle real (Corrección "Evolución integral del Creative Director"): la respuesta real expone primaryAngle/hookType/hookRelevanceScore reales del cableado HTTP (la selección determinista en sí ya está cubierta en content-orchestrator/test/creativeAngleSelector.test.js, aislada de estado de campaña compartido)', async () => {
+    const { status, body } = await post('/api/create/propose-direct', {
+      productId: 'ripped-capsules',
+      rawText: 'Un hombre en una mañana normal, antes del trabajo, como una historia de estilo de vida real, natural.',
+    });
+    assert.equal(status, 200);
+    assert.ok(body.primaryAngle?.id, `se esperaba primaryAngle real en la respuesta, recibido: ${JSON.stringify(body).slice(0, 300)}`);
+    assert.ok(body.hookType?.id, 'se esperaba hookType real en la respuesta');
+    assert.equal(typeof body.hookRelevanceScore, 'number', 'hookRelevanceScore real debe ser un número real');
+  });
 });
 
 describe('GET /api/create/structure-recommendation + /api/create/model-recommendation -- Visual Continuity Context (Paso 8 del encargo)', () => {
@@ -116,5 +127,122 @@ describe('GET /api/create/structure-recommendation + /api/create/model-recommend
     assert.equal(status, 200);
     assert.equal(body.visualContinuityContext.subjectGender, null);
     assert.ok(body.recommendedModel !== undefined);
+  });
+});
+
+describe('POST /api/create/propose-direct — Auto-QA global (Corrección "Cierre del Creative Director")', () => {
+  test('creativeQualityScore/creativeQualityStatus reales presentes en la respuesta', async () => {
+    const { status, body } = await post('/api/create/propose-direct', {
+      productId: 'ripped-capsules', rawText: 'Mujer adulta entrenando en un gimnasio moderno, con energía y enfoque.',
+    });
+    assert.equal(status, 200);
+    assert.equal(typeof body.creativeQualityScore, 'number');
+    assert.ok(['ACCEPTED', 'LOW_CONFIDENCE'].includes(body.creativeQualityStatus));
+  });
+
+  test('hookText real (edición manual): hookMode real "user_edited", creativeQualityScore real refleja el texto real editado (nunca el candidato descartado)', async () => {
+    const HOOK_EDITADO_REAL = 'Este es un hook real editado a mano, único y reconocible en esta corrida.';
+    const { status, body } = await post('/api/create/propose-direct', {
+      productId: 'ripped-capsules', rawText: 'Mujer adulta entrenando en un gimnasio moderno.', hookText: HOOK_EDITADO_REAL,
+    });
+    assert.equal(status, 200);
+    assert.equal(body.hookMode, 'user_edited');
+    assert.equal(body.creativeVariant.copy.hook, HOOK_EDITADO_REAL, 'el hook real editado por el usuario NUNCA se sobrescribe');
+    assert.ok(body.hookOriginal?.length > 0, 'hookOriginal real (el sugerido antes de editar) se preserva para trazabilidad real');
+  });
+
+  test('PROPAGACIÓN real (Paso 17/22 del encargo): hookText editado real actualiza script[0]/voiceover[0] real, nunca solo copy.hook', async () => {
+    const HOOK_EDITADO_REAL = 'Otro hook real editado a mano, distinto y reconocible.';
+    const { body } = await post('/api/create/propose-direct', {
+      productId: 'ripped-capsules', rawText: 'Mujer adulta entrenando en un gimnasio moderno.', hookText: HOOK_EDITADO_REAL,
+    });
+    assert.equal(body.creativeVariant.copy.script?.[0], HOOK_EDITADO_REAL, 'script[0] real debe ser el hook real editado');
+    assert.equal(body.creativeVariant.copy.voiceover?.[0], HOOK_EDITADO_REAL, 'voiceover[0] real debe ser el hook real editado');
+  });
+});
+
+describe('POST /api/create/propose-direct-variants — diversidad real entre variantes (Corrección "Cierre del Creative Director")', () => {
+  test('genera hasta 5 variantes reales, cada una con angle/hook/structure/quality reales, y un diversityScore real', async () => {
+    const { status, body } = await post('/api/create/propose-direct-variants', {
+      productId: 'ripped-capsules', rawText: 'Rutina matutina real de energía y enfoque antes de entrenar.', variantCount: 5,
+    });
+    assert.equal(status, 200);
+    assert.ok(body.variants?.length >= 3, `se esperaban >= 3 variantes reales, obtuvo ${body.variants?.length}`);
+    assert.ok(body.variants.length <= 5, 'nunca genera más de 5 variantes reales');
+    for (const v of body.variants) {
+      assert.ok(v.primaryAngle?.id, 'cada variante real trae primaryAngle real');
+      assert.ok(v.hook?.length > 0, 'cada variante real trae hook real');
+      assert.equal(typeof v.creativeQualityScore, 'number', 'cada variante real trae creativeQualityScore real');
+    }
+    assert.equal(typeof body.diversityScore, 'number');
+    assert.ok(body.diversityScore >= 0 && body.diversityScore <= 1);
+  });
+
+  test('respeta variantCount real explícito, nunca genera más de lo pedido', async () => {
+    const { status, body } = await post('/api/create/propose-direct-variants', {
+      productId: 'ripped-capsules', rawText: 'Instrucción real de prueba para límite de variantes.', variantCount: 2,
+    });
+    assert.equal(status, 200);
+    assert.ok(body.variants.length <= 2);
+  });
+});
+
+describe('POST /api/create/propose-direct-variants — datos reales para la UI de comparación (Corrección "UI de Variantes Creativas")', () => {
+  test('cada variante real trae visualTreatmentLabel/visualIntent/recommendedModel/productAssetAvailable -- ya calculados, la tarjeta nunca los reconstruye', async () => {
+    const { status, body } = await post('/api/create/propose-direct-variants', {
+      productId: 'ripped-capsules', rawText: 'Rutina matutina real de energía y enfoque antes de entrenar.', variantCount: 3,
+    });
+    assert.equal(status, 200);
+    for (const v of body.variants) {
+      assert.equal(typeof v.visualTreatment, 'string', 'visualTreatment real presente');
+      assert.equal(typeof v.visualTreatmentLabel, 'string', 'visualTreatmentLabel real (humano) presente para la tarjeta');
+      assert.equal(typeof v.productAssetAvailable, 'boolean', 'productAssetAvailable real presente para el aviso de producto');
+      if (v.recommendedModel) assert.ok(v.recommendedModel.displayName?.length > 0, 'recommendedModel.displayName real, nunca el id técnico');
+    }
+  });
+
+  test('cada variante real es su propio batch -- /api/create/model-recommendation funciona con variantIndex=0 real (Paso 14 del encargo, selección de modelo por variante)', async () => {
+    const { body } = await post('/api/create/propose-direct-variants', {
+      productId: 'ripped-capsules', rawText: 'Rutina matutina real de energía y enfoque antes de entrenar.', variantCount: 2,
+    });
+    const v = body.variants[0];
+    const { status, body: rec } = await get(`/api/create/model-recommendation?batchId=${v.batchId}&variantIndex=0`);
+    assert.equal(status, 200);
+    assert.ok(rec.recommendedModel || rec.recommendedModel === null, 'model-recommendation real responde para el batch real de la variante seleccionada');
+  });
+
+  test('producir usa SOLO la variante real seleccionada (batchId propio) -- el copy/hook producido real coincide con el de esa variante, nunca con otra', async () => {
+    const { body } = await post('/api/create/propose-direct-variants', {
+      productId: 'ripped-capsules', rawText: 'Rutina matutina real de energía y enfoque antes de entrenar.', variantCount: 2,
+    });
+    assert.ok(body.variants.length >= 2, 'se necesitan >= 2 variantes reales para esta prueba');
+    const selected = body.variants[1];
+    const { status, body: job } = await post('/api/create/produce', {
+      batchId: selected.batchId, variantIndex: 0, outputProfileNames: ['INSTAGRAM_REEL'],
+    });
+    assert.equal(status, 200);
+    assert.equal(job.script?.onScreenText?.hook, selected.hook, 'el hook real producido coincide con el de la variante seleccionada, nunca con otra variante del lote');
+    assert.ok(job.outputs?.length > 0, 'produce real devuelve al menos un output real para la variante seleccionada');
+    assert.ok(job.outputs.every((o) => o.displayName?.length > 0), 'displayName humano real presente en cada output (Paso 17 del encargo, nunca output-<uuid>.mp4)');
+  });
+});
+
+describe('POST /api/create/regenerate-hook — control manual (Corrección "Cierre del Creative Director")', () => {
+  test('regenera un hook real distinto del actual, mismo ángulo real, excluyendo el hookId real actual', async () => {
+    const { body: proposal } = await post('/api/create/propose-direct', {
+      productId: 'ripped-capsules', rawText: 'Rutina matutina real de energía y enfoque.',
+    });
+    assert.ok(proposal.batchId);
+    const { status, body } = await post('/api/create/regenerate-hook', {
+      batchId: proposal.batchId, variantIndex: 0, userInstruction: 'Rutina matutina real de energía y enfoque.',
+    });
+    assert.equal(status, 200);
+    assert.ok(body.hook?.length > 0, 'regenerate-hook real devuelve un hook real nuevo');
+    assert.notEqual(body.hookId, proposal.creativeVariant.hookId ?? proposal.hookType?.id, 'el hookId real regenerado nunca es el mismo tipo real ya excluido');
+  });
+
+  test('rechaza sin batchId real', async () => {
+    const { status } = await post('/api/create/regenerate-hook', {});
+    assert.equal(status, 400);
   });
 });
