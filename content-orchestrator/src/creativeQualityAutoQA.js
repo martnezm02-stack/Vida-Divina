@@ -17,9 +17,20 @@ const WEIGHTS = Object.freeze({
 
 function clamp01(n) { return Math.max(0, Math.min(1, n)); }
 
-/** hookScore real: exactamente el score real ya calculado por hookIntelligence.js -- nunca recalculado aparte. */
-function scoreHook(hookRelevanceScore) {
-  return clamp01(hookRelevanceScore ?? 0);
+/**
+ * hookScore real (Corrección "Refinamiento creativo", 2026-08-28, Paso 14
+ * del encargo): combina hookRelevanceScore + hookNaturalnessScore +
+ * hookSpecificityScore -- los TRES ya calculados por hookIntelligence.js,
+ * nunca recalculados aparte. Sigue ocupando el MISMO slot real de
+ * WEIGHTS.hook (nunca un score paralelo, Paso 14: "agregar estos factores
+ * sin crear otro score paralelo"). Sin naturalidad/especificidad reales
+ * (compatibilidad hacia atrás, llamador preexistente), se degrada a
+ * exactamente el comportamiento real de antes (solo hookRelevanceScore).
+ */
+function scoreHook({ hookRelevanceScore, hookNaturalnessScore = null, hookSpecificityScore = null }) {
+  const relevancia = clamp01(hookRelevanceScore ?? 0);
+  if (hookNaturalnessScore === null && hookSpecificityScore === null) return relevancia;
+  return clamp01((0.5 * relevancia) + (0.25 * clamp01(hookNaturalnessScore ?? relevancia)) + (0.25 * clamp01(hookSpecificityScore ?? relevancia)));
 }
 
 /** angleScore real: 1.0 si hay un ángulo real elegido con instrucción real que lo respalde; degradado sin instrucción real (no verificable), 0 sin ningún ángulo real. */
@@ -28,18 +39,34 @@ function scoreAngle({ primaryAngle, hadUserInstruction }) {
   return hadUserInstruction ? 1 : 0.5;
 }
 
-/** claimScore real: penaliza una propuesta real sin ningún claim CORE real (cayó a un fallback sin señal real de relevancia). */
+/**
+ * claimScore real: penaliza una propuesta real sin ningún claim CORE real
+ * (cayó a un fallback sin señal real de relevancia) -- y ahora también
+ * claimCoherence real (Paso 14/13 del encargo): una propuesta real con
+ * DEMASIADOS claims CORE (sobrecargada, más de maxCoreClaims=2 reales) se
+ * penaliza -- "1-2 CORE + 0-1 SUPPORTING cuando sea suficiente" (Paso 13).
+ */
 function scoreClaims(relevantClaims) {
   if (!relevantClaims) return 0.6; // sin filtrado real (compatibilidad hacia atrás) -- ni mejor ni peor, neutral real.
-  if (relevantClaims.core?.length > 0) return 1;
-  if (relevantClaims.supporting?.length > 0) return 0.6;
-  return 0.3;
+  const coreCount = relevantClaims.core?.length ?? 0;
+  if (coreCount === 0) return relevantClaims.supporting?.length > 0 ? 0.6 : 0.3;
+  if (coreCount > 2) return 0.7; // claimCoherence real: sobrecargado, nunca 0 (sigue siendo un claim real válido, solo menos coherente/enfocado).
+  return 1;
 }
 
-/** structureScore real: 1.0 con una estructura real ya recomendada/elegida, degradado en LEGACY_STRUCTURE real (fallback sin instrucción/campaignIntent real). */
-function scoreStructure(structureId) {
+/**
+ * structureScore real: 1.0 con una estructura real ya recomendada/elegida,
+ * degradado en LEGACY_STRUCTURE real (fallback sin instrucción/
+ * campaignIntent real). structureDiversityContext real (Paso 14/26 del
+ * encargo, opcional): penaliza si ESTA estructura real ya se usó en otra
+ * variante real de la MISMA campaña (previousStructureIds), reforzando (sin
+ * duplicar) el mismo criterio real ya aplicado en creativeStructureEngine.js.
+ */
+function scoreStructure(structureId, previousStructureIds = []) {
   if (!structureId) return 0.5;
-  return structureId.startsWith('LEGACY_') ? 0.6 : 1;
+  const base = structureId.startsWith('LEGACY_') ? 0.6 : 1;
+  const yaUsada = previousStructureIds.includes(structureId);
+  return yaUsada ? clamp01(base - 0.25) : base;
 }
 
 /** scriptVoiceScore real: garantía ESTRUCTURAL real de generateVariantCopy() (voiceover:[hook,...bodyLines]) -- 1.0 salvo que el hook real ya no encabece el voiceover real (nunca debería ocurrir por diseño, defensivo). */
@@ -78,12 +105,19 @@ function scoreRepetition(hookRepetitionPenalty) {
  */
 export function evaluateCreativeProposal({
   primaryAngle, hadUserInstruction = false, hookRelevanceScore, hookRepetitionPenalty = 0,
+  // hookNaturalnessScore/hookSpecificityScore (Paso 1/3/14 del encargo
+  // "Refinamiento creativo"): opcionales, YA calculados por
+  // hookIntelligence.js -- nunca recalculados aparte.
+  hookNaturalnessScore = null, hookSpecificityScore = null,
   relevantClaims, structureId, copy, visualIntent, visualContinuityContext,
+  // previousStructureIds (Paso 14/26 del encargo): opcional, structureId
+  // reales ya usados en otras variantes de ESTA campaña real.
+  previousStructureIds = [],
 }) {
-  const hookScore = scoreHook(hookRelevanceScore);
+  const hookScore = scoreHook({ hookRelevanceScore, hookNaturalnessScore, hookSpecificityScore });
   const angleScore = scoreAngle({ primaryAngle, hadUserInstruction });
   const claimScore = scoreClaims(relevantClaims);
-  const structureScore = scoreStructure(structureId);
+  const structureScore = scoreStructure(structureId, previousStructureIds);
   const scriptVoiceScore = scoreScriptVoice(copy);
   const visualScore = scoreVisual(visualIntent);
   const continuityScore = scoreContinuity(visualContinuityContext);

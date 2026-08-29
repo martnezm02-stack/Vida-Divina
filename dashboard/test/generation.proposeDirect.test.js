@@ -302,6 +302,48 @@ describe('GET /api/create/visual-plan-preview — auditable ANTES de producir (C
     assert.ok(recFinal.recommendedModel !== undefined, 'model-recommendation real sigue respondiendo sobre el MISMO batch real (nunca uno nuevo)');
   });
 
+  test('VISUAL BRIEF: visualBrief real (descripción humana) presente y separado real de generatedPrompt (técnico, por escena) -- nunca el mismo valor real (Paso 16/17/18/38 del encargo "Refinamiento creativo")', async () => {
+    const { body } = await post('/api/create/propose-direct-variants', {
+      productId: 'ripped-capsules', rawText: INSTRUCTION, variantCount: 1,
+    });
+    const v = body.variants[0];
+    assert.ok(v.visualBrief?.length > 0, 'visualBrief real presente en la respuesta de propose-direct-variants');
+    const { body: plan } = await get(`/api/create/visual-plan-preview?batchId=${v.batchId}&variantIndex=0&userInstruction=${encodeURIComponent(INSTRUCTION)}`);
+    assert.ok(plan.visualBrief?.length > 0, 'visualBrief real presente en visual-plan-preview');
+    const escenaConPrompt = plan.scenes.find((s) => s.generatedPrompt);
+    assert.ok(escenaConPrompt, 'se necesita al menos 1 escena real con generatedPrompt real para esta prueba');
+    assert.notEqual(plan.visualBrief, escenaConPrompt.generatedPrompt, 'visualBrief real (descripción humana, UNA por pieza) nunca es el mismo texto real que generatedPrompt (técnico, por escena)');
+  });
+
+  test('PROMPT POR ESCENA: cada escena real trae model/quality/product reference reales junto al prompt (Paso 19 del encargo)', async () => {
+    const { body } = await post('/api/create/propose-direct-variants', {
+      productId: 'ripped-capsules', rawText: INSTRUCTION, variantCount: 1,
+    });
+    const v = body.variants[0];
+    const { body: plan } = await get(`/api/create/visual-plan-preview?batchId=${v.batchId}&variantIndex=0&userInstruction=${encodeURIComponent(INSTRUCTION)}`);
+    for (const s of plan.scenes) {
+      assert.ok(s.model, `escena "${s.sceneId}" real trae model real`);
+      assert.ok(s.quality, `escena "${s.sceneId}" real trae quality real`);
+      assert.equal(typeof s.productReferenceUsed, 'boolean', `escena "${s.sceneId}" real trae productReferenceUsed real (boolean)`);
+    }
+  });
+
+  test('COPIAR PROMPT: el texto real que se copiaría es EXACTAMENTE generatedPrompt, sin metadata técnica adicional real (Paso 14/38 del encargo)', async () => {
+    const { body } = await post('/api/create/propose-direct-variants', {
+      productId: 'ripped-capsules', rawText: INSTRUCTION, variantCount: 1,
+    });
+    const v = body.variants[0];
+    const { body: plan } = await get(`/api/create/visual-plan-preview?batchId=${v.batchId}&variantIndex=0&userInstruction=${encodeURIComponent(INSTRUCTION)}`);
+    const escenaConPrompt = plan.scenes.find((s) => s.generatedPrompt);
+    assert.ok(escenaConPrompt, 'se necesita al menos 1 escena real con generatedPrompt real para esta prueba');
+    // El frontend (app.js#renderVisualPlanPreview) usa s.generatedPrompt
+    // literal como data-prompt del botón "Copiar prompt" -- este test
+    // verifica el contrato real del backend: ningún campo técnico
+    // adicional (requestId/sceneId/model) está mezclado dentro del string
+    // real del prompt.
+    assert.ok(!escenaConPrompt.generatedPrompt.includes(escenaConPrompt.sceneId), 'generatedPrompt real nunca incluye el sceneId técnico como texto');
+  });
+
   test('L: backward compatibility real -- "batchId"/"variantIndex" siguen siendo obligatorios, mismo criterio real que model-recommendation/structure-recommendation', async () => {
     const sinBatch = await get('/api/create/visual-plan-preview?variantIndex=0');
     assert.equal(sinBatch.status, 400);

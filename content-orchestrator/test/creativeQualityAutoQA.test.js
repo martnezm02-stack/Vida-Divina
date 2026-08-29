@@ -62,3 +62,49 @@ describe('evaluateCreativeProposal', () => {
     assert.ok(r.components.scriptVoiceScore < 1);
   });
 });
+
+describe('evaluateCreativeProposal — Refinamiento creativo (Paso 14 del encargo: naturalidad/especificidad/claimCoherence/structureDiversityContext)', () => {
+  test('WEAK HOOK REPAIRED: hookNaturalnessScore/hookSpecificityScore reales bajos reducen hookScore real, incluso con hookRelevanceScore real decente -- sin ellos (compatibilidad hacia atrás), el componente real no cambia', () => {
+    const sinNaturalidad = evaluateCreativeProposal(COHERENTE_REAL);
+    const conNaturalidadBaja = evaluateCreativeProposal({
+      ...COHERENTE_REAL, hookNaturalnessScore: 0.2, hookSpecificityScore: 0.2,
+    });
+    assert.ok(conNaturalidadBaja.components.hookScore < sinNaturalidad.components.hookScore, 'hookScore real cae real cuando naturalidad/especificidad reales son bajas');
+    assert.ok(conNaturalidadBaja.creativeQualityScore < sinNaturalidad.creativeQualityScore);
+  });
+
+  test('GENERIC HOOK REJECTED cuando existe mejor opción real: naturalidad/especificidad reales altas suben el score real compuesto por encima del caso genérico real', () => {
+    const generico = evaluateCreativeProposal({ ...COHERENTE_REAL, hookNaturalnessScore: 0.3, hookSpecificityScore: 0.3 });
+    const especifico = evaluateCreativeProposal({ ...COHERENTE_REAL, hookNaturalnessScore: 0.95, hookSpecificityScore: 0.9 });
+    assert.ok(especifico.creativeQualityScore > generico.creativeQualityScore);
+  });
+
+  test('CLAIM COHERENCE: más de 2 claims CORE reales (sobrecargado, Paso 13 del encargo) reduce claimScore real -- 1-2 CORE reales puntúa completo', () => {
+    const enfocado = evaluateCreativeProposal({ ...COHERENTE_REAL, relevantClaims: { core: ['Claim A', 'Claim B'], supporting: [] } });
+    const sobrecargado = evaluateCreativeProposal({ ...COHERENTE_REAL, relevantClaims: { core: ['Claim A', 'Claim B', 'Claim C', 'Claim D'], supporting: [] } });
+    assert.equal(enfocado.components.claimScore, 1);
+    assert.ok(sobrecargado.components.claimScore < 1, 'claimCoherence real penaliza real un CORE real sobrecargado');
+  });
+
+  test('REPETITIVE STRUCTURE PENALIZED: structureDiversityContext real -- una estructura real ya usada en otra variante real de la campaña reduce structureScore real', () => {
+    const nueva = evaluateCreativeProposal(COHERENTE_REAL);
+    const repetida = evaluateCreativeProposal({ ...COHERENTE_REAL, previousStructureIds: ['HOOK_STORY_PRODUCT_CTA'] });
+    assert.ok(repetida.components.structureScore < nueva.components.structureScore, 'structureScore real cae real cuando esta estructura real ya se usó en otra variante real');
+  });
+
+  test('PROPOSAL ACCEPTED AFTER REPAIR: una propuesta real inicialmente LOW_CONFIDENCE (hook genérico + claims vacíos + estructura repetida + visual genérico) puede llegar a ACCEPTED real tras "reparar" cada pieza real (simulado con valores reales mejorados, nunca un segundo score paralelo)', () => {
+    const antes = evaluateCreativeProposal({
+      ...COHERENTE_REAL,
+      hookRelevanceScore: 0.4, hookNaturalnessScore: 0.3, hookSpecificityScore: 0.3,
+      relevantClaims: { core: [], supporting: [], irrelevant: [] },
+      previousStructureIds: ['HOOK_STORY_PRODUCT_CTA'],
+      visualIntent: 'Explicación clara y visual relacionada con esta campaña.',
+    });
+    assert.equal(antes.creativeQualityStatus, 'LOW_CONFIDENCE');
+    const despues = evaluateCreativeProposal({
+      ...COHERENTE_REAL, hookRelevanceScore: 0.85, hookNaturalnessScore: 0.9, hookSpecificityScore: 0.85, previousStructureIds: [],
+    });
+    assert.equal(despues.creativeQualityStatus, 'ACCEPTED');
+    assert.ok(despues.creativeQualityScore > antes.creativeQualityScore);
+  });
+});

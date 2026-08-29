@@ -35,17 +35,31 @@ function scoreClaimAgainstAngle(claimText, angleId) {
   return patterns.reduce((acc, re) => acc + (re.test(texto) ? 1 : 0), 0);
 }
 
+// Claim Diversity (Corrección "Refinamiento creativo", 2026-08-28, Paso
+// 12/37 del encargo): también considera secondaryAngleId (peso menor,
+// nunca domina sobre el ángulo primario real) -- ej. una variante con
+// ángulo primario "routine" y secundario "aspiration" puede rescatar un
+// claim real que el ángulo primario solo no habría marcado con señal.
+function scoreClaimAgainstAngles(claimText, angleId, secondaryAngleId) {
+  const primario = scoreClaimAgainstAngle(claimText, angleId);
+  const secundario = secondaryAngleId ? scoreClaimAgainstAngle(claimText, secondaryAngleId) * 0.5 : 0;
+  return primario + secundario;
+}
+
+function normalizeClaim(t) { return String(t ?? '').toLowerCase().trim(); }
+
 /**
  * Clasifica los claims reales de UN campo real (beneficios O ingredientes,
  * nunca ambos mezclados -- mismo criterio real de disjunción ya usado por
  * hypothesisCopyProvider.js#SOURCE_FIELD_BY_SECTION) por relevancia real
- * al primaryAngle real.
+ * al primaryAngle real (+ secondaryAngle real opcional, peso menor).
  *
- * @param {{fieldText:?string, angleId:?string, maxCoreClaims?:number, maxSupportingClaims?:number}} args
+ * @param {{fieldText:?string, angleId:?string, secondaryAngleId?:?string, maxCoreClaims?:number, maxSupportingClaims?:number, previousClaims?:string[]}} args
  * @returns {{core:string[], supporting:string[], irrelevant:string[], filteredText:string}}
  */
 export function classifyClaimsForField({
-  fieldText, angleId, maxCoreClaims = DEFAULT_MAX_CORE_CLAIMS, maxSupportingClaims = DEFAULT_MAX_SUPPORTING_CLAIMS,
+  fieldText, angleId, secondaryAngleId = null, maxCoreClaims = DEFAULT_MAX_CORE_CLAIMS, maxSupportingClaims = DEFAULT_MAX_SUPPORTING_CLAIMS,
+  previousClaims = [],
 }) {
   const claims = splitClaims(fieldText);
   if (claims.length === 0) return Object.freeze({ core: Object.freeze([]), supporting: Object.freeze([]), irrelevant: Object.freeze([]), filteredText: null });
@@ -57,8 +71,15 @@ export function classifyClaimsForField({
     return Object.freeze({ core: Object.freeze([...claims]), supporting: Object.freeze([]), irrelevant: Object.freeze([]), filteredText: fieldText });
   }
 
-  const scored = claims.map((claim) => ({ claim, score: scoreClaimAgainstAngle(claim, angleId) }))
-    .sort((a, b) => b.score - a.score);
+  const previousNormalizados = new Set(previousClaims.map(normalizeClaim));
+  // Claim Diversity (Paso 12/26/37 del encargo): la relevancia real
+  // (score) sigue siendo el criterio principal real (Paso 27: "nunca
+  // sacrificar coherencia por diversidad") -- "yaUsado" SOLO desempata
+  // cuando dos claims reales tienen el MISMO score real, nunca promueve un
+  // claim real menos relevante por encima de uno más relevante.
+  const scored = claims
+    .map((claim) => ({ claim, score: scoreClaimAgainstAngles(claim, angleId, secondaryAngleId), yaUsado: previousNormalizados.has(normalizeClaim(claim)) }))
+    .sort((a, b) => b.score - a.score || (a.yaUsado === b.yaUsado ? 0 : a.yaUsado ? 1 : -1));
 
   const conSenal = scored.filter((c) => c.score > 0);
   const sinSenal = scored.filter((c) => c.score === 0);
@@ -88,15 +109,20 @@ export function classifyClaimsForField({
  * filtra (Paso 13: Claim Safety intacto -- el problema real de la sección
  * "problem" no es una lista de claims, es un único hecho real).
  *
- * @param {{facts:object, angleId:?string, maxCoreClaims?:number, maxSupportingClaims?:number}} args
+ * @param {{facts:object, angleId:?string, secondaryAngleId?:?string, maxCoreClaims?:number, maxSupportingClaims?:number, previousClaims?:string[]}} args
  */
 export function selectRelevantClaims({
-  facts, angleId, maxCoreClaims = DEFAULT_MAX_CORE_CLAIMS, maxSupportingClaims = DEFAULT_MAX_SUPPORTING_CLAIMS,
+  facts, angleId, secondaryAngleId = null, maxCoreClaims = DEFAULT_MAX_CORE_CLAIMS, maxSupportingClaims = DEFAULT_MAX_SUPPORTING_CLAIMS,
+  // previousClaims (Paso 12/26/37 del encargo): claims reales CORE ya
+  // usados en variantes anteriores de ESTE batch -- diversidad real entre
+  // variantes, nunca inventada (mismo patrón real ya usado por
+  // previousAngles/previousHooks/previousStructureIds).
+  previousClaims = [],
 }) {
   if (!facts) throw new Error('selectRelevantClaims: "facts" es obligatorio.');
 
-  const beneficios = classifyClaimsForField({ fieldText: facts.beneficios, angleId, maxCoreClaims, maxSupportingClaims });
-  const ingredientes = classifyClaimsForField({ fieldText: facts.ingredientes, angleId, maxCoreClaims, maxSupportingClaims });
+  const beneficios = classifyClaimsForField({ fieldText: facts.beneficios, angleId, secondaryAngleId, maxCoreClaims, maxSupportingClaims, previousClaims });
+  const ingredientes = classifyClaimsForField({ fieldText: facts.ingredientes, angleId, secondaryAngleId, maxCoreClaims, maxSupportingClaims, previousClaims });
 
   return Object.freeze({
     core: Object.freeze([...beneficios.core, ...ingredientes.core]),

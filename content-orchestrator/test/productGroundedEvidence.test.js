@@ -39,6 +39,26 @@ describe('buildProductGroundedEvidence — evidencia real de producto, nunca evi
   });
 });
 
+describe('H: Product Grounding — dataQualityStatus real expuesto (Corrección "Limpieza y normalización del Product Knowledge")', () => {
+  test('Café Tongkat Ali real (VERIFIED) -- Creative pipeline real recibe dataQualityStatus sin romper el resto del contrato real', () => {
+    const ev = buildProductGroundedEvidence('tongkat-ali-cafe');
+    assert.equal(ev.dataQualityStatus, 'VERIFIED');
+    assert.equal(ev.dataQualityDetail, null);
+    assert.ok(ev.nombreVisible);
+  });
+
+  test('Sculpt Black real (CONFLICT real ya detectado) -- se expone tal cual, nunca se oculta ni se corrige aquí', () => {
+    const ev = buildProductGroundedEvidence('sculpt-black');
+    assert.equal(ev.dataQualityStatus, 'CONFLICT');
+    assert.match(ev.dataQualityDetail, /Garcinia/);
+  });
+
+  test('Venus Capsules real (INCOMPLETE real ya detectado) -- se expone tal cual', () => {
+    const ev = buildProductGroundedEvidence('venus-capsules');
+    assert.equal(ev.dataQualityStatus, 'INCOMPLETE');
+  });
+});
+
 describe('buildCreativeProposal — productGroundedEvidence adjunta cuando EVIDENCE_BASED no resuelve', () => {
   // Fase 16 (Marketing Creative Playbook + Hypothesis Testing Integration):
   // los 5 productos de PRODUCTOS_OBJETIVO SÍ tienen Product Facts reales

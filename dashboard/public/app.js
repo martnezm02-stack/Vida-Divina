@@ -108,7 +108,11 @@ let productsCache = [];
 async function initCreateForm() {
   productsCache = await api('/api/products');
   const productSel = $('#create-product');
-  productSel.innerHTML = productsCache.map((p) => `<option value="${p.productSlug}">${p.nombreVisible ?? p.productSlug}${p.factsAvailable ? '' : ' (sin catálogo real)'}</option>`).join('');
+  // dataQualityStatus (Paso 22 del encargo): sufijo real solo cuando es
+  // relevante (CONFLICT/INCOMPLETE/MISSING) -- nunca para VERIFIED, para
+  // no saturar el dropdown real con una marca en cada opción.
+  const sufijoCalidad = (p) => (p.dataQualityStatus && p.dataQualityStatus !== 'VERIFIED' ? ' (⚠️ requiere revisión)' : '');
+  productSel.innerHTML = productsCache.map((p) => `<option value="${p.productSlug}">${p.nombreVisible ?? p.productSlug}${p.factsAvailable ? '' : ' (sin catálogo real)'}${sufijoCalidad(p)}</option>`).join('');
   updateCreateImages();
   productSel.addEventListener('change', updateCreateImages);
   $('#create-image').addEventListener('change', updateCreateProductBodyVisibility);
@@ -1100,7 +1104,7 @@ if (generateVariantsBtn) {
       ${claimsHtml}
       ${script ? `<div class="variant-field"><strong>Script</strong>${script}</div>` : ''}
       ${voiceover ? `<div class="variant-field"><strong>Voiceover</strong>${voiceover}</div>` : ''}
-      ${v.visualIntent ? `<div class="variant-field"><strong>Visual Intent</strong>${v.visualIntent}</div>` : ''}
+      ${(v.visualBrief ?? v.visualIntent) ? `<div class="variant-field"><strong>Qué queremos ver (Visual Brief)</strong>${v.visualBrief ?? v.visualIntent}</div>` : ''}
       <div class="variant-field"><strong>Tratamiento visual</strong>${v.visualTreatmentLabel ?? v.visualTreatment ?? '—'}</div>
       <div class="variant-field"><strong>Modelo sugerido</strong>${v.recommendedModel?.displayName ?? '—'}</div>
       <div class="variant-field"><strong>Calidad</strong>${qualityBadgeHtml(v.creativeQualityStatus)}</div>
@@ -1146,7 +1150,7 @@ if (generateVariantsBtn) {
         <div class="variant-field"><strong>Hook</strong>"${v.hook}"</div>
         <div class="variant-field"><strong>Estructura</strong>${v.structureLabel ?? '—'}</div>
         <div class="variant-field"><strong>Claims principales</strong>${claimsText}</div>
-        <div class="variant-field"><strong>Visual Intent</strong>${v.visualIntent ?? '—'}</div>
+        <div class="variant-field"><strong>Qué queremos ver (Visual Brief)</strong>${v.visualBrief ?? v.visualIntent ?? '—'}</div>
         <div class="variant-field"><strong>Formato</strong>Instagram Reel + Instagram Feed</div>
         ${productBadgeHtml(v.productAssetAvailable)}
         <div class="model-recommendation" data-variant-index="0">
@@ -1193,8 +1197,24 @@ if (generateVariantsBtn) {
         ${s.shotType ? `<div class="variant-field"><strong>Encuadre</strong>${s.shotType}${s.cameraAngle ? `, ángulo ${s.cameraAngle}` : ''}</div>` : ''}
         <div class="variant-field"><strong>Producto</strong>${s.requiresProduct ? 'Sí' : 'No'}</div>
       `).join('<hr>');
+      // Prompt por escena (Paso 18/19 del encargo "Refinamiento
+      // creativo"): "Instrucción exacta para el generador" -- EXACTAMENTE
+      // s.generatedPrompt real (nunca resumido/limpiado/reconstruido) +
+      // narrativeStage/action/model/quality/product reference reales, ver
+      // renderVisualPlanPreview arriba (Paso 21: parity de código con
+      // assetResolver.js).
+      const PRODUCT_REF_LABELS = {
+        COMPATIBLE: '✅ Fotografía real utilizada como referencia — modelo compatible',
+        ASSET_USED_DIRECTLY: '✅ Fotografía real utilizada directamente (sin generación IA)',
+        NO_REFERENCE_AVAILABLE: '⚠️ Sin fotografía real disponible -- se genera con IA, sin referencia real del producto',
+      };
       promptsEl.innerHTML = plan.scenes.map((s, i) => `
         <div class="variant-field"><strong>Escena ${i + 1} — ${SECTION_TYPE_LABELS[s.sectionType] ?? s.sectionType}</strong></div>
+        ${s.action ? `<div class="variant-field"><strong>Acción</strong>${s.action}</div>` : ''}
+        <div class="variant-field"><strong>Modelo</strong>${s.model ?? '—'}</div>
+        <div class="variant-field"><strong>Calidad</strong>${s.quality ?? '—'}</div>
+        ${s.productReferenceCompatibility ? `<div class="variant-field"><strong>Producto</strong>${PRODUCT_REF_LABELS[s.productReferenceCompatibility] ?? s.productReferenceCompatibility}</div>` : ''}
+        <div class="variant-field"><strong>Instrucción exacta para el generador</strong></div>
         ${s.generatedPrompt
           ? `<pre class="scene-prompt-text">${s.generatedPrompt}</pre>
              <button type="button" class="btn-link btn-copy-prompt" data-prompt="${s.generatedPrompt.replace(/"/g, '&quot;')}">Copiar prompt</button>`
@@ -1835,14 +1855,27 @@ async function loadProducts() {
   // explícito cuando la ficha real no documenta el campo (nunca se rellena).
   const NOT_AVAILABLE = '<span style="font-style:italic;color:var(--burgundy);">No especificado</span>';
   const campo = (label, valor) => `<div style="font-size:12px;margin-top:4px;"><strong>${label}:</strong> ${valor ?? NOT_AVAILABLE}</div>`;
+  // dataQualityStatus (Corrección "Limpieza y normalización del Product
+  // Knowledge", 2026-08-28, Paso 22 del encargo): solo se muestra cuando es
+  // relevante (nunca para VERIFIED -- "mostrar solo si es relevante").
+  const DATA_QUALITY_BADGES = {
+    INCOMPLETE: '⚠️ Información incompleta', CONFLICT: '⚠️ Requiere revisión', MISSING: '⚠️ Sin datos reales',
+  };
 
-  el.innerHTML = products.map((p) => `
+  el.innerHTML = products.map((p) => {
+    // Fotografía principal real (Paso 3/12/22 del encargo): el asset real
+    // marcado PRODUCT_PRIMARY -- NUNCA el primero por orden alfabético del
+    // arreglo real (root cause real ya corregido en productCatalog.js;
+    // esta vista todavía usaba rawAssets[0] directo).
+    const fotoPrincipal = p.rawAssets.find((a) => a.role === 'PRODUCT_PRIMARY') ?? p.rawAssets[0];
+    return `
     <div class="product-card">
-      ${p.rawAssets[0] ? `<img src="/media/assets-products/${encodeURIComponent(p.productSlug)}/raw/${encodeURIComponent(p.rawAssets[0].originalFilename)}" alt="${p.productSlug}" />` : ''}
+      ${fotoPrincipal ? `<img src="/media/assets-products/${encodeURIComponent(p.productSlug)}/raw/${encodeURIComponent(fotoPrincipal.originalFilename)}" alt="${p.productSlug}" />` : ''}
       <div class="body">
         <div class="product-name">${p.factsAvailable ? p.nombreVisible : `${p.productSlug} <span style="font-weight:400;font-style:italic;color:var(--burgundy);">(sin nombre comercial real)</span>`}</div>
         ${p.factsAvailable ? `
           ${p.estadoComercial && p.estadoComercial !== 'ACTIVO' ? `<div class="tag" style="background:#f2c94c;color:#3a2e00;display:inline-block;margin:4px 0;">${p.estadoComercial}</div>` : ''}
+          ${DATA_QUALITY_BADGES[p.dataQualityStatus] ? `<div class="tag" style="background:#f2c94c;color:#3a2e00;display:inline-block;margin:4px 0;" title="${p.dataQualityDetail ?? ''}">${DATA_QUALITY_BADGES[p.dataQualityStatus]}</div>` : ''}
           <div class="problema">${p.problema ?? ''}</div>
           ${campo('Objetivo', p.objetivoPrincipal)}
           ${campo('Beneficios', p.beneficios)}
@@ -1855,7 +1888,8 @@ async function loadProducts() {
           <span class="tag RAW">${p.rawAssetCount} RAW</span>
         </div>
       </div>
-    </div>`).join('') || '<p class="empty-state">Sin productos con assets reales todavía.</p>';
+    </div>`;
+  }).join('') || '<p class="empty-state">Sin productos con assets reales todavía.</p>';
 }
 
 // ---------------- CAMPAIGNS ----------------

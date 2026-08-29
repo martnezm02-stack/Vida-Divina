@@ -138,6 +138,49 @@ function localizarArchivoProducto(productSlug) {
   return null;
 }
 
+// Data Quality Status (Corrección "Limpieza y normalización del Product
+// Knowledge", 2026-08-28, Paso 18/19/20/33 del encargo): VERIFIED/
+// INCOMPLETE/CONFLICT/MISSING, calculado SOLO a partir de lo que el
+// propio .md real ya declara -- nunca infiere ni corrige con
+// conocimiento externo (Paso 30/31).
+//
+// GAP_PHRASE_RE detecta frases reales que YA usa el catálogo (nunca
+// inventadas aquí) para marcar ausencia de dato -- ej. Venus Capsules:
+// "Fórmula patentada — componentes específicos no detallados en el
+// catálogo." Se revisa SOLO Beneficios/Ingredientes (los campos
+// realmente usados como Marketing Claim/Product Fact por el Creative
+// pipeline, Paso 7) -- "Público objetivo: No especificado" es la norma
+// en casi todo el catálogo y no es la señal de calidad que este encargo
+// pide vigilar.
+const GAP_PHRASE_RE = /no especificado|no detallad|no se detalla/i;
+
+// Conflict Registry explícito y auditable (Paso 19/26/33 del encargo):
+// SOLO los conflictos reales ya encontrados por inspección directa de
+// docs/productos/ en esta corrección -- NUNCA un detector genérico de
+// contradicción semántica (arriesgaría falsos positivos reales en las
+// otras 64 fichas nunca auditadas en esta tarea, violando "NO auditoría
+// general"). Cada entrada documenta el conflicto real exacto.
+const KNOWN_DATA_CONFLICTS = Object.freeze({
+  sculptblack: 'Objetivo principal menciona "Garcinia Cambogia"; Ingredientes principales no la incluye (docs/productos/02-cafe-divina/sculpt-black.md).',
+});
+
+/**
+ * dataQualityStatus real (Paso 18 del encargo): CONFLICT si el producto
+ * real está en KNOWN_DATA_CONFLICTS; INCOMPLETE si Beneficios/
+ * Ingredientes principales reales contienen una frase real de ausencia
+ * de dato; MISSING si NINGÚN campo real de negocio (Beneficios/
+ * Ingredientes/Objetivo/Problema) existe; VERIFIED en cualquier otro
+ * caso real.
+ */
+function computeDataQualityStatus(campos, productSlug) {
+  if (KNOWN_DATA_CONFLICTS[normalizarSlug(productSlug)]) return 'CONFLICT';
+  const conGap = ['Beneficios', 'Ingredientes principales'].some((c) => GAP_PHRASE_RE.test(campos[c] ?? ''));
+  if (conGap) return 'INCOMPLETE';
+  const camposNegocio = ['Beneficios', 'Ingredientes principales', 'Objetivo principal', 'Problema que ayuda a resolver'];
+  if (!camposNegocio.some((c) => campos[c])) return 'MISSING';
+  return 'VERIFIED';
+}
+
 /**
  * Parsea los campos "- **Campo:** valor" reales de un archivo de producto.
  * Devuelve un objeto con las claves normalizadas a camelCase de lo que
@@ -211,5 +254,10 @@ export function loadProductFacts(productSlug) {
     // infiere REQUIRES_CONFIRMATION -- solo se refleja si el campo real ya
     // lo dice literalmente en docs/productos/.
     estadoComercial: campos['Estado comercial'] ?? 'ACTIVO',
+    // dataQualityStatus/dataQualityDetail (Paso 18/19/20 del encargo):
+    // VERIFIED/INCOMPLETE/CONFLICT/MISSING -- ver computeDataQualityStatus()
+    // arriba, nunca corrige el dato real, solo lo señala.
+    dataQualityStatus: computeDataQualityStatus(campos, productSlug),
+    dataQualityDetail: KNOWN_DATA_CONFLICTS[normalizarSlug(productSlug)] ?? null,
   });
 }

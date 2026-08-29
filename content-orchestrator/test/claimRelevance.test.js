@@ -66,3 +66,34 @@ describe('selectRelevantClaims', () => {
     }
   });
 });
+
+describe('Claim Diversity — Corrección "Refinamiento creativo" (Paso 12/26/37 del encargo)', () => {
+  test('ANGLE -> CLAIMS: un claim real con señal real de keyword para un ángulo real se prioriza sobre uno sin señal -- distinto de "routine" (rutina/día a día) a "mechanism" (ingredientes/fórmula)', () => {
+    const facts = Object.freeze({ ...FACTS_REAL, beneficios: 'Apoyo a la rutina diaria; fórmula con ingredientes activos; antioxidante.' });
+    const rutina = selectRelevantClaims({ facts, angleId: 'routine' });
+    const mecanismo = selectRelevantClaims({ facts, angleId: 'mechanism' });
+    assert.notEqual(rutina.filteredFacts.beneficios, mecanismo.filteredFacts.beneficios, 'ángulos reales con señal real distinta filtran real beneficios distinto');
+  });
+
+  test('secondaryAngleId real amplía el pool real de claims relevantes (score real combinado, nunca reemplaza al ángulo primario)', () => {
+    const soloPrimario = classifyClaimsForField({ fieldText: FACTS_REAL.beneficios, angleId: 'mechanism' });
+    const conSecundario = classifyClaimsForField({ fieldText: FACTS_REAL.beneficios, angleId: 'mechanism', secondaryAngleId: 'aspiration' });
+    // El core real con secondaryAngle nunca queda vacío ni cambia el
+    // criterio real de máximo -- solo puede reordenar/incluir claims reales
+    // que también conectan con el ángulo secundario real.
+    assert.ok(conSecundario.core.length > 0 && conSecundario.core.length === soloPrimario.core.length);
+  });
+
+  test('NO REPEATED CLAIMS UNNECESSARILY: con previousClaims reales del CORE ya usado, una segunda selección real para el MISMO ángulo prefiere claims reales aún no usados cuando hay opciones reales suficientes', () => {
+    const primera = selectRelevantClaims({ facts: FACTS_REAL, angleId: 'mechanism' });
+    const segunda = selectRelevantClaims({ facts: FACTS_REAL, angleId: 'mechanism', previousClaims: primera.core });
+    // La relevancia real sigue dominando (Paso 27) -- pero cuando existen
+    // claims reales alternativos con la MISMA señal real, la segunda
+    // selección real no debe ser IDÉNTICA a la primera si hay al menos un
+    // claim real alternativo disponible con score real empatado.
+    const totalClaimsReales = FACTS_REAL.beneficios.split(';').length + FACTS_REAL.ingredientes.split(',').length;
+    if (totalClaimsReales > primera.core.length) {
+      assert.notDeepEqual(segunda.core, primera.core, 'con alternativas reales disponibles, la segunda selección real de claims varía real respecto a la primera');
+    }
+  });
+});

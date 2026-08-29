@@ -72,6 +72,39 @@ describe('recommendStructure — selección de estructura (Paso 6/8 del encargo)
   });
 });
 
+describe('Structure Diversity — previousStructureIds (Corrección "Refinamiento creativo", Paso 10/11/26/37 del encargo)', () => {
+  const argsConDosSenales = Object.freeze({
+    userInstruction: 'Quiero una mujer adulta entrenando en un gimnasio moderno',
+    campaignIntent: { awarenessStage: 'Problem Aware', campaignObjective: 'conversion' },
+    contentType: 'VIDEO',
+  });
+
+  test('sin previousStructureIds, gana la señal real de mayor prioridad (userInstruction)', () => {
+    const r = recommendStructure(argsConDosSenales);
+    assert.equal(r.structureId, 'HOOK_STORY_PRODUCT_CTA');
+    assert.equal(r.matchedBy, 'userInstruction');
+  });
+
+  test('ANGLE/VARIANTE -> STRUCTURE: si la señal real de mayor prioridad ya se usó en otra variante real de la campaña, se salta a la SIGUIENTE señal real real disponible (campaignIntent) -- nunca inventa una señal falsa', () => {
+    const r = recommendStructure({ ...argsConDosSenales, previousStructureIds: ['HOOK_STORY_PRODUCT_CTA'] });
+    assert.equal(r.structureId, 'HOOK_PROBLEM_SOLUTION_PRODUCT_CTA');
+    assert.equal(r.matchedBy, 'campaignIntent');
+  });
+
+  test('Paso 27 (coherencia > diversidad): si TODAS las señales reales coincidentes ya se usaron, conserva la de mayor prioridad real -- nunca bloquea ni inventa', () => {
+    const soloUnaSenal = { userInstruction: 'Quiero una mujer adulta entrenando en un gimnasio moderno', contentType: 'VIDEO' };
+    const r = recommendStructure({ ...soloUnaSenal, previousStructureIds: ['HOOK_STORY_PRODUCT_CTA'] });
+    assert.equal(r.structureId, 'HOOK_STORY_PRODUCT_CTA');
+  });
+
+  test('buildCreativeStructure/previewStructureOptions real propagan previousStructureIds sin romper el contrato existente', () => {
+    const built = buildCreativeStructure({ ...argsConDosSenales, previousStructureIds: ['HOOK_STORY_PRODUCT_CTA'] });
+    assert.equal(built.structureId, 'HOOK_PROBLEM_SOLUTION_PRODUCT_CTA');
+    const preview = previewStructureOptions({ ...argsConDosSenales, previousStructureIds: ['HOOK_STORY_PRODUCT_CTA'] });
+    assert.equal(preview.recommended.structureId, 'HOOK_PROBLEM_SOLUTION_PRODUCT_CTA');
+  });
+});
+
 describe('selectStructure — override manual (Paso 9 del encargo)', () => {
   test('sin selectedStructureId, selectionMode "automatic"', () => {
     const rec = recommendStructure({ contentType: 'VIDEO' });

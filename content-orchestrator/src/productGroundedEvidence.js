@@ -79,6 +79,14 @@ export function buildProductGroundedEvidence(productId) {
     nombreVisible: facts.nombreVisible ?? facts.nombreComercial,
     evidenceType: PRODUCT_EVIDENCE_TYPE,
     confidence: PRODUCT_GROUNDED_CONFIDENCE,
+    // dataQualityStatus (Corrección "Limpieza y normalización del Product
+    // Knowledge", 2026-08-28, Paso 15/16/18 del encargo): expuesto tal
+    // cual desde productFactsLoader.js -- para que el Creative pipeline
+    // (Creative Director/Hook Intelligence/Claim Relevance, nunca
+    // modificados aquí) pueda conocer si hay CONFLICT/INCOMPLETE real sin
+    // que este módulo recalcule ni corrija nada.
+    dataQualityStatus: facts.dataQualityStatus,
+    dataQualityDetail: facts.dataQualityDetail,
     sourceEvidence: Object.freeze(sourceEvidence),
     limitations: Object.freeze([
       'Sin evidencia real de cliente (CUSTOMER_RESEARCH) -- no se puede afirmar qué persona compra este producto, qué dolor resuelve en la práctica, ni qué resultado espera un cliente real.',

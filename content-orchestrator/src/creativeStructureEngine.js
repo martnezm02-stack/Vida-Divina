@@ -170,11 +170,19 @@ function matchByPlatformContentType(contentType, compatibles) {
  * real de negocio distingue estructura por producto en este catálogo) --
  * queda documentado como paso saltado, no simulado.
  *
- * @param {{userInstruction?:?string, campaignIntent?:?object, creativeVariant?:?object, productFacts?:?object, platform?:?string, contentType?:string, angle?:?string, hook?:?string}} args
+ * @param {{userInstruction?:?string, campaignIntent?:?object, creativeVariant?:?object, productFacts?:?object, platform?:?string, contentType?:string, angle?:?string, hook?:?string, previousStructureIds?:string[]}} args
  */
 export function recommendStructure({
   userInstruction = null, campaignIntent = null, creativeVariant = null, productFacts = null,
   platform = null, contentType = 'VIDEO', angle = null, hook = null,
+  // previousStructureIds (Corrección "Refinamiento creativo", 2026-08-28,
+  // Paso 10/11/26 del encargo): structureId reales ya elegidos en
+  // variantes anteriores de ESTE batch -- NUNCA cambia el orden real de
+  // prioridad (userInstruction > campaignIntent > creativeVariant >
+  // plataforma > default, Paso 27 del encargo: "nunca sacrificar
+  // coherencia por diversidad"), solo desempata cuando MÁS de una señal
+  // real de la cadena coincide y la de mayor prioridad ya se usó antes.
+  previousStructureIds = [],
 }) {
   if (!CONTENT_TYPES.includes(contentType)) {
     throw new Error(`recommendStructure: "contentType" debe ser uno de ${CONTENT_TYPES.join(', ')} (recibido "${contentType}").`);
@@ -186,10 +194,12 @@ export function recommendStructure({
     { source: 'creativeVariant', match: matchByCreativeVariant(creativeVariant, compatibles), detalle: 'el estilo de copy de esta variante sugiere este enfoque' },
     { source: 'platform/contentType', match: matchByPlatformContentType(contentType, compatibles), detalle: `es el enfoque recomendado por defecto para ${contentType === 'CAROUSEL' ? 'carrusel' : 'video'}` },
   ];
-  const encontrada = cadena.find((c) => c.match);
+  const candidatosReales = cadena.filter((c) => c.match);
+  const primerNoRepetido = candidatosReales.find((c) => !previousStructureIds.includes(c.match.structureId));
+  const encontrada = primerNoRepetido ?? candidatosReales[0] ?? null;
   const elegida = encontrada?.match ?? compatibles[0];
   const recommendationReason = encontrada
-    ? `Recomendada por ${encontrada.source}: ${encontrada.detalle}.`
+    ? `Recomendada por ${encontrada.source}: ${encontrada.detalle}${encontrada !== candidatosReales[0] ? ' (variando de la estructura ya usada en otra variante de esta campaña)' : ''}.`
     : `Recomendada por defecto: ${elegida.objective}.`;
 
   return Object.freeze({
@@ -275,14 +285,15 @@ export function alignStagesToCount(stages, count) {
  *
  * @param {{
  *   userInstruction?:?string, campaignIntent?:?object, creativeVariant?:?object, productFacts?:?object,
- *   platform?:?string, contentType?:string, angle?:?string, hook?:?string, selectedStructureId?:?string,
+ *   platform?:?string, contentType?:string, angle?:?string, hook?:?string, selectedStructureId?:?string, previousStructureIds?:string[],
  * }} args
  */
 export function buildCreativeStructure({
   userInstruction = null, campaignIntent = null, creativeVariant = null, productFacts = null,
   platform = null, contentType = 'VIDEO', angle = null, hook = null, selectedStructureId = null,
+  previousStructureIds = [],
 }) {
-  const recommendation = recommendStructure({ userInstruction, campaignIntent, creativeVariant, productFacts, platform, contentType, angle, hook });
+  const recommendation = recommendStructure({ userInstruction, campaignIntent, creativeVariant, productFacts, platform, contentType, angle, hook, previousStructureIds });
   const selection = selectStructure({ selectedStructureId, recommendation, contentType });
 
   return Object.freeze({
@@ -309,9 +320,9 @@ export function buildCreativeStructure({
  */
 export function previewStructureOptions({
   userInstruction = null, campaignIntent = null, creativeVariant = null, productFacts = null,
-  platform = null, contentType = 'VIDEO', angle = null, hook = null,
+  platform = null, contentType = 'VIDEO', angle = null, hook = null, previousStructureIds = [],
 }) {
-  const recommendation = recommendStructure({ userInstruction, campaignIntent, creativeVariant, productFacts, platform, contentType, angle, hook });
+  const recommendation = recommendStructure({ userInstruction, campaignIntent, creativeVariant, productFacts, platform, contentType, angle, hook, previousStructureIds });
   const compatibles = listCompatibleStructures({ contentType });
   const resto = compatibles
     .filter((s) => s.structureId !== recommendation.structureId)

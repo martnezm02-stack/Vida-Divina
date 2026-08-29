@@ -90,6 +90,15 @@ async function main() {
   assert(Array.isArray(proposal.hookCandidates) && proposal.hookCandidates.length >= 3, `hookCandidates real: >= 3 candidatos reales evaluados (obtuvo ${proposal.hookCandidates?.length})`);
   console.log(`     candidatos reales evaluados: ${proposal.hookCandidates.length}`);
 
+  console.log('3c. Paso 32 del encargo "Refinamiento creativo": verificando hook NATURAL y ESPECÍFICO (nunca fórmulas genéricas sin revisar)...');
+  assert(typeof proposal.hookNaturalnessScore === 'number', 'hookNaturalnessScore real presente');
+  assert(typeof proposal.hookSpecificityScore === 'number', 'hookSpecificityScore real presente');
+  console.log(`     hookNaturalnessScore real: ${proposal.hookNaturalnessScore} · hookSpecificityScore real: ${proposal.hookSpecificityScore}`);
+  const GENERIC_PATTERNS_REAL = ['esto es otro', 'esto cambia', 'otro nivel', 'otro mundo', 'punto y aparte', 'esto te lleva'];
+  const hookNormalizado = proposal.creativeVariant.copy.hook.toLowerCase();
+  const esGenericoSinRevisar = GENERIC_PATTERNS_REAL.some((p) => hookNormalizado.includes(p)) && proposal.hookQualityStatus === 'ACCEPTED' && proposal.hookNaturalnessScore < 0.70;
+  assert(!esGenericoSinRevisar, `un hook real genérico real solo puede quedar ACCEPTED si naturalidad/especificidad reales igual cruzan el gate real (obtuvo hook="${proposal.creativeVariant.copy.hook}")`);
+
   console.log('3a. Verificando AUTO-QA GLOBAL real (creativeQualityScore)...');
   assert(typeof proposal.creativeQualityScore === 'number', 'creativeQualityScore real presente');
   assert(Boolean(proposal.creativeQualityStatus), 'creativeQualityStatus real presente');
@@ -123,6 +132,18 @@ async function main() {
   console.log(`     Visual Intent real: ${modelRec.visualIntent}`);
   console.log(`     Modelo real: ${modelRec.generationSettings?.recommendedModel} · Calidad real: ${modelRec.generationSettings?.recommendedQuality}`);
   console.log(`     Referencia visual del producto real: ${modelRec.assetRequirements?.productAssetAvailable ? '✅ disponible' : '⚠️ sin fotografía'}`);
+
+  console.log('6a. Paso 34 del encargo "Refinamiento creativo": auditando el PROMPT real ANTES de producir (visual-plan-preview, nunca llama a Krea)...');
+  const { status: s3b, body: planPreview } = await get(`/api/create/visual-plan-preview?${qs.toString()}`);
+  assert(s3b === 200 && planPreview.status === 'READY', 'visual-plan-preview real devolvió un plan real listo');
+  assert(typeof planPreview.visualBrief === 'string' && planPreview.visualBrief.length > 0, `visualBrief real presente ("${planPreview.visualBrief}")`);
+  const escenaConPromptReal = planPreview.scenes.find((s) => s.generatedPrompt);
+  assert(Boolean(escenaConPromptReal), 'al menos 1 escena real trae generatedPrompt real ANTES de producir');
+  const promptNormalizado = escenaConPromptReal.generatedPrompt.toLowerCase();
+  assert(promptNormalizado.includes('hombre'), `el prompt real audita protagonista correcto ("hombre"), obtenido: "${escenaConPromptReal.generatedPrompt}"`);
+  assert(Boolean(escenaConPromptReal.action), `el prompt real audita acción/composición real de la escena (action: "${escenaConPromptReal.action}")`);
+  console.log(`     Visual Brief real: "${planPreview.visualBrief}"`);
+  console.log(`     Prompt real auditado (escena "${escenaConPromptReal.sceneId}"): "${escenaConPromptReal.generatedPrompt.slice(0, 160)}..."`);
 
   console.log('7. Lanzando producción real (produce-start + polling)...');
   const { status: s4, body: start } = await post('/api/create/produce-start', {

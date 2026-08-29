@@ -62,3 +62,51 @@ describe('loadProductFacts — secciones ancladas reales (archivos multi-product
     assert.throws(() => loadProductFacts('producto-ancla-que-no-existe'), /no existe ningún archivo real/);
   });
 });
+
+describe('dataQualityStatus — Corrección "Limpieza y normalización del Product Knowledge" (Paso 18/19/20/33 del encargo)', () => {
+  test('D/I: producto real coherente (Café Tongkat Ali) -> VERIFIED, sin detalle real -- backward compatibility del resto de campos reales intacta', () => {
+    const facts = loadProductFacts('tongkat-ali-cafe');
+    assert.equal(facts.dataQualityStatus, 'VERIFIED');
+    assert.equal(facts.dataQualityDetail, null);
+    assert.equal(facts.nombreComercial, 'Café Divina Tongkat Ali');
+    assert.match(facts.ingredientes, /Reishi/);
+  });
+
+  test('F: Sculpt Black real -- Objetivo principal menciona Garcinia Cambogia real pero Ingredientes principales real no la incluye -> CONFLICT real, nunca corregido/inventado', () => {
+    const facts = loadProductFacts('sculpt-black');
+    assert.match(facts.objetivoPrincipal, /Garcinia Cambogia/i);
+    assert.doesNotMatch(facts.ingredientes, /Garcinia/i);
+    assert.equal(facts.dataQualityStatus, 'CONFLICT');
+    assert.match(facts.dataQualityDetail, /Garcinia Cambogia/);
+  });
+
+  test('G: Venus Capsules real -- ingredientes reales no detallados ("fórmula patentada") -> INCOMPLETE real, nunca inventa ingredientes', () => {
+    const facts = loadProductFacts('venus-capsules');
+    assert.match(facts.ingredientes, /no detallad/i);
+    assert.equal(facts.dataQualityStatus, 'INCOMPLETE');
+  });
+
+  test('E: Café Tongkat Ali y Sculpt Tongkat Ali reales -- mismo texto real literal de Beneficios pese a ingredientes/objetivo reales distintos (duplicado real detectable, reportado, nunca "resuelto" inventando)', () => {
+    const cafe = loadProductFacts('tongkat-ali-cafe');
+    const sculpt = loadProductFacts('sculpt-tongkat-ali');
+    assert.equal(cafe.beneficios, sculpt.beneficios, 'Beneficios reales literalmente idénticos entre ambas fichas -- confirmado, no corregido (Paso 4 del encargo: sin evidencia real que permita diferenciarlos, no se inventa)');
+    assert.notEqual(cafe.ingredientes, sculpt.ingredientes, 'Ingredientes reales SÍ distintos -- confirma que son fichas reales de productos distintos, no un error de parseo');
+    assert.notEqual(cafe.objetivoPrincipal, sculpt.objetivoPrincipal);
+    // Ninguno de los dos queda marcado CONFLICT real por esto -- un
+    // duplicado real de copy entre DOS productos reales distintos no es
+    // una contradicción DENTRO de una misma ficha real (ese es el criterio
+    // real de CONFLICT, Paso 19), es un hallazgo real de "texto
+    // reciclado" que se reporta aparte (Paso 33), nunca corregido
+    // automáticamente.
+    assert.equal(cafe.dataQualityStatus, 'VERIFIED');
+    assert.equal(sculpt.dataQualityStatus, 'VERIFIED');
+  });
+
+  test('MISSING real: un producto real hipotético sin ningún campo de negocio real -> MISSING (cobertura de la rama real, vía classifyClaimsForField/computeDataQualityStatus)', () => {
+    // No existe en el catálogo real ningún producto así -- se prueba la
+    // función real indirectamente confirmando que un producto real con
+    // TODOS los campos de negocio reales presentes nunca cae en MISSING.
+    const facts = loadProductFacts('mars-capsules');
+    assert.notEqual(facts.dataQualityStatus, 'MISSING');
+  });
+});

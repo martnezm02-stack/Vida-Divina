@@ -45,11 +45,27 @@ async function main() {
     assert(typeof v.productAssetAvailable === 'boolean', `variante ${i + 1}: productAssetAvailable real presente (aviso de producto)`);
     assert(Boolean(v.creativeQualityStatus), `variante ${i + 1}: creativeQualityStatus real presente (badge de calidad)`);
     assert(Boolean(v.batchId), `variante ${i + 1}: batchId real presente (cada variante es su propio batch)`);
+    assert(typeof v.hookNaturalnessScore === 'number' || v.hookNaturalnessScore === null, `variante ${i + 1}: hookNaturalnessScore real presente (número real o null si Hook Intelligence no pudo generar candidatos)`);
+    assert(typeof v.hookSpecificityScore === 'number' || v.hookSpecificityScore === null, `variante ${i + 1}: hookSpecificityScore real presente`);
     hooks.add(v.hook);
   }
   assert(hooks.size >= Math.min(3, multi.variants.length), `hooks reales claramente distintos entre variantes (obtuvo ${hooks.size} de ${multi.variants.length})`);
   console.log(`     diversityScore real: ${multi.diversityScore}`);
   assert(typeof multi.diversityScore === 'number', 'diversityScore real presente (cabecera de diversidad)');
+
+  console.log('2a. Paso 33 del encargo "Refinamiento creativo": verificando diversidad narrativa real (hook/hookType/angle/structure/claims/treatment) -- nunca "solo cambió el hook"...');
+  const { distinctHooks, distinctHookTypes, distinctAngles, distinctStructures, distinctClaims, distinctTreatments, exactDuplicateHooks } = multi.diversityDetail;
+  console.log(`     distinctHooks=${distinctHooks} distinctHookTypes=${distinctHookTypes} distinctAngles=${distinctAngles} distinctStructures=${distinctStructures} distinctClaims=${distinctClaims} distinctTreatments=${distinctTreatments} exactDuplicateHooks=${exactDuplicateHooks}`);
+  const minEsperado = Math.min(3, multi.variants.length);
+  assert(distinctHookTypes >= minEsperado, `hookTypes reales claramente distintos (obtuvo ${distinctHookTypes} de ${multi.variants.length})`);
+  assert(exactDuplicateHooks === 0, `sin hooks reales duplicados exactos (obtuvo ${exactDuplicateHooks})`);
+  // structure/claims/angle: diversidad real deseable, pero NUNCA exigida
+  // artificialmente si el contexto real no la permite (Paso 33 del
+  // encargo: "no exigir diversidad artificial") -- se registra sin
+  // bloquear el E2E real si el contexto real justifica repetición.
+  if (distinctStructures < minEsperado) console.log(`     ⚠️ distinctStructures=${distinctStructures} (< ${minEsperado}) -- aceptable si el contexto real no ofrece más señales reales de estructura distintas`);
+  if (distinctAngles < minEsperado) console.log(`     ⚠️ distinctAngles=${distinctAngles} (< ${minEsperado}) -- aceptable si el ángulo real dominante es genuinamente el mismo`);
+  if (distinctClaims < minEsperado) console.log(`     ⚠️ distinctClaims=${distinctClaims} (< ${minEsperado}) -- aceptable si el producto real tiene pocos claims relevantes para este ángulo`);
 
   console.log('3. Simulando selección inicial: Variante 1...');
   let selected = multi.variants[0];
