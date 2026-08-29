@@ -17,12 +17,14 @@
 
 const BASE = 'http://localhost:4310';
 const PRODUCT_ID = 'venus-capsules';
-// Mismo criterio real que real-e2e-crear-contenido-coherence.mjs: "oficina"
-// literal en la instrucción real -- el sistema NUNCA infiere un entorno real
-// que el usuario no mencionó explícitamente (nunca inventa), así que una
-// instrucción real que solo dice "día de trabajo" (sin la palabra "oficina")
-// legítimamente no produce "oficina" en el prompt real -- eso NO es un bug.
-const INSTRUCTION = 'Quiero contar una historia cotidiana y natural: una mujer adulta trabaja en una oficina y se siente incómoda o distraída por situaciones relacionadas con su ciclo, continúa con su rutina diaria y posteriormente incorpora Cápsulas Venus de manera natural. El video debe mostrar una evolución visual desde una situación inicial de incomodidad hacia un estado final más tranquilo, activo y seguro.';
+// Instrucción real EXACTA del caso reportado (Corrección "Corrección del
+// último tramo de Creative Intent a Producción", 2026-08-29, Paso 49 del
+// encargo) -- "jornada laboral"/"mientras trabaja" (sin la palabra literal
+// "oficina") debe seguir detectando environment="oficina moderna" (Paso
+// 22/28, ENVIRONMENT LOCK ampliado) y el treatment real NUNCA debe ser
+// "Fitness / Gym" (Paso 4/5, root cause real ya corregido en
+// visualTreatments.js).
+const INSTRUCTION = 'Quiero un Reel dirigido a mujeres adultas que buscan integrar una rutina de bienestar durante las distintas etapas de su ciclo. Quiero contar una historia cotidiana y natural de una mujer adulta durante una jornada laboral: comienza su día y, mientras trabaja, atraviesa momentos de incomodidad o distracción relacionados con su ciclo. Después incorpora Cápsulas Venus de forma natural a su rutina y continúa con su día con una actitud más tranquila, activa y segura. La historia debe mostrar una evolución clara entre el estado inicial y el estado final, manteniendo a la misma protagonista durante todo el video. Usa diferentes acciones, situaciones, encuadres y composiciones para que cada escena avance la historia y no parezca una repetición de la misma toma. El estilo debe ser lifestyle premium, auténtico, natural y aspiracional, no un anuncio tradicional. La protagonista no debe mirar directamente a cámara salvo que la narrativa lo requiera. El producto debe mostrarse utilizando la fotografía real de Cápsulas Venus del catálogo cuando aparezca físicamente. No incrustes en las imágenes el hook, voiceover, subtítulos, captions ni CTA; esos elementos deben resolverse en postproducción.';
 
 const REQUEST_TIMEOUT_MS = 30_000;
 const POLL_TIMEOUT_MS = 30 * 60_000;
@@ -86,6 +88,11 @@ async function main() {
   assert(variant.hook?.length > 0, `hook real generado: "${variant.hook}"`);
   assert(variant.creativeVariant?.copy?.cta?.length > 0, `CTA real generado: "${variant.creativeVariant.copy.cta}"`);
 
+  console.log('1b. Verificando TREATMENT (Paso 4/5/43: caso real reportado "Fitness / Gym" para una instrucción de oficina/jornada laboral)...');
+  assert(variant.visualTreatment !== 'FITNESS_GYM', `treatment real NUNCA debe ser Fitness/Gym para esta instrucción real (obtuvo "${variant.visualTreatmentLabel}")`);
+  assert(typeof variant.treatmentAlignmentScore === 'number' && variant.treatmentAlignmentScore >= 0.70, `treatmentAlignmentScore real >= 0.70 (obtuvo ${variant.treatmentAlignmentScore})`);
+  console.log(`     Treatment real: ${variant.visualTreatmentLabel} (treatmentAlignmentScore real: ${variant.treatmentAlignmentScore})`);
+
   console.log('2. Verificando visual-plan-preview (Prompt Gate / Instruction Coverage / narrativeIntent)...');
   const qs = new URLSearchParams({ batchId, variantIndex: '0', userInstruction: INSTRUCTION });
   const { status: s2, body: plan } = await get(`/api/create/visual-plan-preview?${qs.toString()}`);
@@ -100,6 +107,7 @@ async function main() {
   assert(/mujer/i.test(scene1.generatedPrompt), `generatedPrompt real de la escena 1 menciona "mujer" (prompt: "${scene1.generatedPrompt.slice(0, 200)}...")`);
   assert(/oficina/i.test(scene1.generatedPrompt), 'generatedPrompt real de la escena 1 menciona "oficina"');
   assert(!/persona adulto/i.test(scene1.generatedPrompt), 'generatedPrompt real NUNCA se redujo a "persona adulto" genérico (Problema 2 corregido)');
+  assert(!/fondo simple y cuidado/i.test(scene1.generatedPrompt), 'generatedPrompt real NUNCA cae al fallback genérico "Fondo simple y cuidado" (Paso 16, caso real reportado en esta corrección)');
   console.log(`     Prompt real escena 1: "${scene1.generatedPrompt}"`);
 
   console.log('=== ESCENARIO 2: MANUAL EDIT (simulado a nivel HTTP -- overrides explícitos) ===');

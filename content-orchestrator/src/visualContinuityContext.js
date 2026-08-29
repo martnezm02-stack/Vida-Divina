@@ -83,7 +83,12 @@ function ageAdjective(ageRange, subjectGender) {
 }
 
 const ENVIRONMENT_WORDS = Object.freeze([
-  { match: ['oficina', 'office'], label: 'oficina moderna' },
+  // Corrección "Corrección del último tramo de Creative Intent a
+  // Producción" (2026-08-29): "jornada laboral"/"trabaja"/"trabajo" real
+  // son señales reales de entorno de oficina TAN explícitas como
+  // "oficina" -- el texto real SÍ menciona el contexto laboral, solo con
+  // otras palabras reales (nunca se inventa nada ausente del texto).
+  { match: ['oficina', 'office', 'jornada laboral', 'lugar de trabajo', 'escritorio'], label: 'oficina moderna' },
   { match: ['gimnasio', 'gym'], label: 'gimnasio moderno' },
   { match: ['cocina', 'kitchen'], label: 'cocina de casa' },
   { match: ['casa', 'hogar', 'home'], label: 'ambiente hogareño' },
@@ -97,21 +102,24 @@ function detectEnvironment(texto) {
   return found?.label ?? null;
 }
 
-// wardrobe (Corrección "Diversidad Visual", 2026-08-28, Paso 2 del
-// encargo): derivado del MISMO entorno real ya detectado arriba -- nunca
-// una heurística nueva independiente (un entorno de oficina real sugiere
-// vestuario profesional real; gimnasio, ropa deportiva real). Ausente del
-// texto -- null real, nunca inventado.
-const WARDROBE_BY_ENVIRONMENT_MATCH = Object.freeze([
-  { match: ['oficina', 'office'], label: 'ropa profesional / blazer neutro' },
-  { match: ['gimnasio', 'gym'], label: 'ropa deportiva' },
-  { match: ['cocina', 'kitchen', 'casa', 'hogar', 'home'], label: 'ropa casual de casa' },
-  { match: ['consultorio', 'clínica', 'clinic'], label: 'uniforme/bata clínica' },
-]);
+// wardrobe (Corrección "Diversidad Visual", 2028-08-28, Paso 2 del
+// encargo; refinado en "Corrección del último tramo de Creative Intent
+// a Producción", 2026-08-29): derivado del MISMO label de entorno real
+// YA detectado por detectEnvironment() -- nunca una heurística nueva
+// independiente que pueda desalinearse (root cause real ya visto una
+// vez: "jornada laboral" detectaba environment="oficina moderna" pero
+// wardrobe seguía null porque esta tabla solo miraba texto crudo
+// distinto). Ausente del entorno real -- null real, nunca inventado.
+const WARDROBE_BY_ENVIRONMENT_LABEL = Object.freeze({
+  'oficina moderna': 'ropa profesional / blazer neutro',
+  'gimnasio moderno': 'ropa deportiva',
+  'cocina de casa': 'ropa casual de casa',
+  'ambiente hogareño': 'ropa casual de casa',
+  'consultorio/clínica': 'uniforme/bata clínica',
+});
 
-function detectWardrobe(texto) {
-  const found = WARDROBE_BY_ENVIRONMENT_MATCH.find((w) => contains(texto, w.match));
-  return found?.label ?? null;
+function wardrobeForEnvironment(environmentLabel) {
+  return WARDROBE_BY_ENVIRONMENT_LABEL[environmentLabel] ?? null;
 }
 
 /**
@@ -146,7 +154,7 @@ export function buildVisualContinuityContext({ userInstruction = null, campaignI
   const subjectGender = detectSubjectGender(texto);
   const subjectAgeRange = detectAgeRange(texto);
   const environment = detectEnvironment(texto);
-  const wardrobe = detectWardrobe(texto);
+  const wardrobe = wardrobeForEnvironment(environment);
 
   const generoTexto = subjectGender === 'female' ? 'mujer' : subjectGender === 'male' ? 'hombre' : null;
   const adjetivoEdad = ageAdjective(subjectAgeRange, subjectGender);

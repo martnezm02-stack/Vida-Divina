@@ -1534,7 +1534,7 @@ if (generateVariantsBtn) {
       </div>
     `;
     workspace.querySelectorAll('.btn-select-variant').forEach((b) => {
-      b.addEventListener('click', () => {
+      b.addEventListener('click', async () => {
         const nextIndex = Number(b.dataset.variantIndex);
         if (nextIndex === selectedIndex) return;
         // Editable Fields (Paso 20 del encargo): advertencia real ANTES
@@ -1547,6 +1547,17 @@ if (generateVariantsBtn) {
           if (!confirm('Los cambios actuales pertenecen a la variante anterior. ¿Continuar y perderlos?')) return;
         }
         selectedIndex = nextIndex;
+        // SELECTED VARIANT HYDRATION (Paso 6/7/8 del encargo "Corrección
+        // del último tramo de Creative Intent a Producción"): los campos
+        // superiores reales deben poblarse INMEDIATAMENTE al pulsar
+        // [Seleccionar] -- nunca esperar a "Continuar a producción"
+        // (root cause real del bug reportado: el usuario tuvo que
+        // completar el hook a mano porque la hidratación real solo
+        // ocurría un paso después). scenePromptOverrides real se
+        // reinicia aquí también -- Paso 8: "NO valores residuales" de
+        // la variante anterior.
+        scenePromptOverrides = {};
+        await populateCreateFormFromVariant(currentVariants[nextIndex], createForm);
         renderVariantsWorkspace();
       });
     });

@@ -4,7 +4,7 @@
 
 import { test, describe } from 'node:test';
 import assert from 'node:assert/strict';
-import { evaluateCreativeProposal, MIN_CREATIVE_QUALITY_SCORE } from '../src/creativeQualityAutoQA.js';
+import { evaluateCreativeProposal, MIN_CREATIVE_QUALITY_SCORE, MIN_TREATMENT_ALIGNMENT_SCORE } from '../src/creativeQualityAutoQA.js';
 
 const COHERENTE_REAL = Object.freeze({
   primaryAngle: { id: 'aspiration', label: 'Aspiración' },
@@ -60,6 +60,35 @@ describe('evaluateCreativeProposal', () => {
   test('script/voiceover desalineado real (hook no encabeza el voiceover) penaliza scriptVoiceScore real', () => {
     const r = evaluateCreativeProposal({ ...COHERENTE_REAL, copy: { hook: 'Hook real.', voiceover: ['Otra cosa real.'] } });
     assert.ok(r.components.scriptVoiceScore < 1);
+  });
+});
+
+// TREATMENT ALIGNMENT — HARD GATE real (Corrección "Corrección del
+// último tramo de Creative Intent a Producción", 2026-08-29, Paso
+// 5/38/39 del encargo): "No aceptar una variante si userInstruction
+// requiere office y treatment=Fitness/Gym" -- treatmentAlignmentScore
+// real YA calculado por visualTreatments.js#computeTreatmentAlignment(),
+// nunca recalculado aquí (Paso 38: "no crear otro sistema de score").
+describe('evaluateCreativeProposal — treatmentAlignmentScore (Paso 5/38/39 del encargo)', () => {
+  test('treatmentAlignmentScore real bajo (< 0.70) -> creativeQualityStatus LOW_CONFIDENCE, incluso con el resto de componentes reales coherentes', () => {
+    const r = evaluateCreativeProposal({ ...COHERENTE_REAL, treatmentAlignmentScore: 0.3 });
+    assert.equal(r.creativeQualityStatus, 'LOW_CONFIDENCE', 'un treatment real contradictorio NUNCA debe permitir ACCEPTED, aunque el resto del score sea alto');
+    assert.equal(r.treatmentAlignmentScore, 0.3);
+  });
+
+  test('treatmentAlignmentScore real alto (>= 0.70) -> no bloquea ACCEPTED por sí solo', () => {
+    const r = evaluateCreativeProposal({ ...COHERENTE_REAL, treatmentAlignmentScore: 1 });
+    assert.equal(r.creativeQualityStatus, 'ACCEPTED');
+  });
+
+  test('treatmentAlignmentScore real null (sin dato, compatibilidad hacia atrás) -> nunca bloquea, mismo comportamiento real preexistente', () => {
+    const r = evaluateCreativeProposal({ ...COHERENTE_REAL, treatmentAlignmentScore: null });
+    assert.equal(r.creativeQualityStatus, 'ACCEPTED');
+    assert.equal(r.treatmentAlignmentScore, null);
+  });
+
+  test('MIN_TREATMENT_ALIGNMENT_SCORE real == 0.70 (mismo umbral real que los demás gates adicionales)', () => {
+    assert.equal(MIN_TREATMENT_ALIGNMENT_SCORE, 0.70);
   });
 });
 

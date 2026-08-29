@@ -4,6 +4,7 @@ import { test, describe } from 'node:test';
 import assert from 'node:assert/strict';
 import {
   VISUAL_TREATMENTS, VISUAL_TREATMENT_IDS, assertValidVisualTreatment, assignVisualTreatment, batchTreatmentOrder,
+  computeTreatmentAlignment,
 } from '../src/visualTreatments.js';
 
 describe('VISUAL_TREATMENTS — biblioteca real de tratamientos visuales', () => {
@@ -58,5 +59,48 @@ describe('batchTreatmentOrder / assignVisualTreatment — diversidad real entre 
   test('sin campaignIntent real: sigue asignando un tratamiento real válido (nunca lanza)', () => {
     const t = assignVisualTreatment({ variantIndex: 0 });
     assert.ok(VISUAL_TREATMENT_IDS.includes(t.id));
+  });
+
+  // TREATMENT SELECTION real desde userInstruction (Corrección
+  // "Corrección del último tramo de Creative Intent a Producción",
+  // 2026-08-29, Paso 4/5/43 del encargo) -- caso real reportado: Venus
+  // ("jornada laboral"/oficina) terminaba con treatment "Fitness / Gym"
+  // porque assignVisualTreatment() NUNCA recibía userInstruction (solo
+  // campaignIntent, siempre null real en "propose-direct-variants").
+  test('CASO REAL VENUS: userInstruction real de oficina/jornada laboral/lifestyle premium -> LIFESTYLE (variante principal), NUNCA Fitness/Gym al frente', () => {
+    const userInstruction = 'Quiero contar una historia cotidiana y natural de una mujer adulta durante una jornada laboral: comienza su día y, mientras trabaja, atraviesa momentos de incomodidad. El estilo debe ser lifestyle premium, auténtico, natural y aspiracional, no un anuncio tradicional.';
+    const t = assignVisualTreatment({ variantIndex: 0, campaignIntent: null, campaignId: 'venus-capsules', userInstruction });
+    assert.equal(t.id, 'LIFESTYLE', `esperaba LIFESTYLE real (variante principal), obtuvo "${t.id}"`);
+    assert.notEqual(t.id, 'FITNESS_GYM', 'NUNCA Fitness/Gym para una instrucción real de oficina/jornada laboral sin ninguna señal real de fitness');
+  });
+
+  test('userInstruction real con "gimnasio/entrenar" sigue priorizando FITNESS_GYM real (nunca se rompe el caso ya validado)', () => {
+    const t = assignVisualTreatment({ variantIndex: 0, campaignIntent: null, campaignId: 'ripped-capsules', userInstruction: 'Quiero mostrar a alguien entrenando en el gimnasio con energía.' });
+    assert.equal(t.id, 'FITNESS_GYM');
+  });
+
+  test('sin ninguna señal real de afinidad (ni campaignIntent ni userInstruction) -- sigue rotando de forma real determinista (backward compatibility)', () => {
+    const orden1 = batchTreatmentOrder({ campaignId: 'campaign-neutral', userInstruction: null });
+    const orden2 = batchTreatmentOrder({ campaignId: 'campaign-neutral', userInstruction: null });
+    assert.deepEqual(orden1, orden2);
+  });
+});
+
+describe('computeTreatmentAlignment — HARD GATE real (Paso 5/38/39 del encargo)', () => {
+  test('userInstruction real requiere oficina/lifestyle y treatment real asignado es FITNESS_GYM -> score real bajo (< 0.70)', () => {
+    const r = computeTreatmentAlignment({ campaignIntent: null, userInstruction: 'jornada laboral en la oficina, estilo lifestyle premium', treatmentId: 'FITNESS_GYM' });
+    assert.ok(r.treatmentAlignmentScore < 0.70, `esperaba score real < 0.70, obtuvo ${r.treatmentAlignmentScore}`);
+    assert.ok(r.expectedTreatmentIds.includes('LIFESTYLE'));
+  });
+
+  test('userInstruction real requiere oficina/lifestyle y treatment real asignado es LIFESTYLE -> score real 1.0', () => {
+    const r = computeTreatmentAlignment({ campaignIntent: null, userInstruction: 'jornada laboral en la oficina, estilo lifestyle premium', treatmentId: 'LIFESTYLE' });
+    assert.equal(r.treatmentAlignmentScore, 1);
+  });
+
+  test('sin ninguna afinidad real detectable -- score real 1.0 (nunca penaliza sin nada real que contradecir)', () => {
+    const r = computeTreatmentAlignment({ campaignIntent: null, userInstruction: 'Quiero explicar tres beneficios del producto.', treatmentId: 'FITNESS_GYM' });
+    assert.equal(r.treatmentAlignmentScore, 1);
+    assert.deepEqual(r.expectedTreatmentIds, []);
   });
 });

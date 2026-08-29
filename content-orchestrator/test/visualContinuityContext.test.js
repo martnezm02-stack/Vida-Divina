@@ -48,6 +48,25 @@ describe('buildVisualContinuityContext — extracción real desde userInstructio
     assert.equal(ctx.wardrobe, 'ropa deportiva');
   });
 
+  // ENVIRONMENT LOCK ampliado (Corrección "Corrección del último tramo
+  // de Creative Intent a Producción", 2026-08-29, Paso 22/28 del
+  // encargo) -- caso real reportado: "jornada laboral"/"mientras
+  // trabaja" es una señal real TAN explícita de oficina como la palabra
+  // literal "oficina" (el texto real SÍ la menciona, solo con otras
+  // palabras -- nunca se inventa nada ausente).
+  test('CASO REAL VENUS: "jornada laboral" (sin la palabra literal "oficina") SÍ detecta environment="oficina moderna"', () => {
+    const ctx = buildVisualContinuityContext({
+      userInstruction: 'Historia de una mujer adulta durante una jornada laboral: comienza su día y, mientras trabaja, atraviesa momentos de incomodidad.',
+    });
+    assert.equal(ctx.environment, 'oficina moderna');
+    assert.equal(ctx.wardrobe, 'ropa profesional / blazer neutro', 'wardrobe real debe derivarse del MISMO entorno real ya detectado, nunca quedar null por desalineación');
+  });
+
+  test('"lugar de trabajo"/"escritorio" también detectan environment="oficina moderna"', () => {
+    assert.equal(buildVisualContinuityContext({ userInstruction: 'Una escena en su lugar de trabajo habitual.' }).environment, 'oficina moderna');
+    assert.equal(buildVisualContinuityContext({ userInstruction: 'Sentada frente a su escritorio revisando documentos.' }).environment, 'oficina moderna');
+  });
+
   test('nunca inventa wardrobe/hairstyle/visualStyle sin señal real en el texto', () => {
     const ctx = buildVisualContinuityContext({ userInstruction: 'Quiero explicar tres beneficios del producto de forma clara.' });
     assert.equal(ctx.wardrobe, null);

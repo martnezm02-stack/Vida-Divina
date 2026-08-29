@@ -254,7 +254,9 @@ export function buildVisualStrategy({
     throw new Error('buildVisualStrategy: "scenePlan" debe ser un Scene Plan real ya construido (scenePlanner.js#buildScenePlan) -- el Creative Director nunca inventa escenas.');
   }
 
-  const treatment = assignVisualTreatment({ variantIndex, campaignIntent, campaignId });
+  const treatment = assignVisualTreatment({
+    variantIndex, campaignIntent, campaignId, userInstruction,
+  });
   const productAsset = productRawAssets.find((a) => a.role === 'PRODUCT_PRIMARY') ?? productRawAssets[0] ?? null;
   const nombreVisible = productFacts?.nombreVisible ?? productFacts?.nombreComercial ?? null;
   const aspectRatio = aspectRatioForFormat(format ?? creativeVariant?.creativeVariant?.format ?? null);
@@ -489,7 +491,9 @@ export function previewVisualRecommendation({
   // -- opcional, nunca recalculado ni inventado aquí.
   angleId = null,
 }) {
-  const treatment = assignVisualTreatment({ variantIndex, campaignIntent, campaignId });
+  const treatment = assignVisualTreatment({
+    variantIndex, campaignIntent, campaignId, userInstruction,
+  });
   const productAsset = productRawAssets.find((a) => a.role === 'PRODUCT_PRIMARY') ?? productRawAssets[0] ?? null;
   const aspectRatio = aspectRatioForFormat(format);
   const { recommendedModel, recommendationReason } = recommendImageModel({

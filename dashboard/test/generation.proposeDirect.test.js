@@ -237,6 +237,22 @@ describe('POST /api/create/propose-direct-variants — datos reales para la UI d
     }
   });
 
+  // TREATMENT SELECTION real (Corrección "Corrección del último tramo
+  // de Creative Intent a Producción", 2026-08-29, Paso 4/5/43 del
+  // encargo) -- caso real reportado: Cápsulas Venus con una instrucción
+  // real de oficina/jornada laboral/lifestyle premium terminaba con
+  // treatment "Fitness / Gym" real (root cause: assignVisualTreatment()
+  // nunca recibía userInstruction en este flujo real).
+  test('CASO REAL VENUS: instrucción real de oficina/jornada laboral/lifestyle premium -> variante principal NUNCA "Fitness / Gym", treatmentAlignmentScore real presente', async () => {
+    const rawText = 'Quiero contar una historia cotidiana y natural de una mujer adulta durante una jornada laboral: comienza su día y, mientras trabaja, atraviesa momentos de incomodidad. El estilo debe ser lifestyle premium, auténtico, natural y aspiracional, no un anuncio tradicional.';
+    const { status, body } = await post('/api/create/propose-direct-variants', { productId: 'venus-capsules', rawText, variantCount: 1 });
+    assert.equal(status, 200);
+    const v = body.variants[0];
+    assert.notEqual(v.visualTreatment, 'FITNESS_GYM', `variante principal real NUNCA debe ser Fitness/Gym para esta instrucción real (obtuvo "${v.visualTreatmentLabel}")`);
+    assert.equal(typeof v.treatmentAlignmentScore, 'number', 'treatmentAlignmentScore real presente en la variante');
+    assert.ok(v.treatmentAlignmentScore >= 0.70, `treatmentAlignmentScore real ${v.treatmentAlignmentScore} debía ser >= 0.70 para el treatment real elegido`);
+  });
+
   test('cada variante real es su propio batch -- /api/create/model-recommendation funciona con variantIndex=0 real (Paso 14 del encargo, selección de modelo por variante)', async () => {
     const { body } = await post('/api/create/propose-direct-variants', {
       productId: 'ripped-capsules', rawText: 'Rutina matutina real de energía y enfoque antes de entrenar.', variantCount: 2,

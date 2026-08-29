@@ -14,6 +14,11 @@ export const MIN_CREATIVE_QUALITY_SCORE = 0.70;
 // aparte (Paso 37: "no marcar ACCEPTED si X < 0.70").
 export const MIN_INSTRUCTION_COVERAGE_SCORE = 0.70;
 export const MIN_NARRATIVE_ALIGNMENT_SCORE = 0.70;
+// MIN_TREATMENT_ALIGNMENT_SCORE (Paso 5/39 del encargo "Corrección del
+// último tramo de Creative Intent a Producción"): mismo umbral real
+// 0.70 -- HARD GATE independiente (Paso 39: "No aceptar una variante
+// si userInstruction requiere office y treatment=Fitness/Gym").
+export const MIN_TREATMENT_ALIGNMENT_SCORE = 0.70;
 const MAX_REPAIR_ROUNDS = 2;
 
 // Ponderación real del encargo (Paso 2) -- suma 1.0.
@@ -82,10 +87,21 @@ function scoreScriptVoice(copy) {
 }
 
 const GENERIC_VISUAL_INTENT_REAL = 'Explicación clara y visual relacionada con esta campaña.';
-/** visualScore real: penaliza fuerte el default genérico real ya identificado (Paso 18/20 de la corrección anterior). */
-function scoreVisual(visualIntent) {
-  if (!visualIntent) return 0.3;
-  return visualIntent === GENERIC_VISUAL_INTENT_REAL ? 0.3 : 1;
+/**
+ * visualScore real: penaliza fuerte el default genérico real ya
+ * identificado (Paso 18/20 de la corrección anterior). treatmentAlignmentScore
+ * real (Paso 5/38 del encargo "Corrección del último tramo de Creative
+ * Intent a Producción", opcional, YA calculado por
+ * visualTreatments.js#computeTreatmentAlignment()): SI el treatment real
+ * asignado contradice una afinidad real clara de userInstruction (ej.
+ * "oficina" real -> Fitness/Gym), este componente cae -- mismo slot real
+ * de WEIGHTS.visual, nunca un segundo término ponderado (Paso 38: "no
+ * crear otro sistema de score").
+ */
+function scoreVisual(visualIntent, treatmentAlignmentScore = null) {
+  const base = !visualIntent ? 0.3 : visualIntent === GENERIC_VISUAL_INTENT_REAL ? 0.3 : 1;
+  if (treatmentAlignmentScore === null) return base;
+  return clamp01((base + clamp01(treatmentAlignmentScore)) / 2);
 }
 
 /**
@@ -145,13 +161,18 @@ export function evaluateCreativeProposal({
   // opcionales, YA calculados por creativeDirector.js#buildVisualStrategy()
   // -- nunca recalculados aparte.
   instructionCoverageScore = null, instructionCoverageMissing = [],
+  // treatmentAlignmentScore (Paso 5/38/39 del encargo "Corrección del
+  // último tramo de Creative Intent a Producción"): opcional, YA
+  // calculado por visualTreatments.js#computeTreatmentAlignment() --
+  // nunca recalculado aparte.
+  treatmentAlignmentScore = null,
 }) {
   const hookScore = scoreHook({ hookRelevanceScore, hookNaturalnessScore, hookSpecificityScore });
   const angleScore = scoreAngle({ primaryAngle, hadUserInstruction });
   const claimScore = scoreClaims(relevantClaims);
   const structureScore = scoreStructure(structureId, previousStructureIds);
   const scriptVoiceScore = scoreScriptVoice(copy);
-  const visualScore = scoreVisual(visualIntent);
+  const visualScore = scoreVisual(visualIntent, treatmentAlignmentScore);
   const continuityScore = scoreContinuity(visualContinuityContext, instructionCoverageScore);
   const repetitionPenalty = scoreRepetition(hookRepetitionPenalty);
   const narrativeAlignmentScore = scoreNarrativeAlignment({ angleScore, structureScore, claimScore });
@@ -171,13 +192,15 @@ export function evaluateCreativeProposal({
   const accepted = creativeQualityScore >= MIN_CREATIVE_QUALITY_SCORE
     && (instructionCoverageScore === null || instructionCoverageScore >= MIN_INSTRUCTION_COVERAGE_SCORE)
     && narrativeAlignmentScore >= MIN_NARRATIVE_ALIGNMENT_SCORE
-    && subjectLockOk;
+    && subjectLockOk
+    && (treatmentAlignmentScore === null || treatmentAlignmentScore >= MIN_TREATMENT_ALIGNMENT_SCORE);
 
   return Object.freeze({
     creativeQualityScore,
     creativeQualityStatus: accepted ? 'ACCEPTED' : 'LOW_CONFIDENCE',
     instructionCoverageScore,
     narrativeAlignmentScore,
+    treatmentAlignmentScore,
     subjectLockOk,
     components: Object.freeze({
       hookScore, angleScore, claimScore, structureScore, scriptVoiceScore, visualScore, continuityScore, repetitionPenalty,

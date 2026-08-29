@@ -21,6 +21,7 @@ import { buildCampaignIntent, computeCampaignId } from '../../../content-orchest
 import { saveBatch, listBatchesForCampaign, getCampaignBatchState, getBatch } from '../../../creative-intelligence/src/hypothesisBatchStore.js';
 import { produceCreative } from '../../../content-orchestrator/src/creativeProductionOrchestrator.js';
 import { previewVisualRecommendation, buildVisualStrategy } from '../../../content-orchestrator/src/creativeDirector.js';
+import { computeTreatmentAlignment } from '../../../content-orchestrator/src/visualTreatments.js';
 import { buildScenePlan } from '../../../content-orchestrator/src/scenePlanner.js';
 import { previewStructureOptions, buildCreativeStructure, listCompatibleStructures } from '../../../content-orchestrator/src/creativeStructureEngine.js';
 import { listAvailableImageModels } from '../../../content-orchestrator/src/imageModelCatalog.js';
@@ -548,6 +549,15 @@ export async function handleProposeDirectCreative(req, res) {
     product: result.product, campaignIntent: null, experiment: result.experiment,
     experimentQualityGate: result.experimentQualityGate, variantsDetail,
     disclaimer: result.disclaimer,
+    // userInstruction (Corrección "Corrección del último tramo de
+    // Creative Intent a Producción", 2026-08-29, Paso 32/37 del
+    // encargo): PERSISTIDA en el batch real -- garantiza PROMPT PARITY
+    // por construcción (Paso 32): si un llamador real de /api/create/produce
+    // olvida re-enviar userInstruction, handleProduceCreative/-Start
+    // caen a este valor real YA usado en la vista previa (nunca a null,
+    // que ahora SÍ cambiaría el treatment real asignado -- ver
+    // visualTreatments.js#assignVisualTreatment).
+    userInstruction: rawText,
   });
 
   // hookMode/re-evaluación real (Corrección "Cierre del Creative
@@ -749,6 +759,11 @@ function generateOneVariant({
     variantCount: variantsDetail.length, blueprintOffsetStart: blueprintOffset, fingerprints: variantsDetail.map((v) => v.fingerprint),
     product: result.product, campaignIntent: null, experiment: result.experiment,
     experimentQualityGate: result.experimentQualityGate, variantsDetail, disclaimer: result.disclaimer,
+    // userInstruction (Paso 32/37 del encargo "Corrección del último
+    // tramo de Creative Intent a Producción"): mismo criterio real que
+    // handleProposeDirectCreative() arriba -- Prompt Parity por
+    // construcción, nunca por disciplina del llamador.
+    userInstruction: rawText,
   });
 
   // Structure Diversity (Paso 10/11/26 del encargo): "previousStructureIds"
@@ -776,6 +791,14 @@ function generateOneVariant({
   } catch { /* preview real opcional. */ }
 
   const finalStructureId = structurePreview?.recommended?.structureId ?? null;
+  // treatmentAlignmentScore (Paso 5/38/39 del encargo "Corrección del
+  // último tramo de Creative Intent a Producción"): visualPreview.visualTreatment
+  // real YA lo asignó assignVisualTreatment() (ahora consciente real de
+  // userInstruction, ver visualTreatments.js) -- este gate solo verifica
+  // que esa asignación real no contradiga una afinidad real clara.
+  const treatmentAlignment = visualPreview?.visualTreatment
+    ? computeTreatmentAlignment({ campaignIntent: null, userInstruction: rawText, treatmentId: visualPreview.visualTreatment })
+    : null;
   const qualityEval = evaluateCreativeProposal({
     primaryAngle: angleSelection.primaryAngle,
     hadUserInstruction: true,
@@ -789,6 +812,7 @@ function generateOneVariant({
     visualIntent: visualPreview?.visualIntent ?? null,
     visualContinuityContext: visualPreview?.visualContinuityContext ?? null,
     previousStructureIds: tracking.previousStructureIds,
+    treatmentAlignmentScore: treatmentAlignment?.treatmentAlignmentScore ?? null,
   });
 
   const variantSummary = Object.freeze({
@@ -820,6 +844,11 @@ function generateOneVariant({
     productAssetAvailable: visualPreview?.assetRequirements?.productAssetAvailable ?? null,
     creativeQualityScore: qualityEval.creativeQualityScore,
     creativeQualityStatus: qualityEval.creativeQualityStatus,
+    // treatmentAlignmentScore (Paso 5/33/38 del encargo): visible en la
+    // tarjeta de revisión real -- si el treatment real contradice una
+    // afinidad real clara de userInstruction, esta variante real NUNCA
+    // llega a creativeQualityStatus "ACCEPTED" (ver evaluateCreativeProposal).
+    treatmentAlignmentScore: qualityEval.treatmentAlignmentScore,
   });
 
   return {
@@ -1222,7 +1251,10 @@ export async function handleModelRecommendation(req, res, url) {
   // encargo): mismo query param real ya usado por structure-recommendation
   // -- la vista previa de modelo/calidad debe reflejar el MISMO
   // sujeto/entorno que luego verá el usuario en las escenas reales.
-  const userInstruction = url.searchParams.get('userInstruction') || null;
+  // Fallback real a batch.userInstruction (Paso 32/37 del encargo
+  // "Corrección del último tramo de Creative Intent a Producción"):
+  // Prompt Parity por construcción, nunca por disciplina del llamador.
+  const userInstruction = url.searchParams.get('userInstruction') || batch.userInstruction || null;
 
   const product = getProduct(batch.product?.productId ?? '');
   const preview = previewVisualRecommendation({
@@ -1266,7 +1298,10 @@ export async function handleStructureRecommendation(req, res, url) {
   if (!creativeVariant) { badRequest(res, `structure-recommendation: el batch "${batchId}" no tiene una variante real en el índice ${variantIndex}.`); return; }
 
   const preview = previewStructureOptions({
-    userInstruction: userInstruction?.trim() || null,
+    // Fallback real a batch.userInstruction (Paso 32/37 del encargo
+    // "Corrección del último tramo de Creative Intent a Producción"):
+    // Prompt Parity por construcción, nunca por disciplina del llamador.
+    userInstruction: userInstruction?.trim() || batch.userInstruction || null,
     campaignIntent: batch.campaignIntent ?? null,
     creativeVariant,
     productFacts: batch.product ?? null,
@@ -1309,7 +1344,12 @@ export async function handleVisualPlanPreview(req, res, url) {
   const creativeVariant = batch.variantsDetail[variantIndex];
   if (!creativeVariant) { badRequest(res, `visual-plan-preview: el batch "${batchId}" no tiene una variante real en el índice ${variantIndex}.`); return; }
 
-  const userInstruction = url.searchParams.get('userInstruction') || null;
+  // userInstruction (Paso 32/37 del encargo "Corrección del último
+  // tramo de Creative Intent a Producción"): mismo fallback real que
+  // handleProduceCreative() -- si el caller real no lo pasa, cae a
+  // batch.userInstruction (Prompt Parity por construcción, nunca por
+  // disciplina del llamador).
+  const userInstruction = url.searchParams.get('userInstruction') || batch.userInstruction || null;
   const selectedModelId = url.searchParams.get('selectedModelId') || null;
   const selectedQuality = url.searchParams.get('selectedQuality') || null;
   const selectedStructureId = url.searchParams.get('selectedStructureId') || null;
@@ -1452,7 +1492,15 @@ export async function handleProduceCreative(req, res) {
     // Creative Structure Engine: mismo patrón real -- null = recomendación
     // aceptada tal cual, un structureId real de creativeStructureEngine.js
     // sobrescribe la estructura para ESTA generación.
-    userInstruction = null, selectedStructureId = null,
+    // userInstructionOverride (Paso 32/37 del encargo "Corrección del
+    // último tramo de Creative Intent a Producción"): null real = usa la
+    // MISMA userInstruction real ya persistida en el batch (batch.userInstruction,
+    // la que generó/mostró la vista previa) -- PROMPT PARITY por
+    // construcción (Paso 32), nunca dependiente de que el llamador real
+    // la reenvíe idéntica. Un valor real explícito SOBRESCRIBE (permite
+    // reproducir el comportamiento preexistente de llamadores reales que
+    // ya pasaban su propio texto).
+    userInstruction: userInstructionOverride = null, selectedStructureId = null,
     // Editable Fields (Paso 18-27 del encargo "Corrección integral del
     // flujo de Crear contenido", 2026-08-29): null real = el usuario
     // aceptó tal cual hook/voiceover/CTA ya generados -- un valor real
@@ -1474,6 +1522,7 @@ export async function handleProduceCreative(req, res) {
   }
   const creativeVariant = batch.variantsDetail[variantIndex];
   if (!creativeVariant) { badRequest(res, `produce: el batch "${batchId}" no tiene una variante real en el índice ${variantIndex} (tiene ${batch.variantsDetail.length}).`); return; }
+  const userInstruction = userInstructionOverride ?? batch.userInstruction ?? null;
 
   const productId = batch.product.productId;
   const product = getProduct(productId);
@@ -1613,7 +1662,10 @@ export async function handleProduceCreativeStart(req, res) {
   const {
     batchId, variantIndex, outputProfileNames = ['INSTAGRAM_REEL', 'INSTAGRAM_FEED'],
     imageModelId = null, selectedQuality = null,
-    userInstruction = null, selectedStructureId = null,
+    // userInstructionOverride (Paso 32/37 del encargo): mismo criterio
+    // real que handleProduceCreative() arriba -- null real cae a
+    // batch.userInstruction (Prompt Parity por construcción).
+    userInstruction: userInstructionOverride = null, selectedStructureId = null,
     // Editable Fields (Paso 18-27 del encargo, ver handleProduceCreative
     // arriba -- mismo criterio real, nunca un segundo diseño).
     hookOverride = null, voiceoverOverride = null, ctaOverride = null,
@@ -1631,6 +1683,7 @@ export async function handleProduceCreativeStart(req, res) {
   }
   const creativeVariant = batch.variantsDetail[variantIndex];
   if (!creativeVariant) { badRequest(res, `produce-start: el batch "${batchId}" no tiene una variante real en el índice ${variantIndex} (tiene ${batch.variantsDetail.length}).`); return; }
+  const userInstruction = userInstructionOverride ?? batch.userInstruction ?? null;
 
   const productId = batch.product.productId;
   const product = getProduct(productId);

@@ -176,10 +176,22 @@ export function assertValidVisualTreatment(treatmentId) {
 // crear diversidad superficial"), solo reordena qué tratamientos quedan
 // PRIMERO en la rotación real cuando el territorio/audiencia de la campaña
 // los hace más pertinentes ("coherente con la campaña", Paso 3).
+// Corrección "Corrección del último tramo de Creative Intent a
+// Producción" (2026-08-29, Paso 4/5 del encargo): "oficina/trabajo"
+// real NUNCA debía mapear a SOCIAL_CASUAL (su entorno real es "calle,
+// café, espacio compartido" -- ni remotamente una oficina) -- root
+// cause real confirmado del caso reportado (Venus: "jornada laboral"
+// terminaba en un treatment sin relación real con oficina/trabajo).
+// LIFESTYLE es el treatment real cuyo mood ("Aspiracional, cercano,
+// auténtico -- nunca una escena de estudio impersonal") coincide con el
+// estilo real que el propio usuario pide ("lifestyle premium,
+// auténtico, natural y aspiracional") -- el entorno textual final real
+// (oficina moderna) lo sigue fijando visualContinuityContext.environment
+// (Paso 22/28 del encargo, ENVIRONMENT LOCK, nunca este archivo).
 const KEYWORD_AFFINITY = Object.freeze([
   { pattern: /gimnasio|entrenar|entrenamiento|fitness|ejercicio|m[uú]sculo|fuerza|rendimiento f[ií]sico/i, treatmentId: 'FITNESS_GYM' },
   { pattern: /ma[nñ]ana|rutina matutina|despertar|desayuno/i, treatmentId: 'MORNING_ROUTINE' },
-  { pattern: /oficina|trabajo|escritorio|reuni[oó]n|productividad/i, treatmentId: 'SOCIAL_CASUAL' },
+  { pattern: /oficina|jornada laboral|lugar de trabajo|escritorio|reuni[oó]n|productividad|lifestyle premium|aspiracional|aut[eé]ntic[oa]/i, treatmentId: 'LIFESTYLE' },
   { pattern: /ingredientes?|f[oó]rmula|compuesto|nutrientes?/i, treatmentId: 'EDUCATIONAL' },
 ]);
 
@@ -191,12 +203,31 @@ const KEYWORD_AFFINITY = Object.freeze([
  * (Paso 3), pero la MISMA campaña siempre produce el MISMO orden real
  * (reproducible, auditable).
  */
-export function batchTreatmentOrder({ campaignIntent = null, campaignId = null } = {}) {
-  const order = [...VISUAL_TREATMENT_IDS];
-  const briefText = campaignIntent
-    ? [campaignIntent.campaignTerritory, campaignIntent.targetAudience, campaignIntent.problemOrNeed].filter(Boolean).join(' ')
-    : '';
+// userInstruction (Corrección "Corrección del último tramo de Creative
+// Intent a Producción", 2026-08-29, Paso 4 del encargo): "El treatment
+// debe derivarse de userInstruction + creativeAngle + narrativeIntent.
+// No de un default histórico." -- root cause real del bug reportado:
+// assignVisualTreatment() NUNCA recibía userInstruction (solo
+// campaignIntent, siempre null real en el flujo "propose-direct-variants"),
+// así que la afinidad real de palabra clave nunca podía activarse para
+// ESE flujo -- el treatment terminaba siendo PURA rotación determinista,
+// ciega a lo que el usuario realmente pidió.
+// briefAffinity (extraído, Paso 5/38 del encargo): MISMO cálculo real
+// que ya usaba batchTreatmentOrder() -- ahora también reutilizado por
+// computeTreatmentAlignment() (abajo), nunca un segundo cálculo
+// paralelo/duplicado.
+function briefAffinity({ campaignIntent = null, userInstruction = null } = {}) {
+  const briefText = [
+    campaignIntent ? [campaignIntent.campaignTerritory, campaignIntent.targetAudience, campaignIntent.problemOrNeed].filter(Boolean).join(' ') : '',
+    limpiar(userInstruction),
+  ].filter(Boolean).join(' ');
   const afinidad = new Set(KEYWORD_AFFINITY.filter((k) => k.pattern.test(briefText)).map((k) => k.treatmentId));
+  return { briefText, afinidad };
+}
+
+export function batchTreatmentOrder({ campaignIntent = null, campaignId = null, userInstruction = null } = {}) {
+  const order = [...VISUAL_TREATMENT_IDS];
+  const { briefText, afinidad } = briefAffinity({ campaignIntent, userInstruction });
 
   const seedSource = limpiar(campaignId) || briefText || 'default-visual-treatment-seed';
   const hash = createHash('sha256').update(seedSource, 'utf8').digest();
@@ -210,6 +241,26 @@ export function batchTreatmentOrder({ campaignIntent = null, campaignId = null }
 }
 
 /**
+ * treatmentAlignmentScore real (Paso 5/38/39 del encargo "Corrección
+ * del último tramo de Creative Intent a Producción"): 1.0 cuando NO hay
+ * ninguna afinidad real de palabra clave detectable en
+ * userInstruction/campaignIntent (nada real que contradecir -- nunca
+ * penaliza a una instrucción real sin señales de tratamiento), 1.0
+ * cuando el treatment real ya asignado SÍ está entre los afines reales
+ * detectados, y bajo (0.3) cuando hay una afinidad real clara pero el
+ * treatment real asignado NO es ninguna de ellas (Paso 39, HARD GATE:
+ * "userInstruction requiere office y treatment=Fitness/Gym"). Nunca un
+ * segundo sistema de score -- se pliega en el mismo composite real de
+ * creativeQualityAutoQA.js (Paso 38: "no crear otro sistema de score").
+ */
+export function computeTreatmentAlignment({ campaignIntent = null, userInstruction = null, treatmentId }) {
+  const { afinidad } = briefAffinity({ campaignIntent, userInstruction });
+  if (afinidad.size === 0) return Object.freeze({ treatmentAlignmentScore: 1, expectedTreatmentIds: Object.freeze([]) });
+  const aligned = afinidad.has(treatmentId);
+  return Object.freeze({ treatmentAlignmentScore: aligned ? 1 : 0.3, expectedTreatmentIds: Object.freeze([...afinidad]) });
+}
+
+/**
  * Asigna UN VisualTreatment real por variante -- garantiza que, dentro de
  * un mismo batch (variantIndex 0..9), ninguna de las 10 variantes reales
  * repita tratamiento (Paso 3: "no permitir que todas las variantes de una
@@ -217,13 +268,15 @@ export function batchTreatmentOrder({ campaignIntent = null, campaignId = null }
  * (poco común -- ver MAX_VARIANT_COUNT en hypothesisCreativeEngine.js), la
  * rotación real vuelve a empezar, nunca lanza ni bloquea la generación.
  *
- * @param {{variantIndex:number, campaignIntent?:?object, campaignId?:?string}} args
+ * @param {{variantIndex:number, campaignIntent?:?object, campaignId?:?string, userInstruction?:?string}} args
  */
-export function assignVisualTreatment({ variantIndex, campaignIntent = null, campaignId = null }) {
+export function assignVisualTreatment({
+  variantIndex, campaignIntent = null, campaignId = null, userInstruction = null,
+}) {
   if (!Number.isInteger(variantIndex) || variantIndex < 0) {
     throw new Error(`assignVisualTreatment: "variantIndex" debe ser un entero >= 0 (recibido ${variantIndex}).`);
   }
-  const order = batchTreatmentOrder({ campaignIntent, campaignId });
+  const order = batchTreatmentOrder({ campaignIntent, campaignId, userInstruction });
   const treatmentId = order[variantIndex % order.length];
   return VISUAL_TREATMENTS[treatmentId];
 }
