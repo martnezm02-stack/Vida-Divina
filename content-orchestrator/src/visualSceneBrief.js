@@ -173,6 +173,25 @@ const EMOTIONAL_STATE_BY_PURPOSE = Object.freeze({
   CTA: 'calidez, cercanía final',
 });
 
+// sceneNarrativeContext (Corrección "Corrección integral del flujo de
+// Crear contenido", 2026-08-28, Paso 10/11 del encargo): "qué parte de la
+// historia representa" esta escena real -- UNA fuente real por
+// narrativePurpose (mismo criterio DRY real que EMOTIONAL_STATE_BY_PURPOSE
+// arriba), genérico por diseño (nunca inventa detalle específico del
+// producto/instrucción que esta tabla no puede conocer) -- el detalle real
+// específico de la instrucción del usuario sigue viviendo en
+// narrativeIntent (visualContinuityContext.js), nunca duplicado aquí.
+const NARRATIVE_ARC_CONTEXT_BY_PURPOSE = Object.freeze({
+  HOOK: 'inicio de la historia -- presenta al protagonista y la situación inicial',
+  PROBLEM: 'la situación inicial afecta su rutina o bienestar',
+  SOLUTION: 'transición hacia un estado más positivo',
+  EDUCATION: 'explicación o descubrimiento relevante para la historia',
+  DEMONSTRATION: 'demostración práctica dentro de la historia',
+  STORY: 'continuación natural de la rutina/historia',
+  PRODUCT_REVEAL: 'integración del producto en la rutina de forma natural',
+  CTA: 'cierre de la historia y llamado a la acción',
+});
+
 // Alias reales (Paso 7 del encargo: vocabulario más amplio de
 // narrativeStage que las 8 estructuras reales de creativeStructureEngine.js
 // ya usan) -- apuntan a la tabla real de arriba, nunca duplican contenido.
@@ -250,6 +269,7 @@ export function buildVisualSceneBriefs({ scenes, visualContinuityContext }) {
     briefs.push(Object.freeze({
       ...entry,
       emotionalState: EMOTIONAL_STATE_BY_PURPOSE[entry.narrativePurpose] ?? 'natural',
+      sceneNarrativeContext: NARRATIVE_ARC_CONTEXT_BY_PURPOSE[entry.narrativePurpose] ?? null,
       lighting: null, // el Creative Director real (creativeDirector.js) ya aporta lightingDirection del treatment -- este campo se completa allí, nunca duplicado aquí.
       continuityConstraints,
     }));

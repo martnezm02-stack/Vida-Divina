@@ -93,6 +93,53 @@ describe('produceCreative — pipeline real completo (sin mocks)', () => {
     }), /audioSourcePath/);
   });
 
+  // Editable Fields / Prompt Editing (Corrección "Corrección integral del
+  // flujo de Crear contenido", 2026-08-29, Paso 18-27/28-31 del encargo):
+  // copyOverrides real SOBRESCRIBE hook/cta para TODO el pipeline real
+  // (script/scenePlan/visualStrategy), scenePromptOverrides real
+  // SOBRESCRIBE el prompt real de UNA escena -- ambos verificados contra
+  // el ProductionJob real, nunca contra un mock.
+  test('copyOverrides/scenePromptOverrides real: hook/CTA editados llegan al script real, prompt editado llega EXACTO a visualGenerationRequests (Prompt Parity)', async () => {
+    const projectDir = join(TEST_TMP_DIR, 'job-overrides');
+    const audioPath = join(TEST_TMP_DIR, 'voice-overrides.wav');
+    writeFileSync(audioPath, crearWavSilencioBuffer(6));
+    const promptEditadoReal = 'mujer adulta real, oficina moderna real, edición manual real de prueba.';
+
+    const job = await produceCreative({
+      creativeVariant: CREATIVE_VARIANT_REAL, campaignIntent: CAMPAIGN_INTENT_REAL, productRawAssets: [],
+      audioSourcePath: audioPath, audioDurationSeconds: 6,
+      outputProfileNames: ['INSTAGRAM_REEL'],
+      projectDir, ffmpegBinDir: FFMPEG_BIN_DIR,
+      campaignId: 'overrides-test', batchId: 'batch-overrides', generationId: 'gen-overrides', creativeId: 'creative-overrides',
+      imageProvider: null, videoProvider: null,
+      copyOverrides: { hook: '¿energía real editada?', cta: 'Escríbenos ya real.' },
+      scenePromptOverrides: { 'scene-1': promptEditadoReal },
+    });
+
+    assert.ok(['FULL_PRODUCTION', 'DEGRADED_PRODUCTION'].includes(job.status), `status inesperado: ${job.status} / error: ${job.error}`);
+    assert.equal(job.script.onScreenText.hook, '¿energía real editada?');
+    assert.equal(job.script.onScreenText.cta, 'Escríbenos ya real.');
+    const escena1 = job.scenePlan.scenes.find((s) => s.sceneId === 'scene-1');
+    assert.equal(escena1.visualPrompt, promptEditadoReal, 'scenePromptOverrides debe sobrescribir EXACTAMENTE scene.visualPrompt (mismo campo real que assetResolver.js lee).');
+    // Prompt Parity (Paso 16 del encargo): CUANDO hay un generatedPrompt
+    // real (requiere un provider de imagen real -- este test fuerza
+    // imageProvider:null, igual que el resto de esta suite, así que TODAS
+    // las escenas reales caen al fallback tipográfico honesto y
+    // generatedPrompt es null en todas, nunca fabricado), el prompt real
+    // editado debe ser EXACTAMENTE el mismo string real en
+    // visualGenerationRequests (el registro real de qué se hubiera
+    // enviado a Krea) -- nunca el original sin editar.
+    const request1 = job.visualGenerationRequests.find((r) => r.sceneId === 'scene-1');
+    if (request1?.generatedPrompt) {
+      assert.equal(request1.generatedPrompt, promptEditadoReal);
+    } else {
+      assert.equal(request1?.generatedPrompt ?? null, null, 'sin provider de imagen real (imageProvider:null) -- fallback tipográfico honesto, generatedPrompt null, nunca fabricado.');
+    }
+    // Ninguna otra escena real fue tocada por el override real de scene-1.
+    const escena2 = job.scenePlan.scenes.find((s) => s.sceneId === 'scene-2');
+    assert.notEqual(escena2.visualPrompt, promptEditadoReal);
+  });
+
   test('Validación E (Modelo Sugerido): selectedModelId real sin credencial real disponible en este entorno -> rechaza explícito, nunca produce con un modelo no disponible', async () => {
     const projectDir = join(TEST_TMP_DIR, 'job-2');
     const audioPath = join(TEST_TMP_DIR, 'voice-2.wav');

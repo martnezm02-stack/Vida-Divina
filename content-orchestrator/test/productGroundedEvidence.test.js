@@ -53,9 +53,9 @@ describe('H: Product Grounding — dataQualityStatus real expuesto (Corrección 
     assert.match(ev.dataQualityDetail, /Garcinia/);
   });
 
-  test('Venus Capsules real (INCOMPLETE real ya detectado) -- se expone tal cual', () => {
+  test('Venus Capsules real (VERIFIED tras la corrección real de ingredientes/beneficios, Paso 1/2 del encargo "Corrección integral") -- se expone tal cual', () => {
     const ev = buildProductGroundedEvidence('venus-capsules');
-    assert.equal(ev.dataQualityStatus, 'INCOMPLETE');
+    assert.equal(ev.dataQualityStatus, 'VERIFIED');
   });
 });
 

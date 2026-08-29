@@ -80,10 +80,37 @@ describe('dataQualityStatus — Corrección "Limpieza y normalización del Produ
     assert.match(facts.dataQualityDetail, /Garcinia Cambogia/);
   });
 
-  test('G: Venus Capsules real -- ingredientes reales no detallados ("fórmula patentada") -> INCOMPLETE real, nunca inventa ingredientes', () => {
+  // Venus Capsules — Corrección "Corrección integral del flujo de Crear
+  // contenido" (2026-08-28, Paso 1/2/39 del encargo): ingredientes/
+  // beneficios/público reales actualizados desde la fuente visual real
+  // aportada por el propietario del negocio -- ya NO está incompleto real.
+  test('PRODUCT/Venus ingredients: los 7 ingredientes reales de la fuente real aparecen literales, ninguno inventado', () => {
     const facts = loadProductFacts('venus-capsules');
-    assert.match(facts.ingredientes, /no detallad/i);
-    assert.equal(facts.dataQualityStatus, 'INCOMPLETE');
+    for (const ingrediente of ['Maca', 'Dong Quai', 'Vitex', 'Yam silvestre', 'Isoflavonas naturales', 'complejo B', 'Minerales esenciales']) {
+      assert.match(facts.ingredientes, new RegExp(ingrediente, 'i'), `ingrediente real "${ingrediente}" debe aparecer literal en la ficha real`);
+    }
+  });
+
+  test('PRODUCT/Venus benefits: los beneficios reales de la fuente real aparecen, ninguno fortalecido a "cura/trata/previene/garantiza"', () => {
+    const facts = loadProductFacts('venus-capsules');
+    assert.match(facts.beneficios, /equilibrio hormonal femenino/i);
+    assert.match(facts.beneficios, /s[ií]ndrome premenstrual/i);
+    assert.doesNotMatch(facts.beneficios, /\bcura\b|\btrata\b|\bpreviene\b|\bgarantiza\b/i, 'ningún claim real "apoya/ayuda/puede ayudar" real fue fortalecido');
+  });
+
+  test('PRODUCT/Venus dataQualityStatus: VERIFIED real tras la corrección real (ya NO está incompleto)', () => {
+    const facts = loadProductFacts('venus-capsules');
+    assert.equal(facts.dataQualityStatus, 'VERIFIED');
+    assert.equal(facts.dataQualityDetail, null);
+    assert.doesNotMatch(facts.ingredientes, /no detallad/i);
+  });
+
+  test('no invented ingredients/claims: Claim Safety global real (FORBIDDEN_PRODUCT_CLAIMS/BRAND_AVOID) sigue aceptando el texto real de Venus sin cambios al sistema global', async () => {
+    const { assertNoForbiddenProductClaims } = await import('../../video-production/src/hyperframesRenderer.js');
+    const { assertBrandAvoidCompliance } = await import('../src/brandVisualSystem.js');
+    const facts = loadProductFacts('venus-capsules');
+    assert.doesNotThrow(() => assertNoForbiddenProductClaims(facts.beneficios, 'venus beneficios'));
+    assert.doesNotThrow(() => assertBrandAvoidCompliance(facts.beneficios, 'venus beneficios'));
   });
 
   test('E: Café Tongkat Ali y Sculpt Tongkat Ali reales -- mismo texto real literal de Beneficios pese a ingredientes/objetivo reales distintos (duplicado real detectable, reportado, nunca "resuelto" inventando)', () => {

@@ -1066,6 +1066,25 @@ if (generateVariantsBtn) {
   let currentDiversity = null;
   let selectedIndex = null;
   let currentUserInstruction = null;
+  // Editable Fields (Corrección "Corrección integral del flujo de Crear
+  // contenido", 2026-08-29, Paso 18-31 del encargo): "ESTO DEBE
+  // RECUPERARSE" -- edición manual por escena del prompt real
+  // ({[sceneId]: promptEditado}), se reinicia real al cambiar de variante
+  // (Paso 25: nunca mezclar la edición de una variante con otra).
+  let scenePromptOverrides = {};
+
+  // Detecta real si el usuario ya editó a mano hook/CTA/voiceover desde
+  // que se pobló el formulario con la variante actual (Paso 20 del
+  // encargo) -- compara contra la foto real tomada en
+  // populateCreateFormFromVariant() de abajo, nunca contra un valor
+  // recalculado.
+  function formEditedFromBaseline(form) {
+    if (form.dataset.baselineHook === undefined) return false;
+    if (form.hookText.value !== form.dataset.baselineHook) return true;
+    if (form.ctaText.value !== form.dataset.baselineCta) return true;
+    if (form.dataset.generatedVoiceoverText !== undefined && form.voiceoverText.value !== form.dataset.generatedVoiceoverText) return true;
+    return false;
+  }
 
   function qualityBadgeHtml(status) {
     return status === 'ACCEPTED'
@@ -1146,6 +1165,7 @@ if (generateVariantsBtn) {
     return `
       <div class="panel" id="variant-production-preview">
         <h4>Revisar antes de producir — Variante ${index + 1}</h4>
+        <p class="meta">Los campos Hook / Voiceover / CTA / Foto / Texto de producto de "Crear contenido" (arriba) ya se completaron con esta variante y son editables -- la producción real usa el valor vigente de esos campos, no el original de la variante.</p>
         <div class="variant-field"><strong>Ángulo</strong>${v.primaryAngle?.label ?? '—'}</div>
         <div class="variant-field"><strong>Hook</strong>"${v.hook}"</div>
         <div class="variant-field"><strong>Estructura</strong>${v.structureLabel ?? '—'}</div>
@@ -1208,23 +1228,123 @@ if (generateVariantsBtn) {
         ASSET_USED_DIRECTLY: '✅ Fotografía real utilizada directamente (sin generación IA)',
         NO_REFERENCE_AVAILABLE: '⚠️ Sin fotografía real disponible -- se genera con IA, sin referencia real del producto',
       };
-      promptsEl.innerHTML = plan.scenes.map((s, i) => `
+      // Instruction Coverage (Paso 14/15/16 del encargo "Corrección
+      // integral"): mismo Prompt Gate real ya calculado por
+      // buildVisualStrategy() -- si el sujeto/entorno reales detectados en
+      // userInstruction NO llegaron al conjunto real de prompts, se avisa
+      // ANTES de producir (nunca se bloquea aquí -- el usuario puede
+      // editar el prompt real por escena más abajo, Paso 15: "reparar
+      // antes de producir").
+      const coverageHtml = plan.instructionCoverageScore !== null && plan.instructionCoverageScore !== undefined && plan.instructionCoverageScore < 0.70
+        ? `<div class="variant-field quality-low"><strong>⚠️ Cobertura de instrucción</strong>${Math.round(plan.instructionCoverageScore * 100)}% -- falta reflejar: ${(plan.instructionCoverageMissing ?? []).join(', ') || '—'} en el prompt real. Puedes editar el prompt de la escena afectada abajo.</div>`
+        : '';
+      promptsEl.dataset.batchId = v.batchId;
+      promptsEl.innerHTML = coverageHtml + plan.scenes.map((s, i) => {
+        const overridden = scenePromptOverrides[s.sceneId];
+        return `
         <div class="variant-field"><strong>Escena ${i + 1} — ${SECTION_TYPE_LABELS[s.sectionType] ?? s.sectionType}</strong></div>
         ${s.action ? `<div class="variant-field"><strong>Acción</strong>${s.action}</div>` : ''}
         <div class="variant-field"><strong>Modelo</strong>${s.model ?? '—'}</div>
         <div class="variant-field"><strong>Calidad</strong>${s.quality ?? '—'}</div>
         ${s.productReferenceCompatibility ? `<div class="variant-field"><strong>Producto</strong>${PRODUCT_REF_LABELS[s.productReferenceCompatibility] ?? s.productReferenceCompatibility}</div>` : ''}
-        <div class="variant-field"><strong>Instrucción exacta para el generador</strong></div>
-        ${s.generatedPrompt
-          ? `<pre class="scene-prompt-text">${s.generatedPrompt}</pre>
-             <button type="button" class="btn-link btn-copy-prompt" data-prompt="${s.generatedPrompt.replace(/"/g, '&quot;')}">Copiar prompt</button>`
-          : `<p class="placeholder">Prompt todavía no generado.${s.promptPendingReason ? ` ${s.promptPendingReason}` : ''}</p>`}
-      `).join('<hr>');
+        ${s.generatedPrompt ? `
+          <div class="variant-field"><strong>PROMPT PREPARADO</strong></div>
+          <pre class="scene-prompt-text">${s.generatedPrompt}</pre>
+          <button type="button" class="btn-link btn-copy-prompt" data-prompt="${s.generatedPrompt.replace(/"/g, '&quot;')}">Copiar prompt</button>
+          <button type="button" class="btn-link btn-edit-prompt" data-scene-id="${s.sceneId}">Editar instrucción visual</button>
+          <div class="scene-prompt-editor hidden" data-scene-id="${s.sceneId}">
+            <textarea class="scene-prompt-textarea" data-scene-id="${s.sceneId}" rows="4">${(overridden ?? s.generatedPrompt).replace(/</g, '&lt;')}</textarea>
+            <button type="button" class="btn-secondary btn-save-prompt-edit" data-scene-id="${s.sceneId}" data-original-prompt="${s.generatedPrompt.replace(/"/g, '&quot;')}">Guardar edición</button>
+            ${overridden ? `<button type="button" class="btn-link btn-restore-prompt" data-scene-id="${s.sceneId}">Restaurar original</button>` : ''}
+          </div>
+          ${overridden ? `
+            <div class="variant-field"><strong>PROMPT FINAL A PRODUCIR (editado)</strong></div>
+            <pre class="scene-prompt-text scene-prompt-edited">${overridden}</pre>
+          ` : ''}
+        ` : `<p class="placeholder">Prompt todavía no generado.${s.promptPendingReason ? ` ${s.promptPendingReason}` : ''}</p>`}
+      `;
+      }).join('<hr>');
       attachPromptCopyHandlers(promptsEl);
+      attachPromptEditHandlers(promptsEl, previewEl, v);
     } catch {
       scenesEl.innerHTML = '<p class="placeholder">No se pudo calcular el plan visual todavía.</p>';
       promptsEl.innerHTML = '<p class="placeholder">No se pudieron calcular los prompts todavía.</p>';
     }
+  }
+
+  // Edición por escena del prompt real (Paso 28-31 del encargo
+  // "Corrección integral del flujo de Crear contenido", 2026-08-29):
+  // promptOriginal/promptEdited reales viven en scenePromptOverrides
+  // (cierre de generateVariantsBtn) -- NUNCA se sobreescribe en silencio
+  // con un generatedPrompt más nuevo (Paso 30: "nunca resustituir"). Un
+  // aviso NO destructivo real (Paso 31) si el sujeto real ya definido
+  // (mujer/hombre) desaparece del prompt editado -- nunca bloquea ni
+  // revierte la edición real del usuario.
+  function checkPromptSubjectRegression(originalPrompt, editedPrompt) {
+    const GENDER_WORDS = [/(^|[^a-záéíóúñü])mujer([^a-záéíóúñü]|$)/i, /(^|[^a-záéíóúñü])hombre([^a-záéíóúñü]|$)/i];
+    return GENDER_WORDS.some((re) => re.test(originalPrompt) && !re.test(editedPrompt));
+  }
+
+  function attachPromptEditHandlers(promptsEl, previewEl, v) {
+    promptsEl.querySelectorAll('.btn-edit-prompt').forEach((b) => {
+      b.addEventListener('click', () => {
+        promptsEl.querySelector(`.scene-prompt-editor[data-scene-id="${b.dataset.sceneId}"]`)?.classList.toggle('hidden');
+      });
+    });
+    promptsEl.querySelectorAll('.btn-save-prompt-edit').forEach((b) => {
+      b.addEventListener('click', () => {
+        const sceneId = b.dataset.sceneId;
+        const textarea = promptsEl.querySelector(`.scene-prompt-textarea[data-scene-id="${sceneId}"]`);
+        const edited = textarea.value.trim();
+        const original = b.dataset.originalPrompt ?? '';
+        if (!edited) return;
+        // promptMode=user_edited (Paso 29 del encargo): persiste tal cual
+        // -- se reinicia SOLO al cambiar de variante (ver
+        // renderProductionPreview arriba), nunca al re-renderizar esta
+        // misma vista previa.
+        if (checkPromptSubjectRegression(original, edited)) {
+          if (!confirm('El prompt editado ya no coincide con el sujeto definido (se eliminó una referencia de género presente en el prompt original). ¿Guardar de todas formas?')) return;
+        }
+        scenePromptOverrides = { ...scenePromptOverrides, [sceneId]: edited };
+        renderVisualPlanPreview(previewEl, v);
+      });
+    });
+    promptsEl.querySelectorAll('.btn-restore-prompt').forEach((b) => {
+      b.addEventListener('click', () => {
+        const { [b.dataset.sceneId]: _omit, ...rest } = scenePromptOverrides;
+        scenePromptOverrides = rest;
+        renderVisualPlanPreview(previewEl, v);
+      });
+    });
+  }
+
+  // Editable Fields (Paso 18-21 del encargo "Corrección integral del
+  // flujo de Crear contenido"): recupera el comportamiento real
+  // preexistente (versión anterior de la UI) -- al confirmar una
+  // variante, el formulario "Crear contenido" de arriba se puebla real
+  // con Hook/CTA/Foto/Texto de producto/Voiceover de ESA variante y
+  // queda editable (fuente de verdad real después de esto: los campos
+  // del formulario, NUNCA la variante original -- Paso 19). Reutiliza
+  // applyVideoScriptToCreateForm() para el voiceover -- MISMO mecanismo
+  // real GENERATED/USER_EDITED ya validado (Video Workspace,
+  // 2026-08-23), nunca un segundo tracking paralelo.
+  async function populateCreateFormFromVariant(v, form) {
+    form.hookText.value = v.hook ?? v.creativeVariant?.copy?.hook ?? '';
+    form.ctaText.value = v.creativeVariant?.copy?.cta ?? '';
+    if (form.productBody) form.productBody.value = v.creativeVariant?.copy?.primaryText ?? '';
+    if (form.imageAssetPath && v.productAssetAvailable) {
+      // Mismo producto real ya asociado a este batch -- deja la
+      // selección real tal cual (updateCreateImages() ya la habrá
+      // poblado al elegir el producto arriba); nunca inventa una ruta.
+    }
+    if (v.creativeVariant) await applyVideoScriptToCreateForm(form, v.creativeVariant);
+    // Foto real (Paso 18/19 del encargo): "Instrucción" real sigue siendo
+    // rawText -- ya es la MISMA fuente real que generó estas variantes,
+    // editable desde siempre (Paso 21: recalcular estructura/plan visual
+    // si el usuario la cambia -- ver invalidateStaleProposal/GENERAR MÁS
+    // VARIANTES, sin duplicar ese mecanismo aquí).
+    form.dataset.baselineHook = form.hookText.value;
+    form.dataset.baselineCta = form.ctaText.value;
   }
 
   // Modelo Sugerido + Selección Manual (Paso 14 del encargo): mismo
@@ -1240,6 +1360,8 @@ if (generateVariantsBtn) {
     if (existing) existing.remove();
     workspace.insertAdjacentHTML('beforeend', productionPreviewHtml(v, selectedIndex));
     const previewEl = workspace.querySelector('#variant-production-preview');
+    scenePromptOverrides = {};
+    await populateCreateFormFromVariant(v, $('#create-form'));
 
     // Plan visual + Prompts (Paso 1/6/7 del encargo): se calculan de una
     // vez al mostrar la revisión de ESTA variante seleccionada -- lectura
@@ -1279,10 +1401,31 @@ if (generateVariantsBtn) {
       statusEl.classList.remove('hidden');
       statusEl.innerHTML = '<p class="placeholder">Produciendo pieza audiovisual real (guion, escenas, voz real, composición)… puede tardar varios minutos.</p>';
       produceBtn.disabled = true;
+      // Editable Fields (Paso 19/26 del encargo): la producción real usa
+      // los campos VIGENTES del formulario -- si el usuario los editó,
+      // esos valores reales (nunca los de la variante original) llegan a
+      // handleProduceCreative() como overrides explícitos. userInstruction
+      // (Paso 4/16 del encargo "Corrección integral"): la MISMA
+      // instrucción real ya usada en la vista previa -- sin esto, Subject
+      // Lock/Narrative Grounding se pierden en la producción real aunque
+      // la vista previa los muestre correctos (Prompt Parity).
+      const createForm = $('#create-form');
+      const hookOverride = createForm.hookText.value.trim() && createForm.hookText.value.trim() !== (createForm.dataset.baselineHook ?? '').trim()
+        ? createForm.hookText.value.trim() : null;
+      const ctaOverride = createForm.ctaText.value.trim() !== (createForm.dataset.baselineCta ?? '').trim()
+        ? createForm.ctaText.value.trim() : null;
+      const voiceoverOverride = createForm.dataset.generatedVoiceoverText !== undefined
+        && createForm.voiceoverText.value.trim() && createForm.voiceoverText.value !== createForm.dataset.generatedVoiceoverText
+        ? createForm.voiceoverText.value : null;
       try {
         const job = await api('/api/create/produce', {
           method: 'POST', headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ batchId: v.batchId, variantIndex: 0, outputProfileNames: ['INSTAGRAM_REEL', 'INSTAGRAM_FEED'], imageModelId }),
+          body: JSON.stringify({
+            batchId: v.batchId, variantIndex: 0, outputProfileNames: ['INSTAGRAM_REEL', 'INSTAGRAM_FEED'], imageModelId,
+            userInstruction: currentUserInstruction,
+            hookOverride, ctaOverride, voiceoverOverride,
+            scenePromptOverrides: Object.keys(scenePromptOverrides).length ? scenePromptOverrides : null,
+          }),
         });
         statusEl.innerHTML = productionJobStatusHtml(job);
         attachPromptCopyHandlers(statusEl);
@@ -1318,7 +1461,18 @@ if (generateVariantsBtn) {
     `;
     workspace.querySelectorAll('.btn-select-variant').forEach((b) => {
       b.addEventListener('click', () => {
-        selectedIndex = Number(b.dataset.variantIndex);
+        const nextIndex = Number(b.dataset.variantIndex);
+        if (nextIndex === selectedIndex) return;
+        // Editable Fields (Paso 20 del encargo): advertencia real ANTES
+        // de perder una edición manual real ya hecha para la variante
+        // anterior -- confirmación EXPLÍCITAMENTE justificada aquí (a
+        // diferencia del resto del flujo, que nunca pide confirmación),
+        // porque hay riesgo real de perder trabajo real del usuario.
+        const createForm = $('#create-form');
+        if (selectedIndex !== null && formEditedFromBaseline(createForm)) {
+          if (!confirm('Los cambios actuales pertenecen a la variante anterior. ¿Continuar y perderlos?')) return;
+        }
+        selectedIndex = nextIndex;
         renderVariantsWorkspace();
       });
     });

@@ -34,7 +34,7 @@ import { assertBrandAvoidCompliance } from './brandVisualSystem.js';
 import { DEFAULT_NEGATIVE_PROMPT } from './assetResolver.js';
 import { recommendImageModel, buildModelSelection, listAvailableImageModels } from './imageModelCatalog.js';
 import { buildGenerationSettings } from './generationSettings.js';
-import { buildVisualContinuityContext, resolveContinuityAudience, resolveContinuityTerritory } from './visualContinuityContext.js';
+import { buildVisualContinuityContext, resolveContinuityAudience, resolveContinuityTerritory, computeInstructionCoverage } from './visualContinuityContext.js';
 import { buildVisualSceneBriefs } from './visualSceneBrief.js';
 import { ANGLE_LABELS } from './creativeAngleSelector.js';
 
@@ -128,19 +128,32 @@ function directScene({
     ? scene.visualPrompt
     : sceneBrief
       // GLOBAL (subject+environment, fijo para toda la pieza) + CREATIVE
-      // ANGLE + SCENE (acción/composición/interacción, real y distinta por
-      // escena, Paso 6/26 del encargo: "NO usar el mismo prompt base para
-      // varias escenas cambiando solamente una palabra" / "combinar GLOBAL
-      // + CREATIVE ANGLE + NARRATIVE STAGE + HOOK CONTEXT + SCENE ACTION +
-      // EMOTIONAL STATE + COMPOSITION").
+      // ANGLE + NARRATIVE CONTEXT + SCENE (acción/composición/interacción,
+      // real y distinta por escena, Paso 6/26 del encargo previo: "NO usar
+      // el mismo prompt base para varias escenas cambiando solamente una
+      // palabra") + CAMERA + CONTINUITY + PRODUCT. Corrección "Corrección
+      // integral del flujo de Crear contenido" (2026-08-28, Paso 13 del
+      // encargo): antes el prompt real NUNCA incluía cameraDirection
+      // (encuadre/ángulo real solo vivían en el campo separado
+      // scene.cameraDirection, invisibles para el provider real) ni
+      // sceneNarrativeContext/continuity -- root cause real adicional del
+      // Problema 2 ("reducido a subject + estilo genérico").
       ? [
         subject, environment,
         primaryAngleLabel ? `Ángulo creativo: ${primaryAngleLabel}` : null,
+        sceneBrief.sceneNarrativeContext ? `Contexto narrativo: ${sceneBrief.sceneNarrativeContext}` : null,
         isHookScene && hookText ? `Hook real: "${hookText}"` : null,
         sceneBrief.action, sceneBrief.composition, sceneBrief.interaction,
         sceneBrief.emotionalState ? `Estado emocional: ${sceneBrief.emotionalState}` : null,
+        cameraDirection,
         described.moodDirection,
+        wantsProduct ? productPlacement : null,
         `Momento real de la escena: ${scene.narration}`,
+        // Continuity (Paso 13/30 del encargo): refuerzo real explícito
+        // DENTRO del texto del prompt real (no solo en negativePrompt/
+        // metadata separada) -- el provider real solo ve el texto real que
+        // se le envía, nunca los campos estructurados aparte.
+        visualContinuityContext?.subjectGender ? `Mismo personaje real en todas las escenas: ${visualContinuityContext.subjectGender === 'female' ? 'mujer' : 'hombre'}, nunca cambia de género/identidad.` : null,
       ]
         .filter((f) => limpiar(f).length > 0)
         .join('. ')
@@ -179,6 +192,10 @@ function directScene({
       bodyPosition: sceneBrief.bodyPosition,
       interaction: sceneBrief.interaction,
       emotionalState: sceneBrief.emotionalState,
+      // sceneNarrativeContext (Paso 10/11 del encargo): "qué parte de la
+      // historia representa" esta escena real -- ya calculado real por
+      // visualSceneBrief.js, nunca recalculado aquí.
+      sceneNarrativeContext: sceneBrief.sceneNarrativeContext,
       props: sceneBrief.props,
       productPresence: wantsProduct,
       continuityConstraints: sceneBrief.continuityConstraints,
@@ -299,6 +316,7 @@ export function buildVisualStrategy({
             action: s.action, narrativePurpose: s.narrativePurpose, shotType: s.shotType, cameraAngle: s.cameraAngle,
             composition: s.composition, bodyPosition: s.bodyPosition, interaction: s.interaction, props: s.props,
             emotionalState: s.emotionalState, continuityConstraints: s.continuityConstraints,
+            sceneNarrativeContext: s.sceneNarrativeContext,
           } : {}),
         }),
       })),
@@ -311,6 +329,15 @@ export function buildVisualStrategy({
   // vacío real, nunca simulado, hasta que exista un caso de uso real de
   // video POR ESCENA independiente del master compuesto.
   const videoGenerationRequests = Object.freeze([]);
+
+  // Instruction Coverage / Prompt Gate (Paso 14/15/36 del encargo): mide,
+  // sobre el TEXTO REAL de todos los scene.visualPrompt de la pieza
+  // (el mismo texto real que verá el provider), si las señales reales ya
+  // extraídas de userInstruction (subject/gender/environment/edad) de
+  // verdad quedaron en el prompt real final -- red de seguridad real,
+  // nunca un cálculo que reemplaza la construcción real del prompt.
+  const combinedPromptText = scenes.map((s) => s.visualPrompt).filter(Boolean).join(' ');
+  const instructionCoverage = computeInstructionCoverage({ context: visualContinuityContext, combinedPromptText });
 
   // Modelo Sugerido + Selección Manual (2026-08-27): recomendación real
   // (Creative Director + Provider Router, ver imageModelCatalog.js) +
@@ -391,6 +418,11 @@ export function buildVisualStrategy({
     // lineage/UI -- el MISMO objeto real que ya se usó arriba para
     // audience/territory, nunca recalculado.
     visualContinuityContext,
+    // Instruction Coverage (Paso 14/36 del encargo): expuesto tal cual --
+    // Creative Quality Auto-QA (creativeQualityAutoQA.js) y la UI lo
+    // reutilizan, nunca lo recalculan.
+    instructionCoverageScore: instructionCoverage.instructionCoverageScore,
+    instructionCoverageMissing: instructionCoverage.missing,
     // Lineage real de recomendación vs selección (regla de lineage del
     // encargo Modelo Sugerido) -- permite medir después recomendación
     // automática vs selección manual, nunca solo el resultado final.

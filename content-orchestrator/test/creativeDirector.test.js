@@ -420,3 +420,51 @@ describe('buildVisualStrategy — Creative Angle / Hook Intelligence (Correcció
     }
   });
 });
+
+describe('buildVisualStrategy — Instruction Coverage / Narrative Grounding (Corrección "Corrección integral del flujo de Crear contenido", 2026-08-28, caso real Venus)', () => {
+  const VENUS_INSTRUCTION_REAL = 'Quiero contar una historia cotidiana y natural: una mujer adulta atraviesa un día de trabajo en el que se siente incómoda o distraída por situaciones relacionadas con su ciclo, continúa con su rutina diaria y posteriormente incorpora Cápsulas Venus de manera natural. El video debe mostrar una evolución visual desde una situación inicial de incomodidad hacia un estado final más tranquilo, activo y seguro.';
+
+  test('CASO REAL VENUS: instructionCoverageScore real alto (>=0.70), subjectGender real "female" propagado hasta el texto real del prompt (Problema 2 corregido)', () => {
+    const scenePlan = realScenePlan([]);
+    const strategy = buildVisualStrategy({
+      creativeVariant: CREATIVE_VARIANT_REAL, campaignIntent: null, productFacts: { nombreComercial: 'Divina Venus Capsules', nombreVisible: 'Cápsulas Venus' },
+      productRawAssets: [], scenePlan, variantIndex: 0, userInstruction: VENUS_INSTRUCTION_REAL,
+    });
+    assert.equal(strategy.visualContinuityContext.subjectGender, 'female');
+    assert.ok(strategy.instructionCoverageScore >= 0.70, `instructionCoverageScore real ${strategy.instructionCoverageScore} debía ser >= 0.70`);
+    assert.deepEqual(strategy.instructionCoverageMissing, []);
+    for (const s of strategy.sceneVisuals) {
+      assert.match(s.visualPrompt, /mujer/i, `escena "${s.sceneId}" real debe mencionar "mujer" en el prompt real final`);
+      assert.doesNotMatch(s.visualPrompt, /\bhombre\b/i, `escena "${s.sceneId}" real NUNCA debe mencionar "hombre" (subject lock)`);
+    }
+  });
+
+  test('sceneNarrativeContext real presente en cada escena real con continuidad activa -- explica qué parte de la historia representa (Paso 10/11 del encargo)', () => {
+    const scenePlan = realScenePlan([]);
+    const strategy = buildVisualStrategy({
+      creativeVariant: CREATIVE_VARIANT_REAL, campaignIntent: null, productFacts: PRODUCT_FACTS_REAL,
+      productRawAssets: [], scenePlan, variantIndex: 0, userInstruction: VENUS_INSTRUCTION_REAL,
+    });
+    for (const s of strategy.sceneVisuals) {
+      assert.ok(s.sceneNarrativeContext?.length > 0, `escena "${s.sceneId}" real debe traer sceneNarrativeContext real`);
+    }
+  });
+
+  test('narrativeIntent real expuesto en visualContinuityContext, EXACTAMENTE el texto real del usuario', () => {
+    const scenePlan = realScenePlan([]);
+    const strategy = buildVisualStrategy({
+      creativeVariant: CREATIVE_VARIANT_REAL, campaignIntent: null, productFacts: PRODUCT_FACTS_REAL,
+      productRawAssets: [], scenePlan, variantIndex: 0, userInstruction: VENUS_INSTRUCTION_REAL,
+    });
+    assert.equal(strategy.visualContinuityContext.narrativeIntent, VENUS_INSTRUCTION_REAL);
+  });
+
+  test('backward compatibility real: sin userInstruction, instructionCoverageScore real = 1 (nunca penaliza a un llamador sin continuidad)', () => {
+    const scenePlan = realScenePlan([]);
+    const strategy = buildVisualStrategy({
+      creativeVariant: CREATIVE_VARIANT_REAL, campaignIntent: null, productFacts: PRODUCT_FACTS_REAL,
+      productRawAssets: [], scenePlan, variantIndex: 0, userInstruction: null,
+    });
+    assert.equal(strategy.instructionCoverageScore, 1);
+  });
+});

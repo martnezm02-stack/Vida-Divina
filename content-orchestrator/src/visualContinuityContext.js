@@ -16,12 +16,27 @@ function limpiar(texto) {
   return String(texto ?? '').toLowerCase().trim();
 }
 
+// contains() — Corrección "Corrección integral del flujo de Crear
+// contenido" (2026-08-28, Paso 7/8 del encargo). ANTES: texto.includes(p)
+// era un substring DESNUDO -- root cause real confirmado del bug
+// reportado (Problema 2): "posteriormente" contiene "men" y "de manera
+// natural" contiene "man", así que CUALQUIER instrucción real con esas
+// palabras (comunes en español) marcaba male=true y cancelaba
+// female=true en detectSubjectGender(), degradando "mujer adulta" a
+// "persona adulto". Ahora exige límite de palabra real consciente de
+// acentos españoles (JS \b nativo NO reconoce "é/í/ó/ú/á/ñ" como
+// caracter de palabra -- "\bél\b" nunca matchea "él" real) -- nunca un
+// segundo motor de NLP, mismo espíritu determinista de siempre.
 function contains(texto, palabras) {
-  return palabras.some((p) => texto.includes(p));
+  return palabras.some((p) => {
+    const escaped = p.trim().replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const re = new RegExp(`(^|[^a-záéíóúñü])${escaped}([^a-záéíóúñü]|$)`, 'i');
+    return re.test(texto);
+  });
 }
 
 const GENDER_FEMALE_WORDS = ['mujer', 'mujeres', 'femenina', 'femenino', 'female', 'woman', 'women', 'ella', 'chica'];
-const GENDER_MALE_WORDS = ['hombre', 'hombres', 'masculino', 'masculina', 'male', 'man', 'men', 'él ', 'chico'];
+const GENDER_MALE_WORDS = ['hombre', 'hombres', 'masculino', 'masculina', 'male', 'man', 'men', 'él', 'chico'];
 
 function detectSubjectGender(texto) {
   const female = contains(texto, GENDER_FEMALE_WORDS);
@@ -124,6 +139,7 @@ export function buildVisualContinuityContext({ userInstruction = null, campaignI
       // real que exigir entre escenas (compatibilidad hacia atrás exacta,
       // Paso 31).
       characterContinuityRequired: false,
+      narrativeIntent: null,
     });
   }
 
@@ -157,6 +173,16 @@ export function buildVisualContinuityContext({ userInstruction = null, campaignI
     // debe propagar ESTE contexto (y no el fallback por-escena) a todas
     // las escenas.
     characterContinuityRequired: Boolean(subjectGender || subjectAgeRange || environment),
+    // narrativeIntent (Paso 6 del encargo): "qué historia se quiere
+    // contar" -- EXACTAMENTE el texto real de userInstruction (trim, sin
+    // resumir/reinterpretar): resumir de forma determinista sin un motor
+    // de lenguaje nuevo arriesgaría alterar el significado real que el
+    // usuario ya escribió (Paso 30: "no inventar"); el texto real del
+    // usuario YA ES la fuente de verdad narrativa completa. Nunca se trata
+    // como claim de marketing (Paso 6: "no convertirlo en claim") -- solo
+    // se usa para auditar cobertura real (instructionCoverageScore) y
+    // como contexto real legible en el prompt/preview.
+    narrativeIntent: userInstruction?.trim() || null,
   });
 }
 
@@ -180,4 +206,88 @@ export function resolveContinuityAudience(context, fallbackAudience) {
  */
 export function resolveContinuityTerritory(context, fallbackTerritory) {
   return context?.environment ?? fallbackTerritory;
+}
+
+// Instruction Coverage / Prompt Gate (Corrección "Corrección integral del
+// flujo de Crear contenido", 2026-08-28, Paso 14/15/36/37 del encargo):
+// verifica que las señales reales YA extraídas de userInstruction
+// (subject/gender/environment) realmente aparecen en el TEXTO final real
+// que se envió al provider -- root cause real del Problema 2 (el bug real
+// vivía en detectSubjectGender() de este mismo archivo, ya corregido
+// arriba; esta función es la RED DE SEGURIDAD real que lo habría
+// detectado, y que también detecta una edición manual real del usuario
+// que borre el sujeto, Paso 30). Determinista, nunca un motor de lenguaje
+// nuevo.
+function checkPresence(combinedPromptText, palabras) {
+  return contains(combinedPromptText, palabras);
+}
+
+/**
+ * @param {{context:object, combinedPromptText:string}} args -- "context"
+ * es el visualContinuityContext real ya calculado; "combinedPromptText"
+ * es el texto real de TODOS los scene.visualPrompt reales de la pieza,
+ * unidos (el mismo texto real que el provider real ve).
+ * @returns {{instructionCoverageScore:number, checks:object, missing:string[]}}
+ */
+export function computeInstructionCoverage({ context, combinedPromptText = '' }) {
+  if (!context?.characterContinuityRequired) {
+    // Sin userInstruction real con señal real de sujeto/entorno -- nada
+    // real que cubrir (Paso 31: compatibilidad hacia atrás, nunca
+    // penaliza a un llamador que nunca pasó userInstruction).
+    return Object.freeze({ instructionCoverageScore: 1, checks: Object.freeze({}), missing: Object.freeze([]) });
+  }
+  const texto = limpiar(combinedPromptText);
+  const checks = {};
+  if (context.subjectGender) {
+    checks.subjectGender = checkPresence(texto, context.subjectGender === 'female' ? GENDER_FEMALE_WORDS : GENDER_MALE_WORDS);
+  }
+  if (context.environment) {
+    // El label real (ej. "oficina moderna") puede no aparecer palabra por
+    // palabra -- se exige que AL MENOS una palabra real significativa
+    // (>=4 letras) del label real esté presente.
+    const palabrasEntorno = context.environment.split(/\s+/).filter((w) => w.length >= 4);
+    checks.environment = palabrasEntorno.length === 0 || checkPresence(texto, palabrasEntorno);
+  }
+  if (context.subjectAgeRange) {
+    const adjetivo = ageAdjective(context.subjectAgeRange, context.subjectGender);
+    checks.subjectAgeRange = adjetivo ? checkPresence(texto, [adjetivo]) : true;
+  }
+  const values = Object.values(checks);
+  const instructionCoverageScore = values.length === 0 ? 1 : values.filter(Boolean).length / values.length;
+  const missing = Object.entries(checks).filter(([, v]) => !v).map(([k]) => k);
+  return Object.freeze({ instructionCoverageScore, checks: Object.freeze(checks), missing: Object.freeze(missing) });
+}
+
+// MIN_INSTRUCTION_COVERAGE_SCORE (Paso 37 del encargo): mismo umbral real
+// 0.70 ya usado por Creative Quality Auto-QA para otros componentes.
+export const MIN_INSTRUCTION_COVERAGE_SCORE = 0.70;
+
+/**
+ * Prompt Gate real (Paso 15/30 del encargo): VALID/INVALID por escena --
+ * SOLO señala (nunca produce), y repara de forma determinista cuando la
+ * reparación real es segura (reinyectar el sujeto/entorno real YA
+ * conocido, nunca inventar uno nuevo). Devuelve el prompt real reparado
+ * cuando aplica -- el llamador decide si lo usa.
+ */
+export function applyPromptGate({ context, scenePrompt }) {
+  if (!context?.characterContinuityRequired) return Object.freeze({ status: 'VALID', prompt: scenePrompt, repaired: false });
+  const coverage = computeInstructionCoverage({ context, combinedPromptText: scenePrompt });
+  if (coverage.missing.length === 0) return Object.freeze({ status: 'VALID', prompt: scenePrompt, repaired: false });
+
+  // Reparación real determinista: reinyecta SOLO las señales reales ya
+  // conocidas (subject/environment) que faltan -- nunca inventa una nueva.
+  const refuerzos = [];
+  if (coverage.missing.includes('subjectGender') && context.subjectGender) {
+    refuerzos.push(`Sujeto real: ${context.subjectGender === 'female' ? 'mujer' : 'hombre'}${context.subjectAgeRange ? ` (${ageAdjective(context.subjectAgeRange, context.subjectGender)})` : ''}.`);
+  }
+  if (coverage.missing.includes('environment') && context.environment) {
+    refuerzos.push(`Entorno real: ${context.environment}.`);
+  }
+  const promptReparado = refuerzos.length ? `${scenePrompt} ${refuerzos.join(' ')}` : scenePrompt;
+  const coverageTrasReparar = computeInstructionCoverage({ context, combinedPromptText: promptReparado });
+  return Object.freeze({
+    status: coverageTrasReparar.missing.length === 0 ? 'VALID' : 'INVALID',
+    prompt: promptReparado,
+    repaired: refuerzos.length > 0,
+  });
 }

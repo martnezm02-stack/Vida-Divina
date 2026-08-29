@@ -1365,6 +1365,14 @@ export async function handleVisualPlanPreview(req, res, url) {
     // de "scenes[].generatedPrompt" (instrucción técnica real por escena
     // para el generador -- nunca confundir los dos, Paso 16).
     visualBrief: visualStrategy.visualIntent,
+    // instructionCoverageScore/instructionCoverageMissing (Paso 14/15/16/36
+    // del encargo "Corrección integral del flujo de Crear contenido"): YA
+    // calculados por buildVisualStrategy() -- expuestos aquí SIN recálculo,
+    // mismo Prompt Gate real que decide si esta propuesta necesita
+    // "reparar antes de producir" (Paso 15).
+    instructionCoverageScore: visualStrategy.instructionCoverageScore,
+    instructionCoverageMissing: visualStrategy.instructionCoverageMissing,
+    narrativeIntent: visualStrategy.visualContinuityContext?.narrativeIntent ?? null,
   });
 }
 
@@ -1386,6 +1394,14 @@ export async function handleProduceCreative(req, res) {
     // aceptada tal cual, un structureId real de creativeStructureEngine.js
     // sobrescribe la estructura para ESTA generación.
     userInstruction = null, selectedStructureId = null,
+    // Editable Fields (Paso 18-27 del encargo "Corrección integral del
+    // flujo de Crear contenido", 2026-08-29): null real = el usuario
+    // aceptó tal cual hook/voiceover/CTA ya generados -- un valor real
+    // SOBRESCRIBE ese campo SOLO para ESTA producción (nunca se
+    // reescribe el batch persistido). scenePromptOverrides real:
+    // {[sceneId]: promptEditado} -- edición por escena (Paso 28-31).
+    hookOverride = null, voiceoverOverride = null, ctaOverride = null,
+    scenePromptOverrides = null,
   } = body;
   if (!batchId?.trim()) { badRequest(res, 'produce: "batchId" es obligatorio -- la creatividad debe venir de un batch real ya generado, nunca inventada aquí.'); return; }
   if (!Number.isInteger(variantIndex) || variantIndex < 0) { badRequest(res, 'produce: "variantIndex" debe ser un entero >= 0 real.'); return; }
@@ -1416,19 +1432,34 @@ export async function handleProduceCreative(req, res) {
     }
   }
 
+  // Editable Fields (Paso 18-21 del encargo): hook/CTA editados
+  // SOBRESCRIBEN copy.hook/copy.cta para TODO el resto real de esta
+  // producción (bodyLines/sectionsUsed intactos -- siguen dirigiendo el
+  // reparto real por escena de scenePlanner.js, Paso 21).
+  const copyOverrides = (hookOverride?.trim() || ctaOverride?.trim())
+    ? { ...(hookOverride?.trim() ? { hook: hookOverride.trim() } : {}), ...(ctaOverride?.trim() ? { cta: ctaOverride.trim() } : {}) }
+    : null;
+
   // El mismo Video Script real que produceCreative() volverá a construir
   // internamente -- se recalcula aquí SOLO para conocer voiceoverText
   // ANTES de pedir el audio real (mismo texto, función pura/determinista,
-  // nunca diverge).
+  // nunca diverge salvo por copyOverrides, aplicado idéntico en ambos
+  // lados).
   const videoScript = buildVideoScript({
-    hook: creativeVariant.copy.hook, bodyLines: creativeVariant.copy.bodyLines,
-    sectionsUsed: creativeVariant.copy.sectionsUsed, cta: creativeVariant.copy.cta,
+    hook: copyOverrides?.hook ?? creativeVariant.copy.hook, bodyLines: creativeVariant.copy.bodyLines,
+    sectionsUsed: creativeVariant.copy.sectionsUsed, cta: copyOverrides?.cta ?? creativeVariant.copy.cta,
     format: creativeVariant.creativeVariant.format, copyStyle: creativeVariant.copyStyle,
   });
   if (!videoScript.applicable) { sendJson(res, 200, { status: 'FAILED', error: videoScript.reason }); return; }
 
+  // voiceoverMode=user_edited (Paso 21 del encargo): el texto real editado
+  // a mano por el usuario NUNCA se resustituye -- es EXACTAMENTE el texto
+  // real que se envía a Voice Engine, nunca el derivado de nuevo de
+  // hook+bodyLines+cta.
+  const voiceoverTextFinal = voiceoverOverride?.trim() || videoScript.voiceoverText;
+
   try {
-    assertVoiceoverTextSafe(videoScript.voiceoverText);
+    assertVoiceoverTextSafe(voiceoverTextFinal);
   } catch (err) {
     sendJson(res, 200, { status: 'VALIDATION_FAILED', errors: [err.message] });
     return;
@@ -1437,7 +1468,7 @@ export async function handleProduceCreative(req, res) {
   let audioSourcePath;
   let audioDurationSeconds;
   try {
-    const resultado = await generateNewVoiceover({ text: videoScript.voiceoverText });
+    const resultado = await generateNewVoiceover({ text: voiceoverTextFinal });
     audioSourcePath = resultado.resolvedPath;
     audioDurationSeconds = resultado.durationSeconds;
   } catch (err) {
@@ -1449,6 +1480,7 @@ export async function handleProduceCreative(req, res) {
   try {
     const job = await produceCreative({
       creativeVariant, campaignIntent: batch.campaignIntent ?? null, productRawAssets,
+      copyOverrides, scenePromptOverrides,
       audioSourcePath, audioDurationSeconds, outputProfileNames, projectDir, ffmpegBinDir: FFMPEG_BIN_DIR,
       campaignId: batch.campaignId, batchId: batch.batchId, generationId: batch.generationId,
       creativeId: `${batch.batchId}-v${variantIndex}`,
@@ -1515,6 +1547,10 @@ export async function handleProduceCreativeStart(req, res) {
     batchId, variantIndex, outputProfileNames = ['INSTAGRAM_REEL', 'INSTAGRAM_FEED'],
     imageModelId = null, selectedQuality = null,
     userInstruction = null, selectedStructureId = null,
+    // Editable Fields (Paso 18-27 del encargo, ver handleProduceCreative
+    // arriba -- mismo criterio real, nunca un segundo diseño).
+    hookOverride = null, voiceoverOverride = null, ctaOverride = null,
+    scenePromptOverrides = null,
   } = body;
   if (!batchId?.trim()) { badRequest(res, 'produce-start: "batchId" es obligatorio -- la creatividad debe venir de un batch real ya generado, nunca inventada aquí.'); return; }
   if (!Number.isInteger(variantIndex) || variantIndex < 0) { badRequest(res, 'produce-start: "variantIndex" debe ser un entero >= 0 real.'); return; }
@@ -1551,9 +1587,12 @@ export async function handleProduceCreativeStart(req, res) {
   // son exactamente las mismas funciones importadas arriba).
   (async () => {
     try {
+      const copyOverrides = (hookOverride?.trim() || ctaOverride?.trim())
+        ? { ...(hookOverride?.trim() ? { hook: hookOverride.trim() } : {}), ...(ctaOverride?.trim() ? { cta: ctaOverride.trim() } : {}) }
+        : null;
       const videoScript = buildVideoScript({
-        hook: creativeVariant.copy.hook, bodyLines: creativeVariant.copy.bodyLines,
-        sectionsUsed: creativeVariant.copy.sectionsUsed, cta: creativeVariant.copy.cta,
+        hook: copyOverrides?.hook ?? creativeVariant.copy.hook, bodyLines: creativeVariant.copy.bodyLines,
+        sectionsUsed: creativeVariant.copy.sectionsUsed, cta: copyOverrides?.cta ?? creativeVariant.copy.cta,
         format: creativeVariant.creativeVariant.format, copyStyle: creativeVariant.copyStyle,
       });
       if (!videoScript.applicable) {
@@ -1561,8 +1600,9 @@ export async function handleProduceCreativeStart(req, res) {
         return;
       }
 
+      const voiceoverTextFinal = voiceoverOverride?.trim() || videoScript.voiceoverText;
       try {
-        assertVoiceoverTextSafe(videoScript.voiceoverText);
+        assertVoiceoverTextSafe(voiceoverTextFinal);
       } catch (err) {
         produceJobsInFlight.set(jobId, { status: 'VALIDATION_FAILED', result: { status: 'VALIDATION_FAILED', errors: [err.message] }, finishedAt: new Date().toISOString() });
         return;
@@ -1571,7 +1611,7 @@ export async function handleProduceCreativeStart(req, res) {
       let audioSourcePath;
       let audioDurationSeconds;
       try {
-        const resultado = await generateNewVoiceover({ text: videoScript.voiceoverText });
+        const resultado = await generateNewVoiceover({ text: voiceoverTextFinal });
         audioSourcePath = resultado.resolvedPath;
         audioDurationSeconds = resultado.durationSeconds;
       } catch (err) {
@@ -1582,6 +1622,7 @@ export async function handleProduceCreativeStart(req, res) {
       const projectDir = join(DASHBOARD_OUTPUT_ROOT, `produce-${randomUUID()}`);
       const job = await produceCreative({
         creativeVariant, campaignIntent: batch.campaignIntent ?? null, productRawAssets,
+        copyOverrides, scenePromptOverrides,
         audioSourcePath, audioDurationSeconds, outputProfileNames, projectDir, ffmpegBinDir: FFMPEG_BIN_DIR,
         campaignId: batch.campaignId, batchId: batch.batchId, generationId: batch.generationId,
         creativeId: `${batch.batchId}-v${variantIndex}`,

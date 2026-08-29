@@ -8,6 +8,12 @@
 // creativeDirector.js.
 
 export const MIN_CREATIVE_QUALITY_SCORE = 0.70;
+// Corrección "Corrección integral del flujo de Crear contenido"
+// (2026-08-28, Paso 37 del encargo): mismo umbral real 0.70 -- gates
+// ADICIONALES reales, nunca sustituyen creativeQualityScore, se aplican
+// aparte (Paso 37: "no marcar ACCEPTED si X < 0.70").
+export const MIN_INSTRUCTION_COVERAGE_SCORE = 0.70;
+export const MIN_NARRATIVE_ALIGNMENT_SCORE = 0.70;
 const MAX_REPAIR_ROUNDS = 2;
 
 // Ponderación real del encargo (Paso 2) -- suma 1.0.
@@ -82,14 +88,35 @@ function scoreVisual(visualIntent) {
   return visualIntent === GENERIC_VISUAL_INTENT_REAL ? 0.3 : 1;
 }
 
-/** continuityScore real: 1.0 con visualContinuityContext real activo, degradado sin él (nunca 0 -- sigue siendo una pieza real producible). */
-function scoreContinuity(visualContinuityContext) {
-  return visualContinuityContext?.characterContinuityRequired ? 1 : 0.7;
+/**
+ * continuityScore real: 1.0 con visualContinuityContext real activo,
+ * degradado sin él (nunca 0 -- sigue siendo una pieza real producible).
+ * instructionCoverageScore real (Paso 14/36 del encargo, opcional): YA
+ * calculado por creativeDirector.js#buildVisualStrategy() -- si las
+ * señales reales de subject/environment NO llegaron al prompt real final,
+ * este componente cae, aunque characterContinuityRequired sea true (Paso
+ * 15: "reparar antes de producir" -- root cause real del Problema 2).
+ */
+function scoreContinuity(visualContinuityContext, instructionCoverageScore = null) {
+  const base = visualContinuityContext?.characterContinuityRequired ? 1 : 0.7;
+  if (instructionCoverageScore === null) return base;
+  return clamp01((base + clamp01(instructionCoverageScore)) / 2);
 }
 
 /** repetitionPenalty real: 1.0 = sin penalización real -- reutiliza el repetitionPenalty real YA calculado por hookIntelligence.js para el candidato ganador (Paso 8/9, nunca recalculado aparte). */
 function scoreRepetition(hookRepetitionPenalty) {
   return clamp01(1 - (hookRepetitionPenalty ?? 0));
+}
+
+/**
+ * narrativeAlignmentScore real (Paso 36 del encargo): "¿la historia
+ * (ángulo + estructura + claims) alinea con la estrategia creativa ya
+ * elegida?" -- compuesto real de scores YA calculados arriba (angleScore/
+ * structureScore/claimScore), nunca un cálculo nuevo/paralelo (Paso 14 del
+ * encargo anterior, mismo criterio: "sin crear otro score paralelo").
+ */
+function scoreNarrativeAlignment({ angleScore, structureScore, claimScore }) {
+  return clamp01((angleScore + structureScore + claimScore) / 3);
 }
 
 /**
@@ -113,6 +140,11 @@ export function evaluateCreativeProposal({
   // previousStructureIds (Paso 14/26 del encargo): opcional, structureId
   // reales ya usados en otras variantes de ESTA campaña real.
   previousStructureIds = [],
+  // instructionCoverageScore/instructionCoverageMissing (Paso 14/15/36/37
+  // del encargo "Corrección integral del flujo de Crear contenido"):
+  // opcionales, YA calculados por creativeDirector.js#buildVisualStrategy()
+  // -- nunca recalculados aparte.
+  instructionCoverageScore = null, instructionCoverageMissing = [],
 }) {
   const hookScore = scoreHook({ hookRelevanceScore, hookNaturalnessScore, hookSpecificityScore });
   const angleScore = scoreAngle({ primaryAngle, hadUserInstruction });
@@ -120,8 +152,9 @@ export function evaluateCreativeProposal({
   const structureScore = scoreStructure(structureId, previousStructureIds);
   const scriptVoiceScore = scoreScriptVoice(copy);
   const visualScore = scoreVisual(visualIntent);
-  const continuityScore = scoreContinuity(visualContinuityContext);
+  const continuityScore = scoreContinuity(visualContinuityContext, instructionCoverageScore);
   const repetitionPenalty = scoreRepetition(hookRepetitionPenalty);
+  const narrativeAlignmentScore = scoreNarrativeAlignment({ angleScore, structureScore, claimScore });
 
   const creativeQualityScore = clamp01(
     (WEIGHTS.hook * hookScore) + (WEIGHTS.angle * angleScore) + (WEIGHTS.claim * claimScore)
@@ -129,9 +162,23 @@ export function evaluateCreativeProposal({
     + (WEIGHTS.continuity * continuityScore) + (WEIGHTS.repetition * repetitionPenalty),
   );
 
+  // Quality Gates (Paso 37 del encargo): NO marcar ACCEPTED si
+  // creativeQualityScore/instructionCoverageScore/narrativeAlignmentScore
+  // real caen bajo 0.70, O si el subject lock real falla (una señal real
+  // de género/edad ya detectada que NO llegó al prompt real final) --
+  // gates ADICIONALES reales, nunca sustituyen el score compuesto real.
+  const subjectLockOk = !instructionCoverageMissing.includes('subjectGender');
+  const accepted = creativeQualityScore >= MIN_CREATIVE_QUALITY_SCORE
+    && (instructionCoverageScore === null || instructionCoverageScore >= MIN_INSTRUCTION_COVERAGE_SCORE)
+    && narrativeAlignmentScore >= MIN_NARRATIVE_ALIGNMENT_SCORE
+    && subjectLockOk;
+
   return Object.freeze({
     creativeQualityScore,
-    creativeQualityStatus: creativeQualityScore >= MIN_CREATIVE_QUALITY_SCORE ? 'ACCEPTED' : 'LOW_CONFIDENCE',
+    creativeQualityStatus: accepted ? 'ACCEPTED' : 'LOW_CONFIDENCE',
+    instructionCoverageScore,
+    narrativeAlignmentScore,
+    subjectLockOk,
     components: Object.freeze({
       hookScore, angleScore, claimScore, structureScore, scriptVoiceScore, visualScore, continuityScore, repetitionPenalty,
     }),

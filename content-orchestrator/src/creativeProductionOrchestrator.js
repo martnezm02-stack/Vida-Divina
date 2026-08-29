@@ -106,7 +106,7 @@ function proporcion(scene, factorEscala) {
  * @returns {Promise<object>} ProductionJob real.
  */
 export async function produceCreative({
-  creativeVariant, campaignIntent = null, productRawAssets = [],
+  creativeVariant: rawCreativeVariant, campaignIntent = null, productRawAssets = [],
   audioSourcePath, audioDurationSeconds, outputProfileNames, projectDir, ffmpegBinDir = null,
   campaignId = null, batchId = null, generationId = null, creativeId = randomUUID(),
   // undefined (no "null") es la señal real de "el llamador no decidió" --
@@ -133,7 +133,26 @@ export async function produceCreative({
   // "selectedStructureId" real de creativeStructureEngine.js SOBRESCRIBE
   // la recomendación para ESTA generación (selectionMode "user_selected").
   userInstruction = null, selectedStructureId = null,
+  // Editable Fields (Corrección "Corrección integral del flujo de Crear
+  // contenido", 2026-08-29, Paso 18-27 del encargo): null real = el
+  // usuario aceptó tal cual el hook/CTA ya generados por
+  // hypothesisCreativeEngine.js -- {hook, cta} real SOBRESCRIBE SOLO esos
+  // dos campos de creativeVariant.copy para ESTA producción (nunca
+  // bodyLines/sectionsUsed, que siguen dirigiendo el reparto real por
+  // escena de scenePlanner.js -- Paso 21: "no debe cambiar automáticamente
+  // producto/ángulo/estructura").
+  copyOverrides = null,
+  // Prompt editing por escena (Paso 28-31 del encargo): null real = ningún
+  // prompt fue editado a mano -- {[sceneId]: promptEditado} SOBRESCRIBE
+  // SOLO scene.visualPrompt de las escenas reales indicadas, ANTES de
+  // resolveAssetPlan()/Krea, para que "PROMPT FINAL A PRODUCIR" sea
+  // EXACTAMENTE el texto real que el usuario editó (nunca regenerado en
+  // silencio, Paso 30).
+  scenePromptOverrides = null,
 }) {
+  const creativeVariant = copyOverrides
+    ? Object.freeze({ ...rawCreativeVariant, copy: Object.freeze({ ...rawCreativeVariant.copy, ...copyOverrides }) })
+    : rawCreativeVariant;
   if (!audioSourcePath?.trim() || !existsSync(audioSourcePath)) {
     throw new Error(`produceCreative: "audioSourcePath" debe ser un WAV real ya existente (recibido: ${audioSourcePath}).`);
   }
@@ -190,10 +209,28 @@ export async function produceCreative({
   // real en una Visual Strategy real -- tratamiento visual, dirección de
   // escena, product grounding -- SOLO añade campos sobre las MISMAS
   // escenas reales de scenePlanner.js, nunca las reemplaza.
-  const visualStrategy = buildVisualStrategy({
+  const visualStrategyRaw = buildVisualStrategy({
     creativeVariant, campaignIntent, productFacts, productRawAssets, scenePlan: scenePlanBase,
     format: creativeVariant.creativeVariant.format, variantIndex, campaignId, batchId, creativeId,
     selectedModelId, selectedQuality, userInstruction,
+  });
+  // Prompt editing por escena (Paso 28-31 del encargo): reinyecta el
+  // prompt real editado a mano ANTES de que exista cualquier consumidor
+  // real (sceneVisuals -> assetResolver.js#scene.visualPrompt,
+  // imageGenerationRequests -> promptSpec.generationPrompt) -- así "PROMPT
+  // FINAL A PRODUCIR" es EXACTAMENTE el string real que Krea recibe
+  // (Prompt Parity, Paso 16), nunca dos strings que puedan divergir.
+  const hasPromptOverrides = scenePromptOverrides && Object.keys(scenePromptOverrides).length > 0;
+  const visualStrategy = !hasPromptOverrides ? visualStrategyRaw : Object.freeze({
+    ...visualStrategyRaw,
+    sceneVisuals: Object.freeze(visualStrategyRaw.sceneVisuals.map((s) => (
+      scenePromptOverrides[s.sceneId] ? Object.freeze({ ...s, visualPrompt: scenePromptOverrides[s.sceneId] }) : s
+    ))),
+    imageGenerationRequests: Object.freeze(visualStrategyRaw.imageGenerationRequests.map((r) => (
+      scenePromptOverrides[r.sceneId]
+        ? Object.freeze({ ...r, promptSpec: Object.freeze({ ...r.promptSpec, generationPrompt: scenePromptOverrides[r.sceneId] }) })
+        : r
+    ))),
   });
   const scenePlan = Object.freeze({ ...scenePlanBase, scenes: visualStrategy.sceneVisuals });
 

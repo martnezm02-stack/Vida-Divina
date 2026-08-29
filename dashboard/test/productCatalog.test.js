@@ -86,9 +86,9 @@ describe('D: dataQualityStatus — expuesto real en productCatalog.js (Paso 18/2
     assert.match(p.dataQualityDetail, /Garcinia/);
   });
 
-  test('Venus Capsules real: INCOMPLETE real expuesto', () => {
+  test('Venus Capsules real: VERIFIED real tras la corrección de ingredientes/beneficios (Paso 1/2 del encargo "Corrección integral")', () => {
     const p = getProduct('venus-capsules');
-    assert.equal(p.dataQualityStatus, 'INCOMPLETE');
+    assert.equal(p.dataQualityStatus, 'VERIFIED');
   });
 
   test('Café Tongkat Ali real: VERIFIED real (sin conflicto/incompletitud real), detalle real null', () => {

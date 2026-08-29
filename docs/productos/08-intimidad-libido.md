@@ -36,12 +36,19 @@ Suplementos formulados específicamente para la libido masculina y femenina.
 - **Categoría:** Intimidad y Libido (femenina)
 - **Objetivo principal:** Recuperar el libido normal y saludable de la mujer.
 - **Problema que ayuda a resolver:** Falta de deseo, intimidad incómoda, síntomas de menopausia, ciclo menstrual irregular.
-- **Ingredientes principales:** Fórmula patentada — componentes específicos no detallados en el catálogo.
-- **Beneficios:** Ayuda a mejorar la intimidad saludable para las mujeres; recupera los deseos; apoya en los síntomas de la menopausia; apoya a tener un ciclo menstrual saludable.
+- **Ingredientes principales:** Maca; Dong Quai (Angélica china); Vitex (Sauzgatillo); Raíz de Yam silvestre; Isoflavonas naturales; Vitaminas del complejo B; Minerales esenciales.
+- **Beneficios:** Apoya el equilibrio hormonal femenino; ayuda a regular desajustes hormonales de forma natural; reduce síntomas del síndrome premenstrual (SPM); puede ayudar con cambios de humor; puede ayudar con retención de líquidos; puede ayudar con sensibilidad en senos; puede ayudar con cólicos; apoya la energía y vitalidad femenina; ideal para combatir el cansancio relacionado con cambios hormonales; contribuye al bienestar emocional; apoya la estabilidad emocional y el estado de ánimo; alternativa natural, sin hormonas sintéticas.
 - **Presentación:** 30 cápsulas.
-- **Público objetivo:** Mujeres (explícitamente dirigido a "Señoras").
+- **Público objetivo:** Mujeres con desajustes hormonales; síndrome premenstrual; perimenopausia y menopausia; fatiga hormonal; mujeres que buscan equilibrio y bienestar natural.
 - **Productos complementarios (cross-selling):** [Youth Capsules](./04-funcion-cognitiva.md#youth-capsules), [Radien Collagen Elixir](./13-linea-radien/radien-collagen-elixir.md).
-- **Palabras clave:** libido femenina, menopausia, ciclo menstrual, deseo sexual, intimidad femenina.
+- **Palabras clave:** libido femenina, menopausia, ciclo menstrual, deseo sexual, intimidad femenina, equilibrio hormonal, SPM.
+
+> **Nota de fuente (corrección "Corrección integral del flujo de Crear
+> contenido"):** Ingredientes/Beneficios/Público objetivo actualizados a
+> partir de una fuente visual real (etiqueta/material de empaque)
+> proporcionada directamente por el propietario del negocio -- ningún dato
+> inventado, sin cantidades/dosis/mecanismos de acción que la fuente real
+> no especifica.
 
 ---
 [🏠 Índice general de productos](../productos.md)
