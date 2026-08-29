@@ -227,6 +227,110 @@ describe('POST /api/create/propose-direct-variants — datos reales para la UI d
   });
 });
 
+describe('GET /api/create/visual-plan-preview — auditable ANTES de producir (Corrección "Hacer auditable la propuesta antes de producir")', () => {
+  const INSTRUCTION = 'Rutina matutina real de energía y enfoque antes de entrenar, mostrando a una persona real usando el producto.';
+
+  test('A/B: variante generada -> plan visual y prompts visibles ANTES de producción real (sin producir nada)', async () => {
+    const { body } = await post('/api/create/propose-direct-variants', {
+      productId: 'ripped-capsules', rawText: INSTRUCTION, variantCount: 1,
+    });
+    const v = body.variants[0];
+    const { status, body: plan } = await get(`/api/create/visual-plan-preview?batchId=${v.batchId}&variantIndex=0&userInstruction=${encodeURIComponent(INSTRUCTION)}`);
+    assert.equal(status, 200);
+    assert.equal(plan.status, 'READY');
+    assert.ok(plan.scenes.length > 0, 'plan visual real: al menos 1 escena real, ANTES de producir');
+    const conPrompt = plan.scenes.filter((s) => s.generatedPrompt);
+    assert.ok(conPrompt.length > 0, 'al menos 1 escena real trae generatedPrompt real ANTES de producir');
+    const sinPrompt = plan.scenes.filter((s) => !s.generatedPrompt);
+    for (const s of sinPrompt) assert.ok(s.promptPendingReason?.length > 0, 'escena real sin prompt trae explicación real (nunca "prompt vacío" sin motivo)');
+  });
+
+  test('C/D: abrir plan visual + prompts NO llama Krea (lectura real local, rápida y determinista -- nunca una generación externa)', async () => {
+    const { body } = await post('/api/create/propose-direct-variants', {
+      productId: 'ripped-capsules', rawText: INSTRUCTION, variantCount: 1,
+    });
+    const v = body.variants[0];
+    const inicio = Date.now();
+    const { status, body: plan } = await get(`/api/create/visual-plan-preview?batchId=${v.batchId}&variantIndex=0&userInstruction=${encodeURIComponent(INSTRUCTION)}`);
+    const duracionMs = Date.now() - inicio;
+    assert.equal(status, 200);
+    assert.ok(duracionMs < 3000, `visual-plan-preview real responde rápido (${duracionMs}ms) -- una llamada real a Krea tarda segundos/minutos, nunca <3s (Paso 5 del encargo: revisar NUNCA genera)`);
+    // Determinismo real: dos lecturas reales seguidas del MISMO batch/escena
+    // devuelven EXACTAMENTE el mismo generatedPrompt real -- una llamada
+    // real a un provider externo no sería determinista byte a byte.
+    const { body: plan2 } = await get(`/api/create/visual-plan-preview?batchId=${v.batchId}&variantIndex=0&userInstruction=${encodeURIComponent(INSTRUCTION)}`);
+    assert.deepEqual(plan.scenes.map((s) => s.generatedPrompt), plan2.scenes.map((s) => s.generatedPrompt), 'generatedPrompt real determinista entre dos lecturas reales seguidas (nunca una generación externa nueva)');
+  });
+
+  test('E/F: cambiar de variante real actualiza el preview real -- nunca mezcla datos de una variante con otra', async () => {
+    const { body } = await post('/api/create/propose-direct-variants', {
+      productId: 'ripped-capsules', rawText: INSTRUCTION, variantCount: 2,
+    });
+    assert.ok(body.variants.length >= 2, 'se necesitan >= 2 variantes reales para esta prueba');
+    const [vA, vB] = body.variants;
+    const { body: planA } = await get(`/api/create/visual-plan-preview?batchId=${vA.batchId}&variantIndex=0&userInstruction=${encodeURIComponent(INSTRUCTION)}`);
+    const { body: planB } = await get(`/api/create/visual-plan-preview?batchId=${vB.batchId}&variantIndex=0&userInstruction=${encodeURIComponent(INSTRUCTION)}`);
+    const promptsA = planA.scenes.map((s) => s.generatedPrompt).join('|');
+    const promptsB = planB.scenes.map((s) => s.generatedPrompt).join('|');
+    assert.notEqual(promptsA, promptsB, 'el preview real de la variante B es real y distinto del de la variante A (hooks/ángulos reales distintos), nunca mezclado');
+  });
+
+  test('G/H: product reference y model/quality reales visibles ANTES de producir', async () => {
+    const { body } = await post('/api/create/propose-direct-variants', {
+      productId: 'ripped-capsules', rawText: INSTRUCTION, variantCount: 1,
+    });
+    const v = body.variants[0];
+    const { body: plan } = await get(`/api/create/visual-plan-preview?batchId=${v.batchId}&variantIndex=0&userInstruction=${encodeURIComponent(INSTRUCTION)}`);
+    assert.equal(typeof plan.assetRequirements?.productAssetAvailable, 'boolean', 'product reference real presente (G)');
+    assert.ok(plan.generationSettings?.recommendedModel?.length > 0, 'modelo sugerido real presente (H)');
+    assert.ok(plan.generationSettings?.recommendedQuality?.length > 0, 'calidad sugerida real presente (H)');
+  });
+
+  test('K: llamar el preview real varias veces NUNCA crea un batch/campaña nuevo real -- solo lectura, nunca dispara producción', async () => {
+    const { body } = await post('/api/create/propose-direct-variants', {
+      productId: 'ripped-capsules', rawText: INSTRUCTION, variantCount: 1,
+    });
+    const v = body.variants[0];
+    for (let i = 0; i < 3; i += 1) {
+      // eslint-disable-next-line no-await-in-loop
+      const { status } = await get(`/api/create/visual-plan-preview?batchId=${v.batchId}&variantIndex=0&userInstruction=${encodeURIComponent(INSTRUCTION)}`);
+      assert.equal(status, 200);
+    }
+    // El batch real sigue siendo el MISMO (nunca se creó uno nuevo por leer el preview).
+    const { status: statusFinal, body: recFinal } = await get(`/api/create/model-recommendation?batchId=${v.batchId}&variantIndex=0`);
+    assert.equal(statusFinal, 200, 'el batch real original sigue existiendo intacto tras 3 lecturas reales del preview');
+    assert.ok(recFinal.recommendedModel !== undefined, 'model-recommendation real sigue respondiendo sobre el MISMO batch real (nunca uno nuevo)');
+  });
+
+  test('L: backward compatibility real -- "batchId"/"variantIndex" siguen siendo obligatorios, mismo criterio real que model-recommendation/structure-recommendation', async () => {
+    const sinBatch = await get('/api/create/visual-plan-preview?variantIndex=0');
+    assert.equal(sinBatch.status, 400);
+    const { body } = await post('/api/create/propose-direct-variants', {
+      productId: 'ripped-capsules', rawText: INSTRUCTION, variantCount: 1,
+    });
+    const sinVariantIndex = await get(`/api/create/visual-plan-preview?batchId=${body.variants[0].batchId}`);
+    assert.equal(sinVariantIndex.status, 400);
+  });
+
+  test('I: generatedPrompt real mostrado en el preview == generatedPrompt real persistido tras producir (source of truth único, Paso 12 del encargo)', async () => {
+    const { body } = await post('/api/create/propose-direct-variants', {
+      productId: 'ripped-capsules', rawText: INSTRUCTION, variantCount: 1,
+    });
+    const v = body.variants[0];
+    const { body: plan } = await get(`/api/create/visual-plan-preview?batchId=${v.batchId}&variantIndex=0&userInstruction=${encodeURIComponent(INSTRUCTION)}`);
+    const escenaConPromptPreview = plan.scenes.find((s) => s.generatedPrompt);
+    assert.ok(escenaConPromptPreview, 'se necesita al menos 1 escena real con generatedPrompt real en el preview para esta prueba');
+
+    const { status, body: job } = await post('/api/create/produce', {
+      batchId: v.batchId, variantIndex: 0, outputProfileNames: ['INSTAGRAM_REEL'],
+    });
+    assert.equal(status, 200);
+    const escenaProducidaReal = (job.visualGenerationRequests ?? []).find((r) => r.sceneId === escenaConPromptPreview.sceneId);
+    assert.ok(escenaProducidaReal, 'la escena real del preview existe también en la producción real ya terminada');
+    assert.equal(escenaProducidaReal.generatedPrompt, escenaConPromptPreview.generatedPrompt, 'el generatedPrompt real mostrado en el preview es EXACTAMENTE el mismo real que terminó persistido tras producir -- nunca reconstruido');
+  });
+});
+
 describe('POST /api/create/regenerate-hook — control manual (Corrección "Cierre del Creative Director")', () => {
   test('regenera un hook real distinto del actual, mismo ángulo real, excluyendo el hookId real actual', async () => {
     const { body: proposal } = await post('/api/create/propose-direct', {

@@ -16,7 +16,7 @@ import { extname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { sendJson, notFound, serverError } from './lib/http.js';
 import { handleProducts, handleProduct, handleAssets, handleDeleteAsset, handleCampaigns, handleOutputProfiles, handleOperations, handleAudioAssets, handlePreviewInfo } from './routes/library.js';
-import { handleCreate, handleEdit, handleAdapt, handleProposeCreative, handleProposeDirectCreative, handleProposeDirectMultiVariant, handleRegenerateHook, handleSuggestHypothesisVariants, handleListHypothesisBatches, handleVideoScript, handleProposeCarousel, handleCreateCarousel, handlePublishTargets, handlePublish, handleProduceCreative, handleProduceCreativeStart, handleProduceCreativeStatus, handleModelRecommendation, handleStructureRecommendation } from './routes/generation.js';
+import { handleCreate, handleEdit, handleAdapt, handleProposeCreative, handleProposeDirectCreative, handleProposeDirectMultiVariant, handleRegenerateHook, handleSuggestHypothesisVariants, handleListHypothesisBatches, handleVideoScript, handleProposeCarousel, handleCreateCarousel, handlePublishTargets, handlePublish, handleProduceCreative, handleProduceCreativeStart, handleProduceCreativeStatus, handleModelRecommendation, handleStructureRecommendation, handleVisualPlanPreview } from './routes/generation.js';
 import { handleMedia } from './routes/media.js';
 import { handlePerformanceList, handlePerformanceAnalysis } from './routes/performance.js';
 import { handleAttributionList, handleAttributionSummary } from './routes/attribution.js';
@@ -107,6 +107,7 @@ const server = http.createServer(async (req, res) => {
     if (pathname === '/api/create/hypothesis-batches' && req.method === 'GET') { await handleListHypothesisBatches(req, res, url); return; }
     if (pathname === '/api/create/model-recommendation' && req.method === 'GET') { await handleModelRecommendation(req, res, url); return; }
     if (pathname === '/api/create/structure-recommendation' && req.method === 'GET') { await handleStructureRecommendation(req, res, url); return; }
+    if (pathname === '/api/create/visual-plan-preview' && req.method === 'GET') { await handleVisualPlanPreview(req, res, url); return; }
     if (pathname === '/api/create/produce' && req.method === 'POST') { await handleProduceCreative(req, res); return; }
     if (pathname === '/api/create/produce-start' && req.method === 'POST') { await handleProduceCreativeStart(req, res); return; }
     if (pathname === '/api/create/produce-status' && req.method === 'GET') { handleProduceCreativeStatus(req, res, url); return; }

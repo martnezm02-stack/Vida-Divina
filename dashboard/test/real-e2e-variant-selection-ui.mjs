@@ -71,6 +71,23 @@ async function main() {
   selected = nuevaSeleccion;
   console.log(`     seleccionada (final): Variante ${multi.variants.length} -- "${selected.hook}"`);
 
+  console.log('4a. Paso 1/2/3/21/22 del encargo "Hacer auditable": revisando plan visual + prompts ANTES de producir (nunca debe llamar a Krea)...');
+  const inicioPreview = Date.now();
+  const { status: sPlan, body: plan } = await get(`/api/create/visual-plan-preview?batchId=${selected.batchId}&variantIndex=0&userInstruction=${encodeURIComponent(INSTRUCTION)}`);
+  const duracionPreviewMs = Date.now() - inicioPreview;
+  assert(sPlan === 200, 'visual-plan-preview real devolvió 200 (status=' + sPlan + ')');
+  assert(plan.status === 'READY' && plan.scenes.length > 0, `plan visual real disponible ANTES de producir (${plan.scenes?.length} escena(s))`);
+  assert(duracionPreviewMs < 3000, `visual-plan-preview real respondió rápido (${duracionPreviewMs}ms) -- NO llamó a Krea (Paso 5 del encargo)`);
+  const escenasConPrompt = plan.scenes.filter((s) => s.generatedPrompt);
+  assert(escenasConPrompt.length > 0, `prompts reales visibles ANTES de producir (${escenasConPrompt.length} de ${plan.scenes.length} escenas)`);
+  for (const s of plan.scenes) {
+    console.log(`     Escena "${s.sceneId}" (${s.sectionType}): ${s.generatedPrompt ? 'prompt real listo' : `sin prompt -- ${s.promptPendingReason}`}`);
+  }
+  assert(typeof plan.assetRequirements?.productAssetAvailable === 'boolean', 'product reference real visible ANTES de producir');
+  assert(Boolean(plan.generationSettings?.recommendedModel), 'modelo sugerido real visible ANTES de producir');
+  assert(Boolean(plan.generationSettings?.recommendedQuality), 'calidad sugerida real visible ANTES de producir');
+  console.log(`     Producto real disponible: ${plan.assetRequirements.productAssetAvailable ? '✅' : '⚠️ sin fotografía'} · Modelo real sugerido: ${plan.generationSettings.recommendedModel} · Calidad real sugerida: ${plan.generationSettings.recommendedQuality}`);
+
   console.log('5. Produciendo SOLO la variante finalmente seleccionada (nunca las otras, Paso 15/26 del encargo)...');
   const { status: sProd, body: job } = await post('/api/create/produce', {
     batchId: selected.batchId, variantIndex: 0, outputProfileNames: ['INSTAGRAM_REEL'],
@@ -81,6 +98,12 @@ async function main() {
 
   console.log('6. Confirmando que el output real corresponde a la variante finalmente seleccionada (nunca a otra)...');
   assert(job.script?.onScreenText?.hook === selected.hook, `el hook real producido coincide con la ÚLTIMA selección real (obtuvo "${job.script?.onScreenText?.hook}", esperado "${selected.hook}")`);
+
+  console.log('6a. Confirmando que el prompt real ya producido es EXACTAMENTE el mismo real que se mostró en el preview (Paso 12 del encargo)...');
+  const escenaPreview = plan.scenes.find((s) => s.generatedPrompt);
+  const escenaReal = (job.visualGenerationRequests ?? []).find((r) => r.sceneId === escenaPreview?.sceneId);
+  assert(Boolean(escenaReal), 'la escena real del preview también existe en la producción real ya terminada');
+  assert(escenaReal.generatedPrompt === escenaPreview.generatedPrompt, 'generatedPrompt real del preview === generatedPrompt real persistido (nunca reconstruido, source of truth único)');
 
   console.log('7. Confirmando displayName humano real en el output (Paso 17 del encargo)...');
   assert(Array.isArray(job.outputs) && job.outputs.length > 0, 'al menos un output real');

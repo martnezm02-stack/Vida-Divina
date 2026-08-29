@@ -20,7 +20,8 @@ import { buildHypothesisExperiment } from '../../../content-orchestrator/src/hyp
 import { buildCampaignIntent, computeCampaignId } from '../../../content-orchestrator/src/campaignIntent.js';
 import { saveBatch, listBatchesForCampaign, getCampaignBatchState, getBatch } from '../../../creative-intelligence/src/hypothesisBatchStore.js';
 import { produceCreative } from '../../../content-orchestrator/src/creativeProductionOrchestrator.js';
-import { previewVisualRecommendation } from '../../../content-orchestrator/src/creativeDirector.js';
+import { previewVisualRecommendation, buildVisualStrategy } from '../../../content-orchestrator/src/creativeDirector.js';
+import { buildScenePlan } from '../../../content-orchestrator/src/scenePlanner.js';
 import { previewStructureOptions, buildCreativeStructure, listCompatibleStructures } from '../../../content-orchestrator/src/creativeStructureEngine.js';
 import { listAvailableImageModels } from '../../../content-orchestrator/src/imageModelCatalog.js';
 import { saveProductionJob } from '../../../content-orchestrator/src/productionJobStore.js';
@@ -1121,6 +1122,123 @@ export async function handleStructureRecommendation(req, res, url) {
     hook: creativeVariant?.copy?.hook ?? null,
   });
   sendJson(res, 200, preview);
+}
+
+// GET /api/create/visual-plan-preview — Corrección "Hacer auditable la
+// propuesta antes de producir" (2026-08-28, Paso 1/2/3/5/12 del encargo).
+// Vista previa real de Plan Visual + Prompts ANTES de producir -- reusa
+// EXACTAMENTE la misma secuencia real de produceCreative() (Pasos 1/1b/2/2b
+// de creativeProductionOrchestrator.js: buildVideoScript ->
+// buildCreativeStructure -> buildScenePlan -> buildVisualStrategy), pero se
+// detiene ahí -- NUNCA llama a resolveAssetPlan()/generateImage() (Asset
+// Resolver/Krea MCP/Provider Router), que es el único paso real que
+// consume una generación externa (Paso 5 del encargo: "revisar un prompt
+// NO debe llamar a Krea"). generatedPrompt por escena es EXACTAMENTE
+// scene.visualPrompt vía imageGenerationRequests[].promptSpec.generationPrompt
+// -- el MISMO string real que assetResolver.js#buildSceneImageRequest usará
+// después como generationPrompt (Paso 12: source of truth único, nunca
+// reconstruido). GET, no POST: solo lee/calcula, nunca genera nada real.
+export async function handleVisualPlanPreview(req, res, url) {
+  const batchId = url.searchParams.get('batchId');
+  const variantIndexRaw = url.searchParams.get('variantIndex');
+  const variantIndex = Number(variantIndexRaw);
+  if (!batchId?.trim()) { badRequest(res, 'visual-plan-preview: "batchId" es obligatorio (query param).'); return; }
+  if (!variantIndexRaw?.trim() || !Number.isInteger(variantIndex) || variantIndex < 0) { badRequest(res, 'visual-plan-preview: "variantIndex" debe ser un entero >= 0 real (query param).'); return; }
+
+  let batch;
+  try {
+    batch = getBatch(batchId);
+  } catch (err) {
+    badRequest(res, err.message);
+    return;
+  }
+  const creativeVariant = batch.variantsDetail[variantIndex];
+  if (!creativeVariant) { badRequest(res, `visual-plan-preview: el batch "${batchId}" no tiene una variante real en el índice ${variantIndex}.`); return; }
+
+  const userInstruction = url.searchParams.get('userInstruction') || null;
+  const selectedModelId = url.searchParams.get('selectedModelId') || null;
+  const selectedQuality = url.searchParams.get('selectedQuality') || null;
+  const selectedStructureId = url.searchParams.get('selectedStructureId') || null;
+
+  const product = getProduct(batch.product?.productId ?? '');
+  const productFacts = batch.product ?? null;
+  const productRawAssets = product?.rawAssets ?? [];
+
+  // 1. SCRIPT -- mismo real que produceCreative() (videoScriptGenerator.js,
+  // sin cambios, sin llamada externa).
+  const videoScript = buildVideoScript({
+    hook: creativeVariant.copy.hook, bodyLines: creativeVariant.copy.bodyLines,
+    sectionsUsed: creativeVariant.copy.sectionsUsed, cta: creativeVariant.copy.cta,
+    format: creativeVariant.creativeVariant.format, copyStyle: creativeVariant.copyStyle,
+  });
+  if (!videoScript.applicable) {
+    sendJson(res, 200, { status: 'NOT_APPLICABLE', reason: videoScript.reason, scenes: [] });
+    return;
+  }
+
+  // 1b. CREATIVE STRUCTURE -- mismo real que produceCreative().
+  const creativeStructure = buildCreativeStructure({
+    userInstruction, campaignIntent: batch.campaignIntent ?? null, creativeVariant, productFacts,
+    platform: batch.campaignIntent?.platform ?? null, contentType: 'VIDEO',
+    angle: creativeVariant?.creativeVariant?.angleText ?? null, hook: creativeVariant?.copy?.hook ?? null,
+    selectedStructureId,
+  });
+
+  // 2. SCENE PLAN -- mismo real que produceCreative(), sin el reescalado a
+  // audio real (ese audio todavía no existe antes de producir -- Paso 4 del
+  // encargo: "sin consumir una generación externa"; el reescalado solo
+  // ajusta duration/startSeconds proporcionalmente, nunca narration/
+  // visualPrompt/estructura, así que la vista previa sigue siendo honesta).
+  const scenePlan = buildScenePlan({
+    videoScript, productRawAssets, campaignIntent: batch.campaignIntent ?? null, creativeStructure,
+  });
+
+  // 2b. CREATIVE DIRECTOR -- mismo real que produceCreative(). Se detiene
+  // aquí: NUNCA se llama resolveAssetPlan()/generateImage() (Paso 5 del
+  // encargo).
+  const visualStrategy = buildVisualStrategy({
+    creativeVariant, campaignIntent: batch.campaignIntent ?? null, productFacts, productRawAssets, scenePlan,
+    format: creativeVariant.creativeVariant.format, variantIndex, campaignId: batch.campaignId, batchId,
+    selectedModelId, selectedQuality, userInstruction,
+  });
+
+  const promptRequestBySceneId = new Map(visualStrategy.imageGenerationRequests.map((r) => [r.sceneId, r]));
+  const scenes = visualStrategy.sceneVisuals.map((s) => {
+    const requiresProduct = s.visualIntent === 'PRODUCT_REVEAL';
+    const promptRequest = promptRequestBySceneId.get(s.sceneId);
+    return Object.freeze({
+      sceneId: s.sceneId,
+      sectionType: s.sectionType,
+      narrativePurpose: s.narrativePurpose ?? null,
+      action: s.action ?? null,
+      emotionalState: s.emotionalState ?? null,
+      shotType: s.shotType ?? null,
+      cameraAngle: s.cameraAngle ?? null,
+      requiresProduct,
+      visualSource: s.visualSource,
+      // generatedPrompt (Paso 3/4 del encargo): EXACTAMENTE
+      // promptSpec.generationPrompt (== scene.visualPrompt) cuando esta
+      // escena real requiere generación; null real (nunca inventado) para
+      // una escena que usará la fotografía real del producto directamente
+      // -- esa nunca genera un prompt real porque nunca llama a Krea.
+      generatedPrompt: promptRequest?.promptSpec?.generationPrompt ?? null,
+      promptPendingReason: promptRequest ? null
+        : s.visualSource === 'EXISTING_PRODUCT_ASSET'
+          ? 'Esta escena usa la fotografía real del producto -- no requiere generación, nunca se envía a Krea.'
+          : null,
+    });
+  });
+
+  sendJson(res, 200, {
+    status: 'READY',
+    scenes,
+    generationSettings: visualStrategy.generationSettings,
+    recommendedModel: visualStrategy.recommendedModel,
+    selectedModel: visualStrategy.selectedModel,
+    selectionMode: visualStrategy.selectionMode,
+    assetRequirements: visualStrategy.assetRequirements,
+    visualIntent: visualStrategy.visualIntent,
+  });
 }
 
 export async function handleProduceCreative(req, res) {

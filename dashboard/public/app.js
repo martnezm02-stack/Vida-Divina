@@ -205,6 +205,12 @@ function updateCreateProductBodyVisibility() {
 // flujo de instrucción directa (runDirectStructureProposal, abajo) como
 // las tarjetas de "Sugerir variantes" (más abajo) la reutilizan tal cual
 // -- nunca duplicada.
+// Etapa narrativa legible (Corrección "Hacer auditable la propuesta antes
+// de producir", 2026-08-28) -- scope de módulo, compartida entre el
+// resultado post-producción (productionJobStatusHtml) y la vista previa
+// pre-producción (visual-plan-preview, más abajo), nunca duplicada.
+const SECTION_TYPE_LABELS = { HOOK: 'Hook', STORY: 'Historia', PRODUCT: 'Producto', CTA: 'Llamado a la acción' };
+
 function productionJobStatusHtml(job) {
   if (job.status === 'FAILED' && !job.scenePlan) {
     return `<div class="result-status VALIDATION_FAILED">${job.status}</div><p>${job.error}</p>`;
@@ -299,7 +305,6 @@ function productionJobStatusHtml(job) {
   // del encargo): Etapa/Objetivo/Acción/Encuadre reales, ya calculados por
   // Visual Scene Brief (job.scenePlan.scenes) -- nunca reconstruido aquí,
   // solo leído y presentado en un <details> colapsable.
-  const SECTION_TYPE_LABELS = { HOOK: 'Hook', STORY: 'Historia', PRODUCT: 'Producto', CTA: 'Llamado a la acción' };
   const scenePlanHtml = (job.scenePlan?.scenes ?? []).length
     ? `<details class="scene-prompt-detail">
         <summary><strong>Ver plan visual</strong> (${job.scenePlan.scenes.length} escena(s) real(es))</summary>
@@ -1056,6 +1061,7 @@ if (generateVariantsBtn) {
   let currentVariants = [];
   let currentDiversity = null;
   let selectedIndex = null;
+  let currentUserInstruction = null;
 
   function qualityBadgeHtml(status) {
     return status === 'ACCEPTED'
@@ -1124,13 +1130,23 @@ if (generateVariantsBtn) {
     `;
   }
 
+  // Creative Review completa (Paso 10/22 del encargo "Hacer auditable la
+  // propuesta antes de producir"): ángulo/hook/estructura/claims/visual
+  // intent/modelo/calidad/producto -- todo YA calculado por
+  // propose-direct-variants (nunca recalculado aquí) -- para que el
+  // usuario pueda responder "¿qué va a producir Vida Divina?" antes de
+  // gastar recursos reales.
   function productionPreviewHtml(v, index) {
+    const claims = v.relevantClaims;
+    const claimsText = claims ? [...(claims.core ?? []), ...(claims.supporting ?? [])].join(' · ') || '—' : '—';
     return `
       <div class="panel" id="variant-production-preview">
-        <h4>Producir variante ${index + 1}</h4>
+        <h4>Revisar antes de producir — Variante ${index + 1}</h4>
         <div class="variant-field"><strong>Ángulo</strong>${v.primaryAngle?.label ?? '—'}</div>
         <div class="variant-field"><strong>Hook</strong>"${v.hook}"</div>
         <div class="variant-field"><strong>Estructura</strong>${v.structureLabel ?? '—'}</div>
+        <div class="variant-field"><strong>Claims principales</strong>${claimsText}</div>
+        <div class="variant-field"><strong>Visual Intent</strong>${v.visualIntent ?? '—'}</div>
         <div class="variant-field"><strong>Formato</strong>Instagram Reel + Instagram Feed</div>
         ${productBadgeHtml(v.productAssetAvailable)}
         <div class="model-recommendation" data-variant-index="0">
@@ -1138,10 +1154,57 @@ if (generateVariantsBtn) {
           <button type="button" class="btn-link btn-change-model hidden" data-variant-index="0">Cambiar modelo</button>
           <select class="model-select hidden" data-variant-index="0"></select>
         </div>
+        <details class="scene-prompt-detail">
+          <summary><strong>Ver plan visual</strong></summary>
+          <div class="visual-plan-scenes"><p class="placeholder">Calculando plan visual…</p></div>
+        </details>
+        <details class="scene-prompt-detail">
+          <summary><strong>Ver prompts</strong></summary>
+          <div class="visual-plan-prompts"><p class="placeholder">Calculando prompts…</p></div>
+        </details>
         <button type="button" class="btn-primary btn-produce-variant">PRODUCIR →</button>
         <div class="production-status hidden"></div>
       </div>
     `;
+  }
+
+  // Plan visual + Prompts (Paso 2/3/4/5/11/12 del encargo): SOLO lectura
+  // real de /api/create/visual-plan-preview -- GET, nunca llama a Krea
+  // (esa vista previa reusa la MISMA secuencia real de produceCreative()
+  // hasta Creative Director, deteniéndose ANTES de Asset Resolver). Nunca
+  // reconstruye generatedPrompt en frontend: es el mismo string real que
+  // luego usará assetResolver.js.
+  async function renderVisualPlanPreview(previewEl, v) {
+    const scenesEl = previewEl.querySelector('.visual-plan-scenes');
+    const promptsEl = previewEl.querySelector('.visual-plan-prompts');
+    try {
+      const uiq = currentUserInstruction ? `&userInstruction=${encodeURIComponent(currentUserInstruction)}` : '';
+      const plan = await api(`/api/create/visual-plan-preview?batchId=${v.batchId}&variantIndex=0${uiq}`);
+      if (plan.status !== 'READY' || !plan.scenes?.length) {
+        scenesEl.innerHTML = `<p class="placeholder">${plan.reason ?? 'Plan visual no disponible todavía.'}</p>`;
+        promptsEl.innerHTML = '<p class="placeholder">Sin prompts todavía.</p>';
+        return;
+      }
+      scenesEl.innerHTML = plan.scenes.map((s, i) => `
+        <div class="variant-field"><strong>Escena ${i + 1} — ${SECTION_TYPE_LABELS[s.sectionType] ?? s.sectionType}</strong></div>
+        ${s.narrativePurpose ? `<div class="variant-field"><strong>Objetivo</strong>${s.narrativePurpose}</div>` : ''}
+        ${s.action ? `<div class="variant-field"><strong>Acción</strong>${s.action}</div>` : ''}
+        ${s.emotionalState ? `<div class="variant-field"><strong>Estado emocional</strong>${s.emotionalState}</div>` : ''}
+        ${s.shotType ? `<div class="variant-field"><strong>Encuadre</strong>${s.shotType}${s.cameraAngle ? `, ángulo ${s.cameraAngle}` : ''}</div>` : ''}
+        <div class="variant-field"><strong>Producto</strong>${s.requiresProduct ? 'Sí' : 'No'}</div>
+      `).join('<hr>');
+      promptsEl.innerHTML = plan.scenes.map((s, i) => `
+        <div class="variant-field"><strong>Escena ${i + 1} — ${SECTION_TYPE_LABELS[s.sectionType] ?? s.sectionType}</strong></div>
+        ${s.generatedPrompt
+          ? `<pre class="scene-prompt-text">${s.generatedPrompt}</pre>
+             <button type="button" class="btn-link btn-copy-prompt" data-prompt="${s.generatedPrompt.replace(/"/g, '&quot;')}">Copiar prompt</button>`
+          : `<p class="placeholder">Prompt todavía no generado.${s.promptPendingReason ? ` ${s.promptPendingReason}` : ''}</p>`}
+      `).join('<hr>');
+      attachPromptCopyHandlers(promptsEl);
+    } catch {
+      scenesEl.innerHTML = '<p class="placeholder">No se pudo calcular el plan visual todavía.</p>';
+      promptsEl.innerHTML = '<p class="placeholder">No se pudieron calcular los prompts todavía.</p>';
+    }
   }
 
   // Modelo Sugerido + Selección Manual (Paso 14 del encargo): mismo
@@ -1158,12 +1221,21 @@ if (generateVariantsBtn) {
     workspace.insertAdjacentHTML('beforeend', productionPreviewHtml(v, selectedIndex));
     const previewEl = workspace.querySelector('#variant-production-preview');
 
+    // Plan visual + Prompts (Paso 1/6/7 del encargo): se calculan de una
+    // vez al mostrar la revisión de ESTA variante seleccionada -- lectura
+    // real, nunca llama a Krea (ver renderVisualPlanPreview arriba). Si el
+    // usuario cambia de variante, renderProductionPreview() se vuelve a
+    // llamar desde cero (el panel anterior se elimina primero, arriba) --
+    // nunca mezcla el plan visual/prompts de una variante con otra.
+    renderVisualPlanPreview(previewEl, v);
+
     const widget = previewEl.querySelector('.model-recommendation');
     const labelEl = widget.querySelector('.model-suggestion-label');
     const changeBtn = widget.querySelector('.btn-change-model');
     const selectEl = widget.querySelector('.model-select');
     try {
-      const rec = await api(`/api/create/model-recommendation?batchId=${v.batchId}&variantIndex=0`);
+      const uiq = currentUserInstruction ? `&userInstruction=${encodeURIComponent(currentUserInstruction)}` : '';
+      const rec = await api(`/api/create/model-recommendation?batchId=${v.batchId}&variantIndex=0${uiq}`);
       if (rec.recommendedModel) {
         labelEl.innerHTML = `Modelo sugerido: <strong>${rec.recommendedModel.displayName} ✓</strong><br><span class="meta">${rec.recommendedModel.shortComment ?? ''} — ${rec.recommendationReason ?? ''}</span>`;
         selectEl.innerHTML = rec.availableModels.map((m) => `<option value="${m.id}"${m.id === rec.recommendedModel.id ? ' selected' : ''}>${m.displayName} — ${m.costTierLabel}</option>`).join('');
@@ -1257,6 +1329,7 @@ if (generateVariantsBtn) {
       currentVariants = result.variants;
       currentDiversity = { diversityScore: result.diversityScore, ...result.diversityDetail };
       selectedIndex = null;
+      currentUserInstruction = rawText;
       renderVariantsWorkspace();
     } catch (err) {
       workspace.innerHTML = `<div class="result-status VALIDATION_FAILED">ERROR</div><p>${err.message}</p>`;
