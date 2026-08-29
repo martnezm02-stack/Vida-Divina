@@ -10,6 +10,8 @@ import { listProductsWithAssets, getProduct } from '../lib/productCatalog.js';
 import { listCampaigns, listFinalOutputsWithLineage } from '../lib/productionLibrary.js';
 import { isDeletableFinalOutputPath, findAssetDependents, deleteFinalOutputAsset } from '../lib/assetDeletion.js';
 import { listExistingAudioAssets, isVoiceEngineReachable } from '../lib/voiceEngineClient.js';
+import { classifyFinalOutputs, classifyRawAsset, classifyAudioAsset } from '../lib/assetClassification.js';
+import { setArchived } from '../lib/assetOverrideStore.js';
 import { OUTPUT_PROFILES, OUTPUT_PROFILE_NAMES } from '../../../content-orchestrator/src/outputProfiles.js';
 import { SUPPORTED_OPERATIONS, SIMPLE_OPERATIONS, COMPLEX_OPERATIONS, UNSUPPORTED_LOCAL_OPERATIONS } from '../../../content-orchestrator/src/postProduction.js';
 import { assertAssetEntryIntegrity } from '../../../content-orchestrator/src/productIntegrity.js';
@@ -39,20 +41,50 @@ export async function handleProduct(req, res, slug) {
   sendJson(res, 200, { ...product, rawAssets: rawAssetsConIntegridad });
 }
 
+/**
+ * Corrección "Normalizar Asset Registry y Dashboard Assets" (2026-08-29):
+ * la categoría plana RAW/EDITED/GENERATED/FINAL (Paso 4/20 del encargo: un
+ * render que termina NO es "aprobado" solo por terminar) se reemplaza por
+ * clasificación real vía assetClassification.js -- misma fuente de datos de
+ * siempre (listProductsWithAssets/listFinalOutputsWithLineage/
+ * listExistingAudioAssets), ningún Asset Registry paralelo.
+ */
 export async function handleAssets(req, res) {
   const productos = listProductsWithAssets();
-  const rawAssets = productos.flatMap((p) => p.rawAssets.map((a) => ({ ...a, category: 'RAW', productSlug: p.productSlug })));
-  const finalOutputs = listFinalOutputsWithLineage().map((o) => ({
-    category: o.lineage ? (o.lineage.operation?.startsWith('ADAPT') ? 'FINAL' : o.lineage.operation?.startsWith('EDIT') ? 'EDITED' : o.lineage.operation === 'HYPERFRAMES_RENDER' ? 'GENERATED' : 'FINAL') : 'FINAL',
+  const rawAssets = productos.flatMap((p) => p.rawAssets.map((a) => classifyRawAsset({ ...a, productSlug: p.productSlug }, p.factsAvailable ? p.nombreVisible : null)));
+  const finalOutputs = classifyFinalOutputs(listFinalOutputsWithLineage()).map((o) => ({
+    ...o,
     assetId: o.lineage?.derivedAssetId ?? null,
-    filename: o.filename,
     sourcePath: o.path,
     mediaUrl: toMediaUrl(o.path),
-    fileSizeBytes: o.fileSizeBytes,
-    modifiedAt: o.modifiedAt,
-    lineage: o.lineage,
   }));
-  sendJson(res, 200, { rawAssets, finalOutputs });
+  const audioAssetsRaw = await listExistingAudioAssets();
+  const audioAssets = audioAssetsRaw.map((a) => classifyAudioAsset({ ...a, sourcePath: a.path, mediaUrl: toMediaUrl(a.path) }));
+  sendJson(res, 200, { rawAssets, finalOutputs, audioAssets });
+}
+
+/**
+ * ARCHIVE (POST /api/assets/archive, body {sourcePath, archived}) --
+ * metadata pura (Paso 21/29 del encargo): nunca borra ni mueve el archivo
+ * físico, solo recuerda que el usuario lo marcó ARCHIVED/no-ARCHIVED. Misma
+ * restricción de raíz que la eliminación real (video-production/, nunca las
+ * fotografías RAW de catálogo).
+ */
+export async function handleArchiveAsset(req, res) {
+  let body;
+  try { body = await readJsonBody(req); } catch (err) { badRequest(res, err.message); return; }
+  const { sourcePath, archived } = body;
+  if (!sourcePath?.trim()) { badRequest(res, 'assets/archive: "sourcePath" es obligatorio.'); return; }
+
+  const real = resolveSafeMediaPath(sourcePath);
+  if (!real) { notFound(res, 'Archivo no encontrado o fuera de las raíces permitidas.'); return; }
+  if (!isDeletableFinalOutputPath(real)) {
+    badRequest(res, 'assets/archive: solo Final Outputs/Audio Assets reales de video-production/ pueden archivarse desde aquí -- las fotografías RAW del catálogo de producto no se archivan.');
+    return;
+  }
+
+  const resultado = setArchived(real, Boolean(archived));
+  sendJson(res, 200, resultado);
 }
 
 /**

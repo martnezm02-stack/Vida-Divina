@@ -2012,33 +2012,78 @@ document.addEventListener('keydown', (e) => {
   modalAbierto.classList.add('hidden');
 });
 
-// ---------------- ASSETS (Content Library, Fase 14 Parte 19) ----------------
-let assetsCache = { rawAssets: [], finalOutputs: [] };
+// ---------------- ASSETS (Content Library, Fase 14 Parte 19; Corrección
+// "Normalizar Asset Registry y Dashboard Assets", 2026-08-29) --------------
+// Antes de esta corrección la tarjeta mostraba el nombre físico del archivo
+// (a veces un UUID) y una categoría plana FINAL/EDITED/GENERATED/RAW que
+// asumía "aprobado" solo porque el render había terminado. Ahora consume la
+// clasificación real ya calculada en el servidor (assetClassification.js):
+// displayName real (Producto — concepto — formato — versión, o null si
+// falta un dato real -- nunca inventado), origin (PRODUCCIÓN/PRUEBA/
+// CATÁLOGO/SISTEMA/Origen desconocido) y assetStatus real. El UUID/ruta
+// técnica sigue existiendo, pero solo dentro de "Ver detalles técnicos".
+let assetsCache = { rawAssets: [], finalOutputs: [], audioAssets: [] };
 
-function rawAssetCard(a) {
-  return `<div class="asset-card" data-status="RAW">
-    <img src="/media/assets-products/${encodeURIComponent(a.productSlug)}/raw/${encodeURIComponent(a.originalFilename)}" alt="${a.originalFilename}" />
-    <div class="body">
-      <div class="filename">${a.originalFilename}</div>
-      <span class="tag RAW">RAW</span>
-      <div class="meta" style="font-size:11px;color:#6b654f;margin-top:4px;">${a.productId} · ${a.width ?? '?'}×${a.height ?? '?'}</div>
-    </div>
-  </div>`;
+const ASSET_ORIGIN_LABELS = { PRODUCTION: 'PRODUCCIÓN', TEST: 'PRUEBA', CATALOG: 'CATÁLOGO', UPLOAD: 'SUBIDO', SYSTEM: 'SISTEMA', UNKNOWN: 'Origen desconocido' };
+const ASSET_STATUS_LABELS = { EDITING: 'EN EDICIÓN', GENERATED: 'GENERADO', FINAL_APPROVED: 'FINAL APROBADO', ARCHIVED: 'ARCHIVADO' };
+const ASSET_TYPE_LABELS = { VIDEO: 'VIDEO', PHOTO: 'FOTOGRAFÍA', AUDIO: 'AUDIO' };
+
+function allAssets() {
+  return [...assetsCache.rawAssets, ...assetsCache.finalOutputs, ...assetsCache.audioAssets];
 }
-const ASSET_CATEGORY_LABELS = { FINAL: 'Final aprobado', EDITED: 'En edición', GENERATED: 'Generado', RAW: 'RAW' };
 
-function outputAssetCard(o) {
-  const category = o.lineage ? (o.lineage.operation?.startsWith('ADAPT') ? 'FINAL' : o.lineage.operation?.startsWith('EDIT') ? 'EDITED' : 'GENERATED') : 'FINAL';
-  return `<div class="asset-card" data-status="${category}" data-format="${o.lineage?.outputProfileName ?? ''}" data-modified="${o.modifiedAt}" data-source-path="${o.sourcePath}">
-    <div class="body">
-      <div class="filename">${o.filename}</div>
-      <span class="tag ${category}">${ASSET_CATEGORY_LABELS[category] ?? category}</span>
-      ${o.lineage?.outputProfileName ? `<span class="tag" style="background:var(--cream-3);color:var(--soft-black);">${o.lineage.outputProfileName}</span>` : ''}
-      <div class="meta" style="font-size:11px;color:#6b654f;margin-top:4px;">${(o.fileSizeBytes / 1024 / 1024).toFixed(1)} MB · ${new Date(o.modifiedAt).toLocaleString()}</div>
-      <div style="margin-top:6px;display:flex;gap:6px;flex-wrap:wrap;">
-        ${o.mediaUrl ? `<button class="btn-secondary" data-preview="${o.mediaUrl}" data-preview-source="${o.sourcePath}">VER</button>` : ''}
-        <button class="btn-secondary" data-action="delete-asset" data-final="${category === 'FINAL'}">Eliminar</button>
+function assetOriginTagStyle(origin) {
+  if (origin === 'TEST') return 'background:#f2c94c;color:#3a2e00;';
+  if (origin === 'UNKNOWN') return 'background:var(--cream-3);color:#6b654f;';
+  return 'background:var(--olive);color:#fff;';
+}
+
+/** Tarjeta única real para cualquier asset ya clasificado (foto/video/audio) -- Paso 14 del encargo. */
+function assetCard(a) {
+  const title = a.displayName ?? a.filename ?? a.originalFilename ?? '(sin nombre)';
+  const sourcePath = a.sourcePath ?? a.path;
+  const isArchived = a.assetStatus === 'ARCHIVED';
+  const canArchive = a.origin !== 'CATALOG';
+  const fecha = a.modifiedAt ? new Date(a.modifiedAt).toLocaleDateString() : '';
+  const tamañoMB = a.fileSizeBytes ? `${(a.fileSizeBytes / 1024 / 1024).toFixed(1)} MB` : '';
+
+  const preview = a.assetType === 'PHOTO'
+    ? `<img src="/media/assets-products/${encodeURIComponent(a.productSlug)}/raw/${encodeURIComponent(a.originalFilename)}" alt="${title}" />`
+    : a.assetType === 'AUDIO' && a.mediaUrl
+      ? `<audio controls src="${a.mediaUrl}" style="width:100%;"></audio>`
+      : '';
+
+  const detalles = `
+    <details style="margin-top:6px;font-size:11px;color:#6b654f;">
+      <summary style="cursor:pointer;">Ver detalles técnicos</summary>
+      <div style="margin-top:4px;">
+        ${a.productionJobId ? `<div>ProductionJob: ${a.productionJobId}</div>` : ''}
+        ${a.projectId ? `<div>EditableProject: ${a.projectId}</div>` : ''}
+        ${a.batchId ? `<div>Batch: ${a.batchId}</div>` : ''}
+        ${a.assetId ? `<div>assetId: ${a.assetId}</div>` : ''}
+        <div>Ruta técnica: ${sourcePath ?? ''}</div>
+        ${a.originEvidence ? `<div>Evidencia de origen: ${a.originEvidence}</div>` : ''}
       </div>
+    </details>`;
+
+  return `<div class="asset-card" data-source-path="${sourcePath ?? ''}" data-asset-type="${a.assetType ?? ''}" data-origin="${a.origin ?? ''}" data-status="${a.assetStatus ?? ''}" data-project="${a.projectId ? '1' : '0'}" data-format="${a.lineage?.outputProfileName ?? ''}" data-modified="${a.modifiedAt ?? ''}">
+    ${preview}
+    <div class="body">
+      <div class="filename">${title}</div>
+      ${a.assetType === 'PHOTO' ? '<div class="tag" style="background:var(--cream-3);color:var(--soft-black);display:inline-block;margin:2px 4px 2px 0;">RAW / CATÁLOGO</div>' : ''}
+      <div style="margin-top:4px;display:flex;gap:4px;flex-wrap:wrap;">
+        <span class="tag" style="background:var(--cream-3);color:var(--soft-black);">${ASSET_TYPE_LABELS[a.assetType] ?? a.assetType ?? ''}</span>
+        ${a.assetStatus ? `<span class="tag ${a.assetStatus}">${ASSET_STATUS_LABELS[a.assetStatus] ?? a.assetStatus}</span>` : ''}
+        <span class="tag" style="${assetOriginTagStyle(a.origin)}">${ASSET_ORIGIN_LABELS[a.origin] ?? a.origin}</span>
+        ${a.versionNumber ? `<span class="tag" style="background:var(--cream-3);color:var(--soft-black);">V${a.versionNumber}</span>` : ''}
+      </div>
+      <div class="meta" style="font-size:11px;color:#6b654f;margin-top:4px;">${[tamañoMB, fecha].filter(Boolean).join(' · ')}</div>
+      <div style="margin-top:6px;display:flex;gap:6px;flex-wrap:wrap;">
+        ${a.mediaUrl && a.assetType === 'VIDEO' ? `<button class="btn-secondary" data-preview="${a.mediaUrl}" data-preview-source="${sourcePath}">VER</button>` : ''}
+        ${canArchive ? `<button class="btn-secondary" data-action="toggle-archive" data-archived="${isArchived}">${isArchived ? 'Desarchivar' : 'Archivar'}</button>` : ''}
+        ${canArchive ? `<button class="btn-secondary" data-action="delete-asset" data-final="${a.assetStatus === 'FINAL_APPROVED'}">Eliminar</button>` : ''}
+      </div>
+      ${detalles}
     </div>
   </div>`;
 }
@@ -2064,41 +2109,83 @@ async function deleteAssetWithConfirmation(sourcePath, isFinal) {
   }
 }
 
+/** ARCHIVE/UNARCHIVE (Paso 21/29 del encargo): metadata pura -- nunca borra ni mueve el archivo físico. */
+async function toggleArchiveAsset(sourcePath, currentlyArchived) {
+  try {
+    await api('/api/assets/archive', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ sourcePath, archived: !currentlyArchived }) });
+  } catch (err) {
+    alert(`No se pudo actualizar el estado de archivado: ${err.message}`);
+  } finally {
+    loadAssets();
+  }
+}
+
 async function loadAssets() {
   const el = $('#assets-list');
   el.innerHTML = '<p class="placeholder">Cargando…</p>';
   assetsCache = await api('/api/assets');
+
+  // Paso 10 del encargo: "Solo mostrar filtros que tengan datos reales" --
+  // cada <option> se construye a partir de lo que realmente existe en la
+  // respuesta, nunca de una lista fija que podría no tener contenido real.
+  const todos = allAssets();
+  const typeSel = $('#assets-type-filter');
+  const tiposReales = [...new Set(todos.map((a) => a.assetType).filter(Boolean))];
+  typeSel.innerHTML = '<option value="">Todos</option>' + tiposReales.map((t) => `<option value="${t}">${ASSET_TYPE_LABELS[t] ?? t}</option>`).join('');
+
+  const viewSel = $('#assets-view-filter');
+  const vistasReales = [];
+  if (todos.some((a) => a.projectId)) vistasReales.push(['PROJECT', 'Proyectos (con versiones)']);
+  if (todos.some((a) => a.assetStatus === 'EDITING')) vistasReales.push(['EDITING', 'En edición']);
+  if (todos.some((a) => a.assetStatus === 'GENERATED')) vistasReales.push(['GENERATED', 'Generados']);
+  if (todos.some((a) => a.assetStatus === 'FINAL_APPROVED')) vistasReales.push(['FINAL_APPROVED', 'Aprobados']);
+  if (todos.some((a) => a.assetStatus === 'ARCHIVED')) vistasReales.push(['ARCHIVED', 'Archivados']);
+  if (todos.some((a) => a.origin === 'PRODUCTION')) vistasReales.push(['ORIGIN_PRODUCTION', 'Producción real']);
+  if (todos.some((a) => a.origin === 'TEST')) vistasReales.push(['ORIGIN_TEST', 'Pruebas']);
+  viewSel.innerHTML = '<option value="">Todos</option>' + vistasReales.map(([v, label]) => `<option value="${v}">${label}</option>`).join('');
+
   const formatSel = $('#assets-format-filter');
   const formats = [...new Set(assetsCache.finalOutputs.map((o) => o.lineage?.outputProfileName).filter(Boolean))];
   formatSel.innerHTML = '<option value="">Todos</option>' + formats.map((f) => `<option value="${f}">${f}</option>`).join('');
+
   renderAssetsList();
 }
 
 function renderAssetsList() {
   const el = $('#assets-list');
-  const status = $('#assets-status-filter').value;
+  const type = $('#assets-type-filter').value;
+  const view = $('#assets-view-filter').value;
   const format = $('#assets-format-filter').value;
   const sinceDate = $('#assets-date-filter').value;
 
-  let rawCards = status && status !== 'RAW' ? '' : assetsCache.rawAssets.map(rawAssetCard).join('');
-  let finalOutputs = assetsCache.finalOutputs;
-  if (status && status !== 'RAW') finalOutputs = finalOutputs.filter((o) => {
-    const category = o.lineage ? (o.lineage.operation?.startsWith('ADAPT') ? 'FINAL' : o.lineage.operation?.startsWith('EDIT') ? 'EDITED' : 'GENERATED') : 'FINAL';
-    return category === status;
-  });
-  if (status === 'RAW') finalOutputs = [];
-  if (format) finalOutputs = finalOutputs.filter((o) => o.lineage?.outputProfileName === format);
-  if (sinceDate) finalOutputs = finalOutputs.filter((o) => new Date(o.modifiedAt) >= new Date(sinceDate));
-  const outputCards = finalOutputs.map(outputAssetCard).join('');
+  let lista = allAssets();
+  // Vista principal (Paso 22): sin ningún filtro activo, no mezclar pruebas
+  // con producción -- se ocultan los ARCHIVED y las PRUEBA por defecto (se
+  // consultan explícitamente con los filtros dedicados, nunca se borran).
+  const sinFiltros = !type && !view && !format && !sinceDate;
+  if (sinFiltros) lista = lista.filter((a) => a.assetStatus !== 'ARCHIVED' && a.origin !== 'TEST');
 
-  el.innerHTML = rawCards + outputCards || '<p class="empty-state">Sin assets para este filtro.</p>';
+  if (type) lista = lista.filter((a) => a.assetType === type);
+  if (view === 'PROJECT') lista = lista.filter((a) => a.projectId);
+  else if (view === 'ORIGIN_PRODUCTION') lista = lista.filter((a) => a.origin === 'PRODUCTION');
+  else if (view === 'ORIGIN_TEST') lista = lista.filter((a) => a.origin === 'TEST');
+  else if (view) lista = lista.filter((a) => a.assetStatus === view);
+  if (format) lista = lista.filter((a) => a.lineage?.outputProfileName === format);
+  if (sinceDate) lista = lista.filter((a) => a.modifiedAt && new Date(a.modifiedAt) >= new Date(sinceDate));
+
+  el.innerHTML = lista.map(assetCard).join('') || '<p class="empty-state">Sin assets para este filtro.</p>';
   $$('[data-preview]', el).forEach((b) => b.addEventListener('click', () => openPreview(b.dataset.preview, b.dataset.previewSource)));
   $$('[data-action="delete-asset"]', el).forEach((b) => {
     const card = b.closest('[data-source-path]');
     b.addEventListener('click', () => deleteAssetWithConfirmation(card.dataset.sourcePath, b.dataset.final === 'true'));
   });
+  $$('[data-action="toggle-archive"]', el).forEach((b) => {
+    const card = b.closest('[data-source-path]');
+    b.addEventListener('click', () => toggleArchiveAsset(card.dataset.sourcePath, b.dataset.archived === 'true'));
+  });
 }
-$('#assets-status-filter')?.addEventListener('change', renderAssetsList);
+$('#assets-type-filter')?.addEventListener('change', renderAssetsList);
+$('#assets-view-filter')?.addEventListener('change', renderAssetsList);
 $('#assets-format-filter')?.addEventListener('change', renderAssetsList);
 $('#assets-date-filter')?.addEventListener('change', renderAssetsList);
 

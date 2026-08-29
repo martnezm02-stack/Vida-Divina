@@ -15,7 +15,7 @@ import { createReadStream, existsSync, statSync } from 'node:fs';
 import { extname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { sendJson, notFound, serverError } from './lib/http.js';
-import { handleProducts, handleProduct, handleAssets, handleDeleteAsset, handleCampaigns, handleOutputProfiles, handleOperations, handleAudioAssets, handlePreviewInfo } from './routes/library.js';
+import { handleProducts, handleProduct, handleAssets, handleDeleteAsset, handleArchiveAsset, handleCampaigns, handleOutputProfiles, handleOperations, handleAudioAssets, handlePreviewInfo } from './routes/library.js';
 import { handleCreate, handleEdit, handleAdapt, handleProposeCreative, handleProposeDirectCreative, handleProposeDirectMultiVariant, handleRegenerateHook, handleSuggestHypothesisVariants, handleListHypothesisBatches, handleVideoScript, handleProposeCarousel, handleCreateCarousel, handlePublishTargets, handlePublish, handleProduceCreative, handleProduceCreativeStart, handleProduceCreativeStatus, handleModelRecommendation, handleStructureRecommendation, handleVisualPlanPreview } from './routes/generation.js';
 import { handleMedia } from './routes/media.js';
 import { handlePerformanceList, handlePerformanceAnalysis } from './routes/performance.js';
@@ -89,6 +89,7 @@ const server = http.createServer(async (req, res) => {
     if (productMatch && req.method === 'GET') { await handleProduct(req, res, productMatch[1]); return; }
     if (pathname === '/api/assets' && req.method === 'GET') { await handleAssets(req, res); return; }
     if (pathname === '/api/assets/delete' && req.method === 'POST') { await handleDeleteAsset(req, res); return; }
+    if (pathname === '/api/assets/archive' && req.method === 'POST') { await handleArchiveAsset(req, res); return; }
     if (pathname === '/api/campaigns' && req.method === 'GET') { await handleCampaigns(req, res); return; }
     if (pathname === '/api/output-profiles' && req.method === 'GET') { await handleOutputProfiles(req, res); return; }
     if (pathname === '/api/operations' && req.method === 'GET') { await handleOperations(req, res); return; }

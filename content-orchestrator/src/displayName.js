@@ -25,10 +25,13 @@ function humanizeOutputProfile(profileName) {
 
 // conceptId/angleId real (hypothesisCreativeEngine.js, ej. "problem_agitation",
 // "comparison") -- humanizado por formato, nunca reinterpretado ni inventado.
-function humanizeConceptId(conceptId) {
+// Exportado (Corrección "Normalizar Asset Registry", 2026-08-29) porque
+// campaignId real (ej. "venus-capsules") necesita el mismo formateo puramente
+// visual en la vista de Assets -- reutilizar en vez de duplicar la lógica.
+export function humanizeConceptId(conceptId) {
   if (!conceptId) return null;
   return String(conceptId)
-    .replace(/_/g, ' ')
+    .replace(/[_-]/g, ' ')
     .replace(/\b\w/g, (c) => c.toUpperCase());
 }
 

@@ -254,8 +254,9 @@ main#app { max-width: 1180px; margin: 0 auto; padding: 40px 32px 80px; }
 .tag { display: inline-block; font-size: 10px; font-weight: 700; letter-spacing: 0.5px; padding: 2px 8px; border-radius: 999px; margin-top: 6px; margin-right: 4px; text-transform: uppercase; }
 .tag.RAW { background: #d9e3cf; color: var(--olive); }
 .tag.GENERATED { background: #e0d3b8; color: #7a5b12; }
-.tag.EDITED { background: #d8cfe0; color: #4a3563; }
-.tag.FINAL { background: var(--gold); color: var(--forest); }
+.tag.EDITED, .tag.EDITING { background: #d8cfe0; color: #4a3563; }
+.tag.FINAL, .tag.FINAL_APPROVED { background: var(--gold); color: var(--forest); }
+.tag.ARCHIVED { background: #d9d4c8; color: #6b654f; }
 .tag.integrity-ok { background: #d9e3cf; color: var(--olive); }
 .tag.integrity-violation { background: var(--burgundy); color: var(--cream); }
 

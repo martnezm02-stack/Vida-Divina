@@ -334,14 +334,11 @@
       <h2>Biblioteca de assets</h2>
       <p class="view-sub">Contenido listo para usar. Las fotografías de catálogo (RAW) no se pueden editar ni eliminar desde aquí.</p>
       <div class="filters-row" style="display:flex;gap:16px;flex-wrap:wrap;margin-bottom:16px;">
-        <label style="font-size:12px;font-weight:600;color:var(--olive);">Estado
-          <select id="assets-status-filter">
-            <option value="FINAL" selected>Finales aprobados</option>
-            <option value="EDITED">En edición</option>
-            <option value="GENERATED">Generados</option>
-            <option value="RAW">Fotografías de catálogo (RAW)</option>
-            <option value="">Todos</option>
-          </select>
+        <label style="font-size:12px;font-weight:600;color:var(--olive);">Tipo
+          <select id="assets-type-filter"><option value="">Todos</option></select>
+        </label>
+        <label style="font-size:12px;font-weight:600;color:var(--olive);">Vista
+          <select id="assets-view-filter"><option value="">Todos</option></select>
         </label>
         <label style="font-size:12px;font-weight:600;color:var(--olive);">Formato (Output Profile)
           <select id="assets-format-filter"><option value="">Todos</option></select>
