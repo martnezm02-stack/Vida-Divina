@@ -26,10 +26,20 @@ import { getBatch } from '../../../creative-intelligence/src/hypothesisBatchStor
 import { buildDisplayName, humanizeConceptId } from '../../../content-orchestrator/src/displayName.js';
 import * as scheduledPublicationStore from '../../../publishing-scheduler/src/scheduledPublicationStore.js';
 import { listArchivedPaths } from './assetOverrideStore.js';
+import { getWorkspaceStartedAt } from './workspaceStore.js';
 
 export const ASSET_TYPES = Object.freeze(['VIDEO', 'PHOTO', 'AUDIO']);
 export const ASSET_STATUSES = Object.freeze(['EDITING', 'GENERATED', 'FINAL_APPROVED', 'ARCHIVED']);
 export const ASSET_ORIGINS = Object.freeze(['PRODUCTION', 'TEST', 'CATALOG', 'UPLOAD', 'SYSTEM', 'UNKNOWN']);
+// Corrección "Nueva Biblioteca de Producción Activa" (2026-08-29). ACTIVE/
+// LEGACY/ARCHIVED son las únicas 3 "ubicaciones" reales en la biblioteca
+// (Paso 2/3 del encargo) -- CATALOG/SYSTEM (fotografías de catálogo, Audio
+// Assets reutilizables) quedan fuera de este reparto por diseño (Paso 32:
+// "sin contaminar Producción Activa"), con visibilityScope null. TEST y
+// UNKNOWN siguen viviendo en `origin` como ya existía -- ambos caen dentro
+// de visibilityScope LEGACY (Paso 12/13 del encargo), nunca en su propio
+// scope: origin dice QUÉ es, visibilityScope dice DÓNDE vive en la biblioteca.
+export const VISIBILITY_SCOPES = Object.freeze(['ACTIVE', 'LEGACY', 'ARCHIVED']);
 
 function norm(p) {
   return p ? String(p).toLowerCase() : p;
@@ -87,6 +97,10 @@ function buildPathIndex() {
       nombreVisible: batch?.product?.nombreVisible ?? null,
       nombreComercial: batch?.product?.nombreComercial ?? null,
       versionNumber: 1,
+      // createdAt real del ProductionJob (guardado por saveProductionJob(),
+      // nunca el mtime del archivo físico) -- fuente real para comparar
+      // contra productionWorkspaceStartedAt (Paso 4/6 del encargo).
+      createdAt: record.createdAt ?? null,
       origin: esPrueba ? 'TEST' : 'PRODUCTION',
       originEvidence: esPrueba
         ? 'batchId/ruta con literal "real-e2e" (script E2E auto-declarado).'
@@ -131,12 +145,16 @@ function buildPathIndex() {
     for (const version of project.versions ?? []) {
       const versionNumber = version.versionNumber ?? null;
       const conceptId = jobOriginal?.conceptId ?? null;
+      // createdAt real de ESTA versión (nunca el createdAt del proyecto
+      // completo ni el del job original) -- una v2/v3 real generada después
+      // del reset debe poder ser ACTIVE aunque su v1 sea LEGACY.
+      const versionBase = { ...base, versionNumber, createdAt: version.createdAt ?? base.createdAt };
       if (version.masterPath) {
         const dn = buildDisplayName({
-          nombreVisible: base.nombreVisible, nombreComercial: base.nombreComercial,
+          nombreVisible: versionBase.nombreVisible, nombreComercial: versionBase.nombreComercial,
           conceptId, angleId: null, outputProfileName: null, versionNumber,
         });
-        index.set(norm(version.masterPath), { ...base, versionNumber, outputProfileName: null, ...dn });
+        index.set(norm(version.masterPath), { ...versionBase, outputProfileName: null, ...dn });
       }
       for (const o of version.outputs ?? []) {
         if (!o.outputPath) continue;
@@ -145,12 +163,12 @@ function buildPathIndex() {
         // solo se calcula aquí cuando la versión es anterior a esa mejora
         // (v1, que nunca pasó por handleRenderProject).
         const displayName = o.displayName ?? buildDisplayName({
-          nombreVisible: base.nombreVisible, nombreComercial: base.nombreComercial,
+          nombreVisible: versionBase.nombreVisible, nombreComercial: versionBase.nombreComercial,
           conceptId, angleId: null, outputProfileName: o.profileName, versionNumber,
         }).displayName;
         const displayFilename = o.displayFilename ?? null;
         index.set(norm(o.outputPath), {
-          ...base, versionNumber, outputProfileName: o.profileName ?? null, displayName, displayFilename,
+          ...versionBase, outputProfileName: o.profileName ?? null, displayName, displayFilename,
         });
       }
     }
@@ -178,6 +196,26 @@ export function computeAssetStatus({ sourcePath, lineage, approvedPaths, archive
 }
 
 /**
+ * ACTIVE/LEGACY/ARCHIVED real (Paso 8/9/10/11/12/13/14 del encargo):
+ *   - ARCHIVED SIEMPRE gana -- un archivado nunca vuelve a aparecer en
+ *     ACTIVE, sin importar origin/fecha (Paso 14/28).
+ *   - ACTIVE exige LAS TRES cosas a la vez: origin=PRODUCTION real (Paso 9:
+ *     no basta con production), createdAt real >= productionWorkspaceStartedAt
+ *     real (Paso 4/6), y que exista workspace iniciado (sin reset, nada es
+ *     ACTIVE todavía -- Paso 34).
+ *   - Todo lo demás (PRODUCTION antiguo, TEST, UNKNOWN) cae en LEGACY (Paso
+ *     11/12/13) -- nunca se borra, solo cambia dónde vive en la biblioteca.
+ * assetStatus (GENERATED/EDITING/etc.) NUNCA decide esto por sí solo (Paso 8).
+ */
+export function computeVisibilityScope({ origin, assetStatus, createdAt, workspaceStartedAt }) {
+  if (assetStatus === 'ARCHIVED') return 'ARCHIVED';
+  if (origin === 'PRODUCTION' && workspaceStartedAt && createdAt && new Date(createdAt) >= new Date(workspaceStartedAt)) {
+    return 'ACTIVE';
+  }
+  return 'LEGACY';
+}
+
+/**
  * Enriquece la lista real de Final Outputs (video-production/*.mp4 ya
  * encontrados por productionLibrary.js#listFinalOutputsWithLineage) con
  * clasificación real -- nunca agrega ni quita ningún archivo de la lista.
@@ -186,15 +224,18 @@ export function classifyFinalOutputs(finalOutputs) {
   const index = buildPathIndex();
   const approvedPaths = buildApprovedPathSet();
   const archivedPaths = listArchivedPaths();
+  const workspaceStartedAt = getWorkspaceStartedAt();
 
   return finalOutputs.map((o) => {
     const meta = index.get(norm(o.path)) ?? null;
     const assetStatus = computeAssetStatus({ sourcePath: o.path, lineage: o.lineage, approvedPaths, archivedPaths });
+    const origin = meta?.origin ?? 'UNKNOWN';
+    const createdAt = meta?.createdAt ?? null;
     return {
       ...o,
       assetType: 'VIDEO',
       assetStatus,
-      origin: meta?.origin ?? 'UNKNOWN',
+      origin,
       originEvidence: meta?.originEvidence ?? 'Sin ProductionJob/EditableVideoProject real asociado a este archivo -- no se puede determinar con evidencia objetiva.',
       productId: meta?.productId ?? null,
       nombreVisible: meta?.nombreVisible ?? null,
@@ -207,6 +248,8 @@ export function classifyFinalOutputs(finalOutputs) {
       displayName: meta?.displayName ?? null,
       displayFilename: meta?.displayFilename ?? null,
       lineageOperation: o.lineage?.operation ?? null,
+      createdAt,
+      visibilityScope: computeVisibilityScope({ origin, assetStatus, createdAt, workspaceStartedAt }),
     };
   });
 }
@@ -222,18 +265,27 @@ export function classifyRawAsset(rawAsset, nombreVisible = null) {
     originEvidence: 'Fotografía RAW real del catálogo de producto (assets/products/) -- nunca generada por el sistema.',
     nombreVisible,
     displayName: nombreVisible ? `${nombreVisible} — Fotografía de producto` : null,
+    // Paso 32 del encargo: el catálogo queda fuera del reparto ACTIVE/
+    // LEGACY/ARCHIVED por diseño -- nunca "contamina" Producción Activa,
+    // pero tampoco es un histórico de producción real.
+    visibilityScope: null,
   };
 }
 
 /** Metadata real para los Audio Assets reutilizables de _audio-cache/ -- origin SYSTEM (recurso compartido entre producciones, no atado a un único ProductionJob). */
 export function classifyAudioAsset(audioAsset) {
   const archivedPaths = listArchivedPaths();
+  const assetStatus = archivedPaths.has(norm(audioAsset.path)) ? 'ARCHIVED' : 'GENERATED';
   return {
     ...audioAsset,
     assetType: 'AUDIO',
-    assetStatus: archivedPaths.has(norm(audioAsset.path)) ? 'ARCHIVED' : 'GENERATED',
+    assetStatus,
     origin: 'SYSTEM',
     originEvidence: 'Audio Asset real curado en video-production/_audio-cache/ -- reutilizable entre producciones, no exclusivo de un ProductionJob.',
     displayName: audioAsset.filename ?? null,
+    // Mismo criterio que CATALOG (Paso 32): un Audio Asset reutilizable no
+    // pertenece a UNA producción -- fuera del reparto ACTIVE/LEGACY, salvo
+    // que el usuario lo archive explícitamente (Paso 14/28: ARCHIVED gana).
+    visibilityScope: assetStatus === 'ARCHIVED' ? 'ARCHIVED' : null,
   };
 }

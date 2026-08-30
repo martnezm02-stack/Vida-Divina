@@ -2013,24 +2013,94 @@ document.addEventListener('keydown', (e) => {
 });
 
 // ---------------- ASSETS (Content Library, Fase 14 Parte 19; Corrección
-// "Normalizar Asset Registry y Dashboard Assets", 2026-08-29) --------------
+// "Normalizar Asset Registry y Dashboard Assets" + "Nueva Biblioteca de
+// Producción Activa", 2026-08-29) ------------------------------------------
 // Antes de esta corrección la tarjeta mostraba el nombre físico del archivo
 // (a veces un UUID) y una categoría plana FINAL/EDITED/GENERATED/RAW que
 // asumía "aprobado" solo porque el render había terminado. Ahora consume la
 // clasificación real ya calculada en el servidor (assetClassification.js):
 // displayName real (Producto — concepto — formato — versión, o null si
 // falta un dato real -- nunca inventado), origin (PRODUCCIÓN/PRUEBA/
-// CATÁLOGO/SISTEMA/Origen desconocido) y assetStatus real. El UUID/ruta
-// técnica sigue existiendo, pero solo dentro de "Ver detalles técnicos".
+// CATÁLOGO/SISTEMA/Origen desconocido), assetStatus real y visibilityScope
+// (ACTIVE/LEGACY/ARCHIVED) -- la vista abre en PRODUCCIÓN ACTIVA y nunca
+// borra nada; lo histórico sigue accesible vía HISTÓRICO/PRUEBAS/TODOS. El
+// UUID/ruta técnica sigue existiendo, pero solo dentro de "Ver detalles".
 let assetsCache = { rawAssets: [], finalOutputs: [], audioAssets: [] };
+let workspaceCache = { productionWorkspaceStartedAt: null };
+let assetsScopeTab = 'ACTIVE';
 
 const ASSET_ORIGIN_LABELS = { PRODUCTION: 'PRODUCCIÓN', TEST: 'PRUEBA', CATALOG: 'CATÁLOGO', UPLOAD: 'SUBIDO', SYSTEM: 'SISTEMA', UNKNOWN: 'Origen desconocido' };
 const ASSET_STATUS_LABELS = { EDITING: 'EN EDICIÓN', GENERATED: 'GENERADO', FINAL_APPROVED: 'FINAL APROBADO', ARCHIVED: 'ARCHIVADO' };
 const ASSET_TYPE_LABELS = { VIDEO: 'VIDEO', PHOTO: 'FOTOGRAFÍA', AUDIO: 'AUDIO' };
+const SCOPE_TABS = [
+  ['ACTIVE', 'PRODUCCIÓN ACTIVA'],
+  ['TEST', 'PRUEBAS'],
+  ['HISTORICAL', 'HISTÓRICO'],
+  ['ARCHIVED', 'ARCHIVADOS'],
+  ['ALL', 'TODOS'],
+];
 
 function allAssets() {
   return [...assetsCache.rawAssets, ...assetsCache.finalOutputs, ...assetsCache.audioAssets];
 }
+
+/** Paso 16/33 del encargo: PRODUCCIÓN ACTIVA/PRUEBAS/HISTÓRICO/ARCHIVADOS/TODOS -- abre en ACTIVA, nunca en TODOS. */
+function matchesScopeTab(a, tab) {
+  if (tab === 'ALL') return true;
+  if (tab === 'ACTIVE') return a.visibilityScope === 'ACTIVE';
+  if (tab === 'TEST') return a.origin === 'TEST';
+  if (tab === 'ARCHIVED') return a.visibilityScope === 'ARCHIVED';
+  if (tab === 'HISTORICAL') return a.visibilityScope === 'LEGACY' || a.visibilityScope === 'ARCHIVED';
+  return true;
+}
+
+function renderScopeTabs() {
+  const el = $('#assets-scope-tabs');
+  if (!el) return;
+  el.innerHTML = SCOPE_TABS.map(([value, label]) => `<button type="button" class="scope-tab${value === assetsScopeTab ? ' active' : ''}" data-scope="${value}">${label}</button>`).join('');
+  $$('[data-scope]', el).forEach((b) => b.addEventListener('click', () => {
+    assetsScopeTab = b.dataset.scope;
+    renderScopeTabs();
+    renderAssetsList();
+  }));
+}
+
+function formatWorkspaceDate(iso) {
+  return iso ? new Date(iso).toLocaleString() : '';
+}
+
+function renderWorkspaceStatusBar() {
+  const textEl = $('#workspace-status-text');
+  const btn = $('#workspace-reset-btn');
+  if (!textEl || !btn) return;
+  const startedAt = workspaceCache.productionWorkspaceStartedAt;
+  textEl.textContent = startedAt
+    ? `Biblioteca de producción iniciada el ${formatWorkspaceDate(startedAt)}.`
+    : 'Todavía no se ha iniciado una Biblioteca de Producción Activa -- todo el contenido aparece en HISTÓRICO hasta que la inicies.';
+  btn.textContent = startedAt ? 'INICIAR NUEVA BIBLIOTECA DE PRODUCCIÓN (reemplaza la actual)' : 'INICIAR NUEVA BIBLIOTECA DE PRODUCCIÓN';
+}
+
+/** Paso 17/18 del encargo: crea productionWorkspaceStartedAt = ahora -- NUNCA borra ni modifica ningún asset/job/proyecto. Protegido: si ya existe uno, exige una segunda confirmación explícita antes de reemplazarlo (force). */
+async function resetProductionWorkspace() {
+  const startedAt = workspaceCache.productionWorkspaceStartedAt;
+  if (startedAt) {
+    const ok = confirm(`Ya existe una Biblioteca de Producción Activa iniciada el ${formatWorkspaceDate(startedAt)}.\n\n¿Reemplazarla por una nueva a partir de ahora?\n\nEsto NO borra ni modifica ningún asset/job/proyecto -- solo mueve lo que se considera "activo" hacia HISTÓRICO.`);
+    if (!ok) return;
+  } else if (!confirm('¿Iniciar la Biblioteca de Producción Activa a partir de ahora?\n\nTodo lo generado ANTES seguirá existiendo intacto, solo pasará a verse en HISTÓRICO por defecto.')) {
+    return;
+  }
+  try {
+    const result = await api('/api/workspace/reset', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ force: Boolean(startedAt) }) });
+    workspaceCache = result;
+    renderWorkspaceStatusBar();
+    assetsScopeTab = 'ACTIVE';
+    renderScopeTabs();
+    await loadAssets();
+  } catch (err) {
+    alert(`No se pudo iniciar la Biblioteca de Producción Activa: ${err.message}`);
+  }
+}
+$('#workspace-reset-btn')?.addEventListener('click', resetProductionWorkspace);
 
 function assetOriginTagStyle(origin) {
   if (origin === 'TEST') return 'background:#f2c94c;color:#3a2e00;';
@@ -2053,10 +2123,16 @@ function assetCard(a) {
       ? `<audio controls src="${a.mediaUrl}" style="width:100%;"></audio>`
       : '';
 
+  // Paso 19 del encargo: Creado / Workspace (ACTIVO/HISTÓRICO) / Origen / Estado, dentro de Detalles -- nunca como nombre principal.
+  const workspaceLabel = a.visibilityScope === 'ACTIVE' ? 'ACTIVO' : a.visibilityScope === 'ARCHIVED' ? 'ARCHIVADO' : a.visibilityScope === 'LEGACY' ? 'HISTÓRICO' : '—';
   const detalles = `
     <details style="margin-top:6px;font-size:11px;color:#6b654f;">
       <summary style="cursor:pointer;">Ver detalles técnicos</summary>
       <div style="margin-top:4px;">
+        <div>Creado: ${a.createdAt ? formatWorkspaceDate(a.createdAt) : (a.modifiedAt ? formatWorkspaceDate(a.modifiedAt) : '—')}</div>
+        <div>Workspace: ${workspaceLabel}</div>
+        <div>Origen: ${ASSET_ORIGIN_LABELS[a.origin] ?? a.origin ?? '—'}</div>
+        <div>Estado: ${a.assetStatus ? (ASSET_STATUS_LABELS[a.assetStatus] ?? a.assetStatus) : '—'}</div>
         ${a.productionJobId ? `<div>ProductionJob: ${a.productionJobId}</div>` : ''}
         ${a.projectId ? `<div>EditableProject: ${a.projectId}</div>` : ''}
         ${a.batchId ? `<div>Batch: ${a.batchId}</div>` : ''}
@@ -2123,7 +2199,9 @@ async function toggleArchiveAsset(sourcePath, currentlyArchived) {
 async function loadAssets() {
   const el = $('#assets-list');
   el.innerHTML = '<p class="placeholder">Cargando…</p>';
-  assetsCache = await api('/api/assets');
+  [assetsCache, workspaceCache] = await Promise.all([api('/api/assets'), api('/api/workspace')]);
+  renderWorkspaceStatusBar();
+  renderScopeTabs();
 
   // Paso 10 del encargo: "Solo mostrar filtros que tengan datos reales" --
   // cada <option> se construye a partir de lo que realmente existe en la
@@ -2133,17 +2211,6 @@ async function loadAssets() {
   const tiposReales = [...new Set(todos.map((a) => a.assetType).filter(Boolean))];
   typeSel.innerHTML = '<option value="">Todos</option>' + tiposReales.map((t) => `<option value="${t}">${ASSET_TYPE_LABELS[t] ?? t}</option>`).join('');
 
-  const viewSel = $('#assets-view-filter');
-  const vistasReales = [];
-  if (todos.some((a) => a.projectId)) vistasReales.push(['PROJECT', 'Proyectos (con versiones)']);
-  if (todos.some((a) => a.assetStatus === 'EDITING')) vistasReales.push(['EDITING', 'En edición']);
-  if (todos.some((a) => a.assetStatus === 'GENERATED')) vistasReales.push(['GENERATED', 'Generados']);
-  if (todos.some((a) => a.assetStatus === 'FINAL_APPROVED')) vistasReales.push(['FINAL_APPROVED', 'Aprobados']);
-  if (todos.some((a) => a.assetStatus === 'ARCHIVED')) vistasReales.push(['ARCHIVED', 'Archivados']);
-  if (todos.some((a) => a.origin === 'PRODUCTION')) vistasReales.push(['ORIGIN_PRODUCTION', 'Producción real']);
-  if (todos.some((a) => a.origin === 'TEST')) vistasReales.push(['ORIGIN_TEST', 'Pruebas']);
-  viewSel.innerHTML = '<option value="">Todos</option>' + vistasReales.map(([v, label]) => `<option value="${v}">${label}</option>`).join('');
-
   const formatSel = $('#assets-format-filter');
   const formats = [...new Set(assetsCache.finalOutputs.map((o) => o.lineage?.outputProfileName).filter(Boolean))];
   formatSel.innerHTML = '<option value="">Todos</option>' + formats.map((f) => `<option value="${f}">${f}</option>`).join('');
@@ -2151,29 +2218,47 @@ async function loadAssets() {
   renderAssetsList();
 }
 
+/** Paso 22 del encargo: en ACTIVE, agrupar Producto → Campaña → Versiones -- nunca una lista plana de UUIDs. */
+function renderActiveGrouped(lista) {
+  const grupos = new Map();
+  for (const a of lista) {
+    const key = `${a.nombreVisible ?? 'Producto sin nombre real'} — ${a.campaignLabel ?? a.campaignId ?? 'Sin campaña'}`;
+    if (!grupos.has(key)) grupos.set(key, []);
+    grupos.get(key).push(a);
+  }
+  return [...grupos.entries()].sort(([x], [y]) => x.localeCompare(y)).map(([titulo, items]) => {
+    items.sort((x, y) => (x.versionNumber ?? 0) - (y.versionNumber ?? 0));
+    return `<div class="asset-group" style="grid-column:1/-1;">
+      <h3 style="font-family:var(--font-display);font-size:16px;color:var(--forest);margin:20px 0 10px;">${titulo}</h3>
+      <div class="asset-grid">${items.map(assetCard).join('')}</div>
+    </div>`;
+  }).join('');
+}
+
 function renderAssetsList() {
   const el = $('#assets-list');
   const type = $('#assets-type-filter').value;
-  const view = $('#assets-view-filter').value;
   const format = $('#assets-format-filter').value;
   const sinceDate = $('#assets-date-filter').value;
 
-  let lista = allAssets();
-  // Vista principal (Paso 22): sin ningún filtro activo, no mezclar pruebas
-  // con producción -- se ocultan los ARCHIVED y las PRUEBA por defecto (se
-  // consultan explícitamente con los filtros dedicados, nunca se borran).
-  const sinFiltros = !type && !view && !format && !sinceDate;
-  if (sinFiltros) lista = lista.filter((a) => a.assetStatus !== 'ARCHIVED' && a.origin !== 'TEST');
-
+  let lista = allAssets().filter((a) => matchesScopeTab(a, assetsScopeTab));
   if (type) lista = lista.filter((a) => a.assetType === type);
-  if (view === 'PROJECT') lista = lista.filter((a) => a.projectId);
-  else if (view === 'ORIGIN_PRODUCTION') lista = lista.filter((a) => a.origin === 'PRODUCTION');
-  else if (view === 'ORIGIN_TEST') lista = lista.filter((a) => a.origin === 'TEST');
-  else if (view) lista = lista.filter((a) => a.assetStatus === view);
   if (format) lista = lista.filter((a) => a.lineage?.outputProfileName === format);
   if (sinceDate) lista = lista.filter((a) => a.modifiedAt && new Date(a.modifiedAt) >= new Date(sinceDate));
 
-  el.innerHTML = lista.map(assetCard).join('') || '<p class="empty-state">Sin assets para este filtro.</p>';
+  if (lista.length === 0) {
+    // Paso 34 del encargo: estado vacío específico para PRODUCCIÓN ACTIVA.
+    el.innerHTML = assetsScopeTab === 'ACTIVE'
+      ? `<p class="empty-state">No hay contenido de producción activa todavía. <button type="button" class="btn-secondary" data-scope="HISTORICAL" style="margin-left:8px;">Ver histórico</button></p>`
+      : '<p class="empty-state">Sin assets para este filtro.</p>';
+    $('[data-scope]', el)?.addEventListener('click', (e) => { assetsScopeTab = e.target.dataset.scope; renderScopeTabs(); renderAssetsList(); });
+    return;
+  }
+
+  // Paso 22 del encargo: agrupación Producto → Campaña → Versiones SOLO en
+  // ACTIVE (en las demás vistas el volumen histórico hace más útil la
+  // lista/tarjetas planas de siempre).
+  el.innerHTML = assetsScopeTab === 'ACTIVE' ? renderActiveGrouped(lista) : lista.map(assetCard).join('');
   $$('[data-preview]', el).forEach((b) => b.addEventListener('click', () => openPreview(b.dataset.preview, b.dataset.previewSource)));
   $$('[data-action="delete-asset"]', el).forEach((b) => {
     const card = b.closest('[data-source-path]');
@@ -2185,7 +2270,6 @@ function renderAssetsList() {
   });
 }
 $('#assets-type-filter')?.addEventListener('change', renderAssetsList);
-$('#assets-view-filter')?.addEventListener('change', renderAssetsList);
 $('#assets-format-filter')?.addEventListener('change', renderAssetsList);
 $('#assets-date-filter')?.addEventListener('change', renderAssetsList);
 

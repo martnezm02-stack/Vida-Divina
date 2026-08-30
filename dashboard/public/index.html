@@ -329,16 +329,22 @@
       </div>
     </section>
 
-    <!-- ASSETS (Content Library, Fase 14 Parte 19) -->
+    <!-- ASSETS (Content Library, Fase 14 Parte 19; Corrección "Nueva
+         Biblioteca de Producción Activa", 2026-08-29) -->
     <section class="view hidden" id="view-assets">
       <h2>Biblioteca de assets</h2>
       <p class="view-sub">Contenido listo para usar. Las fotografías de catálogo (RAW) no se pueden editar ni eliminar desde aquí.</p>
+
+      <div id="workspace-status-bar" class="panel" style="padding:14px 18px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;">
+        <div id="workspace-status-text" style="font-size:13px;color:#5c5646;">Verificando la Biblioteca de Producción Activa…</div>
+        <button type="button" class="btn-secondary" id="workspace-reset-btn">INICIAR NUEVA BIBLIOTECA DE PRODUCCIÓN</button>
+      </div>
+
+      <div class="filters-row" id="assets-scope-tabs" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;"></div>
+
       <div class="filters-row" style="display:flex;gap:16px;flex-wrap:wrap;margin-bottom:16px;">
         <label style="font-size:12px;font-weight:600;color:var(--olive);">Tipo
           <select id="assets-type-filter"><option value="">Todos</option></select>
-        </label>
-        <label style="font-size:12px;font-weight:600;color:var(--olive);">Vista
-          <select id="assets-view-filter"><option value="">Todos</option></select>
         </label>
         <label style="font-size:12px;font-weight:600;color:var(--olive);">Formato (Output Profile)
           <select id="assets-format-filter"><option value="">Todos</option></select>

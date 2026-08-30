@@ -12,6 +12,7 @@ import { isDeletableFinalOutputPath, findAssetDependents, deleteFinalOutputAsset
 import { listExistingAudioAssets, isVoiceEngineReachable } from '../lib/voiceEngineClient.js';
 import { classifyFinalOutputs, classifyRawAsset, classifyAudioAsset } from '../lib/assetClassification.js';
 import { setArchived } from '../lib/assetOverrideStore.js';
+import { getWorkspaceStartedAt, startNewProductionWorkspace, WorkspaceAlreadyStartedError } from '../lib/workspaceStore.js';
 import { OUTPUT_PROFILES, OUTPUT_PROFILE_NAMES } from '../../../content-orchestrator/src/outputProfiles.js';
 import { SUPPORTED_OPERATIONS, SIMPLE_OPERATIONS, COMPLEX_OPERATIONS, UNSUPPORTED_LOCAL_OPERATIONS } from '../../../content-orchestrator/src/postProduction.js';
 import { assertAssetEntryIntegrity } from '../../../content-orchestrator/src/productIntegrity.js';
@@ -117,6 +118,34 @@ export async function handleDeleteAsset(req, res) {
 
   const resultado = deleteFinalOutputAsset(real);
   sendJson(res, 200, resultado);
+}
+
+/**
+ * WORKSPACE (Corrección "Nueva Biblioteca de Producción Activa", 2026-08-29,
+ * Paso 4/17/18 del encargo). GET expone el punto de referencia real ya
+ * guardado (o null si nunca se inició); POST /reset lo crea -- protegido
+ * contra sobrescritura accidental (Paso 18): si ya existe y no se pasa
+ * `force`, responde 409 con el valor real ya guardado, para que la UI
+ * muestre "Biblioteca de producción iniciada el ..." en vez de reiniciarlo
+ * en silencio. Nunca borra ni modifica ningún asset/job/proyecto (Paso 17).
+ */
+export async function handleGetWorkspace(req, res) {
+  sendJson(res, 200, { productionWorkspaceStartedAt: getWorkspaceStartedAt() });
+}
+
+export async function handleResetWorkspace(req, res) {
+  let body = {};
+  try { body = await readJsonBody(req); } catch { /* body opcional -- reset sin force es la llamada normal */ }
+  try {
+    const productionWorkspaceStartedAt = startNewProductionWorkspace({ force: Boolean(body?.force) });
+    sendJson(res, 200, { productionWorkspaceStartedAt });
+  } catch (err) {
+    if (err instanceof WorkspaceAlreadyStartedError) {
+      sendJson(res, 409, { error: err.message, productionWorkspaceStartedAt: err.existing });
+      return;
+    }
+    throw err;
+  }
 }
 
 export async function handleCampaigns(req, res) {

@@ -260,6 +260,21 @@ main#app { max-width: 1180px; margin: 0 auto; padding: 40px 32px 80px; }
 .tag.integrity-ok { background: #d9e3cf; color: var(--olive); }
 .tag.integrity-violation { background: var(--burgundy); color: var(--cream); }
 
+/* Vista de biblioteca (ACTIVE/PRUEBAS/HISTÓRICO/ARCHIVADOS/TODOS) --
+   Corrección "Nueva Biblioteca de Producción Activa", 2026-08-29. */
+.scope-tab {
+  background: var(--white-ish);
+  border: 1px solid var(--line);
+  color: var(--olive);
+  padding: 9px 18px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  cursor: pointer;
+}
+.scope-tab.active { background: var(--olive); color: #fff; border-color: var(--olive); }
+
 .product-card .product-name { font-family: var(--font-display); font-size: 16px; color: var(--forest); font-weight: 700; }
 .product-card .problema { font-size: 12px; color: #6b654f; margin-top: 4px; }
 .product-card .no-facts { font-size: 12px; color: var(--burgundy); font-style: italic; }
