@@ -19,6 +19,7 @@ import { resolveCampaignCreativeCell, MissingStrategicMatchError } from './campa
 import { DeterministicCopyProvider } from './copyGenerationProvider.js';
 import { buildStrategyContext } from './strategyContext.js';
 import { buildHypothesisExperiment, DEFAULT_VARIANT_COUNT } from './hypothesisCreativeEngine.js';
+import { buildCreativeIntelligenceContext } from './creativeIntelligenceContext.js';
 
 // 'HYPOTHESIS_EXPERIMENT_READY' (Fase 16, aditivo): nunca se reutiliza
 // 'PROPOSAL_READY' para una hipótesis (sería presentarla como conocimiento
@@ -59,7 +60,17 @@ function formatoDeliveryDesdeFormat(format) {
  * @param {{ userIntent: string, productId?: string|null, copyProvider?: object, variantCount?: number, explicitCta?: string|null }} args
  * @returns {object} Creative Proposal -- ver PROPOSAL_STATUSES.
  */
-export async function buildCreativeProposal({ userIntent, productId = null, copyProvider = new DeterministicCopyProvider(), variantCount = 1, explicitCta = null, strategyStore = undefined }) {
+export async function buildCreativeProposal({
+  userIntent, productId = null, copyProvider = new DeterministicCopyProvider(), variantCount = 1, explicitCta = null, strategyStore = undefined,
+  // Marketing Intelligence -> Creative Strategy (puente controlado,
+  // encargo §3/§24/§29): "undefined" real (nunca pasado) = usa el
+  // snapshot más reciente disponible; un snapshotId real fija UNO
+  // específico (mismo criterio real que selectedModelId en
+  // creativeDirector.js -- el llamador puede fijar, nunca es obligatorio).
+  // Nunca INPUT de copy -- solo se adjunta al resultado para trazabilidad
+  // (ver creativeIntelligenceContext.js).
+  marketingIntelligenceSnapshotId = undefined,
+}) {
   if (!userIntent?.trim()) {
     return Object.freeze({ status: 'VALIDATION_FAILED', userIntent, errors: ['buildCreativeProposal: "userIntent" es obligatorio.'] });
   }
@@ -82,6 +93,27 @@ export async function buildCreativeProposal({ userIntent, productId = null, copy
         : [`buildCreativeProposal: ningún producto real del catálogo (docs/productos/) aparece mencionado en "${userIntent}" -- no se asume uno.`],
     });
   }
+
+  // Marketing Intelligence -> Creative Strategy (puente controlado, encargo
+  // §1/§13/§23/§43): calculado UNA vez apenas se conoce el producto real,
+  // para que esté disponible en CUALQUIER desenlace (PROPOSAL_READY,
+  // HYPOTHESIS_EXPERIMENT_READY, MISSING_CREATIVE_MATCH) -- en la práctica,
+  // el desenlace más común para un producto real sin CreativeCell
+  // publicado todavía es HYPOTHESIS_EXPERIMENT_READY, así que limitarlo a
+  // PROPOSAL_READY lo dejaría ausente casi siempre. ADITIVO/OPCIONAL:
+  // nunca lanza (buildCreativeIntelligenceContext nunca bloquea, §23),
+  // nunca se pasa a copyProvider.generate() (§13: los claims siguen
+  // viniendo únicamente de productFacts vía Claim Relevance/Claim Safety,
+  // nunca de esto). Sin audience explícito: el vocabulario de audiencia de
+  // marketingIntelligence/ (slugs "mujeres-.../hombres-...") no tiene un
+  // mapeo confiable hoy desde resolution.persona (texto libre real) --
+  // inventar ese mapeo sería exactamente el tipo de relación no
+  // evidenciada que el encargo prohíbe (§18), así que el filtrado queda en
+  // productId/categoría, que sí son el mismo vocabulario real en ambos
+  // sistemas (confirmado: mismos slugs que docs/productos/).
+  const marketingIntelligenceContext = buildCreativeIntelligenceContext({
+    productId: productMatch.productId, snapshotId: marketingIntelligenceSnapshotId,
+  });
 
   let resolution;
   try {
@@ -115,6 +147,7 @@ export async function buildCreativeProposal({ userIntent, productId = null, copy
           disclaimer: hypothesisResult.disclaimer,
           productGroundedEvidence,
           evidenceBasedAttempt: Object.freeze({ candidatesTried: err.candidatesTried, error: err.message }),
+          marketingIntelligenceContext,
         });
       }
 
@@ -130,6 +163,7 @@ export async function buildCreativeProposal({ userIntent, productId = null, copy
         candidatesTried: err.candidatesTried,
         productGroundedEvidence,
         hypothesisTestingReason: hypothesisResult.reason,
+        marketingIntelligenceContext,
       });
     }
     return Object.freeze({ status: 'VALIDATION_FAILED', userIntent, errors: [err.message] });
@@ -200,6 +234,11 @@ export async function buildCreativeProposal({ userIntent, productId = null, copy
           rationale: strategyContext.rationale,
         })
       : Object.freeze({ applied: false, reason: strategyContext.reason }),
+    // Marketing Intelligence -> Creative Strategy (encargo §51/§53):
+    // contexto compacto ya rankeado, trazable por signalId/source/
+    // rawReference. `applied:false` cuando no hay señales relevantes o no
+    // hay snapshot -- nunca bloquea la propuesta (§23).
+    marketingIntelligenceContext,
     missingFields: Object.freeze(missingFields),
     createdAt: new Date().toISOString(),
   });

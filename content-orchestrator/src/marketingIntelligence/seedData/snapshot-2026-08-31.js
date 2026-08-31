@@ -656,15 +656,21 @@ for (const c of COMPETITORS) {
 // CreatorSignal — sección 8 (13 filas)
 // ---------------------------------------------------------------------
 const CREATORS = [
-  { key: 'oso-trava', name: 'Oso Trava', platform: 'YouTube', niche: 'Salud masculina, energía, café funcional', status: 'RELEVANT_CREATOR', evidenceLevel: 'MEDIUM-HIGH', independent: 2 },
-  { key: 'dr-luis-gutierrez', name: 'Dr. Luis Gutierrez - Urología para todos', platform: 'YouTube', niche: 'Urología, salud sexual masculina', status: 'RELEVANT_CREATOR', evidenceLevel: 'MEDIUM', independent: 1 },
+  // `audience` (encargo §6, añadido durante integración con Creative
+  // Strategy): solo se fija cuando el nicho del creador es explícitamente
+  // de un género -- nunca inferido de nombre/foto, siempre de la
+  // descripción de nicho ya documentada en el reporte de investigación
+  // (sección 8). El resto queda sin audience (general/mixto/no evidenciado),
+  // nunca se inventa un género donde el reporte no lo especifica.
+  { key: 'oso-trava', name: 'Oso Trava', platform: 'YouTube', niche: 'Salud masculina, energía, café funcional', status: 'RELEVANT_CREATOR', evidenceLevel: 'MEDIUM-HIGH', independent: 2, audience: 'hombres-biohacking-tongkat-ali' },
+  { key: 'dr-luis-gutierrez', name: 'Dr. Luis Gutierrez - Urología para todos', platform: 'YouTube', niche: 'Urología, salud sexual masculina', status: 'RELEVANT_CREATOR', evidenceLevel: 'MEDIUM', independent: 1, audience: 'hombres-biohacking-tongkat-ali' },
   { key: 'dr-polo-guerrero', name: 'Dr. Polo Guerrero / Mr Doctor', platform: 'YouTube', niche: 'Salud general, control de peso', status: 'RELEVANT_CREATOR', evidenceLevel: 'MEDIUM', independent: 1 },
   { key: 'adamari-lopez', name: 'Adamari Lopez', platform: 'YouTube', niche: 'Lifestyle/celebridad, bienestar', status: 'RELEVANT_CREATOR', evidenceLevel: 'MEDIUM', independent: 1 },
   { key: 'javier-furman-dr-la-rosa', name: 'JAVIER FURMAN / DR LA ROSA', platform: 'YouTube', niche: 'Salud/bienestar general', status: 'RELEVANT_CREATOR', evidenceLevel: 'MEDIUM-HIGH', independent: 2 },
   { key: 'patricia-leite', name: 'Patricia Leite Nutrición Deliciosa', platform: 'YouTube', niche: 'Nutrición, cluster de té detox', status: 'POTENTIAL_CREATOR', evidenceLevel: 'LOW', independent: 1 },
-  { key: 'xiomisamaniego95', name: '@xiomisamaniego95', platform: 'TikTok', niche: 'Salud masculina, testosterona', status: 'POTENTIAL_CREATOR', evidenceLevel: 'LOW', independent: 1 },
+  { key: 'xiomisamaniego95', name: '@xiomisamaniego95', platform: 'TikTok', niche: 'Salud masculina, testosterona', status: 'POTENTIAL_CREATOR', evidenceLevel: 'LOW', independent: 1, audience: 'hombres-biohacking-tongkat-ali' },
   { key: 'omnilife-herbalife-affiliated', name: '@jesus_gonzalez_76 / @saludenequilibrio_ / @hanna24fit', platform: 'TikTok', niche: 'Nutrición/MLM (Omnilife, Herbalife)', status: 'POTENTIAL_CREATOR', evidenceLevel: 'LOW', independent: 1 },
-  { key: 'yenygarcia00', name: '@yenygarcia00', platform: 'TikTok', niche: 'Libido femenina (Propensil)', status: 'POTENTIAL_CREATOR', evidenceLevel: 'LOW', independent: 1 },
+  { key: 'yenygarcia00', name: '@yenygarcia00', platform: 'TikTok', niche: 'Libido femenina (Propensil)', status: 'POTENTIAL_CREATOR', evidenceLevel: 'LOW', independent: 1, audience: 'mujeres-bienestar-hormonal' },
   { key: 'nutrition-cluster', name: 'reynaldaflorian.nutri / nutriniki / consejosdeldoc', platform: 'TikTok', niche: 'Nutrición, control de peso', status: 'POTENTIAL_CREATOR', evidenceLevel: 'LOW', independent: 1 },
   { key: 'codigomental777', name: '@CodigoMental777', platform: 'X', niche: 'Educación ingredientes (polen de pino)', status: 'NOT_VERIFIED', evidenceLevel: 'LOW', independent: 1 },
   { key: 'mushroom-low-reach', name: 'bienestarconjennifer / locovaldes21', platform: 'TikTok', niche: 'Hongos funcionales', status: 'NOT_VERIFIED', evidenceLevel: 'LOW', independent: 1 },
@@ -674,7 +680,7 @@ for (const c of CREATORS) {
   SIGNALS.push({
     seedKey: `creator-${c.key}`,
     type: 'CreatorSignal', title: `${c.name} (${c.platform}) — ${c.niche}`,
-    category: CATEGORY.CONTENIDO_HOOKS,
+    category: CATEGORY.CONTENIDO_HOOKS, audience: c.audience ?? null,
     source: `last30days (${c.platform})`, sourceType: 'SOCIAL',
     capturedAt: CAPTURED_AT, timeWindow: '30d',
     observation: `Clasificación: ${c.status}. Ventana 30d.`,

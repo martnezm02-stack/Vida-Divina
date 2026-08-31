@@ -249,6 +249,14 @@ export function buildVisualStrategy({
   // audience/territory se recalculaban por escena con fallbacks que sí
   // variaban -- ver visualContinuityContext.js).
   userInstruction = null,
+  // Marketing Intelligence -> Creative Strategy (puente controlado,
+  // encargo §18/§29): contexto ya construido y compacto (ver
+  // creativeIntelligenceContext.js), PASS-THROUGH puro -- este archivo
+  // nunca lo calcula ni lo interpreta, solo lo expone en la salida para
+  // trazabilidad/explicabilidad (§50-52). NUNCA escribe directamente en
+  // visualPrompt/generatedPrompt (Visual Scene Brief sigue siendo la
+  // única fuente estructurada de eso, sin cambios en este Paso).
+  creativeIntelligenceContext = null,
 }) {
   if (!scenePlan?.scenes?.length) {
     throw new Error('buildVisualStrategy: "scenePlan" debe ser un Scene Plan real ya construido (scenePlanner.js#buildScenePlan) -- el Creative Director nunca inventa escenas.');
@@ -457,6 +465,11 @@ export function buildVisualStrategy({
     // creativeProductionOrchestrator.js, sin cambios adicionales
     // necesarios: ya serializa visualStrategy completo).
     generationSettings,
+    // Marketing Intelligence -> Creative Strategy (encargo §29, §50-52):
+    // mismo objeto real recibido arriba, nunca recalculado -- null cuando
+    // el llamador no lo construyó (compatibilidad hacia atrás total, mismo
+    // criterio que visualContinuityContext sin userInstruction).
+    creativeIntelligenceContext,
   });
 }
 
@@ -490,6 +503,9 @@ export function previewVisualRecommendation({
   // creativeAngleSelector.js (batch.variantsDetail[variantIndex].angleId)
   // -- opcional, nunca recalculado ni inventado aquí.
   angleId = null,
+  // Marketing Intelligence -> Creative Strategy (encargo §18/§29): mismo
+  // criterio PASS-THROUGH que buildVisualStrategy() -- ver comentario ahí.
+  creativeIntelligenceContext = null,
 }) {
   const treatment = assignVisualTreatment({
     variantIndex, campaignIntent, campaignId, userInstruction,
@@ -537,5 +553,7 @@ export function previewVisualRecommendation({
     assetRequirements: Object.freeze({
       productAssetAvailable: Boolean(productAsset), productAssetId: productAsset?.assetId ?? null,
     }),
+    // Marketing Intelligence -> Creative Strategy (encargo §29, §50-52).
+    creativeIntelligenceContext,
   });
 }
