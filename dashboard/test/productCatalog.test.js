@@ -70,7 +70,7 @@ describe('B: product asset IDs existentes — nunca cambian (content-addressed, 
 // alinear el slug, y se agregó "Nombre visible" a ambas fichas. Ahora son
 // productos operativos reales adicionales -- el conteo fijo de "9" queda
 // obsoleto a propósito, se reemplaza por una lista explícita de operativos.
-const PRODUCTOS_OPERATIVOS_REALES = Object.freeze([...NUEVE_PRODUCTOS_REALES, 'reishi-capsules', 'sculpt-max']);
+const PRODUCTOS_OPERATIVOS_REALES = Object.freeze([...NUEVE_PRODUCTOS_REALES, 'reishi-capsules', 'sculpt-max', 'life-capsules']);
 
 describe('C: product catalog consistency — GET /api/products expone los productos reales operativos (Paso 14/24 del encargo + Reishi/Sculpt Max)', () => {
   test('listProductsWithAssets() real incluye los 9 productos reales operativos previos MÁS reishi-capsules y sculpt-max, todos con factsAvailable=true', () => {
@@ -119,6 +119,29 @@ describe('Completar Product Knowledge — REISHI + Sculpt Max: nombreVisible exa
   test('dataQualityStatus VERIFIED para ambos (sin datos críticos faltantes ni conflictos)', () => {
     assert.equal(getProduct('reishi-capsules').dataQualityStatus, 'VERIFIED');
     assert.equal(getProduct('sculpt-max').dataQualityStatus, 'VERIFIED');
+  });
+});
+
+describe('Completar Product Knowledge — Cápsulas Life (mismo proceso que Reishi/Sculpt Max)', () => {
+  test('nombreVisible EXACTO -- "Cápsulas Life", sin variantes ("Life", "Life Capsules", "Cápsulas LIFE")', () => {
+    assert.equal(getProduct('life-capsules').nombreVisible, 'Cápsulas Life');
+  });
+
+  test('ya no aparece como "sin nombre comercial real" (factsAvailable=true)', () => {
+    const life = getProduct('life-capsules');
+    assert.equal(life.factsAvailable, true);
+    assert.ok(life.nombreComercial);
+  });
+
+  test('asset único real asociado correctamente, marcado PRODUCT_PRIMARY (único archivo, sin sufijo Beneficios/Lifestyle)', () => {
+    const life = getProduct('life-capsules');
+    assert.equal(life.rawAssetCount, 1);
+    const primary = life.rawAssets.find((a) => a.role === 'PRODUCT_PRIMARY');
+    assert.equal(primary.originalFilename, 'Life Nature.png');
+  });
+
+  test('dataQualityStatus VERIFIED (Presentación real de 60 cápsulas corroborada por el empaque)', () => {
+    assert.equal(getProduct('life-capsules').dataQualityStatus, 'VERIFIED');
   });
 });
 

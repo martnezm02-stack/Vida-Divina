@@ -7,7 +7,7 @@ import assert from 'node:assert/strict';
 import { buildProductGroundedEvidence, PRODUCT_EVIDENCE_TYPE, PRODUCT_GROUNDED_CONFIDENCE } from '../src/productGroundedEvidence.js';
 import { buildCreativeProposal } from '../src/autonomousCreate.js';
 
-const PRODUCTOS_OBJETIVO = Object.freeze(['cappuccino', 'sculpt-black', 'venus-capsules', 'ripped-capsules', 'extracto-tremella', 'reishi-capsules', 'sculpt-max']);
+const PRODUCTOS_OBJETIVO = Object.freeze(['cappuccino', 'sculpt-black', 'venus-capsules', 'ripped-capsules', 'extracto-tremella', 'reishi-capsules', 'sculpt-max', 'life-capsules']);
 
 describe('buildProductGroundedEvidence — evidencia real de producto, nunca evidencia de cliente', () => {
   for (const productId of PRODUCTOS_OBJETIVO) {
@@ -85,6 +85,36 @@ describe('Completar Product Knowledge — REISHI + Sculpt Max: nombreVisible exa
     const sculptMax = await buildCreativeProposal({ userIntent: 'Crear contenido para Cápsulas Sculpt Max', productId: 'sculpt-max' });
     assert.notEqual(sculptMax.status, 'MISSING_PRODUCT');
     assert.ok(!sculptMax.errors?.some((e) => e.includes('no tiene hechos reales todavía')));
+  });
+});
+
+// Completar Product Knowledge — Cápsulas Life (mismo proceso: la carpeta de
+// assets ya existía como "Life", sin slug-match con docs/productos/
+// life-capsules.md -- se renombró a assets/products/life-capsules/ y se
+// agregó "Nombre visible", sin tocar ningún otro producto.
+describe('Completar Product Knowledge — Cápsulas Life: nombreVisible exacto, sin claims inventados, Crear Autónomo desbloqueado', () => {
+  test('nombreVisible EXACTO -- "Cápsulas Life"', () => {
+    assert.equal(buildProductGroundedEvidence('life-capsules').nombreVisible, 'Cápsulas Life');
+  });
+
+  test('dataQualityStatus VERIFIED, sin CONFLICT/INCOMPLETE/MISSING', () => {
+    const life = buildProductGroundedEvidence('life-capsules');
+    assert.equal(life.dataQualityStatus, 'VERIFIED');
+    assert.equal(life.dataQualityDetail, null);
+  });
+
+  test('ningún claim/ingrediente inventado -- texto literal de docs/productos/, clasificación PRODUCT_FACT/MARKETING_CLAIM sin cambios', () => {
+    const life = buildProductGroundedEvidence('life-capsules');
+    const ingredientes = life.sourceEvidence.find((e) => e.field === 'Ingredientes principales');
+    assert.equal(ingredientes.value, 'Garcinia Cambogia, semilla de guaraná, teobromina.');
+    assert.equal(ingredientes.type, 'PRODUCT_FACT');
+    assert.equal(life.sourceEvidence.find((e) => e.field === 'Beneficios').type, 'MARKETING_CLAIM');
+  });
+
+  test('Crear Autónomo ya NO bloquea Cápsulas Life por MISSING_PRODUCT', async () => {
+    const life = await buildCreativeProposal({ userIntent: 'Crear contenido para Cápsulas Life', productId: 'life-capsules' });
+    assert.notEqual(life.status, 'MISSING_PRODUCT');
+    assert.ok(!life.errors?.some((e) => e.includes('no tiene hechos reales todavía')));
   });
 });
 

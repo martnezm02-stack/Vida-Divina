@@ -3,6 +3,7 @@
 [⬅ Control de Peso](./index.md) · [🏠 Índice general](../../productos.md)
 
 - **Nombre comercial:** Divina Life Capsules
+- **Nombre visible:** Cápsulas Life
 - **Categoría:** [Control de Peso](./index.md)
 - **Objetivo principal:** Estimular el metabolismo, suprimir el apetito y proporcionar energía y vitalidad natural.
 - **Problema que ayuda a resolver:** Apetito excesivo y bajo metabolismo que dificultan el control de peso.
