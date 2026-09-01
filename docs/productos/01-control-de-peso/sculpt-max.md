@@ -3,6 +3,7 @@
 [⬅ Control de Peso](./index.md) · [🏠 Índice general](../../productos.md)
 
 - **Nombre comercial:** Sculpt Max — Body Maintenance Formula
+- **Nombre visible:** Cápsulas Sculpt Max
 - **Categoría:** [Control de Peso](./index.md)
 - **Objetivo principal:** Apoyar objetivos generales de estilo de vida saludable y control de peso.
 - **Problema que ayuda a resolver:** Dificultad para mantener niveles de azúcar saludables y función metabólica óptima.

@@ -62,12 +62,22 @@ describe('B: product asset IDs existentes — nunca cambian (content-addressed, 
   });
 });
 
-describe('C: product catalog consistency — GET /api/products sigue devolviendo los mismos 9 productos reales operativos (Paso 14/24 del encargo)', () => {
-  test('listProductsWithAssets() real devuelve exactamente los 9 productos reales operativos, sin agregar ni quitar ninguno', () => {
+// Completar Product Knowledge — REISHI + Sculpt Max (2026-09-01): dos
+// carpetas de assets reales que existían sin ficha resoluble (slug de
+// carpeta "Capsulas Reishi"/"Capsulas Sculpt Max" no coincidía con el slug
+// real de docs/productos/, reishi-capsules.md/sculpt-max.md) -- se
+// renombraron las carpetas (git mv, mismo assetId real por contenido) para
+// alinear el slug, y se agregó "Nombre visible" a ambas fichas. Ahora son
+// productos operativos reales adicionales -- el conteo fijo de "9" queda
+// obsoleto a propósito, se reemplaza por una lista explícita de operativos.
+const PRODUCTOS_OPERATIVOS_REALES = Object.freeze([...NUEVE_PRODUCTOS_REALES, 'reishi-capsules', 'sculpt-max']);
+
+describe('C: product catalog consistency — GET /api/products expone los productos reales operativos (Paso 14/24 del encargo + Reishi/Sculpt Max)', () => {
+  test('listProductsWithAssets() real incluye los 9 productos reales operativos previos MÁS reishi-capsules y sculpt-max, todos con factsAvailable=true', () => {
     const productos = listProductsWithAssets();
-    assert.equal(productos.length, 9);
-    const slugs = productos.map((p) => p.productSlug).sort();
-    assert.deepEqual(slugs, [...NUEVE_PRODUCTOS_REALES].sort());
+    const operativos = productos.filter((p) => p.factsAvailable);
+    const slugsOperativos = operativos.map((p) => p.productSlug).sort();
+    assert.deepEqual(slugsOperativos, [...PRODUCTOS_OPERATIVOS_REALES].sort());
   });
 
   test('la corrección real NUNCA cambió productId/nombreVisible/category/state de ningún producto real (Paso 14 del encargo)', () => {
@@ -76,6 +86,39 @@ describe('C: product catalog consistency — GET /api/products sigue devolviendo
     assert.equal(cafe.nombreVisible, 'Café Tongkat Ali');
     assert.equal(cafe.estadoComercial, 'ACTIVO');
     assert.equal(cafe.factsAvailable, true);
+  });
+});
+
+describe('Completar Product Knowledge — REISHI + Sculpt Max: nombreVisible exacto, assets, dataQuality', () => {
+  test('nombreVisible EXACTO -- sin variantes ("Sculpt Max", "SCULPT MAX", "Reishi Capsules", "Cápsulas Reishi", etc.)', () => {
+    assert.equal(getProduct('reishi-capsules').nombreVisible, 'Cápsulas REISHI');
+    assert.equal(getProduct('sculpt-max').nombreVisible, 'Cápsulas Sculpt Max');
+  });
+
+  test('ya no aparecen como "sin nombre comercial real" (factsAvailable=true, nombreComercial real presente)', () => {
+    const reishi = getProduct('reishi-capsules');
+    const sculptMax = getProduct('sculpt-max');
+    assert.equal(reishi.factsAvailable, true);
+    assert.ok(reishi.nombreComercial);
+    assert.equal(sculptMax.factsAvailable, true);
+    assert.ok(sculptMax.nombreComercial);
+  });
+
+  test('assets reales asociados correctamente -- 2 archivos cada uno, ninguno duplicado, foto "producto" elegida como PRODUCT_PRIMARY', () => {
+    const reishi = getProduct('reishi-capsules');
+    assert.equal(reishi.rawAssetCount, 2);
+    assert.equal(new Set(reishi.rawAssets.map((a) => a.assetId)).size, 2);
+    assert.match(reishi.rawAssets.find((a) => a.role === 'PRODUCT_PRIMARY').originalFilename, /producto/i);
+
+    const sculptMax = getProduct('sculpt-max');
+    assert.equal(sculptMax.rawAssetCount, 2);
+    assert.equal(new Set(sculptMax.rawAssets.map((a) => a.assetId)).size, 2);
+    assert.match(sculptMax.rawAssets.find((a) => a.role === 'PRODUCT_PRIMARY').originalFilename, /producto/i);
+  });
+
+  test('dataQualityStatus VERIFIED para ambos (sin datos críticos faltantes ni conflictos)', () => {
+    assert.equal(getProduct('reishi-capsules').dataQualityStatus, 'VERIFIED');
+    assert.equal(getProduct('sculpt-max').dataQualityStatus, 'VERIFIED');
   });
 });
 

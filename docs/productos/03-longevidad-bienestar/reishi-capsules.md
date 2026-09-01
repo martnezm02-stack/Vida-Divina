@@ -3,6 +3,7 @@
 [⬅ Longevidad y Bienestar](./index.md) · [🏠 Índice general](../../productos.md)
 
 - **Nombre comercial:** Divina Reishi Capsules (Ganoderma Lucidum)
+- **Nombre visible:** Cápsulas REISHI
 - **Categoría:** [Longevidad y Bienestar General](./index.md)
 - **Objetivo principal:** Compartir los beneficios del Reishi, hongo base de la existencia de Vida Divina.
 - **Problema que ayuda a resolver:** Bajo bienestar general, sistema inmune debilitado, estrés.
