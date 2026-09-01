@@ -25,6 +25,7 @@ graft/
 # data/conversaciones/ arriba: no es conocimiento de negocio versionable
 # (a diferencia de knowledge/), es un dump local que crece con cada sesión
 # real. Auditoría de commit seguro, 2026-08-23.
+commercial-media/data/
 content-orchestrator/data/
 content-planning/data/
 content-strategy/data/

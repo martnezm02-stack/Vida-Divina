@@ -1,0 +1,14 @@
+{
+  "name": "vida-divina-commercial-media",
+  "version": "0.1.0",
+  "description": "Commercial Media Intake + Registry + Classifier -- administra media comercial PROPIO (testimonios, videos de modelo de negocio, audios oficiales) que Vida Divina quiere poder enviar después por WhatsApp. Distinto del Production Asset Registry (video-production/src/assetRegistry.js, fotografía de catálogo propio) y del media intake de CLIENTE (no implementado -- webhookParser.js sigue aceptando solo texto). No reimplementa WhatsApp (reutiliza whatsapp-adapter/src/graphApiSender.js), Product Catalog (reutiliza content-orchestrator/src/productFactsLoader.js) ni Marketing Intelligence/Learning Loop.",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "test": "node --test \"test/**/*.test.js\"",
+    "scan": "node scan-commercial-media.mjs"
+  },
+  "engines": { "node": ">=18" },
+  "dependencies": {},
+  "devDependencies": {}
+}
