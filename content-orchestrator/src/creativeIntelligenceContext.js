@@ -27,6 +27,11 @@ export const CREATIVE_CONTEXT_PRIORITY_ORDER = Object.freeze([
 ]);
 
 import { getProductIntelligence, getAudienceIntelligence, getCreativeOpportunities } from './marketingIntelligence/queryService.js';
+// Learning Loop (sección 23-24 del encargo de integración de aprendizaje):
+// extiende este contexto con validatedLearningContext -- NUNCA un segundo
+// contexto paralelo. Mismo criterio de solo-lectura/nunca-lanza que el
+// resto de este archivo.
+import { getValidatedLearningContext } from './learningLoop/queryService.js';
 
 export const CREATIVE_INTELLIGENCE_VERSION = '1.0.0';
 
@@ -184,8 +189,18 @@ function collectSources(allProjectedSignals) {
 }
 
 const EMPTY_BUCKETS = Object.freeze(Object.fromEntries(BUCKET_SPECS.map(([outKey]) => [outKey, Object.freeze([])])));
+const EMPTY_VALIDATED_LEARNING_CONTEXT = Object.freeze({ applied: false, learningSnapshotId: null, learningLoopVersion: null, learnings: Object.freeze([]) });
 
-function emptyContext(reason, { productId = null, audience = null, category = null } = {}) {
+/** getValidatedLearningContext ya nunca lanza (learningLoop/queryService.js), pero se envuelve igual -- esta función es "aditiva y opcional" por contrato, así que ni siquiera un bug en el Learning Loop puede bloquear el contexto de mercado. */
+function safeGetValidatedLearningContext(args) {
+  try {
+    return getValidatedLearningContext(args);
+  } catch {
+    return EMPTY_VALIDATED_LEARNING_CONTEXT;
+  }
+}
+
+function emptyContext(reason, { productId = null, audience = null, category = null, validatedLearningContext = EMPTY_VALIDATED_LEARNING_CONTEXT } = {}) {
   return Object.freeze({
     applied: false,
     reason,
@@ -199,6 +214,7 @@ function emptyContext(reason, { productId = null, audience = null, category = nu
     snapshotId: null,
     intelligenceVersion: CREATIVE_INTELLIGENCE_VERSION,
     generatedAt: new Date().toISOString(),
+    validatedLearningContext,
   });
 }
 
@@ -242,12 +258,20 @@ export function buildCreativeIntelligenceContext({
       opportunities = getCreativeOpportunities({ snapshotId: resolvedSnapshotId, audience });
     }
   } catch (err) {
-    return emptyContext(`NO_SNAPSHOT_AVAILABLE (${err.message})`, { productId, audience, category });
+    const validatedLearningContext = safeGetValidatedLearningContext({ productId, audience, category, userInstruction });
+    return emptyContext(`NO_SNAPSHOT_AVAILABLE (${err.message})`, { productId, audience, category, validatedLearningContext });
   }
 
   const angleText = [primaryAngle, secondaryAngle].filter(Boolean).join(' ');
   const instructionTokens = tokensOf(userInstruction);
   const relevanceInputs = { audience, category: resolvedCategory, angleText, instructionTokens };
+
+  // Learning Loop (encargo de integración de aprendizaje, §23-24):
+  // calculado independientemente de si marketingIntelligence/ encontró
+  // señales para esta consulta -- un Learning puede seguir siendo
+  // relevante aunque el snapshot de mercado actual no tenga señal directa
+  // (ej. un learning PERFORMANCE-only).
+  const validatedLearningContext = safeGetValidatedLearningContext({ productId, audience, category: resolvedCategory, userInstruction });
 
   const buckets = {};
   const allProjected = [];
@@ -261,7 +285,9 @@ export function buildCreativeIntelligenceContext({
   const projectedOpportunities = rankAndTrim(opportunities, projectOpportunity, relevanceInputs);
 
   const hasAnySignal = allProjected.length > 0 || projectedOpportunities.length > 0;
-  if (!hasAnySignal) return emptyContext('NO_RELEVANT_SIGNALS', { productId, audience, category: resolvedCategory });
+  if (!hasAnySignal && !validatedLearningContext.applied) {
+    return emptyContext('NO_RELEVANT_SIGNALS', { productId, audience, category: resolvedCategory, validatedLearningContext });
+  }
 
   return Object.freeze({
     applied: true,
@@ -272,6 +298,7 @@ export function buildCreativeIntelligenceContext({
     creativeOpportunities: projectedOpportunities,
     confidence: summarizeConfidence(allProjected),
     sources: collectSources(allProjected),
+    validatedLearningContext,
     snapshotId: resolvedSnapshotId,
     intelligenceVersion: CREATIVE_INTELLIGENCE_VERSION,
     generatedAt: new Date().toISOString(),

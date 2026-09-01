@@ -238,10 +238,13 @@ describe('TEST NO LIVE RESEARCH (encargo §25, §46)', () => {
     for (const pattern of forbiddenPatterns) {
       assert.ok(!pattern.test(source), `creativeIntelligenceContext.js no debe importar/llamar algo que matchee ${pattern}`);
     }
-    // Único import real del archivo: el store local de marketingIntelligence/ (síncrono, sin red).
+    // Imports reales del archivo: SOLO stores locales síncronos, sin red
+    // (marketingIntelligence/ y, desde la integración del Learning Loop,
+    // learningLoop/ -- ambos leen JSON en disco, ninguno hace I/O externo).
     const importLines = [...source.matchAll(/^import .+$/gm)].map((m) => m[0]);
-    assert.equal(importLines.length, 1);
-    assert.match(importLines[0], /from '\.\/marketingIntelligence\/queryService\.js'/);
+    assert.equal(importLines.length, 2);
+    assert.ok(importLines.some((l) => /from '\.\/marketingIntelligence\/queryService\.js'/.test(l)));
+    assert.ok(importLines.some((l) => /from '\.\/learningLoop\/queryService\.js'/.test(l)));
   });
 });
 
