@@ -12,89 +12,101 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-  <link rel="stylesheet" href="/site.css?v=2">
+  <link rel="stylesheet" href="/site.css?v=1788381110">
   <style>
-    /* === LANDING TeDivina — paleta verde del sitio principal, estructura tipo Tongkat === */
+    /* === LANDING TeDivina — paleta wine + gold + beige de la skill vida-divina-landing === */
+    body { background: var(--beige); }
+
+    /* HERO — gradiente cálido, fondo beige como en la landing Tongkat */
     .td-hero {
       position: relative;
       min-height: 80vh;
       display: flex;
       align-items: center;
       overflow: hidden;
-      background: linear-gradient(135deg, var(--bosque) 0%, var(--oliva) 100%);
-      color: var(--crema);
+      background: linear-gradient(135deg, #FAF6F2 0%, #F6F0EB 50%, #EFE6DC 100%);
+      color: var(--ink);
     }
     .td-hero::before {
       content: "";
       position: absolute; inset: 0;
-      background: radial-gradient(circle at 80% 20%, rgba(181,140,51,.18), transparent 50%);
+      background: radial-gradient(circle at 80% 20%, rgba(196,154,82,.15), transparent 55%);
       pointer-events: none;
     }
     .td-hero .container { position: relative; z-index: 2; }
     .td-hero__grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: var(--s-7); align-items: center; }
-    .td-hero__kicker { display:inline-block; padding: 6px 16px; border-radius: 999px; background: rgba(181,140,51,.18); color: var(--dorado-3); font-size: .72rem; font-weight: 800; letter-spacing: 1.4px; text-transform: uppercase; margin-bottom: var(--s-3); border: 1px solid rgba(181,140,51,.35); }
-    .td-hero h1 { font-family: var(--font-display); font-size: clamp(2.4rem, 5.5vw, 4rem); line-height: 1.02; color: var(--crema); margin: 0 0 var(--s-3); font-weight: 700; }
-    .td-hero h1 em { color: var(--dorado-3); font-style: italic; }
-    .td-hero p.lead { font-size: 1.15rem; line-height: 1.65; color: rgba(230,223,208,.9); margin: 0 0 var(--s-5); max-width: 560px; }
+    .td-hero__kicker { display:inline-block; padding: 6px 16px; border-radius: 999px; background: rgba(107,15,34,.08); color: var(--wine); font-size: .72rem; font-weight: 800; letter-spacing: 1.4px; text-transform: uppercase; margin-bottom: var(--s-3); border: 1px solid rgba(107,15,34,.2); }
+    .td-hero h1 { font-family: var(--font-display); font-size: clamp(2.4rem, 5.5vw, 4rem); line-height: 1.02; color: var(--ink); margin: 0 0 var(--s-3); font-weight: 700; letter-spacing: -0.022em; }
+    .td-hero h1 em { color: var(--gold); font-style: normal; }
+    .td-hero p.lead { font-size: 1.15rem; line-height: 1.65; color: var(--ink); opacity: 0.85; margin: 0 0 var(--s-5); max-width: 560px; }
     .td-hero__cta { display: flex; gap: var(--s-3); flex-wrap: wrap; }
     .td-hero__img { position: relative; aspect-ratio: 4/5; max-width: 480px; margin: 0 auto; }
-    .td-hero__img img { width: 100%; height: 100%; object-fit: cover; border-radius: 24px; box-shadow: 0 32px 80px rgba(0,0,0,.45); position: relative; z-index: 2; }
-    .td-hero__img::before { content: ""; position: absolute; inset: -16px; background: linear-gradient(135deg, var(--dorado), var(--dorado-2)); border-radius: 32px; z-index: 1; transform: rotate(-2deg); }
+    .td-hero__img img { width: 100%; height: 100%; object-fit: cover; border-radius: 24px; box-shadow: 0 32px 80px rgba(107,15,34,.22); position: relative; z-index: 2; }
+    .td-hero__img::before { content: ""; position: absolute; inset: -16px; background: linear-gradient(135deg, var(--gold), var(--gold-light)); border-radius: 32px; z-index: 1; transform: rotate(-2deg); }
 
+    /* SECCIONES — alternancia beige / beige-soft */
     .td-section { padding: var(--s-9) 0; }
-    .td-section--blanco { background: var(--blanco); }
-    .td-section--crema { background: var(--crema); }
-    .td-section--bosque { background: var(--bosque); color: var(--crema); }
+    .td-section--blanco { background: var(--beige-soft); }
+    .td-section--crema { background: var(--beige); }
+    .td-section--vino { background: var(--wine); color: var(--beige); }
     .td-section__head { text-align: center; max-width: 720px; margin: 0 auto var(--s-6); }
-    .td-section__head .eyebrow { color: var(--borgoña); }
-    .td-section--bosque .td-section__head .eyebrow { color: var(--dorado-3); }
-    .td-section__head h2 { font-family: var(--font-display); font-size: clamp(1.8rem, 3.5vw, 2.6rem); margin: var(--s-3) 0; color: var(--bosque); }
-    .td-section--bosque .td-section__head h2 { color: var(--crema); }
-    .td-section__head p { color: var(--ink); line-height: 1.7; margin: 0; }
-    .td-section--bosque .td-section__head p { color: rgba(230,223,208,.85); }
+    .td-section__head .eyebrow { color: var(--wine); }
+    .td-section--vino .td-section__head .eyebrow { color: var(--gold-light); }
+    .td-section__head h2 { font-family: var(--font-display); font-size: clamp(1.8rem, 3.5vw, 2.6rem); margin: var(--s-3) 0; color: var(--ink); letter-spacing: -0.022em; }
+    .td-section--vino .td-section__head h2 { color: var(--beige); }
+    .td-section__head p { color: var(--ink); line-height: 1.7; margin: 0; opacity: 0.85; }
+    .td-section--vino .td-section__head p { color: rgba(246,240,235,.85); }
 
+    /* BENEFICIOS — cards beige con borde dorado en hover */
     .td-benefits { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: var(--s-4); }
     .td-benefit { padding: var(--s-5); border-radius: 18px; background: var(--beige-soft); border: 1px solid var(--linea); transition: transform .25s, border-color .25s, box-shadow .25s; }
-    .td-section--bosque .td-benefit { background: rgba(255,255,255,.04); border-color: rgba(230,223,208,.12); }
-    .td-benefit:hover { transform: translateY(-4px); border-color: var(--dorado); box-shadow: 0 16px 36px rgba(14,30,17,.08); }
-    .td-benefit__icon { width: 48px; height: 48px; border-radius: 50%; background: linear-gradient(135deg, var(--dorado-2), var(--dorado)); color: var(--bosque); display:flex; align-items:center; justify-content:center; margin-bottom: var(--s-3); }
-    .td-benefit h3 { font-family: var(--font-display); font-size: 1.1rem; margin: 0 0 8px; color: var(--bosque); }
-    .td-section--bosque .td-benefit h3 { color: var(--crema); }
-    .td-benefit p { margin: 0; color: var(--ink); font-size: .95rem; line-height: 1.6; }
-    .td-section--bosque .td-benefit p { color: rgba(230,223,208,.8); }
+    .td-section--vino .td-benefit { background: rgba(246,240,235,.06); border-color: rgba(196,154,82,.2); }
+    .td-benefit:hover { transform: translateY(-4px); border-color: var(--gold); box-shadow: 0 16px 36px rgba(107,15,34,.10); }
+    .td-benefit__icon { width: 48px; height: 48px; border-radius: 50%; background: linear-gradient(135deg, var(--wine), var(--wine-dark)); color: var(--beige); display:flex; align-items:center; justify-content:center; margin-bottom: var(--s-3); }
+    .td-benefit h3 { font-family: var(--font-display); font-size: 1.1rem; margin: 0 0 8px; color: var(--ink); }
+    .td-section--vino .td-benefit h3 { color: var(--beige); }
+    .td-benefit p { margin: 0; color: var(--ink); font-size: .95rem; line-height: 1.6; opacity: 0.85; }
+    .td-section--vino .td-benefit p { color: rgba(246,240,235,.8); }
 
+    /* SPLIT */
     .td-split { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s-7); align-items: center; }
-    .td-split img { width: 100%; border-radius: 22px; box-shadow: 0 20px 50px rgba(14,30,17,.12); aspect-ratio: 4/3; object-fit: cover; }
-    .td-split h2 { font-family: var(--font-display); font-size: clamp(1.7rem, 3vw, 2.3rem); margin: 0 0 var(--s-3); color: var(--bosque); }
-    .td-split p { color: var(--ink); line-height: 1.7; margin: 0 0 var(--s-3); }
+    .td-split img { width: 100%; border-radius: 22px; box-shadow: 0 20px 50px rgba(107,15,34,.12); aspect-ratio: 4/3; object-fit: cover; }
+    .td-split h2 { font-family: var(--font-display); font-size: clamp(1.7rem, 3vw, 2.3rem); margin: 0 0 var(--s-3); color: var(--ink); letter-spacing: -0.022em; }
+    .td-split p { color: var(--ink); line-height: 1.7; margin: 0 0 var(--s-3); opacity: 0.85; }
 
+    /* INGREDIENTES */
     .td-ingredients { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: var(--s-3); margin-top: var(--s-5); }
-    .td-ingredient { padding: 14px 16px; background: var(--crema); border: 1px solid var(--linea); border-radius: 12px; font-size: .92rem; color: var(--bosque); font-weight: 500; text-align: center; }
+    .td-ingredient { padding: 14px 16px; background: var(--beige-soft); border: 1px solid var(--linea); border-radius: 12px; font-size: .92rem; color: var(--ink); font-weight: 500; text-align: center; }
+    .td-ingredient:hover { border-color: var(--gold); }
 
+    /* MODO DE USO */
     .td-prep { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--s-4); margin-top: var(--s-5); }
-    .td-step { padding: var(--s-4); background: var(--crema); border-radius: 16px; text-align: left; position: relative; }
-    .td-step__num { width: 36px; height: 36px; border-radius: 50%; background: var(--borgoña); color: var(--crema); display:flex; align-items:center; justify-content:center; font-weight: 700; margin-bottom: var(--s-3); font-family: var(--font-display); }
-    .td-step h3 { font-family: var(--font-display); font-size: 1.05rem; margin: 0 0 6px; color: var(--bosque); }
-    .td-step p { font-size: .9rem; color: var(--ink); line-height: 1.55; margin: 0; }
+    .td-step { padding: var(--s-4); background: var(--beige-soft); border-radius: 16px; text-align: left; position: relative; border: 1px solid var(--linea); }
+    .td-step__num { width: 36px; height: 36px; border-radius: 50%; background: var(--wine); color: var(--beige); display:flex; align-items:center; justify-content:center; font-weight: 700; margin-bottom: var(--s-3); font-family: var(--font-display); }
+    .td-step h3 { font-family: var(--font-display); font-size: 1.05rem; margin: 0 0 6px; color: var(--ink); }
+    .td-step p { font-size: .9rem; color: var(--ink); line-height: 1.55; margin: 0; opacity: 0.8; }
 
+    /* FAQ */
     .td-faq { max-width: 760px; margin: 0 auto; }
     .td-faq details { background: var(--beige-soft); border: 1px solid var(--linea); border-radius: 14px; padding: 18px 20px; margin-bottom: 12px; transition: border-color .2s; }
-    .td-faq details[open] { border-color: var(--dorado); }
-    .td-faq summary { cursor: pointer; font-weight: 600; color: var(--bosque); font-family: var(--font-display); list-style: none; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+    .td-faq details[open] { border-color: var(--gold); }
+    .td-faq summary { cursor: pointer; font-weight: 600; color: var(--ink); font-family: var(--font-display); list-style: none; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
     .td-faq summary::-webkit-details-marker { display: none; }
-    .td-faq summary::after { content: "+"; color: var(--dorado); font-size: 1.4rem; font-weight: 400; transition: transform .2s; }
+    .td-faq summary::after { content: "+"; color: var(--wine); font-size: 1.4rem; font-weight: 400; transition: transform .2s; }
     .td-faq details[open] summary::after { content: "−"; }
-    .td-faq p { margin: 14px 0 0; color: var(--ink); line-height: 1.7; }
+    .td-faq p { margin: 14px 0 0; color: var(--ink); line-height: 1.7; opacity: 0.85; }
 
-    .td-cta { background: linear-gradient(135deg, var(--bosque) 0%, var(--oliva) 100%); color: var(--crema); padding: var(--s-9) 0; text-align: center; }
-    .td-cta h2 { font-family: var(--font-display); font-size: clamp(1.8rem, 3.5vw, 2.6rem); color: var(--crema); margin: 0 0 var(--s-3); }
-    .td-cta h2 em { color: var(--dorado-3); font-style: italic; }
-    .td-cta p { color: rgba(230,223,208,.9); margin: 0 0 var(--s-5); max-width: 600px; margin-left: auto; margin-right: auto; }
+    /* CTA FINAL — fondo wine con CTA dorado */
+    .td-cta { background: linear-gradient(135deg, var(--wine) 0%, var(--wine-dark) 100%); color: var(--beige); padding: var(--s-9) 0; text-align: center; }
+    .td-cta h2 { font-family: var(--font-display); font-size: clamp(1.8rem, 3.5vw, 2.6rem); color: var(--beige); margin: 0 0 var(--s-3); letter-spacing: -0.022em; }
+    .td-cta h2 em { color: var(--gold-light); font-style: italic; }
+    .td-cta p { color: rgba(246,240,235,.9); margin: 0 0 var(--s-5); max-width: 600px; margin-left: auto; margin-right: auto; }
 
-    .td-trust { padding: var(--s-7) 0; background: var(--crema); }
+    /* TRUST */
+    .td-trust { padding: var(--s-7) 0; background: var(--beige); }
     .td-trust__grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: var(--s-3); }
-    .td-trust__item { display: flex; align-items: center; gap: 12px; padding: 16px 18px; background: var(--blanco); border-radius: 12px; border: 1px solid var(--linea); font-size: .9rem; color: var(--bosque); font-weight: 500; }
-    .td-trust__item i { color: var(--dorado); font-size: 1.1rem; }
+    .td-trust__item { display: flex; align-items: center; gap: 12px; padding: 16px 18px; background: var(--beige-soft); border-radius: 12px; border: 1px solid var(--linea); font-size: .9rem; color: var(--ink); font-weight: 500; }
+    .td-trust__item i { color: var(--wine); font-size: 1.1rem; }
 
     @media (max-width: 880px) {
       .td-hero { min-height: auto; padding: var(--s-7) 0; }
@@ -121,7 +133,7 @@
             <a href="https://wa.me/522229071277?text=Hola,%20me%20interesa%20conocer%20m%C3%A1s%20sobre%20T%C3%A9Divina" class="btn btn--gold" target="_blank" rel="noopener">
               <i class="fab fa-whatsapp"></i> Consultar por WhatsApp
             </a>
-            <a href="#beneficios" class="btn btn--ghost" style="border-color:rgba(230,223,208,.3); color:var(--crema)">Ver beneficios</a>
+            <a href="#beneficios" class="btn btn--ghost">Ver beneficios</a>
           </div>
         </div>
         <div class="td-hero__img">
@@ -323,9 +335,8 @@
   <!-- FOOTER (inyectado por site.js) -->
   <div data-vvd="footer"></div>
 
-  <script src="/site.js?v=2"></script>
+  <script src="/site.js?v=1788381110"></script>
   <script>
-    // Marcar "El Café" como activo? No, esta página es de producto, sin highlight de nav.
     if (window.VVD && VVD.renderNavbar) VVD.renderNavbar({ active: 'productos' });
   </script>
 </body>
