@@ -1,0 +1,1944 @@
+{
+  "productos": [
+    {
+      "slug": "atom-capsules",
+      "categoria": "01-control-de-peso",
+      "categoriaLabel": "Control de Peso",
+      "nombreComercial": " Divina Atom Capsules",
+      "nombreVisible": " Divina Atom Capsules",
+      "objetivo": " Ayudar a alcanzar un peso saludable, tonificar el cuerpo y energizar la vida diaria.",
+      "problema": " Falta de energía sostenida durante el día y dificultad para controlar el apetito.",
+      "ingredientes": [
+        "Yerba mate",
+        "semilla de guaraná",
+        "té verde"
+      ],
+      "beneficios": [
+        "Controla el apetito",
+        "ayuda a mantener hasta 8 horas de energía natural",
+        "quemador de grasa",
+        "control del peso"
+      ],
+      "presentacion": " 60 cápsulas.",
+      "publicoObjetivo": " No especificado.",
+      "keywords": " yerba mate, té verde, guaraná, energía natural, quemador de grasa, termogénesis.",
+      "imagePrincipal": "products/_placeholders/atom-capsules.svg",
+      "images": [
+        "products/_placeholders/atom-capsules.svg"
+      ],
+      "hasImages": false
+    },
+    {
+      "slug": "cheat-capsules",
+      "categoria": "01-control-de-peso",
+      "categoriaLabel": "Control de Peso",
+      "nombreComercial": " Divina Cheat Capsules",
+      "nombreVisible": " Divina Cheat Capsules",
+      "objetivo": " Controlar las calorías bloqueando el exceso de nutrientes que absorbe el cuerpo.",
+      "problema": " Consumo de comidas altas en calorías, carbohidratos o azúcares (\"hacer trampa\" en la dieta).",
+      "ingredientes": [
+        "Habichuelas blancas (alubias blancas)",
+        "glucomano (polvo de konjac)"
+      ],
+      "beneficios": [
+        "Puede mitigar la absorción de carbohidratos",
+        "grasas y azúcares",
+        "apoya el control de peso saludable",
+        "ayuda al control del apetito"
+      ],
+      "presentacion": " 60 cápsulas.",
+      "publicoObjetivo": " No especificado.",
+      "keywords": " bloqueador de carbohidratos, glucomano, konjac, control calórico, alubias blancas.",
+      "imagePrincipal": "products/_placeholders/cheat-capsules.svg",
+      "images": [
+        "products/_placeholders/cheat-capsules.svg"
+      ],
+      "hasImages": false
+    },
+    {
+      "slug": "cx90",
+      "categoria": "01-control-de-peso",
+      "categoriaLabel": "Control de Peso",
+      "nombreComercial": " Divina CX/90",
+      "nombreVisible": " Divina CX/90",
+      "objetivo": " Bloquear la absorción de carbohidratos, grasas y azúcares no deseados directamente en la comida.",
+      "problema": " Remordimiento o arrepentimiento tras \"hacer trampa\" en la dieta.",
+      "ingredientes": [
+        "Glucomano (polvo de konjac)"
+      ],
+      "beneficios": [
+        "Bloquea la absorción de carbohidratos",
+        "grasas no deseadas y azúcares que se almacenan como grasa"
+      ],
+      "presentacion": " Frasco espolvoreable de 1.5 oz.",
+      "publicoObjetivo": " No especificado.",
+      "keywords": " espolvorear en comida, bloqueador de azúcares, glucomano, control de dieta, anti-trampa.",
+      "imagePrincipal": "products/_placeholders/cx90.svg",
+      "images": [
+        "products/_placeholders/cx90.svg"
+      ],
+      "hasImages": false
+    },
+    {
+      "slug": "hcg-reactor-capsules",
+      "categoria": "01-control-de-peso",
+      "categoriaLabel": "Control de Peso",
+      "nombreComercial": " Divina HCG Capsules (HCG Reactor)",
+      "nombreVisible": " Divina HCG Capsules (HCG Reactor)",
+      "objetivo": " Activar el hipotálamo para liberar y movilizar la grasa acumulada, convirtiéndola en energía.",
+      "problema": " Grasa corporal acumulada difícil de movilizar mediante dieta convencional.",
+      "ingredientes": [
+        "Fórmula patentada natural de rápida absorción (activador de HCG",
+        "componentes individuales no detallados)"
+      ],
+      "beneficios": [
+        "Activa la hormona natural HCG",
+        "puede ayudar a perder hasta 1–2 libras por día",
+        "apoya el proceso natural de quema de grasa",
+        "formulado para hombres y mujeres",
+        "accede a la grasa almacenada para necesidades calóricas diarias"
+      ],
+      "presentacion": " 60 cápsulas. Funciona con un protocolo de alimentación baja en calorías.",
+      "publicoObjetivo": " Hombres y mujeres (explícitamente mencionado).",
+      "keywords": " HCG, quema de grasa, pérdida de peso rápida, dieta baja en calorías, energía metabólica.",
+      "imagePrincipal": "products/_placeholders/hcg-reactor-capsules.svg",
+      "images": [
+        "products/_placeholders/hcg-reactor-capsules.svg"
+      ],
+      "hasImages": false
+    },
+    {
+      "slug": "ignite-capsules",
+      "categoria": "01-control-de-peso",
+      "categoriaLabel": "Control de Peso",
+      "nombreComercial": " Divina Ignite Capsules",
+      "nombreVisible": " Divina Ignite Capsules",
+      "objetivo": " Ayudar al cuerpo a digerir los alimentos rápidamente.",
+      "problema": " Digestión lenta o deficiente que impide la correcta absorción de nutrientes.",
+      "ingredientes": [
+        "Mezcla patentada de enzimas digestivas"
+      ],
+      "beneficios": [
+        "Formulado para ayudar en la descomposición y digestión de los alimentos",
+        "ayuda a mantener un sistema digestivo saludable"
+      ],
+      "presentacion": " 60 cápsulas, fórmula libre de gluten.",
+      "publicoObjetivo": " No especificado.",
+      "keywords": " enzimas digestivas, digestión, absorción de nutrientes, sistema digestivo, gluten-free.",
+      "imagePrincipal": "products/_placeholders/ignite-capsules.svg",
+      "images": [
+        "products/_placeholders/ignite-capsules.svg"
+      ],
+      "hasImages": false
+    },
+    {
+      "slug": "life-capsules",
+      "categoria": "01-control-de-peso",
+      "categoriaLabel": "Control de Peso",
+      "nombreComercial": " Divina Life Capsules",
+      "nombreVisible": " Cápsulas Life",
+      "objetivo": " Estimular el metabolismo, suprimir el apetito y proporcionar energía y vitalidad natural.",
+      "problema": " Apetito excesivo y bajo metabolismo que dificultan el control de peso.",
+      "ingredientes": [
+        "Garcinia Cambogia",
+        "semilla de guaraná",
+        "teobromina"
+      ],
+      "beneficios": [
+        "Controla el peso de manera saludable",
+        "suprime el apetito excesivo",
+        "ayuda a tener un nivel saludable de energía y vitalidad"
+      ],
+      "presentacion": " 60 cápsulas. Funciona con un protocolo de alimentación cetogénica.",
+      "publicoObjetivo": " No especificado.",
+      "keywords": " garcinia cambogia, guaraná, supresor de apetito, metabolismo, dieta cetogénica.",
+      "imagePrincipal": "products/life-capsules/life-capsules-01-producto.webp",
+      "images": [
+        "products/life-capsules/life-capsules-01-producto.webp"
+      ],
+      "hasImages": true
+    },
+    {
+      "slug": "sculpt-max",
+      "categoria": "01-control-de-peso",
+      "categoriaLabel": "Control de Peso",
+      "nombreComercial": " Sculpt Max — Body Maintenance Formula",
+      "nombreVisible": " Cápsulas Sculpt Max",
+      "objetivo": " Apoyar objetivos generales de estilo de vida saludable y control de peso.",
+      "problema": " Dificultad para mantener niveles de azúcar saludables y función metabólica óptima.",
+      "ingredientes": [
+        "Nuciferine",
+        "enzimas lipilíticas",
+        "ácidos orgánicos"
+      ],
+      "beneficios": [
+        "Formulado con Nuciferine para el control de peso",
+        "contiene enzimas lipilíticas y ácidos orgánicos para mantener niveles saludables de azúcar",
+        "apoya la función metabólica saludable",
+        "puede ayudar al sistema digestivo a expulsar toxinas con el tiempo"
+      ],
+      "presentacion": " 30 cápsulas por bolsa.",
+      "publicoObjetivo": " No especificado.",
+      "keywords": " nuciferine, enzimas lipilíticas, control de azúcar, metabolismo, desintoxicación.",
+      "imagePrincipal": "products/sculpt-max/sculpt-max-01-producto.webp",
+      "images": [
+        "products/sculpt-max/sculpt-max-01-producto.webp",
+        "products/sculpt-max/sculpt-max-02-beneficios.webp"
+      ],
+      "hasImages": true
+    },
+    {
+      "slug": "sleep-n-lose-capsules",
+      "categoria": "01-control-de-peso",
+      "categoriaLabel": "Control de Peso",
+      "nombreComercial": " Divina Sleep N' Lose Capsules",
+      "nombreVisible": " Divina Sleep N' Lose Capsules",
+      "objetivo": " Mejorar el descanso nocturno de forma 100% natural sin crear hábito.",
+      "problema": " Sueño de mala calidad que afecta el control de peso y el bienestar general.",
+      "ingredientes": [
+        "Fórmula natural de sueño nocturno (componentes específicos no detallados)"
+      ],
+      "beneficios": [
+        "Apoya a tener un sueño saludable",
+        "apoya un buen control de peso",
+        "potencial mejorado al usarlo junto con una dieta balanceada"
+      ],
+      "presentacion": " 60 cápsulas.",
+      "publicoObjetivo": " No especificado.",
+      "keywords": " sueño saludable, no crea hábito, descanso nocturno, control de peso, insomnio.",
+      "imagePrincipal": "products/_placeholders/sleep-n-lose-capsules.svg",
+      "images": [
+        "products/_placeholders/sleep-n-lose-capsules.svg"
+      ],
+      "hasImages": false
+    },
+    {
+      "slug": "tedivina",
+      "categoria": "01-control-de-peso",
+      "categoriaLabel": "Control de Peso",
+      "nombreComercial": " TéDivina",
+      "nombreVisible": " Té Divina",
+      "objetivo": " Limpiar mente y cuerpo como base para iniciar un estilo de vida saludable.",
+      "problema": " Necesidad de desintoxicación corporal antes de comenzar un programa de pérdida de peso; tránsito intestinal lento.",
+      "ingredientes": [
+        "Hojas de malva",
+        "mirra",
+        "cardo bendito",
+        "malvavisco",
+        "papaya",
+        "chaga",
+        "arándano rojo",
+        "cardo santo",
+        "manzanilla",
+        "hojas de caqui",
+        "fibra soluble",
+        "hongos de ganoderma",
+        "jengibre"
+      ],
+      "beneficios": [
+        "Prepara el cuerpo para iniciar un programa de pérdida de peso",
+        "promueve la desintoxicación natural",
+        "promueve la energía",
+        "mejora el tránsito intestinal"
+      ],
+      "presentacion": " Bolsitas de té, 3 oz / 50 mg. 1 bolsita de té por sobre.",
+      "publicoObjetivo": " No especificado (el catálogo menciona que \"hasta un niño pequeño lo puede tomar\" por ser orgánico, pero no define un público objetivo formal).",
+      "keywords": " té detox, limpieza corporal, pérdida de peso, té orgánico, digestión, arándano rojo, ganoderma.",
+      "imagePrincipal": "products/tedivina/te-divina-01-producto.webp",
+      "images": [
+        "products/tedivina/te-divina-01-producto.webp",
+        "products/tedivina/te-divina-02-beneficios.webp",
+        "products/tedivina/te-divina-03-lifestyle.webp",
+        "products/tedivina/te-divina-04-tasa.webp"
+      ],
+      "hasImages": true
+    },
+    {
+      "slug": "black",
+      "categoria": "02-cafe-divina",
+      "categoriaLabel": "Café Divina · Bebidas Funcionales",
+      "nombreComercial": " Café Divina Black — Café Negro Premium",
+      "nombreVisible": " Café Divina Black — Café Negro Premium",
+      "objetivo": " Ofrecer el aroma de café recién hecho de forma instantánea, formulado con Reishi.",
+      "problema": " Necesidad de un café tradicional negro pero con beneficios funcionales añadidos.",
+      "ingredientes": [
+        "Reishi",
+        "café arábico",
+        "1 g de fibra"
+      ],
+      "beneficios": [
+        "Agudeza mental",
+        "ayuda en la digestión",
+        "antioxidante"
+      ],
+      "presentacion": " 30 sobres.",
+      "publicoObjetivo": " No especificado.",
+      "keywords": " café negro, café tradicional, café con fibra, agudeza mental.",
+      "imagePrincipal": "products/_placeholders/black.svg",
+      "images": [
+        "products/_placeholders/black.svg"
+      ],
+      "hasImages": false
+    },
+    {
+      "slug": "cappuccino",
+      "categoria": "02-cafe-divina",
+      "categoriaLabel": "Café Divina · Bebidas Funcionales",
+      "nombreComercial": " Café Divina Cappuccino Premium Coffee",
+      "nombreVisible": " Café Divina Cappuccino",
+      "objetivo": " Ofrecer una versión sublime del café con sabor cremoso instantáneo.",
+      "problema": " Deseo de una alternativa saludable al cappuccino tradicional.",
+      "ingredientes": [
+        "210 mg Reishi",
+        "café arábico",
+        "2 g de fibra"
+      ],
+      "beneficios": [
+        "Apoya las funciones del cuerpo para una nutrición saludable",
+        "fortalece el sistema inmune",
+        "retrasa el envejecimiento"
+      ],
+      "presentacion": " 20 sobres.",
+      "publicoObjetivo": " No especificado.",
+      "keywords": " cappuccino instantáneo, café con fibra, café con reishi, nutrición saludable.",
+      "imagePrincipal": "products/cappuccino/cappuccino-01-producto.webp",
+      "images": [
+        "products/cappuccino/cappuccino-01-producto.webp",
+        "products/cappuccino/cappuccino-02-beneficios.webp",
+        "products/cappuccino/cappuccino-03-lifestyle.webp"
+      ],
+      "hasImages": true
+    },
+    {
+      "slug": "divine-cereal",
+      "categoria": "02-cafe-divina",
+      "categoriaLabel": "Café Divina · Bebidas Funcionales",
+      "nombreComercial": " Café Divina Divine Cereal (with Spirulina)",
+      "nombreVisible": " Café Divina Divine Cereal (with Spirulina)",
+      "objetivo": " Ofrecer una forma libre de culpa de comenzar el día como complemento de un estilo de vida saludable.",
+      "problema": " Desayunos poco nutritivos o desequilibrados.",
+      "ingredientes": [
+        "Reishi (1500 mg por bolsa)",
+        "crema no láctea",
+        "espirulina",
+        "trigo"
+      ],
+      "beneficios": [
+        "Mantiene los niveles de azúcar en sangre",
+        "fortalece el sistema inmunológico",
+        "apoya a incrementar la energía",
+        "aporta antioxidantes",
+        "proteínas",
+        "vitaminas y minerales"
+      ],
+      "presentacion": " 15 sobres / 11.67 oz (450 g) total.",
+      "publicoObjetivo": " No especificado.",
+      "keywords": " cereal integral, espirulina, desayuno saludable, cereal con reishi, control de azúcar.",
+      "imagePrincipal": "products/_placeholders/divine-cereal.svg",
+      "images": [
+        "products/_placeholders/divine-cereal.svg"
+      ],
+      "hasImages": false
+    },
+    {
+      "slug": "hazelnut-latte",
+      "categoria": "02-cafe-divina",
+      "categoriaLabel": "Café Divina · Bebidas Funcionales",
+      "nombreComercial": " Café Divina Hazelnut Latte",
+      "nombreVisible": " Café Divina Hazelnut Latte",
+      "objetivo": " Ofrecer una bebida instantánea con sabor a avellana cremoso y aromático.",
+      "problema": " Búsqueda de variedad de sabor en la rutina diaria de café saludable.",
+      "ingredientes": [
+        "210 mg Reishi",
+        "café arábico",
+        "avellana (rica en vitamina E)"
+      ],
+      "beneficios": [
+        "Beneficia el sistema inmune",
+        "aporta vitamina E",
+        "antioxidante",
+        "antiinflamatorio"
+      ],
+      "presentacion": " 20 sobres / 14.8 oz (420 g) total.",
+      "publicoObjetivo": " No especificado.",
+      "keywords": " café de avellana, café con reishi, vitamina e, café aromático.",
+      "imagePrincipal": "products/_placeholders/hazelnut-latte.svg",
+      "images": [
+        "products/_placeholders/hazelnut-latte.svg"
+      ],
+      "hasImages": false
+    },
+    {
+      "slug": "hot-chocolate",
+      "categoria": "02-cafe-divina",
+      "categoriaLabel": "Café Divina · Bebidas Funcionales",
+      "nombreComercial": " Café Divina Hot Chocolate — Premium Flavored Drink",
+      "nombreVisible": " Café Divina Hot Chocolate — Premium Flavored Drink",
+      "objetivo": " Ofrecer chocolate caliente premium con sabor auténtico \"al estilo antiguo\".",
+      "problema": " Búsqueda de calor instantáneo y confort en días fríos, con beneficios funcionales.",
+      "ingredientes": [
+        "320 mg Reishi",
+        "cacao",
+        "crema no láctea"
+      ],
+      "beneficios": [
+        "Beneficia el sistema inmune",
+        "calor instantáneo para un día frío",
+        "antioxidante"
+      ],
+      "presentacion": " 15 sobres / 17 oz (480 g) total.",
+      "publicoObjetivo": " No especificado (el catálogo menciona \"toda su familia disfrutará\").",
+      "keywords": " chocolate caliente, cacao con reishi, bebida familiar, chocolate premium.",
+      "imagePrincipal": "products/_placeholders/hot-chocolate.svg",
+      "images": [
+        "products/_placeholders/hot-chocolate.svg"
+      ],
+      "hasImages": false
+    },
+    {
+      "slug": "latte-dorado",
+      "categoria": "02-cafe-divina",
+      "categoriaLabel": "Café Divina · Bebidas Funcionales",
+      "nombreComercial": " Café Divina Latte Dorado — Premium Beverage",
+      "nombreVisible": " Café Divina Latte Dorado — Premium Beverage",
+      "objetivo": " Inspirar creatividad mientras aporta beneficios a cualquier estilo de vida saludable.",
+      "problema": " Inflamación general y necesidad de control de peso saludable.",
+      "ingredientes": [
+        "Reishi",
+        "cúrcuma",
+        "crema no láctea"
+      ],
+      "beneficios": [
+        "Ayuda a desinflamar",
+        "formulado para apoyar un estilo de vida saludable",
+        "apoya el control normal de peso saludable"
+      ],
+      "presentacion": " 20 sobres.",
+      "publicoObjetivo": " No especificado.",
+      "keywords": " latte de cúrcuma, bebida dorada, antiinflamatorio, café con cúrcuma.",
+      "imagePrincipal": "products/_placeholders/latte-dorado.svg",
+      "images": [
+        "products/_placeholders/latte-dorado.svg"
+      ],
+      "hasImages": false
+    },
+    {
+      "slug": "latte-verde",
+      "categoria": "02-cafe-divina",
+      "categoriaLabel": "Café Divina · Bebidas Funcionales",
+      "nombreComercial": " Café Divina Latte Verde — Premium Coffee",
+      "nombreVisible": " Café Divina Latte Verde — Premium Coffee",
+      "objetivo": " Brindar los beneficios saludables de toda la hoja de té mediante matcha.",
+      "problema": " Deseo de energía y antioxidantes sin depender solo de café tradicional.",
+      "ingredientes": [
+        "Reishi",
+        "matcha en polvo",
+        "crema no láctea"
+      ],
+      "beneficios": [
+        "Fortalece el sistema inmune",
+        "formulado para apoyar un estilo de vida saludable",
+        "apoya el control normal de peso saludable",
+        "antioxidante"
+      ],
+      "presentacion": " 20 sobres.",
+      "publicoObjetivo": " No especificado.",
+      "keywords": " matcha, latte verde, café con matcha, antioxidante natural.",
+      "imagePrincipal": "products/_placeholders/latte-verde.svg",
+      "images": [
+        "products/_placeholders/latte-verde.svg"
+      ],
+      "hasImages": false
+    },
+    {
+      "slug": "latte",
+      "categoria": "02-cafe-divina",
+      "categoriaLabel": "Café Divina · Bebidas Funcionales",
+      "nombreComercial": " Café Divina Latte",
+      "nombreVisible": " Café Divina Latte",
+      "objetivo": " Ofrecer un café latte cremoso instantáneo sin espera.",
+      "problema": " Falta de tiempo para preparar café de calidad por las mañanas.",
+      "ingredientes": [
+        "210 mg Reishi",
+        "café arábico",
+        "crema no láctea"
+      ],
+      "beneficios": [
+        "Beneficia el sistema inmune",
+        "control del peso",
+        "antioxidante",
+        "antiinflamatorio"
+      ],
+      "presentacion": " 20 sobres / 21 g por porción, 14.8 oz (420 g) total.",
+      "publicoObjetivo": " No especificado.",
+      "keywords": " café latte instantáneo, café con reishi, café cremoso, café premium.",
+      "imagePrincipal": "products/_placeholders/latte.svg",
+      "images": [
+        "products/_placeholders/latte.svg"
+      ],
+      "hasImages": false
+    },
+    {
+      "slug": "mocha",
+      "categoria": "02-cafe-divina",
+      "categoriaLabel": "Café Divina · Bebidas Funcionales",
+      "nombreComercial": " Café Divina Mocha Premium Coffee",
+      "nombreVisible": " Café Divina Mocha Premium Coffee",
+      "objetivo": " Combinar chocolate y café arábico en una bebida suave y sedosa para disfrutar diariamente.",
+      "problema": " Antojo de chocolate combinado con la necesidad de una bebida energizante.",
+      "ingredientes": [
+        "280 mg Reishi",
+        "café arábico",
+        "chocolate"
+      ],
+      "beneficios": [
+        "Beneficia el sistema inmune",
+        "control del peso",
+        "antioxidante",
+        "antiinflamatorio"
+      ],
+      "presentacion": " 15 sobres / 28 g por porción.",
+      "publicoObjetivo": " No especificado.",
+      "keywords": " café mocha, café con chocolate, café con reishi, bebida antioxidante.",
+      "imagePrincipal": "products/_placeholders/mocha.svg",
+      "images": [
+        "products/_placeholders/mocha.svg"
+      ],
+      "hasImages": false
+    },
+    {
+      "slug": "sculpt-black",
+      "categoria": "02-cafe-divina",
+      "categoriaLabel": "Café Divina · Bebidas Funcionales",
+      "nombreComercial": " Café Divina Sculpt Black",
+      "nombreVisible": " Café Sculpt Black",
+      "objetivo": " Acelerar el proceso de oxidación de grasa y controlar el apetito mediante Reishi y Garcinia Cambogia.",
+      "problema": " Necesidad de una bebida energética que también apoye el control de peso.",
+      "ingredientes": [
+        "70 mg Reishi",
+        "L-Carnitina",
+        "extracto de ginseng"
+      ],
+      "beneficios": [
+        "Beneficia el sistema inmune",
+        "control del peso",
+        "antioxidante",
+        "sustenta la energía natural"
+      ],
+      "presentacion": " 30 sobres / 3.3 g por porción. Café premium, 0 g de azúcar.",
+      "publicoObjetivo": " No especificado.",
+      "keywords": " café con reishi, l-carnitina, ginseng, café para bajar de peso, café sin azúcar.",
+      "imagePrincipal": "products/sculpt-black/sculpt-black-01-producto.webp",
+      "images": [
+        "products/sculpt-black/sculpt-black-01-producto.webp",
+        "products/sculpt-black/sculpt-black-02-beneficios.webp",
+        "products/sculpt-black/sculpt-black-03-lifestyle.webp"
+      ],
+      "hasImages": true
+    },
+    {
+      "slug": "sculpt-latte",
+      "categoria": "02-cafe-divina",
+      "categoriaLabel": "Café Divina · Bebidas Funcionales",
+      "nombreComercial": " Café Divina Sculpt Latte",
+      "nombreVisible": " Café Divina Sculpt Latte",
+      "objetivo": " Combinar café arábico con Reishi y Garcinia Cambogia en una bebida cremosa.",
+      "problema": " Deseo de una bebida cremosa que apoye el sistema inmune y el control de peso.",
+      "ingredientes": [
+        "210 mg Reishi",
+        "café arábico",
+        "L-Carnitina"
+      ],
+      "beneficios": [
+        "Beneficia el sistema inmune",
+        "control del peso",
+        "antioxidante",
+        "antiinflamatorio"
+      ],
+      "presentacion": " 20 sobres / 21 g por porción. 0 g de azúcar, endulzado con fruta del monje.",
+      "publicoObjetivo": " No especificado.",
+      "keywords": " latte con reishi, café cremoso, l-carnitina, fruta del monje, café antiinflamatorio.",
+      "imagePrincipal": "products/_placeholders/sculpt-latte.svg",
+      "images": [
+        "products/_placeholders/sculpt-latte.svg"
+      ],
+      "hasImages": false
+    },
+    {
+      "slug": "sculpt-tongkat-ali",
+      "categoria": "02-cafe-divina",
+      "categoriaLabel": "Café Divina · Bebidas Funcionales",
+      "nombreComercial": " Café Divina Sculpt Tongkat Ali",
+      "nombreVisible": " Café Sculpt Tongkat Ali",
+      "objetivo": " Combinar los beneficios de Tongkat Ali y Sculpt Black en una bebida para control de peso saludable.",
+      "problema": " Baja libido, agudeza mental reducida y falta de fuerza muscular, junto con necesidad de control de peso.",
+      "ingredientes": [
+        "210 mg Reishi",
+        "Tongkat Ali",
+        "café arábico",
+        "L-Carnitina"
+      ],
+      "beneficios": [
+        "Líbido saludable",
+        "agudeza mental",
+        "fuerza muscular",
+        "antioxidante"
+      ],
+      "presentacion": " 20 sobres.",
+      "publicoObjetivo": " No especificado.",
+      "keywords": " tongkat ali, café con reishi, libido masculina, fuerza muscular, agudeza mental.",
+      "imagePrincipal": "products/sculpt-tongkat-ali/sculpt-tongkat-ali-01-producto.webp",
+      "images": [
+        "products/sculpt-tongkat-ali/sculpt-tongkat-ali-01-producto.webp",
+        "products/sculpt-tongkat-ali/sculpt-tongkat-ali-02-beneficios.webp",
+        "products/sculpt-tongkat-ali/sculpt-tongkat-ali-03-lifestyle.webp"
+      ],
+      "hasImages": true
+    },
+    {
+      "slug": "te-negro",
+      "categoria": "02-cafe-divina",
+      "categoriaLabel": "Café Divina · Bebidas Funcionales",
+      "nombreComercial": " Café Divina Black Tea",
+      "nombreVisible": " Café Divina Black Tea",
+      "objetivo": " Ofrecer un té de sabor delicioso formulado con Reishi para un estilo de vida saludable.",
+      "problema": " Necesidad de alerta mental y antioxidantes en la rutina diaria.",
+      "ingredientes": [
+        "Extracto de Reishi",
+        "té negro (contiene 2–4% de cafeína)"
+      ],
+      "beneficios": [
+        "Beneficia el sistema inmune",
+        "control del peso",
+        "antioxidante",
+        "sustenta la energía natural"
+      ],
+      "presentacion": " 20 sachets / 1.4 oz (40 g) total.",
+      "publicoObjetivo": " No especificado.",
+      "keywords": " té negro, cafeína, antioxidante, té con reishi, energía natural.",
+      "imagePrincipal": "products/_placeholders/te-negro.svg",
+      "images": [
+        "products/_placeholders/te-negro.svg"
+      ],
+      "hasImages": false
+    },
+    {
+      "slug": "te-verde",
+      "categoria": "02-cafe-divina",
+      "categoriaLabel": "Café Divina · Bebidas Funcionales",
+      "nombreComercial": " Café Divina Green Tea",
+      "nombreVisible": " Café Divina Green Tea",
+      "objetivo": " Recargar energías y revitalizar durante el día.",
+      "problema": " Fatiga durante el día; necesidad de agilidad mental.",
+      "ingredientes": [
+        "Extracto de Reishi",
+        "té verde"
+      ],
+      "beneficios": [
+        "Beneficia el sistema inmune",
+        "control del peso",
+        "antioxidante",
+        "sustenta la energía natural"
+      ],
+      "presentacion": " 20 sachets / 1.4 oz (40 g) total.",
+      "publicoObjetivo": " No especificado.",
+      "keywords": " té verde, agilidad mental, antioxidante, té con reishi, revitalizante.",
+      "imagePrincipal": "products/_placeholders/te-verde.svg",
+      "images": [
+        "products/_placeholders/te-verde.svg"
+      ],
+      "hasImages": false
+    },
+    {
+      "slug": "tongkat-ali-cafe",
+      "categoria": "02-cafe-divina",
+      "categoriaLabel": "Café Divina · Bebidas Funcionales",
+      "nombreComercial": " Café Divina Tongkat Ali",
+      "nombreVisible": " Café Tongkat Ali",
+      "objetivo": " Ayudar a mantener una libido saludable normal mediante una mezcla exótica de café.",
+      "problema": " Libido baja o irregular.",
+      "ingredientes": [
+        "Reishi",
+        "Tongkat Ali",
+        "café arábico",
+        "2 g de fibra"
+      ],
+      "beneficios": [
+        "Líbido saludable",
+        "agudeza mental",
+        "fuerza muscular",
+        "antioxidante"
+      ],
+      "presentacion": " 20 sobres / 21 g por porción.",
+      "publicoObjetivo": " No especificado.",
+      "keywords": " café tongkat ali, libido, fibra, café funcional, fuerza muscular.",
+      "imagePrincipal": "products/tongkat-ali-cafe/tongkat-ali-cafe-01-producto.webp",
+      "images": [
+        "products/tongkat-ali-cafe/tongkat-ali-cafe-01-producto.webp",
+        "products/tongkat-ali-cafe/tongkat-ali-cafe-02-extra.webp",
+        "products/tongkat-ali-cafe/tongkat-ali-cafe-03-beneficios.webp"
+      ],
+      "hasImages": true
+    },
+    {
+      "slug": "aceite-esporas-reishi",
+      "categoria": "03-longevidad-bienestar",
+      "categoriaLabel": "Longevidad y Bienestar General",
+      "nombreComercial": " Vida Divina Reishi Spore Oil",
+      "nombreVisible": " Vida Divina Reishi Spore Oil",
+      "objetivo": " Optimizar los beneficios a la salud mediante aceite de esporas de Reishi sin aditivos.",
+      "problema": " Sistema inmunológico débil y mala circulación sanguínea.",
+      "ingredientes": [
+        "Aceite de esporas de Reishi (procesado sin aditivos)"
+      ],
+      "beneficios": [
+        "Apoya a mantener un sistema inmunológico saludable",
+        "fomenta la circulación correcta y saludable de la sangre"
+      ],
+      "presentacion": " 30 softgels, 500 mg por softgel.",
+      "publicoObjetivo": " No especificado.",
+      "keywords": " aceite de esporas, reishi spore oil, circulación sanguínea, sistema inmunológico.",
+      "imagePrincipal": "products/_placeholders/aceite-esporas-reishi.svg",
+      "images": [
+        "products/_placeholders/aceite-esporas-reishi.svg"
+      ],
+      "hasImages": false
+    },
+    {
+      "slug": "chaga-capsules",
+      "categoria": "03-longevidad-bienestar",
+      "categoriaLabel": "Longevidad y Bienestar General",
+      "nombreComercial": " Divina Chaga Capsules (Inonotus obliquus)",
+      "nombreVisible": " Divina Chaga Capsules (Inonotus obliquus)",
+      "objetivo": " Ayudar a mantener un sistema inmunológico saludable mediante Chaga siberiano.",
+      "problema": " Sistema inmunológico debilitado.",
+      "ingredientes": [
+        "500 mg Chaga Mushroom"
+      ],
+      "beneficios": [
+        "Ayuda al bienestar general",
+        "beneficia el sistema inmunológico",
+        "gran aporte de vitaminas",
+        "minerales y antioxidantes",
+        "control del peso"
+      ],
+      "presentacion": " 90 cápsulas vegetales.",
+      "publicoObjetivo": " No especificado.",
+      "keywords": " chaga siberiano, inonotus obliquus, sistema inmunológico, antioxidantes, producto estrella.",
+      "imagePrincipal": "products/_placeholders/chaga-capsules.svg",
+      "images": [
+        "products/_placeholders/chaga-capsules.svg"
+      ],
+      "hasImages": false
+    },
+    {
+      "slug": "cordycs-4-capsules",
+      "categoria": "03-longevidad-bienestar",
+      "categoriaLabel": "Longevidad y Bienestar General",
+      "nombreComercial": " Divina CordyCS-4 Capsules (Cordyceps Sinensis CS-4)",
+      "nombreVisible": " Divina CordyCS-4 Capsules (Cordyceps Sinensis CS-4)",
+      "objetivo": " Apoyar un estilo de vida saludable y equilibrado mediante Cordyceps.",
+      "problema": " Baja capacidad respiratoria y sistema inmune débil.",
+      "ingredientes": [
+        "Cordyceps (género de hongos",
+        "más de 400 especies)"
+      ],
+      "beneficios": [
+        "Ayuda al sistema respiratorio",
+        "beneficia el sistema inmunológico",
+        "gran aporte de vitaminas",
+        "minerales y antioxidantes"
+      ],
+      "presentacion": " 30 cápsulas vegetales.",
+      "publicoObjetivo": " No especificado.",
+      "keywords": " cordyceps sinensis, sistema respiratorio, hongos medicinales, energía y resistencia.",
+      "imagePrincipal": "products/_placeholders/cordycs-4-capsules.svg",
+      "images": [
+        "products/_placeholders/cordycs-4-capsules.svg"
+      ],
+      "hasImages": false
+    },
+    {
+      "slug": "eterno-capsules",
+      "categoria": "03-longevidad-bienestar",
+      "categoriaLabel": "Longevidad y Bienestar General",
+      "nombreComercial": " Divina Eterno Capsules",
+      "nombreVisible": " Divina Eterno Capsules",
+      "objetivo": " Promover la longevidad, la energía, el alivio del estrés y el bienestar general.",
+      "problema": " Estrés acumulado, baja energía y declive cognitivo asociados a la edad.",
+      "ingredientes": [
+        "Shilajit",
+        "mezcla de hongos orgánicos (Cordyceps",
+        "Cola de Pavo",
+        "Melena de León",
+        "Reishi",
+        "Chaga)",
+        "DHEA"
+      ],
+      "beneficios": [
+        "Promueve la longevidad y el bienestar general",
+        "favorece la salud cerebral y la función cognitiva",
+        "ayuda a aumentar la energía y la resistencia",
+        "contribuye al alivio del estrés"
+      ],
+      "presentacion": " 60 cápsulas.",
+      "publicoObjetivo": " No especificado.",
+      "keywords": " shilajit, DHEA, hongos medicinales, longevidad, energía, alivio del estrés.",
+      "imagePrincipal": "products/_placeholders/eterno-capsules.svg",
+      "images": [
+        "products/_placeholders/eterno-capsules.svg"
+      ],
+      "hasImages": false
+    },
+    {
+      "slug": "inflam-x-capsules",
+      "categoria": "03-longevidad-bienestar",
+      "categoriaLabel": "Longevidad y Bienestar General",
+      "nombreComercial": " Divina Inflam-X Capsules",
+      "nombreVisible": " Divina Inflam-X Capsules",
+      "objetivo": " Apoyar una respuesta saludable a la inflamación y aliviar las molestias cotidianas.",
+      "problema": " Inflamación crónica y molestias cotidianas asociadas al envejecimiento.",
+      "ingredientes": [
+        "Extracto de raíz de cúrcuma",
+        "extracto de hoja de olivo",
+        "extracto de semilla de uva",
+        "extracto de brócoli"
+      ],
+      "beneficios": [
+        "Ayuda con las molestias e inflamación cotidianas",
+        "apoya la salud y el bienestar general",
+        "potentes propiedades antienvejecimiento",
+        "brinda un apoyo nutricional óptimo"
+      ],
+      "presentacion": " 60 cápsulas.",
+      "publicoObjetivo": " No especificado.",
+      "keywords": " curcumina, antiinflamatorio natural, extracto de brócoli, semilla de uva, antienvejecimiento.",
+      "imagePrincipal": "products/_placeholders/inflam-x-capsules.svg",
+      "images": [
+        "products/_placeholders/inflam-x-capsules.svg"
+      ],
+      "hasImages": false
+    },
+    {
+      "slug": "nad-plus",
+      "categoria": "03-longevidad-bienestar",
+      "categoriaLabel": "Longevidad y Bienestar General",
+      "nombreComercial": " Divina NAD+",
+      "nombreVisible": " Divina NAD+",
+      "objetivo": " Apoyar el metabolismo celular, promover un envejecimiento saludable y brindar vitalidad diaria.",
+      "problema": " Disminución de energía celular y claridad mental asociada al envejecimiento.",
+      "ingredientes": [
+        "NAD+",
+        "cloruro de nicotinamida ribósido",
+        "taurina"
+      ],
+      "beneficios": [
+        "Estimula el metabolismo celular",
+        "ayuda al cuerpo a quemar calorías",
+        "promueve un envejecimiento saludable",
+        "puede mejorar la claridad mental",
+        "la concentración y el estado de ánimo"
+      ],
+      "presentacion": " 10 botellas / 1.69 fl oz (50 ml) c/u — total 16.9 fl oz (500 ml).",
+      "publicoObjetivo": " No especificado.",
+      "keywords": " NAD+, nicotinamida ribósido, longevidad, anti-aging, energía celular, taurina.",
+      "imagePrincipal": "products/_placeholders/nad-plus.svg",
+      "images": [
+        "products/_placeholders/nad-plus.svg"
+      ],
+      "hasImages": false
+    },
+    {
+      "slug": "reishi-capsules",
+      "categoria": "03-longevidad-bienestar",
+      "categoriaLabel": "Longevidad y Bienestar General",
+      "nombreComercial": " Divina Reishi Capsules (Ganoderma Lucidum)",
+      "nombreVisible": " Cápsulas REISHI",
+      "objetivo": " Compartir los beneficios del Reishi, hongo base de la existencia de Vida Divina.",
+      "problema": " Bajo bienestar general, sistema inmune debilitado, estrés.",
+      "ingredientes": [
+        "500 mg Reishi (Ganoderma Lucidum)"
+      ],
+      "beneficios": [
+        "Ayuda al bienestar general",
+        "beneficia el sistema inmunológico",
+        "reduce el impacto del estrés en el cuerpo",
+        "control del peso"
+      ],
+      "presentacion": " 90 cápsulas vegetales.",
+      "publicoObjetivo": " No especificado.",
+      "keywords": " ganoderma lucidum, reishi, sistema inmunológico, adaptógeno, bienestar general.",
+      "imagePrincipal": "products/reishi-capsules/reishi-capsules-01-producto.webp",
+      "images": [
+        "products/reishi-capsules/reishi-capsules-01-producto.webp",
+        "products/reishi-capsules/reishi-capsules-02-beneficios.webp"
+      ],
+      "hasImages": true
+    },
+    {
+      "slug": "time-capsules",
+      "categoria": "03-longevidad-bienestar",
+      "categoriaLabel": "Longevidad y Bienestar General",
+      "nombreComercial": " Divina Time Capsules",
+      "nombreVisible": " Divina Time Capsules",
+      "objetivo": " Obtener el máximo provecho del tiempo mediante un complejo de longevidad de 10 hierbas medicinales.",
+      "problema": " Necesidad de un complejo integral que apoye longevidad y bienestar familiar.",
+      "ingredientes": [
+        "Mezcla de la Dra. Ramos de 10 hierbas medicinales",
+        "incluyendo Chaga Mushroom",
+        "Reishi y Cordyceps Sinensis"
+      ],
+      "beneficios": [
+        "Ayuda al bienestar general",
+        "beneficia el sistema inmunológico",
+        "gran aporte de vitaminas",
+        "minerales y antioxidantes",
+        "control del peso"
+      ],
+      "presentacion": " 60 cápsulas.",
+      "publicoObjetivo": " No especificado (el catálogo menciona \"usted y su familia amarán los beneficios de Time\").",
+      "keywords": " complejo de longevidad, 10 hierbas medicinales, Dra. Ramos, hongos medicinales.",
+      "imagePrincipal": "products/_placeholders/time-capsules.svg",
+      "images": [
+        "products/_placeholders/time-capsules.svg"
+      ],
+      "hasImages": false
+    },
+    {
+      "slug": "youth-capsules",
+      "categoria": "04-funcion-cognitiva",
+      "categoriaLabel": "Función Cognitiva",
+      "nombreComercial": " Divina Youth Capsules",
+      "nombreVisible": " Divina Youth Capsules",
+      "objetivo": " Ayudar a sentirse y verse más joven mediante una mezcla patentada de aminoácidos esenciales.",
+      "problema": " Signos de envejecimiento, presión arterial y colesterol elevados.",
+      "ingredientes": [
+        "L-Arginina",
+        "L-Glutamina"
+      ],
+      "beneficios": [
+        "Apoya la inmunidad al envejecimiento saludable",
+        "aumenta la hormona de crecimiento humano",
+        "ayuda a controlar la presión arterial y los niveles de colesterol"
+      ],
+      "presentacion": " 60 cápsulas.",
+      "publicoObjetivo": " No especificado.",
+      "keywords": " L-Arginina, L-Glutamina, hormona de crecimiento, antienvejecimiento, presión arterial.",
+      "imagePrincipal": "products/_placeholders/youth-capsules.svg",
+      "images": [
+        "products/_placeholders/youth-capsules.svg"
+      ],
+      "hasImages": false
+    },
+    {
+      "slug": "brain-capsules",
+      "categoria": "04-funcion-cognitiva",
+      "categoriaLabel": "Función Cognitiva",
+      "nombreComercial": " Divina Brain Capsules",
+      "nombreVisible": " Divina Brain Capsules",
+      "objetivo": " Ayudar a mantener una mejor función cerebral (\"como actualizar la memoria RAM\").",
+      "problema": " Falta de concentración, enfoque y claridad mental.",
+      "ingredientes": [
+        "Ginkgo Biloba",
+        "St. John's Wart (hierba de San Juan)"
+      ],
+      "beneficios": [
+        "Ayuda a mantener una mayor concentración",
+        "enfoque y claridad mental",
+        "suplemento para un cerebro sano con un estilo de vida saludable"
+      ],
+      "presentacion": " 60 cápsulas. Formulado por la Dra. Ramos, co-fundadora.",
+      "publicoObjetivo": " No especificado.",
+      "keywords": " ginkgo biloba, hierba de San Juan, concentración, memoria, claridad mental.",
+      "imagePrincipal": "products/_placeholders/brain-capsules.svg",
+      "images": [
+        "products/_placeholders/brain-capsules.svg"
+      ],
+      "hasImages": false
+    },
+    {
+      "slug": "ouch-capsules",
+      "categoria": "05-dolor-articulaciones",
+      "categoriaLabel": "Dolor y Articulaciones",
+      "nombreComercial": " Divina Ouch Capsules",
+      "nombreVisible": " Divina Ouch Capsules",
+      "objetivo": " Aliviar el dolor muscular de una forma saludable.",
+      "problema": " Dolor muscular y molestias articulares.",
+      "ingredientes": [
+        "Green Tea (té verde)",
+        "Reishi",
+        "Holy Basil Leaf (albahaca sagrada)",
+        "Turmeric (cúrcuma)"
+      ],
+      "beneficios": [
+        "Disminuye el dolor muscular",
+        "promueve la función articular saludable"
+      ],
+      "presentacion": " 60 cápsulas.",
+      "publicoObjetivo": " No especificado.",
+      "keywords": " dolor muscular, cúrcuma, albahaca sagrada, función articular, alivio natural.",
+      "imagePrincipal": "products/_placeholders/ouch-capsules.svg",
+      "images": [
+        "products/_placeholders/ouch-capsules.svg"
+      ],
+      "hasImages": false
+    },
+    {
+      "slug": "sight-capsules",
+      "categoria": "06-salud-visual",
+      "categoriaLabel": "Salud Visual",
+      "nombreComercial": " Divina Sight Capsules",
+      "nombreVisible": " Divina Sight Capsules",
+      "objetivo": " Ayudar a proteger cada fibra y nervio del ojo.",
+      "problema": " Condiciones oculares asociadas al envejecimiento normal.",
+      "ingredientes": [
+        "Lutein (luteína)",
+        "Bilberry fruit (fruto de arándano)",
+        "Vitamina A"
+      ],
+      "beneficios": [
+        "Apoya una visión saludable",
+        "formulado con vitaminas y minerales",
+        "ayuda en condiciones oculares asociadas al envejecimiento normal"
+      ],
+      "presentacion": " 60 cápsulas.",
+      "publicoObjetivo": " No especificado.",
+      "keywords": " luteína, arándano (bilberry), vitamina A, salud ocular, visión, carotenoides.",
+      "imagePrincipal": "products/_placeholders/sight-capsules.svg",
+      "images": [
+        "products/_placeholders/sight-capsules.svg"
+      ],
+      "hasImages": false
+    },
+    {
+      "slug": "ripped-capsules",
+      "categoria": "07-rendimiento-fisico",
+      "categoriaLabel": "Rendimiento Físico y Fuerza",
+      "nombreComercial": " Divina Ripped Capsules",
+      "nombreVisible": " Cápsulas Ripped",
+      "objetivo": " Quemar grasa y promover el aumento muscular mediante Tongkat Ali.",
+      "problema": " Baja masa muscular y envejecimiento prematuro.",
+      "ingredientes": [
+        "Tongkat Ali",
+        "Ganoderma (Reishi)"
+      ],
+      "beneficios": [
+        "Aporta al aumento de la musculatura",
+        "ayuda a prevenir el envejecimiento prematuro"
+      ],
+      "presentacion": " 30 cápsulas.",
+      "publicoObjetivo": " No especificado.",
+      "keywords": " tongkat ali, aumento muscular, ganoderma, fuerza, envejecimiento prematuro.",
+      "imagePrincipal": "products/ripped-capsules/ripped-capsules-01-producto.webp",
+      "images": [
+        "products/ripped-capsules/ripped-capsules-01-producto.webp",
+        "products/ripped-capsules/ripped-capsules-02-beneficios.webp",
+        "products/ripped-capsules/ripped-capsules-03-lifestyle.webp"
+      ],
+      "hasImages": true
+    },
+    {
+      "slug": "mars-capsules",
+      "categoria": "08-intimidad-libido",
+      "categoriaLabel": "Intimidad y Libido",
+      "nombreComercial": " Divina Mars Capsules",
+      "nombreVisible": " Cápsulas Mars",
+      "objetivo": " Restaurar la energía y libido masculina (\"restaurar el león que lleva dentro\").",
+      "problema": " Falta de libido en hombres.",
+      "ingredientes": [
+        "Tongkat Ali",
+        "Horny Goat Weed"
+      ],
+      "beneficios": [
+        "Apoya a tener una libido saludable",
+        "mejora la energía y resistencia",
+        "alternativa natural"
+      ],
+      "presentacion": " 30 cápsulas.",
+      "publicoObjetivo": " Hombres (explícitamente dirigido a \"Caballeros\").",
+      "keywords": " libido masculina, tongkat ali, horny goat weed, disfunción eréctil, energía masculina.",
+      "imagePrincipal": "products/mars-capsules/mars-capsules-01-producto.webp",
+      "images": [
+        "products/mars-capsules/mars-capsules-01-producto.webp",
+        "products/mars-capsules/mars-capsules-02-beneficios.webp",
+        "products/mars-capsules/mars-capsules-03-lifestyle.webp"
+      ],
+      "hasImages": true
+    },
+    {
+      "slug": "venus-capsules",
+      "categoria": "08-intimidad-libido",
+      "categoriaLabel": "Intimidad y Libido",
+      "nombreComercial": " Divina Venus Capsules",
+      "nombreVisible": " Cápsulas Venus",
+      "objetivo": " Recuperar el libido normal y saludable de la mujer.",
+      "problema": " Falta de deseo, intimidad incómoda, síntomas de menopausia, ciclo menstrual irregular.",
+      "ingredientes": [
+        "Maca",
+        "Dong Quai (Angélica china)",
+        "Vitex (Sauzgatillo)",
+        "Raíz de Yam silvestre",
+        "Isoflavonas naturales",
+        "Vitaminas del complejo B",
+        "Minerales esenciales"
+      ],
+      "beneficios": [
+        "Apoya el equilibrio hormonal femenino",
+        "ayuda a regular desajustes hormonales de forma natural",
+        "reduce síntomas del síndrome premenstrual (SPM)",
+        "puede ayudar con cambios de humor",
+        "puede ayudar con retención de líquidos",
+        "puede ayudar con sensibilidad en senos",
+        "puede ayudar con cólicos",
+        "apoya la energía y vitalidad femenina",
+        "ideal para combatir el cansancio relacionado con cambios hormonales",
+        "contribuye al bienestar emocional",
+        "apoya la estabilidad emocional y el estado de ánimo",
+        "alternativa natural",
+        "sin hormonas sintéticas"
+      ],
+      "presentacion": " 30 cápsulas.",
+      "publicoObjetivo": " Mujeres con desajustes hormonales; síndrome premenstrual; perimenopausia y menopausia; fatiga hormonal; mujeres que buscan equilibrio y bienestar natural.",
+      "keywords": " libido femenina, menopausia, ciclo menstrual, deseo sexual, intimidad femenina, equilibrio hormonal, SPM.",
+      "imagePrincipal": "products/venus-capsules/venus-capsules-01-producto.webp",
+      "images": [
+        "products/venus-capsules/venus-capsules-01-producto.webp",
+        "products/venus-capsules/venus-capsules-02-beneficios.webp",
+        "products/venus-capsules/venus-capsules-03-lifestyle.webp"
+      ],
+      "hasImages": true
+    },
+    {
+      "slug": "vida-pure",
+      "categoria": "09-proteinas-batidos",
+      "categoriaLabel": "Proteínas y Batidos",
+      "nombreComercial": " Vida Pure — 100% Vegan Based Protein",
+      "nombreVisible": " Vida Pure — 100% Vegan Based Protein",
+      "objetivo": " Apoyar la salud y bienestar general mediante proteína de origen vegetal.",
+      "problema": " Baja ingesta de proteína, especialmente en dietas vegetarianas/veganas.",
+      "ingredientes": [
+        "Proteína 100% de origen vegetal (25 g por porción)"
+      ],
+      "beneficios": [
+        "Aporta 25 g de proteína",
+        "aporta poderosos antioxidantes",
+        "proteínas",
+        "vitaminas y minerales",
+        "sin azúcar",
+        "ayuda a mantener un control de peso saludable"
+      ],
+      "presentacion": " 15 porciones / 25 g por porción. Sabores: Chocolate Creme, Vanilla Bean.",
+      "publicoObjetivo": " No especificado.",
+      "keywords": " proteína vegana, proteína en polvo, sin azúcar, batido de proteína, plant-based.",
+      "imagePrincipal": "products/_placeholders/vida-pure.svg",
+      "images": [
+        "products/_placeholders/vida-pure.svg"
+      ],
+      "hasImages": false
+    },
+    {
+      "slug": "vida-fuel",
+      "categoria": "09-proteinas-batidos",
+      "categoriaLabel": "Proteínas y Batidos",
+      "nombreComercial": " Vida Fuel — Meal Replacement Shake",
+      "nombreVisible": " Vida Fuel — Meal Replacement Shake",
+      "objetivo": " Apoyar un estilo de vida saludable mediante un batido sustitutivo de comidas.",
+      "problema": " Necesidad de perder peso o desarrollar músculo magro con soporte nutricional completo.",
+      "ingredientes": [
+        "Fórmula pura de suero (whey)"
+      ],
+      "beneficios": [
+        "Aporta valores como una porción completa de verduras y frutas",
+        "aporta poderosos antioxidantes",
+        "proteínas",
+        "vitaminas y minerales",
+        "solución completa de reemplazo de comidas",
+        "ayuda a mantener un control de peso saludable"
+      ],
+      "presentacion": " 15 porciones / 16 g por porción. Sabores: Fresa, Cookies 'N Cream, Chocolate, Vainilla.",
+      "publicoObjetivo": " No especificado.",
+      "keywords": " batido sustitutivo, meal replacement, whey, control de peso, músculo magro.",
+      "imagePrincipal": "products/_placeholders/vida-fuel.svg",
+      "images": [
+        "products/_placeholders/vida-fuel.svg"
+      ],
+      "hasImages": false
+    },
+    {
+      "slug": "factor-divina",
+      "categoria": "10-energia-antioxidantes",
+      "categoriaLabel": "Energía y Antioxidantes",
+      "nombreComercial": " Factor Divina — Superfood Shot",
+      "nombreVisible": " Factor Divina — Superfood Shot",
+      "objetivo": " Ser un elemento básico en la rutina diaria de bienestar mediante frutas y verduras concentradas.",
+      "problema": " Baja ingesta diaria de frutas, verduras y hongos medicinales.",
+      "ingredientes": [
+        "Reishi",
+        "Cordyceps",
+        "hoja de Moringa (más de 22 ingredientes en total",
+        "según el catálogo)"
+      ],
+      "beneficios": [
+        "Más de 22 ingredientes que apoyan la salud",
+        "formulado para apoyar un estilo de vida saludable",
+        "contiene hongos medicinales para apoyar la salud en general",
+        "antioxidante",
+        "repleto de antioxidantes"
+      ],
+      "presentacion": " Botella de 25.36 oz (Fruit and Vegetable Concentrate).",
+      "publicoObjetivo": " No especificado (el catálogo menciona \"toda su familia disfrutará\").",
+      "keywords": " superfood shot, concentrado de frutas y verduras, moringa, cordyceps, antioxidantes.",
+      "imagePrincipal": "products/_placeholders/factor-divina.svg",
+      "images": [
+        "products/_placeholders/factor-divina.svg"
+      ],
+      "hasImages": false
+    },
+    {
+      "slug": "mundo-azul",
+      "categoria": "10-energia-antioxidantes",
+      "categoriaLabel": "Energía y Antioxidantes",
+      "nombreComercial": " Vida Divina Mundo Azul — Muscle Support & Recovery",
+      "nombreVisible": " Vida Divina Mundo Azul — Muscle Support & Recovery",
+      "objetivo": " Impulsar el crecimiento muscular y mejorar la recuperación después del ejercicio.",
+      "problema": " Recuperación muscular lenta y necesidad de soporte para el crecimiento muscular.",
+      "ingredientes": [
+        "Creatina monohidrato micronizada (5 g)",
+        "L-Leucina (3500 mg)",
+        "L-Glutamina (5000 mg)",
+        "L-Isoleucina (1750 mg)",
+        "L-Valina (1750 mg) por ración"
+      ],
+      "beneficios": [
+        "Impulsa el crecimiento muscular",
+        "mejora la recuperación después del ejercicio (mezcla premium de BCAA y creatina micronizada)"
+      ],
+      "presentacion": " 30 sachets individuales / 21.7 oz (600.3 g) total.",
+      "publicoObjetivo": " No especificado.",
+      "keywords": " BCAA, creatina micronizada, recuperación muscular, L-Leucina, crecimiento muscular.",
+      "imagePrincipal": "products/_placeholders/mundo-azul.svg",
+      "images": [
+        "products/_placeholders/mundo-azul.svg"
+      ],
+      "hasImages": false
+    },
+    {
+      "slug": "mundo-omega",
+      "categoria": "10-energia-antioxidantes",
+      "categoriaLabel": "Energía y Antioxidantes",
+      "nombreComercial": " Vida Divina Mundo Omega",
+      "nombreVisible": " Vida Divina Mundo Omega",
+      "objetivo": " Ofrecer la respuesta vegana/vegetariana a los ácidos grasos esenciales omega-3.",
+      "problema": " Deficiencia de omega-3 en dietas vegetarianas/veganas.",
+      "ingredientes": [
+        "DHA",
+        "linaza dorada",
+        "vitamina E",
+        "B6",
+        "B12",
+        "ácido fólico",
+        "vitamina D vegana"
+      ],
+      "beneficios": [
+        "Apoya un sistema inmunológico saludable",
+        "ingredientes naturales sin GMO",
+        "absorción óptima combinando semillas de lino y algas marinas"
+      ],
+      "presentacion": " 30 servicios por bolsa / 10.5 oz (300 g).",
+      "publicoObjetivo": " No especificado (formulado como alternativa vegana/vegetariana).",
+      "keywords": " omega-3 vegano, DHA, linaza dorada, algas marinas, vitamina D vegana.",
+      "imagePrincipal": "products/_placeholders/mundo-omega.svg",
+      "images": [
+        "products/_placeholders/mundo-omega.svg"
+      ],
+      "hasImages": false
+    },
+    {
+      "slug": "mundo-rojo",
+      "categoria": "10-energia-antioxidantes",
+      "categoriaLabel": "Energía y Antioxidantes",
+      "nombreComercial": " Vida Divina Mundo Rojo — Superfood Mix",
+      "nombreVisible": " Vida Divina Mundo Rojo — Superfood Mix",
+      "objetivo": " Proporcionar bayas y vitaminas con alto contenido de antioxidantes de manera eficiente.",
+      "problema": " Baja ingesta de antioxidantes biodisponibles.",
+      "ingredientes": [
+        "No especificado (mezcla de bayas con tecnología de nanoabsorción extrema",
+        "componentes individuales no detallados en el catálogo)"
+      ],
+      "beneficios": [
+        "Delicioso sabor natural a bayas",
+        "ayuda a mantener un sistema inmunológico saludable",
+        "ingredientes naturales sin GMO"
+      ],
+      "presentacion": " 30 servicios por bolsa / 10.8 oz (300 g).",
+      "publicoObjetivo": " No especificado.",
+      "keywords": " bayas antioxidantes, superfood, nanoabsorción, sistema inmunológico, sin GMO.",
+      "imagePrincipal": "products/_placeholders/mundo-rojo.svg",
+      "images": [
+        "products/_placeholders/mundo-rojo.svg"
+      ],
+      "hasImages": false
+    },
+    {
+      "slug": "mundo-verde",
+      "categoria": "10-energia-antioxidantes",
+      "categoriaLabel": "Energía y Antioxidantes",
+      "nombreComercial": " Vida Divina Mundo Verde — Superfood Mix",
+      "nombreVisible": " Vida Divina Mundo Verde — Superfood Mix",
+      "objetivo": " Brindar beneficios respaldados científicamente mediante Tecnología de Nanoabsorción Extrema.",
+      "problema": " Necesidad de un superalimento de fácil absorción y sin ingredientes sintéticos.",
+      "ingredientes": [
+        "No especificado (mezcla de superalimentos con nanoabsorción extrema",
+        "componentes individuales no detallados en el catálogo)"
+      ],
+      "beneficios": [
+        "Garantiza una absorción óptima",
+        "apoya un sistema inmunológico saludable",
+        "ingredientes naturales sin GMO"
+      ],
+      "presentacion": " 30 porciones por bolsa / 10.5 oz (300 g).",
+      "publicoObjetivo": " No especificado.",
+      "keywords": " superalimento, nanoabsorción, sistema inmunológico, sin GMO, superfood mix.",
+      "imagePrincipal": "products/_placeholders/mundo-verde.svg",
+      "images": [
+        "products/_placeholders/mundo-verde.svg"
+      ],
+      "hasImages": false
+    },
+    {
+      "slug": "orange-genius",
+      "categoria": "10-energia-antioxidantes",
+      "categoriaLabel": "Energía y Antioxidantes",
+      "nombreComercial": " Divina Orange Genius",
+      "nombreVisible": " Divina Orange Genius",
+      "objetivo": " Brindar energía y enfoque mental mediante una mezcla rica en antioxidantes.",
+      "problema": " Ansiedad, estrés y falta de enfoque mental.",
+      "ingredientes": [
+        "L-Taurina",
+        "L-Teanina",
+        "hesperidina cítrica",
+        "extracto de té verde. Contiene resveratrol"
+      ],
+      "beneficios": [
+        "Sin azúcar",
+        "agudeza mental",
+        "apoya la energía natural",
+        "gran aporte de antioxidantes y vitaminas"
+      ],
+      "presentacion": " 30 sobres de barra individuales por caja / 9.23 oz (270 g) total.",
+      "publicoObjetivo": " No especificado.",
+      "keywords": " L-Teanina, resveratrol, energía natural, agudeza mental, antioxidantes, sin azúcar.",
+      "imagePrincipal": "products/_placeholders/orange-genius.svg",
+      "images": [
+        "products/_placeholders/orange-genius.svg"
+      ],
+      "hasImages": false
+    },
+    {
+      "slug": "extracto-agaricus-blazei",
+      "categoria": "11-extractos-hongos",
+      "categoriaLabel": "Extractos de Hongos Medicinales",
+      "nombreComercial": " Divina Extracto de Agaricus Blazei (Agaricus subrufescens) — Pure Extract",
+      "nombreVisible": " Divina Extracto de Agaricus Blazei (Agaricus subrufescens) — Pure Extract",
+      "objetivo": " Apoyar la salud general del sistema inmunológico mediante un hongo nativo de Brasil.",
+      "problema": " Glucosa en sangre elevada; tensión arterial y colesterol descontrolados.",
+      "ingredientes": [
+        "Agaricus Blazei (Agaricus subrufescens)",
+        "100% puro"
+      ],
+      "beneficios": [
+        "Tiene efectos positivos sobre la glucosa en sangre",
+        "beneficia el sistema inmunológico",
+        "controla la tensión arterial",
+        "colesterol y arteriosclerosis"
+      ],
+      "presentacion": " 100 g / 3.5 oz, polvo puro.",
+      "publicoObjetivo": " No especificado.",
+      "keywords": " agaricus blazei, hongo de brasil, glucosa en sangre, colesterol, tensión arterial.",
+      "imagePrincipal": "products/_placeholders/extracto-agaricus-blazei.svg",
+      "images": [
+        "products/_placeholders/extracto-agaricus-blazei.svg"
+      ],
+      "hasImages": false
+    },
+    {
+      "slug": "extracto-chaga",
+      "categoria": "11-extractos-hongos",
+      "categoriaLabel": "Extractos de Hongos Medicinales",
+      "nombreComercial": " Divina Extracto de Chaga — Pure Extract Powder",
+      "nombreVisible": " Divina Extracto de Chaga — Pure Extract Powder",
+      "objetivo": " Apoyar un sistema inmunológico saludable y mejorar la salud en general.",
+      "problema": " Sistema inmunológico débil.",
+      "ingredientes": [
+        "Chaga (Inonotus obliquus)",
+        "100% puro"
+      ],
+      "beneficios": [
+        "Ayuda al bienestar general",
+        "beneficia el sistema inmunológico",
+        "gran aporte de vitaminas",
+        "minerales y antioxidantes",
+        "control del peso"
+      ],
+      "presentacion": " 100 g / 3.5 oz, polvo puro.",
+      "publicoObjetivo": " No especificado.",
+      "keywords": " chaga en polvo, siberia, extracto puro, sistema inmunológico, antioxidantes.",
+      "imagePrincipal": "products/_placeholders/extracto-chaga.svg",
+      "images": [
+        "products/_placeholders/extracto-chaga.svg"
+      ],
+      "hasImages": false
+    },
+    {
+      "slug": "extracto-cordyceps",
+      "categoria": "11-extractos-hongos",
+      "categoriaLabel": "Extractos de Hongos Medicinales",
+      "nombreComercial": " Divina Extracto de Cordyceps — Pure Extract Powder",
+      "nombreVisible": " Divina Extracto de Cordyceps — Pure Extract Powder",
+      "objetivo": " Apoyar la salud tradicionalmente usada en la medicina herbal durante siglos.",
+      "problema": " Baja capacidad respiratoria; sistema inmune débil.",
+      "ingredientes": [
+        "Cordyceps",
+        "100% puro"
+      ],
+      "beneficios": [
+        "Ayuda al sistema respiratorio",
+        "beneficia el sistema inmunológico",
+        "gran aporte de vitaminas",
+        "minerales y antioxidantes"
+      ],
+      "presentacion": " 100 g / 3.5 oz, polvo puro.",
+      "publicoObjetivo": " No especificado.",
+      "keywords": " cordyceps en polvo, sistema respiratorio, extracto puro, medicina herbal.",
+      "imagePrincipal": "products/_placeholders/extracto-cordyceps.svg",
+      "images": [
+        "products/_placeholders/extracto-cordyceps.svg"
+      ],
+      "hasImages": false
+    },
+    {
+      "slug": "extracto-lions-mane",
+      "categoria": "11-extractos-hongos",
+      "categoriaLabel": "Extractos de Hongos Medicinales",
+      "nombreComercial": " Divina Extracto de Lion's Mane (Hericium erinaceus) — Pure Extract",
+      "nombreVisible": " Divina Extracto de Lion's Mane (Hericium erinaceus) — Pure Extract",
+      "objetivo": " Ayudar con la pérdida de memoria y las habilidades de pensamiento en personas mayores.",
+      "problema": " Pérdida de memoria y razonamiento asociada a la edad.",
+      "ingredientes": [
+        "Lion's Mane / Melena de León (Hericium erinaceus)",
+        "100% puro"
+      ],
+      "beneficios": [
+        "Ayuda al bienestar general",
+        "ayuda con la pérdida de memoria y el razonamiento",
+        "gran aporte de vitaminas",
+        "minerales y antioxidantes"
+      ],
+      "presentacion": " 100 g / 3.5 oz, polvo puro.",
+      "publicoObjetivo": " Personas mayores (mencionado en el contexto de pérdida de memoria \"más de lo normal para su edad\").",
+      "keywords": " melena de león, lion's mane, memoria, hericium erinaceus, función cognitiva.",
+      "imagePrincipal": "products/_placeholders/extracto-lions-mane.svg",
+      "images": [
+        "products/_placeholders/extracto-lions-mane.svg"
+      ],
+      "hasImages": false
+    },
+    {
+      "slug": "extracto-maitake",
+      "categoria": "11-extractos-hongos",
+      "categoriaLabel": "Extractos de Hongos Medicinales",
+      "nombreComercial": " Divina Extracto de Maitake (Grifola frondosa) — Pure Extract",
+      "nombreVisible": " Divina Extracto de Maitake (Grifola frondosa) — Pure Extract",
+      "objetivo": " Apoyar un sistema inmunológico saludable y promover la salud en general.",
+      "problema": " Sistema inmune débil.",
+      "ingredientes": [
+        "Maitake (Grifola frondosa)",
+        "100% puro"
+      ],
+      "beneficios": [
+        "Promueve la salud en general",
+        "beneficia el sistema inmunológico",
+        "gran aporte de vitaminas",
+        "minerales y antioxidantes"
+      ],
+      "presentacion": " 100 g / 3.5 oz, polvo puro.",
+      "publicoObjetivo": " No especificado.",
+      "keywords": " maitake, grifola frondosa, sistema inmunológico, hongo medicinal asiático.",
+      "imagePrincipal": "products/_placeholders/extracto-maitake.svg",
+      "images": [
+        "products/_placeholders/extracto-maitake.svg"
+      ],
+      "hasImages": false
+    },
+    {
+      "slug": "extracto-reishi",
+      "categoria": "11-extractos-hongos",
+      "categoriaLabel": "Extractos de Hongos Medicinales",
+      "nombreComercial": " Divina Extracto de Reishi — Pure Extract Powder",
+      "nombreVisible": " Divina Extracto de Reishi — Pure Extract Powder",
+      "objetivo": " Apoyar el impacto que el estrés físico, inmunológico y mental puede tener en el cuerpo con el tiempo.",
+      "problema": " Estrés físico y mental acumulado; bajo bienestar general.",
+      "ingredientes": [
+        "Reishi (Ganoderma lucidum)",
+        "100% puro"
+      ],
+      "beneficios": [
+        "Ayuda al bienestar general",
+        "ayuda con el estrés y agotamiento",
+        "sustenta la energía natural",
+        "control del peso"
+      ],
+      "presentacion": " 100 g / 3.5 oz, polvo puro.",
+      "publicoObjetivo": " No especificado.",
+      "keywords": " reishi en polvo, \"el gran protector\", adaptógeno, extracto puro, ganoderma lucidum.",
+      "imagePrincipal": "products/_placeholders/extracto-reishi.svg",
+      "images": [
+        "products/_placeholders/extracto-reishi.svg"
+      ],
+      "hasImages": false
+    },
+    {
+      "slug": "extracto-shiitake",
+      "categoria": "11-extractos-hongos",
+      "categoriaLabel": "Extractos de Hongos Medicinales",
+      "nombreComercial": " Divina Extracto de Shiitake (Lentinula edodes) — Pure Extract",
+      "nombreVisible": " Divina Extracto de Shiitake (Lentinula edodes) — Pure Extract",
+      "objetivo": " Aprovechar los diversos beneficios para la salud de uno de los hongos más populares del mundo.",
+      "problema": " Baja salud cardiovascular; sistema inmune débil.",
+      "ingredientes": [
+        "Shiitake (Lentinula edodes)",
+        "100% puro"
+      ],
+      "beneficios": [
+        "Ayuda a la salud del corazón",
+        "apoya y promueve un sistema inmunológico saludable",
+        "gran aporte de vitaminas",
+        "minerales y antioxidantes"
+      ],
+      "presentacion": " 100 g / 3.5 oz, polvo puro.",
+      "publicoObjetivo": " No especificado.",
+      "keywords": " shiitake, salud del corazón, hongo popular, sistema inmunológico.",
+      "imagePrincipal": "products/_placeholders/extracto-shiitake.svg",
+      "images": [
+        "products/_placeholders/extracto-shiitake.svg"
+      ],
+      "hasImages": false
+    },
+    {
+      "slug": "extracto-tremella",
+      "categoria": "11-extractos-hongos",
+      "categoriaLabel": "Extractos de Hongos Medicinales",
+      "nombreComercial": " Divina Extracto de Tremella (Tremella fuciformis) — Pure Extract Powder",
+      "nombreVisible": " Extracto de Tremella",
+      "objetivo": " Ayudar a mantener un sistema inmunológico saludable y embellecer la piel.",
+      "problema": " Piel poco hidratada; sistema inmune débil.",
+      "ingredientes": [
+        "Tremella (Tremella fuciformis)",
+        "100% puro"
+      ],
+      "beneficios": [
+        "Nutre los pulmones",
+        "apoya a mantener un sistema inmunológico saludable",
+        "embellece la piel",
+        "rico en antioxidantes",
+        "vitamina D y fibras dietéticas"
+      ],
+      "presentacion": " 100 g / 3.5 oz, polvo puro.",
+      "publicoObjetivo": " No especificado.",
+      "keywords": " tremella, hongo de la belleza, embellecedor de piel, cultura china, hidratación.",
+      "imagePrincipal": "products/extracto-tremella/extracto-tremella-01-producto.webp",
+      "images": [
+        "products/extracto-tremella/extracto-tremella-01-producto.webp",
+        "products/extracto-tremella/extracto-tremella-02-beneficios.webp",
+        "products/extracto-tremella/extracto-tremella-03-lifestyle.webp"
+      ],
+      "hasImages": true
+    },
+    {
+      "slug": "extracto-turkey-tail",
+      "categoria": "11-extractos-hongos",
+      "categoriaLabel": "Extractos de Hongos Medicinales",
+      "nombreComercial": " Divina Extracto de Turkey Tail (Coriolus versicolor) — Pure Extract Powder",
+      "nombreVisible": " Divina Extracto de Turkey Tail (Coriolus versicolor) — Pure Extract Powder",
+      "objetivo": " Promover la salud general mediante la \"cola de pavo\", hongo medicinal con amplia gama de beneficios.",
+      "problema": " Desequilibrio de la microbiota intestinal; bajo bienestar general.",
+      "ingredientes": [
+        "Turkey Tail (Coriolus versicolor)",
+        "100% puro"
+      ],
+      "beneficios": [
+        "Promueve la salud en general",
+        "rico en prebióticos",
+        "gran aporte de vitaminas",
+        "minerales y antioxidantes"
+      ],
+      "presentacion": " 100 g / 3.5 oz, polvo puro.",
+      "publicoObjetivo": " No especificado.",
+      "keywords": " cola de pavo, turkey tail, coriolus versicolor, prebióticos, microbiota.",
+      "imagePrincipal": "products/_placeholders/extracto-turkey-tail.svg",
+      "images": [
+        "products/_placeholders/extracto-turkey-tail.svg"
+      ],
+      "hasImages": false
+    },
+    {
+      "slug": "liquid-gold",
+      "categoria": "12-cuidado-personal",
+      "categoriaLabel": "Cuidado Personal",
+      "nombreComercial": " Vida Divina Liquid Gold",
+      "nombreVisible": " Vida Divina Liquid Gold",
+      "objetivo": " Mejorar la apariencia de la piel, cicatrices, piel agrietada y ser un humectante básico.",
+      "problema": " Piel agrietada, cicatrices, resequedad, cabello encrespado.",
+      "ingredientes": [
+        "Copos de oro 23K",
+        "aceite de emú certificado",
+        "aceite de moringa/argán virgen",
+        "aceite de zanahoria"
+      ],
+      "beneficios": [
+        "Mejora e hidrata la piel",
+        "mejora la apariencia de cicatrices",
+        "piel agrietada y reseca",
+        "cuida e hidrata el cabello",
+        "controla el encrespamiento"
+      ],
+      "presentacion": " Botella de 2 oz.",
+      "publicoObjetivo": " No especificado.",
+      "keywords": " oro 23k, aceite de emú, aceite de argán, cuidado capilar, hidratación de piel.",
+      "imagePrincipal": "products/_placeholders/liquid-gold.svg",
+      "images": [
+        "products/_placeholders/liquid-gold.svg"
+      ],
+      "hasImages": false
+    },
+    {
+      "slug": "reishi-toothpaste",
+      "categoria": "12-cuidado-personal",
+      "categoriaLabel": "Cuidado Personal",
+      "nombreComercial": " Vida Divina Reishi Toothpaste",
+      "nombreVisible": " Vida Divina Reishi Toothpaste",
+      "objetivo": " Ofrecer una pasta dental menos abrasiva que limpia profundamente la boca.",
+      "problema": " Placa dental, sarro, mal aliento.",
+      "ingredientes": [
+        "Extractos de Reishi"
+      ],
+      "beneficios": [
+        "Ayuda a mantener sanos los dientes y las encías",
+        "refresca el aliento",
+        "ayuda a remover la placa y previene el sarro",
+        "libre de gluten y vegano"
+      ],
+      "presentacion": " 120 g / 4.23 oz.",
+      "publicoObjetivo": " No especificado.",
+      "keywords": " pasta dental con reishi, higiene bucal, libre de gluten, vegano, sarro.",
+      "imagePrincipal": "products/_placeholders/reishi-toothpaste.svg",
+      "images": [
+        "products/_placeholders/reishi-toothpaste.svg"
+      ],
+      "hasImages": false
+    },
+    {
+      "slug": "reishi-soap",
+      "categoria": "12-cuidado-personal",
+      "categoriaLabel": "Cuidado Personal",
+      "nombreComercial": " Vida Divina Reishi Soap",
+      "nombreVisible": " Vida Divina Reishi Soap",
+      "objetivo": " Limpiar, humectar y embellecer la piel mediante extractos de hierbas con Reishi.",
+      "problema": " Piel deshidratada o poco radiante.",
+      "ingredientes": [
+        "Extractos de hierbas con Reishi"
+      ],
+      "beneficios": [
+        "Formulado con extractos de hierbas",
+        "hidrata y humecta la piel",
+        "libre de gluten y vegano"
+      ],
+      "presentacion": " 100 g / 3.5 oz.",
+      "publicoObjetivo": " No especificado.",
+      "keywords": " jabón de reishi, piel radiante, libre de gluten, vegano, hidratación.",
+      "imagePrincipal": "products/_placeholders/reishi-soap.svg",
+      "images": [
+        "products/_placeholders/reishi-soap.svg"
+      ],
+      "hasImages": false
+    },
+    {
+      "slug": "radien-cleanser",
+      "categoria": "13-linea-radien",
+      "categoriaLabel": "Línea Radien · Cuidado de la Piel",
+      "nombreComercial": " Radien con QXP — Advanced Renewal Cleanser",
+      "nombreVisible": " Radien con QXP — Advanced Renewal Cleanser",
+      "objetivo": " Preparar el rostro y el cuello creando una superficie limpia y sin maquillaje.",
+      "problema": " Exceso de grasa, partículas de suciedad y maquillaje residual en la piel.",
+      "ingredientes": [
+        "No especificado (formulación proteica",
+        "componentes individuales no detallados en el catálogo)"
+      ],
+      "beneficios": [
+        "Elimina el exceso de grasa",
+        "partículas de suciedad y sustancias extrañas de la piel",
+        "llega profundamente a la capa dérmica",
+        "exfolia suavemente la piel",
+        "prepara la piel para la Crema de Día"
+      ],
+      "presentacion": " No especificado.",
+      "publicoObjetivo": " No especificado.",
+      "keywords": " limpiador facial, QXP, exfoliación suave, rutina facial, paso 1.",
+      "imagePrincipal": "products/_placeholders/radien-cleanser.svg",
+      "images": [
+        "products/_placeholders/radien-cleanser.svg"
+      ],
+      "hasImages": false
+    },
+    {
+      "slug": "radien-collagen-elixir",
+      "categoria": "13-linea-radien",
+      "categoriaLabel": "Línea Radien · Cuidado de la Piel",
+      "nombreComercial": " Radien Collagen Elixir by Vida Divina",
+      "nombreVisible": " Radien Collagen Elixir by Vida Divina",
+      "objetivo": " Hidratar la piel, mejorar su luminosidad y promover una apariencia más joven mediante colágeno marino.",
+      "problema": " Pérdida de elasticidad e hidratación de la piel; cabello, huesos y uñas débiles.",
+      "ingredientes": [
+        "Colágeno marino",
+        "UmbrellaV (extracto de mora negra)",
+        "ácido hialurónico",
+        "polvo de raíz de konjac"
+      ],
+      "beneficios": [
+        "Apoya la elasticidad",
+        "hidratación y densidad del colágeno de la piel",
+        "promueve un cabello",
+        "huesos y uñas saludables",
+        "ayuda al metabolismo de los nutrientes",
+        "proporciona protección contra el daño oxidativo"
+      ],
+      "presentacion": " 10 botellas individuales — 16.9 fl oz (500 ml) total (50 ml c/u).",
+      "publicoObjetivo": " No especificado.",
+      "keywords": " colágeno marino, ácido hialurónico, konjac, elasticidad de la piel, anti-edad.",
+      "imagePrincipal": "products/_placeholders/radien-collagen-elixir.svg",
+      "images": [
+        "products/_placeholders/radien-collagen-elixir.svg"
+      ],
+      "hasImages": false
+    },
+    {
+      "slug": "radien-day-creme",
+      "categoria": "13-linea-radien",
+      "categoriaLabel": "Línea Radien · Cuidado de la Piel",
+      "nombreComercial": " Radien con QXP — Advanced Renewal Day Crème",
+      "nombreVisible": " Radien con QXP — Advanced Renewal Day Crème",
+      "objetivo": " Revertir visiblemente la apariencia de arrugas y la longitud/profundidad de las líneas de expresión.",
+      "problema": " Arrugas, piel apagada, signos de envejecimiento (estudiado en personas de 25 a 65 años, según el catálogo).",
+      "ingredientes": [
+        "QXP",
+        "péptidos",
+        "proteínas",
+        "extracto de miel",
+        "aceite de semilla de uva",
+        "extracto de corteza de roble"
+      ],
+      "beneficios": [
+        "Revierte visiblemente la apariencia de la longitud y profundidad de las arrugas",
+        "ilumina la piel notablemente",
+        "reduce la apariencia de los signos del envejecimiento",
+        "ayuda a prevenir daños futuros",
+        "tensa e hidrata las capas de la piel"
+      ],
+      "presentacion": " No especificado.",
+      "publicoObjetivo": " Estudios clínicos mencionados en personas de 25 a 65 años (no se define como público objetivo formal más allá de este dato).",
+      "keywords": " crema de día, QXP, péptidos, arrugas, extracto de miel, corteza de roble.",
+      "imagePrincipal": "products/_placeholders/radien-day-creme.svg",
+      "images": [
+        "products/_placeholders/radien-day-creme.svg"
+      ],
+      "hasImages": false
+    },
+    {
+      "slug": "radien-eye-serum",
+      "categoria": "13-linea-radien",
+      "categoriaLabel": "Línea Radien · Cuidado de la Piel",
+      "nombreComercial": " Radien con QXP — Renewal Eye Serum",
+      "nombreVisible": " Radien con QXP — Renewal Eye Serum",
+      "objetivo": " Restaurar y renovar la apariencia juvenil del área de los ojos.",
+      "problema": " Ojeras y la hinchazón de los ojos.",
+      "ingredientes": [
+        "QXP",
+        "péptidos",
+        "proteínas",
+        "ingredientes botánicos nutritivos"
+      ],
+      "beneficios": [
+        "Nutre la delicada piel del área de los ojos",
+        "aborda las ojeras y la hinchazón",
+        "aporta potentes antioxidantes",
+        "hidratación avanzada y calmante",
+        "ayuda a reducir la decoloración y la hinchazón"
+      ],
+      "presentacion": " No especificado.",
+      "publicoObjetivo": " El catálogo menciona que las ojeras/hinchazón son \"preocupaciones comunes entre las mujeres\", aunque no limita el uso exclusivamente a ellas.",
+      "keywords": " serum de ojos, ojeras, hinchazón, QXP, contorno de ojos, antioxidantes.",
+      "imagePrincipal": "products/_placeholders/radien-eye-serum.svg",
+      "images": [
+        "products/_placeholders/radien-eye-serum.svg"
+      ],
+      "hasImages": false
+    },
+    {
+      "slug": "radien-night-creme",
+      "categoria": "13-linea-radien",
+      "categoriaLabel": "Línea Radien · Cuidado de la Piel",
+      "nombreComercial": " Radien con QXP — Advanced Renewal Night Crème",
+      "nombreVisible": " Radien con QXP — Advanced Renewal Night Crème",
+      "objetivo": " Restaurar y renovar la apariencia juvenil de la piel durante la noche.",
+      "problema": " Pérdida de colágeno y elastina; hinchazón facial; piel deshidratada.",
+      "ingredientes": [
+        "Péptidos QXP",
+        "agentes proteicos",
+        "aceites de semillas",
+        "extracto de nuez"
+      ],
+      "beneficios": [
+        "Ayuda al cuerpo a restaurar el colágeno y la elastina",
+        "el extracto de nuez ayuda a reducir la hinchazón",
+        "calma la piel y la hidrata"
+      ],
+      "presentacion": " No especificado.",
+      "publicoObjetivo": " No especificado.",
+      "keywords": " crema de noche, QXP, colágeno, elastina, extracto de nuez, hidratación nocturna.",
+      "imagePrincipal": "products/_placeholders/radien-night-creme.svg",
+      "images": [
+        "products/_placeholders/radien-night-creme.svg"
+      ],
+      "hasImages": false
+    },
+    {
+      "slug": "radien-qxp-men",
+      "categoria": "13-linea-radien",
+      "categoriaLabel": "Línea Radien · Cuidado de la Piel",
+      "nombreComercial": " QXP for Men — Radien Advanced Anti-Aging Renewal Crème",
+      "nombreVisible": " QXP for Men — Radien Advanced Anti-Aging Renewal Crème",
+      "objetivo": " Proporcionar beneficios de proteínas y péptidos para el crecimiento celular saludable en la dermis masculina.",
+      "problema": " Daño solar, envejecimiento, líneas finas y arrugas en piel masculina (más gruesa).",
+      "ingredientes": [
+        "Aceites vegetales",
+        "corteza de roble",
+        "enzimas proteicas"
+      ],
+      "beneficios": [
+        "Ayuda a reducir la hinchazón",
+        "mejora dramáticamente la apariencia de líneas finas y arrugas",
+        "proporciona hidratación durante todo el día",
+        "crea un lecho protector contra el daño solar y el envejecimiento",
+        "permite que el cuerpo produzca colágeno y elastina"
+      ],
+      "presentacion": " No especificado.",
+      "publicoObjetivo": " Hombres (explícitamente \"QXP for Men\").",
+      "keywords": " skincare para hombres, anti-edad masculino, QXP, colágeno, daño solar.",
+      "imagePrincipal": "products/_placeholders/radien-qxp-men.svg",
+      "images": [
+        "products/_placeholders/radien-qxp-men.svg"
+      ],
+      "hasImages": false
+    },
+    {
+      "slug": "radien-toner",
+      "categoria": "13-linea-radien",
+      "categoriaLabel": "Línea Radien · Cuidado de la Piel",
+      "nombreComercial": " Radien con QXP — Advanced Renewal Toner",
+      "nombreVisible": " Radien con QXP — Advanced Renewal Toner",
+      "objetivo": " Cerrar los poros abiertos y agregar hidratación tras la limpieza facial.",
+      "problema": " Poros dilatados, piel grasa, pH de la piel desequilibrado por jabones/limpiadores.",
+      "ingredientes": [
+        "No especificado (fórmula \"Regenerative Skin Science\"",
+        "componentes no detallados en el catálogo)"
+      ],
+      "beneficios": [
+        "Cierra los poros abiertos",
+        "agrega hidratación",
+        "reduce la apariencia de poros dilatados",
+        "protege y restaura la epidermis del exceso de grasa y suciedad",
+        "previene el acné",
+        "retiene la hidratación natural de la piel",
+        "restaura el pH natural"
+      ],
+      "presentacion": " No especificado.",
+      "publicoObjetivo": " No especificado.",
+      "keywords": " tónico facial, QXP, poros dilatados, pH de la piel, regenerative skin science.",
+      "imagePrincipal": "products/_placeholders/radien-toner.svg",
+      "images": [
+        "products/_placeholders/radien-toner.svg"
+      ],
+      "hasImages": false
+    }
+  ],
+  "categorias": [
+    {
+      "slug": "02-cafe-divina",
+      "label": "Café Divina · Bebidas Funcionales",
+      "count": 15
+    },
+    {
+      "slug": "01-control-de-peso",
+      "label": "Control de Peso",
+      "count": 9
+    },
+    {
+      "slug": "11-extractos-hongos",
+      "label": "Extractos de Hongos Medicinales",
+      "count": 9
+    },
+    {
+      "slug": "03-longevidad-bienestar",
+      "label": "Longevidad y Bienestar General",
+      "count": 8
+    },
+    {
+      "slug": "13-linea-radien",
+      "label": "Línea Radien · Cuidado de la Piel",
+      "count": 7
+    },
+    {
+      "slug": "10-energia-antioxidantes",
+      "label": "Energía y Antioxidantes",
+      "count": 6
+    },
+    {
+      "slug": "12-cuidado-personal",
+      "label": "Cuidado Personal",
+      "count": 3
+    },
+    {
+      "slug": "04-funcion-cognitiva",
+      "label": "Función Cognitiva",
+      "count": 2
+    },
+    {
+      "slug": "08-intimidad-libido",
+      "label": "Intimidad y Libido",
+      "count": 2
+    },
+    {
+      "slug": "09-proteinas-batidos",
+      "label": "Proteínas y Batidos",
+      "count": 2
+    },
+    {
+      "slug": "05-dolor-articulaciones",
+      "label": "Dolor y Articulaciones",
+      "count": 1
+    },
+    {
+      "slug": "06-salud-visual",
+      "label": "Salud Visual",
+      "count": 1
+    },
+    {
+      "slug": "07-rendimiento-fisico",
+      "label": "Rendimiento Físico y Fuerza",
+      "count": 1
+    }
+  ],
+  "total": 66,
+  "fuente": "docs/productos/**/*.md",
+  "actualizado": "2026-09-02T04:13:42"
+}

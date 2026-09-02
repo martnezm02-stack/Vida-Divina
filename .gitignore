@@ -63,3 +63,5 @@ video-production/te-divina-*.mp4
 video-production/output-cc-a1-a.mp4
 content-orchestrator/test/_smoke-outputs/
 content-orchestrator/test/_smoke-*-output.mp4
+.vercel
+.env*

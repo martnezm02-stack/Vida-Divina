@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es" data-lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title data-i18n="page.productos.title">Tienda · Vive Vida Divina</title>
+  <meta name="description" data-i18n="page.productos.lead" content="Catálogo completo de productos Vive Vida Divina. Control de peso, energía, longevidad, intimidad, hongos medicinales y más.">
+  <link rel="canonical" href="https://viva-vida-divina.vercel.app/productos">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <link rel="stylesheet" href="site.css?v=1788375024">
+</head>
+<body>
+
+  <div data-vvd="navbar"></div>
+
+  <header class="cat-header">
+    <div class="container">
+      <span class="hero__eyebrow" data-i18n="page.cat-header.catalogo">Catálogo</span>
+      <h1 data-i18n="page.productos.title">Todos nuestros productos</h1>
+      <p data-i18n="page.productos.lead">Bienestar de origen natural para cada objetivo. Usa los filtros para encontrar el producto que se alinea con lo que tu cuerpo necesita hoy.</p>
+    </div>
+  </header>
+
+  <nav class="cat-filters" id="vvd-filters" aria-label="Filtros por categoría"></nav>
+
+  <section class="section">
+    <div class="container">
+      <div class="product-grid" id="vvd-grid"></div>
+      <p id="vvd-empty" class="lead text-center" style="display:none;margin:48px auto" data-i18n="page.productos.empty">No hay productos en esta categoría todavía.</p>
+    </div>
+  </section>
+
+  <section class="cta-band">
+    <div class="container">
+      <h2>¿No sabes cuál elegir?</h2>
+      <p>Te ayudamos a encontrar el producto ideal para tu objetivo. Conversemos por WhatsApp.</p>
+      <a href="https://wa.me/522229071277?text=Hola,%20necesito%20ayuda%20para%20elegir%20un%20producto" class="btn btn--primary" style="background:var(--gold);border-color:var(--gold);color:var(--ink)" target="_blank" rel="noopener" data-i18n="cta.asesoria">
+        <i class="fab fa-whatsapp"></i> Pedir asesoría
+      </a>
+    </div>
+  </section>
+
+  <div data-vvd="footer"></div>
+
+  <script src="site.js?v=1788375024"></script>
+  <script>
+    let allProducts = [];
+    let currentCat = 'all';
+
+    function render() {
+      const filtered = currentCat === 'all'
+        ? allProducts
+        : allProducts.filter(p => p.categoria === currentCat);
+      VVD.renderProductGrid('#vvd-grid', filtered);
+      document.getElementById('vvd-empty').style.display = filtered.length ? 'none' : 'block';
+    }
+
+    function buildFilters() {
+      VVD.getCatalog().then(cat => {
+        // Solo productos con imagen real (los 12 con assets en /assets/products/<slug>/raw/)
+        allProducts = cat.productos.filter(p => p.hasImages);
+        // Recalcular categorías con conteo real
+        const catCounts = {};
+        allProducts.forEach(p => { catCounts[p.categoria] = (catCounts[p.categoria] || 0) + 1; });
+        const activeCategorias = cat.categorias.filter(c => catCounts[c.slug] > 0);
+
+        const filters = document.getElementById('vvd-filters');
+        const buttons = [{ slug: 'all' }].concat(activeCategorias);
+        const todosLabel = VVD.t('filter.todos', 'Todos');
+        filters.innerHTML = buttons.map((c, i) => {
+          if (c.slug === 'all') {
+            return `<button class="cat-filters__btn${i===0?' is-active':''}" data-slug="all">${todosLabel}</button>`;
+          }
+          return `<button class="cat-filters__btn" data-slug="${c.slug}">${VVD.categoryLabel(c.slug, c.label)}</button>`;
+        }).join('');
+        filters.addEventListener('click', e => {
+          const btn = e.target.closest('.cat-filters__btn');
+          if (!btn) return;
+          currentCat = btn.dataset.slug;
+          filters.querySelectorAll('.cat-filters__btn').forEach(b => b.classList.toggle('is-active', b === btn));
+          render();
+        });
+        render();
+      });
+    }
+
+    VVD.getCatalog().then(() => buildFilters());
+    document.addEventListener('vvd:lang', () => {
+      // Limpiar filtros existentes y reconstruir con nuevo idioma
+      document.getElementById('vvd-filters').innerHTML = '';
+      buildFilters();
+    });
+  </script>
+</body>
+</html>

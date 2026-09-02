@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es" data-lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title data-i18n="page.categorias.title">Categorías · Vive Vida Divina</title>
+  <meta name="description" data-i18n="page.categorias.lead" content="Explora los productos Vive Vida Divina organizados por línea: control de peso, café funcional, longevidad, intimidad, hongos medicinales y más.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <link rel="stylesheet" href="site.css?v=1788375024">
+</head>
+<body>
+
+  <div data-vvd="navbar"></div>
+
+  <header class="cat-header">
+    <div class="container">
+      <span class="hero__eyebrow" data-i18n="page.cat-header.explora">Explora</span>
+      <h1 data-i18n="page.categorias.title">Líneas de bienestar</h1>
+      <p data-i18n="page.categorias.lead">Encuentra productos agrupados por el objetivo que persigues: energía, control de peso, longevidad, intimidad o rendimiento.</p>
+    </div>
+  </header>
+
+  <section class="section">
+    <div class="container">
+      <div class="cat-strip" id="cat-strip" style="grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));"></div>
+    </div>
+  </section>
+
+  <div data-vvd="footer"></div>
+
+  <script src="site.js?v=1788375024"></script>
+  <script>
+    function render() {
+      VVD.getCatalog().then(cat => {
+        const strip = document.getElementById('cat-strip');
+        // Recalcular categorías con conteo basado en productos con imagen
+        const catCounts = {};
+        cat.productos.forEach(p => {
+          if (p.hasImages) catCounts[p.categoria] = (catCounts[p.categoria] || 0) + 1;
+        });
+        const items = cat.categorias.filter(c => catCounts[c.slug] > 0)
+          .map(c => ({ ...c, count: catCounts[c.slug] }));
+
+        strip.innerHTML = items.map(c => {
+          const n = c.count;
+          const key = n === 1 ? 'page.categoria.productos.count_one' : 'page.categoria.productos.count_other';
+          const countLabel = VVD.t(key, `${n} producto${n!==1?'s':''}`).replace('{n}', n);
+          return `
+            <a class="cat-strip__item" href="/categoria?slug=${c.slug}" style="min-height:200px">
+              <small>${countLabel}</small>
+              <h3>${VVD.categoryLabel(c.slug, c.label)}</h3>
+            </a>
+          `;
+        }).join('');
+      });
+    }
+    render();
+    document.addEventListener('vvd:lang', render);
+  </script>
+</body>
+</html>

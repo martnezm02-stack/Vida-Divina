@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es" data-lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title data-i18n="page.cat-header.categoria">Categoría · Vive Vida Divina</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <link rel="stylesheet" href="site.css?v=1788375024">
+</head>
+<body>
+
+  <div data-vvd="navbar"></div>
+
+  <header class="cat-header" id="cat-header">
+    <div class="container">
+      <span class="hero__eyebrow" data-i18n="page.cat-header.categoria">Categoría</span>
+      <h1 id="cat-name">Cargando…</h1>
+      <p id="cat-desc"></p>
+    </div>
+  </header>
+
+  <section class="section">
+    <div class="container">
+      <div class="product-grid" id="cat-grid"></div>
+    </div>
+  </section>
+
+  <div data-vvd="footer"></div>
+
+  <script src="site.js?v=1788375024"></script>
+  <script>
+    const params = new URLSearchParams(location.search);
+    const slug = params.get('slug');
+
+    function loadCategory() {
+      VVD.getCatalog().then(cat => {
+        const c = cat.categorias.find(x => x.slug === slug);
+        const grid = document.getElementById('cat-grid');
+        const lang = VVD.getLang();
+
+        if (!c) {
+          document.getElementById('cat-name').textContent = lang === 'en' ? 'Category not found' : 'Categoría no encontrada';
+          return;
+        }
+
+        // Solo productos con imagen real
+        const items = cat.productos.filter(p => p.categoria === slug && p.hasImages);
+        const n = items.length;
+
+        document.title = `${VVD.categoryLabel(c.slug, c.label)} · Vive Vida Divina`;
+        document.getElementById('cat-name').textContent = VVD.categoryLabel(c.slug, c.label);
+        const key = n === 1 ? 'page.categoria.productos.count_one' : 'page.categoria.productos.count_other';
+        document.getElementById('cat-desc').textContent = VVD.t(key, `${n} producto${n!==1?'s':''} en esta línea.`).replace('{n}', n);
+
+        VVD.renderProductGrid('#cat-grid', items);
+      });
+    }
+
+    loadCategory();
+    document.addEventListener('vvd:lang', loadCategory);
+  </script>
+</body>
+</html>

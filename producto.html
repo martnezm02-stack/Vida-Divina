@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es" data-lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title id="pdp-title">Producto · Vive Vida Divina</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <link rel="stylesheet" href="site.css?v=1788375024">
+</head>
+<body>
+
+  <div data-vvd="navbar"></div>
+
+  <main class="pdp" id="pdp-root">
+    <div class="container" style="text-align:center;padding:80px 0">
+      <i class="fas fa-spinner fa-spin" style="font-size:2rem;color:var(--gold)"></i>
+    </div>
+  </main>
+
+  <section class="section section--crema-2" id="pdp-related-section" style="display:none">
+    <div class="container">
+      <div class="section__head">
+        <span class="eyebrow" data-i18n="page.producto.related.eyebrow">También te puede interesar</span>
+        <h2 data-i18n="page.producto.related.title">Productos <em class="script-accent">relacionados</em></h2>
+      </div>
+      <div class="product-grid" id="pdp-related"></div>
+    </div>
+  </section>
+
+  <div data-vvd="footer"></div>
+
+  <script src="site.js?v=1788375024"></script>
+  <script>
+    const params = new URLSearchParams(location.search);
+    const slug = params.get('slug');
+
+    function loadProduct() {
+      VVD.getCatalog().then(cat => {
+        const p = cat.productos.find(x => x.slug === slug);
+        const root = document.getElementById('pdp-root');
+        const lang = VVD.getLang();
+
+        if (!p) {
+          root.innerHTML = `
+            <div class="container container--narrow" style="text-align:center;padding:80px 0">
+              <h1>${VVD.t('page.producto.notfound.title', 'Producto no encontrado')}</h1>
+              <p class="lead" style="margin:24px auto">${VVD.t('page.producto.notfound.lead', 'El producto que buscas no está disponible. Vuelve a nuestro catálogo para ver todas las opciones.')}</p>
+              <a href="/productos" class="btn btn--primary" style="margin-top:24px">${VVD.t('page.producto.notfound.cta', 'Ver catálogo')}</a>
+            </div>
+          `;
+          return;
+        }
+
+        document.getElementById('pdp-title').textContent = `${p.nombreVisible} · Vive Vida Divina`;
+
+        const galleryImgs = [p.imagePrincipal, ...p.images.slice(1)].slice(0, 5);
+        const galleryHTML = galleryImgs.map(src => `<img src="${src}" alt="${p.nombreVisible}" loading="lazy">`).join('');
+
+        const benefitsHTML = (p.beneficios || []).map(b => `<li>${b}</li>`).join('');
+        const ingredientsHTML = (p.ingredientes || []).map(i => `<span>${i}</span>`).join('');
+        const presentacionHTML = p.presentacion ? `<li>${p.presentacion}</li>` : '';
+        const publicoHTML = p.publicoObjetivo ? `<li>${p.publicoObjetivo}</li>` : '';
+
+        const waMsg = lang === 'en'
+          ? `Hi, I'm interested in ${p.nombreVisible} from Vida Divina. Can you give me more information?`
+          : `Hola, me interesa ${p.nombreVisible} de Vida Divina. ¿Me pueden dar más información?`;
+
+        const placeholderBadge = !p.hasImages
+          ? `<span class="product-card__badge">${VVD.t('badge.próximamente', 'Imagen próximamente')}</span>`
+          : '';
+
+        root.innerHTML = `
+          <div class="container">
+            <nav class="lead" style="margin-bottom:24px;font-size:0.88rem">
+              <a href="/" style="color:var(--wine-dark)">${VVD.t('page.producto.crumb.inicio', 'Inicio')}</a>
+              <span style="margin:0 8px;color:var(--gold)">·</span>
+              <a href="/productos" style="color:var(--wine-dark)">${VVD.t('page.producto.crumb.tienda', 'Tienda')}</a>
+              <span style="margin:0 8px;color:var(--gold)">·</span>
+              <a href="/categoria?slug=${p.categoria}" style="color:var(--wine-dark)">${VVD.categoryLabel(p.categoria, p.categoriaLabel)}</a>
+              <span style="margin:0 8px;color:var(--gold)">·</span>
+              <span style="color:var(--wine);font-weight:600">${p.nombreVisible}</span>
+            </nav>
+
+            <div class="pdp__grid">
+              <div class="pdp__gallery fade-in" style="position:relative">
+                ${galleryHTML}
+                ${placeholderBadge}
+              </div>
+              <div class="pdp__info fade-in">
+                <div class="pdp__category">${VVD.categoryLabel(p.categoria, p.categoriaLabel)}</div>
+                <h1 class="pdp__title">${p.nombreVisible}</h1>
+                <p class="pdp__lead">${p.objetivo || ''}</p>
+
+                ${p.beneficios && p.beneficios.length ? `
+                  <div class="pdp__block">
+                    <h3>${VVD.t('page.producto.beneficios', 'Beneficios')}</h3>
+                    <ul>${benefitsHTML}</ul>
+                  </div>` : ''}
+
+                ${p.ingredientes && p.ingredientes.length ? `
+                  <div class="pdp__block">
+                    <h3>${VVD.t('page.producto.ingredientes', 'Ingredientes')}</h3>
+                    <div class="pdp__ingredients">${ingredientsHTML}</div>
+                  </div>` : ''}
+
+                ${(p.presentacion || p.publicoObjetivo) ? `
+                  <div class="pdp__block">
+                    <h3>${VVD.t('page.producto.ficha', 'Ficha')}</h3>
+                    <ul>${presentacionHTML}${publicoHTML}</ul>
+                  </div>` : ''}
+
+                <div class="pdp__actions">
+                  <a href="${VVD.waLink(waMsg)}" class="btn btn--whatsapp btn--block" target="_blank" rel="noopener">
+                    <i class="fab fa-whatsapp"></i> ${VVD.t('page.producto.cta.primary', 'Pedir por WhatsApp')}
+                  </a>
+                  <a href="https://wa.me/522229071277?text=Hola,%20tengo%20una%20duda%20sobre%20${encodeURIComponent(p.nombreVisible)}" class="btn btn--ghost btn--block" target="_blank" rel="noopener">
+                    <i class="fas fa-comment-dots"></i> ${VVD.t('page.producto.cta.secondary', 'Resolver una duda')}
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+
+        const related = cat.productos
+          .filter(x => x.categoria === p.categoria && x.slug !== p.slug && x.hasImages)
+          .slice(0, 4);
+        if (related.length) {
+          VVD.renderProductGrid('#pdp-related', related);
+          document.getElementById('pdp-related-section').style.display = '';
+        }
+      });
+    }
+
+    loadProduct();
+    document.addEventListener('vvd:lang', loadProduct);
+  </script>
+</body>
+</html>

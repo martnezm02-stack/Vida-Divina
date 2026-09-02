@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="es" data-lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title data-i18n="page.contacto.title">Contacto · Vive Vida Divina</title>
+  <meta name="description" data-i18n="page.contacto.lead" content="Ponte en contacto con Vive Vida Divina. WhatsApp, atención al cliente y oportunidad de emprendimiento.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <link rel="stylesheet" href="site.css?v=1788375024">
+  <style>
+    .contact-grid { display:grid; grid-template-columns:1fr 1fr; gap:48px; align-items:start; }
+    .contact-card { background: var(--blanco-suave); border:1px solid var(--linea); border-radius:22px; padding:40px; }
+    .contact-card h3 { font-family: var(--font-display); color: var(--wine); font-size:1.8rem; margin-bottom:12px; font-weight:600; }
+    .contact-card .lead { font-size:1rem; }
+    .contact-list { list-style:none; display:flex; flex-direction:column; gap:16px; margin-top:24px; }
+    .contact-list li { display:flex; align-items:center; gap:14px; font-size:1rem; color: var(--wine); }
+    .contact-list i { width:36px; height:36px; border-radius:50%; background: var(--beige-dark); color: var(--gold); display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+    .legal-box { margin-top:64px; padding:32px; background: var(--beige-dark); border-radius:12px; font-size:0.88rem; color: var(--wine-dark); line-height:1.6; }
+    @media (max-width:720px) { .contact-grid { grid-template-columns:1fr; } .contact-card { padding:28px; } }
+  </style>
+</head>
+<body>
+
+  <div data-vvd="navbar"></div>
+
+  <header class="cat-header">
+    <div class="container">
+      <span class="hero__eyebrow" data-i18n="page.cat-header.estamos">Estamos aquí</span>
+      <h1 data-i18n="page.contacto.h1">Contacto</h1>
+      <p data-i18n="page.contacto.lead">Atención personal por WhatsApp, todos los días. Escríbenos y una asesora real te responde.</p>
+    </div>
+  </header>
+
+  <section class="section">
+    <div class="container">
+      <div class="contact-grid">
+
+        <div class="contact-card fade-in">
+          <h3 data-i18n="page.contacto.atencion.title">Atención al cliente</h3>
+          <p class="lead" data-i18n="page.contacto.atencion.lead">¿Tienes dudas sobre un producto, tu pedido o tu entrega? Escríbenos y te ayudamos.</p>
+          <ul class="contact-list">
+            <li><i class="fab fa-whatsapp"></i> <a href="https://wa.me/522229071277" target="_blank" rel="noopener">+52 222 907 1277</a></li>
+            <li><i class="fas fa-clock"></i> <span data-i18n="page.contacto.atencion.horario">Respuesta en menos de 2 horas en horario comercial</span></li>
+            <li><i class="fas fa-truck-fast"></i> <span data-i18n="page.contacto.atencion.envios">Envíos a toda la República Mexicana</span></li>
+          </ul>
+          <a href="https://wa.me/522229071277?text=Hola,%20necesito%20ayuda%20con%20mi%20pedido" class="btn btn--whatsapp" style="margin-top:28px" target="_blank" rel="noopener" data-i18n="page.contacto.atencion.cta">
+            <i class="fab fa-whatsapp"></i> Escríbenos por WhatsApp
+          </a>
+        </div>
+
+        <div class="contact-card fade-in" id="emprendimiento">
+          <h3 data-i18n="page.contacto.emp.title">Oportunidad de negocio</h3>
+          <p class="lead" data-i18n="page.contacto.emp.lead">¿Te gustaría generar ingresos recomendando productos que ya usas? Te capacitamos y acompañamos.</p>
+          <ul class="contact-list">
+            <li><i class="fas fa-users"></i> <span data-i18n="page.contacto.emp.red">Red de distribuidores con capacitación</span></li>
+            <li><i class="fas fa-graduation-cap"></i> <span data-i18n="page.contacto.emp.capacitacion">Acompañamiento y formación continua</span></li>
+            <li><i class="fas fa-percent"></i> <span data-i18n="page.contacto.emp.comisiones">Comisiones por ventas y bonos por desempeño</span></li>
+            <li><i class="fas fa-globe"></i> <span data-i18n="page.contacto.emp.remoto">Oportunidad 100% remota</span></li>
+          </ul>
+          <a href="https://wa.me/522229071277?text=Hola,%20me%20interesa%20la%20oportunidad%20de%20emprendimiento%20con%20Vida%20Divina" class="btn btn--primary" style="margin-top:28px" target="_blank" rel="noopener" data-i18n="page.contacto.emp.cta">
+            <i class="fab fa-whatsapp"></i> Quiero saber más
+          </a>
+        </div>
+
+      </div>
+
+      <div class="legal-box" id="legal" data-i18n="page.contacto.legal">
+        <strong>Aviso legal.</strong> Los productos comercializados por Vive Vida Divina son suplementos / productos de bienestar de origen natural.
+      </div>
+    </div>
+  </section>
+
+  <div data-vvd="footer"></div>
+
+  <script src="site.js?v=1788375024"></script>
+</body>
+</html>
