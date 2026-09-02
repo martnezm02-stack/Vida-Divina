@@ -2,6 +2,9 @@
   "version": 2,
   "name": "vive-vida-divina",
   "cleanUrls": true,
+  "rewrites": [
+    { "source": "/productos/tedivina", "destination": "/productos/tedivina/" }
+  ],
   "headers": [
     {
       "source": "/products/(.*)\\.(webp|png|jpg|jpeg|svg)",

@@ -1,18 +1,15 @@
 {
   "es": {
-    "doc.title": "Vive Vida Divina — Bienestar integral, energía y vitalidad natural",
+    "doc.title": "Vive Vida Divina — Productos de bienestar de origen natural",
     "doc.description": "Productos de bienestar de origen natural: control de peso, café funcional, longevidad, intimidad, hongos medicinales. Pago contra entrega en toda la República Mexicana.",
-
     "nav.inicio": "Inicio",
     "nav.tienda": "Tienda",
     "nav.categorias": "Categorías",
     "nav.sobre": "Sobre Vida Divina",
     "nav.contacto": "Contacto",
     "nav.cta": "Ver productos",
-
     "lang.toggle": "EN",
     "lang.current": "Español",
-
     "hero.eyebrow": "Bienestar de origen natural",
     "hero.h1.line1": "Cuida tu cuerpo",
     "hero.h1.line2": "para vivir mejor cada etapa de tu vida.",
@@ -23,15 +20,12 @@
     "hero.trust.guarantee": "Garantía de satisfacción",
     "hero.trust.natural": "Ingredientes de origen natural",
     "hero.trust.years": "+9 años en el mercado",
-
     "section.productos.eyebrow": "Catálogo",
     "section.productos.title": "Nuestros productos",
     "section.productos.lead": "Una selección de productos Vida Divina® para diferentes objetivos, con ingredientes de origen natural y distintas propuestas de bienestar.",
-
     "section.categorias.eyebrow": "Líneas",
     "section.categorias.title": "Explora por categoría",
     "section.categorias.lead": "Encuentra productos agrupados por el objetivo que persigues.",
-
     "section.pilares.eyebrow": "Lo que nos define",
     "section.pilares.title": "Bienestar con propósito",
     "section.pilares.lead": "Cuatro principios que guían cada producto y cada conversación con nuestros clientes.",
@@ -43,18 +37,14 @@
     "pilar.3.text": "Atención personal por WhatsApp, sin call centers. Una persona real responde a tu mensaje.",
     "pilar.4.title": "🚚 Recíbelo en 1-3 días",
     "pilar.4.text": "Paga y disfruta en la puerta de tu casa. Sin adelantos, sin fricción.",
-
     "section.tongkat.eyebrow": "Producto destacado",
     "section.tongkat.title": "Café Tongkat Ali®",
     "section.tongkat.lead": "Para hombres de + 40 que quieren recuperar energía, deseo y vitalidad. Una mezcla exótica de café arábica, reishi, tongkat ali y jengibre.",
     "section.tongkat.cta": "Conocer Café Tongkat Ali",
-
     "section.cta.title": "¿Listo para sentirte mejor?",
     "section.cta.lead": "Escríbenos por WhatsApp y te ayudamos a encontrar el producto ideal para tu objetivo.",
     "section.cta.button": "Hablar por WhatsApp",
-
     "section.productos.cta": "Ver catálogo completo",
-
     "footer.brand.tagline": "Bienestar integral, energía y vitalidad a través de productos de origen natural.",
     "footer.h.productos": "Productos",
     "footer.h.marca": "Marca",
@@ -73,22 +63,17 @@
     "footer.bottom.copy": "© {year} Vive Vida Divina. Todos los derechos reservados.",
     "footer.bottom.made": "Hecho con cuidado · México",
     "footer.disclaimer": "Este sitio no forma parte de Facebook, Instagram ni de sus empresas afiliadas.",
-
     "btn.ver.mas": "Conocer producto",
     "btn.ver.placeholder": "Ver detalles",
     "badge.próximamente": "Imagen próximamente",
-
     "page.productos.title": "Todos nuestros productos",
     "page.productos.lead": "Bienestar de origen natural para cada objetivo. Usa los filtros para encontrar el producto que se alinea con lo que tu cuerpo necesita hoy.",
     "filter.todos": "Todos",
     "page.productos.empty": "No hay productos en esta categoría todavía.",
-
     "page.categorias.title": "Líneas de bienestar",
     "page.categorias.lead": "Encuentra productos agrupados por el objetivo que persigues: energía, control de peso, longevidad, intimidad o rendimiento.",
-
     "page.categoria.productos.count_one": "{n} producto en esta línea.",
     "page.categoria.productos.count_other": "{n} productos en esta línea.",
-
     "page.producto.beneficios": "Beneficios",
     "page.producto.ingredientes": "Ingredientes",
     "page.producto.ficha": "Ficha",
@@ -102,7 +87,6 @@
     "page.producto.crumb.inicio": "Inicio",
     "page.producto.crumb.tienda": "Tienda",
     "cta.asesoria": "Pedir asesoría",
-
     "page.sobre.title": "Sobre Vive Vida Divina",
     "page.sobre.h1": "Bienestar construido con tiempo, cuidado y propósito.",
     "page.sobre.lead": "Vive Vida Divina es un Afiliado Independiente de productos de bienestar de la marca Vida Divina®. Conoce nuestra filosofía, valores y compromiso.",
@@ -117,7 +101,6 @@
     "page.sobre.emprendimiento.title": "¿Te gustaría sumarte?",
     "page.sobre.emprendimiento.lead": "Buscamos personas que quieran construir un ingreso adicional — o principal — recomendando productos que realmente funcionan. Te capacitamos, te acompañamos y te damos las herramientas.",
     "page.sobre.emprendimiento.cta": "Quiero saber más",
-
     "page.contacto.title": "Contacto",
     "page.contacto.h1": "Contacto",
     "page.contacto.lead": "Atención personal por WhatsApp, todos los días. Escríbenos y una asesora real te responde.",
@@ -135,12 +118,10 @@
     "page.contacto.emp.remoto": "Oportunidad 100% remota",
     "page.contacto.emp.cta": "Quiero saber más",
     "page.contacto.legal": "Aviso legal. Los productos comercializados por Vive Vida Divina son suplementos / productos de bienestar de origen natural. No son medicamentos y no tienen la intención de diagnosticar, tratar, curar o prevenir ninguna enfermedad. La información de cada producto proviene del catálogo oficial. Las declaraciones y resultados pueden variar entre personas. Antes de iniciar cualquier suplementación consulta con tu médico si tienes condiciones médicas preexistentes o tomas medicamentos. Pago contra entrega disponible en zonas de cobertura.",
-
     "page.cat-header.catalogo": "Catálogo",
     "page.cat-header.categoria": "Categoría",
     "page.cat-header.explora": "Explora",
     "page.cat-header.estamos": "Estamos aquí",
-
     "cat.01-control-de-peso": "Control de Peso",
     "cat.02-cafe-divina": "Café Divina · Bebidas Funcionales",
     "cat.03-longevidad-bienestar": "Longevidad y Bienestar General",
@@ -153,24 +134,51 @@
     "cat.10-energia-antioxidantes": "Energía y Antioxidantes",
     "cat.11-extractos-hongos": "Extractos de Hongos Medicinales",
     "cat.12-cuidado-personal": "Cuidado Personal",
-    "cat.13-linea-radien": "Línea Radien · Cuidado de la Piel"
+    "cat.13-linea-radien": "Línea Radien · Cuidado de la Piel",
+    "nav.cafe": "El Café",
+    "section.tedivina.eyebrow": "Producto insignia",
+    "section.tedivina.kicker": "Nuestro recomendado",
+    "section.tedivina.title": "TéDivina®",
+    "section.tedivina.lead": "Una mezcla herbal con ingredientes botánicos seleccionados que apoya tu bienestar diario.",
+    "section.tedivina.bullet.1": "Ingredientes de origen natural y orgánico",
+    "section.tedivina.bullet.2": "Apoya la digestión y el tránsito intestinal",
+    "section.tedivina.bullet.3": "Promueve una rutina diaria de bienestar",
+    "section.tedivina.bullet.4": "Ideal como parte de un estilo de vida saludable",
+    "section.tedivina.cta.primary": "Conocer TéDivina",
+    "section.tedivina.cta.secondary": "Explorar productos",
+    "section.confianza.eyebrow": "Por qué elegirnos",
+    "section.confianza.title": "Atención personal, compra clara y cercana",
+    "section.confianza.1.title": "Atención personal",
+    "section.confianza.1.text": "Una persona real responde a tu mensaje y te orienta para elegir el producto que mejor se adapta a lo que buscas.",
+    "section.confianza.2.title": "Compra segura",
+    "section.confianza.2.text": "Te acompañamos desde la consulta hasta la entrega. Sin pasos confusos, sin información innecesaria.",
+    "section.confianza.3.title": "Envíos a todo México",
+    "section.confianza.3.text": "Cobertura nacional con seguimiento hasta la entrega de tu pedido.",
+    "section.confianza.4.title": "Distribuidor de Vida Divina®",
+    "section.confianza.4.text": "Somos distribuidores de productos Vida Divina®. Te orientamos sobre las opciones disponibles sin fabricar ni formular los productos.",
+    "section.marca.eyebrow": "Bienestar con propósito",
+    "section.marca.title": "Nuestra forma de acompañarte",
+    "section.marca.text": "Creemos en relaciones a largo plazo, en atender personalmente cada consulta y en ofrecer una experiencia de compra clara y confiable. Somos distribuidores de productos Vida Divina® y te acompañamos para conocer las opciones disponibles, resolver tus dudas y gestionar tu pedido de forma sencilla y confiable, con atención directa por WhatsApp y seguimiento hasta el envío.",
+    "section.nosotros.eyebrow": "Sobre nosotros",
+    "section.nosotros.title": "Conoce más sobre nosotros",
+    "section.nosotros.text": "Vive Vida Divina es un emprendimiento mexicano dedicado a la distribución de productos de bienestar de la marca Vida Divina®. Atendemos de forma directa a cada persona, resolvemos dudas, recomendamos opciones según el objetivo de cada quien y gestionamos los pedidos hasta su entrega.",
+    "section.nosotros.cta": "Hablar con nosotros",
+    "hero.cta.primary.full": "EXPLORAR PRODUCTOS",
+    "hero.cta.secondary.full": "HABLAR CON NOSOTROS"
   },
   "en": {
-    "doc.title": "Vive Vida Divina — Whole-body wellness, energy and natural vitality",
+    "doc.title": "Vive Vida Divina — Natural wellness products",
     "doc.description": "Natural wellness products: weight management, functional coffee, longevity, intimacy, medicinal mushrooms. Cash on delivery across Mexico.",
-
     "nav.inicio": "Home",
     "nav.tienda": "Shop",
     "nav.categorias": "Categories",
     "nav.sobre": "About Vida Divina",
     "nav.contacto": "Contact",
     "nav.cta": "Shop products",
-
     "lang.toggle": "ES",
     "lang.current": "English",
-
     "hero.eyebrow": "Natural-origin wellness",
-    "hero.h1.line1": "Care for your body",
+    "hero.h1.line1": "Take care of your body",
     "hero.h1.line2": "to live every stage of your life better.",
     "hero.lead": "Carefully selected wellness products — starting with tea, supplements and functional coffees — designed to support you at every stage: energy, weight management, longevity, intimacy and performance.",
     "hero.cta.primary": "Explore products",
@@ -179,15 +187,12 @@
     "hero.trust.guarantee": "Satisfaction guarantee",
     "hero.trust.natural": "Natural-origin ingredients",
     "hero.trust.years": "9+ years in the market",
-
     "section.productos.eyebrow": "Catalog",
     "section.productos.title": "Our products",
     "section.productos.lead": "A selection of Vida Divina® products for different goals, with natural-origin ingredients and diverse wellness propositions.",
-
     "section.categorias.eyebrow": "Lines",
     "section.categorias.title": "Browse by category",
     "section.categorias.lead": "Find products grouped by the goal you're pursuing.",
-
     "section.pilares.eyebrow": "What defines us",
     "section.pilares.title": "Wellness with purpose",
     "section.pilares.lead": "Four principles that guide every product and every conversation with our customers.",
@@ -199,18 +204,14 @@
     "pilar.3.text": "Personal WhatsApp support, no call centers. A real person answers your message.",
     "pilar.4.title": "🚚 Get it in 1-3 days",
     "pilar.4.text": "Pay and enjoy at your door. No upfront payments, no friction.",
-
     "section.tongkat.eyebrow": "Featured product",
     "section.tongkat.title": "Tongkat Ali Coffee®",
     "section.tongkat.lead": "For men 40+ who want to reclaim energy, desire and vitality. An exotic blend of arabica coffee, reishi, tongkat ali and ginger.",
     "section.tongkat.cta": "Discover Tongkat Ali Coffee",
-
     "section.cta.title": "Ready to feel better?",
     "section.cta.lead": "Message us on WhatsApp and we'll help you find the right product for your goal.",
     "section.cta.button": "Chat on WhatsApp",
-
     "section.productos.cta": "View full catalog",
-
     "footer.brand.tagline": "Whole-body wellness, energy and vitality through natural-origin products.",
     "footer.h.productos": "Products",
     "footer.h.marca": "Brand",
@@ -229,22 +230,17 @@
     "footer.bottom.copy": "© {year} Vive Vida Divina. All rights reserved.",
     "footer.bottom.made": "Made with care · Mexico",
     "footer.disclaimer": "This site is not part of Facebook, Instagram or their affiliated companies.",
-
     "btn.ver.mas": "Learn more",
     "btn.ver.placeholder": "View details",
     "badge.próximamente": "Image coming soon",
-
     "page.productos.title": "All our products",
     "page.productos.lead": "Natural-origin wellness for every goal. Use the filters to find the product that matches what your body needs today.",
     "filter.todos": "All",
     "page.productos.empty": "There are no products in this category yet.",
-
     "page.categorias.title": "Wellness lines",
     "page.categorias.lead": "Find products grouped by the goal you're pursuing: energy, weight management, longevity, intimacy or performance.",
-
     "page.categoria.productos.count_one": "{n} product in this line.",
     "page.categoria.productos.count_other": "{n} products in this line.",
-
     "page.producto.beneficios": "Benefits",
     "page.producto.ingredientes": "Ingredients",
     "page.producto.ficha": "Specs",
@@ -258,7 +254,6 @@
     "page.producto.crumb.inicio": "Home",
     "page.producto.crumb.tienda": "Shop",
     "cta.asesoria": "Request advice",
-
     "page.sobre.title": "About Vive Vida Divina",
     "page.sobre.h1": "Wellness built with time, care and purpose.",
     "page.sobre.lead": "Vive Vida Divina is an Independent Affiliate of wellness products from the Vida Divina® brand. Learn about our philosophy, values and commitment.",
@@ -273,7 +268,6 @@
     "page.sobre.emprendimiento.title": "Would you like to join us?",
     "page.sobre.emprendimiento.lead": "We are looking for people who want to build an additional — or main — income by recommending products that really work. We train you, accompany you and give you the tools.",
     "page.sobre.emprendimiento.cta": "Tell me more",
-
     "page.contacto.title": "Contact",
     "page.contacto.h1": "Contact",
     "page.contacto.lead": "Personal WhatsApp support, every day. Message us and a real advisor will reply.",
@@ -291,12 +285,10 @@
     "page.contacto.emp.remoto": "100% remote opportunity",
     "page.contacto.emp.cta": "Tell me more",
     "page.contacto.legal": "Legal notice. Products commercialized by Vive Vida Divina are natural-origin wellness supplements. They are not medicines and are not intended to diagnose, treat, cure or prevent any disease. Information about each product comes from the official catalog. Statements and results may vary between individuals. Before starting any supplementation consult your doctor if you have pre-existing medical conditions or take medication. Cash on delivery available in coverage areas.",
-
     "page.cat-header.catalogo": "Catalog",
     "page.cat-header.categoria": "Category",
     "page.cat-header.explora": "Explore",
     "page.cat-header.estamos": "We're here",
-
     "cat.01-control-de-peso": "Weight Management",
     "cat.02-cafe-divina": "Café Divina · Functional Beverages",
     "cat.03-longevidad-bienestar": "Longevity & General Wellness",
@@ -309,6 +301,36 @@
     "cat.10-energia-antioxidantes": "Energy & Antioxidants",
     "cat.11-extractos-hongos": "Medicinal Mushroom Extracts",
     "cat.12-cuidado-personal": "Personal Care",
-    "cat.13-linea-radien": "Radien Skincare Line"
+    "cat.13-linea-radien": "Radien Skincare Line",
+    "nav.cafe": "The Coffee",
+    "section.tedivina.eyebrow": "Flagship product",
+    "section.tedivina.kicker": "Our top pick",
+    "section.tedivina.title": "TéDivina®",
+    "section.tedivina.lead": "An herbal blend with selected botanical ingredients that supports your daily wellness.",
+    "section.tedivina.bullet.1": "Natural and organic-origin ingredients",
+    "section.tedivina.bullet.2": "Supports digestion and intestinal transit",
+    "section.tedivina.bullet.3": "Promotes a daily wellness routine",
+    "section.tedivina.bullet.4": "Ideal as part of a healthy lifestyle",
+    "section.tedivina.cta.primary": "Discover TéDivina",
+    "section.tedivina.cta.secondary": "Browse products",
+    "section.confianza.eyebrow": "Why choose us",
+    "section.confianza.title": "Personal care, a clear and close shopping experience",
+    "section.confianza.1.title": "Personal attention",
+    "section.confianza.1.text": "A real person answers your message and guides you to choose the product that best fits what you're looking for.",
+    "section.confianza.2.title": "Secure purchase",
+    "section.confianza.2.text": "We walk you through from inquiry to delivery. No confusing steps, no unnecessary information.",
+    "section.confianza.3.title": "Shipping across Mexico",
+    "section.confianza.3.text": "Nationwide coverage with tracking until your order arrives.",
+    "section.confianza.4.title": "Vida Divina® distributor",
+    "section.confianza.4.text": "We distribute Vida Divina® products. We guide you through the available options without manufacturing or formulating the products.",
+    "section.marca.eyebrow": "Wellness with purpose",
+    "section.marca.title": "How we walk with you",
+    "section.marca.text": "We believe in long-term relationships, in personally attending every inquiry, and in offering a clear and reliable shopping experience. We distribute Vida Divina® products and walk with you to learn about the available options, answer your questions, and manage your order simply and reliably — with direct WhatsApp support and tracking until shipment.",
+    "section.nosotros.eyebrow": "About us",
+    "section.nosotros.title": "Learn more about us",
+    "section.nosotros.text": "Vive Vida Divina is a Mexican venture dedicated to distributing wellness products of the Vida Divina® brand. We serve each person directly, answer questions, recommend options according to each person's goal, and manage orders until delivery.",
+    "section.nosotros.cta": "Talk to us",
+    "hero.cta.primary.full": "BROWSE PRODUCTS",
+    "hero.cta.secondary.full": "TALK TO US"
   }
 }

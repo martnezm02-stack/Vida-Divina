@@ -19,14 +19,18 @@
 !/site.js
 !/logo.jpg
 
-# 3) Permitir productos/ completo (subcarpetas + archivos)
+# 3) Permitir products/ completo (assets: imágenes reales)
 !/products
 !/products/**
 
-# 4) Permitir media/ (videos, audios del hero y secciones)
+# 4) Permitir productos/ (landing dedicada de TeDivina en subcarpeta)
+!/productos
+!/productos/**
+
+# 5) Permitir media/ (videos, audios del hero y secciones)
 !/media
 !/media/**
 
-# 5) Permitir landing dedicada de Tongkat Ali
+# 6) Permitir landing dedicada de Tongkat Ali
 !/tongkat-ali
 !/tongkat-ali/**

@@ -35,6 +35,7 @@ const VVD = (function () {
   function productHref(slug) {
     // Productos con landing dedicada
     if (slug === 'tongkat-ali-cafe') return '/tongkat-ali';
+    if (slug === 'tedivina') return '/productos/tedivina';
     return `/producto?slug=${encodeURIComponent(slug)}`;
   }
 
@@ -56,10 +57,10 @@ const VVD = (function () {
           </a>
           <nav aria-label="Navegación principal">
             <ul class="navbar__menu" id="vvd-menu">
-              <li><a href="/"${active==='home'?' style="color:var(--borgoña)"':''} data-i18n="nav.inicio">Inicio</a></li>
-              <li><a href="/productos"${active==='productos'?' style="color:var(--borgoña)"':''} data-i18n="nav.tienda">Tienda</a></li>
+              <li><a href="/productos"${active==='productos'?' style="color:var(--borgoña)"':''} data-i18n="nav.tienda">Productos</a></li>
               <li><a href="/categorias"${active==='categorias'?' style="color:var(--borgoña)"':''} data-i18n="nav.categorias">Categorías</a></li>
-              <li><a href="/sobre-vida-divina"${active==='sobre'?' style="color:var(--borgoña)"':''} data-i18n="nav.sobre">Sobre Vida Divina</a></li>
+              <li><a href="/tongkat-ali"${active==='cafe'?' style="color:var(--borgoña)"':''} data-i18n="nav.cafe">El Café</a></li>
+              <li><a href="/sobre-vida-divina"${active==='sobre'?' style="color:var(--borgoña)"':''} data-i18n="nav.sobre">Nosotros</a></li>
               <li><a href="/contacto"${active==='contacto'?' style="color:var(--borgoña)"':''} data-i18n="nav.contacto">Contacto</a></li>
               <li>
                 <div class="lang-switch" role="group" aria-label="Language selector">
