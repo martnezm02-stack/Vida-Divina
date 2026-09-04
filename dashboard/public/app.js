@@ -3114,11 +3114,24 @@ if (scheduleForm) {
     e.preventDefault();
     const resultEl = $('#schedule-result');
     const btn = scheduleForm.querySelector('button[type="submit"]');
+    // MISMA validación real (mismo mensaje) que ya usa renderCalendarList()
+    // para .sched-date/.sched-time/.sched-tz -- nunca una segunda regla.
+    const date = scheduleForm.date.value;
+    const time = scheduleForm.time.value;
+    const timezone = scheduleForm.timezone.value.trim();
+    if (!date || !time || !timezone) { alert('Fecha, hora y timezone (IANA, ej. America/Mexico_City) son obligatorios.'); return; }
     btn.disabled = true; btn.textContent = 'GUARDANDO…';
     try {
-      const body = { assetPackage: assetToPublish, platform: scheduleForm.platform.value, caption: scheduleForm.caption.value };
+      // Corrección "Persistencia de fecha/hora/timezone desde DRAFT"
+      // (2026-09-04): date/time/timezone SÍ se envían ya en la creación --
+      // createScheduledPublication() los acepta como opcionales y los
+      // persiste en el registro real (pendingDate/pendingTime/timezone).
+      // Ya NO se guardan en memoria del cliente: la ScheduledPublication
+      // persistida es la única fuente de verdad, resistente a refresh/
+      // cierre del navegador/reinicio del servidor.
+      const body = { assetPackage: assetToPublish, platform: scheduleForm.platform.value, caption: scheduleForm.caption.value, date, time, timezone };
       await api('/api/schedule', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
-      resultEl.innerHTML = '<p>Guardado como BORRADOR. Ábrelo en Calendario para aprobar y programar la fecha/hora.</p>';
+      resultEl.innerHTML = '<p>Guardado como BORRADOR (fecha/hora/timezone ya quedaron persistidas). Ábrelo en Calendario para la aprobación humana explícita -- ahí mismo podrás confirmar "PROGRAMAR" sin volver a escribirlas.</p>';
       setTimeout(() => { $('#schedule-modal').classList.add('hidden'); goto('calendar'); }, 900);
     } catch (err) {
       resultEl.innerHTML = `<div class="result-status VALIDATION_FAILED">ERROR</div><p>${err.message}</p>`;
@@ -3166,9 +3179,12 @@ async function renderCalendarList() {
           <button class="btn-secondary" data-action="detail">VER DETALLE</button>
           ${r.status === 'DRAFT' ? `<button class="btn-secondary" data-action="approve">APROBAR</button>` : ''}
           ${r.status === 'APPROVED' ? `
-            <input type="date" class="sched-date" style="width:130px;" />
-            <input type="time" class="sched-time" style="width:90px;" />
-            <input type="text" class="sched-tz" placeholder="America/Mexico_City" style="width:170px;" />
+            <!-- Prellenado directamente desde el registro real (r.pendingDate/
+                 pendingTime/timezone, ya persistidos desde DRAFT) -- nunca desde
+                 memoria de esta pestaña: sobrevive a refresh/cierre/reinicio. -->
+            <input type="date" class="sched-date" style="width:130px;" value="${r.pendingDate ?? ''}" />
+            <input type="time" class="sched-time" style="width:90px;" value="${r.pendingTime ?? ''}" />
+            <input type="text" class="sched-tz" placeholder="America/Mexico_City" style="width:170px;" value="${r.timezone ?? ''}" />
             <button class="btn-secondary" data-action="program">PROGRAMAR</button>` : ''}
           ${['DRAFT', 'APPROVED', 'SCHEDULED'].includes(r.status) ? `<button class="btn-secondary" data-action="cancel">CANCELAR</button>` : ''}
         </div>

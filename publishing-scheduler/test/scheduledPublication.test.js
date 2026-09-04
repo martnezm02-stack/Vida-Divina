@@ -35,4 +35,33 @@ describe('createScheduledPublication', () => {
   test('rechaza sin assetPackage', () => {
     assert.throws(() => createScheduledPublication({ platform: 'FACEBOOK', caption: 'Hola' }));
   });
+
+  // Corrección "Persistencia de fecha/hora/timezone desde DRAFT" (2026-09-04).
+  describe('date/time/timezone opcionales desde DRAFT', () => {
+    test('TEST 1/2: si se pasan date/time/timezone válidos, quedan persistidos en el registro DRAFT (nunca en scheduledAt)', () => {
+      const rec = createScheduledPublication({
+        assetPackage: completedPackage(), platform: 'INSTAGRAM', caption: 'Hola',
+        date: '2027-01-15', time: '10:00', timezone: 'America/Mexico_City',
+      });
+      assert.equal(rec.status, 'DRAFT');
+      assert.equal(rec.pendingDate, '2027-01-15');
+      assert.equal(rec.pendingTime, '10:00');
+      assert.equal(rec.timezone, 'America/Mexico_City');
+      // scheduledAt sigue significando EXCLUSIVAMENTE "ya confirmado en SCHEDULED" -- un DRAFT nunca lo tiene, aunque traiga pending*.
+      assert.equal(rec.scheduledAt, null);
+    });
+
+    test('TEST 7: sin date/time/timezone (uso preexistente), el registro queda igual que antes -- backward compatible', () => {
+      const rec = createScheduledPublication({ assetPackage: completedPackage(), platform: 'INSTAGRAM', caption: 'Hola' });
+      assert.equal(rec.pendingDate, null);
+      assert.equal(rec.pendingTime, null);
+      assert.equal(rec.timezone, null);
+      assert.equal(rec.scheduledAt, null);
+    });
+
+    test('rechaza date/time/timezone incompletos o inválidos (misma validación real que /program, zonedTimeToUtcIso)', () => {
+      assert.throws(() => createScheduledPublication({ assetPackage: completedPackage(), platform: 'INSTAGRAM', caption: 'Hola', date: '2027-01-15' }), /time/i);
+      assert.throws(() => createScheduledPublication({ assetPackage: completedPackage(), platform: 'INSTAGRAM', caption: 'Hola', date: '2027-01-15', time: '10:00', timezone: 'No/Existe' }), /timeZone/i);
+    });
+  });
 });

@@ -51,14 +51,34 @@ export class PublishingScheduler {
     return this._store.save({ ...record, status: 'APPROVED', approvedAt: nowIso, approvedBy: approvedBy.trim(), updatedAt: nowIso });
   }
 
-  /** APPROVED -> SCHEDULED. Guarda scheduledAt (instante UTC real) + timezone explícito (nunca se asume UTC sin convertir). */
-  schedule(id, { date, time, timezone }) {
+  /**
+   * APPROVED -> SCHEDULED. Guarda scheduledAt (instante UTC real) + timezone
+   * explícito (nunca se asume UTC sin convertir).
+   *
+   * Corrección "Persistencia de fecha/hora/timezone desde DRAFT"
+   * (2026-09-04): date/time/timezone ahora son OPCIONALES aquí -- si el
+   * llamador los manda explícitos, esos SIEMPRE mandan (el usuario puede
+   * cambiar de opinión justo antes de programar); si no los manda, se
+   * reutilizan record.pendingDate/pendingTime/timezone ya persistidos desde
+   * createScheduledPublication() (nunca un Map de frontend). Un registro
+   * histórico sin pending* (creado antes de esta corrección) sigue
+   * exigiendo los tres explícitos -- zonedTimeToUtcIso lanza el mismo error
+   * real de siempre si faltan.
+   */
+  schedule(id, { date, time, timezone } = {}) {
     const record = this._store.get(id);
     if (!record) throw new Error(`PublishingScheduler.schedule: no existe ScheduledPublication "${id}".`);
     if (record.status !== 'APPROVED') throw new Error(`PublishingScheduler.schedule: solo se programa desde APPROVED (estado actual: "${record.status}").`);
-    const scheduledAt = zonedTimeToUtcIso(date, time, timezone);
+    const finalDate = date ?? record.pendingDate;
+    const finalTime = time ?? record.pendingTime;
+    const finalTimezone = timezone ?? record.timezone;
+    const scheduledAt = zonedTimeToUtcIso(finalDate, finalTime, finalTimezone);
     const nowIso = this._now().toISOString();
-    return this._store.save({ ...record, status: 'SCHEDULED', scheduledAt, timezone, updatedAt: nowIso });
+    // pendingDate/pendingTime ya cumplieron su propósito (prellenar antes de
+    // aprobar) -- se limpian al confirmar SCHEDULED para que scheduledAt +
+    // timezone vuelvan a ser la única fuente de verdad, igual que antes de
+    // esta corrección.
+    return this._store.save({ ...record, status: 'SCHEDULED', scheduledAt, timezone: finalTimezone, pendingDate: null, pendingTime: null, updatedAt: nowIso });
   }
 
   /** Cancela desde cualquier estado no terminal. */

@@ -13,6 +13,12 @@ function toSummary(record) {
   return {
     id: record.id, assetPackageId: record.assetPackageId, platform: record.platform, destination: record.destination,
     caption: record.caption, scheduledAt: record.scheduledAt, timezone: record.timezone, status: record.status,
+    // pendingDate/pendingTime (Corrección "Persistencia de fecha/hora/timezone
+    // desde DRAFT", 2026-09-04): valores YA persistidos en el ScheduledPublication
+    // real desde su creación -- Calendario los usa para prellenar sin depender
+    // de memoria de un navegador concreto. `?? null` cubre registros
+    // históricos que nunca tuvieron estos campos.
+    pendingDate: record.pendingDate ?? null, pendingTime: record.pendingTime ?? null,
     createdAt: record.createdAt, updatedAt: record.updatedAt, approvedAt: record.approvedAt, approvedBy: record.approvedBy,
     publishedAt: record.publishedAt, externalPublicationId: record.externalPublicationId, error: record.error, retryCount: record.retryCount,
   };
@@ -32,12 +38,16 @@ export async function handleGetSchedule(req, res, id) {
 export async function handleCreateSchedule(req, res) {
   let body;
   try { body = await readJsonBody(req); } catch (err) { badRequest(res, err.message); return; }
-  const { assetPackage, platform, destination = null, caption } = body;
+  // date/time/timezone (Corrección "Persistencia de fecha/hora/timezone
+  // desde DRAFT", 2026-09-04): OPCIONALES -- Crear/Carrusel/Adaptar y el
+  // resto de llamadores preexistentes que no los envían siguen funcionando
+  // exactamente igual (createScheduledPublication los trata como null).
+  const { assetPackage, platform, destination = null, caption, date = null, time = null, timezone = null } = body;
   if (!assetPackage) { badRequest(res, 'CALENDARIO: "assetPackage" es obligatorio (el Final Asset Package real ya producido).'); return; }
   if (!SCHEDULABLE_PLATFORMS.includes(platform)) { badRequest(res, `CALENDARIO: "platform" debe ser una de ${SCHEDULABLE_PLATFORMS.join(', ')}.`); return; }
   if (!caption?.trim()) { badRequest(res, 'CALENDARIO: "caption" es obligatorio -- nunca se programa sin un mensaje real escrito por un humano.'); return; }
   try {
-    const record = createScheduledPublication({ assetPackage, platform, destination, caption });
+    const record = createScheduledPublication({ assetPackage, platform, destination, caption, date, time, timezone });
     scheduledPublicationStore.save(record);
     sendJson(res, 200, toSummary(record));
   } catch (err) {

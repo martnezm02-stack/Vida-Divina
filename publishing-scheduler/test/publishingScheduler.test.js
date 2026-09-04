@@ -77,6 +77,105 @@ describe('PublishingScheduler — ciclo de vida', () => {
     }
   });
 
+  // Corrección "Persistencia de fecha/hora/timezone desde DRAFT" (2026-09-04).
+  describe('pendingDate/pendingTime persistidos desde DRAFT', () => {
+    test('TEST 3: sobreviven a un "reinicio" simulado (nueva lectura fresca del store, sin estado de frontend)', () => {
+      const cleanup = [];
+      try {
+        const created = persistAndTrack(createScheduledPublication({
+          assetPackage: completedPackage(), platform: 'INSTAGRAM', caption: 'Hola',
+          date: '2027-01-15', time: '10:00', timezone: 'America/Mexico_City',
+        }), cleanup);
+        // "Reinicio": se descarta la referencia `created` y se relee del disco,
+        // como haría un servidor recién arrancado o una pestaña recién abierta.
+        const reread = store.get(created.id);
+        assert.equal(reread.status, 'DRAFT');
+        assert.equal(reread.pendingDate, '2027-01-15');
+        assert.equal(reread.pendingTime, '10:00');
+        assert.equal(reread.timezone, 'America/Mexico_City');
+      } finally {
+        for (const id of cleanup) store.del(id);
+      }
+    });
+
+    test('TEST 4: DRAFT -> APPROVED conserva pendingDate/pendingTime/timezone (approve() no los toca)', () => {
+      const cleanup = [];
+      try {
+        const sched = new PublishingScheduler({ mediaHostingService: mockMediaHosting(), publish: async () => { throw new Error('NUNCA debía llamarse publish() en este test.'); } });
+        const rec = persistAndTrack(createScheduledPublication({
+          assetPackage: completedPackage(), platform: 'INSTAGRAM', caption: 'Hola',
+          date: '2027-01-15', time: '10:00', timezone: 'America/Mexico_City',
+        }), cleanup);
+        const approved = sched.approve(rec.id, { approvedBy: 'martnezm02' });
+        assert.equal(approved.status, 'APPROVED');
+        assert.equal(approved.pendingDate, '2027-01-15');
+        assert.equal(approved.pendingTime, '10:00');
+        assert.equal(approved.timezone, 'America/Mexico_City');
+      } finally {
+        for (const id of cleanup) store.del(id);
+      }
+    });
+
+    test('TEST 5: APPROVED -> SCHEDULED sin pasar date/time/timezone explícitos reutiliza los ya persistidos desde DRAFT', () => {
+      const cleanup = [];
+      try {
+        const sched = new PublishingScheduler({ mediaHostingService: mockMediaHosting(), publish: async () => { throw new Error('NUNCA debía llamarse publish() en este test.'); } });
+        const rec = persistAndTrack(createScheduledPublication({
+          assetPackage: completedPackage(), platform: 'INSTAGRAM', caption: 'Hola',
+          date: '2027-01-15', time: '10:00', timezone: 'America/Mexico_City',
+        }), cleanup);
+        sched.approve(rec.id, { approvedBy: 'martnezm02' });
+        const scheduled = sched.schedule(rec.id, {}); // sin date/time/timezone -- deben salir de record.pendingDate/pendingTime/timezone
+        assert.equal(scheduled.status, 'SCHEDULED');
+        assert.equal(scheduled.scheduledAt, '2027-01-15T16:00:00.000Z');
+        assert.equal(scheduled.timezone, 'America/Mexico_City');
+        // Una vez SCHEDULED, pending* ya cumplió su propósito -- se limpia (scheduledAt/timezone vuelven a ser la única fuente de verdad).
+        assert.equal(scheduled.pendingDate, null);
+        assert.equal(scheduled.pendingTime, null);
+      } finally {
+        for (const id of cleanup) store.del(id);
+      }
+    });
+
+    test('TEST 6: valores explícitos en /program (schedule()) reemplazan a los persistidos desde DRAFT, nunca hay conflicto', () => {
+      const cleanup = [];
+      try {
+        const sched = new PublishingScheduler({ mediaHostingService: mockMediaHosting(), publish: async () => { throw new Error('NUNCA debía llamarse publish() en este test.'); } });
+        const rec = persistAndTrack(createScheduledPublication({
+          assetPackage: completedPackage(), platform: 'INSTAGRAM', caption: 'Hola',
+          date: '2027-01-15', time: '10:00', timezone: 'America/Mexico_City',
+        }), cleanup);
+        sched.approve(rec.id, { approvedBy: 'martnezm02' });
+        // El usuario cambia de opinión justo antes de programar -- estos valores explícitos deben mandar, no los originales del DRAFT.
+        const scheduled = sched.schedule(rec.id, { date: '2027-03-01', time: '09:00', timezone: 'UTC' });
+        assert.equal(scheduled.scheduledAt, '2027-03-01T09:00:00.000Z');
+        assert.equal(scheduled.timezone, 'UTC');
+      } finally {
+        for (const id of cleanup) store.del(id);
+      }
+    });
+
+    test('TEST 8: un DRAFT con pendingDate/pendingTime en el pasado NUNCA aparece en findDuePublications() (solo status SCHEDULED cuenta)', () => {
+      const cleanup = [];
+      try {
+        const sched = new PublishingScheduler({
+          mediaHostingService: mockMediaHosting(),
+          publish: async () => { throw new Error('NUNCA debía llamarse publish() en este test.'); },
+          now: () => new Date('2026-09-04T12:00:00.000Z'),
+        });
+        const rec = persistAndTrack(createScheduledPublication({
+          assetPackage: completedPackage(), platform: 'INSTAGRAM', caption: 'Hola',
+          date: '2020-01-01', time: '00:00', timezone: 'UTC', // muy en el pasado a propósito
+        }), cleanup);
+        assert.equal(rec.status, 'DRAFT');
+        const due = sched.findDuePublications();
+        assert.ok(!due.some((r) => r.id === rec.id), 'un DRAFT jamás debe considerarse "vencido", aunque tenga pendingDate/pendingTime pasados.');
+      } finally {
+        for (const id of cleanup) store.del(id);
+      }
+    });
+  });
+
   test('cancel: cancela desde cualquier estado no terminal, rechaza desde PUBLISHED/CANCELLED', () => {
     const cleanup = [];
     try {

@@ -60,9 +60,91 @@
     list.innerHTML = [...currentProject.versions].reverse().map((v) => `
       <div class="variant-field">
         <strong>v${v.versionNumber}</strong> ${v.status} — ${v.editsSummary ?? 'Producción original.'}
-        ${(v.outputs ?? []).map((o) => (o.mediaUrl ? `<br/><a href="${o.mediaUrl}" target="_blank" rel="noopener">${o.displayName ?? o.profileName}</a>` : '')).join('')}
+        ${(v.outputs ?? []).map((o) => (o.mediaUrl ? `
+          <br/><a href="${o.mediaUrl}" target="_blank" rel="noopener">${o.displayName ?? o.profileName}</a>
+          ${v.status !== 'FAILED' ? `
+            <button type="button" class="btn-secondary btn-publish-output" data-version-number="${v.versionNumber}" data-profile-name="${o.profileName}">PUBLICAR →</button>
+            <button type="button" class="btn-secondary btn-schedule-output" data-version-number="${v.versionNumber}" data-profile-name="${o.profileName}">PROGRAMAR →</button>
+          ` : ''}
+        ` : '')).join('')}
       </div>
     `).join('');
+    list.querySelectorAll('.btn-publish-output').forEach((b) => {
+      b.addEventListener('click', () => publishExistingOutput(Number(b.dataset.versionNumber), b.dataset.profileName));
+    });
+    // Extensión "Programar desde el Editor": MISMO botón/flujo que ya
+    // reutiliza publishExistingOutput() para PUBLICAR, aplicado a
+    // openScheduleModal() en vez de openPublishModal() -- nunca un
+    // segundo constructor de Final Asset Package.
+    list.querySelectorAll('.btn-schedule-output').forEach((b) => {
+      b.addEventListener('click', () => scheduleExistingOutput(Number(b.dataset.versionNumber), b.dataset.profileName));
+    });
+  }
+
+  // Construye el Final Asset Package real de un output YA RENDERIZADO de
+  // una versión ya existente (Corrección "Publicar desde el Editor"):
+  // reutiliza EXACTAMENTE la arquitectura de Publishing real que ya existe
+  // (PublishingService/MediaHostingService/adapters, ver
+  // content-orchestrator/src/publishing/ y
+  // dashboard/server/routes/generation.js#handlePublish) -- NUNCA un
+  // segundo endpoint ni una segunda UI de publicación. El Final Asset
+  // Package real que esperan esos modales/endpoints usa un vocabulario de
+  // status distinto (COMPLETED/PARTIAL, ver
+  // contentGenerationEngine.js#GENERATION_STATUS) del ProductionJob real
+  // de este Editor (FULL_PRODUCTION/DEGRADED_PRODUCTION/FAILED, ver
+  // editableVideoProject.js#PROJECT_VERSION_STATUSES) -- este mapeo es el
+  // ÚNICO puente real que faltaba entre ambos; ningún adapter ni el
+  // endpoint /api/publish se tocan. outputAssets trae SOLO el output real
+  // seleccionado (nunca los demás formatos de la misma versión) con su
+  // outputPath ORIGINAL real (o.outputPath, ruta local real ya escrita por
+  // produceCreative()/renderProjectVersion() -- ver
+  // dashboard/server/routes/projects.js#versionWithMediaUrls, que la
+  // conserva junto a mediaUrl) -- nunca se copia ni se genera un archivo
+  // nuevo. Extraída de publishExistingOutput() (2026-09-04, "Programar
+  // desde el Editor") para que PUBLICAR y PROGRAMAR reutilicen exactamente
+  // la misma construcción, nunca dos implementaciones paralelas.
+  function buildAssetPackageForOutput(versionNumber, profileName) {
+    const version = currentProject.versions.find((v) => v.versionNumber === versionNumber);
+    const output = version?.outputs?.find((o) => o.profileName === profileName);
+    if (!version || !output?.mediaUrl) { alert('No se encontró ese output real ya renderizado.'); return null; }
+    // Mapeo honesto de vocabulario (nunca "COMPLETED" para un status que
+    // en realidad fue degradado): FULL_PRODUCTION -> COMPLETED real,
+    // DEGRADED_PRODUCTION -> PARTIAL real (mismo significado real: se
+    // publicó/renderizó, pero con advertencias reales de calidad -- ver
+    // qualityReports de esta versión, visibles arriba en el Editor antes
+    // de pulsar este botón).
+    const status = version.status === 'FULL_PRODUCTION' ? 'COMPLETED'
+      : version.status === 'DEGRADED_PRODUCTION' ? 'PARTIAL' : null;
+    if (!status) { alert(`Esta versión (status real "${version.status}") no tiene un output publicable.`); return null; }
+    return Object.freeze({
+      requestId: `${currentProject.productionJobId}-v${version.versionNumber}-${output.profileName}`,
+      mode: 'CREATE',
+      sourceAssets: [], derivedAssets: [], productionArtifact: null, visualProductionPackage: null, audioAssets: [],
+      outputAssets: [{
+        assetId: `${currentProject.productionJobId}-v${version.versionNumber}-${output.profileName}`,
+        path: output.outputPath, profileName: output.profileName, aspectRatio: output.aspectRatio ?? null,
+      }],
+      outputProfiles: [output.profileName], lineage: [], status, errors: [], warnings: [],
+      assetPackageType: 'SINGLE', assetPackage: null,
+    });
+  }
+
+  function publishExistingOutput(versionNumber, profileName) {
+    const assetPackage = buildAssetPackageForOutput(versionNumber, profileName);
+    if (!assetPackage) return;
+    openPublishModal(assetPackage);
+  }
+
+  // "Programar desde el Editor" (2026-08-04... 2026-09-04): abre
+  // DIRECTAMENTE el MISMO modal "Programar publicación" (openScheduleModal(),
+  // ver app.js) que ya usaba el puente "PROGRAMAR EN VEZ DE PUBLICAR AHORA →"
+  // del modal de Publicar -- mismo assetPackage, mismo modal, mismo POST
+  // /api/schedule, sin pasar primero por el modal de Publicar. Ningún
+  // Scheduler/PublishingService/adapter nuevo.
+  function scheduleExistingOutput(versionNumber, profileName) {
+    const assetPackage = buildAssetPackageForOutput(versionNumber, profileName);
+    if (!assetPackage) return;
+    openScheduleModal(assetPackage);
   }
 
   // ---------------------------------------------------------------------

@@ -714,6 +714,17 @@
         <label>Caption / mensaje
           <textarea name="caption" rows="2" required placeholder="Escríbenos por WhatsApp para más información."></textarea>
         </label>
+        <!-- Mismos campos/nombres/tipos que renderCalendarList() (.sched-date/.sched-time/.sched-tz) --
+             capturados ya aquí para no pedirlos de nuevo tras aprobar en Calendario (ver openScheduleModal()/app.js). -->
+        <label>Fecha
+          <input type="date" name="date" id="schedule-date" />
+        </label>
+        <label>Hora
+          <input type="time" name="time" id="schedule-time" />
+        </label>
+        <label>Zona horaria (IANA)
+          <input type="text" name="timezone" id="schedule-timezone" placeholder="America/Mexico_City" />
+        </label>
         <button type="submit" class="btn-primary">GUARDAR COMO BORRADOR</button>
       </form>
       <div id="schedule-result"></div>
