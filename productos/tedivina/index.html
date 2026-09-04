@@ -12,111 +12,555 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-  <link rel="stylesheet" href="/site.css?v=1788381110">
+  <link rel="stylesheet" href="/site.css?v=1788384576">
   <style>
-    /* === LANDING TeDivina — paleta wine + gold + beige de la skill vida-divina-landing === */
-    body { background: var(--beige); }
+    /* =========================================================
+       TeDivina — Sistema visual Tongkat (reutilización de tokens)
+       Sin tocar copy, URLs, assets ni lógica.
+       ========================================================= */
 
-    /* HERO — gradiente cálido, fondo beige como en la landing Tongkat */
+    /* === Botones — calco del .btn de Tongkat === */
+    a.btn, button.btn, .td-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 14px 28px;
+        font-size: 0.95rem;
+        font-weight: 700;
+        border-radius: var(--radius, 16px);
+        text-decoration: none;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        text-align: center;
+        font-family: inherit;
+    }
+    .btn-whatsapp { background: #25D366; color: #fff !important; }
+    .btn-whatsapp:hover { background: #1ebe5d; }
+    .btn-gold {
+        background: linear-gradient(135deg, var(--gold, #C49A52) 0%, var(--gold-light, #D9B978) 100%);
+        color: var(--wine, #6B0F22);
+        font-weight: 800;
+    }
+    .btn-gold:hover { background: linear-gradient(135deg, var(--gold-light, #D9B978) 0%, var(--gold, #C49A52) 100%); }
+
+    .container { width: 90%; max-width: 1200px; margin: 0 auto; padding: 0 15px; }
+
+    /* === HERO — composición exacta Tongkat (.hero.has-cinematic) ===
+       Fondo translúcido (no sólido) para que el video de fondo fijo
+       (.cinematic-bg__video) se vea a través del hero, igual que en Tongkat. */
     .td-hero {
-      position: relative;
-      min-height: 80vh;
-      display: flex;
-      align-items: center;
-      overflow: hidden;
-      background: linear-gradient(135deg, #FAF6F2 0%, #F6F0EB 50%, #EFE6DC 100%);
-      color: var(--ink);
+        background: linear-gradient(180deg,
+            rgba(10, 10, 10, 0.10) 0%,
+            rgba(10, 10, 10, 0.45) 60%,
+            rgba(10, 10, 10, 0.65) 100%);
+    position: relative;
+    z-index: 1;
+        padding: 60px 0 80px;
+        position: relative;
+        overflow: hidden;
+        min-height: auto;
+        display: block;
+        color: #fff;
+        isolation: isolate;
     }
     .td-hero::before {
-      content: "";
-      position: absolute; inset: 0;
-      background: radial-gradient(circle at 80% 20%, rgba(196,154,82,.15), transparent 55%);
-      pointer-events: none;
+        content: '';
+        position: absolute;
+        top: -50%;
+        right: -10%;
+        width: 600px;
+        height: 600px;
+        background: radial-gradient(circle, rgba(196, 154, 82, 0.15) 0%, transparent 70%);
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 0;
     }
-    .td-hero .container { position: relative; z-index: 2; }
-    .td-hero__grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: var(--s-7); align-items: center; }
-    .td-hero__kicker { display:inline-block; padding: 6px 16px; border-radius: 999px; background: rgba(107,15,34,.08); color: var(--wine); font-size: .72rem; font-weight: 800; letter-spacing: 1.4px; text-transform: uppercase; margin-bottom: var(--s-3); border: 1px solid rgba(107,15,34,.2); }
-    .td-hero h1 { font-family: var(--font-display); font-size: clamp(2.4rem, 5.5vw, 4rem); line-height: 1.02; color: var(--ink); margin: 0 0 var(--s-3); font-weight: 700; letter-spacing: -0.022em; }
-    .td-hero h1 em { color: var(--gold); font-style: normal; }
-    .td-hero p.lead { font-size: 1.15rem; line-height: 1.65; color: var(--ink); opacity: 0.85; margin: 0 0 var(--s-5); max-width: 560px; }
-    .td-hero__cta { display: flex; gap: var(--s-3); flex-wrap: wrap; }
-    .td-hero__img { position: relative; aspect-ratio: 4/5; max-width: 480px; margin: 0 auto; }
-    .td-hero__img img { width: 100%; height: 100%; object-fit: cover; border-radius: 24px; box-shadow: 0 32px 80px rgba(107,15,34,.22); position: relative; z-index: 2; }
-    .td-hero__img::before { content: ""; position: absolute; inset: -16px; background: linear-gradient(135deg, var(--gold), var(--gold-light)); border-radius: 32px; z-index: 1; transform: rotate(-2deg); }
+    /* === AJUSTE 1: reducir altura de la capa intermedia del HERO (Beneficios) === */
+    #beneficios.td-section { padding: 50px 0; }
+    #beneficios .td-section__head { margin-bottom: 28px; }
+    #beneficios .td-section__head p { margin: -30px auto 24px; }
 
-    /* SECCIONES — alternancia beige / beige-soft */
-    .td-section { padding: var(--s-9) 0; }
-    .td-section--blanco { background: var(--beige-soft); }
-    .td-section--crema { background: var(--beige); }
-    .td-section--vino { background: var(--wine); color: var(--beige); }
-    .td-section__head { text-align: center; max-width: 720px; margin: 0 auto var(--s-6); }
-    .td-section__head .eyebrow { color: var(--wine); }
-    .td-section--vino .td-section__head .eyebrow { color: var(--gold-light); }
-    .td-section__head h2 { font-family: var(--font-display); font-size: clamp(1.8rem, 3.5vw, 2.6rem); margin: var(--s-3) 0; color: var(--ink); letter-spacing: -0.022em; }
-    .td-section--vino .td-section__head h2 { color: var(--beige); }
-    .td-section__head p { color: var(--ink); line-height: 1.7; margin: 0; opacity: 0.85; }
-    .td-section--vino .td-section__head p { color: rgba(246,240,235,.85); }
+    /* === AJUSTE 3: reducir altura de la otra capa intermedia (Split explicativo) === */
+    .td-split__media { padding: 18px; }
+    .td-split__media video { max-height: 380px; }
 
-    /* BENEFICIOS — cards beige con borde dorado en hover */
-    .td-benefits { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: var(--s-4); }
-    .td-benefit { padding: var(--s-5); border-radius: 18px; background: var(--beige-soft); border: 1px solid var(--linea); transition: transform .25s, border-color .25s, box-shadow .25s; }
-    .td-section--vino .td-benefit { background: rgba(246,240,235,.06); border-color: rgba(196,154,82,.2); }
-    .td-benefit:hover { transform: translateY(-4px); border-color: var(--gold); box-shadow: 0 16px 36px rgba(107,15,34,.10); }
-    .td-benefit__icon { width: 48px; height: 48px; border-radius: 50%; background: linear-gradient(135deg, var(--wine), var(--wine-dark)); color: var(--beige); display:flex; align-items:center; justify-content:center; margin-bottom: var(--s-3); }
-    .td-benefit h3 { font-family: var(--font-display); font-size: 1.1rem; margin: 0 0 8px; color: var(--ink); }
-    .td-section--vino .td-benefit h3 { color: var(--beige); }
-    .td-benefit p { margin: 0; color: var(--ink); font-size: .95rem; line-height: 1.6; opacity: 0.85; }
-    .td-section--vino .td-benefit p { color: rgba(246,240,235,.8); }
+    /* === AJUSTE 2: igualar tamaño del video del especialista a Tongkat === */
+    .td-explanation .td-video-wrapper video {
+      max-width: 600px;
+      width: 100%;
+    }
+    .td-hero__grid {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 40px;
+        position: relative;
+        z-index: 2;
+    }
+    .td-hero__text { flex: 1 1 480px; min-width: 0; }
+    .td-hero__image { flex: 1 1 380px; text-align: right; min-width: 0; }
 
-    /* SPLIT */
-    .td-split { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s-7); align-items: center; }
-    .td-split img { width: 100%; border-radius: 22px; box-shadow: 0 20px 50px rgba(107,15,34,.12); aspect-ratio: 4/3; object-fit: cover; }
-    .td-split h2 { font-family: var(--font-display); font-size: clamp(1.7rem, 3vw, 2.3rem); margin: 0 0 var(--s-3); color: var(--ink); letter-spacing: -0.022em; }
-    .td-split p { color: var(--ink); line-height: 1.7; margin: 0 0 var(--s-3); opacity: 0.85; }
+    .td-hero__kicker {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        background: rgba(255, 255, 255, 0.8);
+        padding: 8px 16px;
+        border-radius: 30px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: var(--wine, #6B0F22);
+        margin-bottom: 20px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
+        letter-spacing: 0.02em;
+    }
+    .td-hero h1 {
+        font-family: var(--font-display, "Space Grotesk", sans-serif);
+        font-size: 3.2rem;
+        font-weight: 700;
+        letter-spacing: -0.022em;
+        color: #fff;
+        margin-bottom: 20px;
+        line-height: 1.08;
+    }
+    .td-hero h1 em { color: var(--gold, #C49A52); font-style: normal; }
+    .td-hero p.lead {
+        font-size: 1.2rem;
+        color: rgba(255, 255, 255, 0.85);
+        margin-bottom: 30px;
+        line-height: 1.55;
+        max-width: 580px;
+    }
+    .td-hero__cta { display: flex; gap: 12px; flex-wrap: wrap; }
 
-    /* INGREDIENTES */
-    .td-ingredients { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: var(--s-3); margin-top: var(--s-5); }
-    .td-ingredient { padding: 14px 16px; background: var(--beige-soft); border: 1px solid var(--linea); border-radius: 12px; font-size: .92rem; color: var(--ink); font-weight: 500; text-align: center; }
-    .td-ingredient:hover { border-color: var(--gold); }
+    .td-hero__image-wrapper {
+        position: relative;
+        display: inline-block;
+        width: 100%;
+        max-width: 420px;
+        text-align: right;
+    }
+    .td-hero__image-wrapper video {
+        max-width: 100%;
+        height: auto;
+        border-radius: var(--radius-lg, 24px);
+        box-shadow: 0 12px 32px rgba(107, 15, 34, 0.15);
+        position: relative;
+        z-index: 2;
+        background: #000;
+    }
 
-    /* MODO DE USO */
-    .td-prep { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--s-4); margin-top: var(--s-5); }
-    .td-step { padding: var(--s-4); background: var(--beige-soft); border-radius: 16px; text-align: left; position: relative; border: 1px solid var(--linea); }
-    .td-step__num { width: 36px; height: 36px; border-radius: 50%; background: var(--wine); color: var(--beige); display:flex; align-items:center; justify-content:center; font-weight: 700; margin-bottom: var(--s-3); font-family: var(--font-display); }
-    .td-step h3 { font-family: var(--font-display); font-size: 1.05rem; margin: 0 0 6px; color: var(--ink); }
-    .td-step p { font-size: .9rem; color: var(--ink); line-height: 1.55; margin: 0; opacity: 0.8; }
+    /* === SECCIONES — alternancia real de fondos Tongkat === */
+    .td-section { padding: 80px 0; position: relative; }
 
-    /* FAQ */
-    .td-faq { max-width: 760px; margin: 0 auto; }
-    .td-faq details { background: var(--beige-soft); border: 1px solid var(--linea); border-radius: 14px; padding: 18px 20px; margin-bottom: 12px; transition: border-color .2s; }
-    .td-faq details[open] { border-color: var(--gold); }
-    .td-faq summary { cursor: pointer; font-weight: 600; color: var(--ink); font-family: var(--font-display); list-style: none; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
-    .td-faq summary::-webkit-details-marker { display: none; }
-    .td-faq summary::after { content: "+"; color: var(--wine); font-size: 1.4rem; font-weight: 400; transition: transform .2s; }
-    .td-faq details[open] summary::after { content: "−"; }
-    .td-faq p { margin: 14px 0 0; color: var(--ink); line-height: 1.7; opacity: 0.85; }
+    /* Section header (idéntico a .section-title + .section-subtitle) */
+    .td-section__head { text-align: center; margin-bottom: 50px; }
+    .td-section__head h2 {
+        font-size: 2.4rem;
+        font-family: var(--font-display, "Space Grotesk", sans-serif);
+        font-weight: 700;
+        letter-spacing: -0.022em;
+        color: var(--ink, #0a0a0a);
+        margin: 0 0 16px;
+        position: relative;
+    }
+    .td-section__head h2::after {
+        content: '';
+        display: block;
+        width: 80px;
+        height: 4px;
+        background: var(--gold, #C49A52);
+        margin: 16px auto 0;
+        border-radius: 2px;
+    }
+    .td-section__head .eyebrow {
+        display: inline-block;
+        background: var(--gold, #C49A52);
+        color: var(--wine, #6B0F22);
+        padding: 5px 14px;
+        border-radius: 20px;
+        font-size: 0.78rem;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        margin-bottom: 14px;
+    }
+    .td-section__head p {
+        color: var(--gray, #6c757d);
+        max-width: 700px;
+        margin: -30px auto 50px;
+        font-size: 1.05rem;
+        line-height: 1.6;
+    }
 
-    /* CTA FINAL — fondo wine con CTA dorado */
-    .td-cta { background: linear-gradient(135deg, var(--wine) 0%, var(--wine-dark) 100%); color: var(--beige); padding: var(--s-9) 0; text-align: center; }
-    .td-cta h2 { font-family: var(--font-display); font-size: clamp(1.8rem, 3.5vw, 2.6rem); color: var(--beige); margin: 0 0 var(--s-3); letter-spacing: -0.022em; }
-    .td-cta h2 em { color: var(--gold-light); font-style: italic; }
-    .td-cta p { color: rgba(246,240,235,.9); margin: 0 0 var(--s-5); max-width: 600px; margin-left: auto; margin-right: auto; }
+    /* Fondo beige principal (Tongkat: .light / .beige) */
+    .td-section--beige { background: var(--beige, #F6F0EB); }
 
-    /* TRUST */
-    .td-trust { padding: var(--s-7) 0; background: var(--beige); }
-    .td-trust__grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: var(--s-3); }
-    .td-trust__item { display: flex; align-items: center; gap: 12px; padding: 16px 18px; background: var(--beige-soft); border-radius: 12px; border: 1px solid var(--linea); font-size: .9rem; color: var(--ink); font-weight: 500; }
-    .td-trust__item i { color: var(--wine); font-size: 1.1rem; }
+    /* Fondo beige-soft (Tongkat: .beige-soft) */
+    .td-section--soft { background: var(--beige-soft, #FAF6F2); }
 
+    /* Fondo blanco (Tongkat: .white) */
+    .td-section--white { background: #fff; }
+
+    /* Fondo wine (Tongkat: footer oscuro) */
+    .td-section--wine {
+        background: var(--wine, #6B0F22);
+        color: var(--beige-soft, #FAF6F2);
+    }
+    .td-section--wine .td-section__head h2 { color: var(--beige-soft, #FAF6F2); }
+    .td-section--wine .td-section__head h2::after { background: var(--gold, #C49A52); }
+    .td-section--wine .td-section__head .eyebrow { background: var(--gold, #C49A52); }
+    .td-section--wine .td-section__head p { color: rgba(246, 240, 235, 0.85); }
+
+    /* === BENEFICIOS — grid 4 columnas con cards claros (calco .pricing-features) === */
+    .td-benefits {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 25px;
+    }
+    .td-benefit {
+        background: #fff;
+        border-radius: var(--radius, 16px);
+        padding: 28px 24px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        border: 2px solid transparent;
+    }
+    .td-benefit:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 12px 32px rgba(107, 15, 34, 0.15);
+    }
+    .td-benefit__icon {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--gold, #C49A52) 0%, var(--gold-light, #D9B978) 100%);
+        color: var(--wine, #6B0F22);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 16px;
+        font-size: 1.1rem;
+    }
+    .td-benefit h3 {
+        font-family: var(--font-display, "Space Grotesk", sans-serif);
+        font-size: 1.05rem;
+        margin: 0 0 10px;
+        color: var(--ink, #0a0a0a);
+        font-weight: 600;
+    }
+    .td-benefit p {
+        margin: 0;
+        color: var(--gray, #6c757d);
+        font-size: 0.95rem;
+        line-height: 1.6;
+    }
+
+    /* === SPLIT — bloques con imagen y video a un lado === */
+    .td-split {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 50px;
+    }
+    .td-split > div { flex: 1 1 400px; min-width: 0; }
+    .td-split__media {
+        background: linear-gradient(135deg, #FAF6F2 0%, #FFFFFF 100%);
+        border-radius: var(--radius-lg, 24px);
+        padding: 30px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    .td-split__media video,
+    .td-split__media img {
+        max-width: 100%;
+        height: auto;
+        border-radius: var(--radius, 16px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        background: #000;
+        display: block;
+    }
+    .td-split__media--preparacion video { aspect-ratio: 4/3; object-fit: cover; max-height: 460px; margin: 0 auto; }
+    .td-split__media--explicativo video { aspect-ratio: 4/3; object-fit: cover; max-height: 460px; margin: 0 auto; }
+
+    .td-split .eyebrow {
+        display: inline-block;
+        background: var(--gold, #C49A52);
+        color: var(--wine, #6B0F22);
+        padding: 5px 14px;
+        border-radius: 20px;
+        font-size: 0.78rem;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        margin-bottom: 14px;
+    }
+    .td-split h2 {
+        font-family: var(--font-display, "Space Grotesk", sans-serif);
+        font-size: 2.4rem;
+        color: var(--ink, #0a0a0a);
+        font-weight: 700;
+        letter-spacing: -0.022em;
+        margin: 0 0 18px;
+        line-height: 1.08;
+    }
+    .td-split p { color: var(--gray, #6c757d); line-height: 1.7; margin: 0 0 16px; }
+
+    /* === INGREDIENTES — grid fluido === */
+    .td-ingredients {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 20px;
+        margin-top: 20px;
+    }
+    .td-ingredient {
+        background: #fff;
+        border: 1px solid #f0e8eb;
+        border-radius: var(--radius, 16px);
+        padding: 18px 14px;
+        text-align: center;
+        font-size: 0.95rem;
+        color: var(--ink, #0a0a0a);
+        font-weight: 500;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
+    }
+    .td-ingredient:hover {
+        border-color: var(--gold, #C49A52);
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    /* === MODO DE USO (4 pasos) === */
+    .td-prep {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 25px;
+        margin-top: 20px;
+    }
+    .td-step {
+        background: #fff;
+        border-radius: var(--radius, 16px);
+        padding: 24px;
+        text-align: left;
+        position: relative;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
+        border: 1px solid #f0e8eb;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .td-step:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    }
+    .td-step__num {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: var(--wine, #6B0F22);
+        color: var(--beige-soft, #FAF6F2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        margin-bottom: 14px;
+        font-family: var(--font-display, "Space Grotesk", sans-serif);
+        font-size: 1.05rem;
+    }
+    .td-step h3 {
+        font-family: var(--font-display, "Space Grotesk", sans-serif);
+        font-size: 1.1rem;
+        margin: 0 0 8px;
+        color: var(--ink, #0a0a0a);
+    }
+    .td-step p { color: var(--gray, #6c757d); font-size: 0.95rem; line-height: 1.6; margin: 0; }
+
+    /* === EXPLICACIÓN / DOCTOR — calco .explanation + .video-wrapper de Tongkat === */
+    .td-explanation {
+        background: #FAF6F2;
+        border-radius: var(--radius, 16px);
+        padding: 50px;
+        margin: 40px auto;
+        max-width: 1200px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    .td-explanation h2 {
+        color: var(--wine, #6B0F22);
+        margin-bottom: 25px;
+        font-size: 1.8rem;
+        font-family: var(--font-display, "Space Grotesk", sans-serif);
+        font-weight: 700;
+        letter-spacing: -0.022em;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+    .td-explanation h2 i { color: var(--gold, #C49A52); }
+    .td-explanation p {
+        color: var(--gray, #6c757d);
+        line-height: 1.8;
+        margin-bottom: 20px;
+        font-size: 1.05rem;
+    }
+    .td-explanation h3 {
+        color: var(--wine, #6B0F22);
+        font-family: var(--font-display, "Space Grotesk", sans-serif);
+        font-size: 1.3rem;
+        font-weight: 700;
+        letter-spacing: -0.022em;
+        margin: 30px 0 20px;
+        text-align: center;
+    }
+    .td-video-wrapper {
+        text-align: center;
+        margin: 30px 0 10px;
+    }
+    .td-video-wrapper video {
+        max-width: 100%;
+        max-height: 540px;
+        border-radius: var(--radius, 16px);
+        box-shadow: 0 12px 32px rgba(107, 15, 34, 0.15);
+        background: #000;
+    }
+
+    /* === FAQ — sistema de cards blanco/beige de Tongkat (clon .faq-item) === */
+    .td-faq-section { background: var(--beige, #F6F0EB); }
+    .td-faq-list { max-width: 800px; margin: 0 auto; }
+    .td-faq-item {
+        background: #fff;
+        border-radius: var(--radius-sm, 8px);
+        margin-bottom: 12px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
+        overflow: hidden;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .td-faq-item.is-open { box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); }
+    .td-faq-question {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px 24px;
+        cursor: pointer;
+        gap: 15px;
+    }
+    .td-faq-question h3 {
+        font-size: 1.05rem;
+        font-weight: 600;
+        color: var(--ink, #0a0a0a);
+        flex-grow: 1;
+        margin: 0;
+        font-family: var(--font-body, "Inter", sans-serif);
+    }
+    .td-faq-toggle {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background: rgba(138, 24, 48, 0.1);
+        color: var(--wine, #6B0F22);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        flex-shrink: 0;
+        font-size: 0.9rem;
+    }
+    .td-faq-item.is-open .td-faq-toggle {
+        background: var(--wine, #6B0F22);
+        color: #fff;
+        transform: rotate(45deg);
+    }
+    .td-faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; }
+    .td-faq-item.is-open .td-faq-answer { max-height: 500px; }
+    .td-faq-answer p {
+        padding: 0 24px 24px;
+        color: var(--gray, #6c757d);
+        line-height: 1.7;
+        margin: 0;
+    }
+
+    /* === TRUST BAR (calco Tongkat) === */
+    .td-trust-bar {
+        background: #fff;
+        padding: 30px 0;
+        border-top: 1px solid #eee;
+        border-bottom: 1px solid #eee;
+    }
+    .td-trust-bar__content {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 30px;
+    }
+    .td-trust-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        color: var(--wine, #6B0F22);
+        font-weight: 600;
+    }
+    .td-trust-item .icon {
+        width: 40px;
+        height: 40px;
+        background: var(--gold, #C49A52);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--wine, #6B0F22);
+        font-size: 1rem;
+    }
+
+    /* === CTA FINAL — fondo wine degradado con texto beige === */
+    .td-cta {
+        background: linear-gradient(135deg, var(--wine, #6B0F22) 0%, var(--wine-dark, #4A0A18) 100%);
+        color: var(--beige-soft, #FAF6F2);
+        padding: 80px 0;
+        text-align: center;
+    }
+    .td-cta h2 {
+        font-family: var(--font-display, "Space Grotesk", sans-serif);
+        font-size: 2.4rem;
+        margin: 0 0 20px;
+        letter-spacing: -0.022em;
+        color: var(--beige-soft, #FAF6F2);
+    }
+    .td-cta h2 em { color: var(--gold-light, #D9B978); font-style: italic; }
+    .td-cta p {
+        color: rgba(246, 240, 235, 0.9);
+        margin: 0 0 30px;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+        font-size: 1.1rem;
+    }
+
+    /* === VIDEO DE FONDO CINEMÁTICO (calco Tongkat, intacto) === */
+    .cinematic-bg { position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; background: var(--ink, #0a0a0a); }
+    .cinematic-bg__video { position: absolute; top: 50%; left: 50%; width: 100vw; height: 100vh; min-width: 100%; min-height: 100%; object-fit: cover; transform: translate(-50%, -50%); z-index: 0; }
+    .cinematic-bg__overlay { position: absolute; inset: 0; z-index: 0; background: rgba(10, 10, 10, 0.35); }
+    body > *:not(.cinematic-bg) { position: relative; z-index: 2; }
+
+    /* === RESPONSIVE === */
     @media (max-width: 880px) {
-      .td-hero { min-height: auto; padding: var(--s-7) 0; }
-      .td-hero__grid { grid-template-columns: 1fr; gap: var(--s-5); }
-      .td-hero__img { max-width: 320px; }
-      .td-split { grid-template-columns: 1fr; gap: var(--s-5); }
+        .td-hero { padding: 50px 0 60px; }
+        .td-hero h1 { font-size: 2.4rem; }
+        .td-hero__grid { flex-direction: column; gap: 30px; }
+        .td-hero__text, .td-hero__image { flex: 1 1 100%; text-align: center; }
+        .td-hero__image-wrapper { max-width: 320px; }
+        .td-split { flex-direction: column; gap: 30px; }
+        .td-section__head h2 { font-size: 1.8rem; }
+        .td-split h2 { font-size: 1.8rem; }
+        .td-trust-bar__content { justify-content: center; }
+        .td-explanation { padding: 30px 20px; }
     }
   </style>
 </head>
 <body>
+
+  <!-- VIDEO DE FONDO CINEMÁTICO (calco Tongkat) -->
+  <div class="cinematic-bg" id="cinematicBg" aria-hidden="true">
+    <video class="cinematic-bg__video" id="cinematicBgVideo" autoplay muted loop playsinline preload="auto" src="/media/presentacion-fondo-tedivina.mp4"></video>
+    <div class="cinematic-bg__overlay"></div>
+  </div>
 
   <!-- NAVBAR (inyectado por site.js) -->
   <div data-vvd="navbar"></div>
@@ -128,23 +572,27 @@
         <div class="td-hero__text">
           <span class="td-hero__kicker">Producto insignia · Vida Divina®</span>
           <h1>TéDivina<em>®</em></h1>
-          <p class="lead">Una mezcla herbal con ingredientes botánicos seleccionados que apoya tu bienestar diario. Distribuida por Vive Vida Divina.</p>
+          <p class="lead">Una mezcla herbal con ingredientes pensados para acompañarte cada día.</p>
           <div class="td-hero__cta">
-            <a href="https://wa.me/522229071277?text=Hola,%20me%20interesa%20conocer%20m%C3%A1s%20sobre%20T%C3%A9Divina" class="btn btn--gold" target="_blank" rel="noopener">
+            <a href="https://wa.me/522229071277?text=Hola,%20me%20interesa%20conocer%20m%C3%A1s%20sobre%20T%C3%A9Divina" class="btn btn-whatsapp" target="_blank" rel="noopener">
               <i class="fab fa-whatsapp"></i> Consultar por WhatsApp
             </a>
-            <a href="#beneficios" class="btn btn--ghost">Ver beneficios</a>
+            <a href="#beneficios" class="btn btn-gold">Quiero empezar hoy</a>
           </div>
         </div>
-        <div class="td-hero__img">
-          <img src="/products/tedivina/te-divina-01-producto.webp" alt="TéDivina" loading="eager">
+        <div class="td-hero__image">
+          <div class="td-hero__image-wrapper">
+            <video controls autoplay muted loop playsinline preload="auto" poster="/products/tedivina/te-divina-01-producto.webp">
+              <source src="/media/hero-tedivina-final.mp4" type="video/mp4">
+            </video>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
   <!-- BENEFICIOS -->
-  <section class="td-section td-section--blanco" id="beneficios">
+  <section class="td-section td-section--beige" id="beneficios">
     <div class="container">
       <div class="td-section__head">
         <span class="eyebrow">¿Por qué TéDivina?</span>
@@ -176,19 +624,46 @@
     </div>
   </section>
 
-  <!-- PROPUESTA DE VALOR + IMAGEN -->
-  <section class="td-section td-section--crema">
+  <!-- TRUST BAR (calco Tongkat .trust-bar) -->
+  <section class="td-trust-bar">
+    <div class="container">
+      <div class="td-trust-bar__content">
+        <div class="td-trust-item">
+          <div class="icon"><i class="fas fa-truck-fast"></i></div>
+          <span>Envíos a todo México</span>
+        </div>
+        <div class="td-trust-item">
+          <div class="icon"><i class="fas fa-shield-halved"></i></div>
+          <span>Producto natural</span>
+        </div>
+        <div class="td-trust-item">
+          <div class="icon"><i class="fas fa-headset"></i></div>
+          <span>Atención personal</span>
+        </div>
+        <div class="td-trust-item">
+          <div class="icon"><i class="fas fa-leaf"></i></div>
+          <span>Distribuidor oficial</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROPUESTA DE VALOR + VIDEO EXPLICATIVO -->
+  <section class="td-section td-section--soft">
     <div class="container">
       <div class="td-split">
-        <div>
-          <img src="/products/tedivina/te-divina-02-beneficios.webp" alt="Beneficios TéDivina" loading="lazy">
+        <div class="td-split__media td-split__media--explicativo">
+          <video controls playsinline preload="metadata" poster="/media/tedivina-explicativo.jpg">
+            <source src="/media/tedivina-explicativo.mp4" type="video/mp4">
+            Tu navegador no soporta el elemento de video.
+          </video>
         </div>
         <div>
           <span class="eyebrow">Una mezcla seleccionada</span>
           <h2>El primer paso para sentirte más ligera</h2>
           <p>TeDivina combina hojas, raíces y extractos botánicos en una sola bebida caliente o fría. Es ideal para integrar a tu rutina como parte de un estilo de vida enfocado en bienestar.</p>
           <p>En Vive Vida Divina te orientamos sobre las opciones disponibles y te acompañamos en todo el proceso de compra.</p>
-          <a href="https://wa.me/522229071277?text=Hola,%20quiero%20m%C3%A1s%20informaci%C3%B3n%20sobre%20T%C3%A9Divina" class="btn btn--primary" target="_blank" rel="noopener" style="margin-top: var(--s-3)">
+          <a href="https://wa.me/522229071277?text=Hola,%20quiero%20m%C3%A1s%20informaci%C3%B3n%20sobre%20T%C3%A9Divina" class="btn btn-gold" target="_blank" rel="noopener" style="margin-top: 12px;">
             <i class="fab fa-whatsapp"></i> Consultar disponibilidad
           </a>
         </div>
@@ -197,7 +672,7 @@
   </section>
 
   <!-- INGREDIENTES -->
-  <section class="td-section td-section--blanco">
+  <section class="td-section td-section--white">
     <div class="container">
       <div class="td-section__head">
         <span class="eyebrow">Ingredientes</span>
@@ -222,8 +697,23 @@
     </div>
   </section>
 
+  <!-- SECCIÓN DEL DOCTOR (calco Tongkat .explanation + .video-wrapper) -->
+  <section class="td-explanation" id="intoxicacion">
+    <h2>
+      <i class="fas fa-user-doctor"></i> 🩺Lo que pasa en tu cuerpo cuando está intoxicado
+    </h2>
+    <p>Un especialista en salud lo explica 🩺</p>
+    <h3>Colitis, gastritis, estreñimiento, sobrepeso</h3>
+    <div class="td-video-wrapper">
+      <video controls playsinline preload="metadata" poster="/media/cansada-poster.png">
+        <source src="/media/doctor-video.mp4" type="video/mp4">
+        Tu navegador no soporta el elemento de video.
+      </video>
+    </div>
+  </section>
+
   <!-- MODO DE USO -->
-  <section class="td-section td-section--crema">
+  <section class="td-section td-section--beige">
     <div class="container">
       <div class="td-section__head">
         <span class="eyebrow">Cómo prepararlo</span>
@@ -255,8 +745,8 @@
     </div>
   </section>
 
-  <!-- EXPERIENCIA / LIFESTYLE -->
-  <section class="td-section td-section--blanco">
+  <!-- EXPERIENCIA / RITUAL DIARIO + VIDEO -->
+  <section class="td-section td-section--soft">
     <div class="container">
       <div class="td-split">
         <div>
@@ -265,58 +755,79 @@
           <p>TeDivina está pensada para acompañarte a lo largo del día. Disfrútala en tu ritual matutino, después de las comidas o como un break en la tarde.</p>
           <p>Su sabor herbal la convierte en una opción versátil para integrar a distintos momentos del día.</p>
         </div>
-        <div>
-          <img src="/products/tedivina/te-divina-04-tasa.webp" alt="Taza de TéDivina" loading="lazy">
+        <div class="td-split__media td-split__media--preparacion">
+          <video controls playsinline preload="metadata" poster="/media/preparacion-te.jpg">
+            <source src="/media/preparacion-te.mp4" type="video/mp4">
+            Tu navegador no soporta video.
+          </video>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- FAQ -->
-  <section class="td-section td-section--crema">
+  <!-- FAQ (sistema de cards calco Tongkat) -->
+  <section class="td-section td-faq-section">
     <div class="container">
       <div class="td-section__head">
         <span class="eyebrow">Preguntas frecuentes</span>
         <h2>Resolvemos tus dudas</h2>
         <p>Información basada en la descripción oficial del producto.</p>
       </div>
-      <div class="td-faq">
-        <details>
-          <summary>¿Qué contiene TéDivina?</summary>
-          <p>TeDivina contiene una mezcla de ingredientes botánicos seleccionados, entre ellos hojas de malva, mirra, cardo bendito, malvavisco, papaya, chaga, arándano rojo, cardo santo, manzanilla, hojas de caqui, fibra soluble, hongos ganoderma y jengibre.</p>
-        </details>
-        <details>
-          <summary>¿Cómo se prepara?</summary>
-          <p>Calienta agua, coloca una bolsita en tu taza, vierte el agua y deja reposar 3-5 minutos. Puedes tomarlo caliente o frío.</p>
-        </details>
-        <details>
-          <summary>¿Cuál es la presentación?</summary>
-          <p>Bolsitas de té, 3 oz / 50 mg. 1 bolsita por sobre.</p>
-        </details>
-        <details>
-          <summary>¿Cada cuánto se recomienda tomarlo?</summary>
-          <p>Puedes integrarlo a tu rutina diaria, ajustando la frecuencia según tus hábitos. Ante cualquier duda de salud particular, consulta a tu profesional de salud.</p>
-        </details>
-        <details>
-          <summary>¿Quién puede tomarlo?</summary>
-          <p>Por su origen natural, puede ser incorporado por adultos como parte de un estilo de vida saludable. Si estás embarazada, en etapa de lactancia o tienes alguna condición de salud particular, consulta a tu profesional de salud antes de integrarlo.</p>
-        </details>
-        <details>
-          <summary>¿Cómo gestiono mi pedido?</summary>
-          <p>Puedes escribirnos directamente por WhatsApp. Te orientamos sobre disponibilidad, resolvemos tus dudas y gestionamos tu pedido hasta la entrega.</p>
-        </details>
-      </div>
-    </div>
-  </section>
-
-  <!-- CONFIANZA -->
-  <section class="td-trust">
-    <div class="container">
-      <div class="td-trust__grid">
-        <div class="td-trust__item"><i class="fas fa-truck-fast"></i> Envíos a todo México</div>
-        <div class="td-trust__item"><i class="fas fa-headset"></i> Atención personal por WhatsApp</div>
-        <div class="td-trust__item"><i class="fas fa-leaf"></i> Ingredientes botánicos seleccionados</div>
-        <div class="td-trust__item"><i class="fas fa-shield-halved"></i> Distribuidor de Vida Divina®</div>
+      <div class="td-faq-list" id="td-faq-list">
+        <div class="td-faq-item">
+          <div class="td-faq-question">
+            <h3>¿Qué contiene TéDivina?</h3>
+            <div class="td-faq-toggle"><i class="fas fa-plus"></i></div>
+          </div>
+          <div class="td-faq-answer">
+            <p>TeDivina contiene una mezcla de ingredientes botánicos seleccionados, entre ellos hojas de malva, mirra, cardo bendito, malvavisco, papaya, chaga, arándano rojo, cardo santo, manzanilla, hojas de caqui, fibra soluble, hongos ganoderma y jengibre.</p>
+          </div>
+        </div>
+        <div class="td-faq-item">
+          <div class="td-faq-question">
+            <h3>¿Cómo se prepara?</h3>
+            <div class="td-faq-toggle"><i class="fas fa-plus"></i></div>
+          </div>
+          <div class="td-faq-answer">
+            <p>Calienta agua, coloca una bolsita en tu taza, vierte el agua y deja reposar 3-5 minutos. Puedes tomarlo caliente o frío.</p>
+          </div>
+        </div>
+        <div class="td-faq-item">
+          <div class="td-faq-question">
+            <h3>¿Cuál es la presentación?</h3>
+            <div class="td-faq-toggle"><i class="fas fa-plus"></i></div>
+          </div>
+          <div class="td-faq-answer">
+            <p>Bolsitas de té, 3 oz / 50 mg. 1 bolsita por sobre.</p>
+          </div>
+        </div>
+        <div class="td-faq-item">
+          <div class="td-faq-question">
+            <h3>¿Cada cuánto se recomienda tomarlo?</h3>
+            <div class="td-faq-toggle"><i class="fas fa-plus"></i></div>
+          </div>
+          <div class="td-faq-answer">
+            <p>Puedes integrarlo a tu rutina diaria, ajustando la frecuencia según tus hábitos. Ante cualquier duda de salud particular, consulta a tu profesional de salud.</p>
+          </div>
+        </div>
+        <div class="td-faq-item">
+          <div class="td-faq-question">
+            <h3>¿Quién puede tomarlo?</h3>
+            <div class="td-faq-toggle"><i class="fas fa-plus"></i></div>
+          </div>
+          <div class="td-faq-answer">
+            <p>Por su origen natural, puede ser incorporado por adultos como parte de un estilo de vida saludable. Si estás embarazada, en etapa de lactancia o tienes alguna condición de salud particular, consulta a tu profesional de salud antes de integrarlo.</p>
+          </div>
+        </div>
+        <div class="td-faq-item">
+          <div class="td-faq-question">
+            <h3>¿Cómo gestiono mi pedido?</h3>
+            <div class="td-faq-toggle"><i class="fas fa-plus"></i></div>
+          </div>
+          <div class="td-faq-answer">
+            <p>Puedes escribirnos directamente por WhatsApp. Te orientamos sobre disponibilidad, resolvemos tus dudas y gestionamos tu pedido hasta la entrega.</p>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -326,7 +837,7 @@
     <div class="container">
       <h2>¿Te interesa <em>TéDivina</em>?</h2>
       <p>Escríbenos por WhatsApp y te orientamos sobre disponibilidad, modo de uso y todo lo que necesites saber.</p>
-      <a href="https://wa.me/522229071277?text=Hola,%20me%20interesa%20T%C3%A9Divina%20de%20Vida%20Divina" class="btn btn--gold" target="_blank" rel="noopener" style="font-size: 1.05rem; padding: 16px 32px;">
+      <a href="https://wa.me/522229071277?text=Hola,%20me%20interesa%20T%C3%A9Divina%20de%20Vida%20Divina" class="btn btn-gold" style="font-size: 1.05rem; padding: 16px 32px;">
         <i class="fab fa-whatsapp"></i> Hablar por WhatsApp
       </a>
     </div>
@@ -338,6 +849,13 @@
   <script src="/site.js?v=1788381110"></script>
   <script>
     if (window.VVD && VVD.renderNavbar) VVD.renderNavbar({ active: 'productos' });
+
+    // FAQ toggle — calco del comportamiento .faq-item de Tongkat
+    document.querySelectorAll('.td-faq-item').forEach(function (item) {
+      item.querySelector('.td-faq-question').addEventListener('click', function () {
+        item.classList.toggle('is-open');
+      });
+    });
   </script>
 </body>
 </html>
