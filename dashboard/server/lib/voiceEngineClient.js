@@ -15,12 +15,19 @@
 
 import { readdirSync, statSync, existsSync } from 'node:fs';
 import { join, extname } from 'node:path';
+import http from 'node:http';
 import { leerInfoWav, wslPathToWindowsUNC } from '../../../tts-text-preprocessor/src/audioAssetAdapter.js';
 import { leerArchivoConReintentos } from '../../../content-orchestrator/src/assetPackage.js';
 import { PROJECT_ROOT } from './safePaths.js';
 
 const AUDIO_CACHE_DIR = join(PROJECT_ROOT, 'video-production', '_audio-cache');
-const VOICE_ENGINE_BASE_URL = process.env.VOICE_ENGINE_URL ?? 'http://localhost:8000';
+// Default 127.0.0.1 (no localhost): en esta máquina "localhost" resuelve
+// ::1 antes que 127.0.0.1, y WSL2 no reenvía IPv6 loopback para este puerto
+// -- el fallback a IPv4 añade un margen medido en ~2.2s en esta máquina
+// (ver start-vida-divina.ps1#Get-VoiceEngineHealth), suficiente para tumbar
+// el preflight de 2s de isVoiceEngineReachable(). 127.0.0.1 se salta la
+// resolución DNS por completo. Diagnóstico real, 2026-09-08.
+const VOICE_ENGINE_BASE_URL = process.env.VOICE_ENGINE_URL ?? 'http://127.0.0.1:8000';
 // Leída en cada llamada (nunca cacheada en una const de módulo): las
 // importaciones estáticas de ESM se evalúan antes que el resto de
 // index.js, así que una const de nivel de módulo capturaría el fallback
@@ -29,6 +36,93 @@ const VOICE_ENGINE_BASE_URL = process.env.VOICE_ENGINE_URL ?? 'http://localhost:
 // -- nunca un secreto real de producción, y nunca se expone al frontend.
 function voiceEngineApiKey() {
   return process.env.VOICE_ENGINE_API_KEY ?? 'dev-local-only-change-me';
+}
+
+// httpPostJson (hallazgo real, 2026-09-09, segunda vuelta): la generación
+// larga seguía fallando con "fetch failed" incluso con reintento -- una
+// traza real con node:http mostró que fetch()/undici NO activa keepalive
+// TCP a nivel de socket para una petición en curso. Durante los ~30-60s+
+// (a veces varios minutos con textos largos o el motor ocupado) en que
+// Chatterbox genera sin enviar ni un byte de vuelta, el puente de reenvío
+// de localhost de WSL2 (wslrelay.exe) trata esa conexión como inactiva y
+// la corta -- silenciosamente, sin RST inmediato visible del lado Node,
+// por eso el error tardaba minutos en aparecer en vez de fallar rápido.
+// Sustituye fetch() por node:http puro SOLO para esta llamada real, para
+// poder activar socket.setKeepAlive(true, ...) -- sondas TCP periódicas
+// que mantienen la conexión "viva" ante wslrelay mientras Voice Engine
+// sigue computando en silencio. Nunca cambia el contrato HTTP real (mismo
+// método, headers, body, código de estado) -- solo el transporte.
+function httpPostJson(url, bodyObj, { headers = {}, timeoutMs = 600_000 } = {}) {
+  return new Promise((resolve, reject) => {
+    const bodyStr = JSON.stringify(bodyObj);
+    const u = new URL(url);
+    const req = http.request(
+      {
+        hostname: u.hostname,
+        port: u.port,
+        path: u.pathname,
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Content-Length': Buffer.byteLength(bodyStr), ...headers },
+        timeout: timeoutMs,
+      },
+      (res) => {
+        const chunks = [];
+        res.on('data', (c) => chunks.push(c));
+        res.on('end', () => {
+          const text = Buffer.concat(chunks).toString('utf8');
+          resolve({
+            ok: res.statusCode >= 200 && res.statusCode < 300,
+            status: res.statusCode,
+            text: async () => text,
+            json: async () => JSON.parse(text),
+          });
+        });
+        res.on('error', reject);
+      }
+    );
+    // Sonda TCP cada 15s sobre el socket real -- ver comentario de arriba.
+    // No interfiere con la petición/respuesta real: son paquetes vacíos de
+    // nivel TCP, transparentes para HTTP y para Voice Engine. Confirmado en
+    // producción (2026-09-09): una generación real de 691 caracteres tardó
+    // 269s completamente en silencio en el cable y completó sin cortes.
+    req.on('socket', (socket) => socket.setKeepAlive(true, 15_000));
+    req.on('timeout', () => req.destroy(new Error(`timeout tras ${timeoutMs}ms sin respuesta`)));
+    req.on('error', reject);
+    req.write(bodyStr);
+    req.end();
+  });
+}
+
+// postConReintentoSeguro (Fase 4, hallazgo 2026-09-09): el retry anterior
+// (fetchConReintento) reintentaba la petición completa ante CUALQUIER
+// fallo de red, sin importar cuánto tiempo llevaba en curso. Como
+// POST /v1/speak es síncrono y Voice Engine no tiene idempotencia real,
+// reintentar tras un corte tardío (ej. a los 40s, con Chatterbox ya
+// generando o ya terminado) arriesgaba una generación real duplicada --
+// exactamente el riesgo que confirmó el diagnóstico de esta fase. Regla
+// aplicada: un fallo RÁPIDO (antes de umbralMsFalloRapido) es compatible
+// con "nunca llegó a conectar" -- seguro reintentar. Un fallo TARDÍO
+// implica que el servidor probablemente ya recibió la petición y pudo
+// haber empezado (o terminado) la generación -- NUNCA se reintenta solo,
+// se corta y se avisa explícitamente en el mensaje de error.
+async function postConReintentoSeguro(url, bodyObj, opts, { intentos = 2, esperaMsEntreIntentos = 1000, umbralMsFalloRapido = 5000 } = {}) {
+  let ultimoError;
+  for (let intento = 1; intento <= intentos; intento++) {
+    const inicio = Date.now();
+    try {
+      return await httpPostJson(url, bodyObj, opts);
+    } catch (err) {
+      const transcurridoMs = Date.now() - inicio;
+      ultimoError = err;
+      if (transcurridoMs >= umbralMsFalloRapido) {
+        err.noReintentarPorRiesgoDeDuplicado = true;
+        err.transcurridoMs = transcurridoMs;
+        throw err;
+      }
+      if (intento < intentos) await new Promise((r) => setTimeout(r, esperaMsEntreIntentos));
+    }
+  }
+  throw ultimoError;
 }
 // Mismo usuario WSL ya usado en el resto del proyecto (tts-text-preprocessor/,
 // scripts reales de fases anteriores) -- Voice Engine nunca devuelve una ruta
@@ -69,6 +163,60 @@ export async function isVoiceEngineReachable() {
   }
 }
 
+// FASE "Voice Engine automático" (2026-09-04): estado real de 3 valores para
+// el Command Center -- isVoiceEngineReachable() de arriba ya devolvía true
+// en cuanto /health respondía, aunque el modelo Chatterbox siguiera
+// cargando (~15-30s reales, ver voice-engine/README.md), así que un arranque
+// automático se veía indistinguible de "ya operativo". No sustituye a
+// isVoiceEngineReachable (otros llamadores reales ya dependen de su forma
+// booleana) -- se añade aparte.
+export async function getVoiceEngineStatus() {
+  try {
+    const res = await fetch(`${VOICE_ENGINE_BASE_URL}/health`, { signal: AbortSignal.timeout(2000) });
+    if (!res.ok) return 'NO_DISPONIBLE';
+    const body = await res.json().catch(() => null);
+    return body?.model_loaded ? 'OPERATIVO' : 'ARRANCANDO';
+  } catch {
+    return 'NO_DISPONIBLE';
+  }
+}
+
+/**
+ * Convierte un WAV ya generado por /v1/speak (mismo output_filename real
+ * devuelto por generateNewVoiceover) a OGG/Opus real -- llama al endpoint
+ * REAL ya existente (voice-engine/app/api/convert.py, que a su vez reutiliza
+ * services/audio_convert.py + ffmpeg, sin reimplementar nada). Devuelve la
+ * ruta Windows real del OGG, con el mismo criterio de reintentos/estabilidad
+ * ya usado para el WAV en generateNewVoiceover().
+ */
+export async function convertWavToOgg(wavFilename) {
+  let res;
+  try {
+    res = await postConReintentoSeguro(
+      `${VOICE_ENGINE_BASE_URL}/v1/convert-to-ogg`,
+      { wav_filename: wavFilename },
+      { headers: { 'x-api-key': voiceEngineApiKey() }, timeoutMs: 60_000 }
+    );
+  } catch (err) {
+    const sufijo = err.noReintentarPorRiesgoDeDuplicado
+      ? ` (falló tras ${err.transcurridoMs}ms, ya en curso -- no se reintentó para evitar una conversión duplicada; probablemente el WAV real ya existe, revisa antes de reintentar a mano)`
+      : ' tras reintentar';
+    throw new Error(`convertWavToOgg: Voice Engine no está disponible en ${VOICE_ENGINE_BASE_URL} (${err.message})${sufijo}.`);
+  }
+  if (!res.ok) {
+    const detail = await res.text().catch(() => '');
+    throw new Error(`convertWavToOgg: Voice Engine respondió ${res.status}: ${detail}`);
+  }
+  const body = await res.json();
+  const oggWslPath = `${VOICE_ENGINE_WSL_OUTPUT_DIR}/${body.ogg_filename}`;
+  const oggWindowsPath = wslPathToWindowsUNC(oggWslPath);
+  if (!existsSync(oggWindowsPath)) {
+    throw new Error(`convertWavToOgg: se generó "${body.ogg_filename}" pero no se encontró en la ruta real esperada (${oggWindowsPath}).`);
+  }
+  leerArchivoConReintentos(oggWindowsPath, 'AUDIO_OGG');
+  return { oggFilename: body.ogg_filename, resolvedPath: oggWindowsPath };
+}
+
 // DEFAULT_VOICE_PARAMS (Corrección "Consistencia de audio y persistencia
 // de ediciones de captions", 2026-08-29, Paso 2/7 del encargo): ÚNICA
 // fuente real centralizada de los parámetros reales de voz que Voice
@@ -106,16 +254,19 @@ export async function generateNewVoiceover({ text, voiceParams = {} }) {
   } = voiceParams;
   let res;
   try {
-    res = await fetch(`${VOICE_ENGINE_BASE_URL}/v1/speak`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'x-api-key': voiceEngineApiKey() },
-      body: JSON.stringify({
-        text, language, voice_profile_id: voiceProfileId, exaggeration, cfg_weight: cfgWeight, temperature,
-      }),
-      signal: AbortSignal.timeout(600_000), // la generación real puede tardar varios minutos.
-    });
+    res = await postConReintentoSeguro(
+      `${VOICE_ENGINE_BASE_URL}/v1/speak`,
+      { text, language, voice_profile_id: voiceProfileId, exaggeration, cfg_weight: cfgWeight, temperature },
+      { headers: { 'x-api-key': voiceEngineApiKey() }, timeoutMs: 600_000 } // la generación real puede tardar varios minutos.
+    );
   } catch (err) {
-    throw new Error(`generateNewVoiceover: Voice Engine no está disponible en ${VOICE_ENGINE_BASE_URL} (${err.message}). Inícialo con "uvicorn app.main:app" dentro de voice-engine/ para generar audio nuevo, o usa un Audio Asset ya existente.`);
+    if (err.noReintentarPorRiesgoDeDuplicado) {
+      throw new Error(
+        `generateNewVoiceover: se perdió la conexión con Voice Engine (${VOICE_ENGINE_BASE_URL}) tras ${err.transcurridoMs}ms, cuando ya pudo haber empezado a generar (${err.message}). ` +
+        'No se reintentó automáticamente para evitar una generación duplicada -- espera un momento y vuelve a intentarlo manualmente si hace falta.'
+      );
+    }
+    throw new Error(`generateNewVoiceover: Voice Engine no está disponible en ${VOICE_ENGINE_BASE_URL} (${err.message}) tras reintentar. Inícialo con "uvicorn app.main:app" dentro de voice-engine/ para generar audio nuevo, o usa un Audio Asset ya existente.`);
   }
   if (!res.ok) {
     const detail = await res.text().catch(() => '');
