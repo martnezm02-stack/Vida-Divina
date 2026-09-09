@@ -17,7 +17,7 @@ from typing import Optional
 import torchaudio as ta
 
 from ..config import OUTPUT_DIR, estimate_timeout_seconds
-from ..models.registry import get_model
+from ..models.registry import get_model, generate_speech_bf16
 
 logger = logging.getLogger("voice_engine.tts_service")
 
@@ -37,7 +37,8 @@ def _generate_sync(
     reference_path: Optional[Path],
 ) -> Path:
     model = get_model()
-    wav = model.generate(
+    wav = generate_speech_bf16(
+        model,
         text,
         language_id=language,
         audio_prompt_path=str(reference_path) if reference_path else None,
