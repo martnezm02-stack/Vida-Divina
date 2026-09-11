@@ -105,3 +105,47 @@ describe('MediaHostingService — gate de seguridad', () => {
     assert.equal(result.status, 'REJECTED');
   });
 });
+
+// Corrección real "URL única por operación de publicación" (2026-09-11,
+// ver nota de cabecera en src/mediaHostingService.js): confirmado con un
+// experimento controlado contra el Graph API real de Meta que reutilizar
+// la MISMA URL pública para dos publicaciones distintas (aunque el
+// contenido sea idéntico) hace que Meta reutilice/asocie lo que procesó la
+// primera vez. `operationId` opcional resuelve esto sin tocar el asset
+// canónico ni el contenido del video.
+describe('MediaHostingService — URL única por operación (operationId opcional)', () => {
+  test('mismo assetId, dos operationId distintos -> dos publicUrl distintas', async () => {
+    const svc = mockService();
+    const localPath = tempFile('reel.mp4');
+    const r1 = await svc.upload({ assetId: 'asset-same', localPath, assetKind: 'FINAL', approved: true, operationId: 'operacion-A' });
+    const r2 = await svc.upload({ assetId: 'asset-same', localPath, assetKind: 'FINAL', approved: true, operationId: 'operacion-B' });
+    assert.equal(r1.status, 'UPLOADED');
+    assert.equal(r2.status, 'UPLOADED');
+    assert.notEqual(r1.publicUrl, r2.publicUrl);
+    assert.equal(r1.assetId, 'asset-same');
+    assert.equal(r2.assetId, 'asset-same'); // el assetId canónico (SHA-256) nunca cambia -- solo la key de almacenamiento.
+  });
+
+  test('sin operationId: comportamiento EXACTO de antes (final/<assetId>), sin cambios para llamadores existentes', async () => {
+    const svc = mockService();
+    const localPath = tempFile('legacy.jpg');
+    const r1 = await svc.upload({ assetId: 'asset-legacy', localPath, assetKind: 'FINAL', approved: true });
+    const r2 = await svc.upload({ assetId: 'asset-legacy', localPath, assetKind: 'FINAL', approved: true });
+    assert.equal(r1.publicUrl, r2.publicUrl); // determinístico por assetId, igual que siempre.
+    assert.equal(r1.publicUrl, svc.getPublicUrl('asset-legacy'));
+  });
+
+  test('delete respeta operationId -- borra la key real subida, no la determinística por assetId', async () => {
+    const svc = mockService();
+    const localPath = tempFile('reel2.mp4');
+    await svc.upload({ assetId: 'asset-op', localPath, assetKind: 'FINAL', approved: true, operationId: 'op-1' });
+    const beforeWrongKey = await svc.exists('asset-op'); // sin operationId -> key distinta, nunca se subió ahí.
+    assert.equal(beforeWrongKey.status, 'NOT_FOUND');
+    const beforeRealKey = await svc.exists('asset-op', 'op-1');
+    assert.equal(beforeRealKey.status, 'UPLOADED');
+    const del = await svc.delete('asset-op', 'op-1');
+    assert.equal(del.status, 'DELETED');
+    const after = await svc.exists('asset-op', 'op-1');
+    assert.equal(after.status, 'NOT_FOUND');
+  });
+});

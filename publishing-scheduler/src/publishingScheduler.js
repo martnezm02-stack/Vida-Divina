@@ -97,14 +97,15 @@ export class PublishingScheduler {
     return this._store.list().filter((r) => r.status === 'SCHEDULED' && new Date(r.scheduledAt).getTime() <= nowMs);
   }
 
-  async _deleteHosted(hostedAssetIds) {
+  /** `operationId` (record.id real) -- ver nota "URL ÚNICA POR OPERACIÓN DE PUBLICACIÓN" en mediaHostingService.js: debe ser el MISMO que se usó en upload() para que delete() apunte a la key real subida, nunca a `final/${assetId}`. */
+  async _deleteHosted(hostedAssetIds, operationId) {
     for (const assetId of hostedAssetIds) {
-      try { await this._mediaHostingService.delete(assetId); } catch { /* borrar la copia remota es best-effort -- nunca invalida un resultado ya decidido (PUBLISHED/FAILED) */ }
+      try { await this._mediaHostingService.delete(assetId, operationId); } catch { /* borrar la copia remota es best-effort -- nunca invalida un resultado ya decidido (PUBLISHED/FAILED) */ }
     }
   }
 
-  async _retryOrFail(record, error, hostedAssetIds = []) {
-    await this._deleteHosted(hostedAssetIds);
+  async _retryOrFail(record, error, hostedAssetIds = [], operationId = null) {
+    await this._deleteHosted(hostedAssetIds, operationId);
     const retryCount = (record.retryCount ?? 0) + 1;
     const nowIso = this._now().toISOString();
     if (retryCount > MAX_RETRY_COUNT) {
@@ -133,6 +134,14 @@ export class PublishingScheduler {
 
     let publishing = this._store.save({ ...current, status: 'PUBLISHING', updatedAt: this._now().toISOString() });
 
+    // URL ÚNICA POR OPERACIÓN DE PUBLICACIÓN (ver mediaHostingService.js):
+    // record.id real + retryCount real (ambos ya existentes, nunca
+    // inventados) -- así CADA intento real (incluidos los reintentos, que
+    // vuelven a subir tras borrar la copia anterior) recibe su propia URL
+    // pública, nunca la reutilizada de un intento previo de este mismo
+    // registro.
+    const operationId = `${current.id}:${current.retryCount ?? 0}`;
+
     const isCarousel = pkg.assetPackageType === 'CAROUSEL';
     const assetsToHost = isCarousel ? (pkg.assetPackage?.assets ?? []) : (pkg.outputAssets ?? []).slice(0, 1);
     if (assetsToHost.length === 0) {
@@ -142,13 +151,13 @@ export class PublishingScheduler {
     const hostedAssetIds = [];
     const hostedUrls = [];
     for (const asset of assetsToHost) {
-      const uploadResult = await this._mediaHostingService.upload({ assetId: asset.assetId, localPath: asset.path, assetKind: 'FINAL', approved: true });
+      const uploadResult = await this._mediaHostingService.upload({ assetId: asset.assetId, localPath: asset.path, assetKind: 'FINAL', approved: true, operationId });
       if (uploadResult.status === 'CONFIGURATION_REQUIRED') {
-        await this._deleteHosted(hostedAssetIds);
+        await this._deleteHosted(hostedAssetIds, operationId);
         return this._store.save({ ...publishing, status: 'CONFIGURATION_REQUIRED', error: uploadResult.error, updatedAt: this._now().toISOString() });
       }
       if (uploadResult.status !== 'UPLOADED') {
-        return this._retryOrFail(publishing, uploadResult.error ?? 'MediaHostingService: fallo desconocido al subir el asset.', hostedAssetIds);
+        return this._retryOrFail(publishing, uploadResult.error ?? 'MediaHostingService: fallo desconocido al subir el asset.', hostedAssetIds, operationId);
       }
       hostedAssetIds.push(asset.assetId);
       hostedUrls.push(uploadResult.publicUrl);
@@ -162,19 +171,19 @@ export class PublishingScheduler {
     try {
       publishResult = await this._publish(pkg, current.platform, current.destination, metadata);
     } catch (err) {
-      return this._retryOrFail(publishing, `publish() lanzó inesperadamente: ${err.message}`, hostedAssetIds);
+      return this._retryOrFail(publishing, `publish() lanzó inesperadamente: ${err.message}`, hostedAssetIds, operationId);
     }
 
     if (publishResult.status === 'CONFIGURATION_REQUIRED') {
-      await this._deleteHosted(hostedAssetIds);
+      await this._deleteHosted(hostedAssetIds, operationId);
       return this._store.save({ ...publishing, status: 'CONFIGURATION_REQUIRED', error: publishResult.detail ?? publishResult.error, updatedAt: this._now().toISOString() });
     }
     if (publishResult.status !== 'PUBLISHED') {
-      return this._retryOrFail(publishing, publishResult.error ?? `publish: status real inesperado "${publishResult.status}".`, hostedAssetIds);
+      return this._retryOrFail(publishing, publishResult.error ?? `publish: status real inesperado "${publishResult.status}".`, hostedAssetIds, operationId);
     }
 
     // Publicado real: se borra la copia remota (Meta ya la ingirió a su propio almacenamiento) -- best-effort, nunca revierte el PUBLISHED ya confirmado.
-    await this._deleteHosted(hostedAssetIds);
+    await this._deleteHosted(hostedAssetIds, operationId);
     return this._store.save({
       ...publishing, status: 'PUBLISHED', externalPublicationId: publishResult.externalId,
       publishedAt: this._now().toISOString(), error: null, updatedAt: this._now().toISOString(),

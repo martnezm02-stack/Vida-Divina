@@ -252,6 +252,43 @@ describe('PublishingScheduler — ciclo de vida', () => {
     }
   });
 
+  // Corrección real "URL única por operación de publicación" (2026-09-11,
+  // ver nota de cabecera en media-hosting/src/mediaHostingService.js):
+  // confirmado con un experimento controlado contra el Graph API real que
+  // Meta reutiliza/asocia el contenido que ya procesó cuando recibe una URL
+  // pública que ya le habíamos dado antes -- por eso el mismo assetId
+  // publicado en DOS operaciones distintas (dos ScheduledPublication
+  // distintas) debe recibir DOS mediaUrl distintas, nunca la misma.
+  test('mismo assetId, dos ScheduledPublication distintas -> mediaUrl real distinta en cada publish()', async () => {
+    const cleanup = [];
+    try {
+      const fixedNow = new Date('2026-08-25T15:00:00.000Z');
+      const urls = [];
+      const fakePublish = async (pkg, platform, destination, metadata) => { urls.push(metadata.mediaUrl); return { status: 'PUBLISHED', externalId: 'ig_' + urls.length }; };
+      const sched = new PublishingScheduler({ mediaHostingService: mockMediaHosting(), publish: fakePublish, now: () => fixedNow });
+
+      const sharedAssetId = 'asset-compartido-mismo-contenido';
+      const path = tempAsset('mismo-contenido.mp4');
+      const pkgA = { requestId: 'req-A', status: 'COMPLETED', assetPackageType: 'SINGLE', outputAssets: [{ assetId: sharedAssetId, path }] };
+      const pkgB = { requestId: 'req-B', status: 'COMPLETED', assetPackageType: 'SINGLE', outputAssets: [{ assetId: sharedAssetId, path }] };
+
+      const recA = persistAndTrack(createScheduledPublication({ assetPackage: pkgA, platform: 'INSTAGRAM', caption: 'Publicación A' }), cleanup);
+      sched.approve(recA.id, { approvedBy: 'martnezm02' });
+      sched.schedule(recA.id, { date: '2026-08-25', time: '08:30', timezone: 'America/Mexico_City' });
+      await sched.runDuePublications();
+
+      const recB = persistAndTrack(createScheduledPublication({ assetPackage: pkgB, platform: 'INSTAGRAM', caption: 'Publicación B' }), cleanup);
+      sched.approve(recB.id, { approvedBy: 'martnezm02' });
+      sched.schedule(recB.id, { date: '2026-08-25', time: '08:30', timezone: 'America/Mexico_City' });
+      await sched.runDuePublications();
+
+      assert.equal(urls.length, 2);
+      assert.notEqual(urls[0], urls[1], 'el mismo assetId en dos publicaciones distintas nunca debe reutilizar la misma URL pública');
+    } finally {
+      for (const id of cleanup) store.del(id);
+    }
+  });
+
   test('carousel: sube todos los slides y llama publish con mediaUrls[] alineadas', async () => {
     const cleanup = [];
     try {

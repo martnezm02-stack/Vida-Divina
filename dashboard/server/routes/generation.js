@@ -1176,15 +1176,26 @@ export async function handlePublishTargets(req, res) {
  * null y el adapter real (metaAdapter.js/facebookAdapter.js) devuelve su
  * propio CONFIGURATION_REQUIRED ya existente -- ningún camino de error nuevo.
  */
+// URL ÚNICA POR OPERACIÓN DE PUBLICACIÓN (bug real diagnosticado
+// 2026-09-11, ver nota de cabecera en media-hosting/src/mediaHostingService.js):
+// Meta reutiliza/asocia el video+caption que ya procesó cuando recibe una
+// URL pública ya usada antes -- por eso cada llamada real a upload() de
+// esta función pasa `operationId: assetPackage.requestId` (el requestId
+// real de ESTE Final Asset Package, nunca uno inventado), así dos
+// publicaciones distintas del mismo asset (mismo assetId/SHA-256) siempre
+// reciben una URL pública distinta. El assetId/SHA-256 canónico, el
+// asset original y el catálogo/lineage no cambian -- solo la key de
+// almacenamiento remoto de la copia usada para ESTA publicación.
 async function autoHostIfNeeded(assetPackage, platform, mediaUrl, mediaUrls) {
   if (platform === 'WHATSAPP') return { mediaUrl, mediaUrls };
+  const operationId = assetPackage.requestId ?? null;
   const isCarousel = assetPackage.assetPackageType === 'CAROUSEL';
   if (isCarousel) {
     if (mediaUrls) return { mediaUrl, mediaUrls };
     const assets = assetPackage.assetPackage?.assets ?? [];
     const urls = [];
     for (const asset of assets) {
-      const result = await mediaHostingService.upload({ assetId: asset.assetId, localPath: asset.path, assetKind: 'FINAL', approved: true });
+      const result = await mediaHostingService.upload({ assetId: asset.assetId, localPath: asset.path, assetKind: 'FINAL', approved: true, operationId });
       if (result.status !== 'UPLOADED') return { mediaUrl, mediaUrls: null };
       urls.push(result.publicUrl);
     }
@@ -1193,7 +1204,7 @@ async function autoHostIfNeeded(assetPackage, platform, mediaUrl, mediaUrls) {
   if (mediaUrl) return { mediaUrl, mediaUrls };
   const outputAsset = assetPackage.outputAssets?.[0];
   if (!outputAsset) return { mediaUrl, mediaUrls };
-  const result = await mediaHostingService.upload({ assetId: outputAsset.assetId, localPath: outputAsset.path, assetKind: 'FINAL', approved: true });
+  const result = await mediaHostingService.upload({ assetId: outputAsset.assetId, localPath: outputAsset.path, assetKind: 'FINAL', approved: true, operationId });
   return { mediaUrl: result.status === 'UPLOADED' ? result.publicUrl : null, mediaUrls };
 }
 
