@@ -82,6 +82,28 @@ function colapsar(s: string): string {
   return normalize(s).replace(/\s+/g, "");
 }
 
+// Palabras GENÉRICAS de presentación (2026-09-11, hallazgo real:
+// "capsulas ripped" no encontraba "Ripped Capsules"): términos que casi
+// nunca DISTINGUEN un producto de otro en este catálogo -- a diferencia de
+// "café"/"té" (que sí distinguen formato real entre variantes del mismo
+// ingrediente, ej. Tongkat Ali, y por eso NUNCA se tratan como vacíos
+// aquí). Incluye la forma inglesa "capsule(s)" porque el título real
+// compilado usa esa palabra en inglés ("Ripped Capsules") mientras el
+// cliente escribe en español ("cápsulas") -- misma palabra, mismo
+// significado, solo cambia el idioma: no es un alias inventado.
+const PALABRAS_VACIAS = new Set(["capsula", "capsulas", "capsule", "capsules", "producto", "productos"]);
+
+function tokenizar(s: string): string[] {
+  return normalize(s)
+    .split(/[^a-z0-9]+/)
+    .filter(Boolean);
+}
+
+/** Tokens SIGNIFICATIVOS de la consulta del cliente (sin palabras vacías). */
+function tokenizarConsulta(s: string): string[] {
+  return tokenizar(s).filter((t) => !PALABRAS_VACIAS.has(t));
+}
+
 /** Todas las entidades tipo "producto" del Knowledge Package real. */
 async function allProducts(): Promise<CompiledEntity[]> {
   const { entityById } = await loadKnowledge();
@@ -107,6 +129,9 @@ export async function searchKnowledge(query: string, opts: { limit?: number } = 
   const qColapsada = colapsar(consultaSinArticulo);
   if (!q) return [];
   const products = await allProducts();
+  // Tokens significativos UNA sola vez (reutilizados para todos los
+  // productos) -- ver PALABRAS_VACIAS/tokenizarConsulta arriba.
+  const qTokens = tokenizarConsulta(consultaSinArticulo);
 
   const scored: Array<{ score: number; entity: CompiledEntity }> = [];
   for (const p of products) {
@@ -123,6 +148,18 @@ export async function searchKnowledge(query: string, opts: { limit?: number } = 
       // (título real "Sculpt Max" dentro de "cápsulas sculpt max") como
       // "consulta más larga que el título" (al revés) -- antes solo se
       // comprobaba una dirección, y solo sobre la forma CON espacios.
+      score += 10;
+    } else if (qTokens.length > 0 && qTokens.every((t) => tokenizar(p.titulo).includes(t))) {
+      // Corrección real 2026-09-11 ("capsulas ripped" no encontraba
+      // "Ripped Capsules"): coincidencia por CONJUNTO de palabras
+      // significativas, insensible al ORDEN ("capsulas ripped" vs "Ripped
+      // Capsules") y a los términos genéricos de presentación (ver
+      // PALABRAS_VACIAS) -- el substring de arriba exige que la frase
+      // aparezca LITERAL y en el mismo orden, y por eso no bastaba. Misma
+      // fuerza que el match parcial de título (+10): cada palabra real de
+      // la consulta debe aparecer completa en el título real, nunca al
+      // revés (evita que un título corto matchee una consulta larga y no
+      // relacionada).
       score += 10;
     }
     for (const kw of p.palabras_clave ?? []) {
@@ -143,6 +180,10 @@ export async function searchKnowledge(query: string, opts: { limit?: number } = 
         // producto), sin llegar al +50 reservado para el título exacto.
         score += 20;
       } else if (kwNormalizada.includes(q) || q.includes(kwNormalizada) || kwColapsada.includes(qColapsada) || qColapsada.includes(kwColapsada)) {
+        score += 3;
+      } else if (qTokens.length > 0 && qTokens.every((t) => tokenizar(kw).includes(t))) {
+        // Mismo criterio que el título (ver arriba): conjunto de palabras,
+        // insensible a orden y a términos genéricos de presentación.
         score += 3;
       }
     }
