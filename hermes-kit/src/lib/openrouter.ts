@@ -2,9 +2,44 @@ import OpenAI from "openai";
 import { buildSystemPrompt } from "./system-prompt";
 import { toolDefinitions, executeTool } from "./tools";
 import { insertUsage, insertUsageCall, getSetting } from "./db";
+import { isAdminPhone } from "./vidaDivina/identity";
 import type { Message } from "./db";
 
 const MODEL = process.env.OPENROUTER_MODEL ?? "openai/gpt-4o-mini";
+
+// Optimización de contexto (FASE 1, 2026-09-11, baseline real medido):
+// las 10 tools "admin*" (Gmail, reportes, estado del sistema) son
+// exactamente las mismas que executeTool() YA rechaza para un CLIENT real
+// (defensa en profundidad, ver tools/index.ts -- "8) CLIENTE real: ...
+// -> DENEGADO" ya probado). Nunca ofrecerlas al modelo en una conversación
+// de CLIENT no cambia ningún comportamiento real (ya no podía usarlas), y
+// ahorra ~1,488 tokens reales por llamada (medido: 11,864 -> 10,376
+// prompt_tokens con las mismas 12 tools de cliente, mismo system prompt).
+// Un ADMIN real sigue recibiendo las 22 tools completas, sin cambios.
+const ADMIN_ONLY_TOOL_NAMES = new Set([
+  "adminEstadoSistema",
+  "adminGenerarAudioAsset",
+  "adminGenerarReporte",
+  "adminBuscarCorreos",
+  "adminLeerCorreo",
+  "adminResumirCorreos",
+  "adminCrearBorradorCorreo",
+  "adminActualizarBorradorCorreo",
+  "adminMoverCorreoAPapelera",
+  "adminEnviarBorradorAprobado",
+]);
+const CLIENT_TOOL_DEFINITIONS = toolDefinitions.filter((t) => !ADMIN_ONLY_TOOL_NAMES.has(t.function.name));
+
+/**
+ * `phone` ausente (otro llamador que no lo pase, o teléfono aún no
+ * resuelto) -> por seguridad se devuelven las 22 tools completas, igual
+ * que el comportamiento de siempre -- solo se recortan cuando se CONFIRMA
+ * de forma real que el teléfono NO es el admin.
+ */
+function toolsForPhone(phone: string | null | undefined): typeof toolDefinitions {
+  if (phone && !isAdminPhone(phone)) return CLIENT_TOOL_DEFINITIONS;
+  return toolDefinitions;
+}
 
 // Precios por millón de tokens (input, output) para estimar el coste --
 // SOLO se usan como respaldo si OpenRouter no devuelve "usage.cost" real
@@ -142,6 +177,11 @@ interface GenerateReplyInput {
   // "ultimoMensajeUsuario") -- opcional para no romper otros llamadores;
   // solo se usa para poblar usage_calls.message_id (auditoría de costo).
   turnMessageId?: number | null;
+  // teléfono real del remitente (ver handler.ts, canonicalPhone) --
+  // opcional; solo se usa para decidir qué tools ofrecer (ver
+  // toolsForPhone). Sin él, se ofrecen las 22 tools completas (default
+  // seguro, igual que el comportamiento de siempre).
+  phone?: string | null;
 }
 
 // "usage: { include: true }" es una extensión real de OpenRouter (no
@@ -181,6 +221,9 @@ export async function generateReply(input: GenerateReplyInput): Promise<string> 
   const model = getSetting("model") || MODEL;
   const tempRaw = parseFloat(getSetting("temperature") || "");
   const temperature = Number.isFinite(tempRaw) ? Math.min(Math.max(tempRaw, 0), 1.5) : 0.4;
+  // Mismo conjunto de tools en TODOS los turnos de esta llamada (estable
+  // para el caché de prompt) -- se decide una sola vez por teléfono real.
+  const toolsThisConversation = toolsForPhone(input.phone);
 
   const MAX_TURNS = 5;
   let turns = 0;
@@ -248,7 +291,7 @@ export async function generateReply(input: GenerateReplyInput): Promise<string> 
     const requestParams: ChatParams = {
       model,
       messages: messagesForLLM,
-      tools: toolDefinitions,
+      tools: toolsThisConversation,
       tool_choice: "auto",
       temperature,
       usage: { include: true },

@@ -285,6 +285,7 @@ async function generateAndSend(
       conversationId,
       memoryContext,
       turnMessageId: ultimoMensajeUsuario?.id ?? null,
+      phone,
     });
     if (!reply || reply.trim() === "") {
       logger.warn("[bot] LLM devolvió respuesta vacía, envío aviso suave");
