@@ -10,6 +10,7 @@
 - **Beneficios:** Ayuda al bienestar general; beneficia el sistema inmunológico; gran aporte de vitaminas, minerales y antioxidantes; control del peso.
 - **Presentación:** 60 cápsulas.
 - **Público objetivo:** No especificado (el catálogo menciona "usted y su familia amarán los beneficios de Time").
+- **Modo de uso:** Tomar 1 cápsula hasta 2 veces al día con alimentos.
 - **Productos complementarios (cross-selling):** [Eterno Capsules](./eterno-capsules.md), [Reishi Capsules](./reishi-capsules.md), [Chaga Capsules](./chaga-capsules.md), [CordyCS-4 Capsules](./cordycs-4-capsules.md).
 - **Palabras clave:** complejo de longevidad, 10 hierbas medicinales, Dra. Ramos, hongos medicinales.
 

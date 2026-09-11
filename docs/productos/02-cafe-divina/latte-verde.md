@@ -10,6 +10,7 @@
 - **Beneficios:** Fortalece el sistema inmune; formulado para apoyar un estilo de vida saludable; apoya el control normal de peso saludable; antioxidante.
 - **Presentación:** 20 sobres.
 - **Público objetivo:** No especificado.
+- **Modo de uso:** Vacía 1 sobre en tu taza favorita, llénala con agua caliente, revuelve! Tómalo 30 minutos antes de la actividad física.
 - **Productos complementarios (cross-selling):** [Té Verde](./te-verde.md), [Latte Dorado](./latte-dorado.md), [Orange Genius](../10-energia-antioxidantes/orange-genius.md).
 - **Palabras clave:** matcha, latte verde, café con matcha, antioxidante natural.
 

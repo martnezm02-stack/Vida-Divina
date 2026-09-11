@@ -10,6 +10,7 @@
 - **Beneficios:** Formulado para ayudar en la descomposición y digestión de los alimentos; ayuda a mantener un sistema digestivo saludable.
 - **Presentación:** 60 cápsulas, fórmula libre de gluten.
 - **Público objetivo:** No especificado.
+- **Modo de uso:** Tomar 1 cápsula hasta 2 veces al día antes de cada comida.
 - **Productos complementarios (cross-selling):** [HCG Reactor Capsules](./hcg-reactor-capsules.md), [Cheat Capsules](./cheat-capsules.md), [CX/90](./cx90.md), [TéDivina](./tedivina.md).
 - **Palabras clave:** enzimas digestivas, digestión, absorción de nutrientes, sistema digestivo, gluten-free.
 

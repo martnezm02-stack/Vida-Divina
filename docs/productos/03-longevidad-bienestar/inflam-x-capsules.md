@@ -10,6 +10,7 @@
 - **Beneficios:** Ayuda con las molestias e inflamación cotidianas; apoya la salud y el bienestar general; potentes propiedades antienvejecimiento; brinda un apoyo nutricional óptimo.
 - **Presentación:** 60 cápsulas.
 - **Público objetivo:** No especificado.
+- **Modo de uso:** Tomar 1 Cápsula preferiblemente con comida para mejores resultados.
 - **Productos complementarios (cross-selling):** [Ouch Capsules](../05-dolor-articulaciones.md#ouch-capsules), [Latte Dorado](../02-cafe-divina/latte-dorado.md), [Eterno Capsules](./eterno-capsules.md).
 - **Palabras clave:** curcumina, antiinflamatorio natural, extracto de brócoli, semilla de uva, antienvejecimiento.
 

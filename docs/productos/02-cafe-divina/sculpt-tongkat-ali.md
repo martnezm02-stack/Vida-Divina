@@ -11,6 +11,7 @@
 - **Beneficios:** Líbido saludable; agudeza mental; fuerza muscular; antioxidante.
 - **Presentación:** 20 sobres.
 - **Público objetivo:** No especificado.
+- **Modo de uso:** Vacía 1 sobre en tu taza favorita, llénala con agua caliente, revuelve! Tómalo 30 minutos antes de la actividad física.
 - **Productos complementarios (cross-selling):** [Tongkat Ali (Café)](./tongkat-ali-cafe.md), [Mars Capsules](../08-intimidad-libido.md#mars-capsules), [Ripped Capsules](../07-rendimiento-fisico.md#ripped-capsules).
 - **Palabras clave:** tongkat ali, café con reishi, libido masculina, fuerza muscular, agudeza mental.
 

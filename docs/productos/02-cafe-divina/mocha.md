@@ -10,6 +10,7 @@
 - **Beneficios:** Beneficia el sistema inmune; control del peso; antioxidante; antiinflamatorio.
 - **Presentación:** 15 sobres / 28 g por porción.
 - **Público objetivo:** No especificado.
+- **Modo de uso:** Vacía 1 sobre en tu taza favorita, llénala con agua caliente, revuelve! Tómalo 30 minutos antes de la actividad física.
 - **Productos complementarios (cross-selling):** [Hot Chocolate](./hot-chocolate.md), [Hazelnut Latte](./hazelnut-latte.md), [Latte](./latte.md).
 - **Palabras clave:** café mocha, café con chocolate, café con reishi, bebida antioxidante.
 

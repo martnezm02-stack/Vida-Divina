@@ -10,6 +10,7 @@
 - **Beneficios:** Apoya la elasticidad, hidratación y densidad del colágeno de la piel; promueve un cabello, huesos y uñas saludables; ayuda al metabolismo de los nutrientes; proporciona protección contra el daño oxidativo.
 - **Presentación:** 10 botellas individuales — 16.9 fl oz (500 ml) total (50 ml c/u).
 - **Público objetivo:** No especificado.
+- **Modo de uso:** Tomar un frasco diario por la mañana o por la noche preferiblemente sin alimento en el estómago para una mejor absorción, en caso de sentir muy fuerte el concentrado, medio frasco por día, mantener en refrigeración.
 - **Productos complementarios (cross-selling):** [Radien Advanced Renewal Day Crème](./radien-day-creme.md), [Liquid Gold](../12-cuidado-personal.md#liquid-gold), [Venus Capsules](../08-intimidad-libido.md#venus-capsules).
 - **Palabras clave:** colágeno marino, ácido hialurónico, konjac, elasticidad de la piel, anti-edad.
 

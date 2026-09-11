@@ -10,6 +10,7 @@
 - **Beneficios:** Activa la hormona natural HCG; puede ayudar a perder hasta 1–2 libras por día; apoya el proceso natural de quema de grasa; formulado para hombres y mujeres; accede a la grasa almacenada para necesidades calóricas diarias.
 - **Presentación:** 60 cápsulas. Funciona con un protocolo de alimentación baja en calorías.
 - **Público objetivo:** Hombres y mujeres (explícitamente mencionado).
+- **Modo de uso:** Tomar 1 cápsula hasta 2 veces al día con 8oz de agua con el estómago vacío.
 - **Productos complementarios (cross-selling):** [Life Capsules](./life-capsules.md), [Cheat Capsules](./cheat-capsules.md), [Sleep N' Lose Capsules](./sleep-n-lose-capsules.md), [Vida Fuel](../09-proteinas-batidos.md#vida-fuel).
 - **Palabras clave:** HCG, quema de grasa, pérdida de peso rápida, dieta baja en calorías, energía metabólica.
 

@@ -10,6 +10,7 @@
 - **Beneficios:** Puede mitigar la absorción de carbohidratos, grasas y azúcares; apoya el control de peso saludable; ayuda al control del apetito.
 - **Presentación:** 60 cápsulas.
 - **Público objetivo:** No especificado.
+- **Modo de uso:** Tomar 1 cápsula antes de su comida.
 - **Productos complementarios (cross-selling):** [CX/90](./cx90.md), [HCG Reactor Capsules](./hcg-reactor-capsules.md), [Ignite Capsules](./ignite-capsules.md).
 - **Palabras clave:** bloqueador de carbohidratos, glucomano, konjac, control calórico, alubias blancas.
 

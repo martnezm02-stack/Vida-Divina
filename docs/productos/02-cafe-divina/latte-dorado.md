@@ -10,6 +10,7 @@
 - **Beneficios:** Ayuda a desinflamar; formulado para apoyar un estilo de vida saludable; apoya el control normal de peso saludable.
 - **Presentación:** 20 sobres.
 - **Público objetivo:** No especificado.
+- **Modo de uso:** Vacía 1 sobre en tu taza favorita, llénala con agua caliente, revuelve! Tómalo 30 minutos antes de la actividad física.
 - **Productos complementarios (cross-selling):** [Inflam-X Capsules](../03-longevidad-bienestar/inflam-x-capsules.md), [Ouch Capsules](../05-dolor-articulaciones.md#ouch-capsules), [Latte Verde](./latte-verde.md).
 - **Palabras clave:** latte de cúrcuma, bebida dorada, antiinflamatorio, café con cúrcuma.
 

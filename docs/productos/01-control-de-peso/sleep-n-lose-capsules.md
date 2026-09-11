@@ -10,6 +10,7 @@
 - **Beneficios:** Apoya a tener un sueño saludable; apoya un buen control de peso; potencial mejorado al usarlo junto con una dieta balanceada.
 - **Presentación:** 60 cápsulas.
 - **Público objetivo:** No especificado.
+- **Modo de uso:** Tomar 2 cápsulas con 8 oz. de agua con el estómago vacío a la hora de acostarse, Evite comer 2 horas antes de consumirlo.
 - **Productos complementarios (cross-selling):** [HCG Reactor Capsules](./hcg-reactor-capsules.md), [Eterno Capsules](../03-longevidad-bienestar/eterno-capsules.md), [Brain Capsules](../04-funcion-cognitiva.md#brain-capsules).
 - **Palabras clave:** sueño saludable, no crea hábito, descanso nocturno, control de peso, insomnio.
 

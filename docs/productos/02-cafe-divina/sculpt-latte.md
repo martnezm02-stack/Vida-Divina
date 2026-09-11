@@ -10,6 +10,7 @@
 - **Beneficios:** Beneficia el sistema inmune; control del peso; antioxidante; antiinflamatorio.
 - **Presentación:** 20 sobres / 21 g por porción. 0 g de azúcar, endulzado con fruta del monje.
 - **Público objetivo:** No especificado.
+- **Modo de uso:** Vacía 1 sobre en tu taza favorita, llénala con agua caliente, revuelve! Tómalo 30 minutos antes de la actividad física.
 - **Productos complementarios (cross-selling):** [Sculpt Black](./sculpt-black.md), [Latte](./latte.md), [Vida Pure](../09-proteinas-batidos.md#vida-pure).
 - **Palabras clave:** latte con reishi, café cremoso, l-carnitina, fruta del monje, café antiinflamatorio.
 

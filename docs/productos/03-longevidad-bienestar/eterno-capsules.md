@@ -10,6 +10,7 @@
 - **Beneficios:** Promueve la longevidad y el bienestar general; favorece la salud cerebral y la función cognitiva; ayuda a aumentar la energía y la resistencia; contribuye al alivio del estrés.
 - **Presentación:** 60 cápsulas.
 - **Público objetivo:** No especificado.
+- **Modo de uso:** Tomar 1 cápsula antes de su comida.
 - **Productos complementarios (cross-selling):** [NAD+](./nad-plus.md), [Time Capsules](./time-capsules.md), [Brain Capsules](../04-funcion-cognitiva.md#brain-capsules).
 - **Palabras clave:** shilajit, DHEA, hongos medicinales, longevidad, energía, alivio del estrés.
 

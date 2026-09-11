@@ -22,6 +22,7 @@ Suplementos enfocados en concentración, memoria, claridad mental y salud cerebr
 - **Beneficios:** Apoya la inmunidad al envejecimiento saludable; aumenta la hormona de crecimiento humano; ayuda a controlar la presión arterial y los niveles de colesterol.
 - **Presentación:** 60 cápsulas.
 - **Público objetivo:** No especificado.
+- **Modo de uso:** Tomar 2 cápsulas al día con 8 oz. de agua con el estómago vacío.
 - **Productos complementarios (cross-selling):** [NAD+](./03-longevidad-bienestar/nad-plus.md), [Eterno Capsules](./03-longevidad-bienestar/eterno-capsules.md), [Brain Capsules](#brain-capsules).
 - **Palabras clave:** L-Arginina, L-Glutamina, hormona de crecimiento, antienvejecimiento, presión arterial.
 
@@ -38,6 +39,7 @@ Suplementos enfocados en concentración, memoria, claridad mental y salud cerebr
 - **Beneficios:** Ayuda a mantener una mayor concentración, enfoque y claridad mental; suplemento para un cerebro sano con un estilo de vida saludable.
 - **Presentación:** 60 cápsulas. Formulado por la Dra. Ramos, co-fundadora.
 - **Público objetivo:** No especificado.
+- **Modo de uso:** Tomar 1 cápsula hasta 2 veces al día con alimentos.
 - **Productos complementarios (cross-selling):** [Youth Capsules](#youth-capsules), [NAD+](./03-longevidad-bienestar/nad-plus.md), [Black](./02-cafe-divina/black.md).
 - **Palabras clave:** ginkgo biloba, hierba de San Juan, concentración, memoria, claridad mental.
 

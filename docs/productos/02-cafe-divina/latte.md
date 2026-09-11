@@ -10,6 +10,7 @@
 - **Beneficios:** Beneficia el sistema inmune; control del peso; antioxidante; antiinflamatorio.
 - **Presentación:** 20 sobres / 21 g por porción, 14.8 oz (420 g) total.
 - **Público objetivo:** No especificado.
+- **Modo de uso:** Vacía 1 sobre en tu taza favorita, llénala con agua caliente, revuelve! Tómalo 30 minutos antes de la actividad física.
 - **Productos complementarios (cross-selling):** [Cappuccino](./cappuccino.md), [Hazelnut Latte](./hazelnut-latte.md), [Mocha](./mocha.md).
 - **Palabras clave:** café latte instantáneo, café con reishi, café cremoso, café premium.
 

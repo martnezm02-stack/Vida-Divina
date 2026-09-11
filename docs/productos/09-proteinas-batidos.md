@@ -38,6 +38,7 @@ Proteínas en polvo y batidos sustitutivos de comidas.
 - **Beneficios:** Aporta valores como una porción completa de verduras y frutas; aporta poderosos antioxidantes, proteínas, vitaminas y minerales; solución completa de reemplazo de comidas; ayuda a mantener un control de peso saludable.
 - **Presentación:** 15 porciones / 16 g por porción. Sabores: Fresa, Cookies 'N Cream, Chocolate, Vainilla.
 - **Público objetivo:** No especificado.
+- **Modo de uso:** 1 servicio por día en medio litro de agua.
 - **Productos complementarios (cross-selling):** [Vida Pure](#vida-pure), [HCG Reactor Capsules](./01-control-de-peso/hcg-reactor-capsules.md), [TéDivina](./01-control-de-peso/tedivina.md).
 - **Palabras clave:** batido sustitutivo, meal replacement, whey, control de peso, músculo magro.
 

@@ -10,6 +10,7 @@
 - **Beneficios:** Impulsa el crecimiento muscular; mejora la recuperación después del ejercicio (mezcla premium de BCAA y creatina micronizada).
 - **Presentación:** 30 sachets individuales / 21.7 oz (600.3 g) total.
 - **Público objetivo:** No especificado.
+- **Modo de uso:** 1 servicio por día en 250 ml a 500 ml por día.
 - **Productos complementarios (cross-selling):** [Vida Fuel](../09-proteinas-batidos.md#vida-fuel), [Ripped Capsules](../07-rendimiento-fisico.md#ripped-capsules), [Vida Pure](../09-proteinas-batidos.md#vida-pure).
 - **Palabras clave:** BCAA, creatina micronizada, recuperación muscular, L-Leucina, crecimiento muscular.
 

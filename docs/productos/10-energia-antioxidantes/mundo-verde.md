@@ -10,6 +10,7 @@
 - **Beneficios:** Garantiza una absorción óptima; apoya un sistema inmunológico saludable; ingredientes naturales sin GMO.
 - **Presentación:** 30 porciones por bolsa / 10.5 oz (300 g).
 - **Público objetivo:** No especificado.
+- **Modo de uso:** 1 servicio por día en 250 ml a 500 ml por día.
 - **Productos complementarios (cross-selling):** [Mundo Omega](./mundo-omega.md), [Mundo Rojo](./mundo-rojo.md), [Factor Divina](./factor-divina.md).
 - **Palabras clave:** superalimento, nanoabsorción, sistema inmunológico, sin GMO, superfood mix.
 

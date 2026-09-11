@@ -8,8 +8,9 @@
 - **Problema que ayuda a resolver:** Baja capacidad respiratoria y sistema inmune débil.
 - **Ingredientes principales:** Cordyceps (género de hongos, más de 400 especies).
 - **Beneficios:** Ayuda al sistema respiratorio; beneficia el sistema inmunológico; gran aporte de vitaminas, minerales y antioxidantes.
-- **Presentación:** 30 cápsulas vegetales.
+- **Presentación:** 90 cápsulas vegetales.
 - **Público objetivo:** No especificado.
+- **Modo de uso:** Tomar 1 Cápsula preferiblemente con comida para mejores resultados.
 - **Productos complementarios (cross-selling):** [Extracto de Cordyceps](../11-extractos-hongos/extracto-cordyceps.md), [Time Capsules](./time-capsules.md), [Eterno Capsules](./eterno-capsules.md).
 - **Palabras clave:** cordyceps sinensis, sistema respiratorio, hongos medicinales, energía y resistencia.
 

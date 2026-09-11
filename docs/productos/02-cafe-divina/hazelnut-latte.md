@@ -10,6 +10,7 @@
 - **Beneficios:** Beneficia el sistema inmune; aporta vitamina E; antioxidante; antiinflamatorio.
 - **Presentación:** 20 sobres / 14.8 oz (420 g) total.
 - **Público objetivo:** No especificado.
+- **Modo de uso:** Vacía 1 sobre en tu taza favorita, llénala con agua caliente, revuelve! Tómalo 30 minutos antes de la actividad física.
 - **Productos complementarios (cross-selling):** [Latte](./latte.md), [Mocha](./mocha.md), [Latte Dorado](./latte-dorado.md).
 - **Palabras clave:** café de avellana, café con reishi, vitamina e, café aromático.
 

@@ -10,6 +10,7 @@
 - **Beneficios:** Agudeza mental; ayuda en la digestión; antioxidante.
 - **Presentación:** 30 sobres.
 - **Público objetivo:** No especificado.
+- **Modo de uso:** Vacía 1 sobre en tu taza favorita, llénala con agua caliente, revuelve! Tómalo 30 minutos antes de la actividad física.
 - **Productos complementarios (cross-selling):** [Té Negro](./te-negro.md), [Ignite Capsules](../01-control-de-peso/ignite-capsules.md), [Brain Capsules](../04-funcion-cognitiva.md#brain-capsules).
 - **Palabras clave:** café negro, café tradicional, café con fibra, agudeza mental.
 

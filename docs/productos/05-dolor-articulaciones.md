@@ -21,6 +21,7 @@ Fórmulas para el alivio del dolor muscular y la función articular.
 - **Beneficios:** Disminuye el dolor muscular; promueve la función articular saludable.
 - **Presentación:** 60 cápsulas.
 - **Público objetivo:** No especificado.
+- **Modo de uso:** Tomar de 1 a 2 cápsulas al día con alimentos.
 - **Productos complementarios (cross-selling):** [Inflam-X Capsules](./03-longevidad-bienestar/inflam-x-capsules.md), [Ripped Capsules](./07-rendimiento-fisico.md#ripped-capsules), [Latte Dorado](./02-cafe-divina/latte-dorado.md).
 - **Palabras clave:** dolor muscular, cúrcuma, albahaca sagrada, función articular, alivio natural.
 

@@ -10,6 +10,7 @@
 - **Beneficios:** Apoya un sistema inmunológico saludable; ingredientes naturales sin GMO; absorción óptima combinando semillas de lino y algas marinas.
 - **Presentación:** 30 servicios por bolsa / 10.5 oz (300 g).
 - **Público objetivo:** No especificado (formulado como alternativa vegana/vegetariana).
+- **Modo de uso:** 1 servicio por día en 250 ml a 500 ml por día.
 - **Productos complementarios (cross-selling):** [Mundo Verde](./mundo-verde.md), [Mundo Rojo](./mundo-rojo.md), [Vida Pure](../09-proteinas-batidos.md#vida-pure).
 - **Palabras clave:** omega-3 vegano, DHA, linaza dorada, algas marinas, vitamina D vegana.
 

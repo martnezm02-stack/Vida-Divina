@@ -12,6 +12,7 @@
 - **Beneficios:** Ayuda al bienestar general; beneficia el sistema inmunológico; gran aporte de vitaminas, minerales y antioxidantes; control del peso.
 - **Presentación:** 90 cápsulas vegetales.
 - **Público objetivo:** No especificado.
+- **Modo de uso:** Tomar 1 Cápsula preferiblemente con comida para mejores resultados.
 - **Productos complementarios (cross-selling):** [Extracto de Chaga](../11-extractos-hongos/extracto-chaga.md), [Reishi Capsules](./reishi-capsules.md), [Time Capsules](./time-capsules.md).
 - **Palabras clave:** chaga siberiano, inonotus obliquus, sistema inmunológico, antioxidantes, producto estrella.
 

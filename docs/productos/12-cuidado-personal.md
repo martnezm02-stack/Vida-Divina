@@ -55,6 +55,7 @@ Productos tópicos e higiene personal formulados con Reishi y otros ingredientes
 - **Beneficios:** Formulado con extractos de hierbas; hidrata y humecta la piel; libre de gluten y vegano.
 - **Presentación:** 100 g / 3.5 oz.
 - **Público objetivo:** No especificado.
+- **Modo de uso:** Lavar diario el rostro por la mañana y por la noche.
 - **Productos complementarios (cross-selling):** [Liquid Gold](#liquid-gold), [Reishi Toothpaste](#reishi-toothpaste), [Radien Advanced Renewal Cleanser](./13-linea-radien/radien-cleanser.md).
 - **Palabras clave:** jabón de reishi, piel radiante, libre de gluten, vegano, hidratación.
 
