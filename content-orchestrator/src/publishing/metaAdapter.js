@@ -21,11 +21,25 @@
 // INSTAGRAM_IG_USER_ID configurados -- en este repositorio, hoy, no lo
 // están, por lo tanto este adapter SIEMPRE devuelve CONFIGURATION_REQUIRED
 // en este entorno, exactamente igual que instagramPublicationAdapter.js.
+//
+// PROCESAMIENTO ASÍNCRONO DE VIDEO/REELS (bug real diagnosticado
+// 2026-09-11, "Media ID is not available"): a diferencia de una imagen
+// (contenedor listo de inmediato), Meta procesa un video_url de forma
+// asíncrona -- confirmado con una llamada real: un contenedor REELS recién
+// creado reporta status_code "IN_PROGRESS" durante 25s+ ("Media is still
+// being processed"). Publicar (media_publish) contra un creation_id que
+// todavía está IN_PROGRESS es exactamente lo que produce el error real de
+// Meta "Media ID is not available". Por eso, solo para video, se espera
+// status_code "FINISHED" (polling real a GET /{container-id}?fields=
+// status_code) antes de publicar -- una imagen no lo necesita y sigue
+// publicando de inmediato, igual que antes.
 
 import { resolveInstagramConfig } from '../../../content-strategy/src/instagramConfig.js';
 import { PublishingAdapter, createPublishResult } from './publishingContract.js';
 
 const VIDEO_EXTENSIONS = new Set(['.mp4', '.mov']);
+const DEFAULT_POLL_INTERVAL_MS = 5000;
+const DEFAULT_MAX_POLL_ATTEMPTS = 40; // 40 * 5s = 200s, techo real recomendado por Meta para Reels.
 
 function redact(text, token) {
   if (typeof text !== 'string' || !token) return text;
@@ -45,6 +59,9 @@ export class MetaAdapter extends PublishingAdapter {
     this._igUserId = config.igUserId;
     this._apiVersion = config.apiVersion;
     this._fetch = overrides.fetchImpl ?? fetch;
+    this._pollIntervalMs = overrides.pollIntervalMs ?? DEFAULT_POLL_INTERVAL_MS;
+    this._maxPollAttempts = overrides.maxPollAttempts ?? DEFAULT_MAX_POLL_ATTEMPTS;
+    this._sleep = overrides.sleepImpl ?? ((ms) => new Promise((resolve) => setTimeout(resolve, ms)));
   }
 
   get platform() {
@@ -64,6 +81,38 @@ export class MetaAdapter extends PublishingAdapter {
     });
     const cuerpo = await resp.json().catch(() => null);
     return { ok: resp.ok, status: resp.status, cuerpo };
+  }
+
+  /**
+   * Solo para video/REELS: Meta procesa el video_url de forma asíncrona --
+   * espera status_code "FINISHED" antes de intentar media_publish (ver nota
+   * de cabecera). "ERROR" real de Meta corta de inmediato, nunca reintenta
+   * contra un contenedor que Meta ya marcó como fallido. Si se agota
+   * maxPollAttempts sin FINISHED/ERROR, se trata como fallo explícito --
+   * nunca se llama media_publish "a ciegas" sobre un contenedor que nunca
+   * confirmó estar listo.
+   */
+  async _esperarContenedorListo(containerId) {
+    const base = `https://graph.facebook.com/${this._apiVersion}/${containerId}`;
+    for (let intento = 0; intento < this._maxPollAttempts; intento++) {
+      if (intento > 0) await this._sleep(this._pollIntervalMs);
+      let resp;
+      try {
+        resp = await this._fetch(`${base}?fields=status_code&access_token=${this._accessToken}`);
+      } catch (networkError) {
+        return { ok: false, error: `fallo de red consultando status_code del contenedor: ${redact(networkError.message, this._accessToken)}` };
+      }
+      const cuerpo = await resp.json().catch(() => null);
+      if (!resp.ok) {
+        return { ok: false, error: redact(cuerpo?.error?.message ?? `HTTP ${resp.status}`, this._accessToken) };
+      }
+      if (cuerpo?.status_code === 'FINISHED') return { ok: true };
+      if (cuerpo?.status_code === 'ERROR') {
+        return { ok: false, error: `Meta reportó el contenedor como ERROR durante el procesamiento (status_code=ERROR)${cuerpo?.status ? `: ${cuerpo.status}` : ''}.` };
+      }
+      // IN_PROGRESS (u otro estado transitorio real) -- sigue esperando.
+    }
+    return { ok: false, error: `el contenedor real de Meta no terminó de procesarse (status_code) tras ${this._maxPollAttempts} intentos -- nunca se llamó media_publish sobre un contenedor sin confirmar "FINISHED".` };
   }
 
   async _publicarContenedor(creationId) {
@@ -162,6 +211,13 @@ export class MetaAdapter extends PublishingAdapter {
     if (!container.ok) {
       const message = redact(container.cuerpo?.error?.message ?? `HTTP ${container.status}`, this._accessToken);
       return createPublishResult({ platform: this.platform, status: 'FAILED', assetIds: [outputAsset.assetId], error: message });
+    }
+
+    if (esVideo) {
+      const listo = await this._esperarContenedorListo(container.cuerpo.id);
+      if (!listo.ok) {
+        return createPublishResult({ platform: this.platform, status: 'FAILED', assetIds: [outputAsset.assetId], error: listo.error });
+      }
     }
 
     let published;

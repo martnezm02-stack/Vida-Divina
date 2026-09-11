@@ -70,4 +70,95 @@ describe('publish() — camino PUBLISHED con fetch simulado (Instagram, imagen)'
     assert.equal(r.status, 'PUBLISHED');
     assert.equal(r.externalId, 'published-456');
   });
+
+  test('una imagen NUNCA consulta status_code (solo el video/REELS lo necesita)', async () => {
+    let statusPolls = 0;
+    const fetchImpl = async (url) => {
+      const s = String(url);
+      if (s.includes('fields=status_code')) { statusPolls++; return { ok: true, json: async () => ({ status_code: 'FINISHED' }) }; }
+      if (s.endsWith('/media')) return { ok: true, json: async () => ({ id: 'container-123' }) };
+      return { ok: true, json: async () => ({ id: 'published-456' }) };
+    };
+    const r = await publish(
+      { status: 'COMPLETED', assetPackageType: 'SINGLE', outputAssets: [{ assetId: 'x'.repeat(64), path: 'C:/tmp/slide.png' }] },
+      'INSTAGRAM', null,
+      { mediaUrl: 'https://example.com/slide.png', caption: 'TéDivina', adapterOverrides: { accessToken: 'tok', igUserId: 'user123', fetchImpl } },
+    );
+    assert.equal(r.status, 'PUBLISHED');
+    assert.equal(statusPolls, 0);
+  });
+});
+
+// Corrección real "Media ID is not available" (2026-09-11): Meta procesa un
+// video_url de forma asíncrona -- confirmado con una llamada real al
+// Graph API (un contenedor REELS recién creado reporta status_code
+// "IN_PROGRESS" durante 25s+). Publicar contra un creation_id que sigue
+// IN_PROGRESS es justo lo que produce ese error real de Meta. Estos tests
+// cubren el fix: esperar "FINISHED" (con fetch simulado, sin esperar
+// tiempo real vía sleepImpl) antes de intentar media_publish.
+describe('publish() — video/REELS: espera real de status_code antes de media_publish', () => {
+  const VIDEO_PACKAGE = Object.freeze({
+    status: 'COMPLETED', assetPackageType: 'SINGLE',
+    outputAssets: [{ assetId: 'v'.repeat(64), path: 'C:/tmp/reel.mp4' }],
+  });
+
+  test('IN_PROGRESS -> IN_PROGRESS -> FINISHED: espera y luego publica (PUBLISHED)', async () => {
+    let statusPolls = 0;
+    let publishCalled = false;
+    const fetchImpl = async (url) => {
+      const s = String(url);
+      if (s.includes('fields=status_code')) {
+        statusPolls++;
+        const status_code = statusPolls < 3 ? 'IN_PROGRESS' : 'FINISHED';
+        return { ok: true, json: async () => ({ status_code }) };
+      }
+      if (s.endsWith('/media')) return { ok: true, json: async () => ({ id: 'container-reel-1' }) };
+      publishCalled = true;
+      return { ok: true, json: async () => ({ id: 'published-reel-1' }) };
+    };
+    const r = await publish(VIDEO_PACKAGE, 'INSTAGRAM', null, {
+      mediaUrl: 'https://example.com/reel.mp4', caption: 'Reel real',
+      adapterOverrides: { accessToken: 'tok', igUserId: 'user123', fetchImpl, sleepImpl: async () => {}, pollIntervalMs: 0 },
+    });
+    assert.equal(statusPolls, 3);
+    assert.equal(publishCalled, true);
+    assert.equal(r.status, 'PUBLISHED');
+    assert.equal(r.externalId, 'published-reel-1');
+  });
+
+  test('status_code ERROR real de Meta -> FAILED explícito, media_publish NUNCA se llama', async () => {
+    let publishCalled = false;
+    const fetchImpl = async (url) => {
+      const s = String(url);
+      if (s.includes('fields=status_code')) return { ok: true, json: async () => ({ status_code: 'ERROR', status: 'Error al procesar el video.' }) };
+      if (s.endsWith('/media')) return { ok: true, json: async () => ({ id: 'container-reel-2' }) };
+      publishCalled = true;
+      return { ok: true, json: async () => ({ id: 'no-deberia-llegar-aqui' }) };
+    };
+    const r = await publish(VIDEO_PACKAGE, 'INSTAGRAM', null, {
+      mediaUrl: 'https://example.com/reel.mp4', caption: 'Reel real',
+      adapterOverrides: { accessToken: 'tok', igUserId: 'user123', fetchImpl, sleepImpl: async () => {}, pollIntervalMs: 0 },
+    });
+    assert.equal(publishCalled, false);
+    assert.equal(r.status, 'FAILED');
+    assert.match(r.error, /ERROR/);
+  });
+
+  test('el contenedor nunca termina de procesarse (agota maxPollAttempts) -> FAILED explícito, nunca PUBLISHED falso', async () => {
+    let publishCalled = false;
+    const fetchImpl = async (url) => {
+      const s = String(url);
+      if (s.includes('fields=status_code')) return { ok: true, json: async () => ({ status_code: 'IN_PROGRESS' }) };
+      if (s.endsWith('/media')) return { ok: true, json: async () => ({ id: 'container-reel-3' }) };
+      publishCalled = true;
+      return { ok: true, json: async () => ({ id: 'no-deberia-llegar-aqui' }) };
+    };
+    const r = await publish(VIDEO_PACKAGE, 'INSTAGRAM', null, {
+      mediaUrl: 'https://example.com/reel.mp4', caption: 'Reel real',
+      adapterOverrides: { accessToken: 'tok', igUserId: 'user123', fetchImpl, sleepImpl: async () => {}, pollIntervalMs: 0, maxPollAttempts: 3 },
+    });
+    assert.equal(publishCalled, false);
+    assert.equal(r.status, 'FAILED');
+    assert.match(r.error, /3 intentos/);
+  });
 });

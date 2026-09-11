@@ -25,18 +25,31 @@ describe('MetaAdapter — Instagram Graph API real (fetch simulado)', () => {
     assert.equal(llamado, false);
   });
 
-  test('video (.mp4): usa media_type REELS', async () => {
+  test('video (.mp4): usa media_type REELS y espera status_code "FINISHED" real antes de publicar', async () => {
+    // Corrección real "Media ID is not available" (2026-09-11): Meta procesa
+    // un video_url de forma asíncrona -- un contenedor REELS recién creado
+    // devuelve status_code "IN_PROGRESS" (confirmado con una llamada real al
+    // Graph API), y publicar contra un creation_id que sigue IN_PROGRESS es
+    // justo lo que produce ese error real. Este mock modela ese
+    // comportamiento real: 1 IN_PROGRESS, luego FINISHED.
     const cuerpos = [];
+    let statusPolls = 0;
     const fetchImpl = async (url, opts) => {
+      const s = String(url);
+      if (s.includes('fields=status_code')) {
+        statusPolls++;
+        return { ok: true, json: async () => ({ status_code: statusPolls < 2 ? 'IN_PROGRESS' : 'FINISHED' }) };
+      }
       cuerpos.push(JSON.parse(opts.body));
-      if (String(url).endsWith('/media')) return { ok: true, json: async () => ({ id: 'container-1' }) };
+      if (s.endsWith('/media')) return { ok: true, json: async () => ({ id: 'container-1' }) };
       return { ok: true, json: async () => ({ id: 'published-1' }) };
     };
-    const adapter = new MetaAdapter({ accessToken: 'tok', igUserId: 'user', fetchImpl });
+    const adapter = new MetaAdapter({ accessToken: 'tok', igUserId: 'user', fetchImpl, sleepImpl: async () => {}, pollIntervalMs: 0 });
     const r = await adapter.publish({ status: 'COMPLETED', assetPackageType: 'SINGLE', outputAssets: [{ assetId: 'x', path: 'a.mp4' }] }, null, { mediaUrl: 'https://example.com/a.mp4' });
     assert.equal(r.status, 'PUBLISHED');
     assert.equal(cuerpos[0].media_type, 'REELS');
     assert.equal(cuerpos[0].video_url, 'https://example.com/a.mp4');
+    assert.equal(statusPolls, 2);
   });
 
   test('CAROUSEL real: crea un contenedor por item + contenedor padre + publica, con mediaUrls alineadas', async () => {
