@@ -9,6 +9,7 @@ import {
   getRecentHistory,
   getSetting,
   reconcileLidToPn,
+  insertVoiceCall,
 } from "../db";
 import type { Message } from "../db";
 import { generateReply } from "../openrouter";
@@ -16,7 +17,7 @@ import { getLeadMemory, memoryToPrompt, rememberConversation, logMessage } from 
 import { guardInbound, guardOutbound, GUARD_FALLBACK } from "../guardrails";
 import { transcribeAudio, transcriptionConfigured } from "../transcribe";
 import { describeImage, visionConfigured } from "../vision";
-import { saneaHumano, dividirMensajes, delayEscritura } from "../humanize";
+import { saneaHumano, dividirMensajes, delayEscritura, aptoParaNotaDeVoz } from "../humanize";
 import { registrarFallback } from "../watchdog";
 import { decideResponseMode } from "../vidaDivina/responseMode";
 import { generateVoice } from "../vidaDivina/voiceEngineClient";
@@ -318,23 +319,58 @@ async function generateAndSend(
 
     let enviadoComoVoz = false;
     if (formato === "voice") {
-      const voz = await generateVoice(partes.join(" "));
-      if (voz.ok) {
+      const textoParaVoz = partes.join(" ");
+      const palabrasTexto = textoParaVoz.trim().split(/\s+/).filter(Boolean).length;
+      const metricaBase = {
+        conversationId,
+        messageId: ultimoMensajeUsuario?.id ?? null,
+        characters: textoParaVoz.length,
+        words: palabrasTexto,
+      };
+
+      if (!aptoParaNotaDeVoz(textoParaVoz)) {
+        // Nunca se trunca el texto -- solo se decide que, por su longitud,
+        // conviene entregarlo como mensajes de texto (respuesta completa
+        // igual) en vez de una nota de voz artificialmente larga.
+        logger.info(`[bot] respuesta demasiado larga para nota de voz natural (${palabrasTexto} palabras), enviando como texto`);
         try {
-          await sock.sendMessage(jid, {
-            audio: fs.readFileSync(voz.oggPath),
-            mimetype: "audio/ogg; codecs=opus",
-            ptt: true,
-          });
-          enviadoComoVoz = true;
-        } catch (err) {
-          logger.warn(
-            { err: err instanceof Error ? err.message : String(err) },
-            "[bot] fallo enviando la nota de voz real, degrado a texto"
-          );
+          insertVoiceCall({ ...metricaBase, attempted: false, success: false, fallbackToText: true, reason: "respuesta demasiado larga para nota de voz natural" });
+        } catch {
+          // el registro de métricas nunca debe romper la respuesta
         }
       } else {
-        logger.warn(`[bot] Voice Engine no disponible (${voz.reason}), degrado a texto`);
+        const voz = await generateVoice(textoParaVoz);
+        if (voz.ok) {
+          try {
+            await sock.sendMessage(jid, {
+              audio: fs.readFileSync(voz.oggPath),
+              mimetype: "audio/ogg; codecs=opus",
+              ptt: true,
+            });
+            enviadoComoVoz = true;
+          } catch (err) {
+            logger.warn(
+              { err: err instanceof Error ? err.message : String(err) },
+              "[bot] fallo enviando la nota de voz real, degrado a texto"
+            );
+          }
+        } else {
+          logger.warn(`[bot] Voice Engine no disponible (${voz.reason}), degrado a texto`);
+        }
+        try {
+          insertVoiceCall({
+            ...metricaBase,
+            attempted: true,
+            success: voz.ok && enviadoComoVoz,
+            fallbackToText: !enviadoComoVoz,
+            durationSeconds: voz.ok ? voz.durationSeconds : null,
+            generationSeconds: voz.ok ? voz.generationSeconds : null,
+            sampleRate: voz.ok ? voz.sampleRate : null,
+            reason: voz.ok ? null : voz.reason,
+          });
+        } catch {
+          // el registro de métricas nunca debe romper la respuesta
+        }
       }
     }
 

@@ -176,6 +176,29 @@ function build() {
     );
     CREATE INDEX IF NOT EXISTS idx_usage_calls_conv ON usage_calls(conversation_id, created_at);
 
+    -- Métricas OPERATIVAS de Voice Engine (2026-09-11) -- NUNCA un costo
+    -- monetario: Voice Engine corre local (Chatterbox), no tiene precio por
+    -- llamada. Estos campos son solo para diagnóstico/capacidad real
+    -- (segmentos, duración, éxito/fallo) -- "cost_usd" NO existe en esta
+    -- tabla a propósito, para que nadie la sume por error al costo externo
+    -- real (ver usage_calls, la única tabla con costo monetario real).
+    CREATE TABLE IF NOT EXISTS voice_calls (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      conversation_id INTEGER,
+      message_id INTEGER,
+      characters INTEGER NOT NULL DEFAULT 0,
+      words INTEGER NOT NULL DEFAULT 0,
+      attempted INTEGER NOT NULL DEFAULT 0,
+      success INTEGER NOT NULL DEFAULT 0,
+      fallback_to_text INTEGER NOT NULL DEFAULT 0,
+      duration_seconds REAL,
+      generation_seconds REAL,
+      sample_rate INTEGER,
+      reason TEXT,
+      created_at INTEGER NOT NULL DEFAULT (unixepoch())
+    );
+    CREATE INDEX IF NOT EXISTS idx_voice_calls_conv ON voice_calls(conversation_id, created_at);
+
     -- Métricas: eventos de tools (para leads y embudo)
     CREATE TABLE IF NOT EXISTS tool_events (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -214,6 +237,18 @@ function build() {
   }
   if (!obCols.some((c) => c.name === "media_path")) {
     db.exec("ALTER TABLE outbox ADD COLUMN media_path TEXT");
+  }
+
+  // Migración: columna `detail` en tool_events (2026-09-11) -- genérica,
+  // NUNCA solo para derivarHumano: guarda un discriminador corto y real
+  // cuando la propia tool lo tenga (ej. derivarHumano.tipo:
+  // "compra"/"persona"/"reclamo"/"fuera_de_alcance") para poder medir el
+  // costo externo real de las conversaciones que terminan en compra (ver
+  // "E. COSTO TOTAL DE ATENCIÓN" del encargo) sin inventar una tabla
+  // paralela -- nunca guarda payloads completos ni datos sensibles.
+  const teCols = db.prepare("PRAGMA table_info(tool_events)").all() as Array<{ name: string }>;
+  if (!teCols.some((c) => c.name === "detail")) {
+    db.exec("ALTER TABLE tool_events ADD COLUMN detail TEXT");
   }
 
   // --- Conversations ---
@@ -633,13 +668,104 @@ export function insertUsageCall(input: UsageCallInput): void {
 export function insertToolEvent(
   conversationId: number | null,
   tool: string,
-  hasEmail: boolean
+  hasEmail: boolean,
+  detail: string | null = null
 ): void {
   ctx()
     .db.prepare(
-      "INSERT INTO tool_events (conversation_id, tool, has_email) VALUES (?, ?, ?)"
+      "INSERT INTO tool_events (conversation_id, tool, has_email, detail) VALUES (?, ?, ?, ?)"
     )
-    .run(conversationId, tool, hasEmail ? 1 : 0);
+    .run(conversationId, tool, hasEmail ? 1 : 0, detail);
+}
+
+export interface VoiceCallInput {
+  conversationId: number | null;
+  messageId: number | null;
+  characters: number;
+  words: number;
+  attempted: boolean;
+  success: boolean;
+  fallbackToText: boolean;
+  durationSeconds?: number | null;
+  generationSeconds?: number | null;
+  sampleRate?: number | null;
+  reason?: string | null;
+}
+
+/** Una fila por CADA intento de generar una nota de voz -- SOLO métricas operativas, nunca un costo monetario (ver nota de la tabla voice_calls). */
+export function insertVoiceCall(input: VoiceCallInput): void {
+  ctx()
+    .db.prepare(
+      `INSERT INTO voice_calls
+        (conversation_id, message_id, characters, words, attempted, success, fallback_to_text, duration_seconds, generation_seconds, sample_rate, reason)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
+    )
+    .run(
+      input.conversationId,
+      input.messageId,
+      input.characters,
+      input.words,
+      input.attempted ? 1 : 0,
+      input.success ? 1 : 0,
+      input.fallbackToText ? 1 : 0,
+      input.durationSeconds ?? null,
+      input.generationSeconds ?? null,
+      input.sampleRate ?? null,
+      input.reason ?? null
+    );
+}
+
+// ============================================================
+// Costo EXTERNO real de atención (2026-09-11) -- SOLO usage_calls
+// (OpenRouter/LLM real). voice_calls NUNCA se suma aquí -- Voice Engine es
+// local, sin costo monetario por llamada (ver nota de esquema arriba).
+// Si en el futuro se agrega una tool/API externa de pago real, su costo
+// real se sumaría aquí también, nunca estimado.
+// ============================================================
+
+/** Costo externo real total de UNA conversación (suma de todas sus llamadas LLM reales). */
+export function getCostByConversation(conversationId: number): number {
+  const row = ctx()
+    .db.prepare("SELECT COALESCE(SUM(cost_usd), 0) AS c FROM usage_calls WHERE conversation_id = ?")
+    .get(conversationId) as { c: number };
+  return row.c;
+}
+
+/** Costo externo real total de TODAS las conversaciones de un teléfono real (join real por conversations.phone, nunca una tabla paralela). */
+export function getCostByPhone(phone: string): number {
+  const row = ctx()
+    .db.prepare(
+      `SELECT COALESCE(SUM(uc.cost_usd), 0) AS c
+       FROM usage_calls uc
+       JOIN conversations c ON c.id = uc.conversation_id
+       WHERE c.phone = ?`
+    )
+    .get(phone) as { c: number };
+  return row.c;
+}
+
+export interface PurchaseConversionCost {
+  conversationId: number;
+  phone: string;
+  costUsd: number;
+}
+
+/**
+ * Costo externo real de las conversaciones que terminaron en handoff de
+ * COMPRA real (derivarHumano con tipo:"compra", ver tool_events.detail) --
+ * nunca "persona"/"reclamo"/"fuera_de_alcance", que son handoffs reales
+ * pero no de compra.
+ */
+export function getCostByPurchaseConversion(): PurchaseConversionCost[] {
+  return ctx()
+    .db.prepare(
+      `SELECT c.id AS conversationId, c.phone AS phone, COALESCE(SUM(uc.cost_usd), 0) AS costUsd
+       FROM conversations c
+       JOIN tool_events te ON te.conversation_id = c.id AND te.tool = 'derivarHumano' AND te.detail = 'compra'
+       LEFT JOIN usage_calls uc ON uc.conversation_id = c.id
+       GROUP BY c.id, c.phone`
+    )
+    .all() as PurchaseConversionCost[];
 }
 
 export function getInsight(periodKey: string): { data_json: string; created_at: number } | null {
