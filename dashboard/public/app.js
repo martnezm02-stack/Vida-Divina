@@ -1686,13 +1686,89 @@ $('#edit-form').addEventListener('submit', async (e) => {
 });
 
 // ---------------- ADAPT ----------------
+// Corrección "Inventario real + búsqueda + entrada manual" (2026-09-10):
+// antes el selector solo mostraba v.filename de finalOutputs, sin metadata,
+// sin búsqueda y sin forma de usar un asset real que no apareciera en la
+// lista inicial. Ahora se cachea el finalOutputs COMPLETO (misma fuente de
+// verdad de siempre, /api/assets -- nunca un catálogo nuevo) y se permite
+// filtrar/buscar sobre esa misma lista real, o resolver un nombre/ID escrito
+// a mano contra ella. El origen real de cada asset (si fue producido para un
+// formato/plataforma concreto) viene de asset.lineage.outputProfileName, que
+// ya registra recordLineage() en runAdapt()/runCreate() -- nunca se infiere
+// por nombre de archivo.
+let adaptSourceAssetsCache = [];
+
+function adaptOriginLabel(v) {
+  return v?.lineage?.outputProfileName ? `detectado: ${v.lineage.outputProfileName}` : 'origen no determinado';
+}
+
+function adaptSourceOptionLabel(v) {
+  const nombre = v.displayName ?? v.filename;
+  return `${nombre} — ${adaptOriginLabel(v)}`;
+}
+
+// Corrección real "sustitución silenciosa de asset" (2026-09-11): un
+// <select> nativo, al reemplazar TODAS sus <option> vía innerHTML sin
+// ninguna marcada "selected", vuelve solo a la primera opción de la lista
+// nueva -- confirmado en producción real que esto publicó un video de
+// prueba distinto al que el usuario había elegido, porque loadAdaptSources()
+// (cada vez que se entra a la vista) y el buscador (cada tecleo) llaman a
+// esta función y así perdían la selección real sin aviso. Se captura el
+// value ANTES de reconstruir y se restaura DESPUÉS si sigue existiendo en
+// la lista nueva -- si ya no existe (ej. filtrado por la búsqueda), se deja
+// el comportamiento normal (primera opción de la lista actual).
+function renderAdaptSourceOptions(list) {
+  const selectEl = $('#adapt-source');
+  const previousValue = selectEl.value;
+  selectEl.innerHTML = list.map((v) => `<option value="${v.sourcePath}">${adaptSourceOptionLabel(v)}</option>`).join('') || '<option value="">Sin videos disponibles todavía</option>';
+  if (previousValue && list.some((v) => v.sourcePath === previousValue)) {
+    selectEl.value = previousValue;
+  }
+  updateAdaptSourceOriginHint();
+}
+
+function updateAdaptSourceOriginHint() {
+  const path = $('#adapt-source').value;
+  const found = adaptSourceAssetsCache.find((v) => v.sourcePath === path);
+  $('#adapt-source-origin').textContent = found ? `Origen: ${adaptOriginLabel(found)}` : '';
+}
+
+function resolveManualAdaptSource(query) {
+  const statusEl = $('#adapt-manual-status');
+  const q = (query ?? '').trim().toLowerCase();
+  if (!q) { statusEl.textContent = 'Escribe un nombre o ID real antes de usarlo.'; return; }
+  const matches = adaptSourceAssetsCache.filter((v) =>
+    (v.filename ?? '').toLowerCase().includes(q)
+    || (v.displayName ?? '').toLowerCase().includes(q)
+    || (v.displayFilename ?? '').toLowerCase().includes(q)
+    || (v.assetId ?? '').toLowerCase().includes(q));
+  if (matches.length === 0) { statusEl.textContent = `Ningún asset real coincide con "${query}".`; return; }
+  if (matches.length > 1) { statusEl.textContent = `${matches.length} assets reales coinciden con "${query}" — refina la búsqueda arriba y elige uno de la lista.`; return; }
+  renderAdaptSourceOptions(adaptSourceAssetsCache);
+  $('#adapt-source').value = matches[0].sourcePath;
+  updateAdaptSourceOriginHint();
+  statusEl.textContent = `Usando: ${adaptSourceOptionLabel(matches[0])}`;
+}
+
 async function loadAdaptSources() {
   const { finalOutputs } = await api('/api/assets');
-  $('#adapt-source').innerHTML = finalOutputs.map((v) => `<option value="${v.sourcePath}">${v.filename}</option>`).join('') || '<option value="">Sin videos disponibles todavía</option>';
+  adaptSourceAssetsCache = finalOutputs;
+  renderAdaptSourceOptions(adaptSourceAssetsCache);
 
   const profiles = await api('/api/output-profiles');
-  $('#adapt-profiles').innerHTML = profiles.map((p) => `<label><input type="checkbox" name="profile" value="${p.name}"/> ${p.name}${p.kind !== 'VIDEO' ? ' (próximamente)' : ''}</label>`).join('');
+  $('#adapt-profiles').innerHTML = profiles.map((p) => `<label><input type="checkbox" name="profile" value="${p.name}" ${p.kind !== 'VIDEO' ? 'disabled' : ''}/> ${p.name}${p.kind !== 'VIDEO' ? ' (próximamente)' : ''}</label>`).join('');
 }
+
+$('#adapt-source').addEventListener('change', updateAdaptSourceOriginHint);
+$('#adapt-source-search').addEventListener('input', (e) => {
+  const q = e.target.value.trim().toLowerCase();
+  const filtered = !q ? adaptSourceAssetsCache : adaptSourceAssetsCache.filter((v) =>
+    (v.filename ?? '').toLowerCase().includes(q)
+    || (v.displayName ?? '').toLowerCase().includes(q)
+    || (v.nombreVisible ?? '').toLowerCase().includes(q));
+  renderAdaptSourceOptions(filtered);
+});
+$('#adapt-manual-use-btn').addEventListener('click', () => resolveManualAdaptSource($('#adapt-manual-input').value));
 
 $('#adapt-form').addEventListener('submit', async (e) => {
   e.preventDefault();
