@@ -851,9 +851,12 @@ export function getAnalytics(sinceTs: number): AnalyticsData {
     day(r.d).leads += r.n;
   }
 
-  // Coste por día
+  // Coste por día -- usage_calls es la fuente de verdad real del costo LLM
+  // (usage_calls.cost_usd, una fila por llamada real a OpenRouter con
+  // usage:{include:true} -- ver openrouter.ts#trackCall), nunca la tabla
+  // `usage` antigua que ya no refleja el costo real.
   for (const r of db
-    .prepare(`SELECT ${DAY} AS d, SUM(cost_usd) AS c FROM usage WHERE created_at >= ? GROUP BY d`)
+    .prepare(`SELECT ${DAY} AS d, SUM(cost_usd) AS c FROM usage_calls WHERE created_at >= ? GROUP BY d`)
     .all(sinceTs) as Array<{ d: string; c: number }>) {
     day(r.d).costUsd += r.c ?? 0;
   }
@@ -862,7 +865,7 @@ export function getAnalytics(sinceTs: number): AnalyticsData {
 
   const usageTot = db
     .prepare(
-      "SELECT COALESCE(SUM(in_tokens),0) AS i, COALESCE(SUM(out_tokens),0) AS o, COALESCE(SUM(cost_usd),0) AS c FROM usage WHERE created_at >= ?"
+      "SELECT COALESCE(SUM(prompt_tokens),0) AS i, COALESCE(SUM(completion_tokens),0) AS o, COALESCE(SUM(cost_usd),0) AS c FROM usage_calls WHERE created_at >= ?"
     )
     .get(sinceTs) as { i: number; o: number; c: number };
 
