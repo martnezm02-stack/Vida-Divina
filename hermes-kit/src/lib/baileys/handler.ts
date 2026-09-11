@@ -22,7 +22,9 @@ import { registrarFallback } from "../watchdog";
 import { decideResponseMode } from "../vidaDivina/responseMode";
 import { generateVoice } from "../vidaDivina/voiceEngineClient";
 import { detectarIntencionCompraClara } from "../vidaDivina/purchaseIntent";
+import { detectarIntencionPrecio, textoSinRuidoDePrecio } from "../vidaDivina/priceIntent";
 import { ejecutarHandoffReal, FRASE_CIERRE_COMPRA_EXACTA } from "../tools/derivar-humano";
+import { consultarProductoHandler } from "../tools/consultar-producto";
 
 const logger = pino({ level: (process.env.LOG_LEVEL as pino.Level | undefined) ?? "info" });
 
@@ -274,6 +276,37 @@ async function generateAndSend(
     } catch {
       memoryContext = "";
     }
+
+    // Refuerzo determinista de precio (hallazgo real 2026-09-11): ante
+    // "¿Cuánto cuestan las cápsulas Reishi?" el LLM llamó a buscarProductos
+    // (sin precio) en vez de consultarProducto -- nunca depender solo de
+    // que elija bien la tool. Si el último mensaje pide claramente precio/
+    // costo/promoción, se resuelve el producto y se trae el precio REAL
+    // aquí, en código, y se entrega ya verificado en el contexto -- el LLM
+    // sigue pudiendo llamar a consultarProducto igualmente, esto es un
+    // refuerzo, nunca un reemplazo. Nunca hardcodea un producto concreto.
+    if (ultimoMensajeUsuario && detectarIntencionPrecio(ultimoMensajeUsuario.content)) {
+      try {
+        let res = (await consultarProductoHandler({ producto: ultimoMensajeUsuario.content })) as {
+          encontrado: boolean;
+          titulo?: string;
+          precioFormateado?: string | null;
+          cantidadBase?: string | null;
+        };
+        if (!res.encontrado) {
+          const textoLimpio = textoSinRuidoDePrecio(ultimoMensajeUsuario.content);
+          if (textoLimpio) {
+            res = (await consultarProductoHandler({ producto: textoLimpio })) as typeof res;
+          }
+        }
+        if (res.encontrado) {
+          memoryContext += `\n\nDATO DE PRECIO YA VERIFICADO para este turno (producto "${res.titulo}"): precio real = ${res.precioFormateado ?? "no hay precio registrado todavía, no inventes uno"}${res.cantidadBase ? `, presentación real = ${res.cantidadBase}` : ""}. Si respondes sobre precio, usa este precioFormateado tal cual, literal, siempre en pesos mexicanos (nunca en dólares, nunca con punto de miles). Si mencionas la presentación y viene como "Contenedor / Detalle" (ej. "Bolsa / 20 sobres individuales"), exprésala como "un/una {contenedor} con {detalle}" (ej. "una bolsa con 20 sobres individuales"), nunca como "presentación de X".`;
+        }
+      } catch {
+        // red de seguridad best-effort -- nunca debe romper la respuesta normal
+      }
+    }
+
     logger.info(
       `[bot] llamando al LLM con ${history.length} mensajes${memoryContext ? " + memoria" : ""}...`
     );
