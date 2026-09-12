@@ -34,6 +34,53 @@ def test_generate_speech_normaliza_precio_antes_de_generar(monkeypatch):
     assert "Tongkat Ali" not in texto_real_enviado_al_modelo
 
 
+def test_generate_speech_normaliza_precio_en_ingles_cuando_language_en(monkeypatch):
+    """Caso real observado (2026-09-12): la respuesta textual y `language`
+    ya llegaban correctos en inglés, pero la voz seguía pronunciando el
+    precio en español -- generate_speech() ahora reenvía `language` a
+    normalizar_texto_para_tts()."""
+    capturado = {}
+
+    def _fake_generate_sync(text, language, exaggeration, cfg_weight, temperature, reference_path):
+        capturado["text"] = text
+        capturado["language"] = language
+        return Path("/tmp/fake_output.wav")
+
+    monkeypatch.setattr(tts_service, "_generate_sync", _fake_generate_sync)
+    monkeypatch.setattr(tts_service, "get_model", lambda: DummyModel())
+
+    asyncio.run(tts_service.generate_speech(
+        "The Venus Capsules are priced at $1,799 for a bottle of 30 capsules.",
+        language="en",
+    ))
+
+    texto_real_enviado_al_modelo = capturado["text"]
+    assert "$1,799" not in texto_real_enviado_al_modelo
+    assert "one thousand seven hundred ninety-nine pesos" in texto_real_enviado_al_modelo
+    assert "mil setecientos noventa y nueve" not in texto_real_enviado_al_modelo
+
+
+def test_generate_speech_language_llega_intacto_hasta_generate_sync_es_y_en(monkeypatch):
+    """Pruebas 9/10 del encargo: `language` debe llegar EXACTAMENTE igual
+    hasta la llamada real a _generate_sync() (que a su vez lo pasa a
+    model.generate(language_id=...), ver tts_service.py) -- nunca alterado
+    por la normalización de precio, en ningún idioma."""
+    capturado = {}
+
+    def _fake_generate_sync(text, language, exaggeration, cfg_weight, temperature, reference_path):
+        capturado["language"] = language
+        return Path("/tmp/fake_output.wav")
+
+    monkeypatch.setattr(tts_service, "_generate_sync", _fake_generate_sync)
+    monkeypatch.setattr(tts_service, "get_model", lambda: DummyModel())
+
+    asyncio.run(tts_service.generate_speech("hello, this costs $899.", language="en"))
+    assert capturado["language"] == "en"
+
+    asyncio.run(tts_service.generate_speech("hola, esto cuesta $899.", language="es"))
+    assert capturado["language"] == "es"
+
+
 def test_generate_speech_transporta_context_hasta_normalizar_texto_para_tts(monkeypatch):
     """Infraestructura de contexto (2026-09-11): generate_speech(text,
     context=...) debe llegar tal cual a normalizar_texto_para_tts() -- sin
@@ -41,9 +88,9 @@ def test_generate_speech_transporta_context_hasta_normalizar_texto_para_tts(monk
     contextos_recibidos = []
     normalizador_real = tts_text_normalization.normalizar_texto_para_tts
 
-    def _normalizador_espia(texto, context="default"):
+    def _normalizador_espia(texto, context="default", language="es"):
         contextos_recibidos.append(context)
-        return normalizador_real(texto, context=context)
+        return normalizador_real(texto, context=context, language=language)
 
     monkeypatch.setattr(tts_service, "normalizar_texto_para_tts", _normalizador_espia)
     monkeypatch.setattr(tts_service, "_generate_sync", lambda *a, **k: Path("/tmp/fake_output.wav"))

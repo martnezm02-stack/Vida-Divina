@@ -265,8 +265,59 @@ export async function searchKnowledge(query: string, opts: { limit?: number } = 
   }));
 }
 
+// Resolución estructurada del nombre de cara al cliente (FASE "Idioma +
+// Nombre visible", 2026-09-12, hallazgo real: el LLM recibía "Venus
+// Capsules"/"Ripped Capsules" (el título interno/H2) y, aunque el markdown
+// SÍ trae un "Nombre visible" real distinto ("Cápsulas Venus"/"Cápsulas
+// Ripped"), la elección de cuál usar no era confiable dejada al modelo --
+// en la investigación real, 0 de 4 respuestas en español lo aplicó. Se
+// extrae aquí, en código, de forma determinista: nunca depende de que el
+// LLM elija bien entre las variantes de nombre presentes en el mismo texto.
+//
+// Un mismo archivo markdown de docs/productos/ puede describir VARIOS
+// productos (ej. 08-intimidad-libido.md trae Mars Y Venus) -- por eso se
+// acota primero a la SECCIÓN real de ESTE producto (desde su encabezado
+// "## <titulo>" hasta el siguiente "## " o fin de archivo), nunca se busca
+// "Nombre visible" en todo el archivo (podría traer el de OTRO producto).
+function extraerSeccionProducto(contenidoMarkdown: string, titulo: string): string {
+  const escapado = titulo.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const inicioRe = new RegExp(`^##\\s+${escapado}\\s*$`, "m");
+  const inicio = inicioRe.exec(contenidoMarkdown);
+  if (!inicio) return contenidoMarkdown; // fallback: no se pudo acotar, se busca en todo el archivo
+  const desdeInicio = inicio.index + inicio[0].length;
+  const resto = contenidoMarkdown.slice(desdeInicio);
+  const siguienteEncabezado = /^##\s+/m.exec(resto);
+  const fin = siguienteEncabezado ? desdeInicio + siguienteEncabezado.index : contenidoMarkdown.length;
+  return contenidoMarkdown.slice(inicio.index, fin);
+}
+
+/**
+ * "Nombre visible" real de un producto (campo estructurado del catálogo,
+ * ej. "- **Nombre visible:** Cápsulas Ripped") -- null si el producto no
+ * declara uno (nunca se inventa un fallback aquí; el llamador decide qué
+ * usar en ese caso, ver consultar-producto.ts). Nunca cambia `titulo`
+ * (usado para matching/ids) ni el catálogo -- solo LEE un campo ya
+ * existente en el markdown real, de forma estructurada en vez de dejarlo
+ * suelto dentro de `contenidoMarkdown` para que el LLM lo interprete.
+ */
+export function extraerNombreVisible(contenidoMarkdown: string, titulo: string): string | null {
+  const seccion = extraerSeccionProducto(contenidoMarkdown, titulo);
+  const m = /\*{0,2}Nombre visible:\*{0,2}\s*([^\n]+)/i.exec(seccion);
+  if (!m) return null;
+  const valor = m[1].replace(/\*+\s*$/, "").trim();
+  return valor || null;
+}
+
 export type ProductKnowledgeResult =
-  | { found: true; productId: string; titulo: string; rutaFuente: string; contenidoMarkdown: string; palabrasClave: string[] }
+  | {
+      found: true;
+      productId: string;
+      titulo: string;
+      nombreVisible: string | null;
+      rutaFuente: string;
+      contenidoMarkdown: string;
+      palabrasClave: string[];
+    }
   | { found: false; reason: string };
 
 /**
@@ -307,6 +358,7 @@ export async function getProductKnowledge(productQuery: string): Promise<Product
     found: true,
     productId: entity.id,
     titulo: entity.titulo,
+    nombreVisible: extraerNombreVisible(contenidoMarkdown, entity.titulo),
     rutaFuente: entity.ruta_original,
     contenidoMarkdown,
     palabrasClave: entity.palabras_clave ?? [],

@@ -4,15 +4,22 @@ import type { IdiomaConversacion } from "./vidaDivina/languageDetection";
 
 const NEGOCIO_PATH = path.resolve(process.cwd(), "prompts", "negocio.md");
 
-// Instrucción de idioma (2026-09-12, "idioma de la conversación"):
-// reemplaza la regla rígida anterior ("responde siempre en español") --
-// ver prompts/negocio.md, sección "Reglas de seguridad". `language` viene
-// de una detección determinista real por mensaje (nunca del LLM, ver
-// languageDetection.ts), así que esta instrucción solo declara qué hacer
-// con ese dato ya decidido, corta a propósito (no un prompt largo).
+// Instrucción de idioma (2026-09-12, "idioma de la conversación"; endurecida
+// 2026-09-12 tras investigación real: aunque esta instrucción llegaba
+// correcta al LLM, perdía frente al contenido en español del catálogo/tools
+// -- ver consultar-producto.ts). `language` viene de una detección
+// determinista real por mensaje (nunca del LLM, ver languageDetection.ts).
+// Sigue siendo corta a propósito (no un prompt largo) pero ahora se marca
+// como PRIORITARIA y, en inglés, deja explícito que las fuentes reales
+// (catálogo, notas de las tools) están en español y hay que redactar la
+// respuesta en inglés a partir de esos datos, nunca copiar sus frases
+// literales -- esa competencia (contenido español grande vs. una línea
+// pidiendo inglés) era la causa raíz real confirmada.
 function idiomaInstruccion(language: IdiomaConversacion): string {
-  const nombreIdioma = language === "en" ? "inglés" : "español";
-  return `**Idioma de esta respuesta: ${nombreIdioma}.** Es el idioma real detectado del último mensaje de este cliente -- respóndele en ${nombreIdioma}. Si en su SIGUIENTE mensaje escribe en otro idioma, tu siguiente respuesta cambia con él. Nunca mezcles dos idiomas dentro del mismo mensaje. Los nombres propios y de producto conservan la forma comercial que corresponda, sin traducirlos a la fuerza.`;
+  if (language === "en") {
+    return `**PRIORITY -- reply language: ENGLISH.** This is the client's real detected language this turn: write your ENTIRE reply in English. Your real data sources (product catalog, tool notes) are in Spanish -- use their facts, but write your own English sentences; never copy a Spanish sentence from them verbatim. If their next message switches language, your next reply follows it. Never mix two languages in one message. For product names, use exactly the name a tool gives you for this response (see "Name to use with the client" when present).`;
+  }
+  return `**PRIORIDAD -- idioma de esta respuesta: ESPAÑOL.** Es el idioma real detectado del último mensaje de este cliente -- respóndele en español. Si en su SIGUIENTE mensaje escribe en otro idioma, tu siguiente respuesta cambia con él. Nunca mezcles dos idiomas dentro del mismo mensaje. Para el nombre del producto, usa exactamente el que te dé una tool para esta respuesta (ver "Nombre a usar con el cliente" cuando venga).`;
 }
 
 const FALLBACK_PROMPT_BASE = `

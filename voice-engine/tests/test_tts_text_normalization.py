@@ -4,6 +4,7 @@ Ripped/Tongkat Ali. Funciones puras, sin modelo, sin red, sin LLM.
 """
 from app.services.tts_text_normalization import (
     numero_a_palabras,
+    numero_a_palabras_en,
     normalizar_precios_para_voz,
     normalizar_pronunciacion_para_voz,
     normalizar_texto_para_tts,
@@ -68,6 +69,67 @@ def test_precio_fuera_de_rango_soportado_no_se_toca():
 
 
 # ============================================================
+# 1b) Precio en INGLÉS (2026-09-12, "precio en TTS debe respetar el
+# idioma" -- hallazgo real: la voz seguía pronunciando el precio en
+# español aunque la respuesta y `language="en"` ya fueran correctos).
+# Mismo monto real, nunca traducido -- solo cambia el vocabulario. "pesos"
+# se mantiene en ambos idiomas (nunca "dollars"/USD).
+# ============================================================
+
+def test_numero_a_palabras_en_casos_reales_del_catalogo():
+    casos = {
+        1799: "one thousand seven hundred ninety-nine",
+        899: "eight hundred ninety-nine",
+        1599: "one thousand five hundred ninety-nine",
+        2299: "two thousand two hundred ninety-nine",
+    }
+    for numero, esperado in casos.items():
+        assert numero_a_palabras_en(numero) == esperado
+
+
+def test_normalizar_precios_para_voz_language_en_casos_reales_del_catalogo():
+    # Prueba 1/2, 3/4, 5/6 del encargo: mismos montos reales del catálogo,
+    # ES vs EN.
+    casos = {
+        "$1,799": "one thousand seven hundred ninety-nine pesos",
+        "$899": "eight hundred ninety-nine pesos",
+        "$1,599": "one thousand five hundred ninety-nine pesos",
+    }
+    for entrada, esperado in casos.items():
+        assert normalizar_precios_para_voz(entrada, language="es") != esperado
+        assert normalizar_precios_para_voz(entrada, language="en") == esperado
+
+
+def test_normalizar_precios_language_en_dentro_de_frase_real_venus():
+    # Caso real observado: "The Venus Capsules are priced at $1,799 for a
+    # bottle of 30 capsules." -- el precio debe hablarse en inglés, nunca
+    # en español, y "30 capsules" (sin "$") queda intacto.
+    texto = "The Venus Capsules are priced at $1,799 for a bottle of 30 capsules."
+    resultado = normalizar_precios_para_voz(texto, language="en")
+    assert "$1,799" not in resultado
+    assert "one thousand seven hundred ninety-nine pesos" in resultado
+    assert "mil setecientos noventa y nueve" not in resultado
+    assert "30 capsules" in resultado
+
+
+def test_normalizar_precios_language_en_con_centavos():
+    resultado = normalizar_precios_para_voz("It costs $1,799.50 total.", language="en")
+    assert "one thousand seven hundred ninety-nine pesos and fifty cents" in resultado
+
+
+def test_normalizar_precios_language_en_no_toca_numeros_sin_simbolo_de_pesos():
+    # Prueba 7 del encargo, explícita en inglés.
+    texto = "Take 30 capsules a month, 1 daily, in one bottle."
+    assert normalizar_precios_para_voz(texto, language="en") == texto
+
+
+def test_normalizar_precios_default_sin_language_sigue_en_espanol():
+    # Compatibilidad: un llamador que no pase `language` (comportamiento de
+    # siempre) sigue en español, sin cambios.
+    assert normalizar_precios_para_voz("$1,799") == "mil setecientos noventa y nueve pesos"
+
+
+# ============================================================
 # 2) Pronunciación dirigida
 # ============================================================
 
@@ -83,6 +145,55 @@ def test_normalizar_pronunciacion_sustituye_ripped_y_tongkat_ali():
     assert "Tongkat Ali" not in resultado
     assert PRONUNCIACIONES_TTS["Ripped"] in resultado
     assert PRONUNCIACIONES_TTS["Tongkat Ali"] in resultado
+
+
+# ============================================================
+# 2b) Pronunciación dirigida DEPENDIENTE DEL IDIOMA (2026-09-12, Problema 3:
+# "Ripped Capsules" no se distinguía con claridad en el audio, sobre todo
+# en frases en español; se aplicaba la misma sustitución pensada para
+# español también en inglés, sin necesitarlo -- ChatterboxMultilingualTTS.
+# generate() no expone ningún parámetro de fonética/IPA, solo
+# text/language_id, así que la única palanca real sigue siendo el texto).
+# El valor en español de "Ripped" NO se cambia por otra adivinanza (sin
+# evidencia de audio real para validar una mejor) -- lo corregido es que
+# ya NO se aplica en inglés, donde el término es nativo/no necesita truco.
+# ============================================================
+
+def test_problema3_ripped_en_espanol_mantiene_la_forma_ya_existente_sin_inventar_una_nueva():
+    resultado = normalizar_pronunciacion_para_voz("Ripped", language="es")
+    assert resultado == PRONUNCIACIONES_TTS["Ripped"] == "Riped"
+
+
+def test_problema3_ripped_en_ingles_no_se_sustituye_conserva_pronunciacion_inglesa_nativa():
+    resultado = normalizar_pronunciacion_para_voz("Ripped", language="en")
+    assert resultado == "Ripped"
+
+
+def test_problema3_capsulas_ripped_dentro_de_frase_espanola_completa():
+    texto = "Las Cápsulas Ripped tienen un precio de $1,799 por un frasco."
+    resultado = normalizar_texto_para_tts(texto, language="es")
+    assert "Riped" in resultado
+    assert "Ripped" not in resultado
+    assert "mil setecientos noventa y nueve pesos" in resultado
+
+
+def test_problema3_ripped_capsules_dentro_de_frase_inglesa_completa():
+    texto = "The Ripped Capsules cost $1,799 for a bottle of 30 capsules."
+    resultado = normalizar_texto_para_tts(texto, language="en")
+    assert "Ripped Capsules" in resultado
+    assert "Riped" not in resultado
+    assert "one thousand seven hundred ninety-nine pesos" in resultado
+
+
+def test_problema3_no_afecta_palabras_parecidas_en_ningun_idioma():
+    texto = "unRippedXyz no es un producto real."
+    assert normalizar_pronunciacion_para_voz(texto, language="es") == texto
+    assert normalizar_pronunciacion_para_voz(texto, language="en") == texto
+
+
+def test_problema3_tongkat_ali_sigue_con_tilde_en_espanol_pero_forma_nativa_en_ingles():
+    assert normalizar_pronunciacion_para_voz("Tongkat Ali", language="es") == "Tongkat Alí"
+    assert normalizar_pronunciacion_para_voz("Tongkat Ali", language="en") == "Tongkat Ali"
 
 
 def test_normalizar_pronunciacion_nunca_toca_palabras_parecidas():
@@ -107,6 +218,30 @@ def test_normalizar_texto_para_tts_aplica_ambas_capas():
     assert "mil setecientos noventa y nueve pesos" in resultado
     assert PRONUNCIACIONES_TTS["Ripped"] in resultado
     assert PRONUNCIACIONES_TTS["Tongkat Ali"] in resultado
+
+
+def test_normalizar_texto_para_tts_language_en_habla_el_precio_en_ingles_y_NO_aplica_la_pronunciacion_pensada_para_espanol():
+    # Pruebas 2/4/6 (endurecidas 2026-09-12, Problema 3: "Ripped Capsules"
+    # no se distinguía con claridad, sobre todo en frases en español -- la
+    # sustitución pensada para español se aplicaba también en inglés, sin
+    # necesitarlo). En inglés, "Ripped"/"Tongkat Ali" deben quedar en su
+    # forma real/nativa, SIN la sustitución pensada para el oído en
+    # español -- ver revisión explícita más abajo, sección "Problema 3".
+    texto = "The Ripped Capsules cost $1,799 and include Tongkat Ali."
+    resultado = normalizar_texto_para_tts(texto, language="en")
+    assert "$1,799" not in resultado
+    assert "one thousand seven hundred ninety-nine pesos" in resultado
+    assert "Ripped Capsules" in resultado
+    assert "Tongkat Ali" in resultado
+    assert "Riped" not in resultado
+    assert "Alí" not in resultado
+
+
+def test_normalizar_texto_para_tts_sin_language_explicito_sigue_en_espanol():
+    # Compatibilidad: mismo comportamiento de siempre para un llamador que
+    # no pase `language`.
+    texto = "Las Cápsulas Ripped cuestan $1,799."
+    assert "mil setecientos noventa y nueve pesos" in normalizar_texto_para_tts(texto)
 
 
 def test_normalizar_texto_para_tts_acepta_context_pero_no_cambia_el_resultado_todavia():

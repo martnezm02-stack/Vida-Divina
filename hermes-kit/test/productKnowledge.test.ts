@@ -1,7 +1,7 @@
 // productKnowledge.test.ts — contra el catálogo REAL (docs/productos/), sin mocks.
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { searchKnowledge, getProductKnowledge } from "../src/lib/vidaDivina/productKnowledge";
+import { searchKnowledge, getProductKnowledge, extraerNombreVisible } from "../src/lib/vidaDivina/productKnowledge";
 
 test("searchKnowledge encuentra un producto real por palabra clave", async () => {
   const hits = await searchKnowledge("tongkat");
@@ -54,4 +54,41 @@ test("Problema 2 -- el fuzzy fallback nunca compite con una coincidencia exacta/
   const reishi = await getProductKnowledge("Reishi Capsules");
   assert.equal(reishi.found, true);
   if (reishi.found) assert.equal(reishi.productId, "productos/03-longevidad-bienestar/reishi-capsules");
+});
+
+// Nombre visible estructurado (2026-09-12, "Idioma + Nombre visible" --
+// causa raíz real: el LLM no elegía de forma confiable "Cápsulas
+// Ripped"/"Cápsulas Venus" entre las variantes de nombre del mismo texto).
+// getProductKnowledge ahora expone `nombreVisible` ya extraído, determinista.
+test("getProductKnowledge expone nombreVisible real para Ripped Capsules ('Cápsulas Ripped')", async () => {
+  const res = await getProductKnowledge("Ripped Capsules");
+  assert.equal(res.found, true);
+  if (res.found) assert.equal(res.nombreVisible, "Cápsulas Ripped");
+});
+
+test("getProductKnowledge expone nombreVisible real para Venus Capsules ('Cápsulas Venus'), sin traer el de Mars Capsules del mismo archivo", async () => {
+  const res = await getProductKnowledge("Venus Capsules");
+  assert.equal(res.found, true);
+  if (res.found) assert.equal(res.nombreVisible, "Cápsulas Venus");
+
+  const mars = await getProductKnowledge("Mars Capsules");
+  assert.equal(mars.found, true);
+  if (mars.found) assert.equal(mars.nombreVisible, "Cápsulas Mars");
+});
+
+test("extraerNombreVisible: null si el producto no declara nombre visible (nunca se inventa un fallback aquí)", () => {
+  const md = "## Producto de Prueba\n\n- **Nombre comercial:** Prueba Real\n- **Presentación:** 30 cápsulas.\n";
+  assert.equal(extraerNombreVisible(md, "Producto de Prueba"), null);
+});
+
+test("extraerNombreVisible: acota a la sección real del producto (no cruza con otro producto del mismo archivo)", () => {
+  const md = [
+    "## Producto A",
+    "- **Nombre visible:** Nombre de A",
+    "",
+    "## Producto B",
+    "- **Nombre visible:** Nombre de B",
+  ].join("\n");
+  assert.equal(extraerNombreVisible(md, "Producto A"), "Nombre de A");
+  assert.equal(extraerNombreVisible(md, "Producto B"), "Nombre de B");
 });

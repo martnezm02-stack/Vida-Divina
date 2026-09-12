@@ -11,6 +11,7 @@ import {
 // de prompts/negocio.md. El archivo agendar.ts se conserva por si tu negocio
 // necesita esa herramienta: regístrala aquí y rellena CAL_BOOKING_URL.
 import { insertToolEvent } from "../db";
+import type { IdiomaConversacion } from "../vidaDivina/languageDetection";
 // FASE "Hermes end-to-end Vida Divina": derivarHumano SÍ se registra aquí
 // (antes dormida) -- Vida Divina necesita derivación real a un humano
 // (además del watchdog), con handoff persistido en el CRM real.
@@ -69,8 +70,13 @@ export interface ToolDefinition {
 
 // El handler de cada tool define sus propios argumentos.
 // Aquí trabajamos con un wrapper que acepta unknown args (los validamos al entrar).
+// `language` (2026-09-12, "Idioma + Nombre visible"): idioma real ya
+// detectado de la conversación en este turno -- nunca decidido por el
+// tool ni por el LLM, solo reenviado por executeTool() para que las tools
+// que redactan texto de apoyo (consultarProducto/buscarProductos) puedan
+// responder en el idioma correcto sin depender de una segunda detección.
 export type ToolHandler<TArgs = Record<string, unknown>> = (
-  args: TArgs & { conversationId?: number }
+  args: TArgs & { conversationId?: number; language?: IdiomaConversacion }
 ) => Promise<Record<string, unknown>>;
 
 // ============================================================
@@ -103,7 +109,7 @@ export const toolDefinitions: ToolDefinition[] = [
 ];
 
 type GenericHandler = (
-  args: Record<string, unknown> & { conversationId?: number }
+  args: Record<string, unknown> & { conversationId?: number; language?: IdiomaConversacion }
 ) => Promise<Record<string, unknown>>;
 
 const handlers: Record<string, GenericHandler> = {
@@ -156,7 +162,7 @@ const handlers: Record<string, GenericHandler> = {
 export async function executeTool(
   toolName: string,
   args: Record<string, unknown>,
-  context: { conversationId: number }
+  context: { conversationId: number; language?: IdiomaConversacion }
 ): Promise<Record<string, unknown>> {
   const handler = handlers[toolName];
   if (!handler) {
@@ -170,7 +176,7 @@ export async function executeTool(
   // y se devuelve como resultado controlado para que el modelo siga la charla.
   let result: Record<string, unknown>;
   try {
-    result = await handler({ ...args, conversationId: context.conversationId });
+    result = await handler({ ...args, conversationId: context.conversationId, language: context.language });
   } catch (err) {
     return {
       ok: false,

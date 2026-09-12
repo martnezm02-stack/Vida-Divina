@@ -3,13 +3,19 @@
 //
 // NO crea un evento nuevo: un handoff real sin resolver (crm.handoffs,
 // resuelto_en IS NULL) YA ES el evento -- esta capa solo LEE y compone esos
-// handoffs con datos ya reales de otras tablas del mismo CRM (opportunities,
-// messages, conversations) para dárselos al dashboard en forma legible. No
-// se persiste nada nuevo aquí.
+// handoffs con datos ya reales de otras tablas del mismo CRM (messages,
+// conversations) para dárselos al dashboard en forma legible. No se
+// persiste nada nuevo aquí.
+//
+// Producto/necesidad/intención de compra NUNCA salen de crm.opportunities
+// (hallazgo real 2026-09-12: esa tabla es historial del CLIENTE, no del
+// evento -- podía contradecir el propio handoff, ver parseMotivo/
+// resolverProductoDelHandoffActual más abajo). Siempre HANDOFF ACTUAL >
+// datos históricos.
 
 import path from "node:path";
 import { pathToFileURL } from "node:url";
-import { REPO_ROOT, getProductTitleById } from "./productKnowledge";
+import { REPO_ROOT, getProductKnowledge } from "./productKnowledge";
 import { getConversationByPhone, type Conversation as LocalConversation } from "../db";
 
 const CRM_INDEX_PATH = path.join(REPO_ROOT, "crm", "index.js");
@@ -55,12 +61,33 @@ export interface HandoffAlert {
 // Parsea el motivo compuesto por derivar-humano.ts ("[tipo] razon · Producto: X · ...")
 // -- nunca una segunda fuente de verdad: si el formato cambia, esta función
 // simplemente no encuentra el campo (degrada a null), nunca rompe la alerta.
-function parseMotivo(motivo: string): { tipo: string | null; prioridadTexto: string | null } {
+//
+// Metadatos del HANDOFF ACTUAL (2026-09-12, hallazgo real: una alerta de
+// "[compra] Cliente confirma intención de compra: 'Quiero comprar las
+// cápsulas Venus...'" mostraba producto/necesidad de OTRA conversación
+// anterior sobre Té Divina/estreñimiento, e "intención de compra: no" --
+// exactamente lo contrario del propio handoff). `productoTexto`/
+// `necesidadTexto` YA existen en `motivo` cuando derivarHumano (tool LLM)
+// los recibió explícitos ("Producto: X"/"Necesidad: Y") -- se extraen aquí
+// tal cual, nunca inventados.
+function parseMotivo(motivo: string): {
+  tipo: string | null;
+  prioridadTexto: string | null;
+  productoTexto: string | null;
+  necesidadTexto: string | null;
+} {
   const tipoMatch = motivo.match(/^\[(\w+)\]/);
   const prioridadMatch = motivo.match(/Prioridad:\s*(alta|media|baja)/i);
+  // " · " separa cada campo real (ver ejecutarHandoffReal#partesMotivo) --
+  // el valor termina en el siguiente " · " o en el fin de la cadena, nunca
+  // se traga el resto de campos.
+  const productoMatch = motivo.match(/Producto:\s*([^·]+)/i);
+  const necesidadMatch = motivo.match(/Necesidad:\s*([^·]+)/i);
   return {
     tipo: tipoMatch?.[1] ?? null,
     prioridadTexto: prioridadMatch?.[1]?.toLowerCase() ?? null,
+    productoTexto: productoMatch?.[1]?.trim() || null,
+    necesidadTexto: necesidadMatch?.[1]?.trim() || null,
   };
 }
 
@@ -70,12 +97,45 @@ function prioridadPorDefecto(tipo: string | null): "alta" | "media" | "baja" {
   return "media";
 }
 
+// Fallback determinista SOLO para el camino sin "Producto:" explícito -- el
+// detector de intención de compra (handler.ts#detectarIntencionCompraClara)
+// deriva el handoff ANTES de llamar al LLM, así que motivo nunca trae
+// "Producto:"/"Necesidad:" en ese camino, solo el mensaje real del cliente
+// entre comillas ("Cliente confirma intención de compra: \"...\"").
+// Reutiliza EXACTAMENTE el motor de búsqueda de producto ya existente
+// (productKnowledge.ts, mismo que usa consultarProducto) -- nunca un LLM,
+// nunca un segundo mecanismo de matching. Si no hay comillas o el texto no
+// resuelve a ningún producto real, devuelve null -- NUNCA inventa uno ni
+// cae a un dato histórico de otra conversación.
+async function resolverProductoDelHandoffActual(motivo: string): Promise<string | null> {
+  const mensajeCitado = motivo.match(/"([^"]+)"/)?.[1];
+  if (!mensajeCitado) return null;
+  try {
+    const res = await getProductKnowledge(mensajeCitado);
+    if (!res.found) return null;
+    return res.nombreVisible ?? res.titulo;
+  } catch {
+    return null;
+  }
+}
+
 /**
  * Bandeja de alertas internas reales: un handoff real sin resolver por
- * fila. Compone producto/necesidad/intención desde la oportunidad real más
- * reciente de esa conversación (crm.opportunities, NUNCA re-parseado del
- * texto libre), prioridad desde el propio motivo (o un valor por defecto
- * por tipo si no viene), y el último mensaje real del lead como contexto.
+ * fila. Producto/necesidad/intención de compra se componen SIEMPRE a
+ * partir del propio HANDOFF ACTUAL (su `motivo` real, ver parseMotivo/
+ * resolverProductoDelHandoffActual) -- NUNCA de `crm.opportunities`
+ * (hallazgo real 2026-09-12: esa tabla guarda el ÚLTIMO producto/necesidad
+ * conocido del CLIENTE a lo largo de TODA su historia, que puede ser de
+ * una conversación/necesidad completamente distinta a la que disparó este
+ * handoff en concreto -- mostrar eso contradecía el propio evento, ej.
+ * "intención de compra: no" en una alerta cuyo motivo real es
+ * "[compra] Cliente confirma intención de compra..."). Regla aplicada:
+ * HANDOFF ACTUAL > datos históricos -- si el handoff actual no trae un
+ * dato (producto/necesidad explícitos, o un producto derivable del propio
+ * mensaje citado), la alerta lo deja ausente (null) en vez de inventarlo o
+ * de heredarlo de otra conversación. Prioridad sigue viniendo del propio
+ * motivo (o un valor por defecto por tipo si no viene), y el último
+ * mensaje real del lead sigue como contexto.
  */
 export async function listHandoffAlerts(opts: { limit?: number } = {}): Promise<HandoffAlert[]> {
   const c = await crm();
@@ -84,12 +144,10 @@ export async function listHandoffAlerts(opts: { limit?: number } = {}): Promise<
   const alertas: HandoffAlert[] = [];
   for (const h of pendientes) {
     let conversacion: any = null;
-    let oportunidad: any = null;
     let mensajes: any[] = [];
     try {
-      [conversacion, oportunidad, mensajes] = await Promise.all([
+      [conversacion, mensajes] = await Promise.all([
         c.conversations.findConversationById(h.conversationId),
-        c.opportunities.findLatestByConversationId(h.conversationId),
         c.messages.listByConversationId(h.conversationId, { limit: 10 }),
       ]);
     } catch {
@@ -106,8 +164,19 @@ export async function listHandoffAlerts(opts: { limit?: number } = {}): Promise<
       }
     }
 
-    const { tipo, prioridadTexto } = parseMotivo(h.motivo ?? "");
-    const producto = oportunidad?.productoId ? await getProductTitleById(oportunidad.productoId).catch(() => null) : null;
+    const motivoReal = h.motivo ?? "";
+    const { tipo, prioridadTexto, productoTexto, necesidadTexto } = parseMotivo(motivoReal);
+    // Producto: 1) el que ya viene explícito en el motivo (derivarHumano
+    // con `producto` real); 2) si no, derivado del propio mensaje citado
+    // del handoff actual (camino determinista, ver la función); nunca un
+    // tercer intento contra datos de otra conversación.
+    const producto = productoTexto ?? (await resolverProductoDelHandoffActual(motivoReal).catch(() => null));
+    // Intención de compra: el único dato REAL y actual disponible hoy es
+    // el propio tipo del handoff -- "[compra]" ES la confirmación real de
+    // intención de compra de este evento. Nunca se infiere "no" por
+    // ausencia de dato (eso sería inventar); se deja null (ausente) si el
+    // tipo no es 'compra' y no hay otra señal explícita del propio handoff.
+    const intencionCompra = tipo === "compra" ? true : null;
 
     const ultimoMensajeLead = [...mensajes].reverse().find((m: any) => m.direccion === "entrante");
 
@@ -118,9 +187,9 @@ export async function listHandoffAlerts(opts: { limit?: number } = {}): Promise<
       localConversationId: localConversation?.id ?? null,
       phone,
       tipo,
-      producto: producto ?? (oportunidad?.productoId ?? null),
-      necesidad: oportunidad?.necesidadId ?? null,
-      intencionCompra: oportunidad?.intencionCompra ?? null,
+      producto,
+      necesidad: necesidadTexto,
+      intencionCompra,
       prioridad: (prioridadTexto as "alta" | "media" | "baja" | null) ?? prioridadPorDefecto(tipo),
       motivo: h.motivo,
       timestamp: h.creadoEn,

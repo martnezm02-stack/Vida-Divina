@@ -7,8 +7,20 @@
 // /hermes/api/alertas, antes y después del fix) -- pero SÍ confirman que
 // listHandoffAlerts()/resolveHandoffAlert() siguen funcionando igual tras
 // el cambio.
-import { test, before } from "node:test";
+import { test, before, mock } from "node:test";
 import assert from "node:assert/strict";
+
+// Telegram real mockeado (mismo criterio que handoffDedup.test.ts, 2026-09-12):
+// handoffToHuman() de por sí SÍ envía un aviso real a Telegram -- los tests
+// nuevos de este archivo crean handoffs reales de prueba (fake, resueltos
+// al final) para probar los metadatos de la alerta, nunca para probar
+// Telegram; se mockea para no generar avisos reales de más.
+mock.module("../src/lib/telegramClient", {
+  namedExports: {
+    telegramConfigured: () => true,
+    sendTelegramAlert: async () => true,
+  },
+});
 
 before(async () => {
   await import("../scripts/env-loader");
@@ -60,4 +72,103 @@ test("resolveHandoffAlert: handoffId inexistente -> ok:false honesto, nunca lanz
   if (!crmConfigured()) return;
   const res = await resolveHandoffAlert("00000000-0000-0000-0000-000000000000");
   assert.equal(res.ok, false);
+});
+
+// ============================================================
+// Metadatos del HANDOFF ACTUAL (2026-09-12, hallazgo real: una alerta real
+// de "[compra] Cliente confirma intención de compra: 'Quiero comprar las
+// cápsulas Venus, por favor.'" mostraba Producto=Té Divina, Necesidad=
+// estreñimiento (de OTRA conversación anterior) e Intención de compra=no --
+// contradiciendo el propio handoff). Regla: HANDOFF ACTUAL > histórico.
+// ============================================================
+
+test("Handoff de compra de Venus: producto=Cápsulas Venus (del propio mensaje citado), intención=sí, necesidad NO heredada de otro registro", async () => {
+  const { handoffToHuman, crmConfigured } = await import("../src/lib/vidaDivina/crmClient");
+  const { listHandoffAlerts, resolveHandoffAlert } = await import("../src/lib/vidaDivina/alertas");
+  if (!crmConfigured()) return;
+
+  const phone = `${TEST_PHONE}VENUS`;
+  const motivo = `[compra] Cliente confirma intención de compra: "Quiero comprar las cápsulas Venus, por favor."`;
+  const creado = await handoffToHuman(phone, motivo);
+  assert.equal(creado.ok, true, creado.reason);
+
+  const alertas = await listHandoffAlerts({ limit: 50 });
+  const propia = alertas.find((a) => a.handoffId === creado.handoffId);
+  assert.ok(propia, "debe aparecer en la bandeja real");
+  assert.equal(propia?.producto, "Cápsulas Venus");
+  assert.equal(propia?.intencionCompra, true);
+  assert.equal(propia?.necesidad, null, "sin 'Necesidad:' explícita en el motivo actual, nunca se hereda una de otro registro");
+
+  await resolveHandoffAlert(creado.handoffId!);
+});
+
+test("Handoff de compra de Ripped: producto=Cápsulas Ripped, intención=sí", async () => {
+  const { handoffToHuman, crmConfigured } = await import("../src/lib/vidaDivina/crmClient");
+  const { listHandoffAlerts, resolveHandoffAlert } = await import("../src/lib/vidaDivina/alertas");
+  if (!crmConfigured()) return;
+
+  const phone = `${TEST_PHONE}RIPPED`;
+  const motivo = `[compra] Cliente confirma intención de compra: "quiero comprar las capsulas ripped"`;
+  const creado = await handoffToHuman(phone, motivo);
+  assert.equal(creado.ok, true, creado.reason);
+
+  const alertas = await listHandoffAlerts({ limit: 50 });
+  const propia = alertas.find((a) => a.handoffId === creado.handoffId);
+  assert.ok(propia);
+  assert.equal(propia?.producto, "Cápsulas Ripped");
+  assert.equal(propia?.intencionCompra, true);
+
+  await resolveHandoffAlert(creado.handoffId!);
+});
+
+test("Handoff real SIN producto explícito ni derivable: producto=null, nunca inventado usando historial", async () => {
+  const { handoffToHuman, crmConfigured } = await import("../src/lib/vidaDivina/crmClient");
+  const { listHandoffAlerts, resolveHandoffAlert } = await import("../src/lib/vidaDivina/alertas");
+  if (!crmConfigured()) return;
+
+  const phone = `${TEST_PHONE}SINPRODUCTO`;
+  const motivo = `[persona] El lead solicita explícitamente hablar con una persona`;
+  const creado = await handoffToHuman(phone, motivo);
+  assert.equal(creado.ok, true, creado.reason);
+
+  const alertas = await listHandoffAlerts({ limit: 50 });
+  const propia = alertas.find((a) => a.handoffId === creado.handoffId);
+  assert.ok(propia);
+  assert.equal(propia?.producto, null);
+  assert.equal(propia?.necesidad, null);
+  assert.equal(propia?.intencionCompra, null, "tipo no es 'compra' -> nunca se afirma 'no' sin evidencia real del propio handoff");
+
+  await resolveHandoffAlert(creado.handoffId!);
+});
+
+test("Cliente con historial de OTRO producto + nuevo handoff de producto distinto -> la alerta usa el producto del handoff ACTUAL, nunca el histórico", async () => {
+  const { handoffToHuman, saveLead, crmConfigured } = await import("../src/lib/vidaDivina/crmClient");
+  const { listHandoffAlerts, resolveHandoffAlert } = await import("../src/lib/vidaDivina/alertas");
+  if (!crmConfigured()) return;
+
+  const phone = `${TEST_PHONE}HISTORIAL`;
+  // Historial real: oportunidad previa sobre Té Divina / estreñimiento --
+  // mismo mecanismo real que usaría la tool guardarLead en una conversación
+  // anterior de este mismo cliente.
+  const lead = await saveLead({
+    phone,
+    productoId: "productos/01-control-de-peso/tedivina",
+    necesidadId: "estreñimiento",
+    intencionCompra: false,
+  });
+  assert.equal(lead.ok, true, lead.reason);
+
+  // Handoff NUEVO y real, de un producto totalmente distinto.
+  const motivo = `[compra] Cliente confirma intención de compra: "quiero comprar las capsulas ripped"`;
+  const creado = await handoffToHuman(phone, motivo);
+  assert.equal(creado.ok, true, creado.reason);
+
+  const alertas = await listHandoffAlerts({ limit: 50 });
+  const propia = alertas.find((a) => a.handoffId === creado.handoffId);
+  assert.ok(propia);
+  assert.equal(propia?.producto, "Cápsulas Ripped", "debe usar el producto del handoff actual, no el histórico (Té Divina)");
+  assert.notEqual(propia?.necesidad, "estreñimiento", "nunca hereda la necesidad histórica de otra conversación");
+  assert.equal(propia?.intencionCompra, true);
+
+  await resolveHandoffAlert(creado.handoffId!);
 });

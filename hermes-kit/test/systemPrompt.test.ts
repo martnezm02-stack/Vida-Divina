@@ -13,14 +13,16 @@ test("buildSystemPrompt: sin language explícito -> instrucción real en españo
   assert.match(prompt, /Idioma de esta respuesta: español/i);
 });
 
-test("buildSystemPrompt: language='en' -> instrucción real en inglés", () => {
+test("buildSystemPrompt: language='en' -> instrucción real en inglés, prioritaria y con directiva de traducción (endurecida 2026-09-12 tras hallazgo real: el catálogo/tools están siempre en español y competían contra esta instrucción)", () => {
   const prompt = buildSystemPrompt("", "en");
-  assert.match(prompt, /Idioma de esta respuesta: inglés/i);
+  assert.match(prompt, /PRIORITY.*reply language:\s*ENGLISH/i);
+  assert.match(prompt, /write your own English sentences/i);
+  assert.match(prompt, /never copy a Spanish sentence/i);
 });
 
-test("buildSystemPrompt: language='es' -> instrucción real en español", () => {
+test("buildSystemPrompt: language='es' -> instrucción real en español, prioritaria", () => {
   const prompt = buildSystemPrompt("", "es");
-  assert.match(prompt, /Idioma de esta respuesta: español/i);
+  assert.match(prompt, /PRIORIDAD.*idioma de esta respuesta:\s*ESPAÑOL/i);
 });
 
 test("ya NO existe la regla rígida anterior ('responde siempre en español')", () => {
@@ -32,4 +34,9 @@ test("prompts/negocio.md real ya no tiene la regla rígida anterior", () => {
   const negocio = fs.readFileSync(path.resolve(process.cwd(), "prompts", "negocio.md"), "utf-8");
   assert.doesNotMatch(negocio, /responde siempre en español.*aunque te escriban en otro idioma/i);
   assert.match(negocio, /idioma real detectado/i);
+});
+
+test("Nombre visible (2026-09-12): la instrucción de idioma remite al nombre que dé la tool, nunca deja que el LLM elija entre variantes por su cuenta", () => {
+  assert.match(buildSystemPrompt("", "es"), /nombre a usar con el cliente/i);
+  assert.match(buildSystemPrompt("", "en"), /name a tool gives you/i);
 });

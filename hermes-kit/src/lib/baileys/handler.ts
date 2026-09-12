@@ -24,7 +24,7 @@ import { registrarFallback } from "../watchdog";
 import { decideResponseMode } from "../vidaDivina/responseMode";
 import { generateVoice } from "../vidaDivina/voiceEngineClient";
 import { detectarIntencionCompraClara } from "../vidaDivina/purchaseIntent";
-import { detectarIntencionPrecio, textoSinRuidoDePrecio } from "../vidaDivina/priceIntent";
+import { detectarIntencionPrecio, textoSinRuidoDePrecio, construirRefuerzoPrecio } from "../vidaDivina/priceIntent";
 import { detectarIdioma, idiomaEfectivo } from "../vidaDivina/languageDetection";
 import { ejecutarHandoffReal, FRASE_CIERRE_COMPRA_EXACTA } from "../tools/derivar-humano";
 import { consultarProductoHandler } from "../tools/consultar-producto";
@@ -317,7 +317,7 @@ async function generateAndSend(
     // refuerzo, nunca un reemplazo. Nunca hardcodea un producto concreto.
     if (ultimoMensajeUsuario && detectarIntencionPrecio(ultimoMensajeUsuario.content)) {
       try {
-        let res = (await consultarProductoHandler({ producto: ultimoMensajeUsuario.content })) as {
+        let res = (await consultarProductoHandler({ producto: ultimoMensajeUsuario.content, language: idiomaDetectado })) as {
           encontrado: boolean;
           titulo?: string;
           precioFormateado?: string | null;
@@ -326,11 +326,20 @@ async function generateAndSend(
         if (!res.encontrado) {
           const textoLimpio = textoSinRuidoDePrecio(ultimoMensajeUsuario.content);
           if (textoLimpio) {
-            res = (await consultarProductoHandler({ producto: textoLimpio })) as typeof res;
+            res = (await consultarProductoHandler({ producto: textoLimpio, language: idiomaDetectado })) as typeof res;
           }
         }
         if (res.encontrado) {
-          memoryContext += `\n\nDATO DE PRECIO YA VERIFICADO para este turno (producto "${res.titulo}"): precio real = ${res.precioFormateado ?? "no hay precio registrado todavía, no inventes uno"}${res.cantidadBase ? `, presentación real = ${res.cantidadBase}` : ""}. Si respondes sobre precio, usa este precioFormateado tal cual, literal, siempre en pesos mexicanos (nunca en dólares, nunca con punto de miles). Si mencionas la presentación y viene como "Contenedor / Detalle" (ej. "Bolsa / 20 sobres individuales"), exprésala como "un/una {contenedor} con {detalle}" (ej. "una bolsa con 20 sobres individuales"), nunca como "presentación de X".`;
+          // Idioma (2026-09-12): este refuerzo determinista estaba SIEMPRE
+          // en español -- causa raíz real confirmada, competía contra la
+          // instrucción de idioma en cada pregunta de precio. El precio/
+          // monto real nunca se traduce, solo la instrucción que lo rodea
+          // (ver priceIntent.ts#construirRefuerzoPrecio).
+          memoryContext += construirRefuerzoPrecio(idiomaDetectado, {
+            titulo: res.titulo ?? "",
+            precioFormateado: res.precioFormateado ?? null,
+            cantidadBase: res.cantidadBase ?? null,
+          });
         }
       } catch {
         // red de seguridad best-effort -- nunca debe romper la respuesta normal

@@ -12,6 +12,8 @@
 // debe poder) llamarla también; esto es un refuerzo, no un reemplazo.
 // Nunca hardcodea un producto concreto -- funciona igual para cualquiera.
 
+import type { IdiomaConversacion } from "./languageDetection";
+
 const PRICE_PHRASES = [
   "cu[aá]nto\\s+(cuesta[n]?|vale[n]?|sale[n]?)",
   "qu[eé]\\s+precio",
@@ -49,4 +51,27 @@ export function textoSinRuidoDePrecio(texto: string): string {
     .replace(RUIDO_REGEX, " ")
     .replace(/\s+/g, " ")
     .trim();
+}
+
+// construirRefuerzoPrecio (2026-09-12, "Idioma + Nombre visible"): el
+// bloque de refuerzo determinista de precio que handler.ts inyecta en
+// memoryContext estaba SIEMPRE en español, sin importar el idioma real de
+// la conversación -- causa raíz confirmada, competía directamente contra
+// la instrucción de idioma del system prompt en cada pregunta de precio.
+// Extraído a función pura (testable, sin tocar la lógica de detección de
+// intención de precio de arriba) -- el precio/monto real NUNCA se traduce
+// ni se recalcula aquí, solo cambia el idioma de la INSTRUCCIÓN que lo
+// acompaña.
+export function construirRefuerzoPrecio(
+  language: IdiomaConversacion,
+  datos: { titulo: string; precioFormateado: string | null; cantidadBase: string | null }
+): string {
+  if (language === "en") {
+    const precio = datos.precioFormateado ?? "no price on file yet, do not invent one";
+    const presentacion = datos.cantidadBase ? `, real presentation = ${datos.cantidadBase}` : "";
+    return `\n\nVERIFIED PRICE DATA for this turn (product "${datos.titulo}"): real price = ${precio}${presentacion}. If you mention price, use this exact figure literally, always in Mexican pesos (never dollars, never a thousands dot). If you mention the presentation and it comes as "Container / Detail" (e.g. "Bag / 20 individual sachets"), say "a {container} with {detail}", never "presentation of X".`;
+  }
+  const precio = datos.precioFormateado ?? "no hay precio registrado todavía, no inventes uno";
+  const presentacion = datos.cantidadBase ? `, presentación real = ${datos.cantidadBase}` : "";
+  return `\n\nDATO DE PRECIO YA VERIFICADO para este turno (producto "${datos.titulo}"): precio real = ${precio}${presentacion}. Si respondes sobre precio, usa este precioFormateado tal cual, literal, siempre en pesos mexicanos (nunca en dólares, nunca con punto de miles). Si mencionas la presentación y viene como "Contenedor / Detalle" (ej. "Bolsa / 20 sobres individuales"), exprésala como "un/una {contenedor} con {detalle}" (ej. "una bolsa con 20 sobres individuales"), nunca como "presentación de X".`;
 }

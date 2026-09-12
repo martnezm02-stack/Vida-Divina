@@ -33,6 +33,30 @@ test("consultarProducto: trae contenido real, nunca inventado", async () => {
   assert.ok((res.contenido as string).length > 50);
 });
 
+// Idioma (2026-09-12, "Idioma + Nombre visible"): executeTool() reenvía
+// `language` (context.language) hasta el handler real -- de punta a punta,
+// vía la misma función real que usa openrouter.ts, nunca un atajo directo
+// al handler que se salte esta capa.
+test("executeTool: reenvía context.language al handler real -- consultarProducto responde con nombreParaCliente/message por idioma", async () => {
+  const { executeTool } = await import("../src/lib/tools/index");
+  const conversationId = await testConversationId();
+
+  const resEs = await executeTool("consultarProducto", { producto: "Ripped" }, { conversationId, language: "es" });
+  assert.equal(resEs.nombreParaCliente, "Cápsulas Ripped");
+  assert.match(resEs.message as string, /Nombre a usar con el cliente/i);
+
+  const resEn = await executeTool("consultarProducto", { producto: "Ripped" }, { conversationId, language: "en" });
+  assert.equal(resEn.nombreParaCliente, "Ripped Capsules");
+  assert.match(resEn.message as string, /Name to use with the client/i);
+});
+
+test("executeTool: sin language explícito -> default 'es' (compatibilidad, comportamiento de siempre)", async () => {
+  const { executeTool } = await import("../src/lib/tools/index");
+  const conversationId = await testConversationId();
+  const res = await executeTool("consultarProducto", { producto: "Ripped" }, { conversationId });
+  assert.equal(res.nombreParaCliente, "Cápsulas Ripped");
+});
+
 test("buscarTestimonios: contra el registry real", async () => {
   const { executeTool } = await import("../src/lib/tools/index");
   const conversationId = await testConversationId();

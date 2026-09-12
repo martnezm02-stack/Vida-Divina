@@ -116,3 +116,35 @@ test("Consumidor real: generador manual de voz (voiceGenerator.js) envía contex
   // real tal cual quedó escrito en el archivo.
   assert.ok(src.includes("generateNewVoiceover({ text, voiceParams: { voiceProfileId }, context: 'manual' })"));
 });
+
+// ============================================================
+// Idioma real de la respuesta -> Voice Engine (2026-09-12, "Idioma +
+// Nombre visible"): hermes-kit ya pasa `language: idiomaDetectado` dentro
+// de `voiceParams` (ver src/lib/vidaDivina/voiceEngineClient.ts) -- aquí se
+// confirma, contra la construcción REAL del body de /v1/speak (mock de
+// http.request, sin red real), que ese `language` dinámico ("es"/"en")
+// llega literal, y que `context` sigue siendo "whatsapp" sin cambios.
+// ============================================================
+
+test("generateNewVoiceover: language='en' en voiceParams llega literal al body real de POST /v1/speak, junto con context='whatsapp' sin alterar", async () => {
+  const { generateNewVoiceover } = await import("../server/lib/voiceEngineClient.js");
+  mockHttpRequestCapturandoBody();
+  await generateNewVoiceover({ text: "hello", voiceParams: { language: "en" }, context: "whatsapp" }).catch(() => {});
+  assert.equal(cuerposCapturados.length, 1);
+  assert.equal(cuerposCapturados[0].language, "en");
+  assert.equal(cuerposCapturados[0].context, "whatsapp");
+});
+
+test("generateNewVoiceover: language='es' en voiceParams llega literal al body real de POST /v1/speak", async () => {
+  const { generateNewVoiceover } = await import("../server/lib/voiceEngineClient.js");
+  mockHttpRequestCapturandoBody();
+  await generateNewVoiceover({ text: "hola", voiceParams: { language: "es" }, context: "whatsapp" }).catch(() => {});
+  assert.equal(cuerposCapturados.length, 1);
+  assert.equal(cuerposCapturados[0].language, "es");
+});
+
+test("Consumidor real: Hermes/WhatsApp (voiceEngineClient.ts) reenvía voiceProfile.language tal cual, sin fijarlo -- context sigue siendo 'whatsapp' fijo", () => {
+  const src = leer("hermes-kit/src/lib/vidaDivina/voiceEngineClient.ts");
+  assert.match(src, /generateNewVoiceover\(\{[^}]*text[^}]*voiceParams:\s*voiceProfile/);
+  assert.match(src, /context:\s*"whatsapp"/);
+});

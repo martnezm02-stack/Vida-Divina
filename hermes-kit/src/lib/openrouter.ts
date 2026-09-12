@@ -366,6 +366,7 @@ export async function generateReply(input: GenerateReplyInput): Promise<string> 
 
       const result = await executeTool(name, parsed, {
         conversationId: input.conversationId,
+        language: input.language ?? "es",
       });
 
       // Log de diagnóstico: qué tool llamó el modelo y con qué resultado.

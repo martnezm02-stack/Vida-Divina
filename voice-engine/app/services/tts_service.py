@@ -76,7 +76,13 @@ async def generate_speech(
     # para todos, ver ese archivo) -- asi, cuando se decida tener una regla
     # especifica por contexto, se agrega ahi, en un solo lugar, sin volver
     # a tocar generate_speech() ni a ningun consumidor.
-    text = normalizar_texto_para_tts(text, context=context)
+    #
+    # language (2026-09-12, hallazgo real: la respuesta en ingles y
+    # `language="en"` ya llegaban correctos hasta aqui, pero el precio se
+    # seguia pronunciando en espanol porque esta llamada nunca lo pasaba) --
+    # ahora decide en que idioma se pronuncia el precio, ver
+    # tts_text_normalization.py#normalizar_precios_para_voz.
+    text = normalizar_texto_para_tts(text, context=context, language=language)
 
     loop = asyncio.get_running_loop()
     timeout_s = estimate_timeout_seconds(text)
