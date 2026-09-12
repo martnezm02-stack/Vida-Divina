@@ -33,18 +33,18 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 18px 32px;
+  padding: 20px 48px;
   flex-wrap: wrap;
   gap: 16px;
   border-bottom: 3px solid var(--gold);
 }
 .brand { display: flex; align-items: center; gap: 12px; }
-.brand-mark { color: var(--gold); font-size: 28px; }
 .brand-text { display: flex; flex-direction: column; line-height: 1.15; }
 .brand-name { font-family: var(--font-display); font-size: 20px; letter-spacing: 2px; font-weight: 700; }
 .brand-sub { font-size: 12px; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); }
+.brand-logo { height: 46px; width: 46px; object-fit: cover; border-radius: 50%; }
 
-.topnav { display: flex; gap: 4px; flex-wrap: wrap; }
+.topnav { display: flex; gap: 6px; flex-wrap: wrap; }
 .navbtn {
   background: transparent;
   border: 1px solid transparent;
