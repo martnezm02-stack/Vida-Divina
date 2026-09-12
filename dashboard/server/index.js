@@ -39,6 +39,7 @@ import {
   handleProgramSchedule, handleCancelSchedule, handleRunSchedulerNow, handleMediaHostingStatus,
 } from './routes/scheduling.js';
 import { publishingScheduler } from './lib/schedulerInstance.js';
+import { handleVoiceProfiles, handleGenerateVoiceAsset, handleSaveVoiceAsset, handleListVoiceAssets } from './routes/voiceGenerator.js';
 import { loadIntegrationEnv } from './lib/integrationEnv.js';
 
 // Solo las claves de integración reales que este servidor consume (ver
@@ -97,6 +98,10 @@ const server = http.createServer(async (req, res) => {
     if (pathname === '/api/operations' && req.method === 'GET') { await handleOperations(req, res); return; }
     if (pathname === '/api/audio-assets' && req.method === 'GET') { await handleAudioAssets(req, res); return; }
     if (pathname === '/api/preview-info' && req.method === 'GET') { await handlePreviewInfo(req, res, url); return; }
+    if (pathname === '/api/voice-generator/profiles' && req.method === 'GET') { await handleVoiceProfiles(req, res); return; }
+    if (pathname === '/api/voice-generator/generate' && req.method === 'POST') { await handleGenerateVoiceAsset(req, res); return; }
+    if (pathname === '/api/voice-generator/save-asset' && req.method === 'POST') { await handleSaveVoiceAsset(req, res); return; }
+    if (pathname === '/api/voice-generator/assets' && req.method === 'GET') { await handleListVoiceAssets(req, res); return; }
 
     if (pathname === '/api/create' && req.method === 'POST') { await handleCreate(req, res); return; }
     if (pathname === '/api/edit' && req.method === 'POST') { await handleEdit(req, res); return; }

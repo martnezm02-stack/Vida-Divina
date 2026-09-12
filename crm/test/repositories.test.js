@@ -413,6 +413,32 @@ describe('handoffRepository', () => {
     assert.equal(segundoIntento, null);
   });
 
+  test('listPendientes: trae handoffs sin resolver de CUALQUIER conversación, más recientes primero (FASE "Alerta interna de handoff")', async () => {
+    const { conversation: conv1 } = await crearConversacionDePrueba('5215500000010');
+    const { conversation: conv2 } = await crearConversacionDePrueba('5215500000011');
+
+    const h1 = await handoffRepository.insertHandoff(pool, { conversationId: conv1.conversationId, motivo: 'primero' });
+    const h2 = await handoffRepository.insertHandoff(pool, { conversationId: conv2.conversationId, motivo: 'segundo' });
+
+    const pendientes = await handoffRepository.listPendientes(pool);
+    assert.equal(pendientes.length, 2);
+    assert.deepEqual(pendientes.map((p) => p.handoffId), [h2.handoffId, h1.handoffId]);
+
+    // Un handoff resuelto ya no aparece en la bandeja de alertas.
+    await handoffRepository.resolveHandoff(pool, h1.handoffId, { resueltoPor: 'asesor_manual' });
+    const pendientesTrasResolver = await handoffRepository.listPendientes(pool);
+    assert.equal(pendientesTrasResolver.length, 1);
+    assert.equal(pendientesTrasResolver[0].handoffId, h2.handoffId);
+  });
+
+  test('listPendientes respeta el límite', async () => {
+    const { conversation } = await crearConversacionDePrueba('5215500000012');
+    await handoffRepository.insertHandoff(pool, { conversationId: conversation.conversationId, motivo: 'a' });
+    await handoffRepository.insertHandoff(pool, { conversationId: conversation.conversationId, motivo: 'b' });
+    const pendientes = await handoffRepository.listPendientes(pool, { limit: 1 });
+    assert.equal(pendientes.length, 1);
+  });
+
   test('conversations.handoff_pendiente_id puede apuntar a un handoff real', async () => {
     const { conversation } = await crearConversacionDePrueba();
     const handoff = await handoffRepository.insertHandoff(pool, {

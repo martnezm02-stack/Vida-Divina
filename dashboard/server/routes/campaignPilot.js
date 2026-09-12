@@ -47,7 +47,7 @@ async function buildGenerationInputs(body) {
   let audioSourcePath, audioDurationSeconds;
   if (audioSource === 'generate') {
     try {
-      const resultado = await generateNewVoiceover({ text: voiceoverText });
+      const resultado = await generateNewVoiceover({ text: voiceoverText, context: 'advertisement' });
       audioSourcePath = resultado.resolvedPath;
       audioDurationSeconds = resultado.durationSeconds;
     } catch (err) {

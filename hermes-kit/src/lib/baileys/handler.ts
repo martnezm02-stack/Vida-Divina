@@ -5,11 +5,13 @@ import fs from "node:fs";
 import {
   getOrCreateConversation,
   getConversationById,
+  getConversationByPhone,
   insertMessage,
   getRecentHistory,
   getSetting,
   reconcileLidToPn,
   insertVoiceCall,
+  setConversationLanguage,
 } from "../db";
 import type { Message } from "../db";
 import { generateReply } from "../openrouter";
@@ -23,6 +25,7 @@ import { decideResponseMode } from "../vidaDivina/responseMode";
 import { generateVoice } from "../vidaDivina/voiceEngineClient";
 import { detectarIntencionCompraClara } from "../vidaDivina/purchaseIntent";
 import { detectarIntencionPrecio, textoSinRuidoDePrecio } from "../vidaDivina/priceIntent";
+import { detectarIdioma, idiomaEfectivo } from "../vidaDivina/languageDetection";
 import { ejecutarHandoffReal, FRASE_CIERRE_COMPRA_EXACTA } from "../tools/derivar-humano";
 import { consultarProductoHandler } from "../tools/consultar-producto";
 
@@ -117,13 +120,23 @@ export async function handleIncomingMessages(
     }
     if (!remoteJid.endsWith("@s.whatsapp.net") && !remoteJid.endsWith("@lid")) continue;
 
+    // Teléfono real, calculado temprano (puro, sin efectos secundarios --
+    // nunca crea nada en DB) para poder pasarle a la transcripción el
+    // idioma YA conocido de esta conversación como pista (ver
+    // languageDetection.ts) -- getConversationByPhone es de solo lectura,
+    // nunca crea una fila nueva (a diferencia de getOrCreateConversation,
+    // que sigue ejecutándose más abajo, en su mismo punto de siempre).
+    const senderPnTemprano = msg.key.senderPn ?? undefined;
+    const phone = canonicalPhone(remoteJid, senderPnTemprano);
+
     // Texto directo o, si es nota de voz, la transcripción.
     let text = msg.message?.conversation ?? msg.message?.extendedTextMessage?.text ?? null;
     const isAudio = Boolean(msg.message?.audioMessage);
     const isImage = Boolean(msg.message?.imageMessage);
 
     if ((!text || text.trim() === "") && isAudio) {
-      text = await transcribeIncomingAudio(sock, msg, remoteJid);
+      const idiomaConocido = idiomaEfectivo(getConversationByPhone(phone)?.language);
+      text = await transcribeIncomingAudio(sock, msg, remoteJid, idiomaConocido);
       if (text === null) continue; // ya se respondió al lead pidiendo texto
     }
 
@@ -152,10 +165,8 @@ export async function handleIncomingMessages(
       continue;
     }
 
-    const senderPn = msg.key.senderPn ?? undefined;
-    const phone = canonicalPhone(remoteJid, senderPn);
     if (remoteJid.endsWith("@lid")) {
-      if (senderPn) {
+      if (senderPnTemprano) {
         logger.info(`[bot] @lid resuelto a número real ${phoneMasked(phone)}`);
         // Reconcilia una conversación antigua creada bajo el LID (antes de este
         // arreglo): la re-indexa o fusiona con la del número real, sin duplicar.
@@ -242,6 +253,25 @@ async function generateAndSend(
     // había un handoff pendiente para esta conversación, ejecutarHandoffReal
     // no crea uno nuevo ni dispara otra alerta (ver crmClient.ts).
     const ultimoMensajeUsuario = [...history].reverse().find((m) => m.role === "user");
+
+    // Idioma real de esta conversación (2026-09-12, "idioma de la
+    // conversación") -- detección determinista local, NUNCA vía LLM (ver
+    // languageDetection.ts). Se recalcula y se persiste EN CADA TURNO
+    // (nunca solo la primera vez): si el cliente cambia de idioma, el
+    // siguiente turno ya responde en el nuevo idioma. Un mensaje ambiguo
+    // conserva el idioma previo tal cual (nunca lo cambia sin evidencia).
+    const idiomaPrevio = idiomaEfectivo(fresh.language);
+    const idiomaDetectado = ultimoMensajeUsuario
+      ? detectarIdioma(ultimoMensajeUsuario.content, idiomaPrevio)
+      : idiomaPrevio;
+    if (idiomaDetectado !== fresh.language) {
+      try {
+        setConversationLanguage(conversationId, idiomaDetectado);
+      } catch {
+        // nunca debe romper la respuesta -- en el peor caso, el próximo turno lo reintenta
+      }
+    }
+
     if (ultimoMensajeUsuario && detectarIntencionCompraClara(ultimoMensajeUsuario.content)) {
       const resultado = await ejecutarHandoffReal({
         conversationId,
@@ -320,6 +350,7 @@ async function generateAndSend(
       memoryContext,
       turnMessageId: ultimoMensajeUsuario?.id ?? null,
       phone,
+      language: idiomaDetectado,
     });
     if (!reply || reply.trim() === "") {
       logger.warn("[bot] LLM devolvió respuesta vacía, envío aviso suave");
@@ -372,7 +403,12 @@ async function generateAndSend(
           // el registro de métricas nunca debe romper la respuesta
         }
       } else {
-        const voz = await generateVoice(textoParaVoz);
+        // language (2026-09-12): la voz debe sonar en el mismo idioma real
+        // de la respuesta textual -- antes siempre caía al default "es" del
+        // Voice Engine, sin importar el idioma real de esta conversación.
+        // context sigue siendo "whatsapp" siempre (sin cambios, ver
+        // voiceEngineClient.ts) -- son dos parámetros independientes.
+        const voz = await generateVoice(textoParaVoz, { language: idiomaDetectado });
         if (voz.ok) {
           try {
             await sock.sendMessage(jid, {
@@ -448,7 +484,8 @@ async function generateAndSend(
 async function transcribeIncomingAudio(
   sock: WASocket,
   msg: WAMessage,
-  jid: string
+  jid: string,
+  idiomaConocido?: "es" | "en"
 ): Promise<string | null> {
   // Audios desactivados desde Ajustes, o sin transcripción disponible.
   if (getSetting("audio_enabled") === "0" || !transcriptionConfigured()) {
@@ -468,7 +505,7 @@ async function transcribeIncomingAudio(
       { logger, reuploadRequest: sock.updateMediaMessage }
     )) as Buffer;
 
-    const text = await transcribeAudio(buffer);
+    const text = await transcribeAudio(buffer, "ogg", idiomaConocido);
     if (text && text.trim()) return text.trim();
   } catch (err) {
     logger.error(

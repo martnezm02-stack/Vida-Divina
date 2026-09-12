@@ -3,6 +3,7 @@ import { buildSystemPrompt } from "./system-prompt";
 import { toolDefinitions, executeTool } from "./tools";
 import { insertUsage, insertUsageCall, getSetting } from "./db";
 import { isAdminPhone } from "./vidaDivina/identity";
+import type { IdiomaConversacion } from "./vidaDivina/languageDetection";
 import type { Message } from "./db";
 
 const MODEL = process.env.OPENROUTER_MODEL ?? "openai/gpt-4o-mini";
@@ -182,6 +183,13 @@ interface GenerateReplyInput {
   // toolsForPhone). Sin él, se ofrecen las 22 tools completas (default
   // seguro, igual que el comportamiento de siempre).
   phone?: string | null;
+  // Idioma real detectado de esta conversación en este turno ("es"|"en",
+  // ver languageDetection.ts) -- decide la instrucción de idioma real del
+  // system prompt (buildSystemPrompt). Nunca detectado aquí ni por el LLM:
+  // ya viene decidido por handler.ts antes de llamar a esta función.
+  // Opcional para no romper otros llamadores; sin él, "es" (comportamiento
+  // de siempre).
+  language?: IdiomaConversacion;
 }
 
 // "usage: { include: true }" es una extensión real de OpenRouter (no
@@ -200,7 +208,7 @@ type ChatParams = OpenAI.Chat.Completions.ChatCompletionCreateParamsNonStreaming
  */
 export async function generateReply(input: GenerateReplyInput): Promise<string> {
   const client = getClient();
-  const systemPrompt = buildSystemPrompt(input.memoryContext);
+  const systemPrompt = buildSystemPrompt(input.memoryContext, input.language ?? "es");
 
   // Mapeo de roles: 'human' (mensajes del dashboard) → 'assistant' para el LLM
   // El LLM los ve como sus propias respuestas previas

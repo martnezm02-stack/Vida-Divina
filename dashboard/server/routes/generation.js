@@ -151,7 +151,7 @@ export async function handleCreate(req, res) {
   let audioDurationSeconds;
   if (audioSource === 'generate') {
     try {
-      const resultado = await generateNewVoiceover({ text: voiceoverText });
+      const resultado = await generateNewVoiceover({ text: voiceoverText, context: 'video' });
       audioSourcePath = resultado.resolvedPath;
       audioDurationSeconds = resultado.durationSeconds;
     } catch (err) {
@@ -1587,7 +1587,7 @@ export async function handleProduceCreative(req, res) {
   let audioSourcePath;
   let audioDurationSeconds;
   try {
-    const resultado = await generateNewVoiceover({ text: voiceoverTextFinal });
+    const resultado = await generateNewVoiceover({ text: voiceoverTextFinal, context: 'advertisement' });
     audioSourcePath = resultado.resolvedPath;
     audioDurationSeconds = resultado.durationSeconds;
   } catch (err) {
@@ -1742,7 +1742,7 @@ export async function handleProduceCreativeStart(req, res) {
       let audioSourcePath;
       let audioDurationSeconds;
       try {
-        const resultado = await generateNewVoiceover({ text: voiceoverTextFinal });
+        const resultado = await generateNewVoiceover({ text: voiceoverTextFinal, context: 'advertisement' });
         audioSourcePath = resultado.resolvedPath;
         audioDurationSeconds = resultado.durationSeconds;
       } catch (err) {

@@ -104,6 +104,39 @@ function tokenizarConsulta(s: string): string[] {
   return tokenizar(s).filter((t) => !PALABRAS_VACIAS.has(t));
 }
 
+// Fallback de tolerancia a errores tipográficos/de transcripción de voz
+// (hallazgo real, 2026-09-11: "Ripet" -- transcripción real de Gemini de
+// "Ripped" -- no resolvía contra "Ripped Capsules"; ninguna de las
+// coincidencias de arriba tolera una diferencia de ortografía). Distancia
+// de edición (Levenshtein) local, determinista, sin embeddings ni LLM.
+const FUZZY_MIN_TOKEN_LEN = 4; // por debajo de esto, demasiado riesgo de falso positivo -- fuzzy desactivado
+
+function levenshtein(a: string, b: string): number {
+  const m = a.length;
+  const n = b.length;
+  if (m === 0) return n;
+  if (n === 0) return m;
+  const dp = new Array<number>(n + 1);
+  for (let j = 0; j <= n; j++) dp[j] = j;
+  for (let i = 1; i <= m; i++) {
+    let prevDiag = dp[0];
+    dp[0] = i;
+    for (let j = 1; j <= n; j++) {
+      const temp = dp[j];
+      dp[j] = a[i - 1] === b[j - 1] ? prevDiag : 1 + Math.min(prevDiag, dp[j], dp[j - 1]);
+      prevDiag = temp;
+    }
+  }
+  return dp[n];
+}
+
+/** Umbral conservador por longitud de palabra -- cuanto más larga, un poco más de tolerancia. */
+function umbralFuzzy(len: number): number {
+  if (len < FUZZY_MIN_TOKEN_LEN) return 0;
+  if (len <= 6) return 2;
+  return 3;
+}
+
 /** Todas las entidades tipo "producto" del Knowledge Package real. */
 async function allProducts(): Promise<CompiledEntity[]> {
   const { entityById } = await loadKnowledge();
@@ -189,6 +222,41 @@ export async function searchKnowledge(query: string, opts: { limit?: number } = 
     }
     if (score > 0) scored.push({ score, entity: p });
   }
+
+  // Fallback fuzzy (SOLO si ninguna coincidencia exacta/substring/conjunto
+  // de tokens de arriba encontró NADA -- nunca compite con ellas, nunca
+  // reordena un resultado ya válido). Prioriza título sobre palabras clave,
+  // mismo criterio de pesos relativos que el resto del archivo (título más
+  // fuerte que keyword), siempre por debajo de +10 para no poder superar
+  // ninguna coincidencia real de las ramas anteriores si alguna vez se
+  // combinaran.
+  if (scored.length === 0 && qTokens.length > 0) {
+    for (const p of products) {
+      let score = 0;
+      const tituloTokens = tokenizar(p.titulo);
+      for (const qt of qTokens) {
+        if (qt.length < FUZZY_MIN_TOKEN_LEN) continue;
+        for (const tt of tituloTokens) {
+          if (tt.length < FUZZY_MIN_TOKEN_LEN) continue;
+          const dist = levenshtein(qt, tt);
+          if (dist <= umbralFuzzy(Math.max(qt.length, tt.length))) {
+            score = Math.max(score, 6 - dist);
+          }
+        }
+        for (const kw of p.palabras_clave ?? []) {
+          for (const kt of tokenizar(kw)) {
+            if (kt.length < FUZZY_MIN_TOKEN_LEN) continue;
+            const dist = levenshtein(qt, kt);
+            if (dist <= umbralFuzzy(Math.max(qt.length, kt.length))) {
+              score = Math.max(score, 5 - dist);
+            }
+          }
+        }
+      }
+      if (score > 0) scored.push({ score, entity: p });
+    }
+  }
+
   scored.sort((a, b) => b.score - a.score);
   return scored.slice(0, limit).map(({ entity }) => ({
     id: entity.id,

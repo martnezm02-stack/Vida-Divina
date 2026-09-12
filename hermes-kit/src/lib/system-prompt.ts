@@ -1,11 +1,23 @@
 import path from "node:path";
 import fs from "node:fs";
+import type { IdiomaConversacion } from "./vidaDivina/languageDetection";
 
 const NEGOCIO_PATH = path.resolve(process.cwd(), "prompts", "negocio.md");
 
-const FALLBACK_PROMPT = `
+// Instrucción de idioma (2026-09-12, "idioma de la conversación"):
+// reemplaza la regla rígida anterior ("responde siempre en español") --
+// ver prompts/negocio.md, sección "Reglas de seguridad". `language` viene
+// de una detección determinista real por mensaje (nunca del LLM, ver
+// languageDetection.ts), así que esta instrucción solo declara qué hacer
+// con ese dato ya decidido, corta a propósito (no un prompt largo).
+function idiomaInstruccion(language: IdiomaConversacion): string {
+  const nombreIdioma = language === "en" ? "inglés" : "español";
+  return `**Idioma de esta respuesta: ${nombreIdioma}.** Es el idioma real detectado del último mensaje de este cliente -- respóndele en ${nombreIdioma}. Si en su SIGUIENTE mensaje escribe en otro idioma, tu siguiente respuesta cambia con él. Nunca mezcles dos idiomas dentro del mismo mensaje. Los nombres propios y de producto conservan la forma comercial que corresponda, sin traducirlos a la fuerza.`;
+}
+
+const FALLBACK_PROMPT_BASE = `
 Eres un asistente virtual amable que responde mensajes de WhatsApp.
-Responde en español neutro, en mensajes breves de 2 a 4 líneas.
+Responde en mensajes breves de 2 a 4 líneas.
 No uses emojis.
 
 Si el usuario te pregunta algo que no sabes con seguridad, dilo con honestidad
@@ -24,9 +36,9 @@ que se cargará automáticamente en tu lugar.
  * anteriores (memoria de largo plazo desde Supabase). Se inyecta arriba del todo
  * para que el agente salude por su nombre y retome, en vez de empezar de cero.
  */
-export function buildSystemPrompt(memoryContext = ""): string {
+export function buildSystemPrompt(memoryContext = "", language: IdiomaConversacion = "es"): string {
   if (!fs.existsSync(NEGOCIO_PATH)) {
-    return FALLBACK_PROMPT;
+    return `${FALLBACK_PROMPT_BASE}\n\n${idiomaInstruccion(language)}`;
   }
 
   const negocio = fs.readFileSync(NEGOCIO_PATH, "utf-8");
@@ -34,6 +46,8 @@ export function buildSystemPrompt(memoryContext = ""): string {
 
   return `
 Eres el asistente virtual de un negocio. Tu trabajo es atender los mensajes que llegan por WhatsApp, resolver dudas y calificar leads. Resuelves tú mismo todo lo que puedas resolver con tus herramientas reales; cuando el negocio lo indique (ver más abajo) o el lead pida algo fuera de tu alcance, derivas a un humano con la tool correspondiente en vez de improvisar.
+
+${idiomaInstruccion(language)}
 
 Tienes memoria: recuerdas las conversaciones anteriores con cada persona. NUNCA digas que no tienes memoria, que no guardas historial, ni que "cada chat empieza de cero" — eso es falso y queda fatal. Si alguien te pregunta si le recuerdas y arriba tienes datos suyos, salúdale por su nombre y retoma; si no tienes datos previos, es que es la primera vez que habláis: preséntate con naturalidad (sin anunciar nada sobre memoria) y pregúntale su nombre.
 ${memoria}
@@ -43,7 +57,7 @@ ${negocio}
 
 ## Reglas generales de comunicación
 
-- Escribe como una PERSONA real por WhatsApp: natural, cercano, en español, con frases cortas
+- Escribe como una PERSONA real por WhatsApp: natural, cercano, con frases cortas (ver arriba en qué idioma responder este turno)
 - Mensajes CORTOS de verdad: 2 o 3 frases por mensaje como mucho. Una pregunta a la vez
 - Si necesitas decir varias cosas (o el lead te pregunta varias a la vez), NO sueltes un ladrillo ni una lista con viñetas: pártelo en 2 o 3 mensajes cortos separados por ||| (tres barras), una idea por mensaje
 - NADA de emojis

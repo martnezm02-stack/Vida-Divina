@@ -9,9 +9,9 @@ import { join, extname } from 'node:path';
 import { ALLOWED_MEDIA_ROOTS, resolveSafeMediaPath } from '../lib/safePaths.js';
 import { notFound } from '../lib/http.js';
 
-const CONTENT_TYPES = { '.mp4': 'video/mp4', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.png': 'image/png', '.webp': 'image/webp', '.wav': 'audio/wav' };
+const CONTENT_TYPES = { '.mp4': 'video/mp4', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.png': 'image/png', '.webp': 'image/webp', '.wav': 'audio/wav', '.ogg': 'audio/ogg' };
 
-const ROOT_NAME_TO_INDEX = { 'assets-products': 0, 'video-production': 1 };
+const ROOT_NAME_TO_INDEX = { 'assets-products': 0, 'video-production': 1, 'commercial-media-incoming': 2 };
 
 export async function handleMedia(req, res, urlPath) {
   // urlPath = "/media/<rootName>/<...resto codificado>"

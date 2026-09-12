@@ -149,7 +149,7 @@ export async function handleRegenerateSceneVoice(req, res, projectId, sceneId) {
   // producción original).
   let resultadoVoz;
   try {
-    resultadoVoz = await generateNewVoiceover({ text: voiceoverText, voiceParams: scene.voiceTrack?.voiceParams ?? undefined });
+    resultadoVoz = await generateNewVoiceover({ text: voiceoverText, voiceParams: scene.voiceTrack?.voiceParams ?? undefined, context: 'video' });
   } catch (err) {
     sendJson(res, 200, { status: 'SOURCE_ASSET_REQUIRED', error: err.message });
     return;

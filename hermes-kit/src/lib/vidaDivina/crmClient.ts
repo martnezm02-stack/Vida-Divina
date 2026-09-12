@@ -21,6 +21,7 @@ import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { REPO_ROOT } from "./productKnowledge";
 import type { Attribution } from "./attribution";
+import { getConversationByPhone } from "../db";
 
 const CRM_INDEX_PATH = path.join(REPO_ROOT, "crm", "index.js");
 
@@ -39,6 +40,12 @@ export function crmConfigured(): boolean {
 
 const TIPO_CANAL = "whatsapp";
 const HERMES_SOURCE = "TEST"; // ver nota de cabecera -- nunca 'REAL' desde Hermes en esta fase.
+
+// Ventana de deduplicación real de handoffToHuman() (hallazgo 2026-09-11,
+// ver el uso más abajo): un handoff pendiente creado dentro de esta ventana
+// se trata como "mismo evento" (no se duplica el aviso); uno más antiguo
+// nunca bloquea un handoff nuevo, sin importar que siga sin resolver.
+const HANDOFF_DEDUP_WINDOW_MS = 30 * 60 * 1000; // 30 min, mismo criterio real que watchdog.ts#REALERT_SEC
 
 export interface ConversationContext {
   customerId: string;
@@ -432,15 +439,29 @@ export async function handoffToHuman(
       await mirrorHistoryToCrm(ctx.conversationId, opts.mensajes ?? [], opts.media ?? []);
     }
 
-    // Idempotencia REAL (hallazgo 2026-09-08): si esta conversación ya
-    // tiene un handoff sin resolver, no se crea una fila nueva ni se
-    // dispara otra alerta -- tanto el detector determinista de intención
-    // de compra como el propio LLM (vía la tool) pueden intentar derivar
-    // la misma conversación; ambos caminos pasan por aquí, un solo punto
-    // de verdad.
+    // Idempotencia REAL (hallazgo 2026-09-08, acotada por tiempo 2026-09-11):
+    // si esta conversación ya tiene un handoff sin resolver MUY RECIENTE, no
+    // se crea una fila nueva ni se dispara otra alerta -- tanto el detector
+    // determinista de intención de compra como el propio LLM (vía la tool)
+    // pueden intentar derivar la misma conversación EN EL MISMO EVENTO;
+    // ambos caminos pasan por aquí, un solo punto de verdad.
+    //
+    // Hallazgo real (2026-09-11): sin ventana de tiempo, un handoff pendiente
+    // de DÍAS antes (nunca resuelto -- ver resolveHandoff más abajo, antes
+    // no operativo desde el Dashboard) bloqueaba SILENCIOSAMENTE cualquier
+    // handoff nuevo de esa conversación, aunque fuera un evento totalmente
+    // distinto -- "duplicado" pasó a significar "cualquier pendiente
+    // histórico", no "el mismo evento". HANDOFF_DEDUP_WINDOW_MS acota la
+    // idempotencia a su propósito real: evitar el doble aviso del MISMO
+    // evento (segundos de diferencia), nunca bloquear eventos futuros no
+    // relacionados. listPendientesByConversationId ya viene ordenado
+    // ascendente por creado_en -- el más reciente es el último elemento.
     const pendientes = await c.handoffs.listPendientesByConversationId(ctx.conversationId);
-    if (pendientes.length > 0) {
-      return { ok: true, handoffId: pendientes[0].handoffId, conversationId: ctx.conversationId, duplicate: true };
+    const masReciente = pendientes[pendientes.length - 1];
+    const esMismoEventoReciente =
+      masReciente && Date.now() - Date.parse(masReciente.creadoEn) < HANDOFF_DEDUP_WINDOW_MS;
+    if (esMismoEventoReciente) {
+      return { ok: true, handoffId: masReciente.handoffId, conversationId: ctx.conversationId, duplicate: true };
     }
 
     const handoff = await c.handoffs.insertHandoff({
@@ -449,14 +470,26 @@ export async function handoffToHuman(
       fuente: "hermes-baileys",
     });
 
-    // Alerta real al admin por WhatsApp (best-effort, nunca rompe el
-    // handoff si falla o si ALERT_WHATSAPP no está configurado -- ver
-    // watchdog.ts#alertHandoff). Solo se dispara aquí, en la rama que
+    // Alerta real al admin por WhatsApp + Telegram (best-effort, nunca
+    // rompe el handoff si alguno falla o no está configurado -- ver
+    // watchdog.ts#alertHandoff, que ya trata ambos canales como
+    // independientes entre sí). Solo se dispara aquí, en la rama que
     // realmente creó una fila nueva -- nunca en la rama duplicada de
-    // arriba.
+    // arriba (misma idempotencia real para ambos canales).
     try {
       const { alertHandoff } = await import("../watchdog");
-      await alertHandoff(`Teléfono: ${phone}\n${motivo}`);
+      // Nombre real ya conocido localmente (WhatsApp push name), si lo hay
+      // -- nunca inventado, nunca vía LLM. opts.nombre tiene prioridad si
+      // se pasó explícitamente.
+      let nombreParaAlerta = opts.nombre ?? null;
+      if (!nombreParaAlerta) {
+        try {
+          nombreParaAlerta = getConversationByPhone(phone)?.name ?? null;
+        } catch {
+          nombreParaAlerta = null;
+        }
+      }
+      await alertHandoff(phone, motivo, nombreParaAlerta);
     } catch {
       // el aviso es best-effort -- el handoff real ya quedó registrado
     }

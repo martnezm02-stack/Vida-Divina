@@ -245,7 +245,7 @@ export const DEFAULT_VOICE_PARAMS = Object.freeze({
  * consistente -- nunca varía en silencio entre la producción original y
  * una regeneración real.
  */
-export async function generateNewVoiceover({ text, voiceParams = {} }) {
+export async function generateNewVoiceover({ text, voiceParams = {}, context = 'default' }) {
   if (!text?.trim()) throw new Error('generateNewVoiceover: "text" es obligatorio.');
   const {
     voiceProfileId = DEFAULT_VOICE_PARAMS.voiceProfileId, language = DEFAULT_VOICE_PARAMS.language,
@@ -256,8 +256,25 @@ export async function generateNewVoiceover({ text, voiceParams = {} }) {
   try {
     res = await postConReintentoSeguro(
       `${VOICE_ENGINE_BASE_URL}/v1/speak`,
-      { text, language, voice_profile_id: voiceProfileId, exaggeration, cfg_weight: cfgWeight, temperature },
-      { headers: { 'x-api-key': voiceEngineApiKey() }, timeoutMs: 600_000 } // la generación real puede tardar varios minutos.
+      // context (2026-09-11, "contexto de generación de voz"): identifica de
+      // qué consumidor real viene el texto (whatsapp/advertisement/video/
+      // manual/default) -- Voice Engine hoy normaliza igual para todos
+      // (normalizar_texto_para_tts sigue siendo una sola función, sin reglas
+      // por contexto todavía); esto solo transporta el dato hasta allá para
+      // que un futuro ajuste por contexto no necesite duplicar código ni
+      // tocar a ningún consumidor otra vez. Un llamador que no lo pase
+      // (compatibilidad hacia atrás) sigue funcionando igual: cae a
+      // 'default' aquí mismo, antes de salir de este archivo.
+      { text, language, voice_profile_id: voiceProfileId, exaggeration, cfg_weight: cfgWeight, temperature, context },
+      // 1_500_000ms (25 min) -- hallazgo real 2026-09-09: con la segmentacion
+      // de texto largo (ver voice-engine/app/services/text_segmentation.py)
+      // una generacion real de 1489 caracteres (3 segmentos) tardo hasta
+      // ~1207s (~20min) en FP32/CPU -- 600s ya no alcanza. El propio techo
+      // interno de Voice Engine (MAX_TIMEOUT_S=900s, config.py, sin tocar)
+      // sigue siendo el limite real mas restrictivo para textos aun mas
+      // largos -- este timeout del Dashboard solo debe dejar de ser EL QUE
+      // corta primero, nunca whatsoever mas corto que ese techo interno.
+      { headers: { 'x-api-key': voiceEngineApiKey() }, timeoutMs: 1_500_000 }
     );
   } catch (err) {
     if (err.noReintentarPorRiesgoDeDuplicado) {

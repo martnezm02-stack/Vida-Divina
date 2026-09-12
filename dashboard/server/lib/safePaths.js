@@ -12,12 +12,17 @@ import { fileURLToPath } from 'node:url';
 export const PROJECT_ROOT = resolve(fileURLToPath(new URL('../../..', import.meta.url)));
 
 // Únicas raíces reales desde las que el dashboard puede leer/servir
-// archivos de medios (fotografías RAW, MP4 finales). Ninguna otra ruta del
-// repositorio (creative-intelligence/data, .env de cualquier módulo,
-// voice-engine/, crm/, whatsapp-adapter/) es alcanzable desde aquí.
+// archivos de medios (fotografías RAW, MP4 finales, y desde la FASE "Voice
+// Engine automático + generador de voz" también los audios/testimonios
+// reales del Commercial Media Registry). Ninguna otra ruta del repositorio
+// (creative-intelligence/data, .env de cualquier módulo, la salida CRUDA de
+// voice-engine/ en WSL2, crm/, whatsapp-adapter/) es alcanzable desde aquí
+// -- el audio generado por Voice Engine solo se sirve DESPUÉS de copiarse a
+// commercial-media/incoming/, nunca directo desde su ruta real en WSL2.
 export const ALLOWED_MEDIA_ROOTS = Object.freeze([
   resolve(PROJECT_ROOT, 'assets', 'products'),
   resolve(PROJECT_ROOT, 'video-production'),
+  resolve(PROJECT_ROOT, 'commercial-media', 'incoming'),
 ]);
 
 /**
@@ -61,7 +66,7 @@ export function toMediaUrl(absolutePath) {
   const real = resolveSafeMediaPath(absolutePath);
   if (!real) return null;
   const root = ALLOWED_MEDIA_ROOTS.find((r) => real === r || real.startsWith(r + sep));
-  const rootName = root.endsWith('products') ? 'assets-products' : 'video-production';
+  const rootName = root.endsWith('products') ? 'assets-products' : root.endsWith('incoming') ? 'commercial-media-incoming' : 'video-production';
   const relative = real.slice(root.length + 1).split(sep).join('/');
   return `/media/${rootName}/${relative.split('/').map(encodeURIComponent).join('/')}`;
 }

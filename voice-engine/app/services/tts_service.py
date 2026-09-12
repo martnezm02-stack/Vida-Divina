@@ -18,6 +18,7 @@ import torchaudio as ta
 
 from ..config import OUTPUT_DIR, estimate_timeout_seconds
 from ..models.registry import get_model, generate_speech_bf16
+from .tts_text_normalization import normalizar_texto_para_tts
 
 logger = logging.getLogger("voice_engine.tts_service")
 
@@ -59,7 +60,24 @@ async def generate_speech(
     cfg_weight: float = 0.5,
     temperature: float = 0.8,
     reference_path: Optional[Path] = None,
+    context: str = "default",
 ) -> dict:
+    # Normalizacion EXCLUSIVA de TTS (precios "$X,XXX" -> forma hablada,
+    # pronunciacion dirigida de terminos como "Ripped"/"Tongkat Ali") --
+    # ver tts_text_normalization.py. Se aplica UNA vez, aqui, antes de
+    # estimar el timeout: text_segmentation.py nunca cambia, solo recibe
+    # ya normalizado el mismo tipo de string que recibia antes.
+    #
+    # context (2026-09-11, "contexto de generacion de voz"): identifica de
+    # que consumidor real viene `text` (whatsapp/advertisement/video/manual/
+    # default). Se transporta hasta aqui y se pasa a
+    # normalizar_texto_para_tts() -- que hoy lo acepta pero NO todavia
+    # aplica ninguna regla distinta segun su valor (mismo comportamiento
+    # para todos, ver ese archivo) -- asi, cuando se decida tener una regla
+    # especifica por contexto, se agrega ahi, en un solo lugar, sin volver
+    # a tocar generate_speech() ni a ningun consumidor.
+    text = normalizar_texto_para_tts(text, context=context)
+
     loop = asyncio.get_running_loop()
     timeout_s = estimate_timeout_seconds(text)
     t0 = time.time()

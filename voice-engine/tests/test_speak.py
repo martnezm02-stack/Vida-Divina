@@ -16,7 +16,7 @@ captured_calls = []
 
 
 async def _fake_generate_speech(text, language="es", reference_path=None, **kwargs):
-    captured_calls.append({"text": text, "language": language, "reference_path": reference_path})
+    captured_calls.append({"text": text, "language": language, "reference_path": reference_path, "context": kwargs.get("context")})
     return {"path": Path("/tmp/fake_output.wav"), "elapsed_s": 0.01, "sample_rate": 24000}
 
 
@@ -119,6 +119,41 @@ def test_speak_rejects_empty_text(monkeypatch):
         )
 
     assert resp.status_code == 422
+
+
+def test_speak_context_explicito_llega_a_generate_speech(monkeypatch):
+    """Infraestructura de contexto (2026-09-11): "context" en el body real
+    de /v1/speak debe llegar tal cual a generate_speech()."""
+    monkeypatch.setattr(registry, "get_model", lambda: DummyModel())
+    monkeypatch.setattr(speak_module, "generate_speech", _fake_generate_speech)
+
+    with TestClient(app) as client:
+        resp = client.post(
+            "/v1/speak",
+            json={"text": "hola", "context": "advertisement"},
+            headers={"x-api-key": API_KEY},
+        )
+
+    assert resp.status_code == 200
+    assert captured_calls[0]["context"] == "advertisement"
+
+
+def test_speak_sin_context_usa_default_consumidor_legacy(monkeypatch):
+    """Requisito de compatibilidad: un consumidor legacy que NO envía
+    "context" en el body (como todos antes de este cambio) sigue
+    funcionando exactamente igual, con "default" implícito -- nunca un 422."""
+    monkeypatch.setattr(registry, "get_model", lambda: DummyModel())
+    monkeypatch.setattr(speak_module, "generate_speech", _fake_generate_speech)
+
+    with TestClient(app) as client:
+        resp = client.post(
+            "/v1/speak",
+            json={"text": "hola"},
+            headers={"x-api-key": API_KEY},
+        )
+
+    assert resp.status_code == 200
+    assert captured_calls[0]["context"] == "default"
 
 
 def test_speak_response_never_exposes_internal_paths(monkeypatch):

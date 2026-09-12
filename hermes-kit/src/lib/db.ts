@@ -19,6 +19,12 @@ export interface Conversation {
   name: string | null;
   jid: string | null;
   mode: ConversationMode;
+  // Idioma real detectado de esta conversación ("es" | "en") -- NULL en
+  // conversaciones anteriores a esta columna, o si nunca se detectó nada
+  // todavía. Interpretar NULL como "es" (ver languageDetection.ts#idiomaEfectivo),
+  // nunca a ciegas en el tipo -- se deja como string para no acoplar este
+  // archivo a los valores concretos que decida esa capa.
+  language: string | null;
   last_message_at: number | null;
   created_at: number;
 }
@@ -230,6 +236,13 @@ function build() {
   if (!cols.some((c) => c.name === "jid")) {
     db.exec("ALTER TABLE conversations ADD COLUMN jid TEXT");
   }
+  // Migración: columna `language` (2026-09-12, "idioma de la conversación").
+  // NULL en filas existentes -- se interpreta como "es" en la capa de
+  // aplicación (idiomaEfectivo), nunca se rellena a ciegas aquí para no
+  // inventar un dato que nunca se detectó de verdad.
+  if (!cols.some((c) => c.name === "language")) {
+    db.exec("ALTER TABLE conversations ADD COLUMN language TEXT");
+  }
 
   const obCols = db.prepare("PRAGMA table_info(outbox)").all() as Array<{ name: string }>;
   if (!obCols.some((c) => c.name === "type")) {
@@ -275,6 +288,7 @@ function build() {
     ORDER BY COALESCE(c.last_message_at, c.created_at) DESC
   `);
   const stmtSetMode = db.prepare("UPDATE conversations SET mode = ? WHERE id = ?");
+  const stmtSetLanguage = db.prepare("UPDATE conversations SET language = ? WHERE id = ?");
   // Watchdog: conversaciones en modo AI cuyo ÚLTIMO mensaje es del lead (no
   // contestado) con una antigüedad entre [newer, older] segundos. Señal directa
   // de "el bot no está respondiendo".
@@ -390,6 +404,7 @@ function build() {
     stmtGetConvById,
     stmtListConvs,
     stmtSetMode,
+    stmtSetLanguage,
     stmtUnanswered,
     stmtGetMessages,
     insertMessageTx,
@@ -445,6 +460,7 @@ export function getOrCreateConversation(
     name: name ?? null,
     jid: jid ?? null,
     mode: "AI",
+    language: null,
     last_message_at: null,
     created_at: Math.floor(Date.now() / 1000),
   };
@@ -494,6 +510,11 @@ export function getUnansweredConversations(
 
 export function setMode(conversationId: number, mode: ConversationMode): void {
   ctx().stmtSetMode.run(mode, conversationId);
+}
+
+/** Persiste el idioma real detectado de esta conversación ("es"|"en") -- ver languageDetection.ts. Se llama cada turno, nunca solo la primera vez. */
+export function setConversationLanguage(conversationId: number, language: string): void {
+  ctx().stmtSetLanguage.run(language, conversationId);
 }
 
 // ============================================================

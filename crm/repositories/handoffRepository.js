@@ -83,6 +83,25 @@ export async function listPendientesByConversationId(db, conversationId) {
 }
 
 /**
+ * Todos los handoffs SIN RESOLVER, de cualquier conversación -- la
+ * "bandeja de alertas internas" para el vendedor (FASE "Alerta interna de
+ * handoff"). Misma columna resuelto_en ya usada por listPendientesByConversationId
+ * (§ arriba), solo que sin acotar a una conversación -- no se crea una tabla
+ * ni un concepto de evento nuevo, un handoff sin resolver YA ES el evento.
+ *
+ * @param {{query: Function}} db
+ * @param {{limit?: number}} [opciones]
+ * @returns {Promise<Object[]>} más recientes primero
+ */
+export async function listPendientes(db, { limit = 50 } = {}) {
+  const { rows } = await db.query(
+    'SELECT * FROM handoffs WHERE resuelto_en IS NULL ORDER BY creado_en DESC LIMIT $1',
+    [limit]
+  );
+  return camelCaseRows(rows);
+}
+
+/**
  * Completa el desenlace de un handoff ya existente — ver nota de cabecera.
  * Solo actúa si resuelto_en todavía es NULL (no permite "resolver" dos
  * veces ni sobrescribir una resolución previa).

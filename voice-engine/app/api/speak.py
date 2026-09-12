@@ -24,6 +24,14 @@ class SpeakRequest(BaseModel):
     exaggeration: float = Field(default=0.5, ge=0.0, le=1.0)
     cfg_weight: float = Field(default=0.5, ge=0.0, le=1.0)
     temperature: float = Field(default=0.8, ge=0.05, le=2.0)
+    # Contexto de generación (2026-09-11): identifica el consumidor real
+    # (whatsapp/advertisement/video/manual/default) -- string libre, no un
+    # enum cerrado, para no romper con un 422 a un consumidor futuro que
+    # use un contexto nuevo antes de que este archivo se actualice. Hoy NO
+    # cambia ninguna regla de normalización (ver tts_text_normalization.py)
+    # -- solo se transporta hasta generate_speech() para que un ajuste por
+    # contexto futuro no necesite un segundo mecanismo.
+    context: str = Field(default="default")
 
 
 class SpeakResponse(BaseModel):
@@ -67,6 +75,7 @@ async def speak(payload: SpeakRequest, x_api_key: Optional[str] = Header(default
             cfg_weight=payload.cfg_weight,
             temperature=payload.temperature,
             reference_path=reference_path,
+            context=payload.context,
         )
     except ValueError as exc:
         raise HTTPException(status_code=422, detail=str(exc)) from exc
