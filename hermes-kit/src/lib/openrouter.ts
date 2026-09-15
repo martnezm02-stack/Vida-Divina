@@ -377,6 +377,22 @@ export async function generateReply(input: GenerateReplyInput): Promise<string> 
         }`
       );
 
+      // Invalida cualquier texto capturado en ESTE MISMO turno (hallazgo
+      // real 2026-09-17: "estoy interesado en capsulas ripped" -> "me
+      // puedes pasar los datos para pagarlas" -- el modelo escribió, junto
+      // a la tool_call de `derivarHumano`, un texto que asumía que la
+      // derivación SÍ ocurriría ("Perfecto, ya tengo lo necesario..."); el
+      // guard determinista la bloqueó (ok:false) y devolvió una
+      // `instruccion` real pidiendo continuar con crearPedido ->
+      // cerrarVentaTransferencia, pero si el modelo se detiene en un turno
+      // posterior sin escribir nada nuevo, `textoEmitido` seguía
+      // conservando ese texto YA INVÁLIDO (escrito bajo un supuesto que
+      // resultó falso) y el turno terminaba devolviéndolo como respuesta
+      // final -- sin haber ejecutado la cadena real. Cualquier tool que
+      // devuelva ok:false invalida el texto de ESE turno: nunca se
+      // devuelve una afirmación que asumía un resultado que no ocurrió.
+      if ((result as { ok?: boolean }).ok === false) textoEmitido = "";
+
       messagesForLLM.push({
         role: "tool",
         tool_call_id: call.id,

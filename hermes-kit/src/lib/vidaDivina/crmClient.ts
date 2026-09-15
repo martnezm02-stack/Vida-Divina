@@ -347,6 +347,344 @@ export function formatearPrecio(precio: number): string {
   return `$${monto.toLocaleString("en-US", { minimumFractionDigits: decimales, maximumFractionDigits: 2 })}`;
 }
 
+// ============================================================
+// Núcleo Comercial (Fase "Hermes Ventas", 2026-09-15) -- puente hacia
+// crm.createOrder()/crm.confirmarVenta() (crm/commerce/), ya validados
+// (106/106 tests). Esta capa NUNCA ejecuta SQL, NUNCA inserta un
+// movimiento SALE directamente, NUNCA descuenta inventario por su cuenta
+// -- solo llama a las funciones reales ya atómicas/idempotentes/con
+// protección de stock del núcleo comercial.
+// ============================================================
+
+function extraerNumero(texto: string): number | null {
+  const m = texto.match(/(\d+)/);
+  return m ? Number(m[1]) : null;
+}
+
+export interface PedidoPrecioResuelto {
+  precioUnitario: number;
+  presentacion: string;
+}
+
+/**
+ * Resuelve qué precio unitario real aplica, a partir del pricing REAL de
+ * product_pricing -- nunca inventa ni hardcodea una cifra.
+ *
+ * Sin `presentacion`: usa el precio BASE (pricing.precio/cantidadBase) --
+ * que es la presentación PRINCIPAL vigente en la base real. Decisión de
+ * negocio confirmada 2026-09-14: para Té Vida Divina eso ya es "6
+ * Sobres"/$1,799 directamente en product_pricing -- esta función no sabe
+ * nada de Té en particular, simplemente respeta cuál es hoy el precio base
+ * real de CUALQUIER producto.
+ *
+ * Con `presentacion` (ej. "2 sobres", pedida explícitamente por el
+ * cliente): compara por el número real que contiene contra cantidadBase y
+ * cada promoción real -- si no hay ninguna coincidencia real, devuelve
+ * null (nunca asume la base por defecto cuando el cliente pidió algo
+ * específico que no existe).
+ */
+export function resolverPrecioPedido(pricing: ProductPricing, presentacion?: string | null): PedidoPrecioResuelto | null {
+  if (pricing.precio == null || !pricing.cantidadBase) return null;
+  if (!presentacion?.trim()) {
+    return { precioUnitario: pricing.precio, presentacion: pricing.cantidadBase };
+  }
+  const numeroPedido = extraerNumero(presentacion);
+  if (numeroPedido == null) return null;
+  if (extraerNumero(pricing.cantidadBase) === numeroPedido) {
+    return { precioUnitario: pricing.precio, presentacion: pricing.cantidadBase };
+  }
+  for (const promo of pricing.promociones ?? []) {
+    if (extraerNumero(promo.cantidad) === numeroPedido) {
+      return { precioUnitario: promo.precio, presentacion: promo.cantidad };
+    }
+  }
+  return null;
+}
+
+export interface CrearPedidoInput {
+  phone: string;
+  productoId: string;
+  cantidadUnidades?: number;
+  presentacion?: string | null;
+  nombre?: string | null;
+}
+
+export interface CrearPedidoResult {
+  ok: boolean;
+  reason?: string;
+  orderId?: string;
+  total?: number;
+  precioUnitario?: number;
+  presentacion?: string;
+  cantidadUnidades?: number;
+}
+
+/**
+ * Crea un pedido REAL (crm.createOrder) con el precio ya congelado -- NUNCA
+ * descuenta inventario (createOrder no lo toca, ver crm/commerce/orders.js).
+ * Vincula la oportunidad activa de la conversación si existe (nunca
+ * inventa una nueva relación).
+ */
+export async function crearPedido(input: CrearPedidoInput): Promise<CrearPedidoResult> {
+  if (!crmConfigured()) return { ok: false, reason: "CRM no configurado en este proceso (falta DATABASE_URL) -- el pedido no se creó." };
+  if (!input.phone) return { ok: false, reason: "Falta el teléfono real del cliente." };
+  if (!input.productoId) return { ok: false, reason: "Falta el producto real (resuélvelo primero con buscarProductos/consultarProducto)." };
+
+  const pricing = await getProductPricing(input.productoId);
+  if (!pricing) {
+    return { ok: false, reason: `No hay precio real registrado para "${input.productoId}" -- no se puede crear el pedido sin un precio real.` };
+  }
+  const resuelto = resolverPrecioPedido(pricing, input.presentacion);
+  if (!resuelto) {
+    const alternativas = (pricing.promociones ?? []).map((p) => p.cantidad).join(", ");
+    return {
+      ok: false,
+      reason: input.presentacion
+        ? `"${input.presentacion}" no coincide con ninguna presentación real de este producto (base real: ${pricing.cantidadBase ?? "no registrada"}${alternativas ? `; alternativas reales: ${alternativas}` : ""}). Confirma con el cliente una presentación real antes de reintentar.`
+        : "Este producto no tiene un precio base real registrado todavía -- no se puede crear el pedido.",
+    };
+  }
+  const cantidadUnidades = input.cantidadUnidades && input.cantidadUnidades > 0 ? Math.floor(input.cantidadUnidades) : 1;
+
+  try {
+    const ctx = await getOrCreateConversationContext(input.phone, { nombre: input.nombre ?? null });
+    const c = await crm();
+    const oportunidad = await c.opportunities.findLatestByConversationId(ctx.conversationId);
+
+    const { order } = await c.createOrder({
+      customerId: ctx.customerId,
+      opportunityId: oportunidad?.opportunityId ?? null,
+      items: [{ productoId: input.productoId, cantidad: cantidadUnidades, precioUnitario: resuelto.precioUnitario }],
+      moneda: "MXN",
+    });
+
+    return {
+      ok: true,
+      orderId: order.orderId,
+      total: Number(order.total),
+      precioUnitario: resuelto.precioUnitario,
+      presentacion: resuelto.presentacion,
+      cantidadUnidades,
+    };
+  } catch (err) {
+    return { ok: false, reason: `Error real al crear el pedido: ${err instanceof Error ? err.message : String(err)}` };
+  }
+}
+
+export interface RegistrarPagoInput {
+  orderId: string;
+  metodo: string;
+  importe?: number | null;
+  referencia?: string | null;
+}
+
+export interface RegistrarPagoResult {
+  ok: boolean;
+  reason?: string;
+  paymentId?: string;
+  orderId?: string;
+  importe?: number;
+  estado?: string;
+}
+
+/**
+ * Registra un pago REAL en estado 'pendiente' (crm.payments.insertPayment)
+ * -- nunca lo crea confirmado, ver confirmarPago() para el único camino
+ * autorizado a confirmarlo. `metodo` es texto libre (mismo criterio real
+ * que product_pricing/customers.platform -- el schema no cierra un
+ * catálogo de métodos de pago, eso es decisión de negocio, no de schema):
+ * hoy Vida Divina usa "transferencia" (Banorte) y "mercadopago", ambos
+ * llegan aquí igual, sin ninguna rama de código específica por método.
+ */
+export async function registrarPago(input: RegistrarPagoInput): Promise<RegistrarPagoResult> {
+  if (!crmConfigured()) return { ok: false, reason: "CRM no configurado en este proceso (falta DATABASE_URL) -- el pago no se registró." };
+  if (!input.orderId) return { ok: false, reason: "Falta el orderId real del pedido." };
+  if (!input.metodo?.trim()) return { ok: false, reason: "Falta el método de pago real." };
+
+  try {
+    const c = await crm();
+    const order = await c.orders.findById(input.orderId);
+    if (!order) return { ok: false, reason: `No existe ningún pedido real con id "${input.orderId}".` };
+    if (order.estado !== "pendiente") {
+      return { ok: false, reason: `El pedido "${input.orderId}" ya está "${order.estado}" -- no se puede registrar un pago nuevo sobre él.` };
+    }
+    const importe = input.importe ?? Number(order.total);
+    const payment = await c.payments.insertPayment({
+      orderId: input.orderId,
+      metodo: input.metodo.trim(),
+      importe,
+      moneda: order.moneda,
+      referencia: input.referencia ?? null,
+    });
+    return { ok: true, paymentId: payment.paymentId, orderId: input.orderId, importe: Number(payment.importe), estado: payment.estado };
+  } catch (err) {
+    return { ok: false, reason: `Error real al registrar el pago: ${err instanceof Error ? err.message : String(err)}` };
+  }
+}
+
+const METODO_TRANSFERENCIA = "transferencia bancaria";
+
+export interface OfrecerTransferenciaInput {
+  orderId: string;
+}
+
+export interface OfrecerTransferenciaResult {
+  ok: boolean;
+  reason?: string;
+  orderId?: string;
+  paymentId?: string;
+  total?: number;
+  moneda?: string;
+  reused?: boolean;
+}
+
+/**
+ * Primer intento de cierre de venta (Fase "Primer Cierre de Venta —
+ * Transferencia", 2026-09-15): asegura un Payment real 'pendiente' con
+ * método transferencia bancaria para un pedido YA EXISTENTE -- nunca crea
+ * la orden (eso es crearPedido), nunca la confirma (eso es confirmarPago).
+ * Idempotente por pedido: si ya hay un pago de transferencia 'pendiente'
+ * para esta orden (ej. el cliente volvió a pedir los datos), reutiliza ese
+ * mismo Payment en vez de crear uno duplicado.
+ */
+export async function ofrecerTransferencia(input: OfrecerTransferenciaInput): Promise<OfrecerTransferenciaResult> {
+  if (!crmConfigured()) return { ok: false, reason: "CRM no configurado en este proceso (falta DATABASE_URL)." };
+  if (!input.orderId) return { ok: false, reason: "Falta el orderId real del pedido." };
+
+  try {
+    const c = await crm();
+    const order = await c.orders.findById(input.orderId);
+    if (!order) return { ok: false, reason: `No existe ningún pedido real con id "${input.orderId}".` };
+    if (order.estado !== "pendiente") {
+      return { ok: false, reason: `El pedido "${input.orderId}" ya está "${order.estado}" -- no aplica ofrecer transferencia.` };
+    }
+
+    const pagosExistentes = await c.payments.findByOrderId(input.orderId);
+    const pendienteDeTransferencia = pagosExistentes.find(
+      (p: any) => p.estado === "pendiente" && String(p.metodo).toLowerCase().includes("transferencia")
+    );
+    if (pendienteDeTransferencia) {
+      return {
+        ok: true,
+        orderId: input.orderId,
+        paymentId: pendienteDeTransferencia.paymentId,
+        total: Number(order.total),
+        moneda: order.moneda,
+        reused: true,
+      };
+    }
+
+    const payment = await c.payments.insertPayment({
+      orderId: input.orderId,
+      metodo: METODO_TRANSFERENCIA,
+      importe: Number(order.total),
+      moneda: order.moneda,
+      referencia: null,
+    });
+    return { ok: true, orderId: input.orderId, paymentId: payment.paymentId, total: Number(order.total), moneda: order.moneda, reused: false };
+  } catch (err) {
+    return { ok: false, reason: `Error real al ofrecer transferencia: ${err instanceof Error ? err.message : String(err)}` };
+  }
+}
+
+export interface ConfirmarPagoInput {
+  orderId: string;
+  paymentId: string;
+}
+
+export interface ConfirmarPagoResult {
+  ok: boolean;
+  reason?: string;
+  orderId?: string;
+  estado?: string;
+  idempotentReplay?: boolean;
+  movimientos?: Array<{ productoId: string; cantidad: number }>;
+}
+
+/**
+ * Único camino real para pasar un pedido a 'confirmado' y generar el
+ * descuento real de inventario -- delega TODO en crm.confirmarVenta()
+ * (crm/commerce/confirmarVenta.js), que ya es atómico, idempotente y
+ * protege contra stock negativo. Esta función NO decide si el pago es
+ * legítimo -- eso lo decide quien llama (ver comercio.ts#confirmarPagoHandler,
+ * gate real de identidad ADMIN, nunca el texto del cliente).
+ */
+export async function confirmarPago(input: ConfirmarPagoInput): Promise<ConfirmarPagoResult> {
+  if (!crmConfigured()) return { ok: false, reason: "CRM no configurado en este proceso (falta DATABASE_URL) -- no se confirmó nada." };
+  if (!input.orderId || !input.paymentId) return { ok: false, reason: "Falta orderId/paymentId real." };
+
+  try {
+    const c = await crm();
+    const resultado = await c.confirmarVenta({ orderId: input.orderId, paymentId: input.paymentId });
+    return {
+      ok: true,
+      orderId: resultado.order.orderId,
+      estado: resultado.order.estado,
+      idempotentReplay: resultado.idempotentReplay,
+      movimientos: resultado.movements.map((m: any) => ({ productoId: m.productoId, cantidad: m.cantidad })),
+    };
+  } catch (err) {
+    // InsufficientStockError (crm/commerce/confirmarVenta.js) y cualquier
+    // otro rechazo real (pago ajeno, pago no pendiente, orden cancelada...)
+    // llegan aquí -- nunca se reintenta ni se fuerza nada, se reporta tal cual.
+    return { ok: false, reason: err instanceof Error ? err.message : String(err) };
+  }
+}
+
+export interface PedidoActivo {
+  orderId: string;
+  estadoOrden: string;
+  total: number;
+  items: Array<{ productoId: string; cantidad: number; precioUnitario: number }>;
+  paymentId: string | null;
+  metodoPago: string | null;
+  estadoPago: string | null;
+}
+
+/**
+ * El pedido REAL más reciente de este cliente, con su último pago (si lo
+ * hay) -- para que Hermes pueda reanudar el estado existente tras un
+ * HUMAN_HANDOFF sin inventar ni volver a preguntar lo que ya se sabe.
+ * Null si el cliente no tiene ningún pedido real todavía.
+ */
+export async function consultarPedidoActivo(phone: string): Promise<PedidoActivo | null> {
+  if (!crmConfigured() || !phone) return null;
+  try {
+    const c = await crm();
+    const customer = await c.customers.findCustomerByChannel(TIPO_CANAL, phone);
+    if (!customer) return null;
+    const order = await c.orders.findLatestByCustomerId(customer.customerId);
+    if (!order) return null;
+    const [items, pagos] = await Promise.all([
+      c.orders.listItemsByOrderId(order.orderId),
+      c.payments.findByOrderId(order.orderId),
+    ]);
+    const ultimoPago = pagos[pagos.length - 1] ?? null;
+    return {
+      orderId: order.orderId,
+      estadoOrden: order.estado,
+      total: Number(order.total),
+      items: items.map((it: any) => ({ productoId: it.productoId, cantidad: it.cantidad, precioUnitario: Number(it.precioUnitario) })),
+      paymentId: ultimoPago?.paymentId ?? null,
+      metodoPago: ultimoPago?.metodo ?? null,
+      estadoPago: ultimoPago?.estado ?? null,
+    };
+  } catch {
+    return null;
+  }
+}
+
+/** Bloque de texto real (nunca inventado) para enriquecer el `motivo` de un
+ *  handoff con el contexto comercial mínimo exigido: producto(s),
+ *  cantidades, precio(s), total, order_id, payment_id, estado actual. */
+export function formatearPedidoParaHandoff(pedido: PedidoActivo): string {
+  const itemsTxt = pedido.items.map((it) => `${it.productoId} x${it.cantidad} @ ${formatearPrecio(it.precioUnitario)}`).join(", ");
+  const pagoTxt = pedido.paymentId
+    ? `Pago ${pedido.paymentId} (${pedido.metodoPago ?? "método no registrado"}, estado: ${pedido.estadoPago})`
+    : "Sin pago registrado todavía";
+  return `Pedido ${pedido.orderId} (estado: ${pedido.estadoOrden}) -- ${itemsTxt} -- Total: ${formatearPrecio(pedido.total)} -- ${pagoTxt}`;
+}
+
 export interface HandoffResult {
   ok: boolean;
   reason?: string;

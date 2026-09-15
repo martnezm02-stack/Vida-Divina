@@ -5,7 +5,7 @@
 // verificación, solo las reutiliza y las junta.
 
 import { sendJson } from '../lib/http.js';
-import { isVoiceEngineReachable } from '../lib/voiceEngineClient.js';
+import { isVoiceEngineReachable, getVoiceEngineStatus } from '../lib/voiceEngineClient.js';
 import { mediaHostingService } from '../lib/schedulerInstance.js';
 import { listPublishTargets } from '../../../content-orchestrator/src/publishing/publishingService.js';
 import { performanceLearningStore } from '../../../content-strategy/src/performanceLearningStoreInstance.js';
@@ -14,8 +14,9 @@ import { computeAutoPublishReadiness } from '../../../content-planning/src/autoP
 
 /** GET /api/system-status -- resumen real para VIDA DIVINA COMMAND CENTER (Home). */
 export async function handleSystemStatus(req, res) {
-  const [voiceEngineReachable, targets] = await Promise.all([
+  const [voiceEngineReachable, voiceEngineStatus, targets] = await Promise.all([
     isVoiceEngineReachable(),
+    getVoiceEngineStatus(),
     Promise.resolve(listPublishTargets()),
   ]);
 
@@ -27,7 +28,7 @@ export async function handleSystemStatus(req, res) {
   const readiness = computeAutoPublishReadiness({ store: performanceLearningStore });
 
   sendJson(res, 200, {
-    contentGeneration: { status: 'OPERATIONAL', voiceEngineReachable },
+    contentGeneration: { status: 'OPERATIONAL', voiceEngineReachable, voiceEngineStatus },
     publishing: {
       instagram: { configured: targetByPlatform.INSTAGRAM ?? false },
       facebook: { configured: targetByPlatform.FACEBOOK ?? false },

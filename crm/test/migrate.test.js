@@ -33,7 +33,13 @@ test('ejecutar runMigrations() de nuevo sobre una base ya migrada no aplica nada
   assert.deepEqual(aplicadas, [], 'no debería haber migraciones pendientes en la segunda corrida');
 });
 
-test('las 10 tablas aprobadas existen y orders/payments NO existen', async () => {
+// Hasta la Fase "Núcleo Comercial" (0006, 2026-09-15) esta prueba afirmaba
+// que orders/payments NO debían existir -- esa era la decisión de negocio
+// vigente en ese momento (Fase A, docs/CRM_FASE_A_DATA_MODEL.md §16-17).
+// Esa decisión ya se tomó y se implementó (ver crm/migrations/0006_add_orders_payments.sql,
+// crm/commerce/) -- se actualiza la aserción para reflejar el estado real
+// del schema, no se elimina la prueba.
+test('las tablas aprobadas del CRM + Inventario + Núcleo Comercial existen', async () => {
   const { rows } = await pool.query(
     `SELECT table_name FROM information_schema.tables WHERE table_schema = 'public'`
   );
@@ -42,10 +48,9 @@ test('las 10 tablas aprobadas existen y orders/payments NO existen', async () =>
   for (const tabla of [
     'customers', 'customer_channels', 'conversations', 'messages', 'state_transitions',
     'opportunities', 'offers_log', 'follow_ups', 'handoffs', 'product_pricing', 'schema_migrations',
+    'inventory', 'inventory_movements',
+    'orders', 'order_items', 'payments',
   ]) {
     assert.ok(nombres.has(tabla), `falta la tabla aprobada "${tabla}"`);
   }
-
-  assert.ok(!nombres.has('orders'), 'orders NO debe existir todavía (bloqueada por decisión de negocio)');
-  assert.ok(!nombres.has('payments'), 'payments NO debe existir todavía (bloqueada por decisión de negocio)');
 });

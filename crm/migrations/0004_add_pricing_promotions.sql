@@ -1,0 +1,35 @@
+-- 0004_add_pricing_promotions.sql
+-- FASE "Actualizar catálogo + pricing + promociones + uso sugerido" (2026-09-07).
+--
+-- Extiende product_pricing (entidad ya existente, Fase A §19) en vez de
+-- crear una tabla/estructura paralela de promociones -- una promoción es
+-- un atributo REAL del pricing operativo de un producto, no una entidad
+-- de negocio distinta. No existía ningún concepto de promoción/bundle en
+-- ningún módulo del proyecto antes de esta migración (verificado).
+--
+-- Aditiva y reversible: ADD COLUMN nullable, sin DEFAULT no-nulo, mismo
+-- criterio real que 0002/0003. Ninguna fila existente cambia de
+-- comportamiento -- product_pricing.findByProductoId/findByProductoIds ya
+-- usan "SELECT *", así que las nuevas columnas quedan disponibles sin
+-- tocar esas funciones. Reversible con
+-- ALTER TABLE product_pricing DROP COLUMN cantidad_base, DROP COLUMN promociones
+-- si alguna vez hiciera falta.
+--
+-- cantidad_base: TEXT libre -- qué compra el precio normal (ej. "6 sobres",
+-- "1 paquete", "1 botella"). Mismo criterio de vocabulario libre ya usado
+-- para platform/source/medium en 0003 (nota 2 de la migración 0001): el
+-- catálogo real de presentaciones vive en docs/productos/, no se duplica
+-- aquí como CHECK.
+--
+-- promociones: JSONB, array de bundles reales, ej.
+--   [{"cantidad": "2 sobres", "precio": 899}, {"cantidad": "18 sobres", "precio": 4449}]
+-- NULL o [] si el producto no tiene promoción vigente. Estructura elegida
+-- (en vez de una tabla nueva product_pricing_promotions) porque las
+-- promociones se leen y escriben siempre junto con el resto del pricing
+-- de un producto (nunca de forma independiente), y su cardinalidad real es
+-- pequeña (1-2 bundles por producto) -- evita un JOIN adicional en el
+-- camino caliente de consultarProducto sin perder capacidad de consulta
+-- real (Hermes nunca hardcodea estos valores, siempre los lee de aquí).
+ALTER TABLE product_pricing
+  ADD COLUMN cantidad_base TEXT NULL,
+  ADD COLUMN promociones   JSONB NULL;

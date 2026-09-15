@@ -1,0 +1,89 @@
+@import "tailwindcss";
+
+/* ============================================================
+   Identidad de marca — Integración "WhatsApp / Hermes" en el Dashboard Vida
+   Divina (2026-09-04): mismos NOMBRES de variable --brand-* que ya usan
+   TODOS los componentes del kit (Dashboard.tsx, QRScreen.tsx, etc.) --
+   ningún componente se toca, solo se remapean los VALORES a la paleta real
+   del Dashboard (dashboard/public/styles.css: --forest/--gold/--cream/
+   --burgundy), para que Hermes se sienta parte de la misma aplicación.
+   --color-wa-green se conserva intacto: es el verde oficial de WhatsApp,
+   usado semánticamente ("modo Humano"/marca WhatsApp), no un color de marca
+   de Vida Divina.
+   ============================================================ */
+@theme {
+  --color-brand-bg: #0e1e11; /* --forest (Dashboard Vida Divina) */
+  --color-brand-surface: #16281a;
+  --color-brand-surface-2: #1c3020;
+  --color-brand-border: #2e3d24;
+  --color-brand-text: #efe9dc; /* --cream-2 (Dashboard Vida Divina) */
+  --color-brand-muted: #a8ac93;
+  --color-brand-gold: #b58c33; /* --gold (Dashboard Vida Divina) */
+  --color-brand-gold-soft: #967429;
+  --color-wa-green: #25d366;
+
+  --font-display: var(--font-fraunces), Georgia, serif;
+  --font-sans: var(--font-archivo), -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  font-family: var(--font-sans);
+  background:
+    radial-gradient(1200px 600px at 15% -10%, rgba(181, 140, 51, 0.08), transparent 60%),
+    radial-gradient(900px 500px at 100% 0%, rgba(181, 140, 51, 0.05), transparent 55%),
+    #0e1e11;
+  background-attachment: fixed;
+}
+
+.font-display { font-family: var(--font-display); }
+
+/* Textura sutil de grano para el fondo de marca */
+.brand-grain::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.025;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Scrollbar dorada discreta */
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(250, 197, 28, 0.14); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(250, 197, 28, 0.28); }
+
+/* Latido del punto de estado */
+@keyframes brand-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.85); }
+}
+.brand-pulse { animation: brand-pulse 2s ease-in-out infinite; }
+
+/* Mecer de las palmeras (naturaleza viva). Balanceo suave desde su base
+   con la propiedad `rotate`, independiente del `transform` que las orienta. */
+.brand-sway { animation: sway-a 8s ease-in-out infinite; }
+.brand-sway-slow { animation: sway-b 11s ease-in-out infinite; }
+.brand-sway-alt { animation: sway-c 9.5s ease-in-out infinite; }
+/* Cada una oscila un poco distinto para que no vayan sincronizadas. El rotate
+   base lo pone el inline style; aquí solo añadimos el balanceo relativo. */
+@keyframes sway-a { 0%,100% { rotate: -2.5deg; } 50% { rotate: 2.5deg; } }
+@keyframes sway-b { 0%,100% { rotate: 2deg; } 50% { rotate: -2deg; } }
+@keyframes sway-c { 0%,100% { rotate: -3deg; } 50% { rotate: 1.5deg; } }
+
+/* Brasas doradas que ascienden con leve deriva y se desvanecen. */
+@keyframes brand-ember {
+  0% { transform: translateY(0) translateX(0); opacity: 0; }
+  10% { opacity: 0.9; }
+  85% { opacity: 0.7; }
+  100% { transform: translateY(-102vh) translateX(var(--drift, 0px)); opacity: 0; }
+}
+.brand-ember { bottom: -10px; animation-name: brand-ember; animation-timing-function: linear; animation-iteration-count: infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  .brand-sway, .brand-sway-slow, .brand-sway-alt, .brand-ember, .brand-pulse { animation: none; }
+}

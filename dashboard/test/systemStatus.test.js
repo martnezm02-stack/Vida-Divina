@@ -33,6 +33,11 @@ describe('GET /api/system-status', () => {
     assert.equal(body.contentGeneration.status, 'OPERATIONAL');
     assert.equal(typeof body.contentGeneration.voiceEngineReachable, 'boolean');
     assert.equal(typeof body.publishing.instagram.configured, 'boolean');
+    // Corrección "loadEnv.js ahora carga content-strategy/.env" (2026-09-10):
+    // este entorno tiene credenciales reales de Instagram en
+    // content-strategy/.env -- si loadEnv.js deja de cargarlas, este assert
+    // detecta la regresión (antes del fix, `configured` siempre era false).
+    assert.equal(body.publishing.instagram.configured, true);
     assert.equal(typeof body.publishing.facebook.configured, 'boolean');
     assert.equal(typeof body.publishing.whatsapp.configured, 'boolean');
     assert.equal(typeof body.publishing.mediaHosting.configured, 'boolean');

@@ -80,6 +80,13 @@ export async function getTestPool() {
  * @param {import('pg').Pool} testPool
  */
 export async function resetDatabase(testPool) {
+  // Fase "Núcleo Comercial" (0006): payments/order_items/inventory_movements
+  // referencian orders, e inventory_movements TAMBIÉN referencia inventory
+  // -- deben vaciarse antes que orders/opportunities/customers, no después.
+  await testPool.query('DELETE FROM payments');
+  await testPool.query('DELETE FROM order_items');
+  await testPool.query('DELETE FROM inventory_movements');
+  await testPool.query('DELETE FROM orders');
   await testPool.query('DELETE FROM offers_log');
   await testPool.query('DELETE FROM follow_ups');
   await testPool.query('DELETE FROM messages');
@@ -91,6 +98,7 @@ export async function resetDatabase(testPool) {
   await testPool.query('DELETE FROM customer_channels');
   await testPool.query('DELETE FROM customers');
   await testPool.query('DELETE FROM product_pricing');
+  await testPool.query('DELETE FROM inventory');
 }
 
 /**

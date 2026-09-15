@@ -18,6 +18,11 @@ import * as offerLogRepository from '../repositories/offerLogRepository.js';
 import * as followUpRepository from '../repositories/followUpRepository.js';
 import * as handoffRepository from '../repositories/handoffRepository.js';
 import * as productPricingRepository from '../repositories/productPricingRepository.js';
+import * as inventoryRepository from '../repositories/inventoryRepository.js';
+import * as inventoryMovementRepository from '../repositories/inventoryMovementRepository.js';
+import * as orderRepository from '../repositories/orderRepository.js';
+import * as paymentRepository from '../repositories/paymentRepository.js';
+import * as reportingRepository from '../repositories/reportingRepository.js';
 
 let pool;
 
@@ -70,6 +75,69 @@ describe('customerRepository', () => {
     const actualizado = await customerRepository.updateCustomerProfile(pool, customer.customerId, { nombre: 'Ana' });
     assert.equal(actualizado.nombre, 'Ana');
     assert.equal(actualizado.customerId, customer.customerId);
+  });
+});
+
+// FASE "Attribution + Reporting + Email MCP + Alerta WhatsApp" (2026-09-04)
+describe('customerRepository — attribution', () => {
+  test('4) sin metadata real -> first_touch queda NULL, nunca se inventa un origen', async () => {
+    const customer = await customerRepository.createCustomer(pool, { nombre: 'Sin atribución' });
+    assert.equal(customer.firstTouchPlatform, null);
+    assert.equal(customer.firstTouchSource, null);
+    assert.equal(customer.firstTouchAt, null);
+  });
+
+  test('1) first_touch real se persiste al crear el customer', async () => {
+    const customer = await customerRepository.createCustomer(pool, {
+      firstTouch: {
+        platform: 'instagram', source: 'organic', contentId: 'ig_reel_tongkat_07',
+      },
+    });
+    assert.equal(customer.firstTouchPlatform, 'instagram');
+    assert.equal(customer.firstTouchSource, 'organic');
+    assert.equal(customer.firstTouchContentId, 'ig_reel_tongkat_07');
+    assert.ok(customer.firstTouchAt, 'first_touch_at debe quedar registrado cuando hay atribución real');
+  });
+
+  test('1) first_touch se conserva -- una segunda "atribución" en la creación no aplica (ya existe el customer, no se puede recrear)', async () => {
+    // La garantía real de inmutabilidad es de diseño: createCustomer solo
+    // escribe first_touch UNA vez (al INSERT); no existe ninguna función
+    // "updateFirstTouch" en este repository -- verificado también por
+    // ausencia de esa función en el módulo.
+    assert.equal(customerRepository.updateFirstTouch, undefined);
+  });
+
+  test('2) last_touch se actualiza correctamente sin tocar first_touch', async () => {
+    const customer = await customerRepository.createCustomer(pool, {
+      firstTouch: { platform: 'instagram', source: 'organic', contentId: 'ig_reel_tongkat_07' },
+    });
+    const actualizado = await customerRepository.updateLastTouch(pool, customer.customerId, {
+      platform: 'facebook', source: 'paid', campaign: 'tongkat-septiembre', creativeId: 'creative_12',
+    });
+    assert.equal(actualizado.lastTouchPlatform, 'facebook');
+    assert.equal(actualizado.lastTouchSource, 'paid');
+    assert.equal(actualizado.lastTouchCampaign, 'tongkat-septiembre');
+    assert.equal(actualizado.lastTouchCreativeId, 'creative_12');
+    assert.ok(actualizado.lastTouchAt);
+    // first_touch real, del ejemplo del encargo, sigue intacto.
+    assert.equal(actualizado.firstTouchPlatform, 'instagram');
+    assert.equal(actualizado.firstTouchContentId, 'ig_reel_tongkat_07');
+  });
+
+  test('5) campaign/content se conservan tal cual (ningún campo se trunca ni se reescribe)', async () => {
+    const customer = await customerRepository.createCustomer(pool, {
+      firstTouch: {
+        platform: 'facebook', source: 'paid', medium: 'cpc',
+        campaign: 'tongkat-septiembre', campaignId: 'camp_998', content: 'Video testimonio',
+        contentId: 'fb_post_123', adId: 'ad_456', creativeId: 'creative_12',
+      },
+    });
+    assert.equal(customer.firstTouchCampaign, 'tongkat-septiembre');
+    assert.equal(customer.firstTouchCampaignId, 'camp_998');
+    assert.equal(customer.firstTouchContent, 'Video testimonio');
+    assert.equal(customer.firstTouchContentId, 'fb_post_123');
+    assert.equal(customer.firstTouchAdId, 'ad_456');
+    assert.equal(customer.firstTouchCreativeId, 'creative_12');
   });
 });
 
@@ -482,6 +550,248 @@ describe('productPricingRepository', () => {
   });
 });
 
+// FASE "Sistema de Inventario" (2026-09-15)
+describe('inventoryRepository', () => {
+  test('upsert crea la fila si no existe', async () => {
+    const fila = await inventoryRepository.upsertInventory(pool, {
+      productoId: 'productos/01-control-de-peso/tedivina',
+      cantidadActual: 11,
+      minimo: 6,
+      costoUnitario: 1020,
+      monedaCosto: 'MXN',
+      actualizadoPor: 'test',
+    });
+    assert.equal(fila.cantidadActual, 11);
+    assert.equal(fila.minimo, 6);
+    assert.equal(Number(fila.costoUnitario), 1020);
+  });
+
+  test('upsert actualiza sin duplicar la fila (PK = producto_id)', async () => {
+    await inventoryRepository.upsertInventory(pool, {
+      productoId: 'productos/01-control-de-peso/sculpt-max',
+      cantidadActual: 1,
+      minimo: 1,
+    });
+    const actualizada = await inventoryRepository.upsertInventory(pool, {
+      productoId: 'productos/01-control-de-peso/sculpt-max',
+      cantidadActual: 0,
+    });
+    assert.equal(actualizada.cantidadActual, 0);
+    assert.equal(actualizada.minimo, 1); // preservado -- no se tocó en el segundo upsert
+
+    const todas = await inventoryRepository.findByProductoIds(pool, ['productos/01-control-de-peso/sculpt-max']);
+    assert.equal(todas.length, 1);
+  });
+
+  test('findLowStock devuelve solo productos en o bajo su mínimo real', async () => {
+    await inventoryRepository.upsertInventory(pool, { productoId: 'a', cantidadActual: 0, minimo: 1 }); // OUT_OF_STOCK
+    await inventoryRepository.upsertInventory(pool, { productoId: 'b', cantidadActual: 1, minimo: 1 }); // LOW_STOCK
+    await inventoryRepository.upsertInventory(pool, { productoId: 'c', cantidadActual: 11, minimo: 6 }); // NORMAL
+    await inventoryRepository.upsertInventory(pool, { productoId: 'd', cantidadActual: 0, minimo: null }); // sin mínimo -- nunca se evalúa
+
+    const bajos = await inventoryRepository.findLowStock(pool);
+    const ids = bajos.map((r) => r.productoId).sort();
+    assert.deepEqual(ids, ['a', 'b']);
+  });
+});
+
+describe('inventoryMovementRepository (append-only)', () => {
+  test('insertMovement crea un movimiento y reconcilia con inventory.cantidad_actual', async () => {
+    await inventoryRepository.upsertInventory(pool, {
+      productoId: 'productos/01-control-de-peso/tedivina',
+      cantidadActual: 11,
+      minimo: 6,
+    });
+    await inventoryMovementRepository.insertMovement(pool, {
+      productoId: 'productos/01-control-de-peso/tedivina',
+      tipo: 'INITIAL_BALANCE',
+      cantidad: 12,
+      timestamp: '2026-09-14T00:00:00Z',
+      motivo: 'Carga inicial',
+    });
+    await inventoryMovementRepository.insertMovement(pool, {
+      productoId: 'productos/01-control-de-peso/tedivina',
+      tipo: 'ADJUSTMENT',
+      cantidad: -1,
+      timestamp: '2026-09-14T00:00:00Z',
+      motivo: 'Salida sin naturaleza confirmada',
+    });
+
+    const suma = await inventoryMovementRepository.sumCantidadByProductoId(pool, 'productos/01-control-de-peso/tedivina');
+    assert.equal(suma, 11);
+
+    const fila = await inventoryRepository.findByProductoId(pool, 'productos/01-control-de-peso/tedivina');
+    assert.equal(fila.cantidadActual, suma); // reconciliado con el saldo real
+
+    const historial = await inventoryMovementRepository.listByProductoId(pool, 'productos/01-control-de-peso/tedivina');
+    assert.equal(historial.length, 2);
+    assert.equal(historial[0].tipo, 'INITIAL_BALANCE');
+  });
+
+  test('rechaza un movimiento de un producto sin fila de inventory (integridad referencial real)', async () => {
+    await assert.rejects(() =>
+      inventoryMovementRepository.insertMovement(pool, {
+        productoId: 'producto-inexistente',
+        tipo: 'ADJUSTMENT',
+        cantidad: -1,
+        timestamp: '2026-09-14T00:00:00Z',
+      })
+    );
+  });
+
+  test('tipo fuera del vocabulario cerrado es rechazado por el CHECK del schema', async () => {
+    await inventoryRepository.upsertInventory(pool, { productoId: 'x', cantidadActual: 0 });
+    await assert.rejects(() =>
+      inventoryMovementRepository.insertMovement(pool, {
+        productoId: 'x',
+        tipo: 'RETURN', // no es INITIAL_BALANCE/ADJUSTMENT/SALE
+        cantidad: 1,
+        timestamp: '2026-09-14T00:00:00Z',
+      })
+    );
+  });
+});
+
+// FASE "Núcleo Comercial: orders -> payments -> SALE -> inventory" (2026-09-15)
+describe('orderRepository', () => {
+  test('insertOrder crea la orden y sus líneas, con total y precios congelados', async () => {
+    const customer = await customerRepository.createCustomer(pool, { nombre: null, email: null });
+    const { order, items } = await orderRepository.insertOrder(pool, {
+      customerId: customer.customerId,
+      items: [
+        { productoId: 'productos/01-control-de-peso/tedivina', cantidad: 2, precioUnitario: 1799 },
+        { productoId: 'productos/02-cafe-divina/cappuccino', cantidad: 1, precioUnitario: 899 },
+      ],
+    });
+    assert.equal(order.estado, 'pendiente');
+    assert.equal(Number(order.total), 2 * 1799 + 899);
+    assert.equal(items.length, 2);
+    assert.equal(Number(items[0].subtotal), 2 * 1799);
+  });
+
+  test('insertOrder rechaza una orden sin líneas', async () => {
+    const customer = await customerRepository.createCustomer(pool, { nombre: null, email: null });
+    await assert.rejects(() => orderRepository.insertOrder(pool, { customerId: customer.customerId, items: [] }));
+  });
+
+  test('markConfirmed es un no-op a nivel SQL si la orden ya no está pendiente', async () => {
+    const customer = await customerRepository.createCustomer(pool, { nombre: null, email: null });
+    const { order } = await orderRepository.insertOrder(pool, {
+      customerId: customer.customerId,
+      items: [{ productoId: 'x', cantidad: 1, precioUnitario: 100 }],
+    });
+    await orderRepository.markConfirmed(pool, order.orderId);
+    const segundaVez = await orderRepository.markConfirmed(pool, order.orderId);
+    assert.equal(segundaVez, null); // ya no estaba 'pendiente' -- 0 filas afectadas
+  });
+});
+
+describe('paymentRepository', () => {
+  test('insertPayment nace pendiente y markConfirmed/markRejected transicionan una sola vez', async () => {
+    const customer = await customerRepository.createCustomer(pool, { nombre: null, email: null });
+    const { order } = await orderRepository.insertOrder(pool, {
+      customerId: customer.customerId,
+      items: [{ productoId: 'x', cantidad: 1, precioUnitario: 100 }],
+    });
+    const payment = await paymentRepository.insertPayment(pool, {
+      orderId: order.orderId,
+      metodo: 'transferencia',
+      importe: 100,
+    });
+    assert.equal(payment.estado, 'pendiente');
+
+    const confirmado = await paymentRepository.markConfirmed(pool, payment.paymentId);
+    assert.equal(confirmado.estado, 'confirmado');
+
+    const segundaVez = await paymentRepository.markRejected(pool, payment.paymentId);
+    assert.equal(segundaVez, null); // ya no estaba 'pendiente'
+  });
+});
+
+// FASE "Attribution + Reporting + Email MCP + Alerta WhatsApp" (2026-09-04)
+describe('reportingRepository (solo lectura, sobre datos reales del CRM)', () => {
+  const AYER = new Date(Date.now() - 24 * 60 * 60 * 1000);
+  const MANANA = new Date(Date.now() + 24 * 60 * 60 * 1000);
+
+  test('6) countNewCustomers: cuenta clientes reales creados en el rango', async () => {
+    await customerRepository.createCustomer(pool);
+    await customerRepository.createCustomer(pool);
+    const n = await reportingRepository.countNewCustomers(pool, { since: AYER, until: MANANA });
+    assert.equal(n, 2);
+  });
+
+  test('9) countLeads / countQualifiedLeads: sobre oportunidades reales', async () => {
+    const { conversation } = await crearConversacionDePrueba('5215500000020');
+    await opportunityRepository.createOpportunity(pool, {
+      customerId: conversation.customerId, conversationId: conversation.conversationId,
+      productoId: 'productos/01-control-de-peso/tongkat-ali', estado: 'ProductoIdentificado', intencionCompra: false,
+    });
+    await opportunityRepository.createOpportunity(pool, {
+      customerId: conversation.customerId, conversationId: conversation.conversationId,
+      productoId: 'productos/01-control-de-peso/tongkat-ali', estado: 'PrecioEnviado', intencionCompra: true,
+    });
+    const leads = await reportingRepository.countLeads(pool, { since: AYER, until: MANANA });
+    const calificados = await reportingRepository.countQualifiedLeads(pool, { since: AYER, until: MANANA });
+    assert.equal(leads, 2);
+    assert.equal(calificados, 1);
+  });
+
+  test('10) countHandoffs: sobre handoffs reales del rango', async () => {
+    const { conversation } = await crearConversacionDePrueba('5215500000021');
+    await handoffRepository.insertHandoff(pool, { conversationId: conversation.conversationId, motivo: 'prueba reporting' });
+    const n = await reportingRepository.countHandoffs(pool, { since: AYER, until: MANANA });
+    assert.equal(n, 1);
+  });
+
+  test('7-8) topProductsByPurchaseIntent: nunca "ventas", solo intención real de compra', async () => {
+    const { conversation } = await crearConversacionDePrueba('5215500000022');
+    await opportunityRepository.createOpportunity(pool, {
+      customerId: conversation.customerId, conversationId: conversation.conversationId,
+      productoId: 'productos/01-control-de-peso/tongkat-ali', estado: 'PrecioEnviado', intencionCompra: true,
+    });
+    await opportunityRepository.createOpportunity(pool, {
+      customerId: conversation.customerId, conversationId: conversation.conversationId,
+      productoId: 'productos/01-control-de-peso/tongkat-ali', estado: 'PrecioEnviado', intencionCompra: true,
+    });
+    const top = await reportingRepository.topProductsByPurchaseIntent(pool, { since: AYER, until: MANANA });
+    assert.equal(top[0].productoId, 'productos/01-control-de-peso/tongkat-ali');
+    assert.equal(top[0].intentos, 2);
+  });
+
+  test('11-12) attributionBreakdown: first_touch y last_touch reales, "unknown" para quienes no tienen atribución', async () => {
+    await customerRepository.createCustomer(pool, { firstTouch: { platform: 'instagram', source: 'organic' } });
+    await customerRepository.createCustomer(pool); // sin atribución real -- debe caer en "unknown"
+
+    const first = await reportingRepository.attributionBreakdown(pool, { since: AYER, until: MANANA, dimension: 'platform', touch: 'first' });
+    const porValor = Object.fromEntries(first.map((r) => [r.valor, r.n]));
+    assert.equal(porValor['instagram'], 1);
+    assert.equal(porValor['unknown'], 1, 'ausencia real de atribución debe agruparse como unknown, nunca omitirse ni inventarse');
+  });
+
+  test('13-14) contentAttributionForProduct: cruce real customer(first_touch_content_id) x opportunity(producto_id, intencion_compra)', async () => {
+    const customer = await customerRepository.createCustomer(pool, {
+      firstTouch: { platform: 'instagram', source: 'organic', contentId: 'ig_reel_tongkat_07' },
+    });
+    const channel = await customerChannelRepository.createCustomerChannel(pool, {
+      customerId: customer.customerId, tipoCanal: 'whatsapp', identificadorExterno: '5215500000023',
+    });
+    const conversation = await conversationRepository.createConversation(pool, {
+      customerId: customer.customerId, customerChannelId: channel.customerChannelId, waIdConversacion: '5215500000023',
+    });
+    await opportunityRepository.createOpportunity(pool, {
+      customerId: customer.customerId, conversationId: conversation.conversationId,
+      productoId: 'productos/01-control-de-peso/tongkat-ali', estado: 'PrecioEnviado', intencionCompra: true,
+    });
+
+    const cruce = await reportingRepository.contentAttributionForProduct(pool, {
+      productoId: 'productos/01-control-de-peso/tongkat-ali', since: AYER, until: MANANA,
+    });
+    assert.equal(cruce[0].contentId, 'ig_reel_tongkat_07');
+    assert.equal(cruce[0].platform, 'instagram');
+    assert.equal(cruce[0].intentos, 1);
+  });
+});
+
 describe('Foreign keys', () => {
   test('crear un customer_channel con customer_id inexistente falla (FK)', async () => {
     await assert.rejects(
@@ -493,6 +803,53 @@ describe('Foreign keys', () => {
         }),
       (error) => {
         assert.equal(error.code, '23503'); // foreign_key_violation
+        return true;
+      }
+    );
+  });
+
+  test('crear una order con customer_id inexistente falla (FK)', async () => {
+    await assert.rejects(
+      () =>
+        orderRepository.insertOrder(pool, {
+          customerId: '00000000-0000-0000-0000-000000000000',
+          items: [{ productoId: 'x', cantidad: 1, precioUnitario: 100 }],
+        }),
+      (error) => {
+        assert.equal(error.code, '23503');
+        return true;
+      }
+    );
+  });
+
+  test('crear un payment con order_id inexistente falla (FK)', async () => {
+    await assert.rejects(
+      () =>
+        paymentRepository.insertPayment(pool, {
+          orderId: '00000000-0000-0000-0000-000000000000',
+          metodo: 'transferencia',
+          importe: 100,
+        }),
+      (error) => {
+        assert.equal(error.code, '23503');
+        return true;
+      }
+    );
+  });
+
+  test('un SALE sin order_id es rechazado por el CHECK real del schema (trazabilidad obligatoria)', async () => {
+    await inventoryRepository.upsertInventory(pool, { productoId: 'x', cantidadActual: 5 });
+    await assert.rejects(
+      () =>
+        inventoryMovementRepository.insertMovement(pool, {
+          productoId: 'x',
+          tipo: 'SALE',
+          cantidad: -1,
+          timestamp: '2026-09-14T00:00:00Z',
+          // orderId omitido a propósito
+        }),
+      (error) => {
+        assert.equal(error.code, '23514'); // check_violation
         return true;
       }
     );

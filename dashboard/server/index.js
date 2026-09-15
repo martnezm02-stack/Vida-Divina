@@ -10,6 +10,13 @@
 //
 // Uso: PORT=4310 node server/index.js  (puerto por defecto: 4310)
 
+// PRIMER import a propósito (ver lib/loadEnv.js): sus efectos secundarios
+// (poblar process.env desde crm/.env, whatsapp-adapter/.env, voice-engine/.env,
+// media-hosting/.env) deben completarse ANTES que cualquier import posterior
+// que pueda construir un singleton dependiente de esas variables (ej.
+// mediaHostingService, ver lib/schedulerInstance.js) -- los imports de ESM
+// se resuelven en orden real de aparición, nunca después del cuerpo del módulo.
+import './lib/loadEnv.js';
 import http from 'node:http';
 import { createReadStream, existsSync, statSync } from 'node:fs';
 import { extname, join } from 'node:path';
@@ -39,24 +46,8 @@ import {
   handleProgramSchedule, handleCancelSchedule, handleRunSchedulerNow, handleMediaHostingStatus,
 } from './routes/scheduling.js';
 import { publishingScheduler } from './lib/schedulerInstance.js';
+import { isHermesPath, proxyToHermes, proxyUpgradeToHermes } from './lib/hermesProxy.js';
 import { handleVoiceProfiles, handleGenerateVoiceAsset, handleSaveVoiceAsset, handleListVoiceAssets } from './routes/voiceGenerator.js';
-import { loadIntegrationEnv } from './lib/integrationEnv.js';
-
-// Solo las claves de integración reales que este servidor consume (ver
-// integrationEnv.js) -- nunca el .env completo de otro servicio, para que su
-// configuración de infraestructura (ej. su propio PORT) no se propague aquí.
-loadIntegrationEnv({
-  path: fileURLToPath(new URL('../../crm/.env', import.meta.url)),
-  keys: ['DATABASE_URL', 'CRM_DB_POOL_MAX', 'CRM_DB_SSL', 'CRM_DB_IDLE_TIMEOUT_MS', 'CRM_DB_CONNECTION_TIMEOUT_MS'],
-});
-loadIntegrationEnv({
-  path: fileURLToPath(new URL('../../whatsapp-adapter/.env', import.meta.url)),
-  keys: ['WHATSAPP_ACCESS_TOKEN', 'WHATSAPP_PHONE_NUMBER_ID', 'WHATSAPP_GRAPH_API_VERSION'],
-});
-loadIntegrationEnv({
-  path: fileURLToPath(new URL('../../voice-engine/.env', import.meta.url)),
-  keys: ['VOICE_ENGINE_API_KEY'],
-});
 
 const PORT = process.env.PORT !== undefined ? Number(process.env.PORT) : 4310; // "0" -> puerto efímero real (usado por los tests); "" || 4310 se comía el 0 por ser falsy en JS.
 const PUBLIC_DIR = fileURLToPath(new URL('../public', import.meta.url));
@@ -83,6 +74,13 @@ const server = http.createServer(async (req, res) => {
   const { pathname } = url;
 
   try {
+    // WHATSAPP / HERMES (2026-09-04) -- reverse proxy real hacia el proceso
+    // Next.js de hermes-kit/ (kit de agente de WhatsApp con IA, íntegro).
+    // Namespace propio ("/hermes*") completamente separado de la WHATSAPP
+    // CONSOLE existente (Meta Cloud API real, /api/whatsapp/* más abajo) --
+    // nunca se tocan, nunca colisionan.
+    if (isHermesPath(pathname)) { proxyToHermes(req, res); return; }
+
     if (pathname.startsWith('/media/')) { await handleMedia(req, res, pathname); return; }
 
     if (pathname === '/api/products' && req.method === 'GET') { await handleProducts(req, res); return; }
@@ -235,6 +233,19 @@ const server = http.createServer(async (req, res) => {
 // servidor en responder -- pero se desactivan igual, sin riesgo real.
 server.requestTimeout = 0;
 server.headersTimeout = 0;
+
+// WHATSAPP / HERMES -- reenvío de peticiones Upgrade (WebSocket) de /hermes*
+// hacia el proceso Next.js real. node:http solo entrega estas peticiones vía
+// el evento 'upgrade' del servidor (nunca llegan al handler request() de
+// arriba) -- sin este listener, el cliente HMR de Turbopack de hermes-kit/
+// nunca abre su socket a través de :4310 y React no hidrata (aunque el HTML
+// y el resto de rutas HTTP normales de /hermes/* funcionen bien). Mismo
+// aislamiento que proxyToHermes(): solo pathname bajo "/hermes".
+server.on('upgrade', (req, socket, head) => {
+  const { pathname } = new URL(req.url, `http://${req.headers.host}`);
+  if (isHermesPath(pathname)) { proxyUpgradeToHermes(req, socket, head); return; }
+  socket.destroy();
+});
 
 if (process.env.DASHBOARD_NO_LISTEN !== '1') {
   server.listen(PORT, () => {

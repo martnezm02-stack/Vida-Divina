@@ -37,6 +37,13 @@ import { enviarMediaDefinition, enviarMediaHandler } from "./enviar-media";
 import { verificarClaimDefinition, verificarClaimHandler } from "./verificar-claim";
 import { generarVozDefinition, generarVozHandler } from "./generar-voz";
 import { qualifyLeadDefinition, qualifyLeadHandler } from "./calificar-crm";
+import {
+  crearPedidoDefinition, crearPedidoHandler,
+  registrarPagoDefinition, registrarPagoHandler,
+  cerrarVentaTransferenciaDefinition, cerrarVentaTransferenciaHandler,
+  confirmarPagoDefinition, confirmarPagoHandler,
+  consultarPedidoDefinition, consultarPedidoHandler,
+} from "./comercio";
 import { adminEstadoSistemaDefinition, adminEstadoSistemaHandler, adminGenerarAudioAssetDefinition, adminGenerarAudioAssetHandler } from "./admin";
 import { adminGenerarReporteDefinition, adminGenerarReporteHandler } from "./reporting";
 import {
@@ -96,6 +103,11 @@ export const toolDefinitions: ToolDefinition[] = [
   verificarClaimDefinition,
   generarVozDefinition,
   qualifyLeadDefinition,
+  crearPedidoDefinition,
+  registrarPagoDefinition,
+  cerrarVentaTransferenciaDefinition,
+  confirmarPagoDefinition,
+  consultarPedidoDefinition,
   adminEstadoSistemaDefinition,
   adminGenerarAudioAssetDefinition,
   adminGenerarReporteDefinition,
@@ -137,6 +149,16 @@ const handlers: Record<string, GenericHandler> = {
     generarVozHandler(args as unknown as Parameters<typeof generarVozHandler>[0]),
   qualifyLead: (args) =>
     qualifyLeadHandler(args as unknown as Parameters<typeof qualifyLeadHandler>[0]),
+  crearPedido: (args) =>
+    crearPedidoHandler(args as unknown as Parameters<typeof crearPedidoHandler>[0]),
+  registrarPago: (args) =>
+    registrarPagoHandler(args as unknown as Parameters<typeof registrarPagoHandler>[0]),
+  cerrarVentaTransferencia: (args) =>
+    cerrarVentaTransferenciaHandler(args as unknown as Parameters<typeof cerrarVentaTransferenciaHandler>[0]),
+  confirmarPago: (args) =>
+    confirmarPagoHandler(args as unknown as Parameters<typeof confirmarPagoHandler>[0]),
+  consultarPedido: (args) =>
+    consultarPedidoHandler(args as unknown as Parameters<typeof consultarPedidoHandler>[0]),
   adminEstadoSistema: (args) =>
     adminEstadoSistemaHandler(args as unknown as Parameters<typeof adminEstadoSistemaHandler>[0]),
   adminGenerarAudioAsset: (args) =>

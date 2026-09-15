@@ -24,6 +24,8 @@
 import { getPool, testConnection, closePool } from './db/pool.js';
 import { runInTransaction } from './db/transaction.js';
 import { contextExists, projectContext, persistContext, updateContext } from './context/contextProjection.js';
+import { createOrder } from './commerce/orders.js';
+import { confirmarVenta, InsufficientStockError } from './commerce/confirmarVenta.js';
 
 import * as customerRepository from './repositories/customerRepository.js';
 import * as customerChannelRepository from './repositories/customerChannelRepository.js';
@@ -35,6 +37,12 @@ import * as offerLogRepository from './repositories/offerLogRepository.js';
 import * as followUpRepository from './repositories/followUpRepository.js';
 import * as handoffRepository from './repositories/handoffRepository.js';
 import * as productPricingRepository from './repositories/productPricingRepository.js';
+import * as inventoryRepository from './repositories/inventoryRepository.js';
+import * as inventoryMovementRepository from './repositories/inventoryMovementRepository.js';
+import * as orderRepository from './repositories/orderRepository.js';
+import * as paymentRepository from './repositories/paymentRepository.js';
+import * as reportingRepository from './repositories/reportingRepository.js';
+import * as prospectRepository from './repositories/prospectRepository.js';
 
 const REPOSITORIOS = {
   customers: customerRepository,
@@ -47,6 +55,12 @@ const REPOSITORIOS = {
   followUps: followUpRepository,
   handoffs: handoffRepository,
   productPricing: productPricingRepository,
+  inventory: inventoryRepository,
+  inventoryMovements: inventoryMovementRepository,
+  orders: orderRepository,
+  payments: paymentRepository,
+  reporting: reportingRepository,
+  prospects: prospectRepository,
 };
 
 /**
@@ -89,6 +103,12 @@ export const offersLog = namespacesPool.offersLog;
 export const followUps = namespacesPool.followUps;
 export const handoffs = namespacesPool.handoffs;
 export const productPricing = namespacesPool.productPricing;
+export const inventory = namespacesPool.inventory;
+export const inventoryMovements = namespacesPool.inventoryMovements;
+export const orders = namespacesPool.orders;
+export const payments = namespacesPool.payments;
+export const reporting = namespacesPool.reporting;
+export const prospects = namespacesPool.prospects;
 
 /**
  * Ejecuta `work(scoped)` dentro de una única transacción PostgreSQL.
@@ -118,3 +138,11 @@ export { testConnection, closePool };
 // adicional: ya son funciones de alto nivel (no reciben `db`/`pool`), y ya
 // manejan sus propias transacciones internamente (ver crm/context/contextProjection.js).
 export { contextExists, projectContext, persistContext, updateContext };
+
+// Núcleo Comercial (Fase 0006) — mismo criterio que Context Projection:
+// funciones de alto nivel, sin `db`/`pool`, manejan su propia transacción
+// (ver crm/commerce/orders.js, crm/commerce/confirmarVenta.js).
+// confirmarVenta() es el ÚNICO camino autorizado para generar un
+// movimiento tipo SALE y descontar inventory -- ver ese archivo para el
+// detalle de atomicidad/idempotencia/protección de stock negativo.
+export { createOrder, confirmarVenta, InsufficientStockError };

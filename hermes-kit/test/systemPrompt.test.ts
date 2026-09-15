@@ -40,3 +40,13 @@ test("Nombre visible (2026-09-12): la instrucción de idioma remite al nombre qu
   assert.match(buildSystemPrompt("", "es"), /nombre a usar con el cliente/i);
   assert.match(buildSystemPrompt("", "en"), /name a tool gives you/i);
 });
+
+test("Corrección real 2026-09-17: prompts/negocio.md prohíbe explícitamente pedir correo electrónico para comprar/pagar, con el cierre correcto tras dar precio/info", () => {
+  const prompt = buildSystemPrompt("", "es");
+  assert.match(prompt, /Nunca pidas correo electrónico ni otros datos personales para continuar/i);
+  assert.match(prompt, /realizar tu pedido o necesitas más información, ¡dímelo!/i);
+  // El ejemplo "incorrecto" documentado es justo la frase real que se
+  // reportó en producción -- se busca en el bloque "No hagas esto", nunca
+  // como instrucción real a seguir.
+  assert.match(prompt, /proporcionar tu correo electrónico para continuar con el proceso de pago/i);
+});

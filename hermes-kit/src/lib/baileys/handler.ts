@@ -23,11 +23,14 @@ import { saneaHumano, dividirMensajes, delayEscritura, aptoParaNotaDeVoz } from 
 import { registrarFallback } from "../watchdog";
 import { decideResponseMode } from "../vidaDivina/responseMode";
 import { generateVoice } from "../vidaDivina/voiceEngineClient";
-import { detectarIntencionCompraClara } from "../vidaDivina/purchaseIntent";
+import { debeDerivarPorCompraClara, resolverCompraAutonoma, construirRefuerzoCompraAutonoma, detectarSolicitudPago } from "../vidaDivina/purchaseIntent";
+import { getProductTitleById } from "../vidaDivina/productKnowledge";
 import { detectarIntencionPrecio, textoSinRuidoDePrecio, construirRefuerzoPrecio } from "../vidaDivina/priceIntent";
 import { detectarIdioma, idiomaEfectivo } from "../vidaDivina/languageDetection";
 import { ejecutarHandoffReal, FRASE_CIERRE_COMPRA_EXACTA } from "../tools/derivar-humano";
 import { consultarProductoHandler } from "../tools/consultar-producto";
+import { cerrarVentaTransferenciaHandler } from "../tools/comercio";
+import { consultarPedidoActivo, crearPedido } from "../vidaDivina/crmClient";
 
 const logger = pino({ level: (process.env.LOG_LEVEL as pino.Level | undefined) ?? "info" });
 
@@ -38,6 +41,114 @@ const RESPUESTA_FALLBACK = "Perdona, se me cruzó un cable un momento. ¿Me lo r
 /** Enmascara el teléfono para los logs (deja solo los últimos 4 dígitos) — PII. */
 function phoneMasked(phone: string): string {
   return phone.length > 4 ? "***" + phone.slice(-4) : "***";
+}
+
+// Integridad de envío outbound (hallazgo real 2026-09-17): `sock.sendMessage`
+// (Baileys) devuelve `Promise<proto.WebMessageInfo | undefined>` -- puede
+// RESOLVER SIN LANZAR aunque el mensaje nunca se haya confirmado de verdad
+// (ej. conexión cayendo/reconectando), devolviendo `undefined` o un objeto
+// sin `key.id` real. En todos los puntos de envío de este archivo ese valor
+// de retorno se descartaba (`await sock.sendMessage(...)` sin capturarlo),
+// así que un envío realmente fallido pasaba como éxito silencioso: el
+// mensaje quedaba igual `insertMessage`ado (visible en el Dashboard) como si
+// WhatsApp lo hubiera recibido. Este helper es el ÚNICO punto real de envío
+// de texto del archivo -- no crea outbox/cola nueva, solo confirma con el
+// dato que Baileys YA devuelve antes de dar el envío por bueno.
+export async function enviarTextoConfirmado(sock: WASocket, jid: string, texto: string): Promise<boolean> {
+  try {
+    const info = await sock.sendMessage(jid, { text: texto });
+    if (!info?.key?.id) {
+      logger.error(`[bot] sendMessage resolvió sin confirmar entrega real (jid=${jid.slice(0, 6)}…)`);
+      return false;
+    }
+    return true;
+  } catch (err) {
+    logger.error({ err: err instanceof Error ? err.message : String(err) }, "[bot] sendMessage lanzó excepción");
+    return false;
+  }
+}
+
+/**
+ * Solicitud de pago determinista (Fase "Hacer determinista el flujo de
+ * transferencia", 2026-09-17) -- hallazgo real: un cliente que ya mostró
+ * interés en un producto y luego solo pregunta "¿me puedes dar información
+ * para pagar?" (sin decir literalmente "transferencia") quedaba
+ * enteramente en manos del LLM -- en un caso real pidió CORREO ELECTRÓNICO
+ * (dato que este negocio no usa) y terminó derivando con el mensaje
+ * genérico de handoff. Transferencia es HOY el único método autónomo real:
+ * si el cliente pregunta genéricamente cómo pagar/pide los datos SIN
+ * mencionar un método no soportado (`detectarSolicitudPago` ya lo
+ * descarta), la respuesta NUNCA depende del criterio del LLM.
+ *
+ * Reutiliza EXACTAMENTE las mismas piezas comerciales ya existentes
+ * (`consultarPedidoActivo`, `resolverCompraAutonoma`, `crearPedido`,
+ * `cerrarVentaTransferenciaHandler`) -- nunca un segundo mecanismo de pago.
+ * Transferencia NUNCA deriva a HUMAN por este camino: si no hay pedido
+ * activo ni producto identificable en la conversación reciente, no se
+ * inventa nada -- devuelve `false` y el flujo normal (LLM) continúa, que
+ * debe preguntar qué producto quiere (ver derivar-humano.ts, regla dura
+ * sobre transferencia).
+ *
+ * Devuelve `true` SOLO si ya envió (confirmado) el mensaje autorizado de
+ * transferencia al cliente -- el llamador debe cortar el turno ahí mismo.
+ */
+export async function intentarSolicitudPagoDeterminista(
+  sock: WASocket,
+  jid: string,
+  phone: string,
+  conversationId: number,
+  history: Message[],
+  texto: string
+): Promise<boolean> {
+  if (!detectarSolicitudPago(texto)) return false;
+  try {
+    let orderId: string | null = null;
+
+    const pedidoActivo = await consultarPedidoActivo(phone);
+    if (pedidoActivo) {
+      orderId = pedidoActivo.orderId;
+    } else {
+      // Producto claro en la conversación reciente (no necesariamente en
+      // ESTE mensaje, ej. "me interesan las cápsulas Ripped" ... "me
+      // puedes dar información para pagar") -- se concatenan los últimos
+      // mensajes reales del cliente. Se añade "transferencia" al final
+      // SOLO para satisfacer la condición interna de `resolverCompraAutonoma`:
+      // ya sabemos, por `detectarSolicitudPago` (sin método no soportado
+      // mencionado), que el método implicado es transferencia, el único
+      // autónomo real hoy.
+      const textoReciente = [...history]
+        .filter((m) => m.role === "user")
+        .slice(-5)
+        .map((m) => m.content)
+        .join(" ");
+      const resuelto = await resolverCompraAutonoma(`${textoReciente} transferencia`);
+      if (resuelto) {
+        const nuevoPedido = await crearPedido({ phone, productoId: resuelto.productoId });
+        if (nuevoPedido.ok && nuevoPedido.orderId) orderId = nuevoPedido.orderId;
+      }
+    }
+
+    if (!orderId) return false; // sin producto identificable -- el LLM debe preguntar, nunca inventar
+
+    const cierre = (await cerrarVentaTransferenciaHandler({ orderId, conversationId })) as {
+      ok?: boolean;
+      mensajeAutorizado?: string;
+    };
+    if (!cierre.ok || !cierre.mensajeAutorizado) return false;
+
+    const enviado = await enviarTextoConfirmado(sock, jid, cierre.mensajeAutorizado);
+    if (!enviado) return false;
+
+    insertMessage(conversationId, "assistant", cierre.mensajeAutorizado);
+    logMessage(phone, "assistant", cierre.mensajeAutorizado);
+    return true;
+  } catch (err) {
+    logger.warn(
+      { err: err instanceof Error ? err.message : String(err) },
+      "[bot] solicitud de pago determinista falló, sigue el flujo normal"
+    );
+    return false;
+  }
 }
 
 /**
@@ -88,16 +199,25 @@ function resumenConversacion(history: Message[], ultimaRespuesta: string): strin
   return texto;
 }
 
-/** Envía el aviso suave y lo persiste. Best-effort: si ni esto sale, no lanza. */
+/**
+ * Envía el aviso suave y SOLO lo persiste (Dashboard) si Baileys confirmó
+ * la entrega real -- antes se insertaba primero y se enviaba después,
+ * dentro de un catch que tragaba cualquier fallo en silencio: si el envío
+ * fallaba, el Dashboard igual mostraba el aviso como si hubiera llegado.
+ * Best-effort real: si ni esto se puede confirmar, queda en el log de error
+ * (ya existente), nunca lanza hacia el llamador.
+ */
 async function enviarFallback(sock: WASocket, jid: string, conversationId: number): Promise<void> {
   // Cuenta el evento para la alarma del watchdog (picos de mensajes de emergencia).
   registrarFallback(conversationId);
   try {
     const fb = saneaHumano(RESPUESTA_FALLBACK);
-    insertMessage(conversationId, "assistant", fb);
-    await sock.sendMessage(jid, { text: fb });
-  } catch {
-    // si ni el fallback se puede enviar, el error original ya quedó en el log
+    const enviado = await enviarTextoConfirmado(sock, jid, fb);
+    if (enviado) {
+      insertMessage(conversationId, "assistant", fb);
+    }
+  } catch (err) {
+    logger.error({ err: err instanceof Error ? err.message : String(err) }, "[bot] enviarFallback: no se pudo confirmar el envío");
   }
 }
 
@@ -252,6 +372,16 @@ async function generateAndSend(
     // este camino ni siquiera se invoca). Idempotente de verdad: si ya
     // había un handoff pendiente para esta conversación, ejecutarHandoffReal
     // no crea uno nuevo ni dispara otra alerta (ver crmClient.ts).
+    //
+    // Precedencia de compra autónoma (2026-09-15, decisión de negocio real):
+    // `debeDerivarPorCompraClara` (purchaseIntent.ts) SOLO da true aquí si,
+    // además de intención de compra clara, el mensaje NO resuelve ya un
+    // flujo autónomo completo (producto real + transferencia, el único
+    // método autónomo hoy) -- cuando sí lo resuelve, este bloque se salta
+    // entero y el flujo normal de abajo (LLM + tools) sigue, donde
+    // crearPedido/cerrarVentaTransferencia están disponibles. Cualquier
+    // caso ambiguo (sin producto, sin método, u otro método no autónomo)
+    // sigue derivando exactamente igual que antes.
     const ultimoMensajeUsuario = [...history].reverse().find((m) => m.role === "user");
 
     // Idioma real de esta conversación (2026-09-12, "idioma de la
@@ -272,23 +402,66 @@ async function generateAndSend(
       }
     }
 
-    if (ultimoMensajeUsuario && detectarIntencionCompraClara(ultimoMensajeUsuario.content)) {
-      const resultado = await ejecutarHandoffReal({
-        conversationId,
-        tipo: "compra",
-        razon: `Cliente confirma intención de compra: "${ultimoMensajeUsuario.content.slice(0, 200)}"`,
-      });
-      if (resultado.ok) {
-        const fb = saneaHumano(FRASE_CIERRE_COMPRA_EXACTA);
+    if (ultimoMensajeUsuario && (await debeDerivarPorCompraClara(ultimoMensajeUsuario.content))) {
+      // Orden de integridad (hallazgo real 2026-09-17): antes, el handoff
+      // (`ejecutarHandoffReal` -- pone `mode=HUMAN` YA MISMO) se ejecutaba
+      // ANTES de siquiera intentar enviar la frase de cierre al cliente, y
+      // el envío no se confirmaba (ver `enviarTextoConfirmado`). Si el envío
+      // fallaba (ej. socket cayendo/reconectando), la conversación quedaba
+      // en HUMAN (bot desconectado) y el Dashboard mostraba el mensaje como
+      // enviado (`insertMessage` corría igual), pero el cliente nunca lo
+      // recibía. Ahora: se intenta y confirma el envío PRIMERO; el handoff
+      // real (y su persistencia en el Dashboard) solo ocurre si el cliente
+      // sí recibió la frase de cierre. Si el envío falla, esta conversación
+      // NO pasa a HUMAN todavía -- sigue el flujo normal con el LLM abajo
+      // (mismo fallback ya existente para cuando el handoff no se completa).
+      const fb = saneaHumano(FRASE_CIERRE_COMPRA_EXACTA);
+      const enviado = await enviarTextoConfirmado(sock, jid, fb);
+      if (enviado) {
+        const resultado = await ejecutarHandoffReal({
+          conversationId,
+          tipo: "compra",
+          razon: `Cliente confirma intención de compra: "${ultimoMensajeUsuario.content.slice(0, 200)}"`,
+        });
+        if (resultado.ok) {
+          insertMessage(conversationId, "assistant", fb);
+          logMessage(phone, "assistant", fb);
+          logger.info(`[bot] → (${Date.now() - start}ms) handoff determinista (compra) a ${phoneMasked(phone)}`);
+          return;
+        }
+        // El cliente YA recibió la frase de cierre pero el handoff real
+        // (CRM/mode) falló -- se deja constancia en el Dashboard igual
+        // (el mensaje sí llegó) aunque el mecanismo de handoff no se haya
+        // completado; nunca se inventa un handoff que no ocurrió.
         insertMessage(conversationId, "assistant", fb);
         logMessage(phone, "assistant", fb);
-        await sock.sendMessage(jid, { text: fb });
-        logger.info(`[bot] → (${Date.now() - start}ms) handoff determinista (compra) a ${phoneMasked(phone)}`);
+        logger.warn(`[bot] handoff determinista (compra) falló tras envío confirmado a ${phoneMasked(phone)}`);
         return;
       }
-      // Si por lo que sea el handoff determinista falló (ej. CRM no
-      // configurado), sigue el flujo normal con el LLM -- nunca deja al
-      // cliente sin respuesta por esto.
+      logger.warn(`[bot] no se pudo confirmar el envío de la frase de cierre de compra a ${phoneMasked(phone)}, no se deriva todavía`);
+      // Si por lo que sea el envío no se pudo confirmar, sigue el flujo
+      // normal con el LLM -- nunca deja al cliente sin respuesta por esto,
+      // y nunca pasa a HUMAN sin que el cliente haya recibido nada.
+    }
+
+    // Solicitud de pago determinista (hallazgo real 2026-09-17: "me puedes
+    // dar información para pagar", tras ya mostrar interés en un producto,
+    // dejaba la decisión enteramente al LLM -- en un caso real pidió CORREO
+    // ELECTRÓNICO, dato que este negocio no usa, y terminó derivando con el
+    // mensaje genérico de handoff). Ver `intentarSolicitudPagoDeterminista`.
+    if (ultimoMensajeUsuario) {
+      const manejado = await intentarSolicitudPagoDeterminista(
+        sock,
+        jid,
+        phone,
+        conversationId,
+        history,
+        ultimoMensajeUsuario.content
+      );
+      if (manejado) {
+        logger.info(`[bot] → (${Date.now() - start}ms) solicitud de pago determinista a ${phoneMasked(phone)}`);
+        return;
+      }
     }
 
     // Memoria de largo plazo: qué sabemos de esta persona de conversaciones
@@ -346,6 +519,31 @@ async function generateAndSend(
       }
     }
 
+    // Refuerzo determinista de compra autónoma (hallazgo real 2026-09-16):
+    // el gate de arriba solo IMPIDE el handoff forzado cuando
+    // `detectarIntencionCompraClara` da true; nunca obliga al LLM a llamar
+    // a crearPedido/cerrarVentaTransferencia, y frases reales de compra
+    // ("quiero hacer un pedido de cápsulas venus, pago por transferencia
+    // porfavor") ni siquiera activan esa detección -- el LLM quedaba sin
+    // ningún refuerzo y, en un caso real, decidió por su cuenta llamar a
+    // derivarHumano en vez de continuar el flujo autónomo. Mismo patrón que
+    // el refuerzo de precio de arriba: se evalúa SIEMPRE que haya mensaje,
+    // independiente de `debeDerivarPorCompraClara` (ver
+    // purchaseIntent.ts#construirRefuerzoCompraAutonoma).
+    if (ultimoMensajeUsuario) {
+      try {
+        const compraResuelta = await resolverCompraAutonoma(ultimoMensajeUsuario.content);
+        if (compraResuelta) {
+          const tituloReal = await getProductTitleById(compraResuelta.productoId);
+          if (tituloReal) {
+            memoryContext += construirRefuerzoCompraAutonoma(idiomaDetectado, { titulo: tituloReal });
+          }
+        }
+      } catch {
+        // red de seguridad best-effort -- nunca debe romper la respuesta normal
+      }
+    }
+
     logger.info(
       `[bot] llamando al LLM con ${history.length} mensajes${memoryContext ? " + memoria" : ""}...`
     );
@@ -374,8 +572,8 @@ async function generateAndSend(
     if (!guard.ok) {
       logger.warn(`[guardrails] respuesta bloqueada (${guard.reason}) — enviado fallback`);
       const fb = saneaHumano(GUARD_FALLBACK);
-      insertMessage(conversationId, "assistant", fb);
-      await sock.sendMessage(jid, { text: fb });
+      const enviado = await enviarTextoConfirmado(sock, jid, fb);
+      if (enviado) insertMessage(conversationId, "assistant", fb);
       return;
     }
 
@@ -464,7 +662,16 @@ async function generateAndSend(
           await sock.sendPresenceUpdate("composing", jid).catch(() => {});
           await new Promise((r) => setTimeout(r, delayEscritura(partes[i])));
         }
-        await sock.sendMessage(jid, { text: partes[i] });
+        const enviado = await enviarTextoConfirmado(sock, jid, partes[i]);
+        if (!enviado) {
+          // No se confirma la entrega real de esta parte -- no se persiste
+          // (el Dashboard nunca debe mostrarla como enviada) y se corta el
+          // resto de la ráfaga: mejor un aviso suave real que partes sueltas
+          // que el cliente nunca recibió.
+          logger.warn(`[bot] parte ${i + 1}/${partes.length} no confirmada a ${phoneMasked(phone)}, corto la ráfaga`);
+          await enviarFallback(sock, jid, conversationId);
+          return;
+        }
         insertMessage(conversationId, "assistant", partes[i]);
         logMessage(phone, "assistant", partes[i]); // espejo a Supabase (best-effort)
       }

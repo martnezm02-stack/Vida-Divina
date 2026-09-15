@@ -13,8 +13,8 @@
 import { camelCaseRow, camelCaseRows } from '../db/mapRow.js';
 
 /**
- * Crea o actualiza la fila de precio/stock de un producto. Los campos no
- * incluidos en `datos` no se tocan si la fila ya existía (excepto
+ * Crea o actualiza la fila de precio/stock/promociones de un producto. Los
+ * campos no incluidos en `datos` no se tocan si la fila ya existía (excepto
  * actualizado_en/actualizado_por, que siempre se refrescan).
  *
  * @param {{query: Function}} db
@@ -22,21 +22,32 @@ import { camelCaseRow, camelCaseRows } from '../db/mapRow.js';
  *   productoId: string,
  *   precio?: number|null,
  *   disponibleStock?: boolean|null,
+ *   cantidadBase?: string|null,
+ *   promociones?: Array<{cantidad: string, precio: number}>|null,
  *   actualizadoPor?: string|null,
  * }} datos
  * @returns {Promise<Object>}
  */
-export async function upsertProductPricing(db, { productoId, precio, disponibleStock, actualizadoPor = null }) {
+export async function upsertProductPricing(db, { productoId, precio, disponibleStock, cantidadBase, promociones, actualizadoPor = null }) {
   const { rows } = await db.query(
-    `INSERT INTO product_pricing (producto_id, precio, disponible_stock, actualizado_por)
-     VALUES ($1, $2, $3, $4)
+    `INSERT INTO product_pricing (producto_id, precio, disponible_stock, cantidad_base, promociones, actualizado_por)
+     VALUES ($1, $2, $3, $4, $5, $6)
      ON CONFLICT (producto_id) DO UPDATE
        SET precio = COALESCE(EXCLUDED.precio, product_pricing.precio),
            disponible_stock = COALESCE(EXCLUDED.disponible_stock, product_pricing.disponible_stock),
+           cantidad_base = COALESCE(EXCLUDED.cantidad_base, product_pricing.cantidad_base),
+           promociones = COALESCE(EXCLUDED.promociones, product_pricing.promociones),
            actualizado_en = now(),
            actualizado_por = COALESCE(EXCLUDED.actualizado_por, product_pricing.actualizado_por)
      RETURNING *`,
-    [productoId, precio ?? null, disponibleStock ?? null, actualizadoPor]
+    [
+      productoId,
+      precio ?? null,
+      disponibleStock ?? null,
+      cantidadBase ?? null,
+      promociones != null ? JSON.stringify(promociones) : null,
+      actualizadoPor,
+    ]
   );
   return camelCaseRow(rows[0]);
 }
