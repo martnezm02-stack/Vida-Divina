@@ -6,7 +6,7 @@
 // crm/index.js (ver ese archivo): este módulo es interno a crm/.
 
 import pg from 'pg';
-import { getConfig } from '../config/env.js';
+import { getConfig, construirSslConfig } from '../config/env.js';
 
 let pool = null;
 
@@ -24,7 +24,7 @@ export function getPool() {
     max: config.poolMax,
     idleTimeoutMillis: config.idleTimeoutMillis,
     connectionTimeoutMillis: config.connectionTimeoutMillis,
-    ssl: config.ssl ? { rejectUnauthorized: false } : undefined,
+    ssl: construirSslConfig(config),
   });
 
   // Sin este listener, un error en una conexión inactiva del pool (ej. el

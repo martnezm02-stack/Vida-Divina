@@ -24,7 +24,7 @@
 // desproporcionada para el volumen de pruebas actual.
 
 import pg from 'pg';
-import { getTestConfig } from '../../config/env.js';
+import { getTestConfig, construirSslConfig } from '../../config/env.js';
 import { runMigrations } from '../../db/migrate.js';
 
 let pool = null;
@@ -44,7 +44,7 @@ export async function getTestPool() {
     max: config.poolMax,
     idleTimeoutMillis: config.idleTimeoutMillis,
     connectionTimeoutMillis: config.connectionTimeoutMillis,
-    ssl: config.ssl ? { rejectUnauthorized: false } : undefined,
+    ssl: construirSslConfig(config),
   });
   candidato.on('error', (error) => {
     console.error('[crm/test] error inesperado en una conexión inactiva del pool de test:', error.message);
