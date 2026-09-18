@@ -7,7 +7,8 @@
   <link rel="stylesheet" href="/styles.css" />
 </head>
 <body>
-  <header class="topbar">
+  <div class="app-shell">
+  <aside class="sidebar">
     <div class="brand">
       <img class="brand-logo" src="/logo.jpg" alt="Vida Divina" />
       <div class="brand-text">
@@ -24,10 +25,17 @@
       <button class="navbtn" data-view="adapt">Adaptar contenido</button>
       <button class="navbtn" data-view="assets">Assets</button>
       <button class="navbtn" data-view="products">Productos</button>
+      <!-- Inventario se movió a Hermes Ventas (FASE "Rediseño Dashboard
+           Hermes Ventas", 2026-09-18) -- mismo cálculo real
+           (crm/services/inventorySnapshot.js), nunca duplicado. El endpoint
+           /api/inventory de Creative Studio sigue intacto (tests propios
+           sin tocar); solo se retira el punto de entrada visual de aquí. -->
+      <a class="navbtn" href="/hermes" title="Inventario ahora vive en Hermes Ventas">Inventario →</a>
       <button class="navbtn" data-view="campaigns">Campañas</button>
       <button class="navbtn" data-view="calendar">Calendario</button>
       <button class="navbtn" data-view="review">Revisión</button>
       <button class="navbtn" data-view="whatsapp">WhatsApp</button>
+      <a class="navbtn" href="/hermes" title="Agente de WhatsApp con IA (kit) -- módulo propio, no conectado al número real de la tienda">WhatsApp / Hermes</a>
       <button class="navbtn navbtn-toggle-advanced" id="nav-toggle-advanced" type="button">Avanzado ▾</button>
     </nav>
     <nav class="topnav topnav-advanced hidden" id="topnav-advanced">
@@ -39,8 +47,9 @@
       <button class="navbtn" data-view="decisions">Strategy Decisions</button>
       <button class="navbtn" data-view="content-plans">Content Plans</button>
     </nav>
-  </header>
+  </aside>
 
+  <div class="content-area">
   <main id="app">
     <!-- HOME -->
     <section class="view" id="view-home">
@@ -72,6 +81,11 @@
             <span class="action-icon">⇄</span>
             <span class="action-title">Adaptar contenido</span>
             <span class="action-desc">Genera versiones para otras plataformas del mismo video.</span>
+          </button>
+          <button class="action-card" data-goto="voicegen">
+            <span class="action-icon">♪</span>
+            <span class="action-title">Generar archivo de voz</span>
+            <span class="action-desc">Convierte un texto en audio real (Voice Engine) y guárdalo como Asset reutilizable por Hermes.</span>
           </button>
         </div>
       </div>
@@ -171,6 +185,40 @@
       </div>
       <div id="create-hypothesis-batches"></div>
       <div id="create-variants-workspace"></div>
+    </section>
+
+    <!-- GENERAR ARCHIVO DE VOZ (FASE "Voice Engine automático + generador de voz", 2026-09-04) -->
+    <section class="view hidden" id="view-voicegen">
+      <h2>Generar archivo de voz</h2>
+      <p class="view-sub">Audio real vía Voice Engine (Chatterbox + ffmpeg) -- guárdalo como Asset y Hermes podrá encontrarlo por su nombre.</p>
+      <div class="voicegen-engine-status" id="voicegen-engine-status">● Comprobando Voice Engine…</div>
+      <div class="panel-grid">
+        <form class="panel form-panel" id="voicegen-form">
+          <label>Texto
+            <textarea name="text" id="voicegen-text" rows="4" placeholder="Hola, somos Vive Vida Divina." required></textarea>
+          </label>
+          <label>Nombre del archivo
+            <input type="text" name="semanticName" id="voicegen-name" placeholder="explicacion-te-divina" required />
+          </label>
+          <div class="meta">Se guardará como <code id="voicegen-name-preview">nombre.ogg</code>. Usa un nombre entendible (ej. testimonio-tongkat-juan) -- nunca un ID técnico.</div>
+          <label>Voice Profile
+            <select name="voiceProfileId" id="voicegen-profile"></select>
+          </label>
+          <label>Producto (opcional)
+            <select name="productId" id="voicegen-product"><option value="">-- Ninguno --</option></select>
+          </label>
+          <label>Uso
+            <select name="businessIntent" id="voicegen-intent">
+              <option value="CONSUMPTION">Explicación de producto / audio oficial</option>
+              <option value="DISTRIBUTION">Modelo de negocio / distribución</option>
+            </select>
+          </label>
+          <button type="submit" class="btn-primary" id="voicegen-generate-btn">GENERAR VOZ</button>
+        </form>
+        <div class="panel result-panel" id="voicegen-result">
+          <p class="placeholder">El audio real generado aparecerá aquí.</p>
+        </div>
+      </div>
     </section>
 
     <!-- EDITABLE VIDEO PROJECT (2026-08-24) -->
@@ -303,9 +351,20 @@
       <p class="view-sub">Deriva versiones reales para otras plataformas desde el mismo video — sin regenerar voz ni imagen.</p>
       <div class="panel-grid">
         <form class="panel form-panel" id="adapt-form">
+          <label>Buscar video existente
+            <input type="search" id="adapt-source-search" placeholder="Filtra por nombre, producto…" />
+          </label>
           <label>Video existente
             <select name="sourceAssetPath" id="adapt-source"></select>
           </label>
+          <p class="meta" id="adapt-source-origin"></p>
+          <div class="adapt-manual-entry">
+            <label>¿No aparece en la lista? Escribe el nombre o ID exacto
+              <input type="text" id="adapt-manual-input" placeholder="nombre de archivo o assetId" />
+            </label>
+            <button type="button" class="btn-secondary" id="adapt-manual-use-btn">USAR ESTE NOMBRE →</button>
+            <p class="meta" id="adapt-manual-status"></p>
+          </div>
           <fieldset>
             <legend>Formatos de salida</legend>
             <div id="adapt-profiles" class="checkbox-grid"></div>
@@ -336,20 +395,20 @@
       <p class="view-sub">Contenido listo para usar. Las fotografías de catálogo (RAW) no se pueden editar ni eliminar desde aquí.</p>
 
       <div id="workspace-status-bar" class="panel" style="padding:14px 18px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;">
-        <div id="workspace-status-text" style="font-size:13px;color:#5c5646;">Verificando la Biblioteca de Producción Activa…</div>
+        <div id="workspace-status-text" style="font-size:14px;color:#5c5646;">Verificando la Biblioteca de Producción Activa…</div>
         <button type="button" class="btn-secondary" id="workspace-reset-btn">INICIAR NUEVA BIBLIOTECA DE PRODUCCIÓN</button>
       </div>
 
       <div class="filters-row" id="assets-scope-tabs" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;"></div>
 
       <div class="filters-row" style="display:flex;gap:16px;flex-wrap:wrap;margin-bottom:16px;">
-        <label style="font-size:12px;font-weight:600;color:var(--olive);">Tipo
+        <label style="font-size:13px;font-weight:600;color:var(--olive);">Tipo
           <select id="assets-type-filter"><option value="">Todos</option></select>
         </label>
-        <label style="font-size:12px;font-weight:600;color:var(--olive);">Formato (Output Profile)
+        <label style="font-size:13px;font-weight:600;color:var(--olive);">Formato (Output Profile)
           <select id="assets-format-filter"><option value="">Todos</option></select>
         </label>
-        <label style="font-size:12px;font-weight:600;color:var(--olive);">Desde fecha
+        <label style="font-size:13px;font-weight:600;color:var(--olive);">Desde fecha
           <input type="date" id="assets-date-filter" />
         </label>
       </div>
@@ -661,7 +720,74 @@
       </form>
       <div id="auto-publish-result"></div>
     </section>
+
+    <!-- INVENTARIO -->
+    <section class="view hidden" id="view-inventory">
+      <div class="inv-header">
+        <div>
+          <h2>Inventario</h2>
+          <p class="view-sub">Estado actual de productos Vida Divina</p>
+        </div>
+        <div class="inv-header-right">
+          <span class="inv-updated">Última actualización: <strong id="inv-updated-at">—</strong></span>
+          <button type="button" class="btn-secondary" id="inv-refresh-btn">↻ Actualizar</button>
+        </div>
+      </div>
+
+      <div class="inv-summary-grid" id="inv-summary-grid">
+        <p class="placeholder">Cargando inventario real…</p>
+      </div>
+
+      <div class="inv-main-grid">
+        <div class="inv-table-card">
+          <div class="inv-table-toolbar">
+            <h3 id="inv-products-count">Productos</h3>
+            <input type="search" id="inv-search" placeholder="Buscar producto…" />
+            <select id="inv-filter-estado">
+              <option value="">Todos los estados</option>
+              <option value="NORMAL">Normal</option>
+              <option value="MINIMO">Mínimo</option>
+              <option value="AGOTADO">Agotado</option>
+            </select>
+            <select id="inv-filter-categoria">
+              <option value="">Todas las categorías</option>
+            </select>
+          </div>
+          <div class="inv-table-wrap">
+            <table class="inv-table">
+              <thead>
+                <tr>
+                  <th>Producto</th><th>SKU</th><th>Categoría</th><th>Existencia</th><th>Mínimo</th><th>Estado</th><th>Valor</th>
+                </tr>
+              </thead>
+              <tbody id="inv-table-body"><tr><td colspan="7" class="placeholder">Cargando…</td></tr></tbody>
+            </table>
+          </div>
+          <div class="inv-pagination" id="inv-pagination"></div>
+        </div>
+
+        <div class="inv-side">
+          <div class="inv-card">
+            <h4>Estado de Productos</h4>
+            <div id="inv-donut"></div>
+          </div>
+          <div class="inv-card">
+            <h4>Valor de Inventario por Categoría</h4>
+            <div id="inv-categoria-bars"></div>
+          </div>
+          <div class="inv-card">
+            <div class="inv-card-header">
+              <h4 id="inv-criticos-title">Productos Críticos</h4>
+              <a href="#" id="inv-ver-todos">Ver todos</a>
+            </div>
+            <div id="inv-criticos-list"></div>
+          </div>
+        </div>
+      </div>
+    </section>
   </main>
+  </div>
+  </div>
 
   <div class="modal hidden" id="preview-modal">
     <div class="modal-content">

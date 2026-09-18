@@ -23,8 +23,9 @@ import { extname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { sendJson, notFound, serverError } from './lib/http.js';
 import { handleProducts, handleProduct, handleAssets, handleDeleteAsset, handleArchiveAsset, handleGetWorkspace, handleResetWorkspace, handleCampaigns, handleOutputProfiles, handleOperations, handleAudioAssets, handlePreviewInfo } from './routes/library.js';
-import { handleCreate, handleEdit, handleAdapt, handleProposeCreative, handleProposeDirectCreative, handleProposeDirectMultiVariant, handleRegenerateHook, handleSuggestHypothesisVariants, handleListHypothesisBatches, handleVideoScript, handleProposeCarousel, handleCreateCarousel, handlePublishTargets, handlePublish, handleProduceCreative, handleProduceCreativeStart, handleProduceCreativeStatus, handleModelRecommendation, handleStructureRecommendation, handleVisualPlanPreview } from './routes/generation.js';
+import { handleCreate, handleEdit, handleAdapt, handleProposeCreative, handleProposeDirectCreative, handleProposeDirectMultiVariant, handleRegenerateHook, handleSuggestHypothesisVariants, handleListHypothesisBatches, handleVideoScript, handleProposeCarousel, handleCreateCarousel, handlePublishTargets, handlePublish, handleProduceCreative, handleProduceCreativeStart, handleProduceCreativeStatus, handleModelRecommendation, handleStructureRecommendation, handleVisualPlanPreview, handleUploadCampaignReference } from './routes/generation.js';
 import { handleMedia } from './routes/media.js';
+import { handleInventory } from './routes/inventory.js';
 import { handlePerformanceList, handlePerformanceAnalysis } from './routes/performance.js';
 import { handleAttributionList, handleAttributionSummary } from './routes/attribution.js';
 import { handleIntelligenceList, handleIntelligenceSummary } from './routes/intelligence.js';
@@ -58,6 +59,21 @@ const PUBLIC_DIR = fileURLToPath(new URL('../public', import.meta.url));
 const SCHEDULER_INTERVAL_MS = Number(process.env.SCHEDULER_INTERVAL_MS) || 60000;
 
 const STATIC_CONTENT_TYPES = { '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8', '.js': 'application/javascript; charset=utf-8', '.svg': 'image/svg+xml' };
+const UPLOAD_CONTENT_TYPES = { '.jpg': 'image/jpeg', '.png': 'image/png', '.webp': 'image/webp' };
+// CAMPAIGN_REFERENCE_UPLOAD_ROOT: MISMO valor real que generation.js
+// (join(PROJECT_ROOT, 'dashboard', 'uploads', 'campaign-references')) --
+// directorio separado de PUBLIC_DIR, solo para referencias de campaña
+// subidas (nunca Product Asset, nunca assets aprobados de mediaHostingService).
+const CAMPAIGN_REFERENCE_UPLOAD_ROOT = join(fileURLToPath(new URL('../', import.meta.url)), 'uploads', 'campaign-references');
+
+function serveUploadedReference(req, res, pathname) {
+  const filename = pathname.replace('/reference-uploads/', '');
+  const full = join(CAMPAIGN_REFERENCE_UPLOAD_ROOT, filename);
+  if (!full.startsWith(CAMPAIGN_REFERENCE_UPLOAD_ROOT) || !existsSync(full) || !statSync(full).isFile()) { notFound(res, 'Referencia no encontrada.'); return; }
+  const contentType = UPLOAD_CONTENT_TYPES[extname(full)] ?? 'application/octet-stream';
+  res.writeHead(200, { 'Content-Type': contentType });
+  createReadStream(full).pipe(res);
+}
 
 function serveStatic(req, res, pathname) {
   const rutaRelativa = pathname === '/' ? 'index.html' : pathname.replace(/^\//, '');
@@ -83,6 +99,7 @@ const server = http.createServer(async (req, res) => {
 
     if (pathname.startsWith('/media/')) { await handleMedia(req, res, pathname); return; }
 
+    if (pathname === '/api/inventory' && req.method === 'GET') { await handleInventory(req, res); return; }
     if (pathname === '/api/products' && req.method === 'GET') { await handleProducts(req, res); return; }
     const productMatch = pathname.match(/^\/api\/products\/([^/]+)$/);
     if (productMatch && req.method === 'GET') { await handleProduct(req, res, productMatch[1]); return; }
@@ -115,6 +132,11 @@ const server = http.createServer(async (req, res) => {
     if (pathname === '/api/create/structure-recommendation' && req.method === 'GET') { await handleStructureRecommendation(req, res, url); return; }
     if (pathname === '/api/create/visual-plan-preview' && req.method === 'GET') { await handleVisualPlanPreview(req, res, url); return; }
     if (pathname === '/api/create/produce' && req.method === 'POST') { await handleProduceCreative(req, res); return; }
+    // Referencia visual EXTERNA de campaña (Corrección "Referencia visual
+    // externa desde el Dashboard", 2026-09-17) -- nunca Product Asset,
+    // nunca mediaHostingService (ver nota de cabecera en generation.js).
+    if (pathname === '/api/create/reference/upload' && req.method === 'POST') { await handleUploadCampaignReference(req, res); return; }
+    if (pathname.startsWith('/reference-uploads/')) { serveUploadedReference(req, res, pathname); return; }
     if (pathname === '/api/create/produce-start' && req.method === 'POST') { await handleProduceCreativeStart(req, res); return; }
     if (pathname === '/api/create/produce-status' && req.method === 'GET') { handleProduceCreativeStatus(req, res, url); return; }
     if (pathname === '/api/video-script' && req.method === 'POST') { await handleVideoScript(req, res); return; }

@@ -46,3 +46,23 @@ test("isAdminPhone: teléfono no admin -> false", async () => {
   const { isAdminPhone } = await import("../src/lib/vidaDivina/identity");
   assert.equal(isAdminPhone("5215500000099"), false);
 });
+
+test("Fallo real 2026-09-17: el remitente REAL de WhatsApp para el admin mexicano llega con el '1' móvil extra ('5212225240044', 13 dígitos) -- debe resolver ADMIN igual que la forma corta configurada en HERMES_ADMIN_PHONE", async () => {
+  const { resolveIdentity, isAdminPhone } = await import("../src/lib/vidaDivina/identity");
+  const variantesReales = ["5212225240044", "+5212225240044"];
+  for (const variante of variantesReales) {
+    assert.equal(isAdminPhone(variante), true, `"${variante}" (forma real con el 1 móvil) debe ser ADMIN`);
+    const identity = resolveIdentity(variante);
+    assert.equal(identity.role, "ADMIN");
+    assert.equal(identity.name, "Manuel");
+  }
+});
+
+test("La regla del '1' móvil mexicano es GENERAL (nunca hardcodea un teléfono): un número de 13 dígitos con prefijo 521 que NO es el admin sigue siendo CLIENT", async () => {
+  const { resolveIdentity } = await import("../src/lib/vidaDivina/identity");
+  // Mismo patrón estructural (521 + 10 dígitos) que el admin real, pero un
+  // número real distinto -- debe seguir sin ser ADMIN.
+  const identity = resolveIdentity("5215500000099");
+  assert.equal(identity.role, "CLIENT");
+  assert.equal(identity.name, null);
+});

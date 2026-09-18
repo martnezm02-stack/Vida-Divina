@@ -6,6 +6,7 @@
 
 import { join } from 'node:path';
 import { randomUUID } from 'node:crypto';
+import { mkdirSync, writeFileSync } from 'node:fs';
 import { sendJson, badRequest, serverError, readJsonBody, notFound } from '../lib/http.js';
 import { resolveSafeMediaPath, toMediaUrl, PROJECT_ROOT } from '../lib/safePaths.js';
 import { getProduct } from '../lib/productCatalog.js';
@@ -42,6 +43,65 @@ import { computeDiversityScore } from '../../../content-orchestrator/src/creativ
 const FFMPEG_BIN_DIR = process.env.FFMPEG_BIN_DIR
   ?? 'C:\\Users\\manue\\AppData\\Local\\Microsoft\\WinGet\\Packages\\Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe\\ffmpeg-9.0-full_build\\bin';
 const DASHBOARD_OUTPUT_ROOT = join(PROJECT_ROOT, 'video-production', 'dashboard-outputs');
+// Campaign Reference Uploads (Corrección "Referencia visual externa desde
+// el Dashboard", 2026-09-17): directorio SEPARADO de mediaHostingService
+// (que solo aloja assetKind "FINAL" aprobado, ver media-hosting/src/
+// mediaHostingService.js -- una referencia de campaña recién subida nunca
+// es un asset FINAL). Servido como estático de solo estas rutas por
+// server/index.js (prefijo "/reference-uploads/") -- nunca se mezcla con
+// PUBLIC_DIR real del Dashboard.
+const CAMPAIGN_REFERENCE_UPLOAD_ROOT = join(PROJECT_ROOT, 'dashboard', 'uploads', 'campaign-references');
+const ALLOWED_REFERENCE_MIME = Object.freeze({ 'image/jpeg': '.jpg', 'image/png': '.png', 'image/webp': '.webp' });
+
+/**
+ * POST /api/create/reference/upload — sube una REFERENCIA VISUAL DE
+ * CAMPAÑA (gramática visual: composición/encuadre/iluminación/jerarquía),
+ * NUNCA un Product Asset. Body: {imageBase64: "data:<mime>;base64,...",
+ * filename?: string}. No pasa por mediaHostingService.upload() (ese
+ * método rechaza cualquier cosa que no sea assetKind "FINAL" ya aprobado
+ * -- una referencia recién subida es justamente lo opuesto). Devuelve
+ * {referenceId, url} -- "url" se reenvía tal cual a
+ * buildVisualStrategy({externalVisualReference}) desde
+ * handleProduceCreative/-Start, nunca a productAssetLock.js.
+ */
+export async function handleUploadCampaignReference(req, res) {
+  let body;
+  try { body = await readJsonBody(req); } catch (err) { badRequest(res, err.message); return; }
+  const { imageBase64 } = body;
+  if (typeof imageBase64 !== 'string' || !imageBase64.trim()) {
+    badRequest(res, 'reference/upload: "imageBase64" es obligatorio (data URL real, ej. "data:image/jpeg;base64,...").');
+    return;
+  }
+  const match = /^data:([\w/+-]+);base64,(.+)$/s.exec(imageBase64.trim());
+  if (!match) {
+    badRequest(res, 'reference/upload: "imageBase64" debe ser una data URL real ("data:<mime>;base64,<...>").');
+    return;
+  }
+  const [, mime, base64Data] = match;
+  const ext = ALLOWED_REFERENCE_MIME[mime];
+  if (!ext) {
+    badRequest(res, `reference/upload: mime "${mime}" no soportado -- solo ${Object.keys(ALLOWED_REFERENCE_MIME).join(', ')}.`);
+    return;
+  }
+  let buffer;
+  try { buffer = Buffer.from(base64Data, 'base64'); } catch { badRequest(res, 'reference/upload: base64 inválido.'); return; }
+  if (buffer.length === 0) { badRequest(res, 'reference/upload: la imagen decodificada está vacía.'); return; }
+
+  const referenceId = randomUUID();
+  mkdirSync(CAMPAIGN_REFERENCE_UPLOAD_ROOT, { recursive: true });
+  const localPath = join(CAMPAIGN_REFERENCE_UPLOAD_ROOT, `${referenceId}${ext}`);
+  try {
+    writeFileSync(localPath, buffer);
+  } catch (err) {
+    serverError(res, err);
+    return;
+  }
+  // "url" es relativa al propio Dashboard (servida por server/index.js vía
+  // el prefijo "/reference-uploads/") -- el llamador HTTP real construye la
+  // URL absoluta con su propio host/puerto si necesita pasarla a un
+  // provider externo (ej. Krea) que requiera una URL pública real.
+  sendJson(res, 200, { referenceId, url: `/reference-uploads/${referenceId}${ext}`, localPath });
+}
 // Creative Factory (2026-08-23): tamaño de batch por defecto cuando el
 // Dashboard no manda "variantCount" explícito -- configurable por
 // solicitud (Paso 6), este es solo el valor por defecto razonable.
@@ -1520,6 +1580,13 @@ export async function handleProduceCreative(req, res) {
     // {[sceneId]: promptEditado} -- edición por escena (Paso 28-31).
     hookOverride = null, voiceoverOverride = null, ctaOverride = null,
     scenePromptOverrides = null,
+    // externalVisualReference (Corrección "Referencia visual externa desde
+    // el Dashboard", 2026-09-17): {url, visualStructure?} de una referencia
+    // de CAMPAÑA subida vía POST /api/create/reference/upload (nunca de
+    // assets/raw, nunca Product Asset) -- pass-through puro hacia
+    // produceCreative()/buildVisualStrategy(). null real = comportamiento
+    // EXACTO de antes.
+    externalVisualReference = null,
   } = body;
   if (!batchId?.trim()) { badRequest(res, 'produce: "batchId" es obligatorio -- la creatividad debe venir de un batch real ya generado, nunca inventada aquí.'); return; }
   if (!Number.isInteger(variantIndex) || variantIndex < 0) { badRequest(res, 'produce: "variantIndex" debe ser un entero >= 0 real.'); return; }
@@ -1681,6 +1748,13 @@ export async function handleProduceCreativeStart(req, res) {
     // arriba -- mismo criterio real, nunca un segundo diseño).
     hookOverride = null, voiceoverOverride = null, ctaOverride = null,
     scenePromptOverrides = null,
+    // externalVisualReference (Corrección "Referencia visual externa desde
+    // el Dashboard", 2026-09-17): {url, visualStructure?} de una referencia
+    // de CAMPAÑA subida vía POST /api/create/reference/upload (nunca de
+    // assets/raw, nunca Product Asset) -- pass-through puro hacia
+    // produceCreative()/buildVisualStrategy(). null real = comportamiento
+    // EXACTO de antes.
+    externalVisualReference = null,
   } = body;
   if (!batchId?.trim()) { badRequest(res, 'produce-start: "batchId" es obligatorio -- la creatividad debe venir de un batch real ya generado, nunca inventada aquí.'); return; }
   if (!Number.isInteger(variantIndex) || variantIndex < 0) { badRequest(res, 'produce-start: "variantIndex" debe ser un entero >= 0 real.'); return; }
@@ -1758,7 +1832,7 @@ export async function handleProduceCreativeStart(req, res) {
         campaignId: batch.campaignId, batchId: batch.batchId, generationId: batch.generationId,
         creativeId: `${batch.batchId}-v${variantIndex}`,
         productFacts: batch.product ?? null, variantIndex, selectedModelId: imageModelId, selectedQuality,
-        userInstruction, selectedStructureId,
+        userInstruction, selectedStructureId, externalVisualReference,
       });
       let productionJobId = null;
       if (job.status !== 'FAILED') {

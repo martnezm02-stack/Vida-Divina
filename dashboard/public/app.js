@@ -42,10 +42,12 @@ function goto(view) {
   if (view === 'learning') loadLearning();
   if (view === 'decisions') loadStrategyDecisions();
   if (view === 'content-plans') { loadContentPlans(); loadAutoPublishStatus(); }
+  if (view === 'inventory') loadInventory();
   if (view === 'home') loadCommandCenter();
   if (view === 'autocreate') initAutocreateProductSelect();
   if (view === 'review') loadReviewQueue();
   if (view === 'whatsapp') { loadWhatsappStatus(); loadWhatsappInbox(); }
+  if (view === 'voicegen') initVoicegenForm();
   // Si se navega directo a una vista "Avanzado" (ej. desde un botón de
   // otra pantalla), la sección avanzada se despliega para que el usuario
   // vea cuál botón quedó activo -- nunca queda una pestaña activa oculta.
@@ -75,6 +77,18 @@ async function loadEngineStatus() {
 function pill(up, labelUp = 'OK', labelDown = 'DOWN') {
   return `<span class="cc-pill ${up ? 'up' : 'down'}">${up ? labelUp : labelDown}</span>`;
 }
+// FASE "Voice Engine automático" (2026-09-04): 3 estados reales en vez de
+// arriba/abajo -- "ARRANCANDO" (proceso ya levantado por el launcher, modelo
+// Chatterbox todavía cargando, ~15-30s reales) no debe verse como "caído".
+function voiceEnginePill(status) {
+  const map = {
+    OPERATIVO: { cls: 'up', label: 'OPERATIVO' },
+    ARRANCANDO: { cls: 'warn', label: 'ARRANCANDO...' },
+    NO_DISPONIBLE: { cls: 'down', label: 'NO DISPONIBLE' },
+  };
+  const s = map[status] ?? map.NO_DISPONIBLE;
+  return `<span class="cc-pill ${s.cls}">${s.label}</span>`;
+}
 async function loadCommandCenter() {
   const el = $('#command-center-grid');
   el.innerHTML = '<p class="placeholder">Cargando estado real…</p>';
@@ -82,7 +96,7 @@ async function loadCommandCenter() {
     const s = await api('/api/system-status');
     const cards = [
       `<div class="cc-card"><div class="cc-title">Content Generation</div>${pill(true, 'OPERATIVO')}
-        <div class="cc-detail">Voice Engine: ${pill(s.contentGeneration.voiceEngineReachable, 'ACTIVO', 'NO CORRIENDO')}</div></div>`,
+        <div class="cc-detail">Voice Engine: ${voiceEnginePill(s.contentGeneration.voiceEngineStatus)}</div></div>`,
       `<div class="cc-card"><div class="cc-title">Instagram</div>${pill(s.publishing.instagram.configured, 'CONFIGURADO', 'SIN CONFIGURAR')}</div>`,
       `<div class="cc-card"><div class="cc-title">Facebook</div>${pill(s.publishing.facebook.configured, 'CONFIGURADO', 'SIN CONFIGURAR')}</div>`,
       `<div class="cc-card"><div class="cc-title">Publishing (Media Hosting)</div>${pill(s.publishing.mediaHosting.configured, 'CONFIGURADO', 'SIN CONFIGURAR')}</div>`,
@@ -98,6 +112,13 @@ async function loadCommandCenter() {
       </div>`,
     ];
     el.innerHTML = cards.join('');
+    // Voice Engine arrancando (launcher recién lo levantó, Chatterbox aún
+    // carga ~15-30s reales): reintenta solo mientras dure ese estado, para
+    // que no se quede fijo en un estado transitorio -- se detiene solo en
+    // cuanto pasa a OPERATIVO/NO_DISPONIBLE, o si el usuario sale de Home.
+    if (s.contentGeneration.voiceEngineStatus === 'ARRANCANDO' && $('#view-home:not(.hidden)')) {
+      setTimeout(() => { if (!$('#view-home').classList.contains('hidden')) loadCommandCenter(); }, 4000);
+    }
   } catch (err) {
     el.innerHTML = `<p class="empty-state">No se pudo cargar el estado real: ${err.message}</p>`;
   }
@@ -216,8 +237,17 @@ function updateCreateProductBodyVisibility() {
 const SECTION_TYPE_LABELS = { HOOK: 'Hook', STORY: 'Historia', PRODUCT: 'Producto', CTA: 'Llamado a la acción' };
 
 function productionJobStatusHtml(job) {
-  if (job.status === 'FAILED' && !job.scenePlan) {
-    return `<div class="result-status VALIDATION_FAILED">${job.status}</div><p>${job.error}</p>`;
+  // Cualquier respuesta real de /api/create/produce(-start) que corta ANTES
+  // de construir el Scene Plan (FAILED por guion no aplicable, pero también
+  // SOURCE_ASSET_REQUIRED/VALIDATION_FAILED por audio -- ver
+  // handleProduceCreative()/handleProduceCreativeStart(), generation.js)
+  // nunca trae job.scenePlan real -- mostrar SOLO "0 escenas reales / 0
+  // fuente(s) visual(es)" sin job.error oculta la causa real (ej. "Voice
+  // Engine no disponible") y hace parecer un problema de asset de producto
+  // que nunca ocurrió. Antes esto solo cubría status==='FAILED'.
+  if (!job.scenePlan) {
+    const motivo = job.error ?? ((job.errors ?? []).join(' · ') || 'Producción detenida antes de construir el plan de escenas.');
+    return `<div class="result-status ${job.status}">${job.status}</div><p>${motivo}</p>`;
   }
   const escenas = job.scenePlan?.scenes?.length ?? 0;
   const conceptos = job.assetPlan ? new Set(job.assetPlan.map((a) => a.source)).size : 0;
@@ -720,6 +750,174 @@ function invalidateStaleProposal() {
 }
 $('#create-product')?.addEventListener('change', invalidateStaleProposal);
 $('#create-form textarea[name="rawText"]')?.addEventListener('input', invalidateStaleProposal);
+
+// ---------------- GENERAR ARCHIVO DE VOZ ----------------
+// (FASE "Voice Engine automático + generador de voz", 2026-09-04). Reutiliza
+// productsCache (mismo catálogo real que CREATE, nunca un segundo). El
+// audio real vive en commercial-media/incoming/ desde el momento en que se
+// genera -- "Guardar como Asset" solo registra la metadata en el Commercial
+// Media Registry real, no mueve ni reconvierte nada.
+let voicegenLastGenerated = null; // { semanticName, filename, productId, businessIntent, text }
+
+// Indicador real de estado del Voice Engine en "Generar archivo de voz"
+// (2026-09-09): reutiliza /api/system-status -- el MISMO endpoint y el
+// MISMO estado real de 3 valores (OPERATIVO/ARRANCANDO/NO_DISPONIBLE) que
+// ya usa el Command Center (ver voiceEnginePill() arriba) -- nunca un
+// segundo mecanismo de comprobación ni un valor fijo. GENERANDO/
+// COMPLETADO/ERROR son estados propios de ESTA pantalla (el ciclo de vida
+// de una generación concreta), no del Voice Engine en sí.
+function renderVoicegenEngineStatus(kind, detalle) {
+  const el = $('#voicegen-engine-status');
+  if (!el) return;
+  const map = {
+    checking: { cls: 'warn busy', txt: '● Comprobando Voice Engine…' },
+    OPERATIVO: { cls: 'up', txt: '● Voice Engine: OPERATIVO' },
+    ARRANCANDO: { cls: 'warn busy', txt: '◌ Voice Engine: ARRANCANDO…' },
+    NO_DISPONIBLE: { cls: 'down', txt: '● Voice Engine: NO DISPONIBLE' },
+    GENERANDO: { cls: 'warn busy', txt: '◌ Voice Engine: GENERANDO AUDIO…' },
+    COMPLETADO: { cls: 'up', txt: '✓ Voz generada correctamente' },
+    ERROR: { cls: 'down', txt: detalle ? `● Voice Engine: ${detalle}` : '● Voice Engine: ERROR EN LA GENERACIÓN' },
+  };
+  const s = map[kind] ?? map.NO_DISPONIBLE;
+  el.className = `voicegen-engine-status ${s.cls}`;
+  el.textContent = s.txt;
+}
+
+// Estado real actual, consultado por checkVoicegenEngineStatus() -- el
+// submit handler lo lee para no lanzar una generación que necesariamente
+// fallará (Voice Engine NO_DISPONIBLE o todavía ARRANCANDO).
+let voicegenEngineReady = false;
+
+async function checkVoicegenEngineStatus() {
+  renderVoicegenEngineStatus('checking');
+  const btn = $('#voicegen-generate-btn');
+  try {
+    const s = await api('/api/system-status');
+    const status = s.contentGeneration.voiceEngineStatus; // OPERATIVO | ARRANCANDO | NO_DISPONIBLE
+    renderVoicegenEngineStatus(status);
+    voicegenEngineReady = status === 'OPERATIVO';
+    if (btn) btn.disabled = !voicegenEngineReady;
+    // Igual que loadCommandCenter(): mientras arranca (Chatterbox cargando
+    // ~15-30s reales), reintenta solo mientras siga en ARRANCANDO y la
+    // pantalla siga abierta -- se detiene solo al llegar a OPERATIVO/
+    // NO_DISPONIBLE o si el usuario navega a otra vista.
+    if (status === 'ARRANCANDO' && !$('#view-voicegen').classList.contains('hidden')) {
+      setTimeout(() => { if (!$('#view-voicegen').classList.contains('hidden')) checkVoicegenEngineStatus(); }, 4000);
+    }
+  } catch (err) {
+    renderVoicegenEngineStatus('NO_DISPONIBLE');
+    voicegenEngineReady = false;
+    if (btn) btn.disabled = true;
+  }
+}
+
+async function initVoicegenForm() {
+  const genBtn = $('#voicegen-generate-btn');
+  if (genBtn) genBtn.disabled = true; // hasta confirmar OPERATIVO real -- evita generar durante INICIALIZANDO
+  checkVoicegenEngineStatus();
+  const { profiles } = await api('/api/voice-generator/profiles');
+  const profileSel = $('#voicegen-profile');
+  profileSel.innerHTML = profiles.map((p) => `<option value="${p.voiceProfileId}">${p.label}</option>`).join('');
+
+  if (!productsCache.length) productsCache = await api('/api/products');
+  const productSel = $('#voicegen-product');
+  productSel.innerHTML = '<option value="">-- Ninguno --</option>' + productsCache.map((p) => `<option value="${p.productSlug}">${p.nombreVisible ?? p.productSlug}</option>`).join('');
+
+  const nameInput = $('#voicegen-name');
+  const namePreview = $('#voicegen-name-preview');
+  const slugify = (s) => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 80);
+  nameInput.oninput = () => { namePreview.textContent = `${slugify(nameInput.value) || 'nombre'}.ogg`; };
+  namePreview.textContent = `${slugify(nameInput.value) || 'nombre'}.ogg`;
+
+  voicegenLastGenerated = null;
+  $('#voicegen-result').innerHTML = '<p class="placeholder">El audio real generado aparecerá aquí.</p>';
+}
+
+function renderVoicegenResult({ semanticName, filename, previewUrl, durationSeconds, fileSizeBytes, sampleRate, format }) {
+  const kb = fileSizeBytes ? (fileSizeBytes / 1024).toFixed(1) : '?';
+  $('#voicegen-result').innerHTML = `
+    <p><strong>Generado:</strong> ${filename}</p>
+    <audio controls src="${previewUrl}" style="width:100%;margin:8px 0;"></audio>
+    <ul class="meta-list">
+      <li>Duración: ${durationSeconds ? durationSeconds.toFixed(2) + 's' : '?'}</li>
+      <li>Tamaño: ${kb} KB</li>
+      <li>Formato: ${format}</li>
+      <li>Sample rate: ${sampleRate ?? '?'} Hz</li>
+      <li>Nombre: ${semanticName}</li>
+      <li>Estado: generado (aún no guardado como Asset)</li>
+    </ul>
+    <div class="hypothesis-batch-controls">
+      <button type="button" class="btn-primary" id="voicegen-save-btn">GUARDAR COMO ASSET</button>
+      <button type="button" class="btn-secondary" id="voicegen-again-btn">GENERAR OTRA</button>
+    </div>
+    <div id="voicegen-save-status"></div>
+  `;
+  $('#voicegen-save-btn').addEventListener('click', async () => {
+    const btn = $('#voicegen-save-btn');
+    btn.disabled = true; btn.textContent = 'GUARDANDO…';
+    try {
+      const body = await api('/api/voice-generator/save-asset', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          semanticName: voicegenLastGenerated.semanticName,
+          productId: voicegenLastGenerated.productId || undefined,
+          businessIntent: voicegenLastGenerated.businessIntent,
+        }),
+      });
+      $('#voicegen-save-status').innerHTML = `<p class="meta">Guardado como Asset real (mediaId: ${body.mediaId}). Hermes puede buscarlo por el nombre "${body.displayName}".</p>`;
+      btn.textContent = 'GUARDADO ✓';
+    } catch (err) {
+      $('#voicegen-save-status').innerHTML = `<p class="empty-state">No se pudo guardar: ${err.message}</p>`;
+      btn.disabled = false; btn.textContent = 'GUARDAR COMO ASSET';
+    }
+  });
+  $('#voicegen-again-btn').addEventListener('click', () => {
+    $('#voicegen-result').innerHTML = '<p class="placeholder">El audio real generado aparecerá aquí.</p>';
+  });
+}
+
+$('#voicegen-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  // No lanzar una generación que necesariamente fallará (Voice Engine
+  // todavía NO_DISPONIBLE/ARRANCANDO según el último chequeo real) -- el
+  // botón ya queda deshabilitado por checkVoicegenEngineStatus(), esto es
+  // un segundo cierre por si el form se envía por otra vía (ej. Enter).
+  if (!voicegenEngineReady) { checkVoicegenEngineStatus(); return; }
+  const form = e.target;
+  const btn = $('#voicegen-generate-btn');
+  const resultEl = $('#voicegen-result');
+  btn.disabled = true; btn.textContent = 'GENERANDO…';
+  renderVoicegenEngineStatus('GENERANDO');
+  resultEl.innerHTML = '<p class="placeholder">Generando audio real con el Voice Engine (Chatterbox)… puede tardar hasta un minuto.</p>';
+  try {
+    const body = await api('/api/voice-generator/generate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        text: form.text.value,
+        semanticName: form.semanticName.value,
+        voiceProfileId: form.voiceProfileId.value,
+      }),
+    });
+    voicegenLastGenerated = {
+      semanticName: body.semanticName,
+      productId: form.productId.value,
+      businessIntent: form.businessIntent.value,
+      text: form.text.value,
+    };
+    renderVoicegenResult(body);
+    renderVoicegenEngineStatus('COMPLETADO');
+  } catch (err) {
+    // Mensaje real tal cual (§13, ver voiceEngineClient.js): nunca se
+    // reemplaza por "Voice Engine no disponible" si la causa real fue
+    // otra (ej. texto/nombre inválido, error del propio servicio).
+    resultEl.innerHTML = `<p class="empty-state">No se pudo generar el audio real: ${err.message}</p>`;
+    renderVoicegenEngineStatus('ERROR', err.message);
+  } finally {
+    btn.disabled = false; btn.textContent = 'GENERAR VOZ';
+  }
+});
 
 $('#create-form').addEventListener('submit', async (e) => {
   e.preventDefault();
@@ -2014,7 +2212,7 @@ function renderFinalAssetPackage(el, result, requestSummary = null) {
   }
   html += renderVideoWorkspaceInfo(result, requestSummary);
   html += renderAssetPackagePreview(result);
-  if ((result.warnings ?? []).length > 0) html += `<p style="font-size:12px;color:#6b654f;">${result.warnings.join(' · ')}</p>`;
+  if ((result.warnings ?? []).length > 0) html += `<p style="font-size:13px;color:#6b654f;">${result.warnings.join(' · ')}</p>`;
   if (result.status === 'COMPLETED' || result.status === 'PARTIAL') {
     html += '<button class="btn-primary" id="fap-publish-btn">PUBLICAR →</button>';
     html += '<button class="btn-secondary" id="fap-schedule-btn">PROGRAMAR →</button>';
@@ -2202,7 +2400,7 @@ function assetCard(a) {
   // Paso 19 del encargo: Creado / Workspace (ACTIVO/HISTÓRICO) / Origen / Estado, dentro de Detalles -- nunca como nombre principal.
   const workspaceLabel = a.visibilityScope === 'ACTIVE' ? 'ACTIVO' : a.visibilityScope === 'ARCHIVED' ? 'ARCHIVADO' : a.visibilityScope === 'LEGACY' ? 'HISTÓRICO' : '—';
   const detalles = `
-    <details style="margin-top:6px;font-size:11px;color:#6b654f;">
+    <details style="margin-top:6px;font-size:13px;color:#6b654f;">
       <summary style="cursor:pointer;">Ver detalles técnicos</summary>
       <div style="margin-top:4px;">
         <div>Creado: ${a.createdAt ? formatWorkspaceDate(a.createdAt) : (a.modifiedAt ? formatWorkspaceDate(a.modifiedAt) : '—')}</div>
@@ -2229,7 +2427,7 @@ function assetCard(a) {
         <span class="tag" style="${assetOriginTagStyle(a.origin)}">${ASSET_ORIGIN_LABELS[a.origin] ?? a.origin}</span>
         ${a.versionNumber ? `<span class="tag" style="background:var(--cream-3);color:var(--soft-black);">V${a.versionNumber}</span>` : ''}
       </div>
-      <div class="meta" style="font-size:11px;color:#6b654f;margin-top:4px;">${[tamañoMB, fecha].filter(Boolean).join(' · ')}</div>
+      <div class="meta" style="font-size:13px;color:#6b654f;margin-top:4px;">${[tamañoMB, fecha].filter(Boolean).join(' · ')}</div>
       <div style="margin-top:6px;display:flex;gap:6px;flex-wrap:wrap;">
         ${a.mediaUrl && a.assetType === 'VIDEO' ? `<button class="btn-secondary" data-preview="${a.mediaUrl}" data-preview-source="${sourcePath}">VER</button>` : ''}
         ${canArchive ? `<button class="btn-secondary" data-action="toggle-archive" data-archived="${isArchived}">${isArchived ? 'Desarchivar' : 'Archivar'}</button>` : ''}
@@ -2365,7 +2563,7 @@ async function loadProducts() {
   // productCatalog.js pero nunca llegaban a esta vista; NOT_AVAILABLE
   // explícito cuando la ficha real no documenta el campo (nunca se rellena).
   const NOT_AVAILABLE = '<span style="font-style:italic;color:var(--burgundy);">No especificado</span>';
-  const campo = (label, valor) => `<div style="font-size:12px;margin-top:4px;"><strong>${label}:</strong> ${valor ?? NOT_AVAILABLE}</div>`;
+  const campo = (label, valor) => `<div style="font-size:13px;margin-top:4px;"><strong>${label}:</strong> ${valor ?? NOT_AVAILABLE}</div>`;
   // dataQualityStatus (Corrección "Limpieza y normalización del Product
   // Knowledge", 2026-08-28, Paso 22 del encargo): solo se muestra cuando es
   // relevante (nunca para VERIFIED -- "mostrar solo si es relevante").
@@ -2416,7 +2614,7 @@ async function loadCampaigns() {
     <div class="campaign-card">
       <strong>${c.concept}</strong>
       <div class="campaign-trace">CreativeCell ${c.creativeCellCandidateId} → ProductionArtifact ${c.productionArtifactId} → ${c.visualProductionPackages.length} VisualProductionPackage(s)</div>
-      <div style="font-size:12px;color:#6b654f;">${c.commercialObjective} · ${c.format} · ${new Date(c.createdAt).toLocaleString()}</div>
+      <div style="font-size:13px;color:#6b654f;">${c.commercialObjective} · ${c.format} · ${new Date(c.createdAt).toLocaleString()}</div>
     </div>`).join('');
 }
 
@@ -2458,8 +2656,8 @@ $('#marketing-campaign-form')?.addEventListener('submit', async (e) => {
 function marketingCampaignCard(c) {
   return `<div class="campaign-card" data-mkt-campaign-id="${c.id}">
     <strong>${c.name}</strong>
-    <div style="font-size:12px;">${label(OBJECTIVE_LABELS, c.objective)} · ${c.platform} · ${label(FREQUENCY_LABELS, c.frequency)} · Modo de ejecución: ${label(EXECUTION_MODE_LABELS, c.executionMode)}</div>
-    <div style="font-size:12px;color:#6b654f;">${c.startDate} → ${c.endDate} · objetivo: ${c.targetContentCount} contenidos</div>
+    <div style="font-size:13px;">${label(OBJECTIVE_LABELS, c.objective)} · ${c.platform} · ${label(FREQUENCY_LABELS, c.frequency)} · Modo de ejecución: ${label(EXECUTION_MODE_LABELS, c.executionMode)}</div>
+    <div style="font-size:13px;color:#6b654f;">${c.startDate} → ${c.endDate} · objetivo: ${c.targetContentCount} contenidos</div>
     <div style="margin-top:6px;display:flex;gap:6px;flex-wrap:wrap;">
       <button class="btn-secondary" data-action="overview">VER RESUMEN DE CAMPAÑA</button>
       <button class="btn-secondary" data-action="delete">Eliminar campaña</button>
@@ -2515,7 +2713,7 @@ async function openCampaignOverview(id) {
       ${overview.planned === 0 ? '<p class="empty-state">Sin contenido asociado todavía para este producto/plataforma/rango de fechas.</p>' : ''}
       <h4 style="margin:16px 0 4px;">Contenidos de esta campaña</h4>
       <div id="campaign-overview-plans">${overview.contentPlans.map((p) => contentPlanCard({ ...p, status: p.effectiveStatus })).join('') || ''}</div>
-      <details style="margin-top:12px;"><summary style="cursor:pointer;font-size:11px;color:#9c9683;">Detalles técnicos</summary><p style="font-size:11px;color:#9c9683;">${overview.correlationMethod}</p></details>
+      <details style="margin-top:12px;"><summary style="cursor:pointer;font-size:13px;color:#9c9683;">Detalles técnicos</summary><p style="font-size:13px;color:#9c9683;">${overview.correlationMethod}</p></details>
     `;
     bindContentDetailButtons($('#campaign-overview-plans', body));
   } catch (err) {
@@ -2529,14 +2727,14 @@ function scoreCard(r) {
   const scoreTxt = typeof r.score === 'number' ? `${r.score.toFixed(1)}` : 'N/D';
   return `<div class="campaign-card">
     <strong>${r.platform.toUpperCase()} · score ${scoreTxt}</strong>
-    <div style="font-size:12px;color:#6b654f;">${r.externalPostId ?? r.contentId} · ${r.method}</div>
+    <div style="font-size:13px;color:#6b654f;">${r.externalPostId ?? r.contentId} · ${r.method}</div>
   </div>`;
 }
 function insightCard(i) {
   return `<div class="campaign-card">
     <strong>${i.insightType} · ${i.platform}</strong>
-    <div style="font-size:12px;">${i.scope} · confidence ${i.confidence}</div>
-    <div style="font-size:12px;color:#6b654f;">${i.explanation}</div>
+    <div style="font-size:13px;">${i.scope} · confidence ${i.confidence}</div>
+    <div style="font-size:13px;color:#6b654f;">${i.explanation}</div>
   </div>`;
 }
 async function loadPerformanceAnalysis() {
@@ -2560,8 +2758,8 @@ $('#performance-platform-filter')?.addEventListener('change', loadPerformanceAna
 function attributionCard(r) {
   return `<div class="campaign-card">
     <strong>${r.attributionType} · ${r.platform} · confidence ${r.confidence}</strong>
-    <div style="font-size:12px;">lead ${r.leadId ?? '—'} · sale ${r.saleId ?? '—'} · revenue ${r.revenue ?? 'N/D'} ${r.currency ?? ''}</div>
-    <div style="font-size:12px;color:#6b654f;">${r.explanation}</div>
+    <div style="font-size:13px;">lead ${r.leadId ?? '—'} · sale ${r.saleId ?? '—'} · revenue ${r.revenue ?? 'N/D'} ${r.currency ?? ''}</div>
+    <div style="font-size:13px;color:#6b654f;">${r.explanation}</div>
   </div>`;
 }
 async function loadAttribution() {
@@ -2583,11 +2781,11 @@ async function loadAttribution() {
 function intelligenceCard(i) {
   return `<div class="campaign-card">
     <strong>${i.category} · ${i.insightType} · confidence ${i.confidence}</strong>
-    <div style="font-size:12px;">${i.scope}${i.platform ? ` · ${i.platform}` : ''} · evidenceCount ${i.evidenceCount}${i.benchmark !== null ? ` · benchmark ${i.benchmark}` : ''}${i.delta !== null ? ` · delta ${i.delta}` : ''}</div>
-    <div style="font-size:13px;font-weight:600;">${i.title}</div>
-    <div style="font-size:12px;color:#6b654f;">${i.summary}</div>
-    ${i.attributionSummary ? `<div style="font-size:12px;">leads ${i.attributionSummary.attributedLeads} · ventas ${i.attributionSummary.attributedSales} · revenue ${i.attributionSummary.attributedRevenue ?? 'N/D'}</div>` : ''}
-    <div style="font-size:11px;color:#9c9683;">recommendationReady: ${i.recommendationReady} · producto(s): ${i.relatedProductIds.length ? i.relatedProductIds.join(', ') : '—'}</div>
+    <div style="font-size:13px;">${i.scope}${i.platform ? ` · ${i.platform}` : ''} · evidenceCount ${i.evidenceCount}${i.benchmark !== null ? ` · benchmark ${i.benchmark}` : ''}${i.delta !== null ? ` · delta ${i.delta}` : ''}</div>
+    <div style="font-size:14px;font-weight:600;">${i.title}</div>
+    <div style="font-size:13px;color:#6b654f;">${i.summary}</div>
+    ${i.attributionSummary ? `<div style="font-size:13px;">leads ${i.attributionSummary.attributedLeads} · ventas ${i.attributionSummary.attributedSales} · revenue ${i.attributionSummary.attributedRevenue ?? 'N/D'}</div>` : ''}
+    <div style="font-size:13px;color:#9c9683;">recommendationReady: ${i.recommendationReady} · producto(s): ${i.relatedProductIds.length ? i.relatedProductIds.join(', ') : '—'}</div>
   </div>`;
 }
 async function loadIntelligence() {
@@ -2620,20 +2818,20 @@ $('#intelligence-confidence-filter')?.addEventListener('change', loadIntelligenc
 function learningCard(lr) {
   return `<div class="campaign-card">
     <strong>${lr.learningType} · confidence ${lr.confidence}</strong>
-    <div style="font-size:12px;">${lr.scope}${lr.platform ? ` · ${lr.platform}` : ''}${lr.format ? ` · formato ${lr.format}` : ''}${lr.product ? ` · producto ${lr.product}` : ''} · evidenceCount ${lr.evidenceCount}</div>
-    <div style="font-size:13px;"><em>Observación:</em> ${lr.observation}</div>
-    ${lr.pattern ? `<div style="font-size:12px;color:#6b654f;"><em>Patrón:</em> ${lr.pattern}</div>` : ''}
-    ${lr.implication ? `<div style="font-size:12px;color:#6b654f;"><em>Implicación:</em> ${lr.implication}</div>` : ''}
-    ${lr.supersededBy ? `<div style="font-size:11px;color:#a04b3a;">Reemplazado por un aprendizaje más reciente (${lr.supersededBy}) -- histórico, nunca eliminado.</div>` : ''}
+    <div style="font-size:13px;">${lr.scope}${lr.platform ? ` · ${lr.platform}` : ''}${lr.format ? ` · formato ${lr.format}` : ''}${lr.product ? ` · producto ${lr.product}` : ''} · evidenceCount ${lr.evidenceCount}</div>
+    <div style="font-size:14px;"><em>Observación:</em> ${lr.observation}</div>
+    ${lr.pattern ? `<div style="font-size:13px;color:#6b654f;"><em>Patrón:</em> ${lr.pattern}</div>` : ''}
+    ${lr.implication ? `<div style="font-size:13px;color:#6b654f;"><em>Implicación:</em> ${lr.implication}</div>` : ''}
+    ${lr.supersededBy ? `<div style="font-size:13px;color:#a04b3a;">Reemplazado por un aprendizaje más reciente (${lr.supersededBy}) -- histórico, nunca eliminado.</div>` : ''}
   </div>`;
 }
 function strategyFeedbackCard(sf) {
   return `<div class="campaign-card">
     <strong>${sf.status} · confidence ${sf.confidence} · esperado: ${sf.expectedDirection}</strong>
-    <div style="font-size:12px;">${sf.affectedPlatform ?? '—'}${sf.affectedFormat ? ` · ${sf.affectedFormat}` : ''}${sf.affectedProduct ? ` · ${sf.affectedProduct}` : ''}</div>
-    <div style="font-size:13px;font-weight:600;">QUÉ: ${sf.recommendation}</div>
-    <div style="font-size:12px;color:#6b654f;">POR QUÉ: ${sf.rationale}</div>
-    <div style="font-size:11px;color:#a04b3a;">PROPOSED -- nunca se ejecuta automáticamente.</div>
+    <div style="font-size:13px;">${sf.affectedPlatform ?? '—'}${sf.affectedFormat ? ` · ${sf.affectedFormat}` : ''}${sf.affectedProduct ? ` · ${sf.affectedProduct}` : ''}</div>
+    <div style="font-size:14px;font-weight:600;">QUÉ: ${sf.recommendation}</div>
+    <div style="font-size:13px;color:#6b654f;">POR QUÉ: ${sf.rationale}</div>
+    <div style="font-size:13px;color:#a04b3a;">PROPOSED -- nunca se ejecuta automáticamente.</div>
   </div>`;
 }
 async function loadLearning() {
@@ -2666,11 +2864,11 @@ $('#learning-confidence-filter')?.addEventListener('change', loadLearning);
 function decisionCard(d) {
   return `<div class="campaign-card">
     <strong>${d.decision} · risk ${d.risk} · confidence ${d.confidence}</strong>
-    <div style="font-size:12px;">${d.scope} · ${d.scopeType}${d.affectedPlatform ? ` · ${d.affectedPlatform}` : ''}${d.affectedFormat ? ` · ${d.affectedFormat}` : ''}${d.affectedProduct ? ` · ${d.affectedProduct}` : ''} · evidenceCount ${d.evidenceCount} · impacto esperado ${d.expectedImpact}</div>
-    <div style="font-size:13px;">${d.decisionReason}</div>
-    ${d.contradictions.length ? `<div style="font-size:12px;color:#a04b3a;">Contradicciones: ${d.contradictions.map((c) => `${c.learningType} (${c.expectedDirection})`).join(', ')}</div>` : ''}
-    ${d.supersedes ? `<div style="font-size:11px;color:#6b654f;">Reemplaza una decisión anterior (${d.supersedes}) -- histórica, no eliminada.</div>` : ''}
-    <div style="font-size:11px;font-weight:600;">EXECUTION: ${d.executionStatus.replace('_', ' ')}</div>
+    <div style="font-size:13px;">${d.scope} · ${d.scopeType}${d.affectedPlatform ? ` · ${d.affectedPlatform}` : ''}${d.affectedFormat ? ` · ${d.affectedFormat}` : ''}${d.affectedProduct ? ` · ${d.affectedProduct}` : ''} · evidenceCount ${d.evidenceCount} · impacto esperado ${d.expectedImpact}</div>
+    <div style="font-size:14px;">${d.decisionReason}</div>
+    ${d.contradictions.length ? `<div style="font-size:13px;color:#a04b3a;">Contradicciones: ${d.contradictions.map((c) => `${c.learningType} (${c.expectedDirection})`).join(', ')}</div>` : ''}
+    ${d.supersedes ? `<div style="font-size:13px;color:#6b654f;">Reemplaza una decisión anterior (${d.supersedes}) -- histórica, no eliminada.</div>` : ''}
+    <div style="font-size:13px;font-weight:600;">EXECUTION: ${d.executionStatus.replace('_', ' ')}</div>
   </div>`;
 }
 async function loadStrategyDecisions() {
@@ -2717,12 +2915,12 @@ function contentPlanCard(p) {
   const autoPublishState = p.autoPublish ? (p.autoPublish.enabled ? 'ON' : 'OFF') : 'N/A';
   return `<div class="campaign-card">
     <strong>${p.status} · Modo de ejecución: ${label(EXECUTION_MODE_LABELS, p.executionMode)}</strong>
-    <div style="font-size:12px;">${p.platform ?? '—'}${p.format ? ` · ${p.format}` : ''}${p.product ? ` · ${p.product}` : ''}${p.objective ? ` · ${p.objective}` : ''}</div>
-    <div style="font-size:11px;">Auto Publish: ${autoPublishState} · Eligibility: ${eligibility} · Quality: ${quality} · Publication: ${publicationLabel(p)}</div>
-    ${p.strategyDecisionIds.length ? `<div style="font-size:11px;color:#6b654f;">strategy decisions: ${p.strategyDecisionIds.join(', ')}</div>` : '<div style="font-size:11px;color:#9c9683;">sin StrategyDecision aplicable</div>'}
-    ${p.reason ? `<div style="font-size:12px;">${p.reason}</div>` : ''}
-    ${p.autoPublish?.reasons?.length ? `<div style="font-size:11px;color:#a04b3a;">${p.autoPublish.reasons.join(' · ')}</div>` : ''}
-    <div style="font-size:11px;">assetPackageId: ${p.assetPackageId ?? '—'} · publicationId: ${p.publicationId ?? '—'}</div>
+    <div style="font-size:13px;">${p.platform ?? '—'}${p.format ? ` · ${p.format}` : ''}${p.product ? ` · ${p.product}` : ''}${p.objective ? ` · ${p.objective}` : ''}</div>
+    <div style="font-size:13px;">Auto Publish: ${autoPublishState} · Eligibility: ${eligibility} · Quality: ${quality} · Publication: ${publicationLabel(p)}</div>
+    ${p.strategyDecisionIds.length ? `<div style="font-size:13px;color:#6b654f;">strategy decisions: ${p.strategyDecisionIds.join(', ')}</div>` : '<div style="font-size:13px;color:#9c9683;">sin StrategyDecision aplicable</div>'}
+    ${p.reason ? `<div style="font-size:13px;">${p.reason}</div>` : ''}
+    ${p.autoPublish?.reasons?.length ? `<div style="font-size:13px;color:#a04b3a;">${p.autoPublish.reasons.join(' · ')}</div>` : ''}
+    <div style="font-size:13px;">assetPackageId: ${p.assetPackageId ?? '—'} · publicationId: ${p.publicationId ?? '—'}</div>
     <button class="btn-secondary" data-action="view-content" data-plan-id="${p.id}">VER CONTENIDO</button>
   </div>`;
 }
@@ -2754,8 +2952,8 @@ async function loadAutoPublishStatus() {
   el.innerHTML = `
     <p><strong>AUTO-PUBLISH: ${config.enabled ? 'ON' : 'OFF'}</strong>${config.enabled ? ` (activado por ${config.actorId})` : ''}</p>
     <p><strong>READINESS: ${readiness.readiness}</strong></p>
-    <ul style="font-size:12px;margin:4px 0;">${readiness.reasons.map((r) => `<li>${r}</li>`).join('')}</ul>
-    ${config.enabled ? '<p style="font-size:12px;color:#3a7a4e;">Los contenidos elegibles podrán publicarse automáticamente después de pasar los Quality Gates y cumplir las reglas de ejecución.</p>' : ''}
+    <ul style="font-size:13px;margin:4px 0;">${readiness.reasons.map((r) => `<li>${r}</li>`).join('')}</ul>
+    ${config.enabled ? '<p style="font-size:13px;color:#3a7a4e;">Los contenidos elegibles podrán publicarse automáticamente después de pasar los Quality Gates y cumplir las reglas de ejecución.</p>' : ''}
   `;
 }
 $('#auto-publish-form')?.addEventListener('submit', async (e) => {
@@ -2849,7 +3047,7 @@ function renderCreativeProposal(proposal) {
       <div><strong>Plataforma</strong><br/>${proposal.platform ?? 'no detectada'}</div>
       <div><strong>Duración objetivo</strong><br/>${proposal.durationTargetSeconds}</div>
     </div>
-    ${proposal.missingFields.length ? `<p style="font-size:12px;color:#6b654f;">Pendiente de confirmar: ${proposal.missingFields.join(' · ')}</p>` : ''}
+    ${proposal.missingFields.length ? `<p style="font-size:13px;color:#6b654f;">Pendiente de confirmar: ${proposal.missingFields.join(' · ')}</p>` : ''}
     ${renderStrategyContextBadge(proposal.strategyContext)}
     <button class="btn-primary" id="autocreate-use-btn">USAR EN CREAR →</button>
   `;
@@ -2858,9 +3056,9 @@ function renderCreativeProposal(proposal) {
 // Fase 11 (Strategy-Aware Content Generation) -- trazabilidad, no un panel de intelligence nuevo: solo muestra si esta propuesta usó StrategyContext y con qué evidencia real.
 function renderStrategyContextBadge(strategyContext) {
   if (!strategyContext?.applied) {
-    return `<p style="font-size:12px;color:#9c9683;">Strategy context applied: NO${strategyContext?.reason ? ` (${strategyContext.reason})` : ''}</p>`;
+    return `<p style="font-size:13px;color:#9c9683;">Strategy context applied: NO${strategyContext?.reason ? ` (${strategyContext.reason})` : ''}</p>`;
   }
-  return `<p style="font-size:12px;color:#3a7a4e;">Strategy context applied: YES · decisions: ${strategyContext.strategyDecisionIds.join(', ')} · direction: ${strategyContext.strategicDirection} · confidence: ${strategyContext.confidence}</p>`;
+  return `<p style="font-size:13px;color:#3a7a4e;">Strategy context applied: YES · decisions: ${strategyContext.strategyDecisionIds.join(', ')} · direction: ${strategyContext.strategicDirection} · confidence: ${strategyContext.confidence}</p>`;
 }
 
 // Corrección raíz (Fase 17): mismo catálogo real que ya usa Crear
@@ -3035,7 +3233,7 @@ if (carouselProposeForm) {
         <div class="output-card">
           <h4>Slide ${i + 1}/${proposal.carousel.actualSlideCount} — ${s.stage}</h4>
           <div>${s.headline ?? ''}</div>
-          ${s.body ? `<div style="font-size:12px;color:#6b654f;">${s.body}</div>` : ''}
+          ${s.body ? `<div style="font-size:13px;color:#6b654f;">${s.body}</div>` : ''}
           ${s.cta ? `<div style="font-weight:700;">${s.cta}</div>` : ''}
         </div>`).join('');
       const cs = proposal.carousel.creativeStructure;
@@ -3048,7 +3246,7 @@ if (carouselProposeForm) {
           <button type="button" class="btn-link btn-change-structure">Cambiar estructura</button>
           <select class="structure-select hidden" id="carousel-structure-select">${structureOptionsHtml}</select>
         </div>
-        ${proposal.carousel.warnings.length ? `<p style="font-size:12px;color:#6b654f;">${proposal.carousel.warnings.join(' · ')}</p>` : ''}
+        ${proposal.carousel.warnings.length ? `<p style="font-size:13px;color:#6b654f;">${proposal.carousel.warnings.join(' · ')}</p>` : ''}
         ${slidesHtml}
         <button class="btn-primary" id="carousel-produce-btn">PRODUCIR CARRUSEL REAL</button>
       `;
@@ -3245,12 +3443,12 @@ async function renderCalendarList() {
       <div class="body">
         <span class="tag ${r.status}">${SCHEDULE_STATUS_LABELS[r.status] ?? r.status}</span>
         <div class="filename">${r.platform} · ${r.caption ?? ''}</div>
-        <div class="meta" style="font-size:11px;color:#6b654f;margin-top:4px;">
+        <div class="meta" style="font-size:13px;color:#6b654f;margin-top:4px;">
           ${r.scheduledAt ? `Programado: ${new Date(r.scheduledAt).toLocaleString()} (${r.timezone})` : 'Sin fecha aún'}
           ${r.publishedAt ? ` · Publicado: ${new Date(r.publishedAt).toLocaleString()}` : ''}
           ${r.externalPublicationId ? ` · ID externo: ${r.externalPublicationId}` : ''}
         </div>
-        ${r.error ? `<div class="meta" style="font-size:11px;color:#b03a2e;margin-top:4px;">${r.error}</div>` : ''}
+        ${r.error ? `<div class="meta" style="font-size:13px;color:#b03a2e;margin-top:4px;">${r.error}</div>` : ''}
         <div class="schedule-actions" style="margin-top:8px;display:flex;flex-wrap:wrap;gap:6px;">
           <button class="btn-secondary" data-action="detail">VER DETALLE</button>
           ${r.status === 'DRAFT' ? `<button class="btn-secondary" data-action="approve">APROBAR</button>` : ''}
@@ -3336,7 +3534,7 @@ async function openPublicationDetail(id) {
 
     html += '<h4 style="margin-bottom:4px;">Performance</h4>';
     html += perf
-      ? `<div class="campaign-card"><div style="font-size:12px;">engagement ${perf.metrics?.engagement ?? 'No disponible'} · views ${perf.metrics?.views ?? 'No disponible'} · likes ${perf.metrics?.likes ?? 'No disponible'} · comments ${perf.metrics?.comments ?? 'No disponible'} · shares ${perf.metrics?.shares ?? 'No disponible'} · saves ${perf.metrics?.saves ?? 'No disponible'}</div></div>`
+      ? `<div class="campaign-card"><div style="font-size:13px;">engagement ${perf.metrics?.engagement ?? 'No disponible'} · views ${perf.metrics?.views ?? 'No disponible'} · likes ${perf.metrics?.likes ?? 'No disponible'} · comments ${perf.metrics?.comments ?? 'No disponible'} · shares ${perf.metrics?.shares ?? 'No disponible'} · saves ${perf.metrics?.saves ?? 'No disponible'}</div></div>`
       : '<p class="empty-state">No disponible -- sin datos de Performance todavía para este publicationId externo.</p>';
 
     body.innerHTML = html;
@@ -3370,8 +3568,8 @@ async function loadReviewQueue() {
     const quality = plan.qualityGateResult ? (plan.qualityGateResult.passed ? 'PASS' : 'FAIL') : 'N/A';
     return `<div class="campaign-card" data-review-index="${i}">
       <strong>${plan.platform ?? '—'}${plan.product ? ` · ${plan.product}` : ''}</strong>
-      <div style="font-size:12px;">Strategy: ${plan.strategyDecisionIds.length ? plan.strategyDecisionIds.join(', ') : 'sin StrategyDecision aplicable'} · Quality: ${quality}</div>
-      ${schedule ? `<div style="font-size:12px;color:#6b654f;">Caption: ${schedule.caption ?? ''}</div>${renderAssetPackagePreview(schedule.assetPackageSnapshot)}` : '<p style="font-size:12px;color:#9c9683;">Sin AssetPackage real vinculado todavía -- produce el contenido vía Crear/Carrusel y usa "PROGRAMAR →".</p>'}
+      <div style="font-size:13px;">Strategy: ${plan.strategyDecisionIds.length ? plan.strategyDecisionIds.join(', ') : 'sin StrategyDecision aplicable'} · Quality: ${quality}</div>
+      ${schedule ? `<div style="font-size:13px;color:#6b654f;">Caption: ${schedule.caption ?? ''}</div>${renderAssetPackagePreview(schedule.assetPackageSnapshot)}` : '<p style="font-size:13px;color:#9c9683;">Sin AssetPackage real vinculado todavía -- produce el contenido vía Crear/Carrusel y usa "PROGRAMAR →".</p>'}
       <div class="schedule-actions" style="margin-top:8px;display:flex;flex-wrap:wrap;gap:6px;">
         ${schedule ? '<button class="btn-secondary" data-action="detail">VER DETALLE</button>' : ''}
         ${schedule?.status === 'DRAFT' ? '<button class="btn-secondary" data-action="approve">APROBAR</button>' : ''}
@@ -3462,11 +3660,11 @@ async function openContentDetail(planId) {
     html += '<h4>STRATEGY</h4>';
     html += renderStrategyContextBadge(plan.strategyContext);
     html += decisions.length ? decisions.map(decisionCard).join('') : '<p class="empty-state">Sin StrategyDecision real vinculada.</p>';
-    if (learnings.length) html += '<div style="font-size:12px;font-weight:700;margin-top:8px;">Learning / Evidence</div>' + learnings.map(learningCard).join('');
+    if (learnings.length) html += '<div style="font-size:13px;font-weight:700;margin-top:8px;">Learning / Evidence</div>' + learnings.map(learningCard).join('');
 
     html += '<h4>QUALITY</h4>';
     html += plan.qualityGateResult
-      ? `<div class="campaign-card"><strong>${plan.qualityGateResult.passed ? 'PASS' : 'FAIL'}</strong>${plan.qualityGateResult.failures?.length ? `<div style="font-size:12px;color:#a04b3a;">${plan.qualityGateResult.failures.join(' · ')}</div>` : ''}</div>`
+      ? `<div class="campaign-card"><strong>${plan.qualityGateResult.passed ? 'PASS' : 'FAIL'}</strong>${plan.qualityGateResult.failures?.length ? `<div style="font-size:13px;color:#a04b3a;">${plan.qualityGateResult.failures.join(' · ')}</div>` : ''}</div>`
       : '<p class="empty-state">Sin resultado de Quality Gate real todavía.</p>';
 
     html += '<h4>PUBLICATION</h4>';
@@ -3476,12 +3674,12 @@ async function openContentDetail(planId) {
       <div><strong>Publication Status</strong>${schedule ? (SCHEDULE_STATUS_LABELS[schedule.status] ?? schedule.status) : 'Sin ScheduledPublication vinculada'}</div>
       <div><strong>External ID</strong>${schedule?.externalPublicationId ?? 'No disponible'}</div>
     </div>`;
-    if (plan.autoPublish) html += `<p style="font-size:12px;">Auto Publish: ${plan.autoPublish.enabled ? 'ON' : 'OFF'} · Eligibility: ${plan.autoPublish.eligible ? 'ELIGIBLE' : 'NOT_ELIGIBLE'}${plan.autoPublish.reasons?.length ? ` · ${plan.autoPublish.reasons.join(' · ')}` : ''}</p>`;
+    if (plan.autoPublish) html += `<p style="font-size:13px;">Auto Publish: ${plan.autoPublish.enabled ? 'ON' : 'OFF'} · Eligibility: ${plan.autoPublish.eligible ? 'ELIGIBLE' : 'NOT_ELIGIBLE'}${plan.autoPublish.reasons?.length ? ` · ${plan.autoPublish.reasons.join(' · ')}` : ''}</p>`;
     html += '<div class="schedule-actions" style="margin-top:8px;display:flex;flex-wrap:wrap;gap:6px;" id="content-detail-actions"></div>';
 
     html += '<h4>PERFORMANCE</h4>';
     html += perf
-      ? `<div class="campaign-card"><div style="font-size:12px;">engagement ${perf.metrics?.engagement ?? 'No disponible'} · views ${perf.metrics?.views ?? 'No disponible'} · likes ${perf.metrics?.likes ?? 'No disponible'}</div></div>`
+      ? `<div class="campaign-card"><div style="font-size:13px;">engagement ${perf.metrics?.engagement ?? 'No disponible'} · views ${perf.metrics?.views ?? 'No disponible'} · likes ${perf.metrics?.likes ?? 'No disponible'}</div></div>`
       : '<p class="empty-state">No disponible.</p>';
 
     body.innerHTML = html;
@@ -3555,8 +3753,8 @@ function whatsappConversationCard(c) {
       <div class="filename">${c.contact}</div>
       <span class="tag ${c.estadoActual ? 'GENERATED' : ''}">${c.estadoActual ?? '—'}</span>
       <span class="tag ${c.source === 'REAL' ? 'FINAL' : ''}">${c.source}</span>
-      <div class="meta" style="font-size:12px;margin-top:4px;">${last ? `${last.direccion === 'entrante' ? 'ENTRANTE' : 'SALIENTE'}: ${last.texto ?? ''}` : 'Sin mensajes todavía'}</div>
-      <div class="meta" style="font-size:11px;color:#6b654f;margin-top:4px;">${c.ultimaInteraccion ? new Date(c.ultimaInteraccion).toLocaleString() : ''}</div>
+      <div class="meta" style="font-size:13px;margin-top:4px;">${last ? `${last.direccion === 'entrante' ? 'ENTRANTE' : 'SALIENTE'}: ${last.texto ?? ''}` : 'Sin mensajes todavía'}</div>
+      <div class="meta" style="font-size:13px;color:#6b654f;margin-top:4px;">${c.ultimaInteraccion ? new Date(c.ultimaInteraccion).toLocaleString() : ''}</div>
       <button class="btn-secondary" data-action="open">ABRIR</button>
     </div>
   </div>`;
@@ -3593,9 +3791,9 @@ function whatsappMessageBubble(m) {
   const inbound = m.direccion === 'entrante';
   return `<div style="display:flex;justify-content:${inbound ? 'flex-start' : 'flex-end'};margin:6px 0;">
     <div style="max-width:70%;padding:8px 12px;border-radius:10px;background:${inbound ? 'var(--cream-3)' : 'var(--olive)'};color:${inbound ? 'var(--soft-black)' : 'var(--cream)'};">
-      <div style="font-size:10px;opacity:0.75;text-transform:uppercase;">${inbound ? 'INBOUND (cliente)' : 'OUTBOUND (Vida Divina)'}</div>
-      <div style="font-size:13px;">${m.texto ?? ''}</div>
-      <div style="font-size:10px;opacity:0.6;margin-top:2px;">${new Date(m.timestamp).toLocaleString()}</div>
+      <div style="font-size:12px;opacity:0.75;text-transform:uppercase;">${inbound ? 'INBOUND (cliente)' : 'OUTBOUND (Vida Divina)'}</div>
+      <div style="font-size:14px;">${m.texto ?? ''}</div>
+      <div style="font-size:12px;opacity:0.6;margin-top:2px;">${new Date(m.timestamp).toLocaleString()}</div>
     </div>
   </div>`;
 }
@@ -3661,6 +3859,167 @@ async function openWhatsappConversation(id) {
 $('#whatsapp-conversation-close')?.addEventListener('click', () => $('#whatsapp-conversation-modal').classList.add('hidden'));
 
 // ---------------- Init ----------------
+// ---------------- Inventario (Fase "Dashboard + Inventario", 2026-09) ----------------
+// Todos los datos vienen de /api/inventory -> crm.inventory real (PostgreSQL)
+// + catálogo real de productos. Nunca una segunda fuente ni un mock local.
+let inventoryData = null;
+let inventoryPage = 1;
+const INVENTORY_PAGE_SIZE = 10;
+
+const fmtMoney = (valor, moneda) => {
+  if (valor == null) return 'N/D';
+  try {
+    return new Intl.NumberFormat('es-MX', { style: 'currency', currency: moneda || 'MXN', maximumFractionDigits: 0 }).format(valor);
+  } catch {
+    return `$${Math.round(valor).toLocaleString()}`;
+  }
+};
+
+async function loadInventory() {
+  const grid = $('#inv-summary-grid');
+  grid.innerHTML = '<p class="placeholder">Cargando inventario real…</p>';
+  try {
+    inventoryData = await api('/api/inventory');
+    inventoryPage = 1;
+    renderInventorySummary();
+    renderInventorySide();
+    populateInventoryCategoryFilter();
+    renderInventoryTable();
+  } catch (err) {
+    grid.innerHTML = `<p class="placeholder">No se pudo cargar el inventario real: ${err.message}</p>`;
+  }
+}
+
+function renderInventorySummary() {
+  const { resumen } = inventoryData;
+  $('#inv-updated-at').textContent = new Date(inventoryData.actualizadoEn).toLocaleString();
+  const moneda = inventoryData.productos.find((p) => p.moneda)?.moneda ?? 'MXN';
+  $('#inv-summary-grid').innerHTML = `
+    <div class="inv-summary-card">
+      <span class="inv-summary-icon">📦</span>
+      <span class="inv-summary-label">Existencia Total</span>
+      <span class="inv-summary-value">${resumen.existenciaTotal.toLocaleString()}</span>
+      <span class="inv-summary-delta">unidades</span>
+    </div>
+    <div class="inv-summary-card">
+      <span class="inv-summary-icon">⚠️</span>
+      <span class="inv-summary-label">Productos Agotados</span>
+      <span class="inv-summary-value">${resumen.productosAgotados}</span>
+      <span class="inv-summary-delta">productos</span>
+    </div>
+    <div class="inv-summary-card">
+      <span class="inv-summary-icon">⚠️</span>
+      <span class="inv-summary-label">En Nivel Mínimo</span>
+      <span class="inv-summary-value">${resumen.enNivelMinimo}</span>
+      <span class="inv-summary-delta">productos</span>
+    </div>
+    <div class="inv-summary-card">
+      <span class="inv-summary-icon">💲</span>
+      <span class="inv-summary-label">Valor de Inventario</span>
+      <span class="inv-summary-value">${fmtMoney(resumen.valorInventario, moneda)}</span>
+      <span class="inv-summary-delta">${moneda} (costo)</span>
+      ${resumen.valorInventarioIncompleto ? '<span class="inv-incomplete-note">Incompleto: falta costo real de al menos un producto</span>' : ''}
+    </div>
+  `;
+}
+
+function renderInventorySide() {
+  const { distribucion, valorPorCategoria, productosCriticos } = inventoryData;
+  const total = distribucion.normal + distribucion.minimo + distribucion.agotado;
+  const pct = (n) => (total ? Math.round((n / total) * 100) : 0);
+  const deg = (n) => (total ? (n / total) * 360 : 0);
+  const gradient = `conic-gradient(var(--state-ok) 0deg ${deg(distribucion.normal)}deg, var(--state-warn) ${deg(distribucion.normal)}deg ${deg(distribucion.normal) + deg(distribucion.minimo)}deg, var(--state-bad) ${deg(distribucion.normal) + deg(distribucion.minimo)}deg 360deg)`;
+  $('#inv-donut').innerHTML = `
+    <div class="inv-donut-row">
+      <div style="width:110px;height:110px;border-radius:50%;background:${gradient};display:flex;align-items:center;justify-content:center;">
+        <div style="width:74px;height:74px;border-radius:50%;background:var(--white-ish);display:flex;flex-direction:column;align-items:center;justify-content:center;">
+          <strong style="font-size:20px;">${total}</strong><span style="font-size:11px;color:#8a8266;">productos</span>
+        </div>
+      </div>
+      <div class="inv-donut-legend">
+        <span><i class="inv-donut-dot" style="background:var(--state-ok);"></i>Normal &nbsp;${distribucion.normal} (${pct(distribucion.normal)}%)</span>
+        <span><i class="inv-donut-dot" style="background:var(--state-warn);"></i>En mínimo &nbsp;${distribucion.minimo} (${pct(distribucion.minimo)}%)</span>
+        <span><i class="inv-donut-dot" style="background:var(--state-bad);"></i>Agotados &nbsp;${distribucion.agotado} (${pct(distribucion.agotado)}%)</span>
+      </div>
+    </div>
+  `;
+
+  const maxValor = Math.max(1, ...valorPorCategoria.map((c) => c.valor));
+  $('#inv-categoria-bars').innerHTML = valorPorCategoria.map((c) => `
+    <div class="inv-cat-bar-row">
+      <div class="inv-cat-bar-label"><span>${c.categoria}</span><span>${fmtMoney(c.valor)}${c.incompleto ? ' *' : ''}</span></div>
+      <div class="inv-cat-bar-track"><div class="inv-cat-bar-fill" style="width:${(c.valor / maxValor) * 100}%;"></div></div>
+    </div>
+  `).join('') || '<p class="placeholder">Sin datos.</p>';
+
+  $('#inv-criticos-title').textContent = `Productos Críticos (${productosCriticos.length})`;
+  const top = productosCriticos.slice(0, 4);
+  $('#inv-criticos-list').innerHTML = top.map((p) => `
+    <div class="inv-critico-row">
+      <div class="inv-critico-thumb"></div>
+      <div class="inv-critico-info">
+        <div class="inv-critico-name">${p.producto}</div>
+        <div class="inv-critico-sub">${p.estado === 'AGOTADO' ? 'Sin existencia' : `${p.existencia} unidades`}</div>
+      </div>
+      <span class="inv-estado-pill ${p.estado}">${p.estado === 'MINIMO' ? 'MÍNIMO' : p.estado}</span>
+    </div>
+  `).join('') || '<p class="placeholder">Sin productos críticos.</p>';
+  $('#inv-ver-todos').onclick = (e) => { e.preventDefault(); $('#inv-filter-estado').value = ''; inventoryPage = 1; renderInventoryTable(); };
+}
+
+function populateInventoryCategoryFilter() {
+  const sel = $('#inv-filter-categoria');
+  if (sel.dataset.loaded) return;
+  const categorias = [...new Set(inventoryData.productos.map((p) => p.categoria))].sort();
+  sel.innerHTML = '<option value="">Todas las categorías</option>' + categorias.map((c) => `<option value="${c}">${c}</option>`).join('');
+  sel.dataset.loaded = '1';
+}
+
+function getFilteredInventoryProducts() {
+  const q = ($('#inv-search').value || '').trim().toLowerCase();
+  const estado = $('#inv-filter-estado').value;
+  const categoria = $('#inv-filter-categoria').value;
+  return inventoryData.productos.filter((p) =>
+    (!q || p.producto.toLowerCase().includes(q) || p.sku.toLowerCase().includes(q)) &&
+    (!estado || p.estado === estado) &&
+    (!categoria || p.categoria === categoria)
+  );
+}
+
+function renderInventoryTable() {
+  const filtrados = getFilteredInventoryProducts();
+  $('#inv-products-count').textContent = `Productos (${filtrados.length})`;
+  const totalPages = Math.max(1, Math.ceil(filtrados.length / INVENTORY_PAGE_SIZE));
+  inventoryPage = Math.min(inventoryPage, totalPages);
+  const start = (inventoryPage - 1) * INVENTORY_PAGE_SIZE;
+  const pageItems = filtrados.slice(start, start + INVENTORY_PAGE_SIZE);
+
+  $('#inv-table-body').innerHTML = pageItems.map((p) => `
+    <tr>
+      <td>${p.producto}</td>
+      <td>${p.sku}</td>
+      <td>${p.categoria}</td>
+      <td>${p.existencia.toLocaleString()}</td>
+      <td>${p.minimo ?? 'N/D'}</td>
+      <td><span class="inv-estado-pill ${p.estado}">${p.estado === 'MINIMO' ? 'MÍNIMO' : p.estado}</span></td>
+      <td>${fmtMoney(p.valor, p.moneda)}</td>
+    </tr>
+  `).join('') || '<tr><td colspan="7" class="placeholder">Sin resultados para este filtro.</td></tr>';
+
+  $('#inv-pagination').innerHTML = `
+    <button type="button" id="inv-prev" ${inventoryPage <= 1 ? 'disabled' : ''}>‹</button>
+    <span>Página ${inventoryPage} de ${totalPages}</span>
+    <button type="button" id="inv-next" ${inventoryPage >= totalPages ? 'disabled' : ''}>›</button>
+  `;
+  $('#inv-prev')?.addEventListener('click', () => { inventoryPage -= 1; renderInventoryTable(); });
+  $('#inv-next')?.addEventListener('click', () => { inventoryPage += 1; renderInventoryTable(); });
+}
+
+$('#inv-refresh-btn')?.addEventListener('click', loadInventory);
+$('#inv-search')?.addEventListener('input', () => { inventoryPage = 1; renderInventoryTable(); });
+$('#inv-filter-estado')?.addEventListener('change', () => { inventoryPage = 1; renderInventoryTable(); });
+$('#inv-filter-categoria')?.addEventListener('change', () => { inventoryPage = 1; renderInventoryTable(); });
+
 loadEngineStatus();
 loadCommandCenter();
 initCreateForm();

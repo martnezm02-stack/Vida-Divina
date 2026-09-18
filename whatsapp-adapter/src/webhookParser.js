@@ -80,6 +80,14 @@ export function clasificarEvento(payloadCrudo) {
       id,
       mensaje: mensaje.text?.body ?? '',
       timestamp: mensaje.timestamp ?? null,
+      // Attribution real (FASE "Attribution + Reporting...", 2026-09-04):
+      // Meta adjunta `referral` SOLO en mensajes reales de click-to-WhatsApp
+      // (anuncio o publicación) -- se preserva completo, tal cual, sin
+      // reinterpretarlo aquí (ver hermes-kit/src/lib/vidaDivina/attribution.ts
+      // #attributionFromMetaReferral para el mapeo real a first_touch/
+      // last_touch). Ausente (undefined) en cualquier mensaje normal -- NUNCA
+      // se inventa un valor sustituto.
+      referral: mensaje.referral ?? null,
       raw: payloadCrudo,
     };
   }

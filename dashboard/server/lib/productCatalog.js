@@ -178,6 +178,11 @@ export function listProductsWithAssets() {
       // pipeline.
       dataQualityStatus: facts?.dataQualityStatus ?? null,
       dataQualityDetail: facts?.dataQualityDetail ?? null,
+      // sourcePath real del .md (docs/productos/<categoria>/<archivo>.md) --
+      // expuesto para que consumidores (ej. inventory.js) puedan derivar el
+      // productoId real (productos/<categoria>/<slug>) sin volver a llamar
+      // loadProductFacts() ni inventar un id paralelo.
+      sourcePath: facts?.sourcePath ?? null,
       rawAssetCount: rawAssets.length,
       rawAssets,
     };

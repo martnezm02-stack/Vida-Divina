@@ -233,3 +233,71 @@ export async function resolveHandoffAlert(handoffId: string): Promise<ResolveHan
     return { ok: false, reason: `Error real al resolver el handoff: ${err instanceof Error ? err.message : String(err)}` };
   }
 }
+
+// ============================================================
+// Fuentes de alerta adicionales (FASE "Rediseño Dashboard Hermes Ventas",
+// 2026-09-18) -- extienden la bandeja con fuentes reales YA existentes,
+// nunca alertas inventadas. Cada función es solo lectura.
+// ============================================================
+
+export interface SeguimientoAlerta {
+  followUpId: string;
+  tipo: string;
+  fechaProgramada: string;
+  cliente: string | null;
+  telefono: string | null;
+}
+
+/** Seguimientos reales vencidos (pendientes cuya fecha_programada ya pasó) -- mismo followUpRepository.listPendingDueBy real, nunca un cálculo paralelo. */
+export async function listSeguimientosVencidos(): Promise<SeguimientoAlerta[]> {
+  const c = await crm();
+  const pendientes = await c.followUps.listPendingDueBy(new Date());
+  return Promise.all(
+    pendientes.map(async (f: any) => {
+      const conversacion = await c.conversations.findConversationById(f.conversationId);
+      let cliente: string | null = null;
+      let telefono: string | null = null;
+      if (conversacion) {
+        const [customer, canales] = await Promise.all([
+          c.customers.findCustomerById(conversacion.customerId),
+          c.customerChannels.listByCustomerId(conversacion.customerId),
+        ]);
+        cliente = customer?.nombre ?? null;
+        telefono = canales[0]?.identificadorExterno ?? null;
+      }
+      return { followUpId: f.followUpId, tipo: f.tipo, fechaProgramada: f.fechaProgramada, cliente, telefono };
+    })
+  );
+}
+
+export interface PagoPendienteAlerta {
+  paymentId: string;
+  orderId: string;
+  metodo: string;
+  importe: number;
+  creadoEn: string;
+  cliente: string | null;
+  telefono: string | null;
+}
+
+/** Pagos/comprobantes reales pendientes de confirmación real del administrador -- mismo paymentRepository.listPending real (payments.estado='pendiente'), nunca un estado inventado. El pedido asociado sigue 'pendiente' mientras esto no se confirme, así que también cubre "pedido que requiere atención". */
+export async function listPagosPendientes(): Promise<PagoPendienteAlerta[]> {
+  const c = await crm();
+  const pagos = await c.payments.listPending();
+  return Promise.all(
+    pagos.map(async (p: any) => {
+      const order = await c.orders.findById(p.orderId);
+      let cliente: string | null = null;
+      let telefono: string | null = null;
+      if (order) {
+        const [customer, canales] = await Promise.all([
+          c.customers.findCustomerById(order.customerId),
+          c.customerChannels.listByCustomerId(order.customerId),
+        ]);
+        cliente = customer?.nombre ?? null;
+        telefono = canales[0]?.identificadorExterno ?? null;
+      }
+      return { paymentId: p.paymentId, orderId: p.orderId, metodo: p.metodo, importe: Number(p.importe), creadoEn: p.creadoEn, cliente, telefono };
+    })
+  );
+}

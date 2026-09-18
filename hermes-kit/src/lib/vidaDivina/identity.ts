@@ -35,11 +35,33 @@ function adminPhoneCanonico(): string | null {
   return normalizePhone(raw);
 }
 
-/** true solo si el teléfono REAL (ya normalizado) coincide con HERMES_ADMIN_PHONE. Nunca considera el texto del mensaje. */
+// Hallazgo real 2026-09-17 (fallo confirmado en producción): WhatsApp
+// antepone un "1" extra tras el código de país "52" para el remitente REAL
+// de números móviles mexicanos (comportamiento real y documentado de
+// WhatsApp para México, no un caso especial de ningún número en
+// particular -- ej. "522225240044" puede llegar como "5212225240044").
+// Sin esto, `isAdminPhone` nunca coincidía consigo mismo cuando WhatsApp
+// entregaba la variante con el "1", sin importar qué tan bien configurado
+// estuviera HERMES_ADMIN_PHONE. Genera ambas formas reales (con y sin el
+// "1") para comparar, cualquiera sea la forma en que llegue el teléfono real
+// o esté guardado HERMES_ADMIN_PHONE -- nunca compara contra un número
+// hardcodeado, solo aplica la misma regla real a cualquier número mexicano.
+function variantesMexicanasReales(digitos: string): string[] {
+  const variantes = [digitos];
+  if (digitos.length === 13 && digitos.startsWith("521")) {
+    variantes.push(`52${digitos.slice(3)}`); // quita el "1" móvil real
+  } else if (digitos.length === 12 && digitos.startsWith("52")) {
+    variantes.push(`521${digitos.slice(2)}`); // agrega el "1" móvil real
+  }
+  return variantes;
+}
+
+/** true solo si el teléfono REAL (ya normalizado, incluidas sus variantes reales con/sin el "1" móvil mexicano) coincide con HERMES_ADMIN_PHONE. Nunca considera el texto del mensaje. */
 export function isAdminPhone(phone: string): boolean {
   const admin = adminPhoneCanonico();
   if (!admin) return false; // sin HERMES_ADMIN_PHONE configurado -- nadie es admin, nunca se asume.
-  return normalizePhone(phone) === admin;
+  const candidatos = variantesMexicanasReales(normalizePhone(phone));
+  return candidatos.includes(admin);
 }
 
 /**
