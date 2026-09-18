@@ -38,8 +38,15 @@ after(async () => {
   await closeTestPool();
 });
 
-/** Crea customer + channel + conversation encadenados — setup común a la mayoría de tests de abajo. */
-async function crearConversacionDePrueba(waId = '5215500000001') {
+/**
+ * Crea customer + channel + conversation encadenados — setup común a la
+ * mayoría de tests de abajo. `source` default 'REAL': refleja el único
+ * flujo real de producción (crmClient.ts#getOrCreateConversationContext,
+ * crm/context/disassemble.js) — un customer NUNCA se crea sin su
+ * conversation, así que "REAL" aquí es la forma correcta de simular un
+ * cliente/oportunidad/handoff real, no un valor arbitrario de test.
+ */
+async function crearConversacionDePrueba(waId = '5215500000001', source = 'REAL') {
   const customer = await customerRepository.createCustomer(pool, { nombre: null, email: null });
   const channel = await customerChannelRepository.createCustomerChannel(pool, {
     customerId: customer.customerId,
@@ -51,6 +58,7 @@ async function crearConversacionDePrueba(waId = '5215500000001') {
     customerChannelId: channel.customerChannelId,
     waIdConversacion: waId,
     estadoActual: 'MensajeInicialEnviado',
+    source,
   });
   return { customer, channel, conversation };
 }
@@ -200,8 +208,16 @@ describe('conversationRepository', () => {
   });
 
   // Fase 16, Parte 4 -- separación estructural REAL/SIMULATED/TEST/FIXTURE/UNKNOWN.
+  // Llamada directa a conversationRepository (no vía crearConversacionDePrueba,
+  // que desde el fix de reportingRepository pasa 'REAL' explícito por
+  // defecto para reflejar el único flujo real de producción) -- este test
+  // verifica el default real de createConversation() en sí, no el del helper.
   test('source por defecto es UNKNOWN -- nunca se asume REAL si quien llama no lo declara', async () => {
-    const { conversation } = await crearConversacionDePrueba('5215500000099');
+    const customer = await customerRepository.createCustomer(pool, { nombre: null, email: null });
+    const channel = await customerChannelRepository.createCustomerChannel(pool, { customerId: customer.customerId, tipoCanal: 'whatsapp', identificadorExterno: '5215500000099' });
+    const conversation = await conversationRepository.createConversation(pool, {
+      customerId: customer.customerId, customerChannelId: channel.customerChannelId, waIdConversacion: '5215500000099',
+    });
     assert.equal(conversation.source, 'UNKNOWN');
   });
 
@@ -757,10 +773,32 @@ describe('reportingRepository (solo lectura, sobre datos reales del CRM)', () =>
   const MANANA = new Date(Date.now() + 24 * 60 * 60 * 1000);
 
   test('6) countNewCustomers: cuenta clientes reales creados en el rango', async () => {
-    await customerRepository.createCustomer(pool);
-    await customerRepository.createCustomer(pool);
+    await crearConversacionDePrueba('5215500000030');
+    await crearConversacionDePrueba('5215500000031');
     const n = await reportingRepository.countNewCustomers(pool, { since: AYER, until: MANANA });
     assert.equal(n, 2);
+  });
+
+  test('countNewCustomers: source="TEST" (Hermes/Baileys) nunca contamina el conteo REAL por defecto', async () => {
+    await crearConversacionDePrueba('5215500000032', 'REAL');
+    await crearConversacionDePrueba('5215500000033', 'TEST');
+    await crearConversacionDePrueba('5215500000034', 'TEST');
+
+    const soloReal = await reportingRepository.countNewCustomers(pool, { since: AYER, until: MANANA });
+    assert.equal(soloReal, 1, 'el default debe excluir clientes cuya única conversación es TEST');
+
+    const soloTest = await reportingRepository.countNewCustomers(pool, { since: AYER, until: MANANA, source: 'TEST' });
+    assert.equal(soloTest, 2, 'los datos reales tampoco deben perderse: TEST sigue siendo consultable explícitamente');
+
+    const todos = await reportingRepository.countNewCustomers(pool, { since: AYER, until: MANANA, source: 'ALL' });
+    assert.equal(todos, 3, 'source="ALL" debe seguir mezclando REAL + TEST, igual que antes del fix');
+  });
+
+  test('countNewCustomers: "source" inválido lanza (mismo vocabulario que conversations.source, nunca uno inventado)', async () => {
+    await assert.rejects(
+      () => reportingRepository.countNewCustomers(pool, { since: AYER, until: MANANA, source: 'NO_EXISTE' }),
+      /source.*inválido/i
+    );
   });
 
   test('9) countLeads / countQualifiedLeads: sobre oportunidades reales', async () => {
@@ -779,11 +817,38 @@ describe('reportingRepository (solo lectura, sobre datos reales del CRM)', () =>
     assert.equal(calificados, 1);
   });
 
+  test('countLeads: una oportunidad de una conversación TEST no cuenta como lead REAL, pero sigue existiendo bajo "ALL"', async () => {
+    const real = await crearConversacionDePrueba('5215500000024', 'REAL');
+    const test = await crearConversacionDePrueba('5215500000025', 'TEST');
+    await opportunityRepository.createOpportunity(pool, {
+      customerId: real.conversation.customerId, conversationId: real.conversation.conversationId,
+      productoId: 'productos/01-control-de-peso/tongkat-ali', estado: 'ProductoIdentificado', intencionCompra: false,
+    });
+    await opportunityRepository.createOpportunity(pool, {
+      customerId: test.conversation.customerId, conversationId: test.conversation.conversationId,
+      productoId: 'productos/01-control-de-peso/tongkat-ali', estado: 'ProductoIdentificado', intencionCompra: false,
+    });
+
+    assert.equal(await reportingRepository.countLeads(pool, { since: AYER, until: MANANA }), 1, 'default REAL debe ignorar el lead TEST');
+    assert.equal(await reportingRepository.countLeads(pool, { since: AYER, until: MANANA, source: 'ALL' }), 2, 'ALL debe seguir viendo ambos, como antes del fix');
+  });
+
   test('10) countHandoffs: sobre handoffs reales del rango', async () => {
     const { conversation } = await crearConversacionDePrueba('5215500000021');
     await handoffRepository.insertHandoff(pool, { conversationId: conversation.conversationId, motivo: 'prueba reporting' });
     const n = await reportingRepository.countHandoffs(pool, { since: AYER, until: MANANA });
     assert.equal(n, 1);
+  });
+
+  test('countHandoffs / countOpenHandoffs: un handoff de una conversación TEST no contamina el conteo REAL', async () => {
+    const real = await crearConversacionDePrueba('5215500000026', 'REAL');
+    const test = await crearConversacionDePrueba('5215500000027', 'TEST');
+    await handoffRepository.insertHandoff(pool, { conversationId: real.conversation.conversationId, motivo: 'real' });
+    await handoffRepository.insertHandoff(pool, { conversationId: test.conversation.conversationId, motivo: 'prueba de bot' });
+
+    assert.equal(await reportingRepository.countHandoffs(pool, { since: AYER, until: MANANA }), 1);
+    assert.equal(await reportingRepository.countOpenHandoffs(pool, { since: AYER, until: MANANA }), 1);
+    assert.equal(await reportingRepository.countHandoffs(pool, { since: AYER, until: MANANA, source: 'ALL' }), 2);
   });
 
   test('7-8) topProductsByPurchaseIntent: nunca "ventas", solo intención real de compra', async () => {
@@ -801,14 +866,73 @@ describe('reportingRepository (solo lectura, sobre datos reales del CRM)', () =>
     assert.equal(top[0].intentos, 2);
   });
 
+  test('topProductsByPurchaseIntent / listOpportunities: intención TEST no infla el ranking ni la lista REAL', async () => {
+    const real = await crearConversacionDePrueba('5215500000028', 'REAL');
+    const test = await crearConversacionDePrueba('5215500000029', 'TEST');
+    await opportunityRepository.createOpportunity(pool, {
+      customerId: real.conversation.customerId, conversationId: real.conversation.conversationId,
+      productoId: 'productos/01-control-de-peso/tongkat-ali', estado: 'PrecioEnviado', intencionCompra: true,
+    });
+    await opportunityRepository.createOpportunity(pool, {
+      customerId: test.conversation.customerId, conversationId: test.conversation.conversationId,
+      productoId: 'productos/01-control-de-peso/tongkat-ali', estado: 'PrecioEnviado', intencionCompra: true,
+    });
+
+    const topReal = await reportingRepository.topProductsByPurchaseIntent(pool, { since: AYER, until: MANANA });
+    assert.equal(topReal[0].intentos, 1, 'solo la oportunidad REAL debe contarse por defecto');
+
+    const topAll = await reportingRepository.topProductsByPurchaseIntent(pool, { since: AYER, until: MANANA, source: 'ALL' });
+    assert.equal(topAll[0].intentos, 2, 'ALL debe seguir sumando REAL + TEST');
+
+    const listaReal = await reportingRepository.listOpportunities(pool, { since: AYER, until: MANANA });
+    assert.equal(listaReal.length, 1);
+    assert.equal(listaReal[0].customer_id, real.conversation.customerId);
+  });
+
   test('11-12) attributionBreakdown: first_touch y last_touch reales, "unknown" para quienes no tienen atribución', async () => {
-    await customerRepository.createCustomer(pool, { firstTouch: { platform: 'instagram', source: 'organic' } });
-    await customerRepository.createCustomer(pool); // sin atribución real -- debe caer en "unknown"
+    // La atribución (first_touch) se fija en la creación del customer -- se
+    // crea aquí explícitamente en vez de con el helper, que no acepta
+    // firstTouch, pero SIEMPRE con su channel + conversation (source REAL),
+    // igual que el único flujo real de producción.
+    const conAtribucion = await customerRepository.createCustomer(pool, { firstTouch: { platform: 'instagram', source: 'organic' } });
+    const canalConAtribucion = await customerChannelRepository.createCustomerChannel(pool, {
+      customerId: conAtribucion.customerId, tipoCanal: 'whatsapp', identificadorExterno: '5215500000036',
+    });
+    await conversationRepository.createConversation(pool, {
+      customerId: conAtribucion.customerId, customerChannelId: canalConAtribucion.customerChannelId,
+      waIdConversacion: '5215500000036', source: 'REAL',
+    });
+
+    const sinAtribucion = await customerRepository.createCustomer(pool); // sin atribución real -- debe caer en "unknown"
+    const canalSinAtribucion = await customerChannelRepository.createCustomerChannel(pool, {
+      customerId: sinAtribucion.customerId, tipoCanal: 'whatsapp', identificadorExterno: '5215500000037',
+    });
+    await conversationRepository.createConversation(pool, {
+      customerId: sinAtribucion.customerId, customerChannelId: canalSinAtribucion.customerChannelId,
+      waIdConversacion: '5215500000037', source: 'REAL',
+    });
 
     const first = await reportingRepository.attributionBreakdown(pool, { since: AYER, until: MANANA, dimension: 'platform', touch: 'first' });
     const porValor = Object.fromEntries(first.map((r) => [r.valor, r.n]));
     assert.equal(porValor['instagram'], 1);
     assert.equal(porValor['unknown'], 1, 'ausencia real de atribución debe agruparse como unknown, nunca omitirse ni inventarse');
+  });
+
+  test('attributionBreakdown: un cliente cuya única conversación es TEST no aparece en el desglose REAL', async () => {
+    const customer = await customerRepository.createCustomer(pool, { firstTouch: { platform: 'tiktok', source: 'organic' } });
+    const channel = await customerChannelRepository.createCustomerChannel(pool, {
+      customerId: customer.customerId, tipoCanal: 'whatsapp', identificadorExterno: '5215500000038',
+    });
+    await conversationRepository.createConversation(pool, {
+      customerId: customer.customerId, customerChannelId: channel.customerChannelId,
+      waIdConversacion: '5215500000038', source: 'TEST',
+    });
+
+    const real = await reportingRepository.attributionBreakdown(pool, { since: AYER, until: MANANA, dimension: 'platform', touch: 'first' });
+    assert.equal(Object.fromEntries(real.map((r) => [r.valor, r.n]))['tiktok'], undefined, 'un cliente solo-TEST no debe sumar a "tiktok" en el desglose REAL');
+
+    const todos = await reportingRepository.attributionBreakdown(pool, { since: AYER, until: MANANA, dimension: 'platform', touch: 'first', source: 'ALL' });
+    assert.equal(Object.fromEntries(todos.map((r) => [r.valor, r.n]))['tiktok'], 1, 'ALL debe seguir viéndolo, igual que antes del fix');
   });
 
   test('13-14) contentAttributionForProduct: cruce real customer(first_touch_content_id) x opportunity(producto_id, intencion_compra)', async () => {
@@ -820,6 +944,7 @@ describe('reportingRepository (solo lectura, sobre datos reales del CRM)', () =>
     });
     const conversation = await conversationRepository.createConversation(pool, {
       customerId: customer.customerId, customerChannelId: channel.customerChannelId, waIdConversacion: '5215500000023',
+      source: 'REAL',
     });
     await opportunityRepository.createOpportunity(pool, {
       customerId: customer.customerId, conversationId: conversation.conversationId,
