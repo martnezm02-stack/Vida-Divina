@@ -131,10 +131,15 @@ export const registrarPagoDefinition: ToolDefinition = {
 };
 
 export const registrarPagoHandler: ToolHandler<RegistrarPagoArgs> = async (args) => {
+  const conversationId = args.conversationId ?? 0;
+  const phone = leadPhone(conversationId);
+  if (!phone) return { ok: false, message: "No se pudo determinar el teléfono real del chat." };
+
   const res = await registrarPagoCrm({
     orderId: args.orderId,
     metodo: args.metodo,
     referencia: args.referencia ?? null,
+    phone,
   });
   if (!res.ok) return { ok: false, message: res.reason };
   return {
@@ -284,7 +289,7 @@ export const cerrarVentaTransferenciaHandler: ToolHandler<CerrarVentaTransferenc
     };
   }
 
-  const res = await ofrecerTransferenciaCrm({ orderId: args.orderId });
+  const res = await ofrecerTransferenciaCrm({ orderId: args.orderId, phone });
   if (!res.ok) return { ok: false, message: res.reason };
 
   // Envío REAL de la imagen oficial tal cual está en disco -- mismo

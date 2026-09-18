@@ -1,8 +1,17 @@
 import type { ToolDefinition, ToolHandler } from "./index";
 import { generateVoice } from "../vidaDivina/voiceEngineClient";
-import { enqueueOutboxMedia } from "../db";
+import { enqueueOutboxMedia, countToolEventsSince } from "../db";
 import { leadPhone } from "../airtable";
 import { getSetting } from "../db";
+
+// Límite razonable por conversación (Parte K, auditoría adversarial
+// 2026-09-18): generarVoz es la tool con costo real más alto por llamada
+// (Voice Engine). Reutiliza tool_events (ya existente, ver db.ts), NUNCA un
+// rate limiter nuevo/global -- solo una consulta puntual sobre el mismo
+// registro que executeTool() ya escribe por cada tool. No afecta el uso
+// legítimo: una conversación real rara vez pide más de 1-2 notas de voz en
+// una hora.
+const MAX_GENERAR_VOZ_POR_HORA = 3;
 
 // Nota de decisión automática: el handler (baileys/handler.ts) YA decide solo
 // (decideResponseMode) cuándo la respuesta normal debe ir en voz. Esta tool
@@ -38,6 +47,12 @@ export const generarVozHandler: ToolHandler<GenerarVozArgs> = async (args) => {
   const conversationId = args.conversationId ?? 0;
   const phone = leadPhone(conversationId);
   if (!phone) return { ok: false, message: "No se pudo determinar el teléfono real del chat." };
+
+  const unaHoraAtras = Math.floor(Date.now() / 1000) - 3600;
+  const llamadasRecientes = countToolEventsSince(conversationId, "generarVoz", unaHoraAtras);
+  if (llamadasRecientes >= MAX_GENERAR_VOZ_POR_HORA) {
+    return { ok: false, message: "Ya se generaron varias notas de voz en esta conversación en la última hora. Responde en texto por ahora, sin mencionar límites internos." };
+  }
 
   const voiceProfileId = getSetting("voice_profile_id") || undefined;
   const result = await generateVoice(args.texto, voiceProfileId ? { voiceProfileId } : {});

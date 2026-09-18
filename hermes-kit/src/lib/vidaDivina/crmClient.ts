@@ -18,10 +18,45 @@
 // alguien cambie explícitamente ese filtro.
 
 import path from "node:path";
+import pino from "pino";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { REPO_ROOT } from "./productKnowledge";
 import type { Attribution } from "./attribution";
 import { getConversationByPhone } from "../db";
+
+const logger = pino({ level: (process.env.LOG_LEVEL as pino.Level | undefined) ?? "info" });
+
+// Nombres de error de NEGOCIO ya conocidos y controlados -- su .message fue
+// escrito deliberadamente por la capa comercial para ser mostrable tal
+// cual (ej. "sin stock suficiente"), nunca texto crudo de Postgres/
+// filesystem. Todo lo demás se sanitiza en mensajeErrorSeguro() abajo.
+const ERRORES_NEGOCIO_SEGUROS = new Set(["InsufficientStockError"]);
+
+/**
+ * Sanitiza un error real antes de que su mensaje pueda llegar al resultado
+ * de una tool (y de ahí, potencialmente, al texto que el LLM le muestra al
+ * cliente) -- Parte B, auditoría adversarial 2026-09-18 (hallazgo MEDIUM:
+ * 7 catch-blocks devolvían err.message crudo, que puede incluir detalle
+ * real de constraint/columna/tabla de PostgreSQL). El error COMPLETO
+ * (mensaje + stack + nombre) SIEMPRE se registra en logs internos (pino) --
+ * nunca se pierde para diagnóstico -- pero lo que se devuelve es un mensaje
+ * genérico, salvo que sea un error de negocio ya conocido (ERRORES_NEGOCIO_SEGUROS).
+ */
+// Prefijo real que crm/commerce/confirmarVenta.js YA usa en TODOS sus
+// rechazos de negocio deliberados ("orden cancelada", "pago no pertenece a
+// la orden", stock insuficiente...) -- mensajes controlados por esa misma
+// capa, nunca texto crudo de Postgres (que no lleva este prefijo). Permite
+// distinguir "rechazo de negocio esperado" de "excepción real inesperada"
+// sin depender solo de err.name (los errores de pg también son name="Error").
+const PREFIJO_ERROR_NEGOCIO_CONFIRMAR_VENTA = /^confirmarVenta:/;
+
+function mensajeErrorSeguro(err: unknown, contexto: string): string {
+  const error = err instanceof Error ? err : new Error(String(err));
+  logger.error({ err: { message: error.message, stack: error.stack, name: error.name }, contexto }, "[crmClient] error interno");
+  if (ERRORES_NEGOCIO_SEGUROS.has(error.name)) return error.message;
+  if (PREFIJO_ERROR_NEGOCIO_CONFIRMAR_VENTA.test(error.message)) return error.message;
+  return "No se pudo completar la operación en este momento. Intenta de nuevo en unos minutos.";
+}
 
 const CRM_INDEX_PATH = path.join(REPO_ROOT, "crm", "index.js");
 
@@ -123,7 +158,7 @@ export async function recordLastTouch(phone: string, attribution: Attribution): 
     await c.customers.updateLastTouch(customer.customerId, attribution);
     return { ok: true };
   } catch (err) {
-    return { ok: false, reason: `Error real al registrar last_touch: ${err instanceof Error ? err.message : String(err)}` };
+    return { ok: false, reason: mensajeErrorSeguro(err, "recordLastTouch") };
   }
 }
 
@@ -208,7 +243,7 @@ export async function saveLead(input: SaveLeadInput): Promise<SaveLeadResult> {
         });
     return { ok: true, opportunityId: opportunity.opportunityId, conversationId: ctx.conversationId };
   } catch (err) {
-    return { ok: false, reason: `Error real al guardar el lead en el CRM: ${err instanceof Error ? err.message : String(err)}` };
+    return { ok: false, reason: mensajeErrorSeguro(err, "saveLead") };
   }
 }
 
@@ -279,7 +314,7 @@ export async function qualifyLead(input: QualifyLeadInput): Promise<QualifyLeadR
         });
     return { ok: true, opportunityId: opportunity.opportunityId, estado };
   } catch (err) {
-    return { ok: false, reason: `Error real al calificar el lead en el CRM: ${err instanceof Error ? err.message : String(err)}` };
+    return { ok: false, reason: mensajeErrorSeguro(err, "qualifyLead") };
   }
 }
 
@@ -470,7 +505,7 @@ export async function crearPedido(input: CrearPedidoInput): Promise<CrearPedidoR
       cantidadUnidades,
     };
   } catch (err) {
-    return { ok: false, reason: `Error real al crear el pedido: ${err instanceof Error ? err.message : String(err)}` };
+    return { ok: false, reason: mensajeErrorSeguro(err, "crearPedido") };
   }
 }
 
@@ -479,6 +514,12 @@ export interface RegistrarPagoInput {
   metodo: string;
   importe?: number | null;
   referencia?: string | null;
+  // Teléfono REAL del remitente (canonicalPhone, forzado por executeTool()
+  // vía conversationId -- NUNCA un valor que el LLM pueda decidir). Ver
+  // verificarOwnershipOrder() más abajo: sin esto, cualquier orderId real
+  // (aunque sea de OTRO cliente) se aceptaba sin comprobar a quién pertenece
+  // -- hallazgo HIGH de la auditoría adversarial 2026-09-18.
+  phone: string;
 }
 
 export interface RegistrarPagoResult {
@@ -488,6 +529,29 @@ export interface RegistrarPagoResult {
   orderId?: string;
   importe?: number;
   estado?: string;
+}
+
+/**
+ * Verifica que `orderId` pertenezca REALMENTE al cliente identificado por
+ * `phone` (mismo `customer_id`, nunca por nombre/texto/lo que afirme el
+ * cliente) -- único punto de ownership reutilizado por registrarPago() y
+ * ofrecerTransferencia(). Mensaje de rechazo deliberadamente genérico e
+ * IDÉNTICO al de "no existe" (nunca revela si el orderId SÍ existe pero es
+ * de otro cliente -- evita servir de oráculo para enumerar pedidos ajenos).
+ */
+async function verificarOwnershipOrder(
+  c: any,
+  order: { customerId: string } | null,
+  phone: string
+): Promise<{ ok: true } | { ok: false; reason: string }> {
+  const NO_ENCONTRADO = "No se encontró ningún pedido real con ese identificador para este cliente.";
+  if (!order) return { ok: false, reason: NO_ENCONTRADO };
+  if (!phone) return { ok: false, reason: NO_ENCONTRADO };
+  const customer = await c.customers.findCustomerByChannel(TIPO_CANAL, phone);
+  if (!customer || customer.customerId !== order.customerId) {
+    return { ok: false, reason: NO_ENCONTRADO };
+  }
+  return { ok: true };
 }
 
 /**
@@ -507,7 +571,8 @@ export async function registrarPago(input: RegistrarPagoInput): Promise<Registra
   try {
     const c = await crm();
     const order = await c.orders.findById(input.orderId);
-    if (!order) return { ok: false, reason: `No existe ningún pedido real con id "${input.orderId}".` };
+    const ownership = await verificarOwnershipOrder(c, order, input.phone);
+    if (!ownership.ok) return { ok: false, reason: ownership.reason };
     if (order.estado !== "pendiente") {
       return { ok: false, reason: `El pedido "${input.orderId}" ya está "${order.estado}" -- no se puede registrar un pago nuevo sobre él.` };
     }
@@ -521,7 +586,7 @@ export async function registrarPago(input: RegistrarPagoInput): Promise<Registra
     });
     return { ok: true, paymentId: payment.paymentId, orderId: input.orderId, importe: Number(payment.importe), estado: payment.estado };
   } catch (err) {
-    return { ok: false, reason: `Error real al registrar el pago: ${err instanceof Error ? err.message : String(err)}` };
+    return { ok: false, reason: mensajeErrorSeguro(err, "registrarPago") };
   }
 }
 
@@ -529,6 +594,8 @@ const METODO_TRANSFERENCIA = "transferencia bancaria";
 
 export interface OfrecerTransferenciaInput {
   orderId: string;
+  // Ver RegistrarPagoInput.phone -- mismo motivo, mismo hallazgo HIGH.
+  phone: string;
 }
 
 export interface OfrecerTransferenciaResult {
@@ -557,7 +624,8 @@ export async function ofrecerTransferencia(input: OfrecerTransferenciaInput): Pr
   try {
     const c = await crm();
     const order = await c.orders.findById(input.orderId);
-    if (!order) return { ok: false, reason: `No existe ningún pedido real con id "${input.orderId}".` };
+    const ownership = await verificarOwnershipOrder(c, order, input.phone);
+    if (!ownership.ok) return { ok: false, reason: ownership.reason };
     if (order.estado !== "pendiente") {
       return { ok: false, reason: `El pedido "${input.orderId}" ya está "${order.estado}" -- no aplica ofrecer transferencia.` };
     }
@@ -586,7 +654,7 @@ export async function ofrecerTransferencia(input: OfrecerTransferenciaInput): Pr
     });
     return { ok: true, orderId: input.orderId, paymentId: payment.paymentId, total: Number(order.total), moneda: order.moneda, reused: false };
   } catch (err) {
-    return { ok: false, reason: `Error real al ofrecer transferencia: ${err instanceof Error ? err.message : String(err)}` };
+    return { ok: false, reason: mensajeErrorSeguro(err, "ofrecerTransferencia") };
   }
 }
 
@@ -629,8 +697,11 @@ export async function confirmarPago(input: ConfirmarPagoInput): Promise<Confirma
   } catch (err) {
     // InsufficientStockError (crm/commerce/confirmarVenta.js) y cualquier
     // otro rechazo real (pago ajeno, pago no pendiente, orden cancelada...)
-    // llegan aquí -- nunca se reintenta ni se fuerza nada, se reporta tal cual.
-    return { ok: false, reason: err instanceof Error ? err.message : String(err) };
+    // llegan aquí -- nunca se reintenta ni se fuerza nada. mensajeErrorSeguro()
+    // deja pasar tal cual los rechazos de negocio conocidos (prefijo
+    // "confirmarVenta:"/InsufficientStockError) y sanitiza cualquier otra
+    // excepción real inesperada antes de que llegue aquí.
+    return { ok: false, reason: mensajeErrorSeguro(err, "confirmarPago") };
   }
 }
 
@@ -837,6 +908,6 @@ export async function handoffToHuman(
 
     return { ok: true, handoffId: handoff.handoffId, conversationId: ctx.conversationId };
   } catch (err) {
-    return { ok: false, reason: `Error real al registrar el handoff en el CRM: ${err instanceof Error ? err.message : String(err)}` };
+    return { ok: false, reason: mensajeErrorSeguro(err, "handoffToHuman") };
   }
 }

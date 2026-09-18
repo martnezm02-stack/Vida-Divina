@@ -120,7 +120,7 @@ test("flujo completo real: order -> payment -> handoff conserva contexto -> conf
   assert.equal(stockAntes, 5); // crear la orden NUNCA toca inventario
 
   // 3) payment PENDING
-  const pago = await registrarPago({ orderId, metodo: "transferencia", referencia: null });
+  const pago = await registrarPago({ orderId, metodo: "transferencia", referencia: null, phone });
   assert.equal(pago.ok, true, pago.reason);
   assert.equal(pago.estado, "pendiente");
   const paymentId = pago.paymentId!;
@@ -200,7 +200,7 @@ test("stock insuficiente: confirmarPago rechaza, no confirma la orden ni descuen
 
   const pedido = await crearPedido({ phone, productoId: PRODUCTO_ID, cantidadUnidades: 2 });
   assert.equal(pedido.ok, true, pedido.reason);
-  const pago = await registrarPago({ orderId: pedido.orderId!, metodo: "mercadopago" });
+  const pago = await registrarPago({ orderId: pedido.orderId!, metodo: "mercadopago", phone });
   assert.equal(pago.ok, true, pago.reason);
 
   const convoAdmin = db.getOrCreateConversation(ADMIN_PHONE, "Manuel");
@@ -223,7 +223,7 @@ test("pago registrado pero no confirmado: inventario intacto", async () => {
   const phone = `${TEST_PHONE}NOPAGO`;
   const { crearPedido, registrarPago } = await import("../src/lib/vidaDivina/crmClient");
   const pedido = await crearPedido({ phone, productoId: PRODUCTO_ID, cantidadUnidades: 1 });
-  await registrarPago({ orderId: pedido.orderId!, metodo: "transferencia" });
+  await registrarPago({ orderId: pedido.orderId!, metodo: "transferencia", phone });
   // Nunca se llama a confirmarPago.
   assert.equal(await stockActual(), 5);
 });
@@ -236,7 +236,7 @@ test("registrarPago nunca confirma un pago solo porque se le pase un importe/ref
   const phone = `${TEST_PHONE}TEXTO`;
   const { crearPedido, registrarPago } = await import("../src/lib/vidaDivina/crmClient");
   const pedido = await crearPedido({ phone, productoId: PRODUCTO_ID });
-  const pago = await registrarPago({ orderId: pedido.orderId!, metodo: "transferencia", referencia: "el cliente dice que ya pagó" });
+  const pago = await registrarPago({ orderId: pedido.orderId!, metodo: "transferencia", referencia: "el cliente dice que ya pagó", phone });
   assert.equal(pago.estado, "pendiente"); // el texto de "referencia" nunca confirma nada
 });
 

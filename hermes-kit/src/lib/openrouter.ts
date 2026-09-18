@@ -21,6 +21,7 @@ const ADMIN_ONLY_TOOL_NAMES = new Set([
   "adminEstadoSistema",
   "adminGenerarAudioAsset",
   "adminGenerarReporte",
+  "adminConsultarInteraccionesProducto",
   "adminBuscarCorreos",
   "adminLeerCorreo",
   "adminResumirCorreos",
@@ -28,6 +29,12 @@ const ADMIN_ONLY_TOOL_NAMES = new Set([
   "adminActualizarBorradorCorreo",
   "adminMoverCorreoAPapelera",
   "adminEnviarBorradorAprobado",
+  // videoToSkill (hallazgo HIGH, auditoría adversarial 2026-09-18): tool de
+  // desarrollo/aprendizaje con capacidad real de leer archivos del
+  // filesystem del servidor -- ahora gateada por requireAdmin() en
+  // video-to-skill.ts, y aquí además ni se ofrece a un CLIENT real (mismo
+  // criterio de defensa en profundidad que el resto de esta lista).
+  "videoToSkill",
 ]);
 const CLIENT_TOOL_DEFINITIONS = toolDefinitions.filter((t) => !ADMIN_ONLY_TOOL_NAMES.has(t.function.name));
 

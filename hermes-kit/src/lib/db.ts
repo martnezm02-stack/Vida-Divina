@@ -699,6 +699,23 @@ export function insertToolEvent(
     .run(conversationId, tool, hasEmail ? 1 : 0, detail);
 }
 
+/**
+ * Cuántas veces se invocó `tool` en `conversationId` desde `sinceEpochSec`
+ * -- reutiliza tool_events (ya existente, alimentado por executeTool()),
+ * nunca un contador/tabla nueva. Usado por herramientas costosas
+ * (generarVoz) para un límite razonable por conversación (Parte K,
+ * auditoría adversarial 2026-09-18) -- NO es un rate limiter global, solo
+ * una consulta puntual sobre datos que ya se registraban de todos modos.
+ */
+export function countToolEventsSince(conversationId: number, tool: string, sinceEpochSec: number): number {
+  const row = ctx()
+    .db.prepare(
+      "SELECT COUNT(*) AS n FROM tool_events WHERE conversation_id = ? AND tool = ? AND created_at >= ?"
+    )
+    .get(conversationId, tool, sinceEpochSec) as { n: number };
+  return row.n;
+}
+
 export interface VoiceCallInput {
   conversationId: number | null;
   messageId: number | null;

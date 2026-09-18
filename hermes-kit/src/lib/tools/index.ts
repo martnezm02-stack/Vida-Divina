@@ -10,8 +10,11 @@ import {
 // El enlace de reserva (Cal.com/Calendly) se comparte por la sección de Enlaces
 // de prompts/negocio.md. El archivo agendar.ts se conserva por si tu negocio
 // necesita esa herramienta: regístrala aquí y rellena CAL_BOOKING_URL.
+import pino from "pino";
 import { insertToolEvent } from "../db";
 import type { IdiomaConversacion } from "../vidaDivina/languageDetection";
+
+const logger = pino({ level: (process.env.LOG_LEVEL as pino.Level | undefined) ?? "info" });
 // FASE "Hermes end-to-end Vida Divina": derivarHumano SÍ se registra aquí
 // (antes dormida) -- Vida Divina necesita derivación real a un humano
 // (además del watchdog), con handoff persistido en el CRM real.
@@ -48,6 +51,7 @@ import { adminEstadoSistemaDefinition, adminEstadoSistemaHandler, adminGenerarAu
 import { adminGenerarReporteDefinition, adminGenerarReporteHandler } from "./reporting";
 import { adminReporteInventarioDefinition, adminReporteInventarioHandler } from "./inventario";
 import { adminAgendarSeguimientoDefinition, adminAgendarSeguimientoHandler } from "./seguimiento";
+import { adminConsultarInteraccionesProductoDefinition, adminConsultarInteraccionesProductoHandler } from "./analytics";
 import {
   adminBuscarCorreosDefinition, adminBuscarCorreosHandler,
   adminLeerCorreoDefinition, adminLeerCorreoHandler,
@@ -57,6 +61,7 @@ import {
   adminMoverCorreoAPapeleraDefinition, adminMoverCorreoAPapeleraHandler,
   adminEnviarBorradorAprobadoDefinition, adminEnviarBorradorAprobadoHandler,
 } from "./gmail";
+import { videoToSkillDefinition, videoToSkillHandler } from "./video-to-skill";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
@@ -115,6 +120,7 @@ export const toolDefinitions: ToolDefinition[] = [
   adminGenerarReporteDefinition,
   adminReporteInventarioDefinition,
   adminAgendarSeguimientoDefinition,
+  adminConsultarInteraccionesProductoDefinition,
   adminBuscarCorreosDefinition,
   adminLeerCorreoDefinition,
   adminResumirCorreosDefinition,
@@ -122,6 +128,7 @@ export const toolDefinitions: ToolDefinition[] = [
   adminActualizarBorradorCorreoDefinition,
   adminMoverCorreoAPapeleraDefinition,
   adminEnviarBorradorAprobadoDefinition,
+  videoToSkillDefinition,
 ];
 
 type GenericHandler = (
@@ -173,6 +180,8 @@ const handlers: Record<string, GenericHandler> = {
     adminReporteInventarioHandler(args as unknown as Parameters<typeof adminReporteInventarioHandler>[0]),
   adminAgendarSeguimiento: (args) =>
     adminAgendarSeguimientoHandler(args as unknown as Parameters<typeof adminAgendarSeguimientoHandler>[0]),
+  adminConsultarInteraccionesProducto: (args) =>
+    adminConsultarInteraccionesProductoHandler(args as unknown as Parameters<typeof adminConsultarInteraccionesProductoHandler>[0]),
   adminBuscarCorreos: (args) =>
     adminBuscarCorreosHandler(args as unknown as Parameters<typeof adminBuscarCorreosHandler>[0]),
   adminLeerCorreo: (args) =>
@@ -187,6 +196,8 @@ const handlers: Record<string, GenericHandler> = {
     adminMoverCorreoAPapeleraHandler(args as unknown as Parameters<typeof adminMoverCorreoAPapeleraHandler>[0]),
   adminEnviarBorradorAprobado: (args) =>
     adminEnviarBorradorAprobadoHandler(args as unknown as Parameters<typeof adminEnviarBorradorAprobadoHandler>[0]),
+  videoToSkill: (args) =>
+    videoToSkillHandler(args as unknown as Parameters<typeof videoToSkillHandler>[0]),
 };
 
 export async function executeTool(
@@ -208,11 +219,18 @@ export async function executeTool(
   try {
     result = await handler({ ...args, conversationId: context.conversationId, language: context.language });
   } catch (err) {
+    // Sanitización de errores (Parte B, auditoría adversarial 2026-09-18):
+    // el error COMPLETO se registra en logs internos -- nunca crudo
+    // (posible detalle de Postgres/filesystem) en el resultado que el LLM
+    // recibe y podría relayar al cliente.
+    const error = err instanceof Error ? err : new Error(String(err));
+    logger.error(
+      { err: { message: error.message, stack: error.stack, name: error.name }, toolName },
+      "[executeTool] la herramienta falló"
+    );
     return {
       ok: false,
-      message: `La herramienta ${toolName} falló (${
-        err instanceof Error ? err.message : String(err)
-      }). Continúa la conversación con normalidad; no menciones este error al lead.`,
+      message: `La herramienta ${toolName} falló. Continúa la conversación con normalidad; no menciones este error al lead.`,
     };
   }
 
