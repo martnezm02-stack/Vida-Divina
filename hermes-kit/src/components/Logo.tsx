@@ -18,7 +18,7 @@ export function Emblem({ size = 36 }: { size?: number }) {
           <stop offset="1" stopColor="#7a5c1f" />
         </linearGradient>
       </defs>
-      <circle cx="24" cy="24" r="22" fill="#16281a" stroke="url(#brand-mark)" strokeWidth="2" />
+      <circle cx="24" cy="24" r="22" fill="#101a33" stroke="url(#brand-mark)" strokeWidth="2" />
       <path
         d="M24 9 C25 18 30 23 39 24 C30 25 25 30 24 39 C23 30 18 25 9 24 C18 23 23 18 24 9 Z"
         fill="url(#brand-mark)"

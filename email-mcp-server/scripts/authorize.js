@@ -30,6 +30,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { google } from 'googleapis';
 import { GMAIL_SCOPES } from '../src/gmailClient.js';
+import { CALENDAR_SCOPES } from '../src/calendarClient.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ENV_PATH = path.join(__dirname, '..', '.env');
@@ -77,7 +78,10 @@ async function main() {
   const authUrl = oauth2Client.generateAuthUrl({
     access_type: 'offline', // necesario para recibir un refresh_token real
     prompt: 'consent', // fuerza a Google a reemitir refresh_token aunque ya se haya autorizado antes
-    scope: GMAIL_SCOPES,
+    // Gmail + Calendar en un solo consentimiento real -- mismo refresh_token
+    // real sirve para ambos servicios (FASE "Hermes Ventas: Gmail + Google
+    // Calendar", 2026-09-18), nunca un segundo flujo OAuth.
+    scope: [...GMAIL_SCOPES, ...CALENDAR_SCOPES],
   });
 
   console.log('Abre esta URL real en tu navegador e inicia sesión con tienda.vivevidadivina@gmail.com:\n');

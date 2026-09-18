@@ -30,31 +30,15 @@ function Card({ title, desc, children }: { title: string; desc?: string; childre
   );
 }
 
-interface VidaDivinaStatus {
-  knowledgePackage: { available: boolean };
-  commercialMedia: { available: boolean; count: number };
-  crm: { configured: boolean };
-  voiceEngine: { reachable: boolean };
-}
-
-function EstadoPunto({ ok }: { ok: boolean }) {
-  return <span className={`inline-block w-2 h-2 rounded-full mr-2 ${ok ? "bg-wa-green" : "bg-brand-muted"}`} />;
-}
-
 export default function SettingsPanel() {
   const [s, setS] = useState<Settings | null>(null);
   const [saved, setSaved] = useState<string | null>(null);
   const [customModel, setCustomModel] = useState("");
-  const [vd, setVd] = useState<VidaDivinaStatus | null>(null);
 
   useEffect(() => {
     fetch(apiUrl("/api/settings"), { cache: "no-store" })
       .then((r) => r.json())
       .then((j) => setS(j.settings))
-      .catch(() => {});
-    fetch(apiUrl("/api/vida-divina-status"), { cache: "no-store" })
-      .then((r) => r.json())
-      .then((j) => setVd(j))
       .catch(() => {});
   }, []);
 
@@ -245,20 +229,6 @@ export default function SettingsPanel() {
               />
               {savedTag("voice_profile_id")}
             </>
-          )}
-        </Card>
-
-        {/* Integraciones Vida Divina — solo lectura */}
-        <Card title="Integraciones Vida Divina" desc="Estado real de las fuentes de verdad que usa Hermes. Solo lectura.">
-          {vd ? (
-            <ul className="text-sm text-brand-text space-y-1.5">
-              <li className="flex items-center"><EstadoPunto ok={vd.knowledgePackage.available} /> Catálogo de productos {vd.knowledgePackage.available ? "disponible" : "no disponible"}</li>
-              <li className="flex items-center"><EstadoPunto ok={vd.commercialMedia.available} /> Testimonios/contenido comercial: {vd.commercialMedia.count} reales</li>
-              <li className="flex items-center"><EstadoPunto ok={vd.crm.configured} /> CRM real {vd.crm.configured ? "conectado" : "no configurado"}</li>
-              <li className="flex items-center"><EstadoPunto ok={vd.voiceEngine.reachable} /> Voice Engine {vd.voiceEngine.reachable ? "activo" : "apagado"}</li>
-            </ul>
-          ) : (
-            <div className="text-xs text-brand-muted">Comprobando…</div>
           )}
         </Card>
 

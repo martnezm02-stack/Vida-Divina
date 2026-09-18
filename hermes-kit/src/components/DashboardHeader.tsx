@@ -1,18 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import Logo from "./Logo";
 import { apiUrl } from "../lib/apiPath";
 
-type View = "chats" | "metrics" | "settings" | "alertas";
 interface DashboardHeaderProps {
   phone: string | null;
-  view: View;
-  onViewChange: (v: View) => void;
-  alertCount?: number;
+  title: string;
 }
 
-export default function DashboardHeader({ phone, view, onViewChange, alertCount = 0 }: DashboardHeaderProps) {
+export default function DashboardHeader({ phone, title }: DashboardHeaderProps) {
   const [disconnecting, setDisconnecting] = useState(false);
 
   async function handleDisconnect() {
@@ -32,7 +28,7 @@ export default function DashboardHeader({ phone, view, onViewChange, alertCount 
   }
 
   return (
-    <header className="border-b border-brand-border bg-brand-surface/80 backdrop-blur px-6 py-3 flex items-center justify-between">
+    <header className="border-b border-brand-border bg-brand-surface/80 backdrop-blur px-6 py-3.5 flex items-center justify-between">
       <div className="flex items-center gap-3.5">
         {/* Enlace de regreso al Dashboard principal de Vive Vida Divina */}
         <a
@@ -42,30 +38,8 @@ export default function DashboardHeader({ phone, view, onViewChange, alertCount 
         >
           ← Vida Divina
         </a>
-        {/* Logo principal de marca */}
-        <Logo size={20} />
-        <div className="h-9 w-px bg-brand-border" />
-        <nav className="inline-flex rounded-lg border border-brand-border p-0.5 bg-brand-bg" aria-label="Vistas del dashboard">
-          {(["chats", "metrics", "alertas", "settings"] as const).map((v) => (
-            <button
-              key={v}
-              onClick={() => onViewChange(v)}
-              aria-pressed={view === v}
-              className={`relative px-3.5 py-1.5 text-sm font-semibold rounded-md transition-colors ${
-                view === v
-                  ? "bg-brand-gold/20 text-brand-gold"
-                  : "text-brand-text/70 hover:text-brand-text"
-              }`}
-            >
-              {v === "chats" ? "Chats" : v === "metrics" ? "Métricas" : v === "alertas" ? "Alertas" : "Ajustes"}
-              {v === "alertas" && alertCount > 0 && (
-                <span className="absolute -top-1.5 -right-1.5 min-w-[18px] h-5 px-1.5 rounded-full bg-red-600 text-white text-[10px] font-bold flex items-center justify-center">
-                  {alertCount}
-                </span>
-              )}
-            </button>
-          ))}
-        </nav>
+        <div className="h-5 w-px bg-brand-border" />
+        <h1 className="font-display text-lg font-bold text-brand-text">{title}</h1>
       </div>
 
       <div className="flex items-center gap-5">
@@ -85,7 +59,7 @@ export default function DashboardHeader({ phone, view, onViewChange, alertCount 
         <button
           onClick={handleDisconnect}
           disabled={disconnecting}
-          className="text-xs px-3.5 py-2 rounded-lg border border-red-500/30 bg-red-500/10 text-red-400 hover:bg-red-500/20 hover:border-red-500/50 hover:text-red-300 transition-colors disabled:opacity-50"
+          className="text-xs px-3.5 py-2 rounded-lg border border-red-200 bg-red-50 text-red-600 hover:bg-red-100 hover:border-red-300 transition-colors disabled:opacity-50"
         >
           {disconnecting ? "Desconectando WhatsApp..." : "Desconectar WhatsApp"}
         </button>

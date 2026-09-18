@@ -26,7 +26,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 export const REPO_ROOT = path.resolve(__dirname, "..", "..", "..", "..");
 const KNOWLEDGE_LOADER_PATH = path.join(REPO_ROOT, "recommendation-engine", "src", "knowledgeLoader.js");
 
-interface CompiledEntity {
+export interface CompiledEntity {
   id: string;
   tipo_entidad: string;
   titulo: string;
@@ -49,7 +49,10 @@ let _cache: CompiledKnowledge | null = null;
  */
 async function loadKnowledge(): Promise<CompiledKnowledge> {
   if (_cache) return _cache;
-  const mod: any = await import(pathToFileURL(KNOWLEDGE_LOADER_PATH).href);
+  // /* webpackIgnore: true */ obligatorio (2026-09-18): ahora también lo
+  // llama /api/personalizacion/productos, bundleado por Turbopack (ver
+  // alertas.ts para el hallazgo real original).
+  const mod: any = await import(/* webpackIgnore: true */ pathToFileURL(KNOWLEDGE_LOADER_PATH).href);
   _cache = mod.loadCompiledKnowledge();
   return _cache as CompiledKnowledge;
 }
@@ -91,7 +94,7 @@ function colapsar(s: string): string {
 // compilado usa esa palabra en inglés ("Ripped Capsules") mientras el
 // cliente escribe en español ("cápsulas") -- misma palabra, mismo
 // significado, solo cambia el idioma: no es un alias inventado.
-const PALABRAS_VACIAS = new Set(["capsula", "capsulas", "capsule", "capsules", "producto", "productos"]);
+export const PALABRAS_VACIAS = new Set(["capsula", "capsulas", "capsule", "capsules", "producto", "productos"]);
 
 function tokenizar(s: string): string[] {
   return normalize(s)
@@ -138,7 +141,7 @@ function umbralFuzzy(len: number): number {
 }
 
 /** Todas las entidades tipo "producto" del Knowledge Package real. */
-async function allProducts(): Promise<CompiledEntity[]> {
+export async function allProducts(): Promise<CompiledEntity[]> {
   const { entityById } = await loadKnowledge();
   return [...entityById.values()].filter((e) => e.tipo_entidad === "producto");
 }

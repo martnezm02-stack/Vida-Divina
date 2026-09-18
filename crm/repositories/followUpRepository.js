@@ -58,6 +58,25 @@ export async function listPendingDueBy(db, hasta = new Date()) {
 }
 
 /**
+ * Todos los follow-ups reales (cualquier estado) cuya fecha_programada cae
+ * en [since, until) -- fuente real para una vista de calendario (día/semana/
+ * mes), nunca filtra por conversación como listByConversationId.
+ *
+ * @param {{query: Function}} db
+ * @param {{since: Date, until: Date}} rango
+ * @returns {Promise<Object[]>}
+ */
+export async function listByDateRange(db, { since, until }) {
+  const { rows } = await db.query(
+    `SELECT * FROM follow_ups
+     WHERE fecha_programada >= $1 AND fecha_programada < $2
+     ORDER BY fecha_programada ASC`,
+    [since, until]
+  );
+  return camelCaseRows(rows);
+}
+
+/**
  * @param {{query: Function}} db
  * @param {string} conversationId
  * @returns {Promise<Object[]>}

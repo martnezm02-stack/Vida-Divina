@@ -457,6 +457,28 @@ describe('followUpRepository', () => {
     assert.equal(cancelado.estado, 'cancelado');
     assert.equal(cancelado.motivoCancelacion, 'cliente recontactó antes de la ventana');
   });
+
+  test('listByDateRange devuelve solo los follow-ups reales dentro de [since, until), cualquier estado', async () => {
+    const { conversation } = await crearConversacionDePrueba();
+    const dentro = await followUpRepository.createFollowUp(pool, {
+      conversationId: conversation.conversationId,
+      tipo: 'postventa_dia3',
+      fechaProgramada: new Date('2027-05-10T10:00:00Z'),
+    });
+    const fuera = await followUpRepository.createFollowUp(pool, {
+      conversationId: conversation.conversationId,
+      tipo: 'postventa_semana',
+      fechaProgramada: new Date('2027-06-01T10:00:00Z'),
+    });
+
+    const rango = await followUpRepository.listByDateRange(pool, {
+      since: new Date('2027-05-01T00:00:00Z'),
+      until: new Date('2027-05-31T00:00:00Z'),
+    });
+    const ids = rango.map((f) => f.followUpId);
+    assert.ok(ids.includes(dentro.followUpId));
+    assert.ok(!ids.includes(fuera.followUpId));
+  });
 });
 
 describe('handoffRepository', () => {
@@ -705,6 +727,27 @@ describe('paymentRepository', () => {
 
     const segundaVez = await paymentRepository.markRejected(pool, payment.paymentId);
     assert.equal(segundaVez, null); // ya no estaba 'pendiente'
+  });
+
+  test('listPending devuelve solo pagos reales en estado pendiente, nunca confirmados/rechazados', async () => {
+    const customer = await customerRepository.createCustomer(pool, { nombre: null, email: null });
+    const { order } = await orderRepository.insertOrder(pool, {
+      customerId: customer.customerId,
+      items: [{ productoId: 'x', cantidad: 1, precioUnitario: 200 }],
+    });
+    const pendiente = await paymentRepository.insertPayment(pool, { orderId: order.orderId, metodo: 'transferencia', importe: 200 });
+
+    const { order: order2 } = await orderRepository.insertOrder(pool, {
+      customerId: customer.customerId,
+      items: [{ productoId: 'x', cantidad: 1, precioUnitario: 300 }],
+    });
+    const confirmadoInicial = await paymentRepository.insertPayment(pool, { orderId: order2.orderId, metodo: 'mercadopago', importe: 300 });
+    await paymentRepository.markConfirmed(pool, confirmadoInicial.paymentId);
+
+    const pendientes = await paymentRepository.listPending(pool);
+    const ids = pendientes.map((p) => p.paymentId);
+    assert.ok(ids.includes(pendiente.paymentId));
+    assert.ok(!ids.includes(confirmadoInicial.paymentId));
   });
 });
 

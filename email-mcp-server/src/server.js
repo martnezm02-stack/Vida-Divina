@@ -28,6 +28,8 @@ import {
   searchGmailMessages, readGmailMessage, createGmailDraft, updateGmailDraft,
   getGmailDraftSummary, trashGmailMessage, sendApprovedGmailDraft,
 } from './gmailService.js';
+import { calendarConfigured } from './calendarClient.js';
+import { upsertFollowUpCalendarEvent } from './calendarService.js';
 
 // Carga real de email-mcp-server/.env en el propio proceso -- necesario
 // porque este servidor se invoca como "node src/server.js" (spawn directo
@@ -87,6 +89,24 @@ async function withGmailErrorHandling(fn) {
   }
 }
 
+function calendarErrorGuard() {
+  if (!calendarConfigured()) {
+    return { isError: true, content: [{ type: 'text', text: 'Google Calendar no está configurado en este entorno (falta OAuth real -- ejecuta "npm run authorize" en email-mcp-server/ una vez).' }] };
+  }
+  return null;
+}
+
+async function withCalendarErrorHandling(fn) {
+  const guard = calendarErrorGuard();
+  if (guard) return guard;
+  try {
+    const resultado = await fn();
+    return { content: [{ type: 'text', text: JSON.stringify(resultado, null, 2) }] };
+  } catch (err) {
+    return { isError: true, content: [{ type: 'text', text: `Fallo real de Google Calendar API: ${err.message}` }] };
+  }
+}
+
 const TOOLS = [
   {
     name: 'send_email',
@@ -133,6 +153,21 @@ const TOOLS = [
     description: 'Envía REALMENTE un borrador ya existente (drafts.send) -- irreversible. Quien llama (hermes-kit) es responsable de haber confirmado explícitamente con el administrador real antes de invocar esto.',
     inputSchema: { type: 'object', properties: { draftId: { type: 'string' } }, required: ['draftId'] },
   },
+  {
+    name: 'createFollowUpCalendarEvent',
+    description: 'Crea un evento REAL de seguimiento en Google Calendar, vinculado de forma estable al follow_up_id real del CRM -- IDEMPOTENTE: si ya existe un evento real para ese followUpId, lo reutiliza en vez de duplicarlo.',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        followUpId: { type: 'string' },
+        titulo: { type: 'string' },
+        descripcion: { type: 'string' },
+        inicioISO: { type: 'string', description: 'Fecha/hora real de inicio, ISO 8601.' },
+        finISO: { type: 'string', description: 'Fecha/hora real de fin, ISO 8601.' },
+      },
+      required: ['followUpId', 'titulo', 'inicioISO', 'finISO'],
+    },
+  },
 ];
 
 const HANDLERS = {
@@ -145,6 +180,7 @@ const HANDLERS = {
   trashEmail: (args) => withGmailErrorHandling(() => trashGmailMessage(args.messageId)),
   getDraftSummary: (args) => withGmailErrorHandling(() => getGmailDraftSummary(args.draftId)),
   sendApprovedEmail: (args) => withGmailErrorHandling(() => sendApprovedGmailDraft(args.draftId)),
+  createFollowUpCalendarEvent: (args) => withCalendarErrorHandling(() => upsertFollowUpCalendarEvent(args)),
 };
 
 const server = new Server(

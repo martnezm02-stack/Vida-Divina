@@ -18,9 +18,32 @@ interface HandoffAlert {
   ultimoContexto: string | null;
 }
 
+interface SeguimientoAlerta {
+  followUpId: string;
+  tipo: string;
+  fechaProgramada: string;
+  cliente: string | null;
+  telefono: string | null;
+}
+interface PagoPendienteAlerta {
+  paymentId: string;
+  orderId: string;
+  metodo: string;
+  importe: number;
+  creadoEn: string;
+  cliente: string | null;
+  telefono: string | null;
+}
+interface IntegracionAlerta {
+  integracion: string;
+  mensaje: string;
+}
+
 interface AlertasPanelProps {
   onOpenConversation: (localConversationId: number) => void;
 }
+
+const TIPO_SEGUIMIENTO_LABEL: Record<string, string> = { postventa_dia3: "Día 3", postventa_semana: "Semana 1", recuperacion_dia5: "Recuperación día 5" };
 
 const ETIQUETA_TIPO: Record<string, string> = {
   compra: "Listo para comprar",
@@ -30,7 +53,7 @@ const ETIQUETA_TIPO: Record<string, string> = {
 };
 
 const COLOR_PRIORIDAD: Record<string, string> = {
-  alta: "bg-red-500/15 text-red-400 border-red-500/30",
+  alta: "bg-red-50 text-red-600 border-red-200",
   media: "bg-brand-gold/15 text-brand-gold border-brand-gold/30",
   baja: "bg-brand-muted/15 text-brand-muted border-brand-muted/30",
 };
@@ -45,6 +68,9 @@ function formatFecha(iso: string): string {
 
 export default function AlertasPanel({ onOpenConversation }: AlertasPanelProps) {
   const [alertas, setAlertas] = useState<HandoffAlert[] | null>(null);
+  const [seguimientosVencidos, setSeguimientosVencidos] = useState<SeguimientoAlerta[]>([]);
+  const [pagosPendientes, setPagosPendientes] = useState<PagoPendienteAlerta[]>([]);
+  const [integraciones, setIntegraciones] = useState<IntegracionAlerta[]>([]);
   const [resolviendo, setResolviendo] = useState<Set<string>>(new Set());
   const [errorResolver, setErrorResolver] = useState<string | null>(null);
   // Error REAL de carga (2026-09-12, hallazgo real): antes un fallo real del
@@ -56,13 +82,23 @@ export default function AlertasPanel({ onOpenConversation }: AlertasPanelProps) 
   async function refresh() {
     try {
       const res = await fetch(apiUrl("/api/alertas"), { cache: "no-store" });
-      const data = (await res.json()) as { ok?: boolean; alertas: HandoffAlert[]; error?: string };
+      const data = (await res.json()) as {
+        ok?: boolean;
+        alertas: HandoffAlert[];
+        seguimientosVencidos?: SeguimientoAlerta[];
+        pagosPendientes?: PagoPendienteAlerta[];
+        integraciones?: IntegracionAlerta[];
+        error?: string;
+      };
       if (data.ok === false) {
         setErrorCarga(data.error ?? "Error real cargando las alertas.");
         return; // conserva la última lista real conocida -- nunca la reemplaza por una lista vacía falsa
       }
       setErrorCarga(null);
       setAlertas(data.alertas ?? []);
+      setSeguimientosVencidos(data.seguimientosVencidos ?? []);
+      setPagosPendientes(data.pagosPendientes ?? []);
+      setIntegraciones(data.integraciones ?? []);
     } catch {
       // silenciar -- se reintenta en el próximo refresco (fallo de red, no del CRM)
     }
@@ -116,13 +152,13 @@ export default function AlertasPanel({ onOpenConversation }: AlertasPanelProps) 
         </div>
 
         {errorResolver && (
-          <div className="rounded-lg border border-red-500/30 bg-red-500/10 text-red-400 text-xs px-3 py-2">
+          <div className="rounded-lg border border-red-200 bg-red-50 text-red-600 text-xs px-3 py-2">
             {errorResolver}
           </div>
         )}
 
         {errorCarga && (
-          <div className="rounded-lg border border-red-500/30 bg-red-500/10 text-red-400 text-xs px-3 py-2">
+          <div className="rounded-lg border border-red-200 bg-red-50 text-red-600 text-xs px-3 py-2">
             Error real cargando las alertas (no es que no haya handoffs): {errorCarga}
           </div>
         )}
@@ -183,6 +219,49 @@ export default function AlertasPanel({ onOpenConversation }: AlertasPanelProps) 
             </div>
           </div>
         ))}
+
+        {(seguimientosVencidos.length > 0 || pagosPendientes.length > 0 || integraciones.length > 0) && (
+          <div className="pt-4 space-y-3">
+            {seguimientosVencidos.length > 0 && (
+              <div className="rounded-xl border border-brand-border bg-brand-surface/70 p-4">
+                <div className="text-sm font-semibold text-brand-text mb-2">Seguimientos vencidos ({seguimientosVencidos.length})</div>
+                <ul className="space-y-1.5 text-xs">
+                  {seguimientosVencidos.map((s) => (
+                    <li key={s.followUpId} className="flex items-center justify-between text-brand-text">
+                      <span>{s.cliente ?? s.telefono ?? "Cliente sin nombre real"} — {TIPO_SEGUIMIENTO_LABEL[s.tipo] ?? s.tipo}</span>
+                      <span className="text-brand-muted">{formatFecha(s.fechaProgramada)}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {pagosPendientes.length > 0 && (
+              <div className="rounded-xl border border-brand-border bg-brand-surface/70 p-4">
+                <div className="text-sm font-semibold text-brand-text mb-2">Pagos/comprobantes pendientes de confirmar ({pagosPendientes.length})</div>
+                <ul className="space-y-1.5 text-xs">
+                  {pagosPendientes.map((p) => (
+                    <li key={p.paymentId} className="flex items-center justify-between text-brand-text">
+                      <span>{p.cliente ?? p.telefono ?? "Cliente sin nombre real"} — {p.metodo} · ${p.importe.toLocaleString("es-MX")}</span>
+                      <span className="text-brand-muted">{formatFecha(p.creadoEn)}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {integraciones.length > 0 && (
+              <div className="rounded-xl border border-red-200 bg-red-50 p-4">
+                <div className="text-sm font-semibold text-red-600 mb-2">Integraciones con problemas ({integraciones.length})</div>
+                <ul className="space-y-1 text-xs text-red-600">
+                  {integraciones.map((i) => (
+                    <li key={i.integracion}>{i.integracion}: {i.mensaje}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
+        )}
       </div>
     </section>
   );

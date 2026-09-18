@@ -28,7 +28,10 @@ const CRM_INDEX_PATH = path.join(REPO_ROOT, "crm", "index.js");
 let _crm: any = null;
 async function crm(): Promise<any> {
   if (!_crm) {
-    _crm = await import(pathToFileURL(CRM_INDEX_PATH).href);
+    // /* webpackIgnore: true */ obligatorio (2026-09-18): ahora también lo
+    // llaman rutas del Dashboard bundleadas por Turbopack (ver alertas.ts
+    // para el hallazgo real original, 2026-09-12).
+    _crm = await import(/* webpackIgnore: true */ pathToFileURL(CRM_INDEX_PATH).href);
   }
   return _crm;
 }

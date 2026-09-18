@@ -13,7 +13,9 @@ import { getAnalytics } from "../db";
 const CRM_INDEX_PATH = path.join(REPO_ROOT, "crm", "index.js");
 let _crm: any = null;
 async function crm(): Promise<any> {
-  if (!_crm) _crm = await import(pathToFileURL(CRM_INDEX_PATH).href);
+  // /* webpackIgnore: true */ obligatorio (2026-09-18): ahora también lo
+  // llama la ruta /api/reportes/ventas, bundleada por Turbopack.
+  if (!_crm) _crm = await import(/* webpackIgnore: true */ pathToFileURL(CRM_INDEX_PATH).href);
   return _crm;
 }
 

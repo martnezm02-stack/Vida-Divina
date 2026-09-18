@@ -12,15 +12,33 @@
    de Vida Divina.
    ============================================================ */
 @theme {
-  --color-brand-bg: #0e1e11; /* --forest (Dashboard Vida Divina) */
-  --color-brand-surface: #16281a;
-  --color-brand-surface-2: #1c3020;
-  --color-brand-border: #2e3d24;
-  --color-brand-text: #efe9dc; /* --cream-2 (Dashboard Vida Divina) */
-  --color-brand-muted: #a8ac93;
-  --color-brand-gold: #b58c33; /* --gold (Dashboard Vida Divina) */
-  --color-brand-gold-soft: #967429;
-  --color-wa-green: #25d366;
+  /* FASE "Corrección de dirección visual — Hermes Ventas Dashboard"
+     (2026-09-18): dirección aprobada real = fondo claro, tarjetas blancas,
+     sidebar azul marino, acentos dorados (referencia visual del usuario) --
+     reemplaza el tema oscuro anterior. MISMOS NOMBRES de variable --brand-*
+     que ya usan TODOS los componentes del kit (Dashboard.tsx, QRScreen.tsx,
+     etc.): ningún componente se toca por este cambio, solo se remapean los
+     VALORES -- retiñe el panel entero (mismo mecanismo ya documentado en
+     docs/09-personalizar-dashboard.md). --color-wa-green se conserva
+     intacto: verde oficial de WhatsApp, no un color de marca.
+     --color-sidebar-* son tokens NUEVOS y aditivos (la sidebar es azul
+     marino mientras el resto del panel es claro -- necesitan su propia
+     paleta, nunca los mismos --color-brand-* que ahora son claros). */
+  --color-brand-bg: #f3f5f9;
+  --color-brand-surface: #ffffff;
+  --color-brand-surface-2: #f7f8fb;
+  --color-brand-border: #e2e6ef;
+  --color-brand-text: #1b2436;
+  --color-brand-muted: #6b7488;
+  --color-brand-gold: #b8863a;
+  --color-brand-gold-soft: #e7d3ab;
+  --color-wa-green: #1fa855;
+
+  --color-sidebar-bg: #101a33;
+  --color-sidebar-surface: #17223f;
+  --color-sidebar-border: #24304e;
+  --color-sidebar-text: #cdd5e6;
+  --color-sidebar-muted: #7d88a3;
 
   --font-display: var(--font-fraunces), Georgia, serif;
   --font-sans: var(--font-archivo), -apple-system, BlinkMacSystemFont, sans-serif;
@@ -33,9 +51,9 @@ html, body {
 body {
   font-family: var(--font-sans);
   background:
-    radial-gradient(1200px 600px at 15% -10%, rgba(181, 140, 51, 0.08), transparent 60%),
-    radial-gradient(900px 500px at 100% 0%, rgba(181, 140, 51, 0.05), transparent 55%),
-    #0e1e11;
+    radial-gradient(1200px 600px at 15% -10%, rgba(184, 134, 58, 0.05), transparent 60%),
+    radial-gradient(900px 500px at 100% 0%, rgba(16, 26, 51, 0.04), transparent 55%),
+    #f3f5f9;
   background-attachment: fixed;
 }
 

@@ -66,6 +66,22 @@ export async function findByOrderId(db, orderId) {
 }
 
 /**
+ * Todos los pagos reales en estado 'pendiente' (comprobante recibido o
+ * pago registrado, todavía sin confirmación real del administrador) --
+ * fuente real para la bandeja de Alertas (FASE "Rediseño Dashboard Hermes
+ * Ventas", 2026-09-18), nunca un estado inventado.
+ *
+ * @param {{query: Function}} db
+ * @returns {Promise<Object[]>}
+ */
+export async function listPending(db) {
+  const { rows } = await db.query(
+    `SELECT * FROM payments WHERE estado = 'pendiente' ORDER BY creado_en ASC`
+  );
+  return camelCaseRows(rows);
+}
+
+/**
  * Transición pendiente -> confirmado. WHERE estado = 'pendiente' es la
  * guarda real de idempotencia a nivel SQL, mismo criterio que
  * orderRepository.markConfirmed.

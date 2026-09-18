@@ -28,8 +28,17 @@ const AUDIO_ASSET_ADAPTER_PATH = path.join(REPO_ROOT, "tts-text-preprocessor", "
 
 let _dashboardVoiceClient: any = null;
 async function dashboardVoiceClient(): Promise<any> {
+  // /* webpackIgnore: true */ obligatorio (2026-09-18, BUG REAL corregido):
+  // isVoiceEngineReachable() la llama /api/vida-divina-status, bundleada
+  // por Turbopack -- sin el comentario mágico, Turbopack intenta resolver
+  // esta ruta calculada en runtime, falla en silencio, y el try/catch de
+  // isVoiceEngineReachable() lo convertía en "false" aunque Voice Engine
+  // estuviera realmente operativo (confirmado real: /health respondía
+  // model_loaded:true en el mismo instante). Mismo hallazgo real ya
+  // documentado en alertas.ts (2026-09-12) y systemStatus.ts (Gmail/Calendar,
+  // 2026-09-18), nunca aplicado aquí hasta ahora.
   if (!_dashboardVoiceClient) {
-    _dashboardVoiceClient = await import(pathToFileURL(DASHBOARD_VOICE_CLIENT_PATH).href);
+    _dashboardVoiceClient = await import(/* webpackIgnore: true */ pathToFileURL(DASHBOARD_VOICE_CLIENT_PATH).href);
   }
   return _dashboardVoiceClient;
 }
@@ -37,7 +46,7 @@ async function dashboardVoiceClient(): Promise<any> {
 let _audioAssetAdapter: any = null;
 async function audioAssetAdapter(): Promise<any> {
   if (!_audioAssetAdapter) {
-    _audioAssetAdapter = await import(pathToFileURL(AUDIO_ASSET_ADAPTER_PATH).href);
+    _audioAssetAdapter = await import(/* webpackIgnore: true */ pathToFileURL(AUDIO_ASSET_ADAPTER_PATH).href);
   }
   return _audioAssetAdapter;
 }

@@ -94,6 +94,19 @@ export async function findByProductoIdForUpdate(db, productoId) {
 }
 
 /**
+ * Todas las filas de inventario reales, sin filtrar -- fuente para vistas
+ * de listado completo (ej. Dashboard de Inventario). Nunca inventa filas
+ * para productos sin registro de inventario todavía.
+ *
+ * @param {{query: Function}} db
+ * @returns {Promise<Object[]>}
+ */
+export async function findAll(db) {
+  const { rows } = await db.query('SELECT * FROM inventory ORDER BY producto_id ASC');
+  return camelCaseRows(rows);
+}
+
+/**
  * Productos en o por debajo de su mínimo real (incluye agotados,
  * cantidad_actual = 0). Ignora productos sin mínimo registrado (minimo
  * NULL) — sin un mínimo real no hay umbral que evaluar, nunca se inventa

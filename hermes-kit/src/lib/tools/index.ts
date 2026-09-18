@@ -46,6 +46,8 @@ import {
 } from "./comercio";
 import { adminEstadoSistemaDefinition, adminEstadoSistemaHandler, adminGenerarAudioAssetDefinition, adminGenerarAudioAssetHandler } from "./admin";
 import { adminGenerarReporteDefinition, adminGenerarReporteHandler } from "./reporting";
+import { adminReporteInventarioDefinition, adminReporteInventarioHandler } from "./inventario";
+import { adminAgendarSeguimientoDefinition, adminAgendarSeguimientoHandler } from "./seguimiento";
 import {
   adminBuscarCorreosDefinition, adminBuscarCorreosHandler,
   adminLeerCorreoDefinition, adminLeerCorreoHandler,
@@ -111,6 +113,8 @@ export const toolDefinitions: ToolDefinition[] = [
   adminEstadoSistemaDefinition,
   adminGenerarAudioAssetDefinition,
   adminGenerarReporteDefinition,
+  adminReporteInventarioDefinition,
+  adminAgendarSeguimientoDefinition,
   adminBuscarCorreosDefinition,
   adminLeerCorreoDefinition,
   adminResumirCorreosDefinition,
@@ -165,6 +169,10 @@ const handlers: Record<string, GenericHandler> = {
     adminGenerarAudioAssetHandler(args as unknown as Parameters<typeof adminGenerarAudioAssetHandler>[0]),
   adminGenerarReporte: (args) =>
     adminGenerarReporteHandler(args as unknown as Parameters<typeof adminGenerarReporteHandler>[0]),
+  adminReporteInventario: (args) =>
+    adminReporteInventarioHandler(args as unknown as Parameters<typeof adminReporteInventarioHandler>[0]),
+  adminAgendarSeguimiento: (args) =>
+    adminAgendarSeguimientoHandler(args as unknown as Parameters<typeof adminAgendarSeguimientoHandler>[0]),
   adminBuscarCorreos: (args) =>
     adminBuscarCorreosHandler(args as unknown as Parameters<typeof adminBuscarCorreosHandler>[0]),
   adminLeerCorreo: (args) =>

@@ -16,6 +16,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const SERVER_PATH = path.join(__dirname, '..', 'src', 'server.js');
 
 const GMAIL_TOOLS = ['searchEmails', 'readEmail', 'summarizeEmails', 'createDraft', 'updateDraft', 'trashEmail', 'getDraftSummary', 'sendApprovedEmail'];
+const CALENDAR_TOOLS = ['createFollowUpCalendarEvent'];
 
 // Esta suite valida el error real y honesto "Gmail no está configurado" --
 // nunca necesita hablar con Gmail real para eso. Sin este stub, en cuanto
@@ -43,9 +44,9 @@ async function withClient(fn) {
   }
 }
 
-test('expone send_email (legado) + los 8 tools reales de Gmail', async () => {
+test('expone send_email (legado) + los 8 tools reales de Gmail + el tool real de Calendar', async () => {
   const tools = await withClient((client) => client.listTools());
-  assert.deepEqual(tools.tools.map((t) => t.name).sort(), ['send_email', ...GMAIL_TOOLS].sort());
+  assert.deepEqual(tools.tools.map((t) => t.name).sort(), ['send_email', ...GMAIL_TOOLS, ...CALENDAR_TOOLS].sort());
 });
 
 test('send_email sin SMTP configurado: error real, nunca simula un envío exitoso', async () => {
@@ -68,5 +69,14 @@ for (const nombre of GMAIL_TOOLS) {
     const result = await withClient((client) => client.callTool({ name: nombre, arguments: args }));
     assert.equal(result.isError, true);
     assert.match(result.content[0].text, /Gmail no está configurado/);
+  });
+}
+
+for (const nombre of CALENDAR_TOOLS) {
+  test(`${nombre} sin Calendar/OAuth configurado: error real, nunca simula un resultado`, async () => {
+    const args = { followUpId: 'x', titulo: 'x', descripcion: 'x', inicioISO: '2026-01-01T10:00:00-06:00', finISO: '2026-01-01T10:30:00-06:00' };
+    const result = await withClient((client) => client.callTool({ name: nombre, arguments: args }));
+    assert.equal(result.isError, true);
+    assert.match(result.content[0].text, /Google Calendar no está configurado/);
   });
 }
