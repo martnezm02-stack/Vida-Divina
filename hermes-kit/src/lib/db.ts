@@ -1,9 +1,25 @@
 import Database from "better-sqlite3";
 import path from "node:path";
 import fs from "node:fs";
+import os from "node:os";
 
 const DATA_DIR = path.resolve(process.cwd(), "data");
-const DB_PATH = path.join(DATA_DIR, "messages.db");
+
+// Aislamiento de tests por defecto (Parte 4, fase "Dashboard: limpieza de
+// datos de prueba", 2026-09-19) -- hallazgo real: este módulo usaba SIEMPRE
+// el mismo archivo messages.db real que alimenta el Dashboard, sin ninguna
+// variante de test posible -- 18 archivos de test escribían conversaciones/
+// mensajes sintéticos directo ahí. Con HERMES_TEST_MODE=1 (ver package.json#
+// scripts.test) y sin que un test fije su propio HERMES_TEST_DB_PATH, esto
+// redirige por defecto a un archivo temporal por proceso -- nunca al
+// messages.db real -- así un test NUEVO que se olvide de aislarse a mano
+// queda protegido igual. Un test que sí fije HERMES_TEST_DB_PATH a mano
+// (para inspeccionar su propio archivo) tiene prioridad sobre este default.
+const DB_PATH =
+  process.env.HERMES_TEST_DB_PATH ??
+  (process.env.HERMES_TEST_MODE === "1"
+    ? path.join(os.tmpdir(), `hermes-test-messages-${process.pid}.db`)
+    : path.join(DATA_DIR, "messages.db"));
 
 // ============================================================
 // Tipos
@@ -84,8 +100,9 @@ export interface OutboxItem {
 // ============================================================
 
 function build() {
-  if (!fs.existsSync(DATA_DIR)) {
-    fs.mkdirSync(DATA_DIR, { recursive: true });
+  const dbDir = path.dirname(DB_PATH);
+  if (!fs.existsSync(dbDir)) {
+    fs.mkdirSync(dbDir, { recursive: true });
   }
 
   const db = new Database(DB_PATH);

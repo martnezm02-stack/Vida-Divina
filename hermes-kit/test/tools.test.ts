@@ -3,8 +3,24 @@
 // tocar WhatsApp/Baileys en ningún momento (no hay sock real en este test).
 import { test, before } from "node:test";
 import assert from "node:assert/strict";
+import fs from "node:fs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
+// Aislamiento real contra TEST_DATABASE_URL (Parte 3, fase "Dashboard:
+// limpieza de datos de prueba", 2026-09-19) -- hallazgo real: este archivo
+// escribía qualifyLead/getOrCreateConversationContext reales en la base de
+// PRODUCCIÓN cada vez que corría "npm test" (confirmado: el customer fijo
+// "5215599990002HERMESTOOLS" existía en la base real). Mismo mecanismo ya
+// usado correctamente por comercio.test.ts/securityAuthorization.test.ts.
 before(async () => {
+  const crmEnvPath = path.resolve(__dirname, "..", "..", "crm", ".env");
+  const texto = fs.readFileSync(crmEnvPath, "utf-8");
+  const match = texto.split(/\r?\n/).find((l) => l.trim().startsWith("TEST_DATABASE_URL="));
+  if (!match) throw new Error("tools.test.ts: no se encontró TEST_DATABASE_URL en crm/.env");
+  process.env.DATABASE_URL = match.slice(match.indexOf("=") + 1).trim();
   await import("../scripts/env-loader");
 });
 

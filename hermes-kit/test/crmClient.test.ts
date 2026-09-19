@@ -1,21 +1,33 @@
-// crmClient.test.ts — contra el CRM REAL (crm/, PostgreSQL), nunca un mock.
-// Usa un teléfono de prueba fijo, claramente ficticio, y source:'TEST'
-// (ver crmClient.ts) para no mezclarse jamás con datos reales de clientes
-// de Meta -- la consola real filtra por source=REAL por defecto.
+// crmClient.test.ts — contra el CRM REAL (crm/, PostgreSQL), nunca un mock,
+// pero contra TEST_DATABASE_URL, NUNCA contra la base de producción.
+//
+// CORRECCIÓN (Parte 3, fase "Dashboard: limpieza de datos de prueba",
+// 2026-09-19): el comentario anterior decía "source:'TEST'... para no
+// mezclarse jamás con datos reales" -- eso era una idea equivocada real:
+// source:'TEST' es solo una ETIQUETA dentro de la misma base, nunca
+// aislamiento de base de datos. Sin la línea de abajo, env-loader.ts carga
+// el DATABASE_URL real de crm/.env tal cual, y este archivo escribía
+// customers/conversations/handoffs reales en la base de PRODUCCIÓN cada
+// vez que corría "npm test" -- confirmado por inspección directa de la
+// base real (teléfonos con sufijo HERMESTEST). Mismo mecanismo ya usado
+// correctamente por comercio.test.ts/securityAuthorization.test.ts.
 import { test, before } from "node:test";
 import assert from "node:assert/strict";
+import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
-// El bot (start-bot.ts) carga crm/.env vía scripts/env-loader.ts antes de
-// cualquier otro import; los tests no pasan por ese entrypoint, así que se
-// replica aquí el mismo paso (no se duplica la lógica de parseo: se
-// reutiliza el propio env-loader.ts como side-effect import).
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
 before(async () => {
+  const crmEnvPath = path.resolve(__dirname, "..", "..", "crm", ".env");
+  const texto = fs.readFileSync(crmEnvPath, "utf-8");
+  const match = texto.split(/\r?\n/).find((l) => l.trim().startsWith("TEST_DATABASE_URL="));
+  if (!match) throw new Error("crmClient.test.ts: no se encontró TEST_DATABASE_URL en crm/.env");
+  process.env.DATABASE_URL = match.slice(match.indexOf("=") + 1).trim();
   await import("../scripts/env-loader");
 });
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
 // El CRM es real y persistente entre ejecuciones (no se resetea entre runs
 // de test) -- un teléfono fijo haría que la 2ª ejecución encontrara la
 // oportunidad de la 1ª y el test de "sin producto" dejara de ser válido.

@@ -5,13 +5,33 @@
 // REAL (docs/productos/), igual que productKnowledge.test.ts.
 import { test, before } from "node:test";
 import assert from "node:assert/strict";
+import fs from "node:fs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 import { detectarIntencionPrecio, textoSinRuidoDePrecio, construirRefuerzoPrecio } from "../src/lib/vidaDivina/priceIntent";
 import { getProductKnowledge } from "../src/lib/vidaDivina/productKnowledge";
 import { consultarProductoHandler } from "../src/lib/tools/consultar-producto";
 
-// El pricing real (CRM/Postgres) requiere DATABASE_URL -- mismo patrón que
-// tools.test.ts para que consultarProductoHandler traiga precio/cantidadBase reales.
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
+// El pricing real (CRM/Postgres) requiere DATABASE_URL -- este archivo es
+// SOLO LECTURA (nunca crea customers/conversations/handoffs) y verifica
+// precios/presentación REALES del catálogo comercial (ej. "$1,799" real de
+// Ripped Capsules), así que necesita a propósito la base de PRODUCCIÓN, no
+// TEST_DATABASE_URL (que no tiene por qué reflejar el catálogo/precios
+// reales vigentes -- hallazgo real, Parte 4, fase "Dashboard: limpieza de
+// datos de prueba", 2026-09-19: con el default de aislamiento nuevo de
+// env-loader.ts, este archivo empezó a fallar contra precios de fixture de
+// TEST). Fijar DATABASE_URL a mano aquí, ANTES de env-loader.ts, es el
+// mismo mecanismo que ya usan crmClient.test.ts/alertas.test.ts/etc. para
+// aislarse -- solo que en sentido contrario (opt-IN a producción, a
+// propósito, para datos de solo lectura sin riesgo real de contaminación).
 before(async () => {
+  const crmEnvPath = path.resolve(__dirname, "..", "..", "crm", ".env");
+  const texto = fs.readFileSync(crmEnvPath, "utf-8");
+  const match = texto.split(/\r?\n/).find((l) => l.trim().startsWith("DATABASE_URL="));
+  if (!match) throw new Error("priceIntent.test.ts: no se encontró DATABASE_URL en crm/.env");
+  process.env.DATABASE_URL = match.slice(match.indexOf("=") + 1).trim();
   await import("../scripts/env-loader");
 });
 

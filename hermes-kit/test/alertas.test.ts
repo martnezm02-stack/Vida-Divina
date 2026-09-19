@@ -9,6 +9,11 @@
 // el cambio.
 import { test, before, mock } from "node:test";
 import assert from "node:assert/strict";
+import fs from "node:fs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 // Telegram real mockeado (mismo criterio que handoffDedup.test.ts, 2026-09-12):
 // handoffToHuman() de por sí SÍ envía un aviso real a Telegram -- los tests
@@ -22,7 +27,19 @@ mock.module("../src/lib/telegramClient", {
   },
 });
 
+// Aislamiento real contra TEST_DATABASE_URL (Parte 3, fase "Dashboard:
+// limpieza de datos de prueba", 2026-09-19) -- hallazgo real: este archivo
+// creaba handoffs/customers/opportunities REALES en la base de PRODUCCIÓN
+// (env-loader.ts carga DATABASE_URL de crm/.env tal cual si nadie lo
+// sobreescribe antes) -- el source:'TEST' de crmClient.ts NO es aislamiento
+// de base de datos, solo una etiqueta dentro de la MISMA base. Mismo
+// mecanismo ya usado correctamente por comercio.test.ts/securityAuthorization.test.ts.
 before(async () => {
+  const crmEnvPath = path.resolve(__dirname, "..", "..", "crm", ".env");
+  const texto = fs.readFileSync(crmEnvPath, "utf-8");
+  const match = texto.split(/\r?\n/).find((l) => l.trim().startsWith("TEST_DATABASE_URL="));
+  if (!match) throw new Error("alertas.test.ts: no se encontró TEST_DATABASE_URL en crm/.env");
+  process.env.DATABASE_URL = match.slice(match.indexOf("=") + 1).trim();
   await import("../scripts/env-loader");
 });
 

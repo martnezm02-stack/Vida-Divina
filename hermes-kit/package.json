@@ -18,7 +18,7 @@
     "doctor": "tsx scripts/doctor.ts",
     "redteam": "tsx scripts/redteam.mts",
     "test:airtable": "tsx scripts/test-airtable.mts",
-    "test": "tsx --test --experimental-test-module-mocks test/**/*.test.ts",
+    "test": "cross-env HERMES_TEST_MODE=1 tsx --test --experimental-test-module-mocks test/**/*.test.ts",
     "typecheck": "tsc --noEmit",
     "clean": "rimraf .next data auth"
   },

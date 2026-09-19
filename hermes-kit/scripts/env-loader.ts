@@ -42,6 +42,26 @@ function loadKeysFromEnvFile(filePath: string, keys: string[]): void {
   }
 }
 
+// Aislamiento de tests por defecto (Parte 4, fase "Dashboard: limpieza de
+// datos de prueba", 2026-09-19) -- hallazgo real: .env.local de este propio
+// kit trae DATABASE_URL hardcodeado al valor REAL de producción (ver
+// comentario de esa línea, 2026-09-10). El bloque de abajo lo carga tal
+// cual, antes de que nada más corra -- así que fijar el default de test más
+// abajo (cerca de crm/.env) llegaba demasiado tarde: para entonces
+// DATABASE_URL ya estaba seteada y el guard de "no sobreescribir" ganaba,
+// dejando cualquier test corriendo contra la base real. Por eso este default
+// tiene que ir AQUÍ, antes del loader de .env.local, no después.
+if (process.env.HERMES_TEST_MODE === "1" && process.env.DATABASE_URL === undefined) {
+  const crmEnvPath = path.resolve(process.cwd(), "..", "crm", ".env");
+  if (fs.existsSync(crmEnvPath)) {
+    const texto = fs.readFileSync(crmEnvPath, "utf-8");
+    const linea = texto.split(/\r?\n/).find((l) => l.trim().startsWith("TEST_DATABASE_URL="));
+    if (linea) {
+      process.env.DATABASE_URL = linea.slice(linea.indexOf("=") + 1).trim().replace(/^["']|["']$/g, "");
+    }
+  }
+}
+
 const envPath = path.resolve(process.cwd(), ".env.local");
 
 if (fs.existsSync(envPath)) {
@@ -73,6 +93,13 @@ if (fs.existsSync(envPath)) {
 // de otro módulo, nunca se sobreescribe una variable ya presente. Nunca se
 // versionan estos archivos (crm/.env, voice-engine/.env — ambos en
 // .gitignore de sus propios módulos).
+//
+// DATABASE_URL sigue en esta lista por compatibilidad (si .env.local algún
+// día deja de traerla), pero en la práctica ya no hace nada por este punto:
+// en modo test (HERMES_TEST_MODE=1) ya quedó fijada arriba, antes del
+// loader de .env.local; en modo real, .env.local ya la trae hardcodeada
+// (ver ese comentario). loadKeysFromEnvFile nunca sobreescribe una variable
+// ya presente, así que esta línea es un no-op en ambos casos actuales.
 loadKeysFromEnvFile(path.resolve(process.cwd(), "..", "crm", ".env"), [
   "DATABASE_URL",
   "CRM_DB_POOL_MAX",

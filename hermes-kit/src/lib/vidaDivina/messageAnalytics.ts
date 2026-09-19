@@ -20,9 +20,26 @@
 
 import Database from "better-sqlite3";
 import path from "node:path";
+import os from "node:os";
 import { searchKnowledge, PALABRAS_VACIAS } from "./productKnowledge";
 
-const DB_PATH = path.resolve(process.cwd(), "data", "messages.db");
+// Aislamiento de tests (Parte 8, fase "Limpieza real y completa de datos de
+// prueba", 2026-09-19) -- hallazgo real (regresión introducida por el
+// aislamiento de db.ts de la fase anterior): esta conexión de solo lectura
+// es independiente de la de db.ts a propósito (ver comentario de arriba),
+// pero tenía su propio DB_PATH hardcodeado -- nunca respetaba
+// HERMES_TEST_MODE/HERMES_TEST_DB_PATH. Resultado real: un test escribía su
+// fixture vía db.ts (ya aislado, a un archivo temporal) y esta conexión
+// seguía leyendo el messages.db real, sin ver nunca ese fixture -- y peor,
+// cualquier test que SÍ dependiera del messages.db real (ver
+// consultaAnalyticsAdmin.test.ts) habría seguido escribiendo ahí de haberse
+// usado escritura aquí. Mismo cálculo exacto que db.ts#DB_PATH, para que
+// ambas conexiones apunten siempre al mismo archivo real o de test.
+const DB_PATH =
+  process.env.HERMES_TEST_DB_PATH ??
+  (process.env.HERMES_TEST_MODE === "1"
+    ? path.join(os.tmpdir(), `hermes-test-messages-${process.pid}.db`)
+    : path.resolve(process.cwd(), "data", "messages.db"));
 
 function normalizar(s: string): string {
   return s
