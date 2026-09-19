@@ -275,7 +275,7 @@ export default function ReportesPanel() {
                 disabled={enviando}
                 className="text-xs px-3 py-1.5 rounded-lg border border-brand-border text-brand-text font-semibold hover:bg-brand-border/30 disabled:opacity-50"
               >
-                {enviando ? "Preparando…" : "Enviar por correo (borrador)"}
+                {enviando ? (tipo === "inventario" ? "Enviando…" : "Preparando…") : tipo === "inventario" ? "Enviar por correo" : "Enviar por correo (borrador)"}
               </button>
             )}
           </div>
@@ -292,7 +292,9 @@ export default function ReportesPanel() {
         )}
 
         <div className="text-[11px] text-brand-muted text-center pt-1">
-          "Enviar por correo" crea un borrador real en Gmail — el envío real requiere confirmación aparte por WhatsApp.
+          {tipo === "inventario"
+            ? "\"Enviar por correo\" envía el reporte de inventario real, de inmediato, en formato HTML."
+            : "\"Enviar por correo\" crea un borrador real en Gmail — el envío real requiere confirmación aparte por WhatsApp."}
         </div>
       </div>
     </section>

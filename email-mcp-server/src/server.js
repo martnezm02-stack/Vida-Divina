@@ -130,13 +130,13 @@ const TOOLS = [
   },
   {
     name: 'createDraft',
-    description: 'Crea un borrador REAL en Gmail. NUNCA lo envía. Si se omite "to", usa ADMIN_EMAIL del entorno.',
-    inputSchema: { type: 'object', properties: { to: { type: 'string' }, subject: { type: 'string' }, body: { type: 'string' } }, required: ['subject', 'body'] },
+    description: 'Crea un borrador REAL en Gmail. NUNCA lo envía. Si se omite "to", usa ADMIN_EMAIL del entorno. "html: true" envía el body como HTML real (Content-Type: text/html) en vez de texto plano.',
+    inputSchema: { type: 'object', properties: { to: { type: 'string' }, subject: { type: 'string' }, body: { type: 'string' }, html: { type: 'boolean' } }, required: ['subject', 'body'] },
   },
   {
     name: 'updateDraft',
     description: 'Reemplaza el contenido REAL de un borrador ya existente por su id real. NUNCA lo envía.',
-    inputSchema: { type: 'object', properties: { draftId: { type: 'string' }, to: { type: 'string' }, subject: { type: 'string' }, body: { type: 'string' } }, required: ['draftId', 'to', 'subject', 'body'] },
+    inputSchema: { type: 'object', properties: { draftId: { type: 'string' }, to: { type: 'string' }, subject: { type: 'string' }, body: { type: 'string' }, html: { type: 'boolean' } }, required: ['draftId', 'to', 'subject', 'body'] },
   },
   {
     name: 'trashEmail',

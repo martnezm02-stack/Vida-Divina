@@ -49,11 +49,16 @@ function wrapBase64(base64) {
   return base64.replace(/.{76}(?=.)/g, '$&\r\n');
 }
 
-function buildRawMessage({ to, subject, body, inReplyTo = null }) {
+// html=true (FASE "Cierre de autenticación + logo + correo de inventario",
+// 2026-09-19): mismo builder MIME real, nunca uno paralelo -- solo cambia
+// el Content-Type real del mensaje. Por defecto sigue siendo text/plain
+// (cero cambio de comportamiento para createDraft/updateDraft ya
+// existentes que no pasan `html`, ej. el reporte de Ventas/CRM).
+function buildRawMessage({ to, subject, body, inReplyTo = null, html = false }) {
   const lineas = [
     `To: ${to}`,
     `Subject: ${encodeMimeHeaderValue(subject)}`,
-    'Content-Type: text/plain; charset="UTF-8"',
+    html ? 'Content-Type: text/html; charset="UTF-8"' : 'Content-Type: text/plain; charset="UTF-8"',
     'Content-Transfer-Encoding: base64',
     'MIME-Version: 1.0',
   ];
@@ -104,24 +109,24 @@ export async function readGmailMessage(messageId) {
   };
 }
 
-/** GESTIÓN: crea un borrador real (nunca lo envía). */
-export async function createGmailDraft({ to, subject, body }) {
+/** GESTIÓN: crea un borrador real (nunca lo envía). `html: true` -- mismo builder, Content-Type real text/html (ver buildRawMessage). */
+export async function createGmailDraft({ to, subject, body, html = false }) {
   if (!to) throw new Error('createGmailDraft: falta "to" real (ni se pasó ni hay ADMIN_EMAIL configurado).');
   const gmail = getGmailApi();
   const { data } = await gmail.users.drafts.create({
     userId: 'me',
-    requestBody: { message: { raw: buildRawMessage({ to, subject, body }) } },
+    requestBody: { message: { raw: buildRawMessage({ to, subject, body, html }) } },
   });
   return { draftId: data.id, messageId: data.message?.id, to, subject };
 }
 
 /** GESTIÓN: reemplaza el contenido real de un borrador ya existente (nunca lo envía). */
-export async function updateGmailDraft(draftId, { to, subject, body }) {
+export async function updateGmailDraft(draftId, { to, subject, body, html = false }) {
   const gmail = getGmailApi();
   const { data } = await gmail.users.drafts.update({
     userId: 'me',
     id: draftId,
-    requestBody: { message: { raw: buildRawMessage({ to, subject, body }) } },
+    requestBody: { message: { raw: buildRawMessage({ to, subject, body, html }) } },
   });
   return { draftId: data.id, messageId: data.message?.id, to, subject };
 }

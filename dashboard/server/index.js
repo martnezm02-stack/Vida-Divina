@@ -49,6 +49,9 @@ import {
 import { publishingScheduler } from './lib/schedulerInstance.js';
 import { isHermesPath, proxyToHermes, proxyUpgradeToHermes } from './lib/hermesProxy.js';
 import { handleVoiceProfiles, handleGenerateVoiceAsset, handleSaveVoiceAsset, handleListVoiceAssets } from './routes/voiceGenerator.js';
+import { handleLogin, handleLogout, handleSessionCheck } from './routes/auth.js';
+import { resolveRequestSession } from './lib/session.js';
+import { ensureBootstrapAdmin } from './lib/authStore.js';
 
 const PORT = process.env.PORT !== undefined ? Number(process.env.PORT) : 4310; // "0" -> puerto efímero real (usado por los tests); "" || 4310 se comía el 0 por ser falsy en JS.
 const PUBLIC_DIR = fileURLToPath(new URL('../public', import.meta.url));
@@ -65,6 +68,32 @@ const UPLOAD_CONTENT_TYPES = { '.jpg': 'image/jpeg', '.png': 'image/png', '.webp
 // directorio separado de PUBLIC_DIR, solo para referencias de campaña
 // subidas (nunca Product Asset, nunca assets aprobados de mediaHostingService).
 const CAMPAIGN_REFERENCE_UPLOAD_ROOT = join(fileURLToPath(new URL('../', import.meta.url)), 'uploads', 'campaign-references');
+
+// AUTENTICACIÓN (FASE "Autenticación nativa del Dashboard", 2026-09-19) --
+// deny-by-default real: TODA ruta requiere sesión válida salvo las listadas
+// aquí explícitamente. Nunca al revés (bloquear una lista de rutas
+// "sensibles") -- así una ruta nueva que alguien agregue mañana queda
+// protegida por defecto, sin tener que acordarse de añadirla a ningún
+// lado. Bootstrap del primer ADMIN real, ver lib/authStore.js.
+const PUBLIC_EXACT_PATHS = new Set([
+  '/login',
+  '/styles.css',
+  '/logo.jpg',
+  '/api/health',
+  '/api/auth/login',
+  '/api/auth/logout',
+  '/api/auth/session',
+]);
+
+const bootstrapCreado = ensureBootstrapAdmin();
+if (bootstrapCreado) {
+  console.log(`[auth] usuario ADMIN inicial creado: ${bootstrapCreado.email}`);
+} else if (!process.env.DASHBOARD_ADMIN_EMAIL && !process.env.DASHBOARD_ADMIN_PASSWORD) {
+  // Sin variables de bootstrap Y sin usuario ya existente -- avisa una vez;
+  // si ya existía un usuario real, las variables (si están puestas) se
+  // ignoran a propósito para no resetear una contraseña ya establecida.
+  console.log('[auth] sin usuario ADMIN todavía -- define DASHBOARD_ADMIN_EMAIL/DASHBOARD_ADMIN_PASSWORD en dashboard/.env y reinicia (ver dashboard/.env.example).');
+}
 
 function serveUploadedReference(req, res, pathname) {
   const filename = pathname.replace('/reference-uploads/', '');
@@ -90,11 +119,37 @@ const server = http.createServer(async (req, res) => {
   const { pathname } = url;
 
   try {
+    // AUTENTICACIÓN -- gate real, deny-by-default (ver PUBLIC_EXACT_PATHS
+    // arriba). Va ANTES que cualquier otra ruta, incluido el proxy a
+    // Hermes: nadie sin sesión válida llega a ver ni un byte de datos
+    // reales (clientes, conversaciones, alertas, reportes, inventario,
+    // Hermes/WhatsApp completo) por HTTP directo, aunque conozca la URL
+    // exacta. Rutas tipo API (path que contiene "/api/", incluye
+    // "/hermes/api/*") responden 401 JSON; rutas de página responden 302 a
+    // /login -- así un navegador real siempre termina en el login, y un
+    // fetch()/curl real siempre recibe un error explícito, nunca un HTML
+    // de login inesperado donde se esperaba JSON.
+    if (!PUBLIC_EXACT_PATHS.has(pathname)) {
+      const session = resolveRequestSession(req);
+      if (!session) {
+        if (pathname.includes('/api/')) { sendJson(res, 401, { error: 'No autenticado.' }); return; }
+        res.writeHead(302, { Location: '/login' });
+        res.end();
+        return;
+      }
+    }
+
+    if (pathname === '/login') { serveStatic(req, res, '/login.html'); return; }
+    if (pathname === '/api/auth/login' && req.method === 'POST') { await handleLogin(req, res); return; }
+    if (pathname === '/api/auth/logout' && req.method === 'POST') { handleLogout(req, res); return; }
+    if (pathname === '/api/auth/session' && req.method === 'GET') { handleSessionCheck(req, res); return; }
+
     // WHATSAPP / HERMES (2026-09-04) -- reverse proxy real hacia el proceso
     // Next.js de hermes-kit/ (kit de agente de WhatsApp con IA, íntegro).
     // Namespace propio ("/hermes*") completamente separado de la WHATSAPP
     // CONSOLE existente (Meta Cloud API real, /api/whatsapp/* más abajo) --
-    // nunca se tocan, nunca colisionan.
+    // nunca se tocan, nunca colisionan. Ya pasó el gate de arriba -- nadie
+    // sin sesión llega aquí.
     if (isHermesPath(pathname)) { proxyToHermes(req, res); return; }
 
     if (pathname.startsWith('/media/')) { await handleMedia(req, res, pathname); return; }
@@ -265,7 +320,11 @@ server.headersTimeout = 0;
 // aislamiento que proxyToHermes(): solo pathname bajo "/hermes".
 server.on('upgrade', (req, socket, head) => {
   const { pathname } = new URL(req.url, `http://${req.headers.host}`);
-  if (isHermesPath(pathname)) { proxyUpgradeToHermes(req, socket, head); return; }
+  // Mismo gate real que el handler HTTP normal -- el navegador ya manda la
+  // cookie de sesión real en el handshake de Upgrade (misma request HTTP
+  // inicial), así que un usuario con sesión válida sigue teniendo HMR
+  // normal; sin sesión, ni el socket se abre.
+  if (isHermesPath(pathname) && resolveRequestSession(req)) { proxyUpgradeToHermes(req, socket, head); return; }
   socket.destroy();
 });
 

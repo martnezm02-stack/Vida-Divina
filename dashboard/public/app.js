@@ -20,10 +20,20 @@ const label = (dict, value) => dict[value] ?? value;
 
 async function api(path, options) {
   const res = await fetch(path, options);
+  // Autenticación (FASE "Autenticación nativa del Dashboard", 2026-09-19):
+  // sesión expirada/inválida en cualquier llamada real -- vuelve al login
+  // en vez de mostrar un error genérico. Único punto de cambio real
+  // (todas las vistas ya pasan por api()), nunca se tocó cada loader.
+  if (res.status === 401) { window.location.href = '/login'; throw new Error('No autenticado.'); }
   const data = await res.json().catch(() => ({ error: 'Respuesta no válida del servidor.' }));
   if (!res.ok) throw Object.assign(new Error(data.error ?? `Error ${res.status}`), data);
   return data;
 }
+
+document.getElementById('logout-btn')?.addEventListener('click', async () => {
+  try { await fetch('/api/auth/logout', { method: 'POST' }); } catch { /* logout siempre navega igual, real o no */ }
+  window.location.href = '/login';
+});
 
 // ---------------- Navegación ----------------
 function goto(view) {

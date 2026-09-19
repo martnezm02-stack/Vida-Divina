@@ -143,13 +143,126 @@ function tablaProductos(productos: InventoryReportProducto[], columnas: "critico
   return lineas;
 }
 
+function escapeHtml(s: string): string {
+  return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+}
+
+const ESTADO_COLORES: Record<InventoryReportProducto["estado"], { bg: string; fg: string }> = {
+  NORMAL: { bg: "#e6f4ea", fg: "#1e7a34" },
+  MINIMO: { bg: "#fff4e0", fg: "#8a5b00" },
+  AGOTADO: { bg: "#fde8e8", fg: "#a11414" },
+};
+
+function estadoBadgeHtml(estado: InventoryReportProducto["estado"]): string {
+  const c = ESTADO_COLORES[estado];
+  return `<span style="display:inline-block;padding:2px 10px;border-radius:999px;font-size:11px;font-weight:700;background:${c.bg};color:${c.fg};">${estado}</span>`;
+}
+
+function filaProductoHtml(p: InventoryReportProducto, columnas: "criticos" | "completa"): string {
+  const celdasBase = `
+    <td style="padding:8px 10px;border-bottom:1px solid #e3e7ef;color:#1a1a1a;">${escapeHtml(p.producto)}</td>
+    <td style="padding:8px 10px;border-bottom:1px solid #e3e7ef;text-align:right;color:#1a1a1a;">${p.existencia}</td>
+    <td style="padding:8px 10px;border-bottom:1px solid #e3e7ef;text-align:right;color:#6b7280;">${p.minimo ?? "—"}</td>
+    <td style="padding:8px 10px;border-bottom:1px solid #e3e7ef;">${estadoBadgeHtml(p.estado)}</td>`;
+  if (columnas === "criticos") return `<tr>${celdasBase}</tr>`;
+  return `<tr>${celdasBase}
+    <td style="padding:8px 10px;border-bottom:1px solid #e3e7ef;text-align:right;color:#6b7280;">${p.costoUnitario != null ? escapeHtml(formatMoneda(p.costoUnitario, p.moneda)) : "sin costo real"}</td>
+    <td style="padding:8px 10px;border-bottom:1px solid #e3e7ef;text-align:right;color:#1a1a1a;font-weight:600;">${p.valor != null ? escapeHtml(formatMoneda(p.valor, p.moneda)) : "sin costo real"}</td>
+  </tr>`;
+}
+
+function tablaProductosHtml(productos: InventoryReportProducto[], columnas: "criticos" | "completa"): string {
+  if (productos.length === 0) return `<p style="color:#6b7280;font-size:13px;margin:8px 0;">Ninguno.</p>`;
+  const headers = columnas === "criticos"
+    ? ["Producto", "Existencia", "Mínimo", "Estado"]
+    : ["Producto", "Existencia", "Mínimo", "Estado", "Costo unitario", "Valor a costo"];
+  const alineacion = columnas === "criticos" ? ["left", "right", "right", "left"] : ["left", "right", "right", "left", "right", "right"];
+  const theadCells = headers.map((h, i) => `<th style="padding:8px 10px;text-align:${alineacion[i]};font-size:11px;text-transform:uppercase;letter-spacing:0.04em;color:#6b7280;border-bottom:2px solid #d1d5db;">${h}</th>`).join("");
+  const rows = productos.map((p) => filaProductoHtml(p, columnas)).join("");
+  return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;width:100%;font-size:13px;"><thead><tr>${theadCells}</tr></thead><tbody>${rows}</tbody></table>`;
+}
+
+function statBlockHtml(label: string, value: string, sub?: string): string {
+  return `<td style="padding:14px 16px;background:#f4f6fa;border-radius:8px;">
+      <div style="font-size:11px;color:#6b7280;text-transform:uppercase;letter-spacing:0.04em;">${escapeHtml(label)}</div>
+      <div style="font-size:20px;font-weight:700;color:#101a33;margin-top:4px;">${escapeHtml(value)}</div>
+      ${sub ? `<div style="font-size:11px;color:#6b7280;margin-top:2px;">${escapeHtml(sub)}</div>` : ""}
+    </td>`;
+}
+
+/**
+ * Reporte HTML real para correo (FASE "Cierre de autenticación + logo +
+ * correo de inventario", 2026-09-19) -- misma fuente de datos exacta que
+ * formatReporteInventarioFormal/formatResumenInventario y que
+ * ReportesPanel.tsx (ambos consumen el MISMO `data` de
+ * generateInventoryReport() -- nunca un segundo cálculo). HTML con tablas
+ * reales y estilos inline (Gmail y la mayoría de clientes de correo
+ * ignoran <style> en <head>, pero sí respetan inline) -- nunca <pre>, nunca
+ * <br> como sustituto de estructura.
+ */
+export function formatReporteInventarioHtml(data: InventoryReportData): string {
+  const fecha = data.actualizadoEn.slice(0, 10);
+  const hora = data.actualizadoEn.slice(11, 16);
+
+  return `<!doctype html>
+<html lang="es">
+<head><meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" /></head>
+<body style="margin:0;padding:0;background:#f4f6fa;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#f4f6fa;padding:24px 0;">
+    <tr><td align="center">
+      <table role="presentation" width="640" cellpadding="0" cellspacing="0" style="width:640px;max-width:100%;background:#ffffff;border-radius:10px;overflow:hidden;border:1px solid #e3e7ef;">
+        <tr><td style="background:#101a33;padding:24px 28px;">
+          <div style="color:#ffffff;font-size:20px;font-weight:700;">REPORTE DE INVENTARIO — VIDA DIVINA</div>
+          <div style="color:#b9c2d6;font-size:12px;margin-top:4px;">Fecha: ${escapeHtml(fecha)} · Hora del corte: ${escapeHtml(hora)} UTC</div>
+        </td></tr>
+
+        <tr><td style="padding:24px 28px 8px;">
+          <div style="font-size:13px;font-weight:700;color:#101a33;text-transform:uppercase;letter-spacing:0.04em;margin-bottom:12px;">Resumen ejecutivo</div>
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="8"><tr>
+            ${statBlockHtml("Inventario total", `${data.resumen.existenciaTotal} u.`)}
+            ${statBlockHtml("Valor a costo", formatMoneda(data.resumen.valorInventario, null), data.resumen.valorInventarioIncompleto ? "Incompleto: falta costo real" : undefined)}
+          </tr><tr>
+            ${statBlockHtml("Agotados", String(data.resumen.productosAgotados))}
+            ${statBlockHtml("En nivel mínimo", String(data.resumen.enNivelMinimo))}
+          </tr></table>
+          <p style="font-size:13px;color:#374151;margin:14px 0 0;">${escapeHtml(interpretacionBreve(data))}</p>
+        </td></tr>
+
+        <tr><td style="padding:20px 28px 8px;">
+          <div style="font-size:13px;font-weight:700;color:#a11414;text-transform:uppercase;letter-spacing:0.04em;margin-bottom:10px;">Atención inmediata</div>
+          ${tablaProductosHtml(data.productosCriticos, "criticos")}
+        </td></tr>
+
+        <tr><td style="padding:20px 28px 8px;">
+          <div style="font-size:13px;font-weight:700;color:#101a33;text-transform:uppercase;letter-spacing:0.04em;margin-bottom:10px;">Estado del inventario</div>
+          <table role="presentation" cellpadding="0" cellspacing="8"><tr>
+            ${statBlockHtml("Normal", String(data.distribucion.normal))}
+            ${statBlockHtml("Mínimo", String(data.distribucion.minimo))}
+            ${statBlockHtml("Agotado", String(data.distribucion.agotado))}
+          </tr></table>
+        </td></tr>
+
+        <tr><td style="padding:20px 28px 28px;">
+          <div style="font-size:13px;font-weight:700;color:#101a33;text-transform:uppercase;letter-spacing:0.04em;margin-bottom:10px;">Detalle de productos (${data.productos.length})</div>
+          ${tablaProductosHtml(data.productos, "completa")}
+        </td></tr>
+
+        <tr><td style="padding:16px 28px;background:#f4f6fa;border-top:1px solid #e3e7ef;">
+          <div style="font-size:11px;color:#6b7280;">Reporte generado automáticamente por Hermes Ventas — Vida Divina.</div>
+        </td></tr>
+      </table>
+    </td></tr>
+  </table>
+</body>
+</html>`;
+}
+
 /**
  * Reporte formal completo -- para correo (asunto se arma aparte en la
  * tool). Mismo nivel ejecutivo/estructura por secciones que el resto de
  * reportes de Hermes (ver reportGenerator.ts#formatReporteFormal), adaptado
- * a inventario. Texto plano -- el mecanismo de correo real (createDraft,
- * ver email-mcp-server/src/gmailService.js) solo soporta text/plain hoy,
- * nunca se introduce un renderer HTML nuevo para esto.
+ * a inventario. Texto plano -- se conserva para el resumen ejecutivo por
+ * WhatsApp y como respaldo; el correo real usa formatReporteInventarioHtml.
  */
 export function formatReporteInventarioFormal(data: InventoryReportData): string {
   const fecha = data.actualizadoEn.slice(0, 10);

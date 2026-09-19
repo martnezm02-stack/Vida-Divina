@@ -6,8 +6,8 @@
   "private": true,
   "main": "server/index.js",
   "scripts": {
-    "start": "node server/index.js",
-    "test": "node --env-file-if-exists=../crm/.env --env-file-if-exists=../whatsapp-adapter/.env --test \"test/**/*.test.js\""
+    "start": "node --env-file-if-exists=.env server/index.js",
+    "test": "node --env-file-if-exists=.env.test --env-file-if-exists=../crm/.env --env-file-if-exists=../whatsapp-adapter/.env --test \"test/**/*.test.js\""
   },
   "engines": {
     "node": ">=18"

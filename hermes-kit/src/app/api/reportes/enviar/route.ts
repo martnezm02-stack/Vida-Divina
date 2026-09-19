@@ -1,15 +1,28 @@
 import { NextRequest, NextResponse } from "next/server";
 import { generateReport, formatReporteFormal } from "@/lib/vidaDivina/reportGenerator";
-import { generateInventoryReport, formatReporteInventarioFormal } from "@/lib/vidaDivina/inventoryReportGenerator";
+import { generateInventoryReport, formatReporteInventarioHtml } from "@/lib/vidaDivina/inventoryReportGenerator";
 import type { PeriodKeyword } from "@/lib/vidaDivina/reportPeriods";
 import { callEmailMcpTool } from "@/lib/vidaDivina/emailMcpClient";
 
-// POST /api/reportes/enviar { tipo: "ventas"|"inventario", periodo? } --
-// crea un BORRADOR real en Gmail, mismo mecanismo EXACTO que
-// adminGenerarReporte/adminReporteInventario (callEmailMcpTool("createDraft",...)
-// -- nunca un segundo sistema de correo, nunca envía directo. El envío real
-// sigue requiriendo confirmación aparte (adminEnviarBorradorAprobado, vía
-// WhatsApp) -- esta ruta nunca envía.
+// Destinatario fijo del reporte de inventario real (FASE "Cierre de
+// autenticación + logo + correo de inventario", 2026-09-19) -- corregido
+// tras confirmar con el usuario (el mensaje original de la fase traía
+// "manuel_octavio:mtz@hotmail.com", con dos puntos -- typo real). Nunca
+// cambiar sin una nueva instrucción explícita.
+const INVENTARIO_DESTINATARIO = "manuel_octavio_mtz@hotmail.com";
+
+// POST /api/reportes/enviar { tipo: "ventas"|"inventario", periodo? }
+//
+// tipo="inventario": ENVÍO REAL (createDraft + sendApprovedEmail, mismo
+// Gmail API real ya existente -- nunca un segundo cliente/OAuth). Cuerpo
+// HTML real (formatReporteInventarioHtml, MISMOS datos que
+// generateInventoryReport()/ReportesPanel.tsx consumen -- nunca un segundo
+// cálculo). Nunca deja el mensaje como borrador sin enviar, nunca reporta
+// éxito si Gmail no confirmó el envío real.
+//
+// tipo="ventas": SIN CAMBIOS de esta fase -- sigue creando un borrador real
+// (texto plano), el envío real sigue requiriendo confirmación aparte por
+// WhatsApp (adminEnviarBorradorAprobado), tal como ya funcionaba.
 export const dynamic = "force-dynamic";
 
 export async function POST(req: NextRequest): Promise<NextResponse> {
@@ -24,18 +37,31 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
   }
 
   try {
-    let subject: string;
-    let formal: string;
-
-    if (body.tipo === "ventas") {
-      const data = await generateReport({ periodo: body.periodo ?? "esta_semana" });
-      subject = `Reporte ${data.periodo.label} — Vida Divina`;
-      formal = formatReporteFormal(data);
-    } else {
+    if (body.tipo === "inventario") {
       const data = await generateInventoryReport();
-      subject = `Reporte de Inventario — Vida Divina — ${data.actualizadoEn.slice(0, 10)}`;
-      formal = formatReporteInventarioFormal(data);
+      const subject = `Reporte de Inventario — Vida Divina — ${data.actualizadoEn.slice(0, 10)}`;
+      const html = formatReporteInventarioHtml(data);
+
+      const draft = await callEmailMcpTool("createDraft", { to: INVENTARIO_DESTINATARIO, subject, body: html, html: true });
+      if (!draft.ok) {
+        return NextResponse.json({ ok: false, enviado: false, message: draft.message });
+      }
+      const draftId = (draft.data as { draftId?: string } | undefined)?.draftId;
+      if (!draftId) {
+        return NextResponse.json({ ok: false, enviado: false, message: "Gmail no devolvió un draftId real -- no se pudo continuar con el envío." });
+      }
+
+      const enviado = await callEmailMcpTool("sendApprovedEmail", { draftId });
+      return NextResponse.json({
+        ok: enviado.ok,
+        enviado: enviado.ok,
+        message: enviado.ok ? "Correo enviado correctamente." : enviado.message,
+      });
     }
+
+    const data = await generateReport({ periodo: body.periodo ?? "esta_semana" });
+    const subject = `Reporte ${data.periodo.label} — Vida Divina`;
+    const formal = formatReporteFormal(data);
 
     const draft = await callEmailMcpTool("createDraft", { subject, body: formal });
     return NextResponse.json({

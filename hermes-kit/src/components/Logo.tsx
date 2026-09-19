@@ -1,11 +1,44 @@
 "use client";
 
+import { apiUrl } from "../lib/apiPath";
+
 // ============================================================
 // LOGO / MARCA DEL PANEL — Integración "WhatsApp / Hermes" (2026-09-04):
 // nombre y gradiente alineados a la paleta real del Dashboard Vida Divina
 // (--forest/--gold, ver globals.css). Estructura del componente intacta.
-// ============================================================
+//
+// FASE "Cierre de autenticación + logo + correo de inventario"
+// (2026-09-19): el wordmark del sidebar (Sidebar.tsx -- ÚNICO punto de
+// esta fase) ahora antepone el logo REAL de Vive Vida Divina
+// (public/logo.jpg) delante del símbolo Emblem existente. Emblem NO se
+// toca: ConversationPanel.tsx sigue usándolo tal cual en su propio lugar,
+// fuera del alcance de esta fase.
+//
+// CORRECCIÓN (Fase "Corrección del logo de Hermes Ventas", 2026-09-19,
+// archivo real reemplazado por el que el usuario adjuntó) -- causa raíz
+// real de la imagen rota: next/image (<Image>) pasa por el optimizador de
+// Next.js (/hermes/_next/image?url=...), que devolvía 400 real ("The
+// requested resource isn't a valid image") para este asset local en este
+// entorno (Turbopack + basePath) -- confirmado con curl directo: el
+// archivo crudo en /hermes/logo.jpg SIEMPRE respondió 200 real, solo el
+// optimizador fallaba. Se cambia a <img> plano (sin next/image) + apiUrl()
+// -- mismo helper YA existente en el proyecto para anteponer el basePath
+// real a mano (ver lib/apiPath.ts), evitando el optimizador por completo.
 const BRAND_NAME = "Hermes";
+
+/** Logo real de Vive Vida Divina, recortado a badge circular -- mismo criterio CSS exacto que dashboard/public/styles.css#.brand-logo (object-fit: cover + border-radius: 50%), nunca una imagen regenerada. */
+function BrandBadge({ size }: { size: number }) {
+  return (
+    <img
+      src={apiUrl("/logo.jpg")}
+      alt="Vive Vida Divina"
+      width={size}
+      height={size}
+      className="shrink-0 rounded-full object-cover"
+      style={{ width: size, height: size }}
+    />
+  );
+}
 
 /** Emblema: un pequeño sello con destello (para favicon o espacios mínimos). */
 export function Emblem({ size = 36 }: { size?: number }) {
@@ -35,7 +68,7 @@ export function Emblem({ size = 36 }: { size?: number }) {
 export default function Logo({ size = 26 }: { size?: number }) {
   return (
     <div className="flex items-center gap-2.5 select-none" aria-label={BRAND_NAME}>
-      <Emblem size={size * 1.25} />
+      <BrandBadge size={size * 1.25} />
       <span
         className="font-display font-black tracking-tight leading-none"
         style={{
