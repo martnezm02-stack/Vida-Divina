@@ -313,6 +313,29 @@ export function ensureSchema(db: Database.Database): void {
       evidence_id INTEGER NOT NULL REFERENCES evidence(id),
       PRIMARY KEY (analysis_run_id, evidence_id)
     );
+
+    -- MI-4 (Pattern & Intelligence Detection): qué items sustentan una
+    -- signal agregada (p.ej. HOOK_FREQUENCY sobre 12 items) -- signals.item_id
+    -- (MI-1) sigue sirviendo para señales de un solo item, esto cubre el
+    -- caso de conjunto sin tocar esa columna.
+    CREATE TABLE IF NOT EXISTS signal_items (
+      signal_id INTEGER NOT NULL REFERENCES signals(id),
+      item_id INTEGER NOT NULL REFERENCES intelligence_items(id),
+      PRIMARY KEY (signal_id, item_id)
+    );
+    CREATE INDEX IF NOT EXISTS idx_signal_items_item ON signal_items(item_id);
+
+    -- Qué signals contribuyeron a un pattern. Items/actors/evidence/metrics
+    -- que sustentan un pattern se derivan transitivamente vía pattern_items
+    -- (join con intelligence_items/evidence/item_metrics/analysis_run_items
+    -- por item_id) -- no se duplica esa relación en una tabla nueva; signals
+    -- sí necesita su propio join porque puede cubrir un conjunto de items
+    -- distinto al del pattern concreto.
+    CREATE TABLE IF NOT EXISTS pattern_signals (
+      pattern_id INTEGER NOT NULL REFERENCES patterns(id),
+      signal_id INTEGER NOT NULL REFERENCES signals(id),
+      PRIMARY KEY (pattern_id, signal_id)
+    );
   `);
 
   // Migración (MI-2, ingesta/normalización): intelligence_items no tenía
@@ -330,4 +353,47 @@ export function ensureSchema(db: Database.Database): void {
   if (!itemCols.some((c) => c.name === "media_type")) {
     db.exec("ALTER TABLE intelligence_items ADD COLUMN media_type TEXT");
   }
+
+  // Migración (MI-4, detección de patrones): signals (MI-1) no tenía una
+  // clave de agrupación normalizada -- la detección necesita poder hacer
+  // upsert de una signal agregada ("el hook X ya tiene una signal de
+  // frecuencia en este proyecto") sin volver a inspeccionar metadata_json.
+  const signalCols = db.prepare("PRAGMA table_info(signals)").all() as Array<{ name: string }>;
+  if (!signalCols.some((c) => c.name === "signal_key")) {
+    db.exec("ALTER TABLE signals ADD COLUMN signal_key TEXT");
+  }
+  db.exec(
+    "CREATE INDEX IF NOT EXISTS idx_signals_key ON signals(project_id, signal_type, signal_key)"
+  );
+
+  // Migración (MI-4): patterns (MI-1) solo tenía name/description/
+  // pattern_type/metadata_json -- MI-4 pide que un pattern pueda exponer
+  // directamente soporte cuantificable (item_support/actor_support/
+  // frequency/confidence), su ventana temporal (first_seen_at/last_seen_at)
+  // y si es un patrón de un solo actor o de mercado (scope) -- ver
+  // detection/patternDetection.ts. pattern_key + (project_id, pattern_type)
+  // es la clave de upsert: misma detección repetida sobre los mismos datos
+  // actualiza el mismo pattern en vez de duplicarlo.
+  const patternCols = db.prepare("PRAGMA table_info(patterns)").all() as Array<{ name: string }>;
+  const newPatternColumns: Array<[string, string]> = [
+    ["pattern_key", "TEXT"],
+    ["scope", "TEXT"],
+    ["confidence", "REAL"],
+    ["item_support", "INTEGER"],
+    ["actor_support", "INTEGER"],
+    ["total_items_examined", "INTEGER"],
+    ["frequency", "REAL"],
+    ["first_seen_at", "INTEGER"],
+    ["last_seen_at", "INTEGER"],
+  ];
+  for (const [name, type] of newPatternColumns) {
+    if (!patternCols.some((c) => c.name === name)) {
+      db.exec(`ALTER TABLE patterns ADD COLUMN ${name} ${type}`);
+    }
+  }
+  db.exec(
+    `CREATE UNIQUE INDEX IF NOT EXISTS idx_patterns_identity
+       ON patterns(project_id, pattern_type, pattern_key)
+       WHERE pattern_key IS NOT NULL`
+  );
 }

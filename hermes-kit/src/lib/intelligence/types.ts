@@ -231,6 +231,8 @@ export interface Signal {
   item_id: number | null;
   actor_id: number | null;
   signal_type: string;
+  /** Clave de agrupación normalizada (MI-4): identidad de la señal dentro de su tipo, p.ej. el hook normalizado. NULL en señales sueltas creadas fuera de la detección de patrones. */
+  signal_key: string | null;
   title: string;
   description: string | null;
   strength: number | null;
@@ -266,6 +268,18 @@ export interface Pattern {
   name: string;
   description: string | null;
   pattern_type: string | null;
+  /** Identidad del patrón dentro de su tipo (MI-4), p.ej. el hook/CTA normalizado -- clave de upsert junto con project_id+pattern_type. NULL en patrones creados fuera de la detección automática. */
+  pattern_key: string | null;
+  /** 'actor': un solo actor sustenta el patrón (repetición propia, no de mercado). 'market': 2+ actores distintos lo sustentan. */
+  scope: string | null;
+  /** Medida de soporte/certeza de detección (no una evaluación de calidad) -- ver metadata_json para sus componentes. */
+  confidence: number | null;
+  item_support: number | null;
+  actor_support: number | null;
+  total_items_examined: number | null;
+  frequency: number | null;
+  first_seen_at: number | null;
+  last_seen_at: number | null;
   metadata_json: string | null;
   created_at: number;
   updated_at: number;

@@ -46,3 +46,7 @@ export * from "./ingestion";
 // MI-3: capa de análisis/enriquecimiento, query-driven (analyzeItems /
 // analyzeQuery -- nunca se ejecuta sin que algo los llame).
 export * from "./analysis";
+
+// MI-4: capa de detección de patrones/señales, query-driven (detectPatterns /
+// detectPatternsFromQuery -- nunca se ejecuta sin que algo los llame).
+export * from "./detection";
