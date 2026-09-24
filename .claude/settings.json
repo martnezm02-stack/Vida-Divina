@@ -1,0 +1,34 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash|Grep",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "C:/Users/manue/.local/bin/graphify.EXE hook-guard search"
+          }
+        ]
+      },
+      {
+        "matcher": "Read|Glob",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "C:/Users/manue/.local/bin/graphify.EXE hook-guard read"
+          }
+        ]
+      }
+    ],
+    "PreCompact": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node C:/Users/manue/Vida Divina/hermes-kit/node_modules/tsx/dist/cli.mjs C:/Users/manue/Vida Divina/hermes-kit/scripts/jevPrecompactHook.ts"
+          }
+        ]
+      }
+    ]
+  }
+}
