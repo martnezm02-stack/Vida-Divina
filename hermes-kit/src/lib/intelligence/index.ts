@@ -38,3 +38,7 @@ export {
   addWatchlistEntry,
   listWatchlistEntries,
 } from "./watchlists";
+
+// MI-2: capa de ingesta/normalización (RAW SOURCE DATA -> adapter ->
+// CanonicalIntelligenceItem -> ingestCanonicalItem -> Intelligence Store).
+export * from "./ingestion";

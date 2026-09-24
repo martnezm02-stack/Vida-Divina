@@ -273,7 +273,19 @@ export function ensureSchema(db: Database.Database): void {
     CREATE INDEX IF NOT EXISTS idx_watchlist_entries_list ON watchlist_entries(watchlist_id);
   `);
 
-  // Sin migraciones ALTER TABLE todavía -- esquema recién creado (MI-1).
-  // Futuras columnas nuevas siguen el mismo patrón que src/lib/db.ts:
-  // PRAGMA table_info(<tabla>) + ALTER TABLE ... ADD COLUMN si falta.
+  // Migración (MI-2, ingesta/normalización): intelligence_items no tenía
+  // columnas propias para "language" ni "media_type" -- el contrato
+  // canónico de MI-2 los pide como campos de primera clase (distintos de
+  // content_type, que es "ad"/"post"/"video"..., y de market, que es
+  // país/mercado). Mismo patrón que src/lib/db.ts: PRAGMA table_info +
+  // ALTER TABLE si falta, para no romper bases MI-1 ya creadas.
+  const itemCols = db.prepare("PRAGMA table_info(intelligence_items)").all() as Array<{
+    name: string;
+  }>;
+  if (!itemCols.some((c) => c.name === "language")) {
+    db.exec("ALTER TABLE intelligence_items ADD COLUMN language TEXT");
+  }
+  if (!itemCols.some((c) => c.name === "media_type")) {
+    db.exec("ALTER TABLE intelligence_items ADD COLUMN media_type TEXT");
+  }
 }

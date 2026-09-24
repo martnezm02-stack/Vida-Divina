@@ -62,6 +62,8 @@ export interface IntelligenceItem {
   objective: string | null;
   product: string | null;
   funnel_stage: string | null;
+  language: string | null;
+  media_type: string | null;
 
   hook: string | null;
   angle: string | null;
@@ -105,6 +107,8 @@ export interface IntelligenceItemInput {
   objective?: string | null;
   product?: string | null;
   funnel_stage?: string | null;
+  language?: string | null;
+  media_type?: string | null;
 
   hook?: string | null;
   angle?: string | null;

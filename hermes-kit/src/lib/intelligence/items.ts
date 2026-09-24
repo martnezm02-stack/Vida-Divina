@@ -26,6 +26,8 @@ const UPDATABLE_COLUMNS = [
   "objective",
   "product",
   "funnel_stage",
+  "language",
+  "media_type",
   "hook",
   "angle",
   "problem",
@@ -80,6 +82,8 @@ export function upsertIntelligenceItem(
         objective = COALESCE(?, objective),
         product = COALESCE(?, product),
         funnel_stage = COALESCE(?, funnel_stage),
+        language = COALESCE(?, language),
+        media_type = COALESCE(?, media_type),
         hook = COALESCE(?, hook),
         angle = COALESCE(?, angle),
         problem = COALESCE(?, problem),
@@ -108,6 +112,8 @@ export function upsertIntelligenceItem(
       input.objective ?? null,
       input.product ?? null,
       input.funnel_stage ?? null,
+      input.language ?? null,
+      input.media_type ?? null,
       input.hook ?? null,
       input.angle ?? null,
       input.problem ?? null,
@@ -133,9 +139,10 @@ export function upsertIntelligenceItem(
         project_id, source_id, actor_id, external_id, canonical_url, content_type,
         title, description, published_at, first_seen_at, last_seen_at,
         format, style, theme, market, audience, objective, product, funnel_stage,
+        language, media_type,
         hook, angle, problem, mechanism, cta, offer, social_proof,
         tags_json, metadata_json
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
     )
     .run(
       input.project_id,
@@ -157,6 +164,8 @@ export function upsertIntelligenceItem(
       input.objective ?? null,
       input.product ?? null,
       input.funnel_stage ?? null,
+      input.language ?? null,
+      input.media_type ?? null,
       input.hook ?? null,
       input.angle ?? null,
       input.problem ?? null,
