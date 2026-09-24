@@ -50,3 +50,8 @@ export * from "./analysis";
 // MI-4: capa de detección de patrones/señales, query-driven (detectPatterns /
 // detectPatternsFromQuery -- nunca se ejecuta sin que algo los llame).
 export * from "./detection";
+
+// Complemento a MI-4: DecisionProvider, abstracción provider-agnostic para
+// decisiones/clasificación (JEV es una implementación intercambiable, no
+// una dependencia). No wired en ningún camino de detection/.
+export * from "./decision";
