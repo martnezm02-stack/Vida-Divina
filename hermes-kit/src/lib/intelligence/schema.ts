@@ -271,6 +271,48 @@ export function ensureSchema(db: Database.Database): void {
       created_at INTEGER NOT NULL DEFAULT (unixepoch())
     );
     CREATE INDEX IF NOT EXISTS idx_watchlist_entries_list ON watchlist_entries(watchlist_id);
+
+    -- MI-3 (Analysis & Enrichment): un análisis/enriquecimiento sobre un
+    -- item o un conjunto de items, ejecutado bajo demanda (query-driven,
+    -- nunca por cron). Distinto de ai_analyses (MI-1: un análisis IA suelto
+    -- 1:1 con un solo item, sin versión/caching/confianza) -- analysis_runs
+    -- soporta conjuntos, versiones, caching determinista y trazabilidad,
+    -- que ai_analyses no modelaba. Nunca sobrescribe: cada ejecución nueva
+    -- es una fila nueva (ver analysisService.ts para versión/caching).
+    CREATE TABLE IF NOT EXISTS analysis_runs (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      project_id INTEGER NOT NULL REFERENCES projects(id),
+      analysis_type TEXT NOT NULL,
+      provider TEXT NOT NULL,
+      model TEXT,
+      confidence REAL,
+      items_key TEXT NOT NULL,
+      input_hash TEXT NOT NULL,
+      version INTEGER NOT NULL DEFAULT 1,
+      context_json TEXT,
+      result_json TEXT NOT NULL,
+      created_at INTEGER NOT NULL DEFAULT (unixepoch())
+    );
+    CREATE INDEX IF NOT EXISTS idx_analysis_runs_lookup
+      ON analysis_runs(project_id, analysis_type, items_key, input_hash);
+    CREATE INDEX IF NOT EXISTS idx_analysis_runs_project ON analysis_runs(project_id, created_at);
+
+    -- Qué items cubrió cada análisis (1 fila = análisis de un solo item, N
+    -- filas = análisis de un conjunto).
+    CREATE TABLE IF NOT EXISTS analysis_run_items (
+      analysis_run_id INTEGER NOT NULL REFERENCES analysis_runs(id),
+      item_id INTEGER NOT NULL REFERENCES intelligence_items(id),
+      PRIMARY KEY (analysis_run_id, item_id)
+    );
+    CREATE INDEX IF NOT EXISTS idx_analysis_run_items_item ON analysis_run_items(item_id);
+
+    -- Provenance: a qué evidencia concreta (tabla evidence, ya existente en
+    -- MI-1) se puede rastrear una afirmación del análisis.
+    CREATE TABLE IF NOT EXISTS analysis_run_evidence (
+      analysis_run_id INTEGER NOT NULL REFERENCES analysis_runs(id),
+      evidence_id INTEGER NOT NULL REFERENCES evidence(id),
+      PRIMARY KEY (analysis_run_id, evidence_id)
+    );
   `);
 
   // Migración (MI-2, ingesta/normalización): intelligence_items no tenía

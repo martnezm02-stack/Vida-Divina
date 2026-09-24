@@ -42,3 +42,7 @@ export {
 // MI-2: capa de ingesta/normalización (RAW SOURCE DATA -> adapter ->
 // CanonicalIntelligenceItem -> ingestCanonicalItem -> Intelligence Store).
 export * from "./ingestion";
+
+// MI-3: capa de análisis/enriquecimiento, query-driven (analyzeItems /
+// analyzeQuery -- nunca se ejecuta sin que algo los llame).
+export * from "./analysis";
