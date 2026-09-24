@@ -55,3 +55,8 @@ export * from "./detection";
 // decisiones/clasificación (JEV es una implementación intercambiable, no
 // una dependencia). No wired en ningún camino de detection/.
 export * from "./decision";
+
+// MI-5: insights, briefs y optimización de contexto, query-driven
+// (generateInsights/generateInsightsFromPatterns/generateBrief -- nunca se
+// ejecuta sin que algo los llame).
+export * from "./synthesis";

@@ -299,6 +299,20 @@ export interface Insight {
   name: string;
   description: string | null;
   insight_type: string | null;
+  /** Resumen corto (MI-5), distinto de description. */
+  summary: string | null;
+  /** Medida de soporte/certeza (MI-5), no una evaluación de calidad -- ver content_json. */
+  confidence: number | null;
+  /** Nunca se sobrescribe una versión anterior -- una regeneración con datos/config distintos crea la siguiente versión. */
+  version: number;
+  /** {evidence, finding, interpretation, recommendation} -- ver src/lib/intelligence/synthesis. */
+  content_json: string | null;
+  generation_provider: string | null;
+  context_optimizer: string | null;
+  /** Hash determinista (MI-5) para caching/reuse -- mismo pattern + misma config = mismo hash. */
+  input_hash: string | null;
+  /** El pattern (MI-4) del que se derivó este insight. NULL en insights creados fuera de generateInsights/generateInsightsFromPatterns. */
+  source_pattern_id: number | null;
   metadata_json: string | null;
   created_at: number;
   updated_at: number;

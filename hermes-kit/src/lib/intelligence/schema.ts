@@ -396,4 +396,35 @@ export function ensureSchema(db: Database.Database): void {
        ON patterns(project_id, pattern_type, pattern_key)
        WHERE pattern_key IS NOT NULL`
   );
+
+  // Migración (MI-5, insights/briefs): insights (MI-1) solo tenía name/
+  // description/insight_type/metadata_json -- MI-5 genera un insight A
+  // PARTIR de un pattern concreto (MI-4) y necesita poder cachear/versionar
+  // esa generación (igual que analysis_runs en MI-3): source_pattern_id +
+  // input_hash es la clave de caché -- misma fuente + misma configuración
+  // reutiliza la versión existente; si el pattern cambió o se pide
+  // explícitamente, se crea la siguiente versión, nunca se sobrescribe la
+  // anterior. NO se crean tablas nuevas para trazabilidad de items/actors/
+  // evidence -- se derivan transitivamente vía insight_patterns (ya
+  // existente en MI-1) -> pattern_items -> intelligence_items, igual que
+  // patternDetection.ts ya hace para un pattern individual.
+  const insightCols = db.prepare("PRAGMA table_info(insights)").all() as Array<{ name: string }>;
+  const newInsightColumns: Array<[string, string]> = [
+    ["summary", "TEXT"],
+    ["confidence", "REAL"],
+    ["version", "INTEGER NOT NULL DEFAULT 1"],
+    ["content_json", "TEXT"],
+    ["generation_provider", "TEXT"],
+    ["context_optimizer", "TEXT"],
+    ["input_hash", "TEXT"],
+    ["source_pattern_id", "INTEGER REFERENCES patterns(id)"],
+  ];
+  for (const [name, type] of newInsightColumns) {
+    if (!insightCols.some((c) => c.name === name)) {
+      db.exec(`ALTER TABLE insights ADD COLUMN ${name} ${type}`);
+    }
+  }
+  db.exec(
+    "CREATE INDEX IF NOT EXISTS idx_insights_source_pattern ON insights(project_id, source_pattern_id, version)"
+  );
 }
