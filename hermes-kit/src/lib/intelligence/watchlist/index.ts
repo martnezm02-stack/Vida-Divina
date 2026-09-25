@@ -1,7 +1,7 @@
-// index.ts — Punto de entrada de Watchlists + Change Detection
-// (Continuous Intelligence, capa de infraestructura). Query/run-driven:
-// runWatchlistRun() solo corre cuando algo lo llama, nunca por
-// cron/scheduler (eso queda fuera de esta fase).
+// index.ts — Punto de entrada de Watchlists + Change Detection + Scheduler
+// + Worker (Continuous Intelligence, capa de infraestructura). Query/run-
+// driven: nada corre por sí mismo hasta que algo llama runWatchlistRun(),
+// runDueWatchlists() o start()/tick() del worker explícitamente.
 export * from "./types";
 export { classifyChange } from "./changeDetection";
 export { runWatchlistRun } from "./watchlistRunner";
@@ -14,3 +14,10 @@ export type {
   WatchlistSchedulerStatus,
   WatchlistSchedulerOutcome,
 } from "./scheduler";
+export { createIntelligenceWorker } from "./worker";
+export type {
+  IntelligenceWorker,
+  IntelligenceWorkerOptions,
+  WorkerTickResult,
+  WorkerErrorPhase,
+} from "./worker";
