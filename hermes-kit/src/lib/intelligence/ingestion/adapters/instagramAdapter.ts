@@ -16,10 +16,13 @@
 // hacia el Intelligence Store).
 import type { AdapterContext, CanonicalIntelligenceItem } from "../canonical";
 import type { SourceAdapter } from "../sourceAdapter";
-import { normalizeMetricValue, normalizeTimestamp } from "../normalize";
+import { normalizeActorHandle, normalizeMetricValue, normalizeTimestamp } from "../normalize";
 
 export interface InstagramRawOwner {
   username?: string;
+  /** ID numérico/estable real del perfil, cuando ScrapeCreators lo entrega (mismo id/pk que ya se usa a nivel de item). Preferido sobre el handle para external_id -- nunca se inventa si está ausente. */
+  id?: string | number;
+  pk?: string | number;
 }
 
 export interface InstagramRawCaption {
@@ -71,6 +74,30 @@ function extractUsername(raw: InstagramRawItem): string | null {
   return null;
 }
 
+/** ID real y estable del perfil (owner.id/owner.pk), cuando ScrapeCreators lo entrega -- un owner en forma de string plano nunca trae ID, solo username. */
+function extractOwnerId(raw: InstagramRawItem): string | null {
+  const owner = raw.owner ?? raw.user;
+  if (!owner || typeof owner !== "object") return null;
+  if (owner.id !== undefined) return String(owner.id);
+  if (owner.pk !== undefined) return String(owner.pk);
+  return null;
+}
+
+/**
+ * Identificador estable para deduplicar el actor entre posts de la misma
+ * cuenta (bug real, MI-2: sin esto upsertActor nunca podía reutilizar el
+ * actor -- cada post creaba uno nuevo). Preferencia:
+ *   1. ID real de perfil (owner.id/owner.pk) cuando el raw lo entrega.
+ *   2. Handle normalizado (sin "@", minúsculas) cuando no hay ID real --
+ *      sigue siendo estable entre posts de la misma cuenta, nunca se
+ *      inventa un valor nuevo.
+ * Sin ninguno de los dos, external_id queda null (UNKNOWN=NULL) -- nunca
+ * se sustituye por la URL completa del post ni por ningún otro campo.
+ */
+function resolveActorExternalId(raw: InstagramRawItem, username: string | null): string | null {
+  return extractOwnerId(raw) ?? normalizeActorHandle(username);
+}
+
 function hasVideoSignal(raw: InstagramRawItem): boolean {
   return (
     raw.video_play_count !== undefined ||
@@ -99,7 +126,7 @@ export const instagramAdapter: SourceAdapter<InstagramRawItem> = {
 
       actor: username
         ? {
-            external_id: null,
+            external_id: resolveActorExternalId(raw, username),
             handle: username,
             display_name: null,
             type: "creator",
