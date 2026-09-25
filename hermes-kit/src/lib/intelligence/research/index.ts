@@ -8,3 +8,12 @@ export * from "./types";
 export { assessEvidence } from "./evidenceAssessment";
 export type { EvidenceAssessment, EvidenceAssessmentOptions } from "./evidenceAssessment";
 export { runResearchQuery } from "./researchService";
+export { runMultiSourceResearchQuery } from "./multiSource";
+export type {
+  AvailableSource,
+  UnavailableSource,
+  MultiSourceEntry,
+  MultiSourceResearchRequest,
+  SourceContribution,
+  MultiSourceOutcome,
+} from "./multiSource";
