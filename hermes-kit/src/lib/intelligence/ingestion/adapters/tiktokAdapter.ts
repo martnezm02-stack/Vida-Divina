@@ -30,6 +30,13 @@ export interface TikTokRawStats {
   digg_count?: number; // likes
   comment_count?: number;
   share_count?: number;
+  /** "Saves"/bookmarks. Confirmado disponible en datos reales de Monid/Apify
+   * (search_tiktok en vivo, sept-2026: item real con `"bookmarks": 5187`) --
+   * a diferencia de Instagram (ScrapeCreators, ver instagram.py#_parse_items),
+   * que nunca lo entrega. El nombre exacto del campo puede necesitar ajuste
+   * cuando una fuente real conecte a este adapter (ver docstring del módulo);
+   * mientras tanto, ausente = NULL, nunca inventado. */
+  bookmark_count?: number;
 }
 
 export interface TikTokRawAd {
@@ -100,6 +107,7 @@ export const tiktokAdapter: SourceAdapter<TikTokRawAd> = {
             likes: raw.stats.digg_count ?? null,
             comments: raw.stats.comment_count ?? null,
             shares: raw.stats.share_count ?? null,
+            saves: raw.stats.bookmark_count ?? null,
             captured_at: normalizeTimestamp(
               raw.metrics_captured_at ?? raw.last_seen ?? null
             ),

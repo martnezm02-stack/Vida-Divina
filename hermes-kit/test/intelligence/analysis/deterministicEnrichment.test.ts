@@ -182,6 +182,30 @@ test("métricas ausentes permanecen ausentes: un solo snapshot -> sin deltas ni 
   assert.equal(perf.engagement_rate, undefined, "faltan likes/comments/shares -- no se inventa la tasa");
 });
 
+test("Fase 4: engagement_rate se calcula con los campos REALMENTE disponibles (caso Instagram real -- sin shares)", async () => {
+  const { project, source } = setup();
+  const { item } = upsertIntelligenceItem({
+    project_id: project.id,
+    source_id: source.id,
+    external_id: "perf-item-no-shares",
+    content_type: "video",
+  });
+  // Instagram vía ScrapeCreators nunca entrega shares (confirmado contra
+  // el conector real, instagram.py#_parse_items) -- solo views/likes/comments.
+  recordMetrics({ item_id: item.id, views: 1000, likes: 80, comments: 20, captured_at: 1_700_000_000 });
+
+  const { run } = await analyzeItems(
+    { project_id: project.id, itemIds: [item.id], analysisType: "performance_delta" },
+    performanceAnalysisProvider
+  );
+  const perf = JSON.parse(run.result_json).observed.items[item.id];
+
+  // (80+20)/1000 = 0.1 -- nunca se sustituye shares ausente por 0 dentro de la suma faltante,
+  // simplemente no aporta: la tasa sale de lo que SÍ se observó.
+  assert.ok(Math.abs(perf.engagement_rate - 0.1) < 1e-9, `esperaba ~0.1, obtuvo ${perf.engagement_rate}`);
+  assert.deepEqual(perf.engagement_rate_basis, ["likes", "comments"], "provenance: de qué campos observados salió la tasa");
+});
+
 test("múltiples versiones: reanalizar con force:true crea una fila nueva con versión incrementada", async () => {
   const { project, source } = setup();
   const { item } = upsertIntelligenceItem({

@@ -89,3 +89,17 @@ test("normalize(): campos ausentes en el raw quedan ausentes en el canónico, nu
   assert.equal(canonical.metrics, null, "sin stats en el raw, metrics debe ser null -- no {views:0,...}");
   assert.equal(canonical.assets?.length, 1, "sin thumbnail_url, solo el asset de video");
 });
+
+test("normalize(): saves/bookmarks se mapea cuando el raw lo trae (Fase 4 -- confirmado disponible en datos reales de Monid/Apify, a diferencia de Instagram)", () => {
+  const withBookmarks: TikTokRawAd = {
+    ...rawFixture,
+    id: "with-bookmarks-1",
+    stats: { ...rawFixture.stats, bookmark_count: 5187 },
+  };
+  const canonical = tiktokAdapter.normalize(withBookmarks, { project: "marketing-intelligence" });
+  assert.equal(canonical.metrics?.saves, 5187);
+
+  // Sin bookmark_count en el raw -- queda null, nunca 0 ni inventado.
+  const withoutBookmarks = tiktokAdapter.normalize(rawFixture, { project: "marketing-intelligence" });
+  assert.equal(withoutBookmarks.metrics?.saves, null);
+});

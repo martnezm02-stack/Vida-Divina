@@ -42,16 +42,30 @@ function computeItemPerformance(itemId: number): Record<string, unknown> | null 
     }
   }
 
+  // engagement_rate = suma de los campos de engagement REALMENTE observados
+  // (likes/comments/shares) / views. Distinto de "faltan datos": un campo
+  // ausente simplemente no aporta a la suma (nunca se sustituye por 0) --
+  // pero ausencia total de las tres (ningún campo de engagement) sigue
+  // dejando la tasa sin calcular, igual que antes. `engagement_rate_basis`
+  // registra de qué campos concretos salió cada valor (provenance), ya que
+  // una tasa derivada de solo `likes` (p.ej. Instagram vía ScrapeCreators,
+  // que nunca entrega shares) no es comparable 1:1 con una derivada de las
+  // tres (p.ej. TikTok, que sí entrega share_count cuando está disponible).
   let engagementRate: number | null = null;
-  if (
-    last.views !== null &&
-    last.views !== undefined &&
-    last.views > 0 &&
-    last.likes !== null &&
-    last.comments !== null &&
-    last.shares !== null
-  ) {
-    engagementRate = (last.likes + last.comments + last.shares) / last.views;
+  let engagementRateBasis: string[] | undefined;
+  if (last.views !== null && last.views !== undefined && last.views > 0) {
+    const engagementInputs: Array<[string, number | null | undefined]> = [
+      ["likes", last.likes],
+      ["comments", last.comments],
+      ["shares", last.shares],
+    ];
+    const available = engagementInputs.filter(
+      (entry): entry is [string, number] => entry[1] !== null && entry[1] !== undefined
+    );
+    if (available.length > 0) {
+      engagementRate = available.reduce((sum, [, value]) => sum + value, 0) / last.views;
+      engagementRateBasis = available.map(([field]) => field);
+    }
   }
 
   return {
@@ -59,7 +73,7 @@ function computeItemPerformance(itemId: number): Record<string, unknown> | null 
     snapshots_count: history.length,
     ...(Object.keys(deltas).length > 0 ? { deltas } : {}),
     ...(Object.keys(velocity).length > 0 ? { velocity_per_day: velocity } : {}),
-    ...(engagementRate !== null ? { engagement_rate: engagementRate } : {}),
+    ...(engagementRate !== null ? { engagement_rate: engagementRate, engagement_rate_basis: engagementRateBasis } : {}),
   };
 }
 
