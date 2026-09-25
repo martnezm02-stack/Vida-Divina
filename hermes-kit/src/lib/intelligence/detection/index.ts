@@ -4,7 +4,8 @@
 // se ejecutan únicamente cuando algo los llama explícitamente.
 export * from "./types";
 export { detectPatterns, detectPatternsFromQuery } from "./detectionService";
-export { detectFrequencySignals, listItemsForSignal } from "./signalDetection";
+export { detectFrequencySignals, listItemsForSignal, upsertSignal } from "./signalDetection";
+export type { UpsertSignalInput } from "./signalDetection";
 export {
   detectCreativePatterns,
   detectPerformancePatterns,

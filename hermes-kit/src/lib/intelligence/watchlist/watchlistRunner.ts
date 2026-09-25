@@ -23,6 +23,31 @@ import { ingestCanonicalItem, normalizeSourceSlug } from "../ingestion";
 import { getWatchlistById, touchWatchlistLastChecked } from "../watchlists";
 import { classifyChange } from "./changeDetection";
 import type { WatchlistRunInput, WatchlistRunResult } from "./types";
+import type { IntelligenceItem } from "../types";
+import type { CanonicalIntelligenceItem } from "../ingestion";
+
+// Subconjunto de CREATIVE_FIELDS (detection/featureExtraction.ts) que un
+// SourceAdapter puede entregar de verdad -- hook/angle/cta/offer/format
+// existen en CanonicalIntelligenceItem; problem/promise/mechanism los
+// completa MI-3 (análisis semántico) después de la ingesta, nunca un
+// adapter, así que no forman parte de este diff.
+const DIFFABLE_CREATIVE_FIELDS = ["hook", "angle", "cta", "offer", "format"] as const;
+
+/**
+ * Solo para status "UPDATED": qué campos creativos difieren del valor ya
+ * guardado -- se captura AQUÍ porque después de ingestCanonicalItem() el
+ * valor anterior ya no es reconstruible (ver docstring de
+ * WatchlistItemResult.updated_fields). No reimplementa changeDetection.ts
+ * -- es una comparación local mínima, solo para exponer CUÁLES campos
+ * cambiaron (changeDetection ya decidió QUE algo cambió).
+ */
+function diffCreativeFields(canonical: CanonicalIntelligenceItem, existing: IntelligenceItem): string[] {
+  return DIFFABLE_CREATIVE_FIELDS.filter((field) => {
+    const incoming = canonical[field];
+    if (incoming === undefined) return false;
+    return (incoming ?? null) !== (existing[field] ?? null);
+  });
+}
 
 export async function runWatchlistRun<TRaw>(input: WatchlistRunInput<TRaw>): Promise<WatchlistRunResult> {
   const watchlist = getWatchlistById(input.watchlistId);
@@ -49,6 +74,7 @@ export async function runWatchlistRun<TRaw>(input: WatchlistRunInput<TRaw>): Pro
     metricChanges: [],
     unchangedItems: [],
     ingestedItems: [],
+    changes: [],
     provenance: { source: input.source, rawItemsReceived: input.rawItems.length },
   };
 
@@ -64,6 +90,7 @@ export async function runWatchlistRun<TRaw>(input: WatchlistRunInput<TRaw>): Pro
       // Nunca se re-ingiere: ni intelligence_items ni item_metrics se
       // tocan -- exactamente lo que exige la idempotencia (run 2 = 0 NEW).
       result.unchangedItems.push(existing!.id);
+      result.changes.push({ status, external_id: externalId, item_id: existing!.id });
       continue;
     }
 
@@ -72,11 +99,15 @@ export async function runWatchlistRun<TRaw>(input: WatchlistRunInput<TRaw>): Pro
     // (project_id, source_id, external_id) y append-only para métricas.
     const { item } = ingestCanonicalItem(canonical);
 
+    let updatedFields: string[] | undefined;
     if (status === "NEW") result.newItems.push(item.id);
-    else if (status === "UPDATED") result.updatedItems.push(item.id);
-    else result.metricChanges.push(item.id);
+    else if (status === "UPDATED") {
+      result.updatedItems.push(item.id);
+      updatedFields = existing ? diffCreativeFields(canonical, existing) : undefined;
+    } else result.metricChanges.push(item.id);
 
     result.ingestedItems.push(item.id);
+    result.changes.push({ status, external_id: externalId, item_id: item.id, updated_fields: updatedFields });
   }
 
   const updated = touchWatchlistLastChecked(watchlist.id, input.checkedAt);

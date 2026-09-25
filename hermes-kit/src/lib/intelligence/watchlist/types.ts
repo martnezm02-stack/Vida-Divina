@@ -17,6 +17,14 @@ export interface WatchlistItemResult {
   external_id: string | null;
   /** id real en intelligence_items -- presente salvo que la ingesta fallara para un item NEW/UPDATED/METRICS_CHANGED. */
   item_id: number | null;
+  /**
+   * Solo cuando status === "UPDATED": qué campos creativos (CREATIVE_FIELDS,
+   * detection/featureExtraction.ts) cambiaron respecto al valor ya guardado.
+   * Se captura AQUÍ, en el momento del run -- después de ingestCanonicalItem
+   * el valor anterior ya no es reconstruible (intelligence_items no
+   * versiona contenido, a diferencia de item_metrics que sí es append-only).
+   */
+  updated_fields?: string[];
 }
 
 export interface WatchlistRunInput<TRaw = unknown> {
@@ -40,6 +48,15 @@ export interface WatchlistRunResult {
   unchangedItems: number[];
   /** = newItems + updatedItems + metricChanges, en el orden en que se procesaron -- los únicos que pasaron por ingestionService. */
   ingestedItems: number[];
+  /**
+   * Un WatchlistItemResult por raw item procesado, en el mismo orden --
+   * integración mínima para que una capa posterior (relevance/, Relevance
+   * Engine) pueda saber QUÉ item.id tuvo QUÉ status sin volver a adivinarlo
+   * ni reimplementar Change Detection. Nunca incluye UNCHANGED con
+   * intención de que se le asigne relevancia -- eso lo decide quien
+   * consuma este resultado (ver relevance/relevanceEngine.ts).
+   */
+  changes: WatchlistItemResult[];
   provenance: {
     source: string;
     rawItemsReceived: number;

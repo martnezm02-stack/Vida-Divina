@@ -19,7 +19,7 @@ const SIGNAL_TYPE_BY_FIELD: Record<CreativeField, string> = {
   mechanism: "MECHANISM_FREQUENCY",
 };
 
-interface UpsertSignalInput {
+export interface UpsertSignalInput {
   project_id: number;
   signal_type: string;
   signal_key: string;
@@ -31,7 +31,13 @@ interface UpsertSignalInput {
   itemIds: number[];
 }
 
-function upsertSignal(input: UpsertSignalInput): Signal {
+/**
+ * Upsert genérico por (project_id, signal_type, signal_key) -- reutilizado
+ * tal cual por relevance/ (Relevance Engine) para que "signals" siga
+ * siendo la ÚNICA entidad de señales del sistema, sin una segunda
+ * implementación de upsert/idempotencia en paralelo.
+ */
+export function upsertSignal(input: UpsertSignalInput): Signal {
   const db = getDb();
   const existing = db
     .prepare<[number, string, string], Signal>(

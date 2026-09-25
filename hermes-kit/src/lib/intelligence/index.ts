@@ -89,3 +89,9 @@ export * from "./bridges";
 // el Intelligence Store ya existente y delega SIEMPRE en ingestCanonicalItem
 // (MI-2) -- nunca escribe SQL propio, nunca adquiere datos por sí mismo.
 export * from "./watchlist";
+
+// Relevance/Change Intelligence: "¿qué cambio merece atención?", sobre los
+// cambios ya clasificados por Watchlist Runner. Reutiliza el DecisionProvider
+// existente (decision/) -- nunca otro cliente JEV -- y signals (MI-1) --
+// nunca otra tabla. Ni Watchlist Runner ni el Scheduler importan esto.
+export * from "./relevance";
