@@ -95,3 +95,11 @@ export * from "./watchlist";
 // existente (decision/) -- nunca otro cliente JEV -- y signals (MI-1) --
 // nunca otra tabla. Ni Watchlist Runner ni el Scheduler importan esto.
 export * from "./relevance";
+
+// Signal -> MI-5 (Insights/Briefs): conecta las signals de relevance/ con
+// el motor de insights YA existente (synthesis/generateInsights, sin
+// tocar) -- resuelve evidencia real vía signal_items y delega el resto
+// por completo en MI-5. processWatchlistSignals() es el orquestador de
+// alto nivel (Watchlist Run -> Signals -> Insights -> Brief opcional);
+// ni Watchlist Runner ni el Scheduler importan nada de este módulo.
+export * from "./signalInsights";
