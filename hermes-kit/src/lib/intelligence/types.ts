@@ -69,6 +69,7 @@ export interface IntelligenceItem {
   angle: string | null;
   problem: string | null;
   mechanism: string | null;
+  promise: string | null;
   cta: string | null;
   offer: string | null;
   social_proof: string | null;
@@ -114,6 +115,7 @@ export interface IntelligenceItemInput {
   angle?: string | null;
   problem?: string | null;
   mechanism?: string | null;
+  promise?: string | null;
   cta?: string | null;
   offer?: string | null;
   social_proof?: string | null;

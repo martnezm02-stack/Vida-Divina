@@ -16,5 +16,14 @@ export {
   assetAnalysisProvider,
   performanceAnalysisProvider,
   DETERMINISTIC_ANALYSIS_TYPES,
+  createSemanticCreativeAnalysisProvider,
+  semanticCreativeAnalysisProvider,
+  applySemanticCreativeAnalysis,
+  SEMANTIC_CREATIVE_ELEMENTS,
+  SEMANTIC_CREATIVE_ANALYSIS_TYPE,
 } from "./providers";
-export type { DeterministicAnalysisType } from "./providers";
+export type {
+  DeterministicAnalysisType,
+  SemanticCreativeElement,
+  ApplySemanticCreativeAnalysisResult,
+} from "./providers";

@@ -354,6 +354,16 @@ export function ensureSchema(db: Database.Database): void {
     db.exec("ALTER TABLE intelligence_items ADD COLUMN media_type TEXT");
   }
 
+  // Migración (MI-3, Semantic Creative Analysis): intelligence_items ya
+  // tenía hook/angle/problem/mechanism/cta/offer, pero ningún campo para
+  // "promise" (el resultado/beneficio concreto que el contenido promete) --
+  // el único elemento creativo semántico mínimo requerido sin columna
+  // existente. narrative/target_audience reutilizan style/audience, ya
+  // presentes. Mismo patrón: PRAGMA table_info + ALTER TABLE si falta.
+  if (!itemCols.some((c) => c.name === "promise")) {
+    db.exec("ALTER TABLE intelligence_items ADD COLUMN promise TEXT");
+  }
+
   // Migración (MI-4, detección de patrones): signals (MI-1) no tenía una
   // clave de agrupación normalizada -- la detección necesita poder hacer
   // upsert de una signal agregada ("el hook X ya tiene una signal de

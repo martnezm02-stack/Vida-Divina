@@ -32,6 +32,7 @@ const UPDATABLE_COLUMNS = [
   "angle",
   "problem",
   "mechanism",
+  "promise",
   "cta",
   "offer",
   "social_proof",
