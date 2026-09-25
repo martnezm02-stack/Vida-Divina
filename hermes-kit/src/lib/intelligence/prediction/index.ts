@@ -9,6 +9,8 @@ export {
   PREDICTION_ANALYSIS_TYPE,
   savePredictionRecord,
   listPredictionRecordsForItem,
+  findLatestPredictionForItem,
   comparePredictionToActual,
+  comparePredictionToActualForItem,
 } from "./predictionRecord";
 export type { PredictionVsActual } from "./predictionRecord";

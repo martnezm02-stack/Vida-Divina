@@ -35,6 +35,21 @@ export function listPredictionRecordsForItem(itemId: number): AiAnalysis[] {
   return listAiAnalysesForItem(itemId, PREDICTION_ANALYSIS_TYPE);
 }
 
+/**
+ * La prediction más reciente guardada para un item (o null si nunca se
+ * guardó ninguna) -- localización automática por identidad del CONTENIDO
+ * (el item.id, que persiste igual antes y después de publicarse gracias a
+ * la continuidad de upsert por external_id en publishedContentAdapter),
+ * sin que el caller necesite ya tener en mano el registro exacto de
+ * ai_analyses. Filtra por predictorName cuando varios predictors coexisten.
+ */
+export function findLatestPredictionForItem(itemId: number, predictorName?: string): AiAnalysis | null {
+  const records = listPredictionRecordsForItem(itemId);
+  const filtered = predictorName ? records.filter((r) => r.model === predictorName) : records;
+  if (filtered.length === 0) return null;
+  return filtered[filtered.length - 1];
+}
+
 export interface PredictionVsActual {
   metric: string;
   predicted: number;
@@ -87,4 +102,17 @@ export function comparePredictionToActual(predictionRecord: AiAnalysis, itemId: 
     });
   }
   return comparisons;
+}
+
+/**
+ * Igual que comparePredictionToActual(), pero localiza la prediction
+ * automáticamente a partir del contenido (itemId) en vez de exigir que el
+ * caller ya tenga el AiAnalysis en mano -- el caso real de "llegó
+ * performance nueva para este item, ¿tenía una prediction previa?". []
+ * cuando el item nunca tuvo una prediction guardada (nunca se inventa una).
+ */
+export function comparePredictionToActualForItem(itemId: number, predictorName?: string): PredictionVsActual[] {
+  const record = findLatestPredictionForItem(itemId, predictorName);
+  if (!record) return [];
+  return comparePredictionToActual(record, itemId);
 }

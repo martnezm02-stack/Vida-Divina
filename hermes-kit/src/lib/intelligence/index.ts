@@ -14,6 +14,7 @@ export { upsertActor, getActorById, listActorsByProject } from "./actors";
 export {
   upsertIntelligenceItem,
   getIntelligenceItemById,
+  getIntelligenceItemByExternalId,
   updateIntelligenceItem,
   searchIntelligenceItems,
   withActiveDays,

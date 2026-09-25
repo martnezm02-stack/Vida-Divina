@@ -214,6 +214,28 @@ export function getIntelligenceItemById(id: number): IntelligenceItem | null {
   );
 }
 
+/**
+ * Resuelve el mismo item por su identidad estable de origen (p.ej. un
+ * content_item_id de Creative Studio) sin pasar por upsertIntelligenceItem
+ * -- misma consulta que findExistingItem() usa internamente, expuesta para
+ * que un caller que solo conoce la identidad externa (nunca el id numérico)
+ * pueda localizar el item ya existente, por ejemplo antes de que exista
+ * performance real que ingerir para él.
+ */
+export function getIntelligenceItemByExternalId(
+  projectId: number,
+  sourceId: number,
+  externalId: string
+): IntelligenceItem | null {
+  return (
+    getDb()
+      .prepare<[number, number, string], IntelligenceItem>(
+        `SELECT * FROM intelligence_items WHERE project_id = ? AND source_id = ? AND external_id = ?`
+      )
+      .get(projectId, sourceId, externalId) ?? null
+  );
+}
+
 export function updateIntelligenceItem(
   id: number,
   update: IntelligenceItemUpdate

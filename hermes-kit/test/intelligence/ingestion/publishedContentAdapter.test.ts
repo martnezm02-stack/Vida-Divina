@@ -101,3 +101,41 @@ test("integración real con ingestCanonicalItem: el item queda en el Store con s
   assert.equal(metrics?.likes, 40);
   assert.equal(metrics?.shares, null, "sin observación de shares -- null, nunca 0");
 });
+
+test("normalize(): content_item_id real (publicationService.js -- createPublishedContent() lo guarda en metadata, NUNCA top-level) se resuelve igual que uno pasado top-level, y ancla la MISMA fila que la ingesta pre-publicación", () => {
+  const project = `lifecycle-link-${Date.now()}`;
+  getOrCreateProject(project);
+  const contentItemId = "ci-real-abc123";
+
+  // 1) Candidato pre-publicación: content_item_id top-level (único dato que existe todavía).
+  const preCanonical = publishedContentAdapter.normalize(
+    { publishedContent: { content_item_id: contentItemId, platform: "instagram", content_type: "social_post", format: "reel" }, observations: [] },
+    { project }
+  );
+  assert.equal(preCanonical.external_id, contentItemId);
+  const { item: stubItem, created: stubCreated } = ingestCanonicalItem(preCanonical);
+  assert.equal(stubCreated, true);
+
+  // 2) Publicación real: forma EXACTA que produce publicationService.js/createPublishedContent()
+  // -- content_item_id NUNCA top-level, solo dentro de metadata.
+  const postCanonical = publishedContentAdapter.normalize(
+    {
+      publishedContent: {
+        content_id: "pc-real-generated-at-publish-time", // generado por createPublishedContent(), desconocido antes de publicar
+        platform: "instagram",
+        published_at: "2026-09-25T12:00:00.000Z",
+        content_type: "social_post",
+        format: "reel",
+        external_post_id: "ig-post-real-xyz",
+        metadata: { content_item_id: contentItemId, content_draft_id: "draft-1", publication_mode: "simulation" },
+      },
+      observations: [],
+    },
+    { project }
+  );
+  assert.equal(postCanonical.external_id, contentItemId, "debe resolver content_item_id desde metadata, no confundirlo con el content_id nuevo generado al publicar");
+
+  const { item: publishedItem, created: publishedCreated } = ingestCanonicalItem(postCanonical);
+  assert.equal(publishedCreated, false, "debe upsertear la fila del candidato, nunca crear una segunda");
+  assert.equal(publishedItem.id, stubItem.id, "vínculo candidate -> published content preservado vía content_item_id en metadata");
+});
