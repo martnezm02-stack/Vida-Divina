@@ -36,6 +36,8 @@ export { createInsight, getInsightById, listInsightsByProject, linkInsightPatter
 export {
   createWatchlist,
   listWatchlistsByProject,
+  getWatchlistById,
+  touchWatchlistLastChecked,
   addWatchlistEntry,
   listWatchlistEntries,
 } from "./watchlists";
@@ -80,3 +82,9 @@ export * from "./prediction";
 // UnavailableSource, listos para runMultiSourceResearchQuery() (./research)
 // tal cual, sin ninguna API nueva en ese orquestador.
 export * from "./bridges";
+
+// Watchlists + Change Detection (Continuous Intelligence, infraestructura):
+// runWatchlistRun() clasifica NEW/UPDATED/METRICS_CHANGED/UNCHANGED contra
+// el Intelligence Store ya existente y delega SIEMPRE en ingestCanonicalItem
+// (MI-2) -- nunca escribe SQL propio, nunca adquiere datos por sí mismo.
+export * from "./watchlist";

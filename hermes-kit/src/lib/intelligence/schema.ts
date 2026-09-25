@@ -437,4 +437,19 @@ export function ensureSchema(db: Database.Database): void {
   db.exec(
     "CREATE INDEX IF NOT EXISTS idx_insights_source_pattern ON insights(project_id, source_pattern_id, version)"
   );
+
+  // Migración (Watchlists / Change Detection): único estado que watchlists
+  // no podía derivar de intelligence_items/item_metrics (que ya son la
+  // fuente de verdad para NEW/UPDATED/METRICS_CHANGED/UNCHANGED, vía
+  // getIntelligenceItemByExternalId + getLatestMetrics -- reutilizados tal
+  // cual, sin duplicar el Intelligence Store). last_checked_at es solo
+  // "cuándo corrió esta watchlist por última vez", para permitir polling
+  // incremental futuro (p.ej. priorizar las más antiguas) -- no un cursor,
+  // no un fingerprint: ninguno de los dos hace falta porque cada run
+  // reclasifica contra el Store real, nunca contra un estado propio que
+  // pudiera desincronizarse. Mismo patrón: PRAGMA table_info + ALTER TABLE.
+  const watchlistCols = db.prepare("PRAGMA table_info(watchlists)").all() as Array<{ name: string }>;
+  if (!watchlistCols.some((c) => c.name === "last_checked_at")) {
+    db.exec("ALTER TABLE watchlists ADD COLUMN last_checked_at INTEGER");
+  }
 }

@@ -26,6 +26,24 @@ export function listWatchlistsByProject(projectId: number): Watchlist[] {
     .all(projectId);
 }
 
+export function getWatchlistById(id: number): Watchlist | null {
+  return (
+    getDb()
+      .prepare<[number], Watchlist>("SELECT * FROM watchlists WHERE id = ?")
+      .get(id) ?? null
+  );
+}
+
+/** Marca cuándo corrió por última vez un run sobre esta watchlist -- único estado propio que watchlists necesita (ver schema.ts). */
+export function touchWatchlistLastChecked(id: number, checkedAt?: number): Watchlist {
+  const db = getDb();
+  db.prepare("UPDATE watchlists SET last_checked_at = COALESCE(?, unixepoch()) WHERE id = ?").run(
+    checkedAt ?? null,
+    id
+  );
+  return getWatchlistById(id)!;
+}
+
 export function addWatchlistEntry(
   watchlistId: number,
   value: string,

@@ -333,6 +333,8 @@ export interface Watchlist {
   project_id: number;
   name: string;
   watchlist_type: string;
+  /** Última vez que un runWatchlistRun() se ejecutó para esta watchlist -- para polling incremental futuro, nunca un cursor. */
+  last_checked_at: number | null;
   created_at: number;
 }
 
