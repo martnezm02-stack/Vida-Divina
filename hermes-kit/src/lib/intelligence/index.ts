@@ -60,3 +60,8 @@ export * from "./decision";
 // (generateInsights/generateInsightsFromPatterns/generateBrief -- nunca se
 // ejecuta sin que algo los llame).
 export * from "./synthesis";
+
+// Research Query orchestrator: encadena MI-1..MI-5 (retrieval → ingesta
+// condicional → analysis → patterns → insights → brief) sin reimplementar
+// ninguna capa. Query-driven, nunca cron/polling/crawler.
+export * from "./research";
