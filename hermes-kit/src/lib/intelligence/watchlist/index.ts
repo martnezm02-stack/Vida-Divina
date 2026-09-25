@@ -5,3 +5,12 @@
 export * from "./types";
 export { classifyChange } from "./changeDetection";
 export { runWatchlistRun } from "./watchlistRunner";
+export { getDueWatchlists, runDueWatchlists } from "./scheduler";
+export type {
+  DueWatchlist,
+  GetDueWatchlistsOptions,
+  WatchlistAcquisitionOutcome,
+  WatchlistAcquireFn,
+  WatchlistSchedulerStatus,
+  WatchlistSchedulerOutcome,
+} from "./scheduler";

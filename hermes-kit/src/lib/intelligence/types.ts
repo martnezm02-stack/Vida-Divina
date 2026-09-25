@@ -328,13 +328,20 @@ export interface InsightInput {
   metadata?: unknown;
 }
 
+/** hourly/daily/weekly -- ver watchlist/scheduler.ts::FREQUENCY_SECONDS. Sin expresiones cron todavía. */
+export type WatchlistFrequency = "hourly" | "daily" | "weekly";
+
 export interface Watchlist {
   id: number;
   project_id: number;
   name: string;
   watchlist_type: string;
-  /** Última vez que un runWatchlistRun() se ejecutó para esta watchlist -- para polling incremental futuro, nunca un cursor. */
+  /** Última vez que un runWatchlistRun() se ejecutó CON ÉXITO para esta watchlist -- nunca se toca en un fallo/unavailable (permite reintento). */
   last_checked_at: number | null;
+  /** Política de scheduling: false = nunca due, sin importar frequency. */
+  enabled: boolean;
+  /** null = sin política de polling configurada -- nunca due por sí sola. */
+  frequency: WatchlistFrequency | null;
   created_at: number;
 }
 

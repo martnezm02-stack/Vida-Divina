@@ -38,6 +38,7 @@ export {
   listWatchlistsByProject,
   getWatchlistById,
   touchWatchlistLastChecked,
+  setWatchlistSchedule,
   addWatchlistEntry,
   listWatchlistEntries,
 } from "./watchlists";

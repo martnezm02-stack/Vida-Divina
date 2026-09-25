@@ -79,7 +79,7 @@ export async function runWatchlistRun<TRaw>(input: WatchlistRunInput<TRaw>): Pro
     result.ingestedItems.push(item.id);
   }
 
-  const updated = touchWatchlistLastChecked(watchlist.id);
+  const updated = touchWatchlistLastChecked(watchlist.id, input.checkedAt);
   result.checkedAt = updated.last_checked_at as number;
 
   return result;

@@ -452,4 +452,21 @@ export function ensureSchema(db: Database.Database): void {
   if (!watchlistCols.some((c) => c.name === "last_checked_at")) {
     db.exec("ALTER TABLE watchlists ADD COLUMN last_checked_at INTEGER");
   }
+
+  // Migración (Watchlist Scheduler): política de ejecución mínima --
+  // enabled/disabled + frecuencia (hourly/daily/weekly, sin cron complejo
+  // por ahora). No se agrega next_due_at: el scheduler la deriva en el
+  // momento (last_checked_at + frequencySeconds(frequency)) a partir del
+  // mismo last_checked_at ya existente, en vez de mantener un segundo
+  // valor que podría desincronizarse. frequency NULL = sin política de
+  // polling configurada todavía -> nunca "due" (nunca se activa sola).
+  // enabled DEFAULT 1 es seguro: no existe ningún loop de cron real que
+  // dispare corridas por sí mismo -- runDueWatchlists() sigue siendo
+  // query-driven, solo corre cuando algo externo lo llama.
+  if (!watchlistCols.some((c) => c.name === "enabled")) {
+    db.exec("ALTER TABLE watchlists ADD COLUMN enabled INTEGER NOT NULL DEFAULT 1");
+  }
+  if (!watchlistCols.some((c) => c.name === "frequency")) {
+    db.exec("ALTER TABLE watchlists ADD COLUMN frequency TEXT");
+  }
 }

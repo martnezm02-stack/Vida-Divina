@@ -26,6 +26,8 @@ export interface WatchlistRunInput<TRaw = unknown> {
   adapter: SourceAdapter<TRaw>;
   /** Datos crudos YA obtenidos por un source runtime/bridge existente -- este runner nunca los adquiere por sí mismo. */
   rawItems: TRaw[];
+  /** Opcional -- para cuando el caller (p.ej. el scheduler) ya conoce el instante lógico del run. Por defecto: unixepoch() real. */
+  checkedAt?: number;
 }
 
 export interface WatchlistRunResult {
