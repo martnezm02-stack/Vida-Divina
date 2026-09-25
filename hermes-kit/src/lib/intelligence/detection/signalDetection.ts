@@ -14,6 +14,9 @@ const SIGNAL_TYPE_BY_FIELD: Record<CreativeField, string> = {
   cta: "CTA_FREQUENCY",
   offer: "OFFER_FREQUENCY",
   format: "FORMAT_FREQUENCY",
+  problem: "PROBLEM_FREQUENCY",
+  promise: "PROMISE_FREQUENCY",
+  mechanism: "MECHANISM_FREQUENCY",
 };
 
 interface UpsertSignalInput {

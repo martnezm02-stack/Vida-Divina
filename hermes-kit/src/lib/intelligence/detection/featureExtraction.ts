@@ -4,7 +4,14 @@
 // nunca infieren un valor que el item no tenga.
 import type { IntelligenceItemWithDerived } from "../types";
 
-export const CREATIVE_FIELDS = ["hook", "angle", "cta", "offer", "format"] as const;
+// problem/promise/mechanism: añadidos junto con Semantic Creative Analysis
+// (MI-3) -- mismas columnas 1:1 de intelligence_items que hook/angle/cta/
+// offer, ya pobladas por semanticCreativeAnalysisProvider vía
+// updateIntelligenceItem(). groupByField() es genérico por campo, así que
+// extender esta lista es lo único necesario para que la detección de
+// patrones ya existente cubra "problemas/dolores recurrentes" y
+// "promesas recurrentes" -- sin tocar patternDetection.ts.
+export const CREATIVE_FIELDS = ["hook", "angle", "cta", "offer", "format", "problem", "promise", "mechanism"] as const;
 export type CreativeField = (typeof CREATIVE_FIELDS)[number];
 
 export interface FieldGroup {

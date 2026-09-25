@@ -65,3 +65,10 @@ export * from "./synthesis";
 // condicional → analysis → patterns → insights → brief) sin reimplementar
 // ninguna capa. Query-driven, nunca cron/polling/crawler.
 export * from "./research";
+
+// Performance Predictor: CREATIVE + CONTEXT + HISTORICAL EVIDENCE ->
+// predicción + confidence + evidence + explanation. Reutiliza MI-1
+// (métricas), MI-3 (performanceAnalysisProvider) y MI-4 (groupByField/
+// CREATIVE_FIELDS) -- no es una capa MI-1..MI-5 nueva, no reimplementa
+// ninguna. Query-driven, nunca se ejecuta sin que algo lo llame.
+export * from "./prediction";
