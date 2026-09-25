@@ -72,3 +72,10 @@ export * from "./research";
 // CREATIVE_FIELDS) -- no es una capa MI-1..MI-5 nueva, no reimplementa
 // ninguna. Query-driven, nunca se ejecuta sin que algo lo llame.
 export * from "./prediction";
+
+// Bridges: adquisición externa (Hermes Desktop/Monid, ...) -> contrato
+// estable -> SourceAdapter existente (MI-2). Ningún bridge interpreta
+// nada -- solo transporte/reshaping. Producen AvailableSource/
+// UnavailableSource, listos para runMultiSourceResearchQuery() (./research)
+// tal cual, sin ninguna API nueva en ese orquestador.
+export * from "./bridges";

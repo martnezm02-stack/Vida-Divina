@@ -1,0 +1,58 @@
+[
+  {
+    "source": "tiktok",
+    "external_id": "7688057835850042637",
+    "canonical_url": "https://www.tiktok.com/@marcyrodas/video/7688057835850042637",
+    "actor": {
+      "external_id": "6838621001976005637",
+      "handle": "marcyrodas",
+      "display_name": "marcyrodas",
+      "profile_url": "https://www.tiktok.com/@marcyrodas"
+    },
+    "published_at": "2026-09-21T18:31:18.000Z",
+    "text": "Hoy te voy hablar de este suplemento Orange Genius de Vida divina es un producto orgánico te va ayudar para tu salud y bienestar #vidadivina#orangenius#masviralesentiktok#suplementosnaturales",
+    "metrics": { "views": 335, "likes": 9, "comments": 0, "shares": 0, "saves": 0, "captured_at": "2026-09-25T16:23:30.684Z" },
+    "media": {
+      "kind": "video",
+      "url": "https://v45-eu.tiktokcdn.com/50245f111d3ef346331662792795c07f/6ab7f18f/video/tos/alisg/tos-alisg-ve-37c799-sg/ooI9GlQAkeAFuEu8t4jU6YfjmfDzHCDIpgAVri/",
+      "thumbnail_url": "https://p16-common-sign.tiktokcdn.com/tos-useast5-p-0068-tx/oMfjQIfru6ljFajiUTCiQm97ACFfHVAuYpDkGE~tplv-tiktokx-cropcenter:500:800.jpeg",
+      "width": 720,
+      "height": 1280,
+      "duration_seconds": 15
+    },
+    "source_metadata": {
+      "platform": "tiktok",
+      "provider": "monid",
+      "endpoint": "/apidojo/tiktok-scraper",
+      "hashtags": ["vidadivina", "orangenius", "masviralesentiktok", "suplementosnaturales"],
+      "language": "es"
+    },
+    "provenance": {
+      "acquired_via": "monid",
+      "keywords": ["vida divina suplementos"],
+      "date_range": "THIS_MONTH",
+      "sort": "MOST_LIKED",
+      "location": null,
+      "fetched_at": "2026-09-25T16:23:30.684Z"
+    }
+  },
+  {
+    "source": "tiktok",
+    "external_id": "sin-datos-completos",
+    "canonical_url": null,
+    "actor": { "external_id": null, "handle": null, "display_name": null, "profile_url": null },
+    "published_at": null,
+    "text": null,
+    "metrics": null,
+    "media": null,
+    "source_metadata": { "platform": "tiktok", "provider": "monid", "endpoint": "/apidojo/tiktok-scraper", "hashtags": [], "language": null },
+    "provenance": {
+      "acquired_via": "monid",
+      "keywords": ["vida divina suplementos"],
+      "date_range": "THIS_MONTH",
+      "sort": "MOST_LIKED",
+      "location": null,
+      "fetched_at": "2026-09-25T16:23:30.684Z"
+    }
+  }
+]

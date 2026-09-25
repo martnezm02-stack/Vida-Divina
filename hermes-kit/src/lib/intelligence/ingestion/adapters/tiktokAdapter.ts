@@ -42,6 +42,11 @@ export interface TikTokRawStats {
 export interface TikTokRawAd {
   id: string;
   url: string;
+  /** "ad" | "post" -- default "ad" preserva el comportamiento histórico de
+   * este fixture. Un resultado orgánico real (búsqueda TikTok vía Monid,
+   * ver bridges/tiktokMonidBridge.ts) es "post": jamás se etiqueta contenido
+   * orgánico como anuncio pagado -- nunca se fabrica ese atributo. */
+  content_type?: "ad" | "post";
   advertiser: TikTokRawAdvertiser;
   caption?: string;
   publish_time?: string | number;
@@ -79,7 +84,7 @@ export const tiktokAdapter: SourceAdapter<TikTokRawAd> = {
       first_seen_at: normalizeTimestamp(raw.first_seen ?? null),
       last_seen_at: normalizeTimestamp(raw.last_seen ?? null),
 
-      content_type: "ad",
+      content_type: raw.content_type ?? "ad",
       media_type: "video",
       format: "video_vertical",
       language: raw.language ?? null,
