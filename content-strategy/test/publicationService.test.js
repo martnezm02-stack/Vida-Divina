@@ -12,7 +12,7 @@ import { createHumanReviewRecord } from '../src/humanReviewRecord.js';
 import { runQualityGate } from '../src/qualityGate.js';
 import { runProductTruthGate } from '../src/productTruthGate.js';
 import { publishReadyContentItem, findExistingPublication } from '../src/publicationService.js';
-import { MockPublicationBackend } from '../src/publicationAdapter.js';
+import { MockPublicationBackend, createPublicationResult } from '../src/publicationAdapter.js';
 import { PerformanceLearningStore } from '../../performance-learning-intelligence/src/store.js';
 
 function baseItem(overrides = {}) {
@@ -121,5 +121,58 @@ describe('publishReadyContentItem — §12 pruebas de seguridad A-J', () => {
 
   test('findExistingPublication no encuentra nada para una clave que nunca se publicó', () => {
     assert.equal(findExistingPublication(store, { content_item_id: 'nunca-existio', content_version: 'x', platform: 'instagram' }), null);
+  });
+
+  // §5-11 (hardening): PublishedContent solo puede representar una publicación
+  // REALMENTE lograda. K/L/M cubren los tres status no-éxito reales del
+  // contrato de PublicationAdapter (publicationAdapter.js); N es el control
+  // positivo explícito (equivalente a J, pero verificando además que
+  // publicationResult se conserva íntegro para el caller).
+  function fakeBackend(status) {
+    return {
+      async publish(contentItem) {
+        return createPublicationResult({ platform: contentItem.platform, external_content_id: 'n/a', status, publication_mode: 'real' });
+      },
+    };
+  }
+
+  test('K. backend.publish() devuelve CONFIGURATION_REQUIRED → PublishedContent NO se crea', async () => {
+    const { ready, draft, humanReview } = buildReadyItem();
+    const result = await publishReadyContentItem({ item: ready, draft, humanReview, backend: fakeBackend('CONFIGURATION_REQUIRED'), store });
+    assert.equal(result.status, 'CONFIGURATION_REQUIRED');
+    assert.equal(result.publishedContent, null);
+    assert.equal(result.publicationResult.status, 'CONFIGURATION_REQUIRED', 'el resultado de publicación original se conserva para el caller');
+    assert.equal(store.loadAll('published_content').filter((r) => r.metadata?.content_item_id === ready.content_item_id).length, 0);
+  });
+
+  test('L. backend.publish() devuelve REJECTED → PublishedContent NO se crea', async () => {
+    const { ready, draft, humanReview } = buildReadyItem();
+    const result = await publishReadyContentItem({ item: ready, draft, humanReview, backend: fakeBackend('REJECTED'), store });
+    assert.equal(result.status, 'REJECTED');
+    assert.equal(result.publishedContent, null);
+    assert.equal(store.loadAll('published_content').filter((r) => r.metadata?.content_item_id === ready.content_item_id).length, 0);
+  });
+
+  test('M. backend.publish() devuelve FAILED → PublishedContent NO se crea', async () => {
+    const { ready, draft, humanReview } = buildReadyItem();
+    const result = await publishReadyContentItem({ item: ready, draft, humanReview, backend: fakeBackend('FAILED'), store });
+    assert.equal(result.status, 'FAILED');
+    assert.equal(result.publishedContent, null);
+    assert.equal(store.loadAll('published_content').filter((r) => r.metadata?.content_item_id === ready.content_item_id).length, 0);
+  });
+
+  test('M2. backend.publish() devuelve AUTHORIZATION_REQUIRED (cuarto status no-éxito del contrato real) → PublishedContent NO se crea', async () => {
+    const { ready, draft, humanReview } = buildReadyItem();
+    const result = await publishReadyContentItem({ item: ready, draft, humanReview, backend: fakeBackend('AUTHORIZATION_REQUIRED'), store });
+    assert.equal(result.status, 'AUTHORIZATION_REQUIRED');
+    assert.equal(result.publishedContent, null);
+  });
+
+  test('N (control explícito post-hardening): PUBLISHED real (mode "real", no simulación) SÍ crea PublishedContent y preserva content_item_id', async () => {
+    const { ready, draft, humanReview } = buildReadyItem();
+    const result = await publishReadyContentItem({ item: ready, draft, humanReview, backend: fakeBackend('PUBLISHED'), store });
+    assert.equal(result.status, 'PUBLISHED');
+    assert.ok(result.publishedContent);
+    assert.equal(result.publishedContent.metadata.content_item_id, ready.content_item_id);
   });
 });

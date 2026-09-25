@@ -29,6 +29,11 @@ import { createPublishedContent } from '../../performance-learning-intelligence/
 
 const FORBIDDEN_REVIEWER_IDS = Object.freeze(['system', 'auto', 'bot', 'automated', 'automatic', '']);
 
+// Únicos dos status de PublicationResult (publicationAdapter.js) que representan
+// una publicación lograda -- ver su propia regla de emparejamiento status↔mode.
+// Reutilizados tal cual, ninguno inventado aquí.
+const PUBLICATION_SUCCESS_STATUSES = Object.freeze(['PUBLISHED', 'SIMULATED']);
+
 /** §6: idempotencia — busca una publicación YA existente para la misma clave (content_item_id + content_version + platform). */
 export function findExistingPublication(store, { content_item_id, content_version, platform }) {
   return store.loadAll('published_content').find(
@@ -82,6 +87,22 @@ export async function publishReadyContentItem({ item, draft, humanReview, backen
   }
 
   const publicationResult = await backend.publish(item, { draft, humanReview });
+
+  // §5-11 (hardening): PublishedContent solo puede representar una
+  // publicación que REALMENTE terminó exitosa. "PUBLISHED" y "SIMULATED"
+  // son los dos únicos status de PublicationResult (publicationAdapter.js)
+  // que su propia regla de emparejamiento status↔mode reconoce como éxito
+  // (SIMULATED↔simulation es el resultado normal de MockPublicationBackend;
+  // los demás -- REJECTED/FAILED/AUTHORIZATION_REQUIRED/
+  // CONFIGURATION_REQUIRED -- siempre exigen mode "real" precisamente
+  // porque nunca representan una publicación lograda). Antes de este
+  // hardening, cualquier status devuelto por backend.publish() producía un
+  // PublishedContent igual -- este es el punto exacto donde se corrige.
+  // Se reutiliza el status real ya existente del backend (nunca se inventa
+  // uno nuevo) para que el caller sepa exactamente qué pasó.
+  if (!PUBLICATION_SUCCESS_STATUSES.includes(publicationResult.status)) {
+    return { status: publicationResult.status, publishedContent: null, publicationResult };
+  }
 
   const publishedContent = createPublishedContent({
     platform: item.platform,

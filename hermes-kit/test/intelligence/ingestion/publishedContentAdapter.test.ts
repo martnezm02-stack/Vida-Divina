@@ -139,3 +139,15 @@ test("normalize(): content_item_id real (publicationService.js -- createPublishe
   assert.equal(publishedCreated, false, "debe upsertear la fila del candidato, nunca crear una segunda");
   assert.equal(publishedItem.id, stubItem.id, "vínculo candidate -> published content preservado vía content_item_id en metadata");
 });
+
+test("normalize(): un resultado de publishReadyContentItem() no-exitoso (publishedContent: null, hardening en publicationService.js) nunca puede entrar aquí como si fuera contenido publicado -- falla en vez de fabricar un item", () => {
+  // Forma real de publishReadyContentItem() para CONFIGURATION_REQUIRED/
+  // REJECTED/FAILED/AUTHORIZATION_REQUIRED tras el hardening: publishedContent
+  // es null. Pasarlo tal cual a este adapter debe fallar de forma ruidosa
+  // (nunca producir silenciosamente un CanonicalIntelligenceItem inventado).
+  const nonPublishedOutcome = { status: "CONFIGURATION_REQUIRED", publishedContent: null, publicationResult: { status: "CONFIGURATION_REQUIRED" } };
+  assert.throws(() => {
+    // @ts-expect-error -- publishedContent es null a propósito: exactamente lo que un caller descuidado podría pasar.
+    publishedContentAdapter.normalize({ publishedContent: nonPublishedOutcome.publishedContent, observations: [] }, { project: "p" });
+  });
+});
