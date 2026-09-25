@@ -18,3 +18,9 @@ export { instagramAdapter } from "./adapters/instagramAdapter";
 export type { InstagramRawItem, InstagramRawOwner, InstagramRawCaption } from "./adapters/instagramAdapter";
 export { metaAdsAdapter } from "./adapters/metaAdsAdapter";
 export type { MetaAdsRawItem } from "./adapters/metaAdsAdapter";
+export { publishedContentAdapter } from "./adapters/publishedContentAdapter";
+export type {
+  PublishedContentRaw,
+  PerformanceObservationRaw,
+  PublishedContentWithObservations,
+} from "./adapters/publishedContentAdapter";
