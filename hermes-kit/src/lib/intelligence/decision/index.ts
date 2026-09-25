@@ -7,4 +7,4 @@
 export * from "./types";
 export { deterministicDecisionProvider } from "./deterministicDecisionProvider";
 export { createJevDecisionProvider, JevNotConfiguredError } from "./jevDecisionProvider";
-export type { JevClientConfig } from "./jevDecisionProvider";
+export type { JevClientConfig, TypeSafeClientLike } from "./jevDecisionProvider";

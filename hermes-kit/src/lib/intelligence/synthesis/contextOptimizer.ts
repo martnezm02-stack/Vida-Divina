@@ -122,7 +122,12 @@ export function createDecisionBackedContextOptimizer(decisionProvider: DecisionP
       for (const pattern of candidates.patterns) {
         const result = await decisionProvider.score({
           subject: pattern.confidence ?? 0,
-          criteria: { pattern_type: pattern.pattern_type, scope: pattern.scope },
+          // description viaja en criteria (no en subject, que sigue siendo
+          // el número de confidence por compatibilidad con providers
+          // existentes) -- es lo que le da a un DecisionProvider real
+          // (JEV) contenido semántico real que juzgar, más allá de un
+          // número ya calculado deterministamente por MI-4.
+          criteria: { pattern_type: pattern.pattern_type, scope: pattern.scope, description: pattern.description ?? pattern.name },
           context: candidates,
         });
         scored.push({ id: pattern.id, relevance: result.score, reason: pattern.description ?? pattern.name });
