@@ -7,6 +7,7 @@ import { useProjectContext } from "@/components/intelligence/ProjectProvider";
 import { IntelligenceShell } from "@/components/intelligence/IntelligenceShell";
 import { Card, EmptyState, ErrorState, LoadingState } from "@/components/intelligence/StateViews";
 import type { MarketIntelligenceListResult, ItemDetail } from "@/lib/intelligence/dashboard/marketIntelligenceQueries";
+import type { QualificationCategory } from "@/lib/intelligence/qualification";
 
 interface ApiResponse<T> {
   ok: boolean;
@@ -161,7 +162,7 @@ function MarketIntelligencePageInner() {
             ) : (
               <>
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                  {result.items.map((item) => (
+                  {result.items.map(({ item, qualification }) => (
                     <button
                       key={item.id}
                       type="button"
@@ -170,7 +171,10 @@ function MarketIntelligencePageInner() {
                         item.id === selectedItemId ? "border-intel-cyan" : "border-intel-border hover:border-intel-blue/50"
                       }`}
                     >
-                      <div className="text-xs text-intel-muted">{item.content_type}</div>
+                      <div className="flex items-center justify-between gap-2">
+                        <span className="text-xs text-intel-muted">{item.content_type}</span>
+                        <QualificationBadge qualification={qualification} />
+                      </div>
                       <div className="text-sm text-intel-text truncate">{item.title ?? "Sin título"}</div>
                       <div className="text-[11px] text-intel-muted mt-1">
                         {item.active_days} días activo · {item.market ?? "mercado desconocido"}
@@ -270,7 +274,7 @@ function Pagination({ offset, limit, total, onChange }: { offset: number; limit:
 }
 
 function ItemDetailPanel({ detail, onClose }: { detail: ItemDetail; onClose: () => void }) {
-  const { item, actor, source, latestMetrics, signals, assets, evidence } = detail;
+  const { item, actor, source, latestMetrics, signals, assets, evidence, qualification } = detail;
   return (
     <Card
       title="Detalle del item"
@@ -282,7 +286,10 @@ function ItemDetailPanel({ detail, onClose }: { detail: ItemDetail; onClose: () 
     >
       <div className="space-y-4 text-sm">
         <div>
-          <div className="text-intel-text font-medium">{item.title ?? "Sin título"}</div>
+          <div className="flex items-center justify-between gap-2">
+            <div className="text-intel-text font-medium">{item.title ?? "Sin título"}</div>
+            <QualificationBadge qualification={qualification} />
+          </div>
           <div className="text-xs text-intel-muted mt-1">
             {source?.name ?? "Fuente desconocida"} · {actor?.display_name ?? actor?.handle ?? "Actor desconocido"}
           </div>
@@ -377,5 +384,21 @@ function Field({ label, value }: { label: string; value: string }) {
       <div className="text-intel-muted">{label}</div>
       <div className="text-intel-text">{value}</div>
     </div>
+  );
+}
+
+const QUALIFICATION_STYLES: Record<QualificationCategory, string> = {
+  RELEVANT: "bg-intel-low/20 text-intel-low",
+  IRRELEVANT: "bg-intel-high/20 text-intel-high",
+  UNCERTAIN: "bg-intel-medium/20 text-intel-medium",
+};
+
+/** RAW EVIDENCE vs. QUALIFIED INTELLIGENCE: nunca oculta el item -- solo etiqueta. Sin qualification (null) no muestra nada, comportamiento idéntico al de antes de esta capa. */
+function QualificationBadge({ qualification }: { qualification: QualificationCategory | null }) {
+  if (!qualification) return null;
+  return (
+    <span className={`shrink-0 rounded-full px-1.5 py-0.5 text-[9px] font-medium uppercase tracking-wide ${QUALIFICATION_STYLES[qualification]}`}>
+      {qualification}
+    </span>
   );
 }

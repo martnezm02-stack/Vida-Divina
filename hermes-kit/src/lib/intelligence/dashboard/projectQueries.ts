@@ -1,18 +1,21 @@
 // projectQueries.ts — Selección y listado de proyectos para el Project
-// Switcher. Ningún cambio a projects.ts (MI-1): esto es solo lectura
-// adicional necesaria para el Dashboard (búsqueda + límite, porque
-// listProjects() devuelve TODOS los proyectos sin paginar -- en la BD real
-// hay miles de proyectos de prueba acumulados de sesiones de test
-// anteriores, y renderizarlos todos en el switcher rompe la UI).
+// Switcher del workspace COMERCIAL. Ningún cambio a projects.ts (MI-1):
+// esto es solo lectura adicional necesaria para el Dashboard.
 //
-// "Vida Divina" NUNCA se hardcodea como project_id. Solo se usa su NOMBRE
-// como preferencia de selección inicial, y solo si un proyecto con ese
-// nombre existe REALMENTE en la tabla projects -- nunca se crea ni se
-// simula. isLikelyTestProject() es un heurístico DECLARADO (no hay ninguna
-// columna real que distinga proyectos de prueba de reales todavía) --
-// se usa exclusivamente para una etiqueta visual en el switcher, nunca para
-// ocultar, excluir ni borrar proyectos.
+// El workspace comercial es una ALLOWLIST EXPLÍCITA
+// (commercialProjects.ts), nunca una heurística: la BD real tiene ~3948
+// proyectos, la inmensa mayoría fixtures de test acumulados de sesiones de
+// test anteriores. listProjectsForSwitcher()/getDefaultProject() SOLO
+// consultan dentro de esa allowlist -- ningún proyecto TEST/INTERNAL
+// aparece nunca en el switcher comercial, sin necesidad de ocultarlos ni
+// borrarlos de la base de datos (siguen ahí, intactos, fuera de esta vista).
+//
+// isLikelyTestProject() es un heurístico DECLARADO, independiente de la
+// allowlist -- se conserva solo para etiquetar informativamente cualquier
+// proyecto que se consulte por id fuera del workspace comercial (p.ej.
+// diagnóstico), nunca para decidir inclusión en el switcher.
 import { getDb } from "../connection";
+import { COMMERCIAL_PROJECT_SLUGS } from "./commercialProjects";
 
 const UUID_RE = /[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/i;
 
@@ -59,22 +62,27 @@ export interface ProjectListResult {
 }
 
 /**
- * Lista paginada/buscable de proyectos, con conteo real de items (nunca
- * fabricado) para poder ordenar por actividad real. `search` filtra por
- * nombre o slug (LIKE, sin motor de búsqueda nuevo).
+ * Lista buscable de proyectos DENTRO del workspace comercial (allowlist
+ * explícita) únicamente, con conteo real de items. `search` filtra por
+ * nombre o slug (LIKE, sin motor de búsqueda nuevo) sobre ese subconjunto
+ * -- nunca sobre la tabla completa de proyectos.
  */
 export function listProjectsForSwitcher(options: { search?: string; limit?: number; offset?: number } = {}): ProjectListResult {
   const db = getDb();
   const limit = options.limit ?? 50;
   const offset = options.offset ?? 0;
 
-  const clauses: string[] = [];
-  const values: unknown[] = [];
+  if (COMMERCIAL_PROJECT_SLUGS.length === 0) {
+    return { total: 0, projects: [] };
+  }
+
+  const clauses: string[] = [`p.slug IN (${COMMERCIAL_PROJECT_SLUGS.map(() => "?").join(",")})`];
+  const values: unknown[] = [...COMMERCIAL_PROJECT_SLUGS];
   if (options.search) {
     clauses.push("(p.name LIKE ? OR p.slug LIKE ?)");
     values.push(`%${options.search}%`, `%${options.search}%`);
   }
-  const where = clauses.length > 0 ? `WHERE ${clauses.join(" AND ")}` : "";
+  const where = `WHERE ${clauses.join(" AND ")}`;
 
   const totalRow = db
     .prepare<unknown[], { count: number }>(`SELECT COUNT(*) as count FROM projects p ${where}`)
@@ -104,6 +112,12 @@ export function listProjectsForSwitcher(options: { search?: string; limit?: numb
   };
 }
 
+/** Total real de proyectos en el Intelligence Store completo (comerciales + internos/test) -- solo para el aviso administrativo de Configuración, nunca listado individualmente. El conteo comercial ya lo da `listProjectsForSwitcher({}).total`, sin duplicar la consulta. */
+export function countAllProjects(): number {
+  const db = getDb();
+  return db.prepare<[], { count: number }>("SELECT COUNT(*) as count FROM projects").get()!.count;
+}
+
 export function getProjectByIdForSwitcher(id: number): ProjectListEntry | null {
   const db = getDb();
   const row = db
@@ -125,42 +139,39 @@ export function getProjectByIdForSwitcher(id: number): ProjectListEntry | null {
 }
 
 const PREFERRED_NAMES = ["vida divina"];
-const PREFERRED_SLUGS = ["vida-divina", "vida_divina"];
 
 /**
- * Proyecto inicial por defecto -- NUNCA hardcodea un project_id:
- * 1) un proyecto real llamado (por nombre o slug) "Vida Divina", si existe;
- * 2) si no, el proyecto NO heurísticamente de prueba con más items reales;
- * 3) si todos parecen de prueba, el que tenga más items reales en general;
- * 4) si absolutamente ninguno tiene items, el primero creado (fallback final).
- * Nunca se inventa un proyecto ni se crea uno nuevo aquí.
+ * Proyecto inicial por defecto -- exclusivamente dentro de la allowlist
+ * comercial (commercialProjects.ts), nunca fuera de ella:
+ * 1) "Vida Divina" por nombre, si está en la allowlist y existe;
+ * 2) si no, el proyecto de la allowlist con más items reales;
+ * 3) si la allowlist está vacía o ninguno de sus proyectos existe aún, null
+ *    (estado vacío explícito -- nunca cae a un proyecto TEST/INTERNAL).
+ * Nunca se inventa ni se crea un proyecto aquí.
  */
 export function getDefaultProject(): ProjectListEntry | null {
+  if (COMMERCIAL_PROJECT_SLUGS.length === 0) return null;
   const db = getDb();
 
   const byName = db
     .prepare<unknown[], { id: number }>(
-      `SELECT id FROM projects WHERE lower(name) IN (${PREFERRED_NAMES.map(() => "?").join(",")})
-         OR lower(slug) IN (${PREFERRED_SLUGS.map(() => "?").join(",")}) LIMIT 1`
+      `SELECT id FROM projects
+       WHERE slug IN (${COMMERCIAL_PROJECT_SLUGS.map(() => "?").join(",")})
+         AND lower(name) IN (${PREFERRED_NAMES.map(() => "?").join(",")})
+       LIMIT 1`
     )
-    .get(...PREFERRED_NAMES, ...PREFERRED_SLUGS);
+    .get(...COMMERCIAL_PROJECT_SLUGS, ...PREFERRED_NAMES);
   if (byName) return getProjectByIdForSwitcher(byName.id);
 
   const candidates = db
-    .prepare<[], { id: number; slug: string; item_count: number }>(
-      `SELECT p.id, p.slug, (SELECT COUNT(*) FROM intelligence_items i WHERE i.project_id = p.id) as item_count
+    .prepare<unknown[], { id: number }>(
+      `SELECT p.id
        FROM projects p
-       ORDER BY item_count DESC, p.created_at ASC`
+       WHERE p.slug IN (${COMMERCIAL_PROJECT_SLUGS.map(() => "?").join(",")})
+       ORDER BY (SELECT COUNT(*) FROM intelligence_items i WHERE i.project_id = p.id) DESC, p.created_at ASC`
     )
-    .all();
+    .all(...COMMERCIAL_PROJECT_SLUGS);
 
   if (candidates.length === 0) return null;
-
-  const realCandidate = candidates.find((c) => !isLikelyTestProject(c.slug) && c.item_count > 0);
-  if (realCandidate) return getProjectByIdForSwitcher(realCandidate.id);
-
-  const anyWithItems = candidates.find((c) => c.item_count > 0);
-  if (anyWithItems) return getProjectByIdForSwitcher(anyWithItems.id);
-
   return getProjectByIdForSwitcher(candidates[0].id);
 }

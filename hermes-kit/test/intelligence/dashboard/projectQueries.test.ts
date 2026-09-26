@@ -1,73 +1,70 @@
-// projectQueries.test.ts — Selección/listado de proyectos para el Project
-// Switcher. Cubre el bug real reportado en runtime: el switcher abría con
-// un proyecto de prueba arbitrario (el más antiguo) en vez de preferir un
-// proyecto real llamado "Vida Divina" cuando existe, o el proyecto con más
-// actividad real cuando no existe -- nunca "el primero creado" a ciegas.
+// projectQueries.test.ts — Selección/listado de proyectos para el
+// workspace COMERCIAL del Project Switcher. Cubre el bug real reportado en
+// runtime: el switcher mostraba miles de proyectos TEST/INTERNAL (la BD
+// real acumula ~3948). La corrección es una ALLOWLIST EXPLÍCITA
+// (commercialProjects.ts) -- listProjectsForSwitcher()/getDefaultProject()
+// NUNCA buscan fuera de ella, sin importar cuántos proyectos existan en la
+// tabla completa.
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { randomUUID } from "node:crypto";
 import { getOrCreateProject, getOrCreateSource, upsertIntelligenceItem } from "../../../src/lib/intelligence";
 import { listProjectsForSwitcher, getDefaultProject, isLikelyTestProject } from "../../../src/lib/intelligence/dashboard/projectQueries";
+import { COMMERCIAL_PROJECT_SLUGS } from "../../../src/lib/intelligence/dashboard/commercialProjects";
 
-test("isLikelyTestProject: detecta patrones reales de fixtures (UUID, prefijos de test) -- heurístico, nunca oculta nada por sí solo", () => {
+test("COMMERCIAL_PROJECT_SLUGS: allowlist explícita, no vacía, contiene 'vida-divina' -- ningún otro slug supuesto (ia-trading/market-intelligence) se inventó sin evidencia real", () => {
+  assert.ok(COMMERCIAL_PROJECT_SLUGS.includes("vida-divina"));
+  assert.equal(COMMERCIAL_PROJECT_SLUGS.length, 1, "hoy solo Vida Divina tiene evidencia real -- IA Trading/Market Intelligence no existen todavía, no se agregan por adelantado");
+});
+
+test("isLikelyTestProject: heurístico informativo, independiente de la allowlist -- detecta patrones reales de fixtures", () => {
   assert.equal(isLikelyTestProject("demo-instagram-real-db-check"), true);
   assert.equal(isLikelyTestProject(`proj-${randomUUID()}`), true);
   assert.equal(isLikelyTestProject("cliente-x"), false);
   assert.equal(isLikelyTestProject("vida-divina"), false);
 });
 
-test("getDefaultProject: prefiere un proyecto real llamado 'Vida Divina' (por nombre) sobre cualquier otro, sin hardcodear su id", () => {
+test("listProjectsForSwitcher: NUNCA devuelve un proyecto fuera de la allowlist, sin importar cuántos proyectos TEST/INTERNAL existan", () => {
   const uniqueMarker = randomUUID();
-  const decoy = getOrCreateProject(`decoy-with-lots-of-items-${uniqueMarker}`);
+  // Proyecto fuera de la allowlist, con actividad real y hasta con "vida" en el nombre -- debe seguir invisible.
+  const outsider = getOrCreateProject(`vida-divina-parecido-${uniqueMarker}`, `Vida Divina Parecido ${uniqueMarker}`);
   const source = getOrCreateSource(`source-${uniqueMarker}`);
-  for (let i = 0; i < 5; i++) {
-    upsertIntelligenceItem({ project_id: decoy.id, source_id: source.id, external_id: `decoy-item-${i}`, content_type: "video" });
-  }
+  upsertIntelligenceItem({ project_id: outsider.id, source_id: source.id, content_type: "video" });
 
-  const vidaDivina = getOrCreateProject(`vida-divina-real-${uniqueMarker}`, "Vida Divina");
-
-  const result = getDefaultProject();
-  assert.equal(result?.id, vidaDivina.id, "debe preferir 'Vida Divina' por nombre aunque otro proyecto tenga más items");
+  const result = listProjectsForSwitcher({ search: uniqueMarker });
+  assert.equal(result.total, 0, "un proyecto fuera de la allowlist nunca aparece, aunque coincida la búsqueda por nombre");
+  assert.equal(result.projects.length, 0);
 });
 
-test("getDefaultProject: sin ningún proyecto llamado 'Vida Divina', prefiere el proyecto real (no heurísticamente de prueba) con más actividad real", () => {
+test("listProjectsForSwitcher: el proyecto canónico 'vida-divina' SÍ aparece cuando existe y coincide la búsqueda", () => {
+  getOrCreateProject("vida-divina", "Vida Divina");
+
+  const result = listProjectsForSwitcher({ search: "vida divina" });
+  assert.ok(result.projects.some((p) => p.slug === "vida-divina"));
+});
+
+test("getDefaultProject: nunca elige un proyecto fuera de la allowlist, incluso con miles de proyectos TEST/INTERNAL con más actividad", () => {
   const uniqueMarker = randomUUID();
   const source = getOrCreateSource(`source-${uniqueMarker}`);
-
   const testFixture = getOrCreateProject(`demo-fixture-${uniqueMarker}`);
-  for (let i = 0; i < 10; i++) {
+  for (let i = 0; i < 50; i++) {
     upsertIntelligenceItem({ project_id: testFixture.id, source_id: source.id, external_id: `fixture-item-${i}`, content_type: "video" });
   }
 
-  const realProject = getOrCreateProject(`cliente-real-${uniqueMarker}`, "Cliente Real");
-  upsertIntelligenceItem({ project_id: realProject.id, source_id: source.id, external_id: "real-item-1", content_type: "video" });
+  const vidaDivina = getOrCreateProject("vida-divina", "Vida Divina");
 
-  // No podemos aislar completamente el universo global de proyectos (la función mira TODA la tabla),
-  // así que solo afirmamos la propiedad relativa: si el default cae entre estos dos, debe ser el real.
   const result = getDefaultProject();
-  if (result && (result.id === testFixture.id || result.id === realProject.id)) {
-    assert.equal(result.id, realProject.id, "entre un fixture de test y un proyecto real, debe preferir el real aunque tenga menos items");
-  }
-});
-
-test("listProjectsForSwitcher: búsqueda por nombre/slug, con límite real -- nunca devuelve más de lo pedido", () => {
-  const uniqueMarker = randomUUID();
-  const project = getOrCreateProject(`buscable-${uniqueMarker}`, `Proyecto Buscable ${uniqueMarker}`);
-
-  const result = listProjectsForSwitcher({ search: uniqueMarker, limit: 5 });
-  assert.ok(result.projects.length <= 5);
-  assert.ok(result.projects.some((p) => p.id === project.id));
-  assert.ok(result.total >= 1);
+  assert.equal(result?.id, vidaDivina.id, "debe preferir 'vida-divina' (allowlist) aunque un proyecto fuera de la allowlist tenga 50x más items");
 });
 
 test("listProjectsForSwitcher: itemCount refleja actividad real, nunca fabricada", () => {
+  getOrCreateProject("vida-divina", "Vida Divina");
   const uniqueMarker = randomUUID();
-  const project = getOrCreateProject(`itemcount-${uniqueMarker}`);
   const source = getOrCreateSource(`source-${uniqueMarker}`);
-  upsertIntelligenceItem({ project_id: project.id, source_id: source.id, content_type: "video" });
-  upsertIntelligenceItem({ project_id: project.id, source_id: source.id, content_type: "video" });
+  const vidaDivina = getOrCreateProject("vida-divina");
+  upsertIntelligenceItem({ project_id: vidaDivina.id, source_id: source.id, external_id: `count-check-${uniqueMarker}-1`, content_type: "video" });
 
-  const result = listProjectsForSwitcher({ search: uniqueMarker });
-  const entry = result.projects.find((p) => p.id === project.id);
-  assert.equal(entry?.itemCount, 2);
+  const result = listProjectsForSwitcher({ search: "vida-divina" });
+  const entry = result.projects.find((p) => p.slug === "vida-divina");
+  assert.ok((entry?.itemCount ?? 0) >= 1);
 });

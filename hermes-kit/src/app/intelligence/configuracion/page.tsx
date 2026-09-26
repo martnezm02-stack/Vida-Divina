@@ -14,23 +14,23 @@ interface ApiResponse<T> {
   error?: string;
 }
 
-function useProjectCount() {
-  const [total, setTotal] = useState<number | null>(null);
+function useProjectCounts() {
+  const [counts, setCounts] = useState<{ commercial: number; all: number } | null>(null);
   useEffect(() => {
     fetch(apiUrl("/api/intelligence/projects?limit=1"))
       .then((res) => res.json())
-      .then((json: ApiResponse<{ total: number }>) => {
-        if (json.ok && json.data) setTotal(json.data.total);
+      .then((json: ApiResponse<{ total: number; totalAllProjects: number }>) => {
+        if (json.ok && json.data) setCounts({ commercial: json.data.total, all: json.data.totalAllProjects });
       })
       .catch(() => {});
   }, []);
-  return total;
+  return counts;
 }
 
 export default function ConfiguracionPage() {
   const { activeProject } = useProjectContext();
   const { theme, setTheme } = useTheme();
-  const totalProjects = useProjectCount();
+  const projectCounts = useProjectCounts();
 
   return (
     <IntelligenceShell title="Configuración" subtitle="Marca, tema y proyectos de esta instancia">
@@ -79,6 +79,9 @@ export default function ConfiguracionPage() {
         </Card>
 
         <Card title="Proyectos">
+          <div className="mb-3 text-sm text-intel-text">
+            Proyectos comerciales: <span className="text-intel-cyan font-medium">{projectCounts?.commercial ?? "—"}</span>
+          </div>
           {!activeProject ? (
             <EmptyState message="No hay ningún proyecto activo todavía." />
           ) : (
@@ -88,16 +91,14 @@ export default function ConfiguracionPage() {
               </div>
               <div className="text-xs text-intel-muted">
                 {activeProject.itemCount} intelligence items · slug: {activeProject.slug}
-                {activeProject.isLikelyTest && " · marcado heurísticamente como Test/Internal"}
               </div>
             </div>
           )}
-          <p className="mt-3 text-xs text-intel-muted">
-            {totalProjects !== null
-              ? `Hay ${totalProjects} proyectos en total en el Intelligence Store. `
-              : ""}
-            Usa el buscador del selector de proyectos en la barra lateral para cambiar de proyecto.
-          </p>
+          {projectCounts && projectCounts.all > projectCounts.commercial && (
+            <p className="mt-3 text-xs text-intel-muted">
+              El Intelligence Store contiene proyectos internos/test adicionales, ocultos del workspace comercial.
+            </p>
+          )}
         </Card>
       </div>
     </IntelligenceShell>

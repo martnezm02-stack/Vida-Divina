@@ -14,6 +14,8 @@ import { listAssetsForItem } from "../assets";
 import { listEvidenceForItem } from "../evidence";
 import { getActorById } from "../actors";
 import { getSourceBySlug, listSources } from "../sources";
+import { getQualificationByItemId } from "../qualification";
+import type { QualificationCategory } from "../qualification";
 import type {
   Actor,
   Asset,
@@ -46,8 +48,14 @@ function resolveSourceId(sourceSlug: string | undefined): number | undefined {
   return getSourceBySlug(sourceSlug)?.id ?? -1; // -1: slug inexistente -> ningún resultado, nunca "todos"
 }
 
+export interface MarketIntelligenceItemEntry {
+  item: IntelligenceItemWithDerived;
+  /** RAW EVIDENCE vs. QUALIFIED INTELLIGENCE (ver qualification/): Market Intelligence sigue mostrando TODOS los items reales (nunca oculta evidencia cruda), solo etiqueta -- null cuando el item nunca fue calificado (comportamiento idéntico al actual). */
+  qualification: QualificationCategory | null;
+}
+
 export interface MarketIntelligenceListResult {
-  items: IntelligenceItemWithDerived[];
+  items: MarketIntelligenceItemEntry[];
   total: number;
   limit: number;
   offset: number;
@@ -80,8 +88,14 @@ export function listMarketIntelligenceItems(filter: MarketIntelligenceListFilter
     );
   }
 
+  const qualificationByItemId = getQualificationByItemId(filter.projectId);
   const total = countMarketIntelligenceItems(filter, sourceId);
-  return { items, total, limit, offset };
+  return {
+    items: items.map((item) => ({ item, qualification: qualificationByItemId.get(item.id) ?? null })),
+    total,
+    limit,
+    offset,
+  };
 }
 
 /**
@@ -134,6 +148,7 @@ export interface ItemDetail {
   signals: Signal[];
   assets: Asset[];
   evidence: Evidence[];
+  qualification: QualificationCategory | null;
 }
 
 export function getItemDetail(itemId: number): ItemDetail | null {
@@ -151,5 +166,6 @@ export function getItemDetail(itemId: number): ItemDetail | null {
     signals: listSignalsForItem(itemId),
     assets: listAssetsForItem(itemId),
     evidence: listEvidenceForItem(itemId),
+    qualification: getQualificationByItemId(item.project_id).get(itemId) ?? null,
   };
 }

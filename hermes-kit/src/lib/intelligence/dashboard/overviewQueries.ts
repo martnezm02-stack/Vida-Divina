@@ -18,6 +18,7 @@ import { listSources } from "../sources";
 import { PREDICTION_ANALYSIS_TYPE, comparePredictionToActualForItem } from "../prediction";
 import type { PerformancePredictionOutcome } from "../prediction";
 import { getIntelligenceItemById, withActiveDays } from "../items";
+import { getQualificationByItemId, QUALIFICATION_SIGNAL_TYPE } from "../qualification";
 import type {
   Actor,
   Insight,
@@ -40,6 +41,30 @@ function sinceTimestamp(sinceDays: number): number {
   return Math.floor(Date.now() / 1000) - sinceDays * 86400;
 }
 
+/**
+ * item_ids calificados como IRRELEVANT (qualification/, ver
+ * scripts/qualifyVidaDivinaContent.ts) para este proyecto -- RAW EVIDENCE
+ * vs. QUALIFIED INTELLIGENCE: la fila en intelligence_items nunca se toca,
+ * pero los widgets agregados del Overview (KPIs, actividad, actores,
+ * contenido) no deben contarla como si fuera inteligencia de mercado real.
+ * Proyectos que nunca corrieron qualification devuelven un Set vacío --
+ * comportamiento idéntico al actual, sin ningún cambio para ellos.
+ */
+function getIrrelevantItemIds(projectId: number): Set<number> {
+  const byItem = getQualificationByItemId(projectId);
+  const irrelevant = new Set<number>();
+  for (const [itemId, decision] of byItem) {
+    if (decision === "IRRELEVANT") irrelevant.add(itemId);
+  }
+  return irrelevant;
+}
+
+function excludeIdsClause(column: string, excludedIds: Set<number>): { clause: string; values: number[] } {
+  if (excludedIds.size === 0) return { clause: "", values: [] };
+  const ids = [...excludedIds];
+  return { clause: ` AND ${column} NOT IN (${ids.map(() => "?").join(",")})`, values: ids };
+}
+
 // --------------------------------------------------------------------------- KPIs
 export interface OverviewKpis {
   intelligenceItems: number;
@@ -52,14 +77,21 @@ export interface OverviewKpis {
 
 export function getOverviewKpis(projectId: number): OverviewKpis {
   const db = getDb();
+  const irrelevant = excludeIdsClause("id", getIrrelevantItemIds(projectId));
   const itemsRow = db
-    .prepare<[number], { count: number }>("SELECT COUNT(*) as count FROM intelligence_items WHERE project_id = ?")
-    .get(projectId);
+    .prepare<unknown[], { count: number }>(
+      `SELECT COUNT(*) as count FROM intelligence_items WHERE project_id = ?${irrelevant.clause}`
+    )
+    .get(projectId, ...irrelevant.values);
 
   return {
     intelligenceItems: itemsRow?.count ?? 0,
     actors: listActorsByProject(projectId).length,
-    signals: listSignalsByProject(projectId).length,
+    // Excluye signals de bookkeeping de qualification (QUALIFICATION* --
+    // incluye el prefijo antiguo de una versión ya corregida del recorder,
+    // ver qualificationRecorder.ts) -- no son señales de mercado/creativas,
+    // no deben inflar este KPI.
+    signals: listSignalsByProject(projectId).filter((s) => !s.signal_type.startsWith(QUALIFICATION_SIGNAL_TYPE)).length,
     insights: listInsightsByProject(projectId).length,
     intelligenceBriefsGeneratedOnDemand: true,
   };
@@ -76,15 +108,16 @@ export interface MarketActivityPoint {
 export function getMarketActivity(projectId: number, sinceDays: number = DEFAULT_SINCE_DAYS): MarketActivityPoint[] {
   const db = getDb();
   const since = sinceTimestamp(sinceDays);
+  const irrelevant = excludeIdsClause("id", getIrrelevantItemIds(projectId));
   const rows = db
-    .prepare<[number, number], { date: string; source_id: number; count: number }>(
+    .prepare<unknown[], { date: string; source_id: number; count: number }>(
       `SELECT date(first_seen_at, 'unixepoch') as date, source_id, COUNT(*) as count
        FROM intelligence_items
-       WHERE project_id = ? AND first_seen_at >= ?
+       WHERE project_id = ? AND first_seen_at >= ?${irrelevant.clause}
        GROUP BY date, source_id
        ORDER BY date ASC`
     )
-    .all(projectId, since);
+    .all(projectId, since, ...irrelevant.values);
 
   const sourcesById = new Map(listSources().map((s) => [s.id, s]));
   return rows.map((r) => ({
@@ -144,11 +177,12 @@ export interface SourceActivityEntry {
 
 export function getSourceActivity(projectId: number): SourceActivityEntry[] {
   const db = getDb();
+  const irrelevant = excludeIdsClause("id", getIrrelevantItemIds(projectId));
   const rows = db
-    .prepare<[number], { source_id: number; count: number }>(
-      "SELECT source_id, COUNT(*) as count FROM intelligence_items WHERE project_id = ? GROUP BY source_id ORDER BY count DESC"
+    .prepare<unknown[], { source_id: number; count: number }>(
+      `SELECT source_id, COUNT(*) as count FROM intelligence_items WHERE project_id = ?${irrelevant.clause} GROUP BY source_id ORDER BY count DESC`
     )
-    .all(projectId);
+    .all(projectId, ...irrelevant.values);
   const sourcesById = new Map(listSources().map((s) => [s.id, s]));
   return rows.map((r) => {
     const source = sourcesById.get(r.source_id);
@@ -157,8 +191,11 @@ export function getSourceActivity(projectId: number): SourceActivityEntry[] {
 }
 
 // --------------------------------------------------------------------------- Recent signals / insights / actors / patterns
+/** Excluye signals de tipo QUALIFICATION (bookkeeping de identidad de marca, ver qualification/) -- este widget es para signals de mercado/creativas, no para el resultado de la calificación misma. */
 export function getRecentSignals(projectId: number, limit = 8): Signal[] {
-  return listSignalsByProject(projectId).slice(0, limit); // ya viene ORDER BY detected_at DESC
+  return listSignalsByProject(projectId)
+    .filter((s) => !s.signal_type.startsWith(QUALIFICATION_SIGNAL_TYPE))
+    .slice(0, limit); // ya viene ORDER BY detected_at DESC
 }
 
 export function getRecentInsights(projectId: number, limit = 6): Insight[] {
@@ -175,19 +212,20 @@ export interface ActiveActorEntry {
 /** Actores observados recientemente, con actividad OBSERVABLE (items/signals reales) -- nunca un score competitivo inventado. */
 export function getActiveActors(projectId: number, limit = 6): ActiveActorEntry[] {
   const db = getDb();
+  const irrelevant = excludeIdsClause("id", getIrrelevantItemIds(projectId));
   const rows = db
-    .prepare<[number, number], { actor_id: number; item_count: number; source_id: number | null }>(
+    .prepare<unknown[], { actor_id: number; item_count: number; source_id: number | null }>(
       `SELECT actor_id, COUNT(*) as item_count, MAX(source_id) as source_id
        FROM intelligence_items
-       WHERE project_id = ? AND actor_id IS NOT NULL
+       WHERE project_id = ? AND actor_id IS NOT NULL${irrelevant.clause}
        GROUP BY actor_id
        ORDER BY item_count DESC
        LIMIT ?`
     )
-    .all(projectId, limit);
+    .all(projectId, ...irrelevant.values, limit);
 
   const actorsById = new Map(listActorsByProject(projectId).map((a) => [a.id, a]));
-  const signals = listSignalsByProject(projectId);
+  const signals = listSignalsByProject(projectId).filter((s) => !s.signal_type.startsWith(QUALIFICATION_SIGNAL_TYPE));
   const sourcesById = new Map(listSources().map((s) => [s.id, s]));
 
   const entries: ActiveActorEntry[] = [];
@@ -215,11 +253,12 @@ export interface RecentContentEntry {
 
 export function getRecentContent(projectId: number, limit = 8): RecentContentEntry[] {
   const db = getDb();
+  const irrelevant = excludeIdsClause("id", getIrrelevantItemIds(projectId));
   const rows = db
-    .prepare<[number, number], { id: number }>(
-      "SELECT id FROM intelligence_items WHERE project_id = ? ORDER BY last_seen_at DESC LIMIT ?"
+    .prepare<unknown[], { id: number }>(
+      `SELECT id FROM intelligence_items WHERE project_id = ?${irrelevant.clause} ORDER BY last_seen_at DESC LIMIT ?`
     )
-    .all(projectId, limit);
+    .all(projectId, ...irrelevant.values, limit);
   const sourcesById = new Map(listSources().map((s) => [s.id, s]));
 
   const entries: RecentContentEntry[] = [];

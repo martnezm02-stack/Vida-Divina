@@ -96,6 +96,15 @@ export * from "./watchlist";
 // nunca otra tabla. Ni Watchlist Runner ni el Scheduler importan esto.
 export * from "./relevance";
 
+// Content Qualification: "¿este item recién recuperado pertenece
+// genuinamente a la marca/entidad investigada?" -- pregunta distinta a
+// relevance/ (esa evalúa un CAMBIO ya detectado con watchlist/metrics
+// delta; esta evalúa un item una sola vez, sin necesitar ninguno de los
+// dos). Reutiliza el mismo DecisionProvider (decision/) y el mismo
+// upsertSignal (detection/) -- ningún cliente JEV nuevo, ninguna tabla
+// nueva.
+export * from "./qualification";
+
 // Signal -> MI-5 (Insights/Briefs): conecta las signals de relevance/ con
 // el motor de insights YA existente (synthesis/generateInsights, sin
 // tocar) -- resuelve evidencia real vía signal_items y delega el resto
