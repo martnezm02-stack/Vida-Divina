@@ -1,0 +1,57 @@
+/* intelligence.css — Namespace de tokens AISLADO (--color-intel-*) para el
+   producto "AI Marketing Intelligence & Growth OS". Nunca reutiliza ni pisa
+   los tokens --color-brand- ni --color-sidebar- (esos son de "Hermes
+   Ventas", el dashboard operativo de WhatsApp -- productos visualmente
+   separados). Tema por defecto: oscuro tipo "intelligence terminal"
+   (acentos cian/azul/violeta). El toggle día/noche sobreescribe estos
+   mismos valores vía el atributo [data-intel-theme] -- un solo sistema de
+   componentes, dos juegos de valores. */
+@theme {
+  --color-intel-bg: #05070d;
+  --color-intel-bg-elevated: #0a0e1a;
+  --color-intel-surface: #0f1424;
+  --color-intel-surface-2: #141a2e;
+  --color-intel-border: #232b45;
+  --color-intel-text: #e7ebf7;
+  --color-intel-muted: #8891ab;
+  --color-intel-cyan: #22d3ee;
+  --color-intel-blue: #4f7cff;
+  --color-intel-violet: #a56bff;
+  --color-intel-high: #ff5d7a;
+  --color-intel-medium: #f5b942;
+  --color-intel-low: #3ecf8e;
+  --color-intel-info: #6b7488;
+}
+
+[data-intel-theme="light"] {
+  --color-intel-bg: #f4f6fb;
+  --color-intel-bg-elevated: #ffffff;
+  --color-intel-surface: #ffffff;
+  --color-intel-surface-2: #f7f9fd;
+  --color-intel-border: #dfe4f0;
+  --color-intel-text: #10162b;
+  --color-intel-muted: #626c88;
+  --color-intel-cyan: #0891b2;
+  --color-intel-blue: #3b5bdb;
+  --color-intel-violet: #7c4dd6;
+  --color-intel-high: #d6335c;
+  --color-intel-medium: #b8791f;
+  --color-intel-low: #1f9d63;
+  --color-intel-info: #6b7488;
+}
+
+.intel-root {
+  background: var(--color-intel-bg);
+  color: var(--color-intel-text);
+}
+
+.intel-gradient-text {
+  background-image: linear-gradient(135deg, var(--color-intel-cyan), var(--color-intel-blue), var(--color-intel-violet));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.intel-scrollbar::-webkit-scrollbar { width: 8px; height: 8px; }
+.intel-scrollbar::-webkit-scrollbar-track { background: transparent; }
+.intel-scrollbar::-webkit-scrollbar-thumb { background: color-mix(in srgb, var(--color-intel-blue) 35%, transparent); border-radius: 4px; }
