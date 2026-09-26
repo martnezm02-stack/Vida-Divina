@@ -52,11 +52,14 @@ function useOverviewData(projectId: number | null) {
   return { data, loading, error };
 }
 
-function KpiCard({ label, value, caption }: { label: string; value: number; caption?: string }) {
+const KPI_ACCENTS = ["bg-intel-cyan", "bg-intel-blue", "bg-intel-violet", "bg-intel-low", "bg-intel-medium"];
+
+function KpiCard({ label, value, caption, accent }: { label: string; value: number; caption?: string; accent: string }) {
   return (
-    <div className="rounded-xl border border-intel-border bg-intel-surface p-4">
-      <div className="text-xs uppercase tracking-wide text-intel-muted">{label}</div>
-      <div className="mt-1 text-2xl font-semibold text-intel-text">{value.toLocaleString("es")}</div>
+    <div className="relative overflow-hidden rounded-xl border border-intel-border bg-intel-surface p-4">
+      <span className={`absolute inset-y-0 left-0 w-1 ${accent}`} />
+      <div className="text-[11px] font-medium uppercase tracking-wider text-intel-muted">{label}</div>
+      <div className="mt-1.5 font-display text-3xl font-semibold text-intel-text">{value.toLocaleString("es")}</div>
       {caption && <div className="mt-1 text-[11px] text-intel-muted">{caption}</div>}
     </div>
   );
@@ -88,11 +91,11 @@ export default function IntelligenceOverviewPage() {
         <div className="space-y-6">
           {/* KPIs */}
           <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-            <KpiCard label="Intelligence Items" value={data.kpis.intelligenceItems} />
-            <KpiCard label="Actores" value={data.kpis.actors} />
-            <KpiCard label="Signals" value={data.kpis.signals} />
-            <KpiCard label="Insights" value={data.kpis.insights} />
-            <KpiCard label="Intelligence Briefs" value={0} caption="Generado bajo demanda" />
+            <KpiCard label="Intelligence Items" value={data.kpis.intelligenceItems} accent={KPI_ACCENTS[0]} />
+            <KpiCard label="Actores" value={data.kpis.actors} accent={KPI_ACCENTS[1]} />
+            <KpiCard label="Signals" value={data.kpis.signals} accent={KPI_ACCENTS[2]} />
+            <KpiCard label="Insights" value={data.kpis.insights} accent={KPI_ACCENTS[3]} />
+            <KpiCard label="Intelligence Briefs" value={0} caption="Generado bajo demanda" accent={KPI_ACCENTS[4]} />
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">

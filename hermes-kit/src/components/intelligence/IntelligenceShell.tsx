@@ -1,6 +1,7 @@
 "use client";
 
 import type { ReactNode } from "react";
+import { TopBar } from "./TopBar";
 import { IntelligenceSidebar } from "./IntelligenceSidebar";
 import { IntelligenceHeader } from "./IntelligenceHeader";
 import { useProjectContext } from "./ProjectProvider";
@@ -15,18 +16,21 @@ export function IntelligenceShell({ title, subtitle, children }: IntelligenceShe
   const { error } = useProjectContext();
 
   return (
-    <div className="flex h-screen overflow-hidden">
-      <IntelligenceSidebar />
-      <div className="flex-1 flex flex-col overflow-hidden">
-        <IntelligenceHeader title={title} subtitle={subtitle} />
-        <main className="flex-1 overflow-y-auto intel-scrollbar p-6">
-          {error ? (
-            <div className="rounded-lg border border-intel-high/30 bg-intel-high/10 px-4 py-3 text-sm text-intel-high mb-4">
-              No se pudieron cargar los proyectos: {error}
-            </div>
-          ) : null}
-          {children}
-        </main>
+    <div className="flex h-screen flex-col overflow-hidden">
+      <TopBar />
+      <div className="flex flex-1 overflow-hidden">
+        <IntelligenceSidebar />
+        <div className="flex-1 flex flex-col overflow-hidden">
+          <IntelligenceHeader title={title} subtitle={subtitle} />
+          <main className="flex-1 overflow-y-auto intel-scrollbar p-6">
+            {error ? (
+              <div className="rounded-lg border border-intel-high/30 bg-intel-high/10 px-4 py-3 text-sm text-intel-high mb-4">
+                No se pudieron cargar los proyectos: {error}
+              </div>
+            ) : null}
+            {children}
+          </main>
+        </div>
       </div>
     </div>
   );

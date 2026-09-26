@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { BrandMark } from "./BrandMark";
 import { ProjectSwitcher } from "./ProjectSwitcher";
 
 interface NavItem {
@@ -70,13 +69,10 @@ export function IntelligenceSidebar() {
 
   return (
     <aside className="w-72 shrink-0 h-full flex flex-col border-r border-intel-border bg-intel-bg-elevated">
-      <div className="p-4 border-b border-intel-border">
-        <BrandMark size={30} />
-      </div>
-      <div className="p-3">
+      <div className="p-3.5 border-b border-intel-border">
         <ProjectSwitcher />
       </div>
-      <nav className="flex-1 overflow-y-auto intel-scrollbar px-2 space-y-0.5">
+      <nav className="flex-1 overflow-y-auto intel-scrollbar px-2 py-2 space-y-0.5">
         {NAV.map((item) => (
           <NavLink key={item.key} item={item} active={pathname === item.href} />
         ))}

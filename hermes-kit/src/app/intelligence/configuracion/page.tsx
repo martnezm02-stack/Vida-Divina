@@ -1,14 +1,36 @@
 "use client";
 
+import { useEffect, useState } from "react";
+import { apiUrl } from "@/lib/apiPath";
 import { useProjectContext } from "@/components/intelligence/ProjectProvider";
 import { useTheme } from "@/components/intelligence/ThemeProvider";
 import { IntelligenceShell } from "@/components/intelligence/IntelligenceShell";
-import { Card } from "@/components/intelligence/StateViews";
+import { Card, EmptyState } from "@/components/intelligence/StateViews";
 import { DEFAULT_BRAND_CONFIG } from "@/lib/intelligence/dashboard/brandConfig";
 
+interface ApiResponse<T> {
+  ok: boolean;
+  data?: T;
+  error?: string;
+}
+
+function useProjectCount() {
+  const [total, setTotal] = useState<number | null>(null);
+  useEffect(() => {
+    fetch(apiUrl("/api/intelligence/projects?limit=1"))
+      .then((res) => res.json())
+      .then((json: ApiResponse<{ total: number }>) => {
+        if (json.ok && json.data) setTotal(json.data.total);
+      })
+      .catch(() => {});
+  }, []);
+  return total;
+}
+
 export default function ConfiguracionPage() {
-  const { activeProject, projects } = useProjectContext();
+  const { activeProject } = useProjectContext();
   const { theme, setTheme } = useTheme();
+  const totalProjects = useProjectCount();
 
   return (
     <IntelligenceShell title="Configuración" subtitle="Marca, tema y proyectos de esta instancia">
@@ -57,18 +79,25 @@ export default function ConfiguracionPage() {
         </Card>
 
         <Card title="Proyectos">
-          {activeProject && (
-            <div className="mb-3 text-sm text-intel-text">
-              Proyecto activo: <span className="text-intel-cyan">{activeProject.name}</span>
+          {!activeProject ? (
+            <EmptyState message="No hay ningún proyecto activo todavía." />
+          ) : (
+            <div className="space-y-1 text-sm">
+              <div className="text-intel-text">
+                Proyecto activo: <span className="text-intel-cyan">{activeProject.name}</span>
+              </div>
+              <div className="text-xs text-intel-muted">
+                {activeProject.itemCount} intelligence items · slug: {activeProject.slug}
+                {activeProject.isLikelyTest && " · marcado heurísticamente como Test/Internal"}
+              </div>
             </div>
           )}
-          <ul className="space-y-1 text-sm text-intel-muted">
-            {projects.map((p) => (
-              <li key={p.id}>
-                {p.name} <span className="text-xs">({p.slug})</span>
-              </li>
-            ))}
-          </ul>
+          <p className="mt-3 text-xs text-intel-muted">
+            {totalProjects !== null
+              ? `Hay ${totalProjects} proyectos en total en el Intelligence Store. `
+              : ""}
+            Usa el buscador del selector de proyectos en la barra lateral para cambiar de proyecto.
+          </p>
         </Card>
       </div>
     </IntelligenceShell>

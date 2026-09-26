@@ -38,20 +38,22 @@ interface BrandMarkProps {
 
 export function BrandMark({ size = 32, brand = DEFAULT_BRAND_CONFIG, showTagline = true }: BrandMarkProps) {
   return (
-    <div className="flex items-center gap-3">
+    <div className="flex items-center gap-3.5">
       {brand.logoUrl ? (
         // eslint-disable-next-line @next/next/no-img-element -- next/image optimizer devuelve 400 bajo el basePath /hermes (bug ya diagnosticado en Logo.tsx); mismo workaround aquí.
-        <img src={brand.logoUrl} alt={brand.productName} width={size} height={size} className="rounded-md object-contain" />
+        <img src={brand.logoUrl} alt={brand.productName} width={size} height={size} className="shrink-0 rounded-md object-contain" />
       ) : (
-        <RibbonEmblem size={size} />
+        <div className="shrink-0">
+          <RibbonEmblem size={size} />
+        </div>
       )}
-      <div className="leading-tight">
-        <div className="flex items-baseline gap-1.5 font-display text-[15px] font-semibold tracking-tight">
-          <span className="intel-gradient-text">{brand.productName}</span>
-          <span className="text-intel-muted text-[13px]">{brand.productSubtitle}</span>
+      <div className="min-w-0 leading-[1.15]">
+        <div className="font-display font-semibold tracking-tight whitespace-nowrap">
+          <span className="intel-gradient-text text-[17px]">{brand.productName}</span>
+          <span className="ml-1.5 text-[15px] text-intel-muted">{brand.productSubtitle}</span>
         </div>
         {showTagline && (
-          <div className="text-[10px] uppercase tracking-[0.18em] text-intel-muted">{brand.tagline}</div>
+          <div className="mt-1 text-[10px] font-medium uppercase tracking-[0.22em] text-intel-muted whitespace-nowrap">{brand.tagline}</div>
         )}
       </div>
     </div>
