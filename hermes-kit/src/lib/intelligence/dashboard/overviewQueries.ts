@@ -24,7 +24,6 @@ import type {
   IntelligenceItemWithDerived,
   Pattern,
   Signal,
-  Source,
 } from "../types";
 
 export interface OverviewFilters {
@@ -333,7 +332,6 @@ export interface OverviewData {
   recentContent: RecentContentEntry[];
   creativePatterns: CreativePatternEntry[];
   performancePredictions: PredictionEntry[];
-  sources: Source[];
 }
 
 export function getOverviewData(filters: OverviewFilters): OverviewData {
@@ -349,6 +347,5 @@ export function getOverviewData(filters: OverviewFilters): OverviewData {
     recentContent: getRecentContent(filters.projectId),
     creativePatterns: getCreativePatterns(filters.projectId),
     performancePredictions: getPerformancePredictions(filters.projectId),
-    sources: listSources(),
   };
 }

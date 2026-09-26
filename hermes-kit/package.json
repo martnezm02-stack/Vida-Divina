@@ -14,6 +14,7 @@
     "start:qr": "tsx scripts/start-qr.ts",
     "start:all": "concurrently --kill-others --names BOT,WEB --prefix-colors yellow,cyan \"npm run start:bot\" \"npm run start\"",
     "intelligence:worker": "tsx scripts/intelligenceWorker.ts",
+    "bootstrap:vida-divina": "tsx scripts/bootstrapVidaDivinaProject.ts",
     "wizard": "tsx scripts/wizard.ts",
     "check": "tsx scripts/check-system.ts",
     "doctor": "tsx scripts/doctor.ts",
