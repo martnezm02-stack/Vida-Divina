@@ -9,7 +9,8 @@
 // abstracción. withFallback() compone ambas: si JEV falla o no está
 // configurado, cae automáticamente al fallback determinista.
 import type { DecisionProvider } from "../decision/types";
-import { getPatternSupportingEvidence, getPatternSupportingItems } from "../detection";
+import { getPatternSupportingItems } from "../detection";
+import { listEvidenceForItem } from "../evidence";
 import type {
   ContextCandidates,
   ContextOptimizationOptions,
@@ -52,20 +53,28 @@ function buildRelevantContext(
     entries.push({ kind: "pattern", id, relevance, reason });
     tokenBudget -= patternTokens;
 
+    // getPatternSupportingItems(id) es acumulativo e histórico (pattern_items
+    // solo GANA filas entre detecciones, nunca se depuran) -- puede incluir
+    // items de una consulta anterior que ya no pertenecen al scope actual
+    // (p.ej. items marcados IRRELEVANT por qualification después de que el
+    // patrón se detectó por primera vez con un conjunto más amplio). Se
+    // intersecta con candidates.items (el scope real de ESTA consulta) para
+    // que el brief nunca cite evidencia fuera de lo que el caller pidió.
     for (const itemId of getPatternSupportingItems(id)) {
+      if (!itemsById.has(itemId)) continue; // fuera del scope de esta consulta -- no se incluye
       if (itemIds.size >= maxItems) break;
       if (itemIds.has(itemId)) continue;
       itemIds.add(itemId);
       const item = itemsById.get(itemId);
       if (item?.actor_id) actorIds.add(item.actor_id);
       entries.push({ kind: "item", id: itemId, relevance, reason: `sustenta el patrón ${id}` });
-    }
 
-    for (const evidenceId of getPatternSupportingEvidence(id)) {
-      if (evidenceIds.size >= maxEvidence) break;
-      if (evidenceIds.has(evidenceId)) continue;
-      evidenceIds.add(evidenceId);
-      entries.push({ kind: "evidence", id: evidenceId, relevance, reason: `evidencia del patrón ${id}` });
+      for (const ev of listEvidenceForItem(itemId)) {
+        if (evidenceIds.size >= maxEvidence) break;
+        if (evidenceIds.has(ev.id)) continue;
+        evidenceIds.add(ev.id);
+        entries.push({ kind: "evidence", id: ev.id, relevance, reason: `evidencia del patrón ${id}` });
+      }
     }
   }
 
