@@ -10,7 +10,6 @@
 import { getDb } from "../connection";
 import { listActorsByProject } from "../actors";
 import { listSignalsByProject } from "../signals";
-import { listInsightsByProject } from "../insights";
 import { listPatternsByProject } from "../patterns";
 import { listAssetsForItem } from "../assets";
 import { getLatestMetrics } from "../metrics";
@@ -65,14 +64,54 @@ function excludeIdsClause(column: string, excludedIds: Set<number>): { clause: s
   return { clause: ` AND ${column} NOT IN (${ids.map(() => "?").join(",")})`, values: ids };
 }
 
+/**
+ * Insights ACTUALES/vigentes de un proyecto -- nunca versiones históricas.
+ * insights.version incrementa por (project_id, source_pattern_id) cada vez
+ * que se regenera un brief/insight sobre el MISMO pattern (ver
+ * synthesis/insightService.ts#nextVersion -- "nunca se sobrescribe una
+ * versión anterior, una regeneración crea la siguiente versión"). El
+ * Dashboard mostraba listInsightsByProject(projectId).length sin deduplicar
+ * -- cada re-generación (p.ej. al abrir Intelligence Briefs varias veces)
+ * sumaba una fila más al conteo, aunque siguiera siendo el MISMO insight
+ * lógico en su versión más reciente. Un insight sin source_pattern_id
+ * (creado fuera de generateInsightsFromPatterns) no tiene lineage que
+ * versionar -- cuenta individualmente, tal cual.
+ */
+export function getCurrentInsights(projectId: number): Insight[] {
+  return getDb()
+    .prepare<[number], Insight>(
+      `SELECT i1.* FROM insights i1
+       WHERE i1.project_id = ?
+         AND (
+           i1.source_pattern_id IS NULL
+           OR i1.version = (
+             SELECT MAX(i2.version) FROM insights i2
+             WHERE i2.project_id = i1.project_id AND i2.source_pattern_id = i1.source_pattern_id
+           )
+         )
+       ORDER BY i1.created_at DESC`
+    )
+    .all(projectId);
+}
+
 // --------------------------------------------------------------------------- KPIs
 export interface OverviewKpis {
   intelligenceItems: number;
   actors: number;
   signals: number;
+  /** Insights VIGENTES (última versión por pattern), nunca la suma de todas las versiones históricas -- ver getCurrentInsights(). */
   insights: number;
-  /** Los Intelligence Briefs son generados bajo demanda (buildIntelligenceBrief/generateBrief, MI-5) -- nunca se persisten en una tabla propia, así que no existe un conteo histórico real que mostrar. Se refleja tal cual (0, generatedOnDemand:true) en vez de fabricar un número. */
+  /**
+   * Los Intelligence Briefs son generados bajo demanda (buildIntelligenceBrief/
+   * generateBrief, MI-5) -- nunca se persisten en una tabla propia, así que
+   * no existe un conteo histórico real que mostrar. `available` refleja si
+   * HAY evidencia vigente (al menos un insight actual) que respaldaría un
+   * Brief generado ahora mismo -- derivado del estado existente, sin llamar
+   * a generateBrief() desde este KPI (eso crearía una versión de insight
+   * nueva en cada carga del Overview).
+   */
   intelligenceBriefsGeneratedOnDemand: true;
+  intelligenceBriefsAvailable: boolean;
 }
 
 /**
@@ -105,6 +144,7 @@ export function getOverviewKpis(projectId: number): OverviewKpis {
       `SELECT COUNT(*) as count FROM intelligence_items WHERE project_id = ?${irrelevant.clause}`
     )
     .get(projectId, ...irrelevant.values);
+  const currentInsights = getCurrentInsights(projectId);
 
   return {
     intelligenceItems: itemsRow?.count ?? 0,
@@ -114,8 +154,9 @@ export function getOverviewKpis(projectId: number): OverviewKpis {
     // ver qualificationRecorder.ts) -- no son señales de mercado/creativas,
     // no deben inflar este KPI.
     signals: listSignalsByProject(projectId).filter((s) => !s.signal_type.startsWith(QUALIFICATION_SIGNAL_TYPE)).length,
-    insights: listInsightsByProject(projectId).length,
+    insights: currentInsights.length,
     intelligenceBriefsGeneratedOnDemand: true,
+    intelligenceBriefsAvailable: currentInsights.length > 0,
   };
 }
 
@@ -220,8 +261,9 @@ export function getRecentSignals(projectId: number, limit = 8): Signal[] {
     .slice(0, limit); // ya viene ORDER BY detected_at DESC
 }
 
+/** Vigentes únicamente (ver getCurrentInsights) -- nunca versiones históricas superseded por una regeneración posterior del mismo pattern. */
 export function getRecentInsights(projectId: number, limit = 6): Insight[] {
-  return listInsightsByProject(projectId).slice(0, limit); // ya viene ORDER BY created_at DESC
+  return getCurrentInsights(projectId).slice(0, limit); // ya viene ORDER BY created_at DESC
 }
 
 export interface ActiveActorEntry {

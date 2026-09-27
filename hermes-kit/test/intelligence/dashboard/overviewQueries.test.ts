@@ -6,13 +6,15 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { randomUUID } from "node:crypto";
-import { getOrCreateProject, getOrCreateSource, upsertIntelligenceItem, upsertActor, createSignal } from "../../../src/lib/intelligence";
+import { getOrCreateProject, getOrCreateSource, upsertIntelligenceItem, upsertActor, createSignal, createInsight, createPattern } from "../../../src/lib/intelligence";
+import { getDb } from "../../../src/lib/intelligence/connection";
 import {
   getOverviewKpis,
   getMarketActivity,
   getSignalsByRelevance,
   getSourceActivity,
   getPerformancePredictions,
+  getCurrentInsights,
 } from "../../../src/lib/intelligence/dashboard/overviewQueries";
 
 function setup() {
@@ -21,7 +23,7 @@ function setup() {
   return { project, source };
 }
 
-test("getOverviewKpis: cuenta reales (items/actors/signals/insights), nunca fabricados; briefs siempre 0 con generatedOnDemand", () => {
+test("getOverviewKpis: cuenta reales (items/actors/signals/insights), nunca fabricados; briefs no disponibles sin ningún insight vigente", () => {
   const { project, source } = setup();
   const actor = upsertActor({ project_id: project.id, source_id: source.id, handle: "actor-1" });
   // El KPI "actors" cuenta actores con al menos un item asociado (mismo
@@ -37,12 +39,20 @@ test("getOverviewKpis: cuenta reales (items/actors/signals/insights), nunca fabr
   assert.equal(kpis.signals, 0);
   assert.equal(kpis.insights, 0);
   assert.equal(kpis.intelligenceBriefsGeneratedOnDemand, true);
+  assert.equal(kpis.intelligenceBriefsAvailable, false, "sin ningún insight vigente, no hay evidencia para un brief");
 });
 
 test("getOverviewKpis: proyecto sin ningún dato -> todo en cero, nunca un placeholder inventado", () => {
   const project = getOrCreateProject(`overview-empty-${randomUUID()}`);
   const kpis = getOverviewKpis(project.id);
-  assert.deepEqual(kpis, { intelligenceItems: 0, actors: 0, signals: 0, insights: 0, intelligenceBriefsGeneratedOnDemand: true });
+  assert.deepEqual(kpis, {
+    intelligenceItems: 0,
+    actors: 0,
+    signals: 0,
+    insights: 0,
+    intelligenceBriefsGeneratedOnDemand: true,
+    intelligenceBriefsAvailable: false,
+  });
 });
 
 test("project isolation: los items de un proyecto nunca aparecen en los KPIs de otro proyecto", () => {
@@ -110,4 +120,62 @@ test("getSourceActivity: agregación real por fuente, orden por actividad descen
 test("getPerformancePredictions: sin ai_analyses de tipo performance_prediction -> array vacío, nunca una predicción fabricada", () => {
   const project = getOrCreateProject(`overview-noPred-${randomUUID()}`);
   assert.deepEqual(getPerformancePredictions(project.id), []);
+});
+
+// --------------------------------------------------------------------------- Insights vigentes (caso real: 15 versiones históricas del mismo pattern)
+function setInsightPatternAndVersion(insightId: number, patternId: number, version: number) {
+  getDb().prepare("UPDATE insights SET source_pattern_id = ?, version = ? WHERE id = ?").run(patternId, version, insightId);
+}
+
+test("getCurrentInsights: solo la versión MÁS RECIENTE por pattern cuenta -- caso real (15 regeneraciones del mismo pattern -> 1 insight vigente)", () => {
+  const project = getOrCreateProject(`overview-insights-${randomUUID()}`);
+  const pattern = createPattern({ project_id: project.id, name: "video_vertical repetition", pattern_type: "creative_format_repetition" });
+
+  for (let v = 1; v <= 15; v++) {
+    const insight = createInsight({ project_id: project.id, name: `Repetición v${v}` });
+    setInsightPatternAndVersion(insight.id, pattern.id, v);
+  }
+
+  const current = getCurrentInsights(project.id);
+  assert.equal(current.length, 1, "15 versiones históricas del MISMO pattern -> 1 insight vigente, no 15");
+  assert.equal(current[0].version, 15, "debe ser la versión más alta");
+
+  const kpis = getOverviewKpis(project.id);
+  assert.equal(kpis.insights, 1);
+});
+
+test("getCurrentInsights: insights de patterns DISTINTOS cuentan por separado -- cada uno con su propia última versión", () => {
+  const project = getOrCreateProject(`overview-insights-multi-${randomUUID()}`);
+  const patternA = createPattern({ project_id: project.id, name: "pattern A", pattern_type: "creative_format_repetition" });
+  const patternB = createPattern({ project_id: project.id, name: "pattern B", pattern_type: "creative_cta_repetition" });
+
+  const insightA1 = createInsight({ project_id: project.id, name: "A v1" });
+  setInsightPatternAndVersion(insightA1.id, patternA.id, 1);
+  const insightA2 = createInsight({ project_id: project.id, name: "A v2" });
+  setInsightPatternAndVersion(insightA2.id, patternA.id, 2);
+  const insightB1 = createInsight({ project_id: project.id, name: "B v1" });
+  setInsightPatternAndVersion(insightB1.id, patternB.id, 1);
+
+  const current = getCurrentInsights(project.id);
+  assert.equal(current.length, 2, "un insight vigente por pattern distinto");
+  assert.ok(current.some((i) => i.id === insightA2.id), "debe incluir la versión más reciente de A");
+  assert.ok(!current.some((i) => i.id === insightA1.id), "nunca la versión superseded de A");
+  assert.ok(current.some((i) => i.id === insightB1.id));
+});
+
+test("getCurrentInsights: insight sin source_pattern_id (creado fuera de generateInsightsFromPatterns) cuenta individualmente, sin agrupar", () => {
+  const project = getOrCreateProject(`overview-insights-nopattern-${randomUUID()}`);
+  createInsight({ project_id: project.id, name: "insight suelto 1" });
+  createInsight({ project_id: project.id, name: "insight suelto 2" });
+
+  assert.equal(getCurrentInsights(project.id).length, 2);
+});
+
+test("getOverviewKpis.intelligenceBriefsAvailable: true solo si hay al menos un insight vigente -- derivado del estado real, nunca llama a generateBrief()", () => {
+  const projectEmpty = getOrCreateProject(`overview-briefs-empty-${randomUUID()}`);
+  assert.equal(getOverviewKpis(projectEmpty.id).intelligenceBriefsAvailable, false);
+
+  const projectWithInsight = getOrCreateProject(`overview-briefs-ok-${randomUUID()}`);
+  createInsight({ project_id: projectWithInsight.id, name: "insight real" });
+  assert.equal(getOverviewKpis(projectWithInsight.id).intelligenceBriefsAvailable, true);
 });

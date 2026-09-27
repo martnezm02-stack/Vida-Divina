@@ -4,18 +4,19 @@
 // Watchlists. Pura composición de funciones MI-1..MI-4 ya existentes -- cero
 // SQL nuevo, cero regla de negocio nueva.
 import { listSignalsByProject } from "../signals";
-import { listInsightsByProject } from "../insights";
 import { listActorsByProject } from "../actors";
 import { listPatternsByProject } from "../patterns";
 import { listWatchlistsByProject } from "../watchlists";
+import { getCurrentInsights } from "./overviewQueries";
 import type { Actor, Insight, Pattern, Signal, Watchlist } from "../types";
 
 export function getAllSignals(projectId: number): Signal[] {
   return listSignalsByProject(projectId);
 }
 
+/** Vigentes únicamente (última versión por pattern, ver overviewQueries.ts#getCurrentInsights) -- nunca versiones históricas superseded. */
 export function getAllInsights(projectId: number): Insight[] {
-  return listInsightsByProject(projectId);
+  return getCurrentInsights(projectId);
 }
 
 export function getAllActors(projectId: number): Actor[] {

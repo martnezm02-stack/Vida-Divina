@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { apiUrl } from "@/lib/apiPath";
 import { useProjectContext } from "@/components/intelligence/ProjectProvider";
 import { IntelligenceShell } from "@/components/intelligence/IntelligenceShell";
@@ -12,9 +13,39 @@ interface ApiResponse<T> {
   error?: string;
 }
 
-type BriefOutcome =
-  | { status: "ok"; brief: { key_findings: string[]; opportunities: string[]; unanswered_questions: string[]; observed_evidence: { total_items_examined: number; total_patterns: number; total_actors: number } } }
-  | { status: "insufficient_evidence"; reason: string };
+interface BriefPatternRef {
+  id: number;
+  name: string;
+  pattern_key: string | null;
+}
+
+interface BriefInsightRef {
+  id: number;
+  name: string;
+  summary: string | null;
+  version: number;
+  source_pattern_id: number | null;
+}
+
+interface BriefProvenance {
+  item_ids: number[];
+  evidence_ids: number[];
+  pattern_ids: number[];
+  actor_ids: number[];
+}
+
+interface BriefDetail {
+  key_findings: string[];
+  opportunities: string[];
+  unanswered_questions: string[];
+  observed_evidence: { total_items_examined: number; total_patterns: number; total_actors: number };
+  patterns: BriefPatternRef[];
+  insights: BriefInsightRef[];
+  provenance: BriefProvenance;
+  generated_at: number;
+}
+
+type BriefOutcome = { status: "ok"; brief: BriefDetail } | { status: "insufficient_evidence"; reason: string };
 
 export default function BriefsPage() {
   const { activeProject } = useProjectContext();
@@ -69,7 +100,10 @@ export default function BriefsPage() {
         ) : outcome.status === "insufficient_evidence" ? (
           <InsufficientEvidenceState reason={outcome.reason} />
         ) : (
-          <Card title="Brief generado">
+          <Card
+            title="Brief generado"
+            action={<span className="text-[11px] text-intel-muted">{new Date(outcome.brief.generated_at * 1000).toLocaleString("es")}</span>}
+          >
             <div className="space-y-4 text-sm">
               <div className="text-xs text-intel-muted">
                 {outcome.brief.observed_evidence.total_items_examined} items examinados ·{" "}
@@ -97,6 +131,54 @@ export default function BriefsPage() {
                   </ul>
                 </div>
               )}
+
+              {outcome.brief.patterns.length > 0 && (
+                <div>
+                  <div className="text-xs uppercase text-intel-muted mb-1">Patterns que respaldan este brief</div>
+                  <ul className="space-y-1">
+                    {outcome.brief.patterns.map((pattern) => (
+                      <li key={pattern.id} className="text-intel-text">
+                        {pattern.name} <span className="text-xs text-intel-muted">(pattern #{pattern.id})</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              {outcome.brief.insights.length > 0 && (
+                <div>
+                  <div className="text-xs uppercase text-intel-muted mb-1">Insights vigentes usados</div>
+                  <ul className="space-y-1">
+                    {outcome.brief.insights.map((insight) => (
+                      <li key={insight.id} className="text-intel-text">
+                        <Link href="/intelligence/evidence-explorer" className="text-intel-cyan hover:underline">
+                          {insight.name} (insight #{insight.id}, v{insight.version})
+                        </Link>
+                        {insight.summary && <div className="text-xs text-intel-muted">{insight.summary}</div>}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              <div>
+                <div className="text-xs uppercase text-intel-muted mb-1">Provenance (trazabilidad real)</div>
+                <div className="grid grid-cols-2 gap-2 text-xs text-intel-muted">
+                  <div>
+                    Patterns: {outcome.brief.provenance.pattern_ids.join(", ") || "ninguno"}
+                  </div>
+                  <div>
+                    Actores: {outcome.brief.provenance.actor_ids.length}
+                  </div>
+                  <div className="col-span-2">
+                    Items: {outcome.brief.provenance.item_ids.length} ·{" "}
+                    <Link href="/intelligence/market-intelligence" className="text-intel-cyan hover:underline">
+                      ver items en Market Intelligence
+                    </Link>
+                  </div>
+                  <div className="col-span-2">Evidence: {outcome.brief.provenance.evidence_ids.length} filas reales</div>
+                </div>
+              </div>
             </div>
           </Card>
         )}

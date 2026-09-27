@@ -54,15 +54,24 @@ function useOverviewData(projectId: number | null) {
 
 const KPI_ACCENTS = ["bg-intel-cyan", "bg-intel-blue", "bg-intel-violet", "bg-intel-low", "bg-intel-medium"];
 
-function KpiCard({ label, value, caption, accent }: { label: string; value: number; caption?: string; accent: string }) {
-  return (
-    <div className="relative overflow-hidden rounded-xl border border-intel-border bg-intel-surface p-4">
+function KpiCard({ label, value, caption, accent, href }: { label: string; value: number; caption?: string; accent: string; href?: string }) {
+  const content = (
+    <>
       <span className={`absolute inset-y-0 left-0 w-1 ${accent}`} />
       <div className="text-[11px] font-medium uppercase tracking-wider text-intel-muted">{label}</div>
       <div className="mt-1.5 font-display text-3xl font-semibold text-intel-text">{value.toLocaleString("es")}</div>
       {caption && <div className="mt-1 text-[11px] text-intel-muted">{caption}</div>}
-    </div>
+    </>
   );
+  const className = "relative overflow-hidden rounded-xl border border-intel-border bg-intel-surface p-4";
+  if (href) {
+    return (
+      <Link href={href} className={`${className} block hover:border-intel-blue/50 transition-colors`}>
+        {content}
+      </Link>
+    );
+  }
+  return <div className={className}>{content}</div>;
 }
 
 const RELEVANCE_COLORS: Record<string, string> = {
@@ -95,7 +104,13 @@ export default function IntelligenceOverviewPage() {
             <KpiCard label="Actores" value={data.kpis.actors} accent={KPI_ACCENTS[1]} />
             <KpiCard label="Signals" value={data.kpis.signals} accent={KPI_ACCENTS[2]} />
             <KpiCard label="Insights" value={data.kpis.insights} accent={KPI_ACCENTS[3]} />
-            <KpiCard label="Intelligence Briefs" value={0} caption="Generado bajo demanda" accent={KPI_ACCENTS[4]} />
+            <KpiCard
+              label="Intelligence Briefs"
+              value={data.kpis.intelligenceBriefsAvailable ? 1 : 0}
+              caption={data.kpis.intelligenceBriefsAvailable ? "Disponible -- generar y ver" : "Sin evidencia suficiente todavía"}
+              accent={KPI_ACCENTS[4]}
+              href="/intelligence/briefs"
+            />
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
