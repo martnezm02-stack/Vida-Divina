@@ -5,7 +5,30 @@
    separados). Tema por defecto: oscuro tipo "intelligence terminal"
    (acentos cian/azul/violeta). El toggle día/noche sobreescribe estos
    mismos valores vía el atributo [data-intel-theme] -- un solo sistema de
-   componentes, dos juegos de valores. */
+   componentes, dos juegos de valores.
+
+   CAUSA RAÍZ REAL del "Actividad del mercado" vacío (y de todo el resto
+   del dashboard que usa clases de color con el prefijo intel, aunque
+   menos visible ahí): este archivo se importa desde
+   src/app/intelligence/layout.tsx como una hoja de estilos INDEPENDIENTE,
+   separada de globals.css (el único archivo con la directiva de import de
+   tailwindcss -- el "entry point" real de Tailwind en este proyecto). El
+   bloque @theme de ESTE archivo SÍ se aplanaba a custom properties reales
+   (--color-intel-blue resolvía correctamente en runtime, confirmado vía
+   getComputedStyle), pero el GENERADOR DE UTILIDADES de Tailwind (el que
+   convierte una clase como bg-intel-blue con opacidad en una regla CSS
+   real) solo genera clases dentro del build graph que arranca en el
+   archivo con esa directiva de import -- nunca vio este namespace, así
+   que NINGUNA clase de color con prefijo intel se generó jamás
+   (verificado: getComputedStyle de la barra del chart y de una KPI card
+   daban background-color transparente -- geometría y altura correctas,
+   cero color). La barra tenía 128px de alto real pero era invisible.
+   Importar tailwindcss aquí convierte este archivo en su PROPIO entry
+   point de Tailwind -- las utilidades intel ahora se generan en su
+   propio bundle, separado del de globals.css (misma separación de
+   namespace que ya existía, ahora funcionando de verdad). */
+@import "tailwindcss";
+
 @theme {
   --color-intel-bg: #05070d;
   --color-intel-bg-elevated: #0a0e1a;

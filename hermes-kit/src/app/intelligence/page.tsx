@@ -316,15 +316,24 @@ export default function IntelligenceOverviewPage() {
 function MarketActivityChart({ points }: { points: OverviewData["marketActivity"] }) {
   const dates = [...new Set(points.map((p) => p.date))].sort();
   const sources = [...new Set(points.map((p) => p.sourceSlug))];
-  const maxCount = Math.max(...points.map((p) => p.count), 1);
-  const colors = ["bg-intel-cyan", "bg-intel-blue", "bg-intel-violet", "bg-intel-medium"];
+  const colorBySource = new Map(
+    sources.map((source, i) => [source, ["bg-intel-cyan", "bg-intel-blue", "bg-intel-violet", "bg-intel-medium"][i % 4]])
+  );
+  // Escala relativa al TOTAL diario (apilado), no al máximo de un punto
+  // individual -- con un solo punto por fuente, escalar contra el máximo
+  // de un punto aislado podía pedir más del 100% de altura al día con
+  // más fuentes combinadas (nunca visible: dependía de que flexbox lo
+  // recortara por accidente). Ahora la barra apilada de un día nunca
+  // excede la altura del gráfico.
+  const dailyTotals = dates.map((date) => points.filter((p) => p.date === date).reduce((sum, p) => sum + p.count, 0));
+  const maxDailyTotal = Math.max(...dailyTotals, 1);
 
   return (
     <div>
       <div className="flex gap-4 mb-3 text-xs">
-        {sources.map((source, i) => (
+        {sources.map((source) => (
           <div key={source} className="flex items-center gap-1.5">
-            <span className={`h-2 w-2 rounded-full ${colors[i % colors.length]}`} />
+            <span className={`h-2 w-2 rounded-full ${colorBySource.get(source)}`} />
             <span className="text-intel-muted">{source}</span>
           </div>
         ))}
@@ -337,14 +346,22 @@ function MarketActivityChart({ points }: { points: OverviewData["marketActivity"
           (h-full, heredada del h-32 del padre) para que el porcentaje de la
           barra tenga algo real contra qué resolver. */}
       <div className="flex gap-1 h-32">
-        {dates.map((date) => {
-          const dayTotal = points.filter((p) => p.date === date).reduce((sum, p) => sum + p.count, 0);
+        {dates.map((date, dateIndex) => {
+          const dayPoints = points.filter((p) => p.date === date);
+          const dayTotal = dailyTotals[dateIndex];
           return (
-            <div key={date} className="flex-1 flex h-full flex-col items-center justify-end gap-1" title={`${date}: ${dayTotal}`}>
-              <div
-                className="w-full rounded-t bg-intel-blue/70"
-                style={{ height: `${Math.max((dayTotal / maxCount) * 100, 4)}%` }}
-              />
+            <div
+              key={date}
+              className="flex-1 flex h-full flex-col-reverse items-center gap-px"
+              title={`${date}: ${dayTotal} (${dayPoints.map((p) => `${p.sourceSlug}=${p.count}`).join(", ")})`}
+            >
+              {dayPoints.map((point) => (
+                <div
+                  key={point.sourceSlug}
+                  className={`w-full last:rounded-t ${colorBySource.get(point.sourceSlug)}`}
+                  style={{ height: `${Math.max((point.count / maxDailyTotal) * 100, 2)}%` }}
+                />
+              ))}
             </div>
           );
         })}
