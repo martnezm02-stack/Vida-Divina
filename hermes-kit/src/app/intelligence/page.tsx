@@ -329,11 +329,18 @@ function MarketActivityChart({ points }: { points: OverviewData["marketActivity"
           </div>
         ))}
       </div>
-      <div className="flex items-end gap-1 h-32">
+      {/* h-32 en el contenedor no basta: con items-end (nunca stretch) cada
+          columna quedaba con altura auto/content-based, así que el height:
+          "N%" de la barra resolvía contra un contenedor sin altura definida
+          -- 0px renderizado (fechas y leyenda sí se veían porque no dependen
+          de altura). Cada columna necesita su PROPIA altura explícita
+          (h-full, heredada del h-32 del padre) para que el porcentaje de la
+          barra tenga algo real contra qué resolver. */}
+      <div className="flex gap-1 h-32">
         {dates.map((date) => {
           const dayTotal = points.filter((p) => p.date === date).reduce((sum, p) => sum + p.count, 0);
           return (
-            <div key={date} className="flex-1 flex flex-col items-center gap-1" title={`${date}: ${dayTotal}`}>
+            <div key={date} className="flex-1 flex h-full flex-col items-center justify-end gap-1" title={`${date}: ${dayTotal}`}>
               <div
                 className="w-full rounded-t bg-intel-blue/70"
                 style={{ height: `${Math.max((dayTotal / maxCount) * 100, 4)}%` }}
