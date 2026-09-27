@@ -75,6 +75,28 @@ export interface OverviewKpis {
   intelligenceBriefsGeneratedOnDemand: true;
 }
 
+/**
+ * Actores con al menos un intelligence_item NO calificado como IRRELEVANT
+ * (RELEVANT, UNCERTAIN, o sin qualification corrida todavía) para este
+ * proyecto -- un actor cuyos items son TODOS IRRELEVANT no cuenta.
+ * listActorsByProject(projectId).length (conteo anterior) no aplicaba
+ * qualification a nivel de actor -- por eso Vida Divina mostraba 17
+ * (incluyendo @bibliadivina.oficial/@divina_oficial, cuyos items son
+ * 100% IRRELEVANT) en vez de 15. Proyectos sin ninguna qualification
+ * corrida: getIrrelevantItemIds() devuelve un Set vacío, así que ningún
+ * actor se excluye -- comportamiento idéntico al anterior, sin regresión.
+ */
+function countActorsWithNonIrrelevantItems(projectId: number): number {
+  const db = getDb();
+  const irrelevant = excludeIdsClause("id", getIrrelevantItemIds(projectId));
+  const row = db
+    .prepare<unknown[], { count: number }>(
+      `SELECT COUNT(DISTINCT actor_id) as count FROM intelligence_items WHERE project_id = ? AND actor_id IS NOT NULL${irrelevant.clause}`
+    )
+    .get(projectId, ...irrelevant.values);
+  return row?.count ?? 0;
+}
+
 export function getOverviewKpis(projectId: number): OverviewKpis {
   const db = getDb();
   const irrelevant = excludeIdsClause("id", getIrrelevantItemIds(projectId));
@@ -86,7 +108,7 @@ export function getOverviewKpis(projectId: number): OverviewKpis {
 
   return {
     intelligenceItems: itemsRow?.count ?? 0,
-    actors: listActorsByProject(projectId).length,
+    actors: countActorsWithNonIrrelevantItems(projectId),
     // Excluye signals de bookkeeping de qualification (QUALIFICATION* --
     // incluye el prefijo antiguo de una versión ya corregida del recorder,
     // ver qualificationRecorder.ts) -- no son señales de mercado/creativas,

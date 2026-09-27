@@ -23,9 +23,13 @@ function setup() {
 
 test("getOverviewKpis: cuenta reales (items/actors/signals/insights), nunca fabricados; briefs siempre 0 con generatedOnDemand", () => {
   const { project, source } = setup();
+  const actor = upsertActor({ project_id: project.id, source_id: source.id, handle: "actor-1" });
+  // El KPI "actors" cuenta actores con al menos un item asociado (mismo
+  // criterio que getActiveActors y el resto de los widgets de Overview
+  // basados en actor_id, ver overviewQueries.ts#countActorsWithNonIrrelevantItems)
+  // -- un actor sin ningún item no es un "actor activo" real.
+  upsertIntelligenceItem({ project_id: project.id, source_id: source.id, actor_id: actor.id, content_type: "video" });
   upsertIntelligenceItem({ project_id: project.id, source_id: source.id, content_type: "video" });
-  upsertIntelligenceItem({ project_id: project.id, source_id: source.id, content_type: "video" });
-  upsertActor({ project_id: project.id, source_id: source.id, handle: "actor-1" });
 
   const kpis = getOverviewKpis(project.id);
   assert.equal(kpis.intelligenceItems, 2);
